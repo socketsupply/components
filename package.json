@@ -1,0 +1,31 @@
+{
+  "name": "components",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "npm run test:browser",
+    "build": "browserify ./components/index.js ./components/**/*.js > ./docs/bundle.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/conductorlab/components.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/conductorlab/components/issues"
+  },
+  "homepage": "https://github.com/conductorlab/components#readme",
+  "devDependencies": {
+    "browserify": "^16.2.2",
+    "tape": "^4.9.1",
+    "tape-run": "^4.0.0"
+  },
+  "dependencies": {
+    "tonic": "github:hxoht/tonic"
+  }
+}

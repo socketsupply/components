@@ -8,7 +8,9 @@
   },
   "scripts": {
     "test": "npm run test:browser",
-    "build": "browserify ./components/index.js ./components/**/*.js > ./docs/bundle.js"
+    "build": "npm run build:js && npm run build:html",
+    "build:js": "browserify ./index.js ./components/**/*.js > ./docs/bundle.js",
+    "build:html": "./bin/build"
   },
   "repository": {
     "type": "git",
@@ -26,6 +28,7 @@
     "tape-run": "^4.0.0"
   },
   "dependencies": {
+    "marked": "^0.4.0",
     "tonic": "github:hxoht/tonic"
   }
 }

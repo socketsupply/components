@@ -1,0 +1,66 @@
+#!/usr/bin/env node
+const fs = require('fs')
+const path = require('path')
+const marked = require('marked')
+
+const componentsDir = path.join(__dirname, '..', 'components')
+const outputFile = path.join(__dirname, '..', 'docs', 'index.html')
+
+const dirs = fs.readdirSync(componentsDir)
+
+function page (toc, sections) {
+  return `
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <title>Tonic: Component Based Architecture</title>
+        <link href="https://fonts.googleapis.com/css?family=Caudex|Poppins:500,600|Space+Mono" rel="stylesheet">
+        <link href="index.css" rel="stylesheet">
+      </head>
+
+      <body>
+        <nav>
+          <a href="./index.html"><img src="./tonic.svg"></a>
+          ${toc}
+        </nav>
+        <main>
+          ${sections}
+        </main>
+        <script src="bundle.js"></script>
+      </body>
+    </html>
+  `
+}
+
+let toc = ''
+let sections = ''
+
+function readMarkdown () {
+  let titles = []
+
+  function wrapLink (str) {
+    return `<li><a href="#${str.toLowerCase()}">${str}</a></li>`
+  }
+
+  function wrapSection (str) {
+    return `<section>${marked(str)}</section>`
+  }
+
+  for (const dir of dirs) {
+    const s = fs.readFileSync(path.join(componentsDir, dir, 'README.md'), 'utf8')
+    const { 0: match } = /^#\s*(.*)[\n|\r]/.exec(s)
+    if (!match) continue
+
+    sections += wrapSection(s)
+    const title = match.slice(1).trim()
+    titles.push(title)
+  }
+
+  titles = titles.sort().map(wrapLink)
+  toc = `<ul>${titles.join('')}</ul>`
+}
+
+readMarkdown()
+const html = page(toc, sections)
+
+fs.writeFileSync(outputFile, html)

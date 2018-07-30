@@ -1,16 +1,157 @@
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>Tonic: Component Based Architecture</title>
-    <link href="https://fonts.googleapis.com/css?family=EB+Garamond|Source+Code+Pro:500,700" rel="stylesheet">
-    <link href="index.css" rel="stylesheet">
-  </head>
 
-  <body>
-    <h1>Input</h1>
-    <tonic-input>
-    </tonic-input>  
+    <html>
+      <head>
+        <meta charset="utf-8">
+        <title>Tonic: Component Based Architecture</title>
+        <link href="https://fonts.googleapis.com/css?family=Caudex|Poppins:500,600|Space+Mono" rel="stylesheet">
+        <link href="index.css" rel="stylesheet">
+      </head>
 
-    <script src="bundle.js"></script>
-  </body>
-</html>
+      <body>
+        <nav>
+          <a href="./index.html"><img src="./tonic.svg"></a>
+          <ul><li><a href="#iconcontainer">IconContainer</a></li><li><a href="#inputtext">InputText</a></li></ul>
+        </nav>
+        <main>
+          <section><h1 id="iconcontainer">IconContainer</h1>
+<p>Description</p>
+<h2 id="demo">Demo</h2>
+<p><icon-container></icon-container></p>
+<h2 id="code">Code</h2>
+<pre><code class="language-html">&lt;icon-container&gt;&lt;/icon-container&gt;</code></pre>
+<pre><code class="language-js">console.log(&#39;dog&#39;)</code></pre>
+<h2 id="api">Api</h2>
+<h3 id="static-methods-members">Static Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">methodName()</td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">methodName()</td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+</section><section><h1 id="inputtext">InputText</h1>
+<p>Any valid input attribute can be passed to the <code>InputText</code> component.</p>
+<h2 id="demo">Demo</h2>
+<p><input-text label="Default"></input-text></p>
+<p><input-text
+  label="Default with Placeholder"
+  placeholder="Type something"
+  disabled>
+</input-text></p>
+<p><input-text
+  label="Invalid"
+  aria-invalid="true">
+</input-text></p>
+<p><input-text
+  label="Full width"
+  width="100%">
+</input-text></p>
+<h2 id="code">Code</h2>
+<h3 id="html">Html</h3>
+<pre><code class="language-html">&lt;input-text spellcheck&gt;&lt;/input-text&gt;</code></pre>
+<h3 id="js">JS</h3>
+<pre><code class="language-js">console.log(&#39;dog&#39;)</code></pre>
+<h2 id="api">Api</h2>
+<h3 id="properties">Properties</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>required</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Makes the input required</td>
+<td align="left"><em>false</em></td>
+</tr>
+<tr>
+<td align="left"><code>disabled</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Makes the input disabled</td>
+<td align="left"><em>false</em></td>
+</tr>
+<tr>
+<td align="left"><code>spellcheck</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Enable spellcheck on the input</td>
+<td align="left"><em>false</em></td>
+</tr>
+<tr>
+<td align="left"><code>isinvalid</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Indicates input error</td>
+<td align="left"><em>false</em></td>
+</tr>
+<tr>
+<td align="left"><code>placeholder</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Inserts placeholder text</td>
+<td align="left"><em>none</em></td>
+</tr>
+<tr>
+<td align="left"><code>width</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Width of the input</td>
+<td align="left"><em>300&quot;</em></td>
+</tr>
+<tr>
+<td align="left"><code>type</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Type of input (text, password, email)</td>
+<td align="left"><em>&quot;text&quot;</em></td>
+</tr>
+</tbody></table>
+<h3 id="static-methods-members">Static Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">methodName()</td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">methodName()</td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+</section>
+        </main>
+        <script src="bundle.js"></script>
+      </body>
+    </html>
+  

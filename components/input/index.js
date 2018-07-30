@@ -33,9 +33,6 @@ class InputText extends Tonic {
       input:focus {
         border: 1px solid var(--primary);
       }
-      input:invalid {
-        border: 1px solid var(--red);
-      }
     `
 
     this.defaults = {
@@ -43,7 +40,7 @@ class InputText extends Tonic {
       width: 300,
       type: 'text',
       disabled: false,
-      'aria-invalid': false,
+      ariaInvalid: false,
       spellcheck: false,
       placeholder: ''
     }
@@ -68,6 +65,8 @@ class InputText extends Tonic {
       padding,
       icon
     } = { ...this.defaults, ...this.props }
+
+    console.log(this.props)
 
     let style = []
     if (padding) style.push(`padding: ${padding}`)

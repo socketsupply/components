@@ -30,6 +30,14 @@
       <li>
         <a href="#inputtext" class="">InputText</a>
       </li>
+    
+      <li>
+        <a href="#inputtextarea" class="">InputTextarea</a>
+      </li>
+    
+      <li>
+        <a href="#inputtoggle" class="">InputToggle</a>
+      </li>
     </ul>
           <a href="#" class="footer">
             <span>Made by</span>
@@ -131,14 +139,35 @@
 <td align="left"><input-button></input-button></td>
 <td align="left">Default button</td>
 </tr>
+<tr>
+<td align="left"><input-button fill="var(--accent)" text-color="white"></input-button></td>
+<td align="left">Fill button</td>
+</tr>
+<tr>
+<td align="left"><input-button disabled="true"></input-button></td>
+<td align="left">Button with <code>disabled</code> attribute</td>
+</tr>
+<tr>
+<td align="left"><input-button value="Click me"></input-button></td>
+<td align="left">Loading button</td>
+</tr>
+<tr>
+<td align="left"><input-button radius="50px"></input-button></td>
+<td align="left">Rounded button</td>
+</tr>
+<tr>
+<td align="left"><input-button width="100%"></input-button></td>
+<td align="left">Full width button</td>
+</tr>
 </tbody></table>
 <h2 id="code">Code</h2>
 <h4 id="html">Html</h4>
-<pre><code class="language-html"></code></pre>
+<pre><code class="language-html">&lt;input-button&gt;&lt;/input-button&gt;</code></pre>
 <h4 id="js">JS</h4>
 <pre><code class="language-js"></code></pre>
 <h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>
+<p>Value is required.</p>
 <table>
 <thead>
 <tr>
@@ -162,9 +191,15 @@
 </tr>
 <tr>
 <td align="left"><code>width</code></td>
-<td align="left"><em>number</em></td>
+<td align="left"><em>string</em></td>
 <td align="left">Width of the button</td>
 <td align="left"><em>300</em></td>
+</tr>
+<tr>
+<td align="left"><code>value</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Value of the button</td>
+<td align="left"><em>Submit</em></td>
 </tr>
 </tbody></table>
 <h3 id="static-methods-members">Static Methods &amp; Members</h3>
@@ -383,9 +418,241 @@
 </tr>
 <tr>
 <td align="left"><code>width</code></td>
-<td align="left"><em>number</em></td>
+<td align="left"><em>string</em></td>
 <td align="left">Width of the input</td>
-<td align="left"><em>300</em></td>
+<td align="left"><em>&quot;250px&quot;</em></td>
+</tr>
+</tbody></table>
+<h3 id="static-methods-members">Static Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+</section><section id="inputtextarea"><h1 id="inputtextarea">InputTextarea</h1>
+<p>The component <code>InputTextarea</code> creates a text area.</p>
+<h2 id="demo">Demo</h2>
+<table>
+<thead>
+<tr>
+<th align="left">Example</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><input-textarea></input-textarea></td>
+<td align="left">Default Text area</td>
+</tr>
+<tr>
+<td align="left"><input-textarea resize="none"></input-textarea></td>
+<td align="left">Text area without resize</td>
+</tr>
+<tr>
+<td align="left"><input-textarea placeholder="Type in me"></input-textarea></td>
+<td align="left">Default Text area with placeholder</td>
+</tr>
+<tr>
+<td align="left"><input-textarea label="Label"></input-textarea></td>
+<td align="left">Text area with label</td>
+</tr>
+</tbody></table>
+<h2 id="code">Code</h2>
+<h4 id="html">Html</h4>
+<pre><code class="language-html">&lt;input-textarea&gt;&lt;/input-textarea&gt;</code></pre>
+<h4 id="js">JS</h4>
+<pre><code class="language-js"></code></pre>
+<h2 id="api">Api</h2>
+<h3 id="properties">Properties</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>disabled</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Makes the toggle resizable</td>
+<td align="left"><em>false</em></td>
+</tr>
+<tr>
+<td align="left"><code>required</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Set textarea to required</td>
+<td align="left"><em>false</em></td>
+</tr>
+<tr>
+<td align="left"><code>readonly</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Set textarea to readonly</td>
+<td align="left"><em>false</em></td>
+</tr>
+<tr>
+<td align="left"><code>autofocus</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Enable Autofocus</td>
+<td align="left"><em>false</em></td>
+</tr>
+<tr>
+<td align="left"><code>spellcheck</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Enable spellcheck</td>
+<td align="left"><em>true</em></td>
+</tr>
+<tr>
+<td align="left"><code>placeholder</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Add placeholder to textarea</td>
+<td align="left"><em>&#39;&#39;</em></td>
+</tr>
+<tr>
+<td align="left"><code>resize</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Set to &quot;none&quot; to disable resize</td>
+<td align="left"><em>&#39;&#39;</em></td>
+</tr>
+<tr>
+<td align="left"><code>name</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Add name to textarea</td>
+<td align="left"><em>&#39;&#39;</em></td>
+</tr>
+<tr>
+<td align="left"><code>rows</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Set number of rows</td>
+<td align="left"><em>&#39;&#39;</em></td>
+</tr>
+<tr>
+<td align="left"><code>cols</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Set number of columns</td>
+<td align="left"><em>&#39;&#39;</em></td>
+</tr>
+<tr>
+<td align="left"><code>minlength</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Set minimum character length</td>
+<td align="left"><em>&#39;&#39;</em></td>
+</tr>
+<tr>
+<td align="left"><code>maxlength</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Set maximum character length</td>
+<td align="left"><em>&#39;&#39;</em></td>
+</tr>
+<tr>
+<td align="left"><code>width</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Set width of textarea</td>
+<td align="left"><em>&#39;&#39;</em></td>
+</tr>
+<tr>
+<td align="left"><code>height</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Set height of textarea</td>
+<td align="left"><em>&#39;&#39;</em></td>
+</tr>
+<tr>
+<td align="left"><code>radius</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Set radius of textarea</td>
+<td align="left"><em>&#39;&#39;</em></td>
+</tr>
+</tbody></table>
+<h3 id="static-methods-members">Static Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+</section><section id="inputtoggle"><h1 id="inputtoggle">InputToggle</h1>
+<p>The component <code>InputToggle</code> creates a toggle.</p>
+<h2 id="demo">Demo</h2>
+<table>
+<thead>
+<tr>
+<th align="left">Example</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><input-toggle></input-button></td>
+<td align="left">Default toggle</td>
+</tr>
+<tr>
+<td align="left"><input-toggle></input-button></td>
+<td align="left">Toggle with label</td>
+</tr>
+<tr>
+<td align="left"><input-toggle></input-button></td>
+<td align="left">Toggle with <code>disabled</code> attribute</td>
+</tr>
+</tbody></table>
+<h2 id="code">Code</h2>
+<h4 id="html">Html</h4>
+<pre><code class="language-html">&lt;input-toggle&gt;&lt;/input-toggle&gt;</code></pre>
+<h4 id="js">JS</h4>
+<pre><code class="language-js"></code></pre>
+<h2 id="api">Api</h2>
+<h3 id="properties">Properties</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>disabled</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Makes the toggle disabled</td>
+<td align="left"><em>false</em></td>
 </tr>
 </tbody></table>
 <h3 id="static-methods-members">Static Methods &amp; Members</h3>

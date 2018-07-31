@@ -36,7 +36,7 @@ The component `InputText` creates an input, with or without a label.
 | `isinvalid` | *boolean* | Indicates input error | *false* |
 | `type` | *string* | Type of input (text, password, email) | *"text"* |
 | `placeholder` | *string* | Inserts placeholder text | *none* |
-| `width` | *number* | Width of the input | *300* |
+| `width` | *string* | Width of the input | *"250px"* |
 
 ### Static Methods & Members
 

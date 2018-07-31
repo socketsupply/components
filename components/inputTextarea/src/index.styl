@@ -1,0 +1,24 @@
+textarea
+  width 100%
+  font 14px 'Space-Mono', monospace
+  padding 10px
+  border 1px solid var(--border)
+  outline none
+  transition all 0.2s ease
+  -webkit-appearance none
+  -moz-appearance none
+  appearance none
+  &:focus
+    border 1px solid var(--primary)
+
+textarea:invalid
+  border-color var(--red)
+
+label
+  color var(--medium)
+  font-weight 500
+  font 12px/14px 'Poppins', sans-serif
+  text-transform uppercase
+  letter-spacing 1px
+  padding-bottom 10px
+  display block

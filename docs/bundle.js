@@ -6,9 +6,6 @@ class IconContainer extends Tonic {
   constructor () {
     super()
     this.stylesheet = `
-      * {
-        box-sizing: border-box;
-      }
       svg {
         width: 100%;
         height: 100%;
@@ -39,7 +36,7 @@ class IconContainer extends Tonic {
 
 Tonic.add(IconContainer)
 
-},{"tonic":8}],2:[function(require,module,exports){
+},{"tonic":9}],2:[function(require,module,exports){
 const Tonic = typeof require === 'function'
   ? require('tonic') : window.Tonic
 
@@ -47,9 +44,6 @@ class InputCheckbox extends Tonic {
   constructor () {
     super()
     this.stylesheet = `
-      * {
-        box-sizing: border-box;
-      }
       .wrapper {
         display: inline-block;
         -webkit-user-select: none;
@@ -127,7 +121,7 @@ class InputCheckbox extends Tonic {
 
     return `
       <div class="wrapper">
-        <input id="${id}" ${nameAttr} type="checkbox" ${disabledAttr} ${checkedAttr}/>
+        <input type="checkbox" id="${id}" ${nameAttr} ${disabledAttr} ${checkedAttr}/>
         <label for="${id}" style="width: ${size}; height: ${size};">
           ${InputCheckbox._svg[state](color)}
         </label>
@@ -157,7 +151,7 @@ InputCheckbox._svg.off = color => `
 
 Tonic.add(InputCheckbox, { shadow: true })
 
-},{"tonic":8}],3:[function(require,module,exports){
+},{"tonic":9}],3:[function(require,module,exports){
 const Tonic = typeof require === 'function'
   ? require('tonic') : window.Tonic
 
@@ -222,8 +216,6 @@ class InputText extends Tonic {
       value
     } = { ...this.defaults, ...this.props }
 
-    console.log(this.props)
-
     let style = []
     if (padding) style.push(`padding: ${padding}`)
     if (radius) style.push(`border-radius: ${radius}`)
@@ -251,11 +243,208 @@ class InputText extends Tonic {
 
 Tonic.add(InputText, { shadow: true })
 
-},{"tonic":8}],4:[function(require,module,exports){
+},{"tonic":9}],4:[function(require,module,exports){
+const Tonic = typeof require === 'function'
+  ? require('tonic') : window.Tonic
 
-},{}],5:[function(require,module,exports){
-arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],6:[function(require,module,exports){
+class InputButton extends Tonic {
+  constructor () {
+    super()
+    this.stylesheet = `
+      button {
+        min-height: 38px;
+        padding: 8px;
+        font: 12px 'Poppins', sans-serif;
+        font-weight: 400;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border: 1px solid var(--primary);
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        outline: none;
+        transition: all 0.2s ease;
+      }
+      button[disabled] {
+        background-color: var(--secondary);
+        border-color: var(--secondary);
+        color: var(--medium);
+      }
+      button:not([disabled]):hover {
+        background-color: var(--primary);
+        border-color: var(--primary);
+        color: #fff;
+      }
+      `
+
+    this.defaults = {
+      value: 'Submit',
+      radius: '2px',
+      height: '38px',
+      width: '150px',
+      disabled: false,
+      autofocus: false,
+      type: 'submit'
+    }
+  }
+
+  render () {
+    const {
+      type,
+      value,
+      name,
+      disabled,
+      autofocus,
+      isLoading,
+      isActive,
+      width,
+      height,
+      padding,
+      fill,
+      textColor,
+      radius
+    } = { ...this.defaults, ...this.props }
+
+    const nameAttr = name ? `name="${name}"` : ''
+    const valueAttr = value ? `value="${value}"` : ''
+    const typeAttr = type ? `type="${type}"` : ''
+
+    let style = []
+    if (width) style.push(`width: ${width}`)
+    if (height) style.push(`height: ${height}`)
+    if (fill) style.push(`background-color: ${fill}`)
+    if (fill) style.push(`border-color: ${fill}`)
+    if (textColor) style.push(`color: ${textColor}`)
+    if (padding) style.push(`padding: ${padding}`)
+    if (radius) style.push(`border-radius: ${radius}`)
+    style = style.join('; ')
+
+    return `
+      <div class="wrapper">
+        <button
+          ${typeAttr}
+          ${valueAttr}
+          ${nameAttr}
+          ${autofocus ? 'autofocus' : ''}
+          ${disabled ? 'disabled' : ''}
+          ${isLoading ? 'loading' : ''}
+          ${isActive ? 'active' : ''}
+          style="${style}">${value}</button>
+      </div>
+    `
+  }
+}
+
+Tonic.add(InputButton, { shadow: true })
+
+},{"tonic":9}],5:[function(require,module,exports){
+const Tonic = typeof require === 'function'
+  ? require('tonic') : window.Tonic
+
+class InputTextarea extends Tonic {
+  constructor () {
+    super()
+    this.stylesheet = `
+      textarea {
+        width: 100%;
+        font: 14px 'Space-Mono', monospace;
+        padding: 10px;
+        border: 1px solid var(--border);
+        outline: none;
+        transition: all 0.2s ease;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+      }
+      textarea:focus {
+        border: 1px solid var(--primary);
+      }
+      textarea:invalid {
+        border-color: var(--red);
+      }
+      label {
+        color: var(--medium);
+        font-weight: 500;
+        font: 12px/14px 'Poppins', sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding-bottom: 10px;
+        display: block;
+      }
+      `
+
+    this.defaults = {
+      radius: '2px',
+      width: '100%',
+      disabled: false,
+      autofocus: false,
+      readonly: false,
+      required: false,
+      spellcheck: true,
+      placeholder: '',
+      resize: ''
+    }
+  }
+
+  renderLabel () {
+    if (!this.props.label) return ''
+    return `<label>${this.props.label}</label>`
+  }
+
+  render () {
+    const {
+      name,
+      disabled,
+      placeholder,
+      spellcheck,
+      autofocus,
+      readonly,
+      required,
+      resize,
+      rows,
+      cols,
+      minlength,
+      maxlength,
+      width,
+      height,
+      radius
+    } = { ...this.defaults, ...this.props }
+
+    const nameAttr = name ? `name="${name}"` : ''
+
+    let style = []
+    if (width) style.push(`width: ${width}`)
+    if (height) style.push(`height: ${height}`)
+    if (radius) style.push(`border-radius: ${radius}`)
+    if (resize) style.push(`resize: none`)
+    style = style.join('; ')
+
+    return `
+      <div class="wrapper">
+        ${this.renderLabel()}
+        <textarea
+          ${nameAttr}
+          ${autofocus ? 'autofocus' : ''}
+          ${disabled ? 'disabled' : ''}
+          ${readonly ? 'readonly' : ''}
+          ${required ? 'required' : ''}
+          placeholder="${placeholder}"
+          spellcheck="${spellcheck}"
+          rows="${rows}"
+          cols="${cols}"
+          minlength="${minlength}"
+          maxlength="${maxlength}"
+          style="${style}"></textarea>
+      </div>
+    `
+  }
+}
+
+Tonic.add(InputTextarea, { shadow: true })
+
+},{"tonic":9}],6:[function(require,module,exports){
+
+},{}],7:[function(require,module,exports){
 const scrollToY = require('scrolltoy')
 const main = document.querySelector('main')
 
@@ -306,7 +495,7 @@ function onscroll (event) {
 
 main.addEventListener('scroll', onscroll)
 
-},{"scrolltoy":7}],7:[function(require,module,exports){
+},{"scrolltoy":8}],8:[function(require,module,exports){
 var requestFrame = (function () {
   return window.requestAnimationFrame ||
     window.webkitRequestAnimationFrame ||
@@ -331,7 +520,6 @@ module.exports = function scrollToY (el, Y, speed) {
   let currentTime = 0
 
   function setY () {
-    module.exports.scrolling = true
     currentTime += 1 / 60
 
     var p = currentTime / time
@@ -355,13 +543,11 @@ module.exports = function scrollToY (el, Y, speed) {
     } else {
       el.scrollTop = Y
     }
-
-    module.exports.scrolling = false
   }
   setY()
 }
 
-},{}],8:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 class Tonic extends window.HTMLElement {
   constructor () {
     super()
@@ -487,4 +673,4 @@ Tonic.escapeMap = { '"': '&quot;', '&': '&amp;', '\'': '&#x27;', '<': '&lt;', '>
 
 if (typeof module === 'object') module.exports = Tonic
 
-},{}]},{},[6,1,2,3,4,5]);
+},{}]},{},[7,1,2,3,4,5,6]);

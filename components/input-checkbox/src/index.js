@@ -55,7 +55,7 @@ class InputCheckbox extends Tonic {
 
     return `
       <div class="wrapper">
-        <input id="${id}" ${nameAttr} type="checkbox" ${disabledAttr} ${checkedAttr}/>
+        <input type="checkbox" id="${id}" ${nameAttr} ${disabledAttr} ${checkedAttr}/>
         <label for="${id}" style="width: ${size}; height: ${size};">
           ${InputCheckbox._svg[state](color)}
         </label>

@@ -5,9 +5,6 @@ class IconContainer extends Tonic {
   constructor () {
     super()
     this.stylesheet = `
-      * {
-        box-sizing: border-box;
-      }
       svg {
         width: 100%;
         height: 100%;

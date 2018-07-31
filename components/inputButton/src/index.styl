@@ -1,0 +1,23 @@
+button
+  min-height 38px
+  padding 8px
+  font 12px 'Poppins', sans-serif
+  font-weight 400
+  text-transform uppercase
+  letter-spacing 1px
+  border 1px solid var(--primary)
+  -webkit-appearance none
+  -moz-appearance none
+  appearance none
+  outline none
+  transition all 0.2s ease
+
+  &[disabled]
+    background-color var(--secondary)
+    border-color var(--secondary)
+    color var(--medium)
+
+  &:not([disabled]):hover
+    background-color var(--primary)
+    border-color var(--primary)
+    color white

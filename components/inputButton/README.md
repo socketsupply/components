@@ -7,12 +7,17 @@ The component `InputButton` creates a button.
 | Example | Description |
 | :--- | :--- |
 | <input-button></input-button> | Default button |
+| <input-button fill="var(--accent)" text-color="white"></input-button> | Fill button |
+| <input-button disabled="true"></input-button> | Button with `disabled` attribute |
+| <input-button value="Click me"></input-button> | Loading button |
+| <input-button radius="50px"></input-button> | Rounded button |
+| <input-button width="100%"></input-button> | Full width button |
 
 ## Code
 
 #### Html
 ```html
-
+<input-button></input-button>
 ```
 
 #### JS
@@ -24,11 +29,14 @@ The component `InputButton` creates a button.
 
 ### Properties
 
+Value is required.
+
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
 | `disabled` | *boolean* | Makes the button disabled | *false* |
 | `type` | *string* | Type of button (i.e. submit) | *"text"* |
-| `width` | *number* | Width of the button | *300* |
+| `width` | *string* | Width of the button | *300* |
+| `value` | *string* | Value of the button | *Submit* |
 
 ### Static Methods & Members
 

@@ -37,8 +37,6 @@ class InputText extends Tonic {
       value
     } = { ...this.defaults, ...this.props }
 
-    console.log(this.props)
-
     let style = []
     if (padding) style.push(`padding: ${padding}`)
     if (radius) style.push(`border-radius: ${radius}`)

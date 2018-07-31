@@ -39,7 +39,7 @@ class IconContainer extends Tonic {
 
 Tonic.add(IconContainer)
 
-},{"tonic":5}],2:[function(require,module,exports){
+},{"tonic":6}],2:[function(require,module,exports){
 const Tonic = typeof require === 'function'
   ? require('tonic') : window.Tonic
 
@@ -157,7 +157,7 @@ InputCheckbox._svg.off = color => `
 
 Tonic.add(InputCheckbox, { shadow: true })
 
-},{"tonic":5}],3:[function(require,module,exports){
+},{"tonic":6}],3:[function(require,module,exports){
 const Tonic = typeof require === 'function'
   ? require('tonic') : window.Tonic
 
@@ -248,49 +248,9 @@ class InputText extends Tonic {
 
 Tonic.add(InputText, { shadow: true })
 
-},{"tonic":5}],4:[function(require,module,exports){
-const requestAnimFrame = (function () {
-  return window.requestAnimationFrame ||
-    window.webkitRequestAnimationFrame ||
-    window.mozRequestAnimationFrame ||
-    function (callback) {
-      window.setTimeout(callback, 1000 / 60)
-    }
-})()
-
-function ease (pos) {
-  if ((pos /= 0.5) < 1) {
-    return 0.5 * Math.pow(pos, 5)
-  }
-  return 0.5 * (Math.pow((pos - 2), 5) + 2)
-}
-
-let scrolling = false
-
-function scrollToY (scrollTargetY, speed) {
-  const scrollY = window.scrollY
-  const pos = Math.abs(scrollY - scrollTargetY)
-  const time = Math.max(0.1, Math.min(pos / speed, 0.8))
-
-  let currentTime = 0
-
-  function nextFrame () {
-    currentTime += 1 / 60
-    scrolling = true
-
-    const p = currentTime / time
-    const t = ease(p)
-
-    if (p < 1) {
-      requestAnimFrame(nextFrame)
-      window.scrollTo(0, scrollY + ((scrollTargetY - scrollY) * t))
-    } else {
-      window.scrollTo(0, scrollTargetY)
-      scrolling = false
-    }
-  }
-  nextFrame()
-}
+},{"tonic":6}],4:[function(require,module,exports){
+const scrollToY = require('scrolltoy')
+const main = document.querySelector('main')
 
 const links = [].slice.call(document.querySelectorAll('nav ul li a'))
 const ranges = []
@@ -313,21 +273,19 @@ links.map(function (link) {
     const prev = document.querySelector('a.selected')
     if (prev) prev.className = ''
     link.className = 'selected'
-    scrollToY(section.offsetTop, 1500)
+    scrollToY(main, section.offsetTop, 1500)
   })
 })
 
 function onscroll (event) {
-  console.log('hii')
-  if (scrolling) return
-
-  var pos = document.body.scrollTop
+  var pos = main.scrollTop
 
   pos = pos + 100
 
   ranges.map(function (range) {
     if (pos >= range.upper && pos <= range.lower) {
       if (range.id === current) return
+
       current = range.id
       var prev = document.querySelector('a.selected')
       if (prev) prev.className = ''
@@ -336,15 +294,66 @@ function onscroll (event) {
   })
 }
 
-window.addEventListener('scroll', onscroll)
+main.addEventListener('scroll', onscroll)
 
-},{}],5:[function(require,module,exports){
+},{"scrolltoy":5}],5:[function(require,module,exports){
+var requestFrame = (function () {
+  return window.requestAnimationFrame ||
+    window.webkitRequestAnimationFrame ||
+    window.mozRequestAnimationFrame ||
+    function requestAnimationFallback (callback) {
+      window.setTimeout(callback, 1000 / 60)
+    }
+})()
+
+function ease (pos) {
+  return ((pos /= 0.5) < 1)
+    ? (0.5 * Math.pow(pos, 5))
+    : (0.5 * (Math.pow((pos - 2), 5) + 2))
+}
+
+module.exports = function scrollToY (el, Y, speed) {
+  var isWindow = !!el.alert
+  var scrollY = isWindow ? el.scrollY : el.scrollTop
+  var pos = Math.abs(scrollY - Y)
+  var time = Math.max(0.1, Math.min(pos / speed, 0.8))
+
+  let currentTime = 0
+
+  function setY () {
+    currentTime += 1 / 60
+
+    var p = currentTime / time
+    var t = ease(p)
+
+    if (p < 1) {
+      var y = scrollY + ((Y - scrollY) * t)
+      requestFrame(setY)
+
+      if (isWindow) {
+        el.scrollTo(0, y)
+      } else {
+        el.scrollTop = y
+      }
+
+      return
+    }
+
+    if (isWindow) {
+      el.scrollTo(0, Y)
+    } else {
+      el.scrollTop = Y
+    }
+  }
+  setY()
+}
+
+},{}],6:[function(require,module,exports){
 class Tonic extends window.HTMLElement {
   constructor () {
     super()
     this.props = {}
     this.state = {}
-    this.on = this.addEventListener
     if (this.shadow) this.attachShadow({ mode: 'open' })
     this._bindEventListeners()
   }
@@ -363,6 +372,7 @@ class Tonic extends window.HTMLElement {
 
     const methods = Object.getOwnPropertyNames(c.prototype)
     c.prototype.events = []
+    if (opts.shadow) c.prototype.shadow = true
 
     for (const key in this.prototype) {
       const k = key.slice(2)
@@ -371,7 +381,6 @@ class Tonic extends window.HTMLElement {
       }
     }
 
-    if (opts.shadow) c.prototype.shadow = true
     window.customElements.define(name, c)
   }
 
@@ -406,11 +415,9 @@ class Tonic extends window.HTMLElement {
   }
 
   setProps (o) {
-    const oldProps = JSON.parse(JSON.stringify(this.props))
     this.props = Tonic.sanitize(typeof o === 'function' ? o(this.props) : o)
     if (!this.root) throw new Error('Component not yet connected')
     this.root.appendChild(this._setContent(this.render()))
-    this.updated && this.updated(oldProps)
   }
 
   _bindEventListeners () {
@@ -421,30 +428,22 @@ class Tonic extends window.HTMLElement {
 
   _setContent (content) {
     while (this.root.firstChild) this.root.firstChild.remove()
-    let node = null
-
+    let node = content
     if (typeof content === 'string') {
       const tmp = document.createElement('tmp')
       tmp.innerHTML = content
       node = tmp.firstElementChild
-    } else {
-      node = content.cloneNode(true)
     }
-
     if (this.styleNode) node.appendChild(this.styleNode)
     return node
   }
 
   connectedCallback () {
     for (let { name, value } of this.attributes) {
-      name = name.replace(/-(.)/gui, (_, m) => m.toUpperCase())
+      if (name === 'id') this.setAttribute('id', value)
+      if (name === 'data') try { value = JSON.parse(value) } catch (e) {}
       this.props[name] = value
     }
-
-    if (this.props.data) {
-      try { this.props.data = JSON.parse(this.props.data) } catch (e) {}
-    }
-
     this.root = (this.shadowRoot || this)
     this.props = Tonic.sanitize(this.props)
     this.willConnect && this.willConnect()

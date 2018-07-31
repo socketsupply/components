@@ -1,45 +1,5 @@
-const requestAnimFrame = (function () {
-  return window.requestAnimationFrame ||
-    window.webkitRequestAnimationFrame ||
-    window.mozRequestAnimationFrame ||
-    function (callback) {
-      window.setTimeout(callback, 1000 / 60)
-    }
-})()
-
-function ease (pos) {
-  if ((pos /= 0.5) < 1) {
-    return 0.5 * Math.pow(pos, 5)
-  }
-  return 0.5 * (Math.pow((pos - 2), 5) + 2)
-}
-
-let scrolling = false
-
-function scrollToY (scrollTargetY, speed) {
-  const scrollY = window.scrollY
-  const pos = Math.abs(scrollY - scrollTargetY)
-  const time = Math.max(0.1, Math.min(pos / speed, 0.8))
-
-  let currentTime = 0
-
-  function nextFrame () {
-    currentTime += 1 / 60
-    scrolling = true
-
-    const p = currentTime / time
-    const t = ease(p)
-
-    if (p < 1) {
-      requestAnimFrame(nextFrame)
-      window.scrollTo(0, scrollY + ((scrollTargetY - scrollY) * t))
-    } else {
-      window.scrollTo(0, scrollTargetY)
-      scrolling = false
-    }
-  }
-  nextFrame()
-}
+const scrollToY = require('scrolltoy')
+const main = document.querySelector('main')
 
 const links = [].slice.call(document.querySelectorAll('nav ul li a'))
 const ranges = []
@@ -62,20 +22,19 @@ links.map(function (link) {
     const prev = document.querySelector('a.selected')
     if (prev) prev.className = ''
     link.className = 'selected'
-    scrollToY(section.offsetTop, 1500)
+    scrollToY(main, section.offsetTop, 1500)
   })
 })
 
 function onscroll (event) {
-  if (scrolling) return
-
-  var pos = document.body.scrollTop
+  var pos = main.scrollTop
 
   pos = pos + 100
 
   ranges.map(function (range) {
     if (pos >= range.upper && pos <= range.lower) {
       if (range.id === current) return
+
       current = range.id
       var prev = document.querySelector('a.selected')
       if (prev) prev.className = ''
@@ -84,4 +43,4 @@ function onscroll (event) {
   })
 }
 
-window.addEventListener('scroll', onscroll)
+main.addEventListener('scroll', onscroll)

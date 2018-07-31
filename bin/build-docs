@@ -13,9 +13,13 @@ function page (toc, sections) {
     <html>
       <head>
         <meta charset="utf-8">
-        <title>Tonic: Component Based Architecture</title>
+        <title>Tonic - Component Based Architecture</title>
         <link href="https://fonts.googleapis.com/css?family=Caudex|Poppins:400,600|Space+Mono" rel="stylesheet">
         <link href="index.css" rel="stylesheet">
+
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1 user-scalable=no">
+        <meta name="description" content="Component Based Architecture">
       </head>
 
       <body>
@@ -39,7 +43,7 @@ function page (toc, sections) {
 }
 
 let toc = ''
-let sections = ''
+let sections = []
 
 function readMarkdown () {
   let titles = []
@@ -66,7 +70,7 @@ function readMarkdown () {
 
       const title = match.slice(1).trim()
       titles.push(title)
-      sections += wrapSection(s, title)
+      sections.push({ title, content: wrapSection(s, title) })
     }
   }
 
@@ -75,6 +79,11 @@ function readMarkdown () {
 }
 
 readMarkdown()
-const html = page(toc, sections)
+
+sections = sections
+  .sort((a, b) => a.title.localeCompare(b.title))
+  .map(section => section.content)
+
+const html = page(toc, sections.join(''))
 
 fs.writeFileSync(outputFile, html)

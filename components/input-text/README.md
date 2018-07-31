@@ -1,6 +1,6 @@
 # InputText
 
-`InputText` creates an input, with or without a label.
+The component `InputText` creates an input, with or without a label.
 
 ## Demo
 
@@ -9,6 +9,7 @@
 | <input-text></input-text> | Default input (without label) |
 | <input-text label="label"></input-text> | Input with label |
 | <input-text label="label" placeholder="Type something"></input-text> | Input with label & placeholder |
+| <input-text label="label" value="Value"></input-text> | Input with label & value |
 | <input-text width="100%" label="Full Width"></input-text> | Full width with label |
 
 ## Code
@@ -20,7 +21,7 @@
 
 #### JS
 ```js
-console.log('dog')
+
 ```
 
 ## Api

@@ -1,5 +1,5 @@
 # IconContainer
-`IconContainer` is used to create an SVG icon with a custom size and color.
+The component `IconContainer` is used to create an SVG icon with a custom size and color.
 
 ## Demo
 

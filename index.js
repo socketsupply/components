@@ -23,6 +23,7 @@ links.map(function (link) {
     if (prev) prev.className = ''
     link.className = 'selected'
     scrollToY(main, section.offsetTop, 1500)
+    window.location.hash = id
   })
 })
 
@@ -40,6 +41,7 @@ function onscroll (event) {
       var prev = document.querySelector('a.selected')
       if (prev) prev.className = ''
       range.link.className = 'selected'
+      window.location.hash = current
     }
   })
 }

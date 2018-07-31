@@ -39,7 +39,7 @@ class IconContainer extends Tonic {
 
 Tonic.add(IconContainer)
 
-},{"tonic":6}],2:[function(require,module,exports){
+},{"tonic":8}],2:[function(require,module,exports){
 const Tonic = typeof require === 'function'
   ? require('tonic') : window.Tonic
 
@@ -84,7 +84,7 @@ class InputCheckbox extends Tonic {
     }
 
     this.defaults = {
-      color: '#36393d',
+      color: 'var(--primary)',
       checked: false,
       disabled: false,
       size: '20px'
@@ -157,7 +157,7 @@ InputCheckbox._svg.off = color => `
 
 Tonic.add(InputCheckbox, { shadow: true })
 
-},{"tonic":6}],3:[function(require,module,exports){
+},{"tonic":8}],3:[function(require,module,exports){
 const Tonic = typeof require === 'function'
   ? require('tonic') : window.Tonic
 
@@ -197,7 +197,8 @@ class InputText extends Tonic {
       disabled: false,
       ariaInvalid: false,
       spellcheck: false,
-      placeholder: ''
+      placeholder: '',
+      value: ''
     }
   }
 
@@ -217,7 +218,8 @@ class InputText extends Tonic {
       spellcheck,
       radius,
       ariaInvalid,
-      padding
+      padding,
+      value
     } = { ...this.defaults, ...this.props }
 
     console.log(this.props)
@@ -238,6 +240,7 @@ class InputText extends Tonic {
           ${disabled ? 'disabled' : ''}
           placeholder="${placeholder}"
           spellcheck="${spellcheck}"
+          value="${value}"
           aria-invalid="${ariaInvalid}"
           style="${style}"
         />
@@ -248,7 +251,11 @@ class InputText extends Tonic {
 
 Tonic.add(InputText, { shadow: true })
 
-},{"tonic":6}],4:[function(require,module,exports){
+},{"tonic":8}],4:[function(require,module,exports){
+
+},{}],5:[function(require,module,exports){
+arguments[4][4][0].apply(exports,arguments)
+},{"dup":4}],6:[function(require,module,exports){
 const scrollToY = require('scrolltoy')
 const main = document.querySelector('main')
 
@@ -274,6 +281,7 @@ links.map(function (link) {
     if (prev) prev.className = ''
     link.className = 'selected'
     scrollToY(main, section.offsetTop, 1500)
+    window.location.hash = id
   })
 })
 
@@ -291,13 +299,14 @@ function onscroll (event) {
       var prev = document.querySelector('a.selected')
       if (prev) prev.className = ''
       range.link.className = 'selected'
+      window.location.hash = current
     }
   })
 }
 
 main.addEventListener('scroll', onscroll)
 
-},{"scrolltoy":5}],5:[function(require,module,exports){
+},{"scrolltoy":7}],7:[function(require,module,exports){
 var requestFrame = (function () {
   return window.requestAnimationFrame ||
     window.webkitRequestAnimationFrame ||
@@ -352,7 +361,7 @@ module.exports = function scrollToY (el, Y, speed) {
   setY()
 }
 
-},{}],6:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 class Tonic extends window.HTMLElement {
   constructor () {
     super()
@@ -478,4 +487,4 @@ Tonic.escapeMap = { '"': '&quot;', '&': '&amp;', '\'': '&#x27;', '<': '&lt;', '>
 
 if (typeof module === 'object') module.exports = Tonic
 
-},{}]},{},[4,1,2,3]);
+},{}]},{},[6,1,2,3,4,5]);

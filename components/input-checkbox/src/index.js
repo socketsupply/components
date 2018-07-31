@@ -12,7 +12,7 @@ class InputCheckbox extends Tonic {
     }
 
     this.defaults = {
-      color: '#36393d',
+      color: 'var(--primary)',
       checked: false,
       disabled: false,
       size: '20px'

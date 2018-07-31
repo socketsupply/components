@@ -2,9 +2,13 @@
     <html>
       <head>
         <meta charset="utf-8">
-        <title>Tonic: Component Based Architecture</title>
+        <title>Tonic - Component Based Architecture</title>
         <link href="https://fonts.googleapis.com/css?family=Caudex|Poppins:400,600|Space+Mono" rel="stylesheet">
         <link href="index.css" rel="stylesheet">
+
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1 user-scalable=no">
+        <meta name="description" content="Component Based Architecture">
       </head>
 
       <body>
@@ -13,6 +17,10 @@
           <ul>
       <li>
         <a href="#iconcontainer" class="selected">IconContainer</a>
+      </li>
+    
+      <li>
+        <a href="#inputbutton" class="">InputButton</a>
       </li>
     
       <li>
@@ -32,7 +40,7 @@
         </nav>
         <main>
           <section id="iconcontainer"><h1 id="iconcontainer">IconContainer</h1>
-<p><code>IconContainer</code> is used to create an SVG icon with a custom size and color.</p>
+<p>The component <code>IconContainer</code> is used to create an SVG icon with a custom size and color.</p>
 <h2 id="demo">Demo</h2>
 <table>
 <thead>
@@ -109,8 +117,84 @@
 <td align="left">Description</td>
 </tr>
 </tbody></table>
+</section><section id="inputbutton"><h1 id="inputbutton">InputButton</h1>
+<p>The component <code>InputButton</code> creates a button.</p>
+<h2 id="demo">Demo</h2>
+<table>
+<thead>
+<tr>
+<th align="left">Example</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><input-button></input-button></td>
+<td align="left">Default button</td>
+</tr>
+</tbody></table>
+<h2 id="code">Code</h2>
+<h4 id="html">Html</h4>
+<pre><code class="language-html"></code></pre>
+<h4 id="js">JS</h4>
+<pre><code class="language-js"></code></pre>
+<h2 id="api">Api</h2>
+<h3 id="properties">Properties</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>disabled</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Makes the button disabled</td>
+<td align="left"><em>false</em></td>
+</tr>
+<tr>
+<td align="left"><code>type</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Type of button (i.e. submit)</td>
+<td align="left"><em>&quot;text&quot;</em></td>
+</tr>
+<tr>
+<td align="left"><code>width</code></td>
+<td align="left"><em>number</em></td>
+<td align="left">Width of the button</td>
+<td align="left"><em>300</em></td>
+</tr>
+</tbody></table>
+<h3 id="static-methods-members">Static Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
 </section><section id="inputcheckbox"><h1 id="inputcheckbox">InputCheckbox</h1>
-<p><code>InputCheckbox</code> is used to create a styled checkbox, with or without a label. You can also create a custom checkbox using SVG icons.</p>
+<p>The component <code>InputCheckbox</code> is used to create a styled checkbox, with or without a label. You can also create a custom checkbox using SVG icons.</p>
 <h2 id="demo">Demo</h2>
 <table>
 <thead>
@@ -173,7 +257,7 @@
 <td align="left"><code>color</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">Changes the color of the icon</td>
-<td align="left"><em>#36393d</em></td>
+<td align="left"><em>var(--primary)</em></td>
 </tr>
 <tr>
 <td align="left"><code>id</code></td>
@@ -215,7 +299,7 @@
 </tr>
 </tbody></table>
 </section><section id="inputtext"><h1 id="inputtext">InputText</h1>
-<p><code>InputText</code> creates an input, with or without a label.</p>
+<p>The component <code>InputText</code> creates an input, with or without a label.</p>
 <h2 id="demo">Demo</h2>
 <table>
 <thead>
@@ -237,6 +321,10 @@
 <td align="left">Input with label &amp; placeholder</td>
 </tr>
 <tr>
+<td align="left"><input-text label="label" value="Value"></input-text></td>
+<td align="left">Input with label &amp; value</td>
+</tr>
+<tr>
 <td align="left"><input-text width="100%" label="Full Width"></input-text></td>
 <td align="left">Full width with label</td>
 </tr>
@@ -245,7 +333,7 @@
 <h4 id="html">Html</h4>
 <pre><code class="language-html">&lt;input-text spellcheck&gt;&lt;/input-text&gt;</code></pre>
 <h4 id="js">JS</h4>
-<pre><code class="language-js">console.log(&#39;dog&#39;)</code></pre>
+<pre><code class="language-js"></code></pre>
 <h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>
 <table>

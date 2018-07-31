@@ -1,6 +1,6 @@
 # InputCheckbox
 
-`InputCheckbox` is used to create a styled checkbox, with or without a label. You can also create a custom checkbox using SVG icons.
+The component `InputCheckbox` is used to create a styled checkbox, with or without a label. You can also create a custom checkbox using SVG icons.
 
 ## Demo
 
@@ -34,7 +34,7 @@
 | :--- | :--- | :--- | :--- |
 | `checked` | *boolean* | Changes the color of the icon | *#000* |
 | `size` | *string* | Changes the width and height of the icon | *30px* |
-| `color` | *string* | Changes the color of the icon | *#36393d* |
+| `color` | *string* | Changes the color of the icon | *var(--primary)* |
 | `id` | *string* | Changes the color of the icon | *none* |
 | `name` | *string* | Changes the color of the icon | *none* |
 

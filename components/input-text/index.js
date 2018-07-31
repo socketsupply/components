@@ -37,7 +37,8 @@ class InputText extends Tonic {
       disabled: false,
       ariaInvalid: false,
       spellcheck: false,
-      placeholder: ''
+      placeholder: '',
+      value: ''
     }
   }
 
@@ -57,7 +58,8 @@ class InputText extends Tonic {
       spellcheck,
       radius,
       ariaInvalid,
-      padding
+      padding,
+      value
     } = { ...this.defaults, ...this.props }
 
     console.log(this.props)
@@ -78,6 +80,7 @@ class InputText extends Tonic {
           ${disabled ? 'disabled' : ''}
           placeholder="${placeholder}"
           spellcheck="${spellcheck}"
+          value="${value}"
           aria-invalid="${ariaInvalid}"
           style="${style}"
         />

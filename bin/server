@@ -1,0 +1,17 @@
+#!/usr/bin/env node
+const http = require('http')
+const fs = require('fs')
+const parse = require('url').parse
+const send = require('send')
+
+const opts = {
+  root: `${__dirname}/../docs`
+}
+
+http.createServer((req, res) => {
+  const p = parse(req.url).pathname
+  console.log(`  req -> ${p}`)
+  send(req, p, opts).pipe(res)
+}).listen(8080, () => {
+  console.log('  started -> http://localhost:8080')
+})

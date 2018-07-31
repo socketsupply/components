@@ -8,6 +8,7 @@
   },
   "scripts": {
     "test": "npm run test:browser",
+    "dev": "./bin/server",
     "build": "npm run build:style && npm run build:docs && npm run build:js",
     "build:js": "browserify ./index.js ./components/**/*.js > ./docs/bundle.js",
     "build:docs": "./bin/build-docs ./components",
@@ -25,6 +26,7 @@
   "homepage": "https://github.com/conductorlab/components#readme",
   "devDependencies": {
     "browserify": "^16.2.2",
+    "send": "^0.16.2",
     "stylus": "^0.54.5",
     "tape": "^4.9.1",
     "tape-run": "^4.0.0"

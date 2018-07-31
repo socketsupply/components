@@ -6,6 +6,11 @@ class InputCheckbox extends Tonic {
     super()
     this.stylesheet = `%style%`
 
+    this.props = {
+      checked: false,
+      changed: false
+    }
+
     this.defaults = {
       color: 'red',
       checked: false,
@@ -15,10 +20,17 @@ class InputCheckbox extends Tonic {
   }
 
   click (e) {
+    if (!e.target.matches('input-checkbox')) return
     this.setProps(props => ({
       ...this.props,
       checked: !props.checked
     }))
+  }
+
+  updated (oldProps) {
+    if (oldProps.checked !== this.props.checked) {
+      this.dispatchEvent(new window.Event('change'))
+    }
   }
 
   render () {
@@ -27,14 +39,17 @@ class InputCheckbox extends Tonic {
       id,
       checked,
       width,
+      name,
       height
     } = { ...this.defaults, ...this.props }
 
     const state = checked ? 'on' : 'off'
+    const checkedProperty = checked ? 'checked' : ''
+    const nameProperty = name ? `name="${name}"` : ''
 
     return `
       <div class="wrapper">
-        <input id="${id}" type="checkbox"/>
+        <input id="${id}" ${nameProperty} type="checkbox" ${checkedProperty}/>
         <label for="${id}">
           ${InputCheckbox._svg[state]({ width, height, color })}
         </label>

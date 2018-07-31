@@ -8,7 +8,7 @@
   },
   "scripts": {
     "test": "npm run test:browser",
-    "build": "npm run build:js && npm run build:docs && npm run build:style",
+    "build": "npm run build:style && npm run build:docs && npm run build:js",
     "build:js": "browserify ./index.js ./components/**/*.js > ./docs/bundle.js",
     "build:docs": "./bin/build-docs ./components",
     "build:style": "./bin/build-style ./components"

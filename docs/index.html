@@ -51,8 +51,20 @@
 <p>Description</p>
 <h2 id="demo">Demo</h2>
 <p><input-checkbox
-  id="example">
+  id="input-checkbox-example">
 </input-checkbox></p>
+<p><label id="input-checkbox-example-label">unchecked</label></p>
+<script>
+{
+  const checkbox = document.getElementById('input-checkbox-example')
+  const label = document.getElementById('input-checkbox-example-label')
+
+  checkbox.addEventListener('change', e => {
+    console.log('CHANGE!!!!!!!!!!!!')
+    label.textContent = checkbox.props.checked ? 'checked' : 'unchecked'
+  })
+}
+</script>
 </section><section><h1 id="inputtext">InputText</h1>
 <p>Any valid input HTML attribute can be passed to the <code>InputText</code> component.</p>
 <h2 id="demo">Demo</h2>

@@ -12,15 +12,14 @@ const toCSS = str => ({
 const componentsDir = process.argv[2]
 const dirs = fs.readdirSync(componentsDir)
 
-const re = /\n(\s*)this.stylesheet\s*=\s*`([^`]*)`/u
-function replace (_, s) {
-  return css
-}
+const re = /%style%/
+const pre = /\n(\s*)this.stylesheet/u
 
 async function main () {
   for (const dir of dirs) {
-    const styl = path.join(componentsDir, dir, 'index.styl')
-    const src = path.join(componentsDir, dir, 'index.js')
+    const styl = path.join(componentsDir, dir, 'src', 'index.styl')
+    const src = path.join(componentsDir, dir, 'src', 'index.js')
+    const dest = path.join(componentsDir, dir, 'index.js')
     const { err, css } = await toCSS(fs.readFileSync(styl, 'utf8'))
 
     if (err) {
@@ -29,27 +28,19 @@ async function main () {
     }
 
     const js = fs.readFileSync(src, 'utf8')
-    const ws = js.match(re)
+    const ws = js.match(pre)
     let padding = 0
     let paddedCSS = css
 
     if (ws) {
       padding = ws[1].length
-      paddedCSS = css.split(/\n/).map(line => {
+      paddedCSS = '\n' + css.split(/\n/).map(line => {
         return ' '.repeat(padding + 2) + line
       }).join('\n')
     }
 
-    const output = js.replace(re, () => {
-      return [
-        '',
-        ' '.repeat(padding) + `this.stylesheet = \``,
-        paddedCSS,
-        ' '.repeat(padding) + '\`'
-      ].join('\n')
-    })
-
-    fs.writeFileSync(src, output)
+    const output = js.replace(re, () => paddedCSS)
+    fs.writeFileSync(dest, output)
   }
 }
 

@@ -4,35 +4,7 @@ const Tonic = typeof require === 'function'
 class InputText extends Tonic {
   constructor () {
     super()
-    this.stylesheet = `
-      .wrapper {
-        display: inline-block;
-        margin-bottom: 15px;
-      }
-      label {
-        color: var(--medium);
-        font-weight: 500;
-        font: 12px/14px 'Poppins', sans-serif;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        padding-bottom: 10px;
-        display: block;
-      }
-      input {
-        padding: 10px;
-        font: 14px 'Space-Mono', monospace;
-        border: 1px solid var(--border);
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-        outline: none;
-        border-radius: 3px;
-        transition: border 0.2s ease;
-      }
-      input:focus {
-        border: 1px solid var(--primary);
-      }
-      `
+    this.stylesheet = `%style%`
 
     this.defaults = {
       height: 32,

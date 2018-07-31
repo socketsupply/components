@@ -4,8 +4,7 @@ const Tonic = typeof require === 'function'
 class IconContainer extends Tonic {
   constructor () {
     super()
-    this.stylesheet = `
-      `
+    this.stylesheet = `%style%`
   }
   render () {
     return `<div></div>`

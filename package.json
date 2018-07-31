@@ -9,7 +9,7 @@
   "scripts": {
     "test": "npm run test:browser",
     "build": "npm run build:js && npm run build:docs && npm run build:style",
-    "build:js": "browserify ./index.js ./components/**/*.js > ./docs/bundle.js",
+    "build:js": "browserify ./index.js ./components/**/src/*.js > ./docs/bundle.js",
     "build:docs": "./bin/build-docs ./components",
     "build:style": "./bin/build-style ./components"
   },

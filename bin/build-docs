@@ -48,12 +48,14 @@ function readMarkdown () {
 
   for (const dir of dirs) {
     const s = fs.readFileSync(path.join(componentsDir, dir, 'README.md'), 'utf8')
-    const { 0: match } = /^#\s*(.*)[\n|\r]/.exec(s)
-    if (!match) continue
+    if (s) {
+      const { 0: match } = /^#\s*(.*)[\n|\r]/.exec(s)
+      if (!match) continue
 
-    sections += wrapSection(s)
-    const title = match.slice(1).trim()
-    titles.push(title)
+      sections += wrapSection(s)
+      const title = match.slice(1).trim()
+      titles.push(title)
+    }
   }
 
   titles = titles.sort().map(wrapLink)

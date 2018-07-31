@@ -34,7 +34,7 @@
 | :--- | :--- | :--- | :--- |
 | `checked` | *boolean* | Changes the color of the icon | *#000* |
 | `size` | *string* | Changes the width and height of the icon | *30px* |
-| `color` | *string* | Changes the color of the icon | *#000* |
+| `color` | *string* | Changes the color of the icon | *#36393d* |
 | `id` | *string* | Changes the color of the icon | *none* |
 | `name` | *string* | Changes the color of the icon | *none* |
 

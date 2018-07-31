@@ -22,6 +22,12 @@ function page (toc, sections) {
         <nav>
           <a href="./index.html"><img src="./tonic.svg"></a>
           ${toc}
+          <a href="#" class="footer">
+            <span>Made by</span>
+            <svg>
+              <use xlink:href="./sprite.svg#cl_logo">
+            </svg>
+          </a>
         </nav>
         <main>
           ${sections}
@@ -38,8 +44,14 @@ let sections = ''
 function readMarkdown () {
   let titles = []
 
-  function wrapLink (str) {
-    return `<li><a href="#${str.toLowerCase()}">${str}</a></li>`
+  function wrapLink (str, i) {
+    const selected = i === 0 ? 'selected' : ''
+
+    return `
+      <li>
+        <a href="#${str.toLowerCase()}" class="${selected}">${str}</a>
+      </li>
+    `
   }
 
   function wrapSection (str, title) {

@@ -27,6 +27,7 @@ links.map(function (link) {
 })
 
 function onscroll (event) {
+  if (scrollToY.scrolling) return
   var pos = main.scrollTop
 
   pos = pos + 100

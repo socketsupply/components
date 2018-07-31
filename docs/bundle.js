@@ -17,39 +17,7 @@ const Tonic = typeof require === 'function'
 class InputText extends Tonic {
   constructor () {
     super()
-
-    this.stylesheet = `
-      .wrapper {
-        display: inline-block;
-        margin-bottom: 15px;
-      }
-      label {
-        color: var(--medium);
-        font-weight: 500;
-        font: 12px/14px 'Poppins', sans-serif;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        padding-bottom: 10px;
-        display: block;
-      }
-      input {
-        padding: 10px;
-        font: 14px 'Space-Mono', monospace;
-        border: 1px solid var(--border);
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-        outline: none;
-        border-radius: 3px;
-        transition: border 0.2s ease;
-      }
-      input:focus {
-        border: 1px solid var(--primary);
-      }
-      input:invalid {
-        border: 1px solid var(--red);
-      }
-    `
+    this.stylesheet = ``
 
     this.defaults = {
       height: 32,
@@ -137,6 +105,7 @@ class Tonic extends window.HTMLElement {
 
     const methods = Object.getOwnPropertyNames(c.prototype)
     c.prototype.events = []
+    if (opts.shadow) c.prototype.shadow = true
 
     for (const key in this.prototype) {
       const k = key.slice(2)
@@ -145,7 +114,6 @@ class Tonic extends window.HTMLElement {
       }
     }
 
-    if (opts.shadow) c.prototype.shadow = true
     window.customElements.define(name, c)
   }
 
@@ -193,30 +161,22 @@ class Tonic extends window.HTMLElement {
 
   _setContent (content) {
     while (this.root.firstChild) this.root.firstChild.remove()
-    let node = null
-
+    let node = content
     if (typeof content === 'string') {
       const tmp = document.createElement('tmp')
       tmp.innerHTML = content
       node = tmp.firstElementChild
-    } else {
-      node = content.cloneNode(true)
     }
-
     if (this.styleNode) node.appendChild(this.styleNode)
     return node
   }
 
   connectedCallback () {
     for (let { name, value } of this.attributes) {
-      name = name.replace(/-(.)/gui, (_, m) => m.toUpperCase())
+      if (name === 'id') this.setAttribute('id', value)
+      if (name === 'data') try { value = JSON.parse(value) } catch (e) {}
       this.props[name] = value
     }
-
-    if (this.props.data) {
-      try { this.props.data = JSON.parse(this.props.data) } catch (e) {}
-    }
-
     this.root = (this.shadowRoot || this)
     this.props = Tonic.sanitize(this.props)
     this.willConnect && this.willConnect()

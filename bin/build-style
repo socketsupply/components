@@ -1,0 +1,56 @@
+#!/usr/bin/env node
+const fs = require('fs')
+const path = require('path')
+const stylus = require('stylus')
+
+const toCSS = str => ({
+  then (resolve) {
+    stylus(str).render((err, css) => resolve({ err, css }))
+  }
+})
+
+const componentsDir = process.argv[2]
+const dirs = fs.readdirSync(componentsDir)
+
+const re = /\n(\s*)this.stylesheet\s*=\s*`([^`]*)`/u
+function replace (_, s) {
+  return css
+}
+
+async function main () {
+  for (const dir of dirs) {
+    const styl = path.join(componentsDir, dir, 'index.styl')
+    const src = path.join(componentsDir, dir, 'index.js')
+    const { err, css } = await toCSS(fs.readFileSync(styl, 'utf8'))
+
+    if (err) {
+      console.error(err.message)
+      process.exit(1)
+    }
+
+    const js = fs.readFileSync(src, 'utf8')
+    const ws = js.match(re)
+    let padding = 0
+    let paddedCSS = css
+
+    if (ws) {
+      padding = ws[1].length
+      paddedCSS = css.split(/\n/).map(line => {
+        return ' '.repeat(padding + 2) + line
+      }).join('\n')
+    }
+
+    const output = js.replace(re, () => {
+      return [
+        '',
+        ' '.repeat(padding) + `this.stylesheet = \``,
+        paddedCSS,
+        ' '.repeat(padding) + '\`'
+      ].join('\n')
+    })
+
+    fs.writeFileSync(src, output)
+  }
+}
+
+main()

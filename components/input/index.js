@@ -4,7 +4,6 @@ const Tonic = typeof require === 'function'
 class InputText extends Tonic {
   constructor () {
     super()
-
     this.stylesheet = `
       .wrapper {
         display: inline-block;
@@ -33,6 +32,7 @@ class InputText extends Tonic {
       input:focus {
         border: 1px solid var(--primary);
       }
+      
     `
 
     this.defaults = {

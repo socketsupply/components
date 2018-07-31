@@ -8,9 +8,10 @@
   },
   "scripts": {
     "test": "npm run test:browser",
-    "build": "npm run build:js && npm run build:html",
+    "build": "npm run build:js && npm run build:docs && npm run build:style",
     "build:js": "browserify ./index.js ./components/**/*.js > ./docs/bundle.js",
-    "build:html": "./bin/build"
+    "build:docs": "./bin/build-docs ./components",
+    "build:style": "./bin/build-style ./components"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,7 @@
   "homepage": "https://github.com/conductorlab/components#readme",
   "devDependencies": {
     "browserify": "^16.2.2",
+    "stylus": "^0.54.5",
     "tape": "^4.9.1",
     "tape-run": "^4.0.0"
   },

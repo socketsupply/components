@@ -1,0 +1,163 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  --primary: rgba(54, 57, 61, 1);
+  --secondary: rgba(232, 232, 228, 1);
+  --accent: rgba(240, 102, 83, 1);
+  --medium: rgba(153, 157, 160, 1);
+  --border: rgba(232, 232, 228, 1);
+  --background: rgba(247, 247, 245, 1);
+  --red: rgba(240, 102, 83, 1);
+  --green: rgba(133, 178, 116, 1);
+  --orange: rgba(249, 169, 103, 1);
+}
+
+body {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -moz-font-smoothing: antialiased;
+  font-smoothing: antialiased;
+  -webkit-font-feature-settings: "kern";
+  -moz-font-feature-settings: "kern";
+  font-feature-settings: "kern";
+  font-variant-ligatures: common-ligatures;
+  font-kerning: normal;
+  font-weight: normal;
+  color: var(--primary);
+  margin: 0;
+  font-family: 'Georgia', serif;
+}
+
+p {
+  font: 16px/22px 'Georgia', serif;
+}
+
+h1, h2, h3, h4, h5 {
+  font-weight: normal;
+  margin: 20px 0;
+}
+
+h1 {
+  font: 48px/56px 'Caudex', serif;
+  padding-top: 60px;
+}
+
+h2 {
+  font: 14px/16px 'Poppins', sans-serif;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  border-top: 2px solid var(--primary);
+  padding-top: 20px;
+  margin: 50px 0;
+}
+
+h3 {
+  font: 26px/30px 'Caudex', serif;
+  margin-top: 60px;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+ul {
+  font: 15px/30px 'Georgia', serif;
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  margin: 10px 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--border);
+}
+
+th {
+  font: 13px/16px 'Poppins', monospace;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 12px 10px 9px 10px;
+  background-color: var(--background);
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+}
+
+td {
+  padding: 10px;
+  border-right: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+tr:last-of-type td {
+  border-bottom: 0;
+}
+
+td:last-of-type {
+  border-right: 0;
+}
+
+pre {
+  background-color: var(--background);
+  white-space: pre-line;
+  padding: 15px;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+}
+
+code {
+  background-color: var(--background);
+  padding: 5px 8px;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+}
+
+pre code {
+  border: 0;
+}
+
+nav {
+  padding: 60px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 300px;
+  overflow: scroll;
+}
+
+nav img {
+  width: 150px;
+  margin-bottom: 30px;
+}
+
+main {
+  padding: 0 60px 60px 60px;
+  position: absolute;
+  top: 0;
+  left: 300px;
+  right: 0;
+  bottom: 0;
+  overflow: scroll;
+}
+
+section {
+  max-width: 800px;
+  padding-bottom: 60px;
+  border-bottom: 2px solid var(--border);
+}
+
+::placeholder {
+  color: blue;
+  font-size: 1.5em;
+}

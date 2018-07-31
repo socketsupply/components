@@ -5,8 +5,43 @@ const marked = require('marked')
 
 const componentsDir = path.join(process.argv[2])
 const outputFile = path.join(__dirname, '..', 'docs', 'index.html')
-
 const dirs = fs.readdirSync(componentsDir)
+
+const intro = `
+  <section id="intro">
+    <h1>Intro</h1>
+    <p class="center">
+      A component is a self-contained set of styles, behaviors and layout.
+      It can be as simple to use as an html tag. A component hides complexity
+      and adds usefulness. Ideally, it does one thing in a way that makes it
+      reusable. <b>Tonic</b> is a minimalist component library inspired by
+      React and based on Web Components.
+    </p>
+    <div class="row">
+      <h3>Features</h3>
+      <div class="col">
+        <ul>
+          <li>Quickly read and understand the whole module, ~100 lines.</li>
+          <li>React-like component composition.</li>
+          <li>One-way binding. Pipe data though connected components.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <ul>
+          <li>Based on standard web technologies; Web Components.</li>
+          <li>Evented, single source dispatch. No event rebinding.</li>
+          <li>Bring your own Routers, Reducers, Validators, etc.</li>
+        </ul>
+      </div>
+    </div>
+  </seciton>
+`
+
+const custom = `
+  <section id="custom">
+    ${fs.readFileSync(path.join(__dirname, '..', 'docs', 'custom.html'))}
+  </section>
+`
 
 function page (toc, sections) {
   return `
@@ -34,7 +69,11 @@ function page (toc, sections) {
           </a>
         </nav>
         <main>
+          ${intro}
+
           ${sections}
+
+          ${custom}
         </main>
         <script src="bundle.js"></script>
       </body>
@@ -74,7 +113,12 @@ function readMarkdown () {
     }
   }
 
-  titles = titles.sort().map(wrapLink)
+  titles = titles.sort((a, b) => a.localeCompare(b))
+
+  titles.unshift('Intro')
+  titles.push('Custom')
+  titles = titles.map(wrapLink)
+
   toc = `<ul>${titles.join('')}</ul>`
 }
 

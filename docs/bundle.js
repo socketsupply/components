@@ -488,7 +488,6 @@ function onscroll (event) {
       var prev = document.querySelector('a.selected')
       if (prev) prev.className = ''
       range.link.className = 'selected'
-      window.location.hash = current
     }
   })
 }
@@ -520,6 +519,7 @@ module.exports = function scrollToY (el, Y, speed) {
   let currentTime = 0
 
   function setY () {
+    module.exports.scrolling = true
     currentTime += 1 / 60
 
     var p = currentTime / time
@@ -543,6 +543,8 @@ module.exports = function scrollToY (el, Y, speed) {
     } else {
       el.scrollTop = Y
     }
+
+    module.exports.scrolling = false
   }
   setY()
 }
@@ -553,7 +555,6 @@ class Tonic extends window.HTMLElement {
     super()
     this.props = {}
     this.state = {}
-    this.on = this.addEventListener
     if (this.shadow) this.attachShadow({ mode: 'open' })
     this._bindEventListeners()
   }
@@ -572,6 +573,7 @@ class Tonic extends window.HTMLElement {
 
     const methods = Object.getOwnPropertyNames(c.prototype)
     c.prototype.events = []
+    if (opts.shadow) c.prototype.shadow = true
 
     for (const key in this.prototype) {
       const k = key.slice(2)
@@ -580,7 +582,6 @@ class Tonic extends window.HTMLElement {
       }
     }
 
-    if (opts.shadow) c.prototype.shadow = true
     window.customElements.define(name, c)
   }
 
@@ -615,11 +616,9 @@ class Tonic extends window.HTMLElement {
   }
 
   setProps (o) {
-    const oldProps = JSON.parse(JSON.stringify(this.props))
     this.props = Tonic.sanitize(typeof o === 'function' ? o(this.props) : o)
     if (!this.root) throw new Error('Component not yet connected')
     this.root.appendChild(this._setContent(this.render()))
-    this.updated && this.updated(oldProps)
   }
 
   _bindEventListeners () {
@@ -630,30 +629,22 @@ class Tonic extends window.HTMLElement {
 
   _setContent (content) {
     while (this.root.firstChild) this.root.firstChild.remove()
-    let node = null
-
+    let node = content
     if (typeof content === 'string') {
       const tmp = document.createElement('tmp')
       tmp.innerHTML = content
       node = tmp.firstElementChild
-    } else {
-      node = content.cloneNode(true)
     }
-
     if (this.styleNode) node.appendChild(this.styleNode)
     return node
   }
 
   connectedCallback () {
     for (let { name, value } of this.attributes) {
-      name = name.replace(/-(.)/gui, (_, m) => m.toUpperCase())
+      if (name === 'id') this.setAttribute('id', value)
+      if (name === 'data') try { value = JSON.parse(value) } catch (e) {}
       this.props[name] = value
     }
-
-    if (this.props.data) {
-      try { this.props.data = JSON.parse(this.props.data) } catch (e) {}
-    }
-
     this.root = (this.shadowRoot || this)
     this.props = Tonic.sanitize(this.props)
     this.willConnect && this.willConnect()

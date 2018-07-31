@@ -41,7 +41,6 @@ function onscroll (event) {
       var prev = document.querySelector('a.selected')
       if (prev) prev.className = ''
       range.link.className = 'selected'
-      window.location.hash = current
     }
   })
 }

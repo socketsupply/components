@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "marked": "^0.4.0",
-    "scrolltoy": "^2.0.0",
+    "scrolltoy": "github:voltraco/scrolltoy",
     "tonic": "github:hxoht/tonic"
   }
 }

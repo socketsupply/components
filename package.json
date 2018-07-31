@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "marked": "^0.4.0",
+    "scrolltoy": "^2.0.0",
     "tonic": "github:hxoht/tonic"
   }
 }

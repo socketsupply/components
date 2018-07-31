@@ -42,8 +42,8 @@ function readMarkdown () {
     return `<li><a href="#${str.toLowerCase()}">${str}</a></li>`
   }
 
-  function wrapSection (str) {
-    return `<section>${marked(str)}</section>`
+  function wrapSection (str, title) {
+    return `<section id="${title.toLowerCase()}">${marked(str)}</section>`
   }
 
   for (const dir of dirs) {
@@ -52,9 +52,9 @@ function readMarkdown () {
       const { 0: match } = /^#\s*(.*)[\n|\r]/.exec(s)
       if (!match) continue
 
-      sections += wrapSection(s)
       const title = match.slice(1).trim()
       titles.push(title)
+      sections += wrapSection(s, title)
     }
   }
 

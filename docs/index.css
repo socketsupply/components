@@ -133,6 +133,9 @@ nav {
   width: 300px;
   overflow: scroll;
 }
+nav a.selected {
+  color: #00f;
+}
 nav img {
   width: 150px;
   margin-bottom: 30px;

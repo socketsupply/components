@@ -1,6 +1,6 @@
 # InputText
 
-Any valid input HTML attribute can be passed to the `InputText` component.
+`InputText` creates an input, with or without a label.
 
 ## Demo
 

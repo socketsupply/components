@@ -1,9 +1,13 @@
 # IconContainer
-Description
+`IconContainer` is used to create an SVG icon with a custom size and color.
 
 ## Demo
 
-<icon-container></icon-container>
+| Example | Description |
+| :--- | :--- |
+| <icon-container></icon-container> | Default Icon (30px) |
+| <icon-container color="#f06653"></icon-container> | Icon with color (30px) |
+| <icon-container size="60px"></icon-container> | Large Icon (60px) |
 
 ## Code
 

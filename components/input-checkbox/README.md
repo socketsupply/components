@@ -1,6 +1,6 @@
 # InputCheckbox
 
-The `InputCheckbox` is used to create a styled checkbox, with or without a label. You can also create a custom checkbox using SVG icons.
+`InputCheckbox` is used to create a styled checkbox, with or without a label. You can also create a custom checkbox using SVG icons.
 
 ## Demo
 

@@ -45,7 +45,7 @@ console.log('dog')
 | `spellcheck` | *boolean* | Enable spellcheck on the input | *false* |
 | `isinvalid` | *boolean* | Indicates input error | *false* |
 | `placeholder` | *string* | Inserts placeholder text | *none* |
-| `width` | *string* | Width of the input | *"300"* |
+| `width` | *number* | Width of the input | *300* |
 | `type` | *string* | Type of input (text, password, email) | *"text"* |
 
 ### Static Methods & Members

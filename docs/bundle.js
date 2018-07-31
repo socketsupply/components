@@ -6,10 +6,34 @@ class IconContainer extends Tonic {
   constructor () {
     super()
     this.stylesheet = `
+      * {
+        box-sizing: border-box;
+      }
+      svg {
+        width: 100%;
+        height: 100%;
+      }
       `
+
+    this.defaults = {
+      size: '30px',
+      color: '#000'
+    }
   }
+
   render () {
-    return `<div></div>`
+    const {
+      color,
+      size
+    } = { ...this.defaults, ...this.props }
+
+    return `
+      <div class="wrapper" style="width: ${size}; height: ${size};">
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" xml:space="preserve">
+          <path fill="${color}" d="M59.5,10H17.2v80.3h65.2V32L59.5,10z M60.2,19l13.2,12.7H60.2V19z M23.2,84.3V16h31v21.7h22.1v46.6H23.2z"/>
+        </svg>
+      </div>
+    `
   }
 }
 
@@ -26,8 +50,31 @@ class InputCheckbox extends Tonic {
       * {
         box-sizing: border-box;
       }
+      .wrapper {
+        display: inline-block;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
       input[type="checkbox"] {
         display: none;
+      }
+      label {
+        color: var(--primary);
+        font: 12px 'Poppins', sans-serif;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        display: inline-block;
+        vertical-align: middle;
+      }
+      label:nth-of-type(2) {
+        padding-top: 2px;
+        margin-left: 10px;
+      }
+      svg {
+        width: 100%;
+        height: 100%;
       }
       `
 
@@ -37,10 +84,10 @@ class InputCheckbox extends Tonic {
     }
 
     this.defaults = {
-      color: 'red',
+      color: '#333333',
       checked: false,
-      width: '25px',
-      height: '25px'
+      disabled: false,
+      size: '20px'
     }
   }
 
@@ -58,48 +105,54 @@ class InputCheckbox extends Tonic {
     }
   }
 
+  renderLabel () {
+    if (!this.props.label) return ''
+    return `<label for="${this.props.id}">${this.props.label}</label>`
+  }
+
   render () {
     const {
       color,
       id,
       checked,
-      width,
-      name,
-      height
+      disabled,
+      size,
+      name
     } = { ...this.defaults, ...this.props }
 
     const state = checked ? 'on' : 'off'
-    const checkedProperty = checked ? 'checked' : ''
-    const nameProperty = name ? `name="${name}"` : ''
+    const checkedAttr = checked ? 'checked' : ''
+    const disabledAttr = disabled ? 'disabled' : ''
+    const nameAttr = name ? `name="${name}"` : ''
 
     return `
       <div class="wrapper">
-        <input id="${id}" ${nameProperty} type="checkbox" ${checkedProperty}/>
-        <label for="${id}">
-          ${InputCheckbox._svg[state]({ width, height, color })}
+        <input id="${id}" ${nameAttr} type="checkbox" ${disabledAttr} ${checkedAttr}/>
+        <label for="${id}" style="width: ${size}; height: ${size};">
+          ${InputCheckbox._svg[state]({ size, color })}
         </label>
+        ${this.renderLabel()}
       </div>
     `
   }
 }
 
-InputCheckbox._svgProps = `version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"`
+InputCheckbox.addIcon = (state, fn) => {
+  InputCheckbox._svg[state] = fn
+}
+
 InputCheckbox._svg = {}
-InputCheckbox._svg.on = ({ width, height, color }) => `
-  <svg ${InputCheckbox._svgProps} x="0px" y="0px" width="${width}" height="${height}" viewBox="0 0 100 100" xml:space="preserve">
-   <path fill="${color}" d="M49.5,64.2c0.1,0.1,0.2,0.1,0.4,0.1s0.3-0.1,0.4-0.1l12.4-12.4c0.1-0.1,0.1-0.2,0.1-0.4s-0.1-0.3-0.1-0.4l-2.1-2.1
-    	c-0.2-0.2-0.5-0.2-0.7,0l-7.9,7.9V27c0-0.3-0.2-0.5-0.5-0.5h-3c-0.3,0-0.5,0.2-0.5,0.5v29.8L40,48.9c-0.1-0.1-0.2-0.1-0.4-0.1
-    	s-0.3,0.1-0.4,0.1l-2.1,2.1c-0.2,0.2-0.2,0.5,0,0.7L49.5,64.2z"/>
-      <path fill="${color}" d="M68.9,69h-38c-0.3,0-0.5,0.2-0.5,0.5v3c0,0.3,0.2,0.5,0.5,0.5h38c0.3,0,0.5-0.2,0.5-0.5v-3C69.4,69.2,69.2,69,68.9,69z"/>
+InputCheckbox._svg.on = color => `
+  <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" xml:space="preserve">
+    <path fill="${color}" d="M79.7,1H21.3C10.4,1,1.5,9.9,1.5,20.8v58.4C1.5,90.1,10.4,99,21.3,99h58.4c10.9,0,19.8-8.9,19.8-19.8V20.8C99.5,9.9,90.6,1,79.7,1z M93.3,79.3c0,7.5-6.1,13.6-13.6,13.6H21.3c-7.5,0-13.6-6.1-13.6-13.6V20.9c0-7.5,6.1-13.6,13.6-13.6V7.2h58.4c7.5,0,13.6,6.1,13.6,13.6V79.3z"/>
+    <polygon fill="${color}" points="44,61.7 23.4,41.1 17.5,47 44,73.5 85.1,32.4 79.2,26.5 "/>
   </svg>
 `
 
-InputCheckbox._svg.off = ({ width, height, color }) => `
-  <svg ${InputCheckbox._svgProps} x="0px" y="0px" width="${width}" height="${height}" viewBox="0 0 100 100" xml:space="preserve">
-    <path fill="${color}" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4
-    	l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0
-    	l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
-   </svg>
+InputCheckbox._svg.off = color => `
+  <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" xml:space="preserve">
+    <path fill="${color}" d="M79.7,99H21.3C10.4,99,1.5,90.1,1.5,79.2V20.8C1.5,9.9,10.4,1,21.3,1h58.4c10.9,0,19.8,8.9,19.8,19.8v58.4C99.5,90.1,90.6,99,79.7,99z M21.3,7.3c-7.5,0-13.6,6.1-13.6,13.6v58.4c0,7.5,6.1,13.6,13.6,13.6h58.4c7.5,0,13.6-6.1,13.6-13.6V20.8c0-7.5-6.1-13.6-13.6-13.6H21.3V7.3z"/>
+  </svg>
 `
 
 Tonic.add(InputCheckbox, { shadow: true })
@@ -112,10 +165,6 @@ class InputText extends Tonic {
   constructor () {
     super()
     this.stylesheet = `
-      .wrapper {
-        display: inline-block;
-        margin-bottom: 15px;
-      }
       label {
         color: var(--medium);
         font-weight: 500;
@@ -126,25 +175,25 @@ class InputText extends Tonic {
         display: block;
       }
       input {
-        padding: 10px;
+        width: 100%;
         font: 14px 'Space-Mono', monospace;
+        padding: 10px;
         border: 1px solid var(--border);
+        border-radius: 3px;
+        transition: border 0.2s ease;
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
         outline: none;
-        border-radius: 3px;
-        transition: border 0.2s ease;
       }
       input:focus {
-        border: 1px solid var(--primary);
+        border-color: var(--primary);
       }
       `
 
     this.defaults = {
-      height: 32,
-      width: 300,
       type: 'text',
+      width: '250px',
       disabled: false,
       ariaInvalid: false,
       spellcheck: false,
@@ -168,8 +217,7 @@ class InputText extends Tonic {
       spellcheck,
       radius,
       ariaInvalid,
-      padding,
-      icon
+      padding
     } = { ...this.defaults, ...this.props }
 
     console.log(this.props)
@@ -177,6 +225,8 @@ class InputText extends Tonic {
     let style = []
     if (padding) style.push(`padding: ${padding}`)
     if (radius) style.push(`border-radius: ${radius}`)
+    if (width) style.push(`width: ${width}`)
+    if (height) style.push(`height: ${height}`)
     style = style.join('; ')
 
     return `
@@ -184,8 +234,6 @@ class InputText extends Tonic {
         ${this.renderLabel()}
         <input
           type="${type}"
-          width="${width}"
-          height="${height}"
           ${required ? 'required' : ''}
           ${disabled ? 'disabled' : ''}
           placeholder="${placeholder}"
@@ -193,7 +241,6 @@ class InputText extends Tonic {
           aria-invalid="${ariaInvalid}"
           style="${style}"
         />
-        <tonic-icon id="${icon}"></tonic-icon>
       </div>
     `
   }

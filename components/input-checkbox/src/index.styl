@@ -1,5 +1,27 @@
 *
   box-sizing border-box
 
+.wrapper
+  display inline-block
+  -webkit-user-select none
+  -moz-user-select none
+  user-select none
+
 input[type="checkbox"]
   display none
+
+label
+  color var(--primary)
+  font 12px 'Poppins', sans-serif
+  font-weight 500
+  text-transform uppercase
+  letter-spacing 1px
+  display inline-block
+  vertical-align middle
+  &:nth-of-type(2)
+    padding-top 2px
+    margin-left 10px
+
+svg
+  width 100%
+  height 100%

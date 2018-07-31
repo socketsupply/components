@@ -7,24 +7,35 @@ Description
 
 ## Code
 
+#### html
+
 ```html
 <icon-container></icon-container>
 ```
 
+#### js
+
 ```js
-console.log('dog')
+
 ```
 
 ## Api
+
+### Properties
+
+| Property | Type | Description | Default |
+| :--- | :--- | :--- | :--- |
+| `size` | *string* | Changes the width and height of the icon | *30px* |
+| `color` | *string* | Changes the color of the icon | *#000* |
 
 ### Static Methods & Members
 
 | Method | Description |
 | :--- | :--- |
-| methodName() | Description |
+| `methodName()` | Description |
 
 ### Instance Methods & Members
 
 | Method | Description |
 | :--- | :--- |
-| methodName() | Description |
+| `methodName()` | Description |

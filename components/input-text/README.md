@@ -4,32 +4,21 @@ Any valid input HTML attribute can be passed to the `InputText` component.
 
 ## Demo
 
-<input-text label="Default"></input-text>
-
-<input-text
-  label="Default with Placeholder"
-  placeholder="Type something"
-  disabled>
-</input-text>
-
-<input-text
-  label="Invalid"
-  aria-invalid="true">
-</input-text>
-
-<input-text
-  label="Full width"
-  width="100%">
-</input-text>
+| Example | Description |
+| :--- | :--- |
+| <input-text></input-text> | Default input (without label) |
+| <input-text label="label"></input-text> | Input with label |
+| <input-text label="label" placeholder="Type something"></input-text> | Input with label & placeholder |
+| <input-text width="100%" label="Full Width"></input-text> | Full width with label |
 
 ## Code
 
-### Html
+#### Html
 ```html
 <input-text spellcheck></input-text>
 ```
 
-### JS
+#### JS
 ```js
 console.log('dog')
 ```
@@ -44,18 +33,18 @@ console.log('dog')
 | `disabled` | *boolean* | Makes the input disabled | *false* |
 | `spellcheck` | *boolean* | Enable spellcheck on the input | *false* |
 | `isinvalid` | *boolean* | Indicates input error | *false* |
+| `type` | *string* | Type of input (text, password, email) | *"text"* |
 | `placeholder` | *string* | Inserts placeholder text | *none* |
 | `width` | *number* | Width of the input | *300* |
-| `type` | *string* | Type of input (text, password, email) | *"text"* |
 
 ### Static Methods & Members
 
 | Method | Description |
 | :--- | :--- |
-| methodName() | Description |
+| `methodName()` | Description |
 
 ### Instance Methods & Members
 
 | Method | Description |
 | :--- | :--- |
-| methodName() | Description |
+| `methodName()` | Description |

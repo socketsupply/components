@@ -5,10 +5,6 @@ class InputText extends Tonic {
   constructor () {
     super()
     this.stylesheet = `
-      .wrapper {
-        display: inline-block;
-        margin-bottom: 15px;
-      }
       label {
         color: var(--medium);
         font-weight: 500;
@@ -19,25 +15,25 @@ class InputText extends Tonic {
         display: block;
       }
       input {
-        padding: 10px;
+        width: 100%;
         font: 14px 'Space-Mono', monospace;
+        padding: 10px;
         border: 1px solid var(--border);
+        border-radius: 3px;
+        transition: border 0.2s ease;
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
         outline: none;
-        border-radius: 3px;
-        transition: border 0.2s ease;
       }
       input:focus {
-        border: 1px solid var(--primary);
+        border-color: var(--primary);
       }
       `
 
     this.defaults = {
-      height: 32,
-      width: 300,
       type: 'text',
+      width: '250px',
       disabled: false,
       ariaInvalid: false,
       spellcheck: false,
@@ -61,8 +57,7 @@ class InputText extends Tonic {
       spellcheck,
       radius,
       ariaInvalid,
-      padding,
-      icon
+      padding
     } = { ...this.defaults, ...this.props }
 
     console.log(this.props)
@@ -70,6 +65,8 @@ class InputText extends Tonic {
     let style = []
     if (padding) style.push(`padding: ${padding}`)
     if (radius) style.push(`border-radius: ${radius}`)
+    if (width) style.push(`width: ${width}`)
+    if (height) style.push(`height: ${height}`)
     style = style.join('; ')
 
     return `
@@ -77,8 +74,6 @@ class InputText extends Tonic {
         ${this.renderLabel()}
         <input
           type="${type}"
-          width="${width}"
-          height="${height}"
           ${required ? 'required' : ''}
           ${disabled ? 'disabled' : ''}
           placeholder="${placeholder}"
@@ -86,7 +81,6 @@ class InputText extends Tonic {
           aria-invalid="${ariaInvalid}"
           style="${style}"
         />
-        <tonic-icon id="${icon}"></tonic-icon>
       </div>
     `
   }

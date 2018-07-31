@@ -3,7 +3,7 @@
       <head>
         <meta charset="utf-8">
         <title>Tonic: Component Based Architecture</title>
-        <link href="https://fonts.googleapis.com/css?family=Caudex|Poppins:500,600|Space+Mono" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Caudex|Poppins:400,600|Space+Mono" rel="stylesheet">
         <link href="index.css" rel="stylesheet">
       </head>
 
@@ -18,9 +18,34 @@
 <h2 id="demo">Demo</h2>
 <p><icon-container></icon-container></p>
 <h2 id="code">Code</h2>
+<h4 id="html">html</h4>
 <pre><code class="language-html">&lt;icon-container&gt;&lt;/icon-container&gt;</code></pre>
-<pre><code class="language-js">console.log(&#39;dog&#39;)</code></pre>
+<h4 id="js">js</h4>
+<pre><code class="language-js"></code></pre>
 <h2 id="api">Api</h2>
+<h3 id="properties">Properties</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>size</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Changes the width and height of the icon</td>
+<td align="left"><em>30px</em></td>
+</tr>
+<tr>
+<td align="left"><code>color</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Changes the color of the icon</td>
+<td align="left"><em>#000</em></td>
+</tr>
+</tbody></table>
 <h3 id="static-methods-members">Static Methods &amp; Members</h3>
 <table>
 <thead>
@@ -30,7 +55,7 @@
 </tr>
 </thead>
 <tbody><tr>
-<td align="left">methodName()</td>
+<td align="left"><code>methodName()</code></td>
 <td align="left">Description</td>
 </tr>
 </tbody></table>
@@ -43,50 +68,147 @@
 </tr>
 </thead>
 <tbody><tr>
-<td align="left">methodName()</td>
+<td align="left"><code>methodName()</code></td>
 <td align="left">Description</td>
 </tr>
 </tbody></table>
 </section><section><h1 id="inputcheckbox">InputCheckbox</h1>
-<p>Description</p>
+<p>The <code>InputCheckbox</code> is used to create a styled checkbox, with or without a label. You can also create a custom checkbox using SVG icons.</p>
 <h2 id="demo">Demo</h2>
-<p><input-checkbox
-  id="input-checkbox-example">
-</input-checkbox></p>
-<p><label id="input-checkbox-example-label">unchecked</label></p>
-<script>
-{
-  const checkbox = document.getElementById('input-checkbox-example')
-  const label = document.getElementById('input-checkbox-example-label')
-
-  checkbox.addEventListener('change', e => {
-    console.log('CHANGE!!!!!!!!!!!!')
-    label.textContent = checkbox.props.checked ? 'checked' : 'unchecked'
-  })
-}
-</script>
+<table>
+<thead>
+<tr>
+<th align="left">Example</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><input-checkbox id="input-checkbox-example"></input-checkbox></td>
+<td align="left">Default Checkbox</td>
+</tr>
+<tr>
+<td align="left"><input-checkbox id="input-checkbox-example-2" label="Label"></input-checkbox></td>
+<td align="left">Checkbox with label</td>
+</tr>
+<tr>
+<td align="left"><input-checkbox id="input-checkbox-example-3" label="Disabled" disabled></input-checkbox></td>
+<td align="left">Checkbox with label and <code>disabled</code> attribute</td>
+</tr>
+<tr>
+<td align="left"><input-checkbox id="input-checkbox-example-4" label="Disabled and Checked" disabled checked></input-checkbox></td>
+<td align="left">Checkbox with label and <code>disabled</code> &amp; <code>checked</code> attributes</td>
+</tr>
+<tr>
+<td align="left"><input-checkbox id="input-checkbox-example-5"></input-checkbox></td>
+<td align="left">Custom SVG Checkbox</td>
+</tr>
+</tbody></table>
+<h2 id="code">Code</h2>
+<h4 id="html">HTML</h4>
+<pre><code class="language-html">&lt;input-checkbox&gt;
+&lt;/input-checkbox&gt;</code></pre>
+<h4 id="js">js</h4>
+<pre><code class="language-js"></code></pre>
+<h2 id="api">Api</h2>
+<h3 id="properties">Properties</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>checked</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Changes the color of the icon</td>
+<td align="left"><em>#000</em></td>
+</tr>
+<tr>
+<td align="left"><code>size</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Changes the width and height of the icon</td>
+<td align="left"><em>30px</em></td>
+</tr>
+<tr>
+<td align="left"><code>color</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Changes the color of the icon</td>
+<td align="left"><em>#000</em></td>
+</tr>
+<tr>
+<td align="left"><code>id</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Changes the color of the icon</td>
+<td align="left"><em>none</em></td>
+</tr>
+<tr>
+<td align="left"><code>name</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Changes the color of the icon</td>
+<td align="left"><em>none</em></td>
+</tr>
+</tbody></table>
+<h3 id="static-methods-members">Static Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>addIcon(state, fn)</code></td>
+<td align="left">Add a custom SVG as the icon for the given state Where the <code>state</code> parameter is either <code>on</code> or <code>off</code> and the <code>fn</code> parameter is a function that returns your SVG&#39;s xml. The function will receive the color prop as an argument.</td>
+</tr>
+</tbody></table>
+<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
 </section><section><h1 id="inputtext">InputText</h1>
 <p>Any valid input HTML attribute can be passed to the <code>InputText</code> component.</p>
 <h2 id="demo">Demo</h2>
-<p><input-text label="Default"></input-text></p>
-<p><input-text
-  label="Default with Placeholder"
-  placeholder="Type something"
-  disabled>
-</input-text></p>
-<p><input-text
-  label="Invalid"
-  aria-invalid="true">
-</input-text></p>
-<p><input-text
-  label="Full width"
-  width="100%">
-</input-text></p>
+<table>
+<thead>
+<tr>
+<th align="left">Example</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><input-text></input-text></td>
+<td align="left">Default input (without label)</td>
+</tr>
+<tr>
+<td align="left"><input-text label="label"></input-text></td>
+<td align="left">Input with label</td>
+</tr>
+<tr>
+<td align="left"><input-text label="label" placeholder="Type something"></input-text></td>
+<td align="left">Input with label &amp; placeholder</td>
+</tr>
+<tr>
+<td align="left"><input-text width="100%" label="Full Width"></input-text></td>
+<td align="left">Full width with label</td>
+</tr>
+</tbody></table>
 <h2 id="code">Code</h2>
-<h3 id="html">Html</h3>
+<h4 id="html">Html</h4>
 <pre><code class="language-html">&lt;input-text spellcheck&gt;&lt;/input-text&gt;</code></pre>
-<h3 id="js">JS</h3>
-<pre><code class="language-js">console.log(&#39;dog&#39;)</code></pre>
+<h4 id="js">JS</h4>
+<pre><code class="language-js"></code></pre>
 <h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>
 <table>
@@ -150,7 +272,7 @@
 </tr>
 </thead>
 <tbody><tr>
-<td align="left">methodName()</td>
+<td align="left"><code>methodName()</code></td>
 <td align="left">Description</td>
 </tr>
 </tbody></table>
@@ -163,7 +285,7 @@
 </tr>
 </thead>
 <tbody><tr>
-<td align="left">methodName()</td>
+<td align="left"><code>methodName()</code></td>
 <td align="left">Description</td>
 </tr>
 </tbody></table>

@@ -7,9 +7,8 @@ class InputText extends Tonic {
     this.stylesheet = `%style%`
 
     this.defaults = {
-      height: 32,
-      width: 300,
       type: 'text',
+      width: '250px',
       disabled: false,
       ariaInvalid: false,
       spellcheck: false,
@@ -33,8 +32,7 @@ class InputText extends Tonic {
       spellcheck,
       radius,
       ariaInvalid,
-      padding,
-      icon
+      padding
     } = { ...this.defaults, ...this.props }
 
     console.log(this.props)
@@ -42,6 +40,8 @@ class InputText extends Tonic {
     let style = []
     if (padding) style.push(`padding: ${padding}`)
     if (radius) style.push(`border-radius: ${radius}`)
+    if (width) style.push(`width: ${width}`)
+    if (height) style.push(`height: ${height}`)
     style = style.join('; ')
 
     return `
@@ -49,8 +49,6 @@ class InputText extends Tonic {
         ${this.renderLabel()}
         <input
           type="${type}"
-          width="${width}"
-          height="${height}"
           ${required ? 'required' : ''}
           ${disabled ? 'disabled' : ''}
           placeholder="${placeholder}"
@@ -58,7 +56,6 @@ class InputText extends Tonic {
           aria-invalid="${ariaInvalid}"
           style="${style}"
         />
-        <tonic-icon id="${icon}"></tonic-icon>
       </div>
     `
   }

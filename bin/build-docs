@@ -14,7 +14,7 @@ function page (toc, sections) {
       <head>
         <meta charset="utf-8">
         <title>Tonic: Component Based Architecture</title>
-        <link href="https://fonts.googleapis.com/css?family=Caudex|Poppins:500,600|Space+Mono" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Caudex|Poppins:400,600|Space+Mono" rel="stylesheet">
         <link href="index.css" rel="stylesheet">
       </head>
 

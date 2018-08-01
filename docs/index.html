@@ -99,18 +99,25 @@
 
           <section id="contenttooltip"><h1 id="contenttooltip">ContentTooltip</h1>
 <h2 id="demo">Demo</h2>
-<table>
-<thead>
-<tr>
-<th align="left">Example</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><content-tooltip id="hello">Hello, World</content-tooltip></td>
-<td align="left">Default</td>
-</tr>
-</tbody></table>
+<table class="example">
+  <thead>
+    <tr>
+      <th>Example</th>
+      <th>Description</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><content-tooltip id="hello">Hello, World</content-tooltip></td>
+      <td>Default content box</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
 <style>
   .tooltip {
     background: blue;
@@ -123,17 +130,21 @@
 </section><section id="dialogbox"><h1 id="dialogbox">DialogBox</h1>
 <p>The component <code>DialogBox</code> is used to create a dialog that displays content on top of an overlay.</p>
 <h2 id="demo">Demo</h2>
-<table>
+<table class="example">
   <thead>
     <tr>
       <th>Example</th>
       <th>Description</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>Click me</td>
       <td>Default dialog box</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
   </tbody>
 </table>
@@ -185,32 +196,45 @@
 </section><section id="iconcontainer"><h1 id="iconcontainer">IconContainer</h1>
 <p>The component <code>IconContainer</code> is used to create an SVG icon with a custom size and color.</p>
 <h2 id="demo">Demo</h2>
-<table>
+<table class="example">
   <thead>
     <tr>
       <th>Example</th>
       <th>Description</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><icon-container></icon-container></td>
-      <td>Default Icon (30px)</td>
+      <td>Default Icon (25px)</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
     <tr>
       <td><icon-container color="#f06653"></icon-container></td>
-      <td>Icon with color (30px)</td>
+      <td>Icon with color (25px)</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
     <tr>
       <td><icon-container size="60px"></icon-container></td>
       <td>Large Icon (60px)</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
     <tr>
       <td>
-        <icon-container size="60px src="../docs/sprite.svg#custom">
+        <icon-container size="60px" src="./sprite.svg#custom">
         </icon-container>
       </td>
-      <td>Large Icon (60px)</td>
+      <td>Custom Icon (60px)</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
   </tbody>
 </table>
@@ -230,13 +254,19 @@
 <td align="left"><code>size</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">Changes the width and height of the icon</td>
-<td align="left"><em>30px</em></td>
+<td align="left"><em>25px</em></td>
 </tr>
 <tr>
 <td align="left"><code>color</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">Changes the color of the icon</td>
 <td align="left"><em>#000</em></td>
+</tr>
+<tr>
+<td align="left"><code>src</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Allow a custom icon from a sprite</td>
+<td align="left"><em>./sprite.svg#example</em></td>
 </tr>
 </tbody></table>
 <h3 id="static-methods-members">Static Methods &amp; Members</h3>
@@ -268,37 +298,49 @@
 </section><section id="inputbutton"><h1 id="inputbutton">InputButton</h1>
 <p>The component <code>InputButton</code> creates a button.</p>
 <h2 id="demo">Demo</h2>
-<table>
+<table class="example">
   <thead>
     <tr>
       <th>Example</th>
       <th>Description</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><input-button></input-button></td>
       <td>Default button</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
     <tr>
       <td><input-button fill="var(--accent)" text-color="white"></input-button></td>
       <td>Fill button</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
     <tr>
       <td><input-button disabled="true"></input-button></td>
       <td>Button with <code>disabled</code> attribute</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
     <tr>
       <td><input-button value="Click me"></input-button></td>
       <td>Loading button</td>
-    </tr>
-    <tr>
-      <td><input-button radius="50px"></input-button></td>
-      <td>Rounded button</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
     <tr>
       <td><input-button width="100%"></input-button></td>
       <td>Full width button</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
   </tbody>
 </table>
@@ -422,11 +464,12 @@
 </section><section id="inputcheckbox"><h1 id="inputcheckbox">InputCheckbox</h1>
 <p>The component <code>InputCheckbox</code> is used to create a styled checkbox, with or without a label. You can also create a custom checkbox using SVG icons.</p>
 <h2 id="demo">Demo</h2>
-<table>
+<table class="example">
   <thead>
     <tr>
       <th>Example</th>
       <th>Description</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -435,6 +478,9 @@
         <input-checkbox></input-checkbox>
       </td>
       <td>Default Checkbox</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
     <tr>
       <td>
@@ -444,6 +490,9 @@
         </input-checkbox>
       </td>
       <td>Checkbox with Label</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
     <tr>
       <td>
@@ -454,6 +503,9 @@
         </input-checkbox>
       </td>
       <td>Checkbox with label and <code>disabled</code> attribute</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
     <tr>
       <td>
@@ -465,6 +517,9 @@
         </input-checkbox>
       </td>
       <td>Checkbox with label and <code>disabled</code> & <code>checked</code> attributes</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
     <tr>
       <td>
@@ -476,6 +531,9 @@
         </input-checkbox>
       </td>
       <td>Custom SVG Checkbox</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
   </tbody>
 </table>
@@ -557,37 +615,85 @@
 </section><section id="inputtext"><h1 id="inputtext">InputText</h1>
 <p>The component <code>InputText</code> creates an input, with or without a label.</p>
 <h2 id="demo">Demo</h2>
-<table>
+<table class="example">
   <thead>
     <tr>
       <th>Example</th>
       <th>Description</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><input-text></input-text></td>
       <td>Default input (without label)</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
     <tr>
-      <td><input-text label="label"></input-text></td>
+      <td>
+        <input-text label="label">
+        </input-text>
+      </td>
       <td>Input with label</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input-text
+          src="./sprite.svg#example"
+          position="left"
+          label="Input with Icon">
+        </input-text>
+      </td>
+      <td>Input with label and icon (left)</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input-text
+          src="./sprite.svg#example"
+          position="right"
+          label="Input with Icon">
+        </input-text>
+      </td>
+      <td>Input with label and icon (right)</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
     <tr>
       <td><input-text label="Disabled Input" disabled></input-text></td>
       <td>Input with label and <code>disabled</code> attribute</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
     <tr>
       <td><input-text label="Input with Placeholder" placeholder="Type something"></input-text></td>
       <td>Input with label & placeholder</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
     <tr>
       <td><input-text label="Input with Value" value="Value"></input-text></td>
       <td>Input with label & value</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
     <tr>
       <td><input-text width="100%" label="Full Width"></input-text></td>
       <td>Full width with label</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
   </tbody>
 </table>
@@ -687,29 +793,42 @@
 </section><section id="inputtextarea"><h1 id="inputtextarea">InputTextarea</h1>
 <p>The component <code>InputTextarea</code> creates a text area.</p>
 <h2 id="demo">Demo</h2>
-<table>
+<table class="example">
   <thead>
     <tr>
       <th>Example</th>
       <th>Description</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><input-textarea></input-textarea></td>
       <td>Default Text area</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
     <tr>
       <td><input-textarea resize="none"></input-textarea></td>
       <td>Text area without resize</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
     <tr>
       <td><input-textarea placeholder="Type in me"></input-textarea></td>
       <td>Default Text area with placeholder</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
     <tr>
       <td><input-textarea label="Label"></input-textarea></td>
       <td>Text area with label</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
   </tbody>
 </table>
@@ -851,25 +970,35 @@
 </section><section id="inputtoggle"><h1 id="inputtoggle">InputToggle</h1>
 <p>The component <code>InputToggle</code> creates a toggle.</p>
 <h2 id="demo">Demo</h2>
-<table>
+<table class="example">
   <thead>
     <tr>
       <th>Example</th>
       <th>Description</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><input-toggle id="toggle-example-1"></input-toggle></td>
       <td>Default toggle</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
     <tr>
       <td><input-toggle id="toggle-example-2" label="Label"></input-toggle></td>
       <td>Toggle with label</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
     <tr>
       <td><input-toggle id="toggle-example-3" label="Disabled" disabled></input-toggle></td>
       <td>Toggle with <code>disabled</code> attribute and label</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
   </tbody>
 </table>

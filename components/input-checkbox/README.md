@@ -4,11 +4,12 @@ The component `InputCheckbox` is used to create a styled checkbox, with or witho
 
 ## Demo
 
-<table>
+<table class="example">
   <thead>
     <tr>
       <th>Example</th>
       <th>Description</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -17,6 +18,9 @@ The component `InputCheckbox` is used to create a styled checkbox, with or witho
         <input-checkbox></input-checkbox>
       </td>
       <td>Default Checkbox</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
     <tr>
       <td>
@@ -26,6 +30,9 @@ The component `InputCheckbox` is used to create a styled checkbox, with or witho
         </input-checkbox>
       </td>
       <td>Checkbox with Label</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
     <tr>
       <td>
@@ -36,6 +43,9 @@ The component `InputCheckbox` is used to create a styled checkbox, with or witho
         </input-checkbox>
       </td>
       <td>Checkbox with label and <code>disabled</code> attribute</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
     <tr>
       <td>
@@ -47,6 +57,9 @@ The component `InputCheckbox` is used to create a styled checkbox, with or witho
         </input-checkbox>
       </td>
       <td>Checkbox with label and <code>disabled</code> & <code>checked</code> attributes</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
     <tr>
       <td>
@@ -58,6 +71,9 @@ The component `InputCheckbox` is used to create a styled checkbox, with or witho
         </input-checkbox>
       </td>
       <td>Custom SVG Checkbox</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
   </tbody>
 </table>

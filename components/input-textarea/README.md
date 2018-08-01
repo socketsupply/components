@@ -4,29 +4,42 @@ The component `InputTextarea` creates a text area.
 
 ## Demo
 
-<table>
+<table class="example">
   <thead>
     <tr>
       <th>Example</th>
       <th>Description</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><input-textarea></input-textarea></td>
       <td>Default Text area</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
     <tr>
       <td><input-textarea resize="none"></input-textarea></td>
       <td>Text area without resize</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
     <tr>
       <td><input-textarea placeholder="Type in me"></input-textarea></td>
       <td>Default Text area with placeholder</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
     <tr>
       <td><input-textarea label="Label"></input-textarea></td>
       <td>Text area with label</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
   </tbody>
 </table>

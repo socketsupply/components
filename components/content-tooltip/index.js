@@ -12,7 +12,7 @@ class ContentTooltip extends Tonic {
       :host span {
         all: inherit;
       }
-      :host span #tooltip {
+      :host span .tooltip {
         background: #fff;
         opacity: 0;
         position: absolute;
@@ -21,11 +21,11 @@ class ContentTooltip extends Tonic {
         border-radius: 2px;
         box-shadow: 0px 30px 90px -20px rgba(0,0,0,0.3), 0 0 1px #a2a9b1;
       }
-      :host span #tooltip.show {
+      :host span .tooltip.show {
         opacity: 1;
         z-index: 1;
       }
-      :host span #tooltip.arrow-top:after {
+      :host span .tooltip.arrow-top:after {
         bottom: 100%;
         left: 50%;
         border: solid transparent;

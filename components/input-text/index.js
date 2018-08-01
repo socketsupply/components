@@ -5,6 +5,19 @@ class InputText extends Tonic {
   constructor () {
     super()
     this.stylesheet = `
+      .wrapper {
+        position: relative;
+      }
+      .wrapper.right icon-container {
+        right: 10px;
+      }
+      .wrapper.left icon-container {
+        left: 10px;
+      }
+      icon-container {
+        position: absolute;
+        bottom: 7px;
+      }
       label {
         color: var(--medium);
         font-weight: 500;
@@ -38,13 +51,25 @@ class InputText extends Tonic {
       spellcheck: false,
       ariaInvalid: false,
       disabled: false,
-      width: '250px'
+      width: '250px',
+      position: 'right'
     }
   }
 
   renderLabel () {
     if (!this.props.label) return ''
     return `<label>${this.props.label}</label>`
+  }
+
+  renderIcon () {
+    if (!this.props.src) return ''
+
+    return `
+      <icon-container
+        src="${this.props.src}"
+        color="${this.props.color}">
+      </icon-container>
+    `
   }
 
   render () {
@@ -61,7 +86,9 @@ class InputText extends Tonic {
       width,
       height,
       padding,
-      radius
+      radius,
+      color,
+      position
     } = { ...this.defaults, ...this.props }
 
     const idAttr = id ? `id="${id}"` : ''
@@ -79,8 +106,10 @@ class InputText extends Tonic {
     style = style.join('; ')
 
     return `
-      <div class="wrapper">
+      <div class="wrapper ${position}" style="${style}">
         ${this.renderLabel()}
+        ${this.renderIcon()}
+
         <input
           ${idAttr}
           ${nameAttr}

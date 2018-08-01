@@ -13,18 +13,32 @@ class ContentTooltip extends Tonic {
       :host span {
         all: inherit;
       }
-      :host span #tooltip {
+      :host span .tooltip {
         background: #fff;
         opacity: 0;
         position: absolute;
         z-index: -1;
         transition: all 0.3s;
         border-radius: 2px;
-        box-shadow: 0px 0px 10px rgba(0,0,0,0.4);
+        box-shadow: 0px 30px 90px -20px rgba(0,0,0,0.3), 0 0 1px #a2a9b1;
       }
-      :host span #tooltip.show {
+      :host span .tooltip.show {
         opacity: 1;
         z-index: 1;
+      }
+      :host span .tooltip.arrow-top:after {
+        bottom: 100%;
+        left: 50%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+        border-color: rgba(255,255,255,0);
+        border-bottom-color: #fff;
+        border-width: 30px;
+        margin-left: -30px;
       }
       `
 
@@ -69,7 +83,7 @@ class ContentTooltip extends Tonic {
 
     const tooltip = document.createElement('div')
     tooltip.id = 'tooltip'
-    tooltip.className = 'tooltip'
+    tooltip.className = 'tooltip arrow-top'
     tooltip.setAttribute('style', style.join(''))
     const template = document.querySelector(`template[for="${id}"]`)
     const clone = document.importNode(template.content, true)
@@ -135,21 +149,29 @@ class IconContainer extends Tonic {
       `
 
     this.defaults = {
-      size: '30px',
-      color: '#000'
+      size: '25px',
+      color: '#000',
+      src: './sprite.svg#example'
     }
   }
 
   render () {
-    const {
+    let {
       color,
-      size
+      size,
+      src
     } = { ...this.defaults, ...this.props }
+
+    if (color === 'undefined' || color === 'color') {
+      color = this.defaults.color
+    }
+
+    const style = `fill: ${color}; color: ${color};`
 
     return `
       <div class="wrapper" style="width: ${size}; height: ${size};">
-        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 100 100" xml:space="preserve">
-          <path fill="${color}" d="M59.5,10H17.2v80.3h65.2V32L59.5,10z M60.2,19l13.2,12.7H60.2V19z M23.2,84.3V16h31v21.7h22.1v46.6H23.2z"/>
+        <svg>
+          <use xlink:href="${src}" style="${style}">
         </svg>
       </div>
     `
@@ -377,6 +399,19 @@ class InputText extends Tonic {
   constructor () {
     super()
     this.stylesheet = `
+      .wrapper {
+        position: relative;
+      }
+      .wrapper.right icon-container {
+        right: 10px;
+      }
+      .wrapper.left icon-container {
+        left: 10px;
+      }
+      icon-container {
+        position: absolute;
+        bottom: 7px;
+      }
       label {
         color: var(--medium);
         font-weight: 500;
@@ -410,13 +445,25 @@ class InputText extends Tonic {
       spellcheck: false,
       ariaInvalid: false,
       disabled: false,
-      width: '250px'
+      width: '250px',
+      position: 'right'
     }
   }
 
   renderLabel () {
     if (!this.props.label) return ''
     return `<label>${this.props.label}</label>`
+  }
+
+  renderIcon () {
+    if (!this.props.src) return ''
+
+    return `
+      <icon-container
+        src="${this.props.src}"
+        color="${this.props.color}">
+      </icon-container>
+    `
   }
 
   render () {
@@ -433,7 +480,9 @@ class InputText extends Tonic {
       width,
       height,
       padding,
-      radius
+      radius,
+      color,
+      position
     } = { ...this.defaults, ...this.props }
 
     const idAttr = id ? `id="${id}"` : ''
@@ -451,8 +500,10 @@ class InputText extends Tonic {
     style = style.join('; ')
 
     return `
-      <div class="wrapper">
+      <div class="wrapper ${position}" style="${style}">
         ${this.renderLabel()}
+        ${this.renderIcon()}
+
         <input
           ${idAttr}
           ${nameAttr}
@@ -939,7 +990,7 @@ class Tonic extends window.HTMLElement {
   connectedCallback () {
     for (let { name, value } of this.attributes) {
       name = name.replace(/-(.)/gui, (_, m) => m.toUpperCase())
-      this.props[name] = value || name
+      this.props[name] = value || (typeof value === 'undefined' ? '' : name)
     }
 
     if (this.props.data) {

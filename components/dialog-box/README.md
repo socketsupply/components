@@ -3,17 +3,21 @@ The component `DialogBox` is used to create a dialog that displays content on to
 
 ## Demo
 
-<table>
+<table class="example">
   <thead>
     <tr>
       <th>Example</th>
       <th>Description</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>Click me</td>
       <td>Default dialog box</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
   </tbody>
 </table>

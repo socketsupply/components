@@ -85,6 +85,10 @@ table {
   border: 1px solid var(--border);
   text-align: left;
 }
+table.example td:last-of-type,
+table.example th:last-of-type {
+  width: 50px;
+}
 th {
   font: 13px/16px 'Poppins', monospace;
   font-weight: 400;
@@ -98,10 +102,10 @@ th {
 td {
   line-height: 22px;
   padding: 15px;
-  border-right: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
 }
 td:not(:first-of-type) {
+  border-left: 1px solid var(--border);
   -webkit-user-select: none;
   -moz-user-select: none;
   user-select: none;

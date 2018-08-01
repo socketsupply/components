@@ -4,37 +4,49 @@ The component `InputButton` creates a button.
 
 ## Demo
 
-<table>
+<table class="example">
   <thead>
     <tr>
       <th>Example</th>
       <th>Description</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><input-button></input-button></td>
       <td>Default button</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
     <tr>
       <td><input-button fill="var(--accent)" text-color="white"></input-button></td>
       <td>Fill button</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
     <tr>
       <td><input-button disabled="true"></input-button></td>
       <td>Button with <code>disabled</code> attribute</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
     <tr>
       <td><input-button value="Click me"></input-button></td>
       <td>Loading button</td>
-    </tr>
-    <tr>
-      <td><input-button radius="50px"></input-button></td>
-      <td>Rounded button</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
     <tr>
       <td><input-button width="100%"></input-button></td>
       <td>Full width button</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
     </tr>
   </tbody>
 </table>

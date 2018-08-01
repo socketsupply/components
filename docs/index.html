@@ -103,16 +103,17 @@
 </tr>
 </thead>
 <tbody><tr>
-<td align="left"><content-tooltip id="hello" text="Hello, World"></content-tooltip></td>
+<td align="left"><content-tooltip id="hello">Hello, World</content-tooltip></td>
 <td align="left">Default</td>
 </tr>
 </tbody></table>
+<style>
+  .tooltip {
+    background: blue;
+  }
+</style>
+
 <template for="hello">
-  <style>
-    div {
-      background: red;
-    }
-  </style>
   <h1>Hello</h1>
 </template>
 </section><section id="iconcontainer"><h1 id="iconcontainer">IconContainer</h1>

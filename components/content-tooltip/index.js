@@ -9,12 +9,17 @@ class ContentTooltip extends Tonic {
         position: relative;
         display: inline-block;
       }
+      :host span {
+        all: inherit;
+      }
       :host span #tooltip {
+        background: #fff;
         opacity: 0;
         position: absolute;
         z-index: -1;
         transition: all 0.3s;
-        box-shadow: 4px 0px 8px rgba(0,0,0,0.4);
+        border: radius 2px;
+        box-shadow: 0px 0px 10px rgba(0,0,0,0.4);
       }
       :host span #tooltip.show {
         opacity: 1;
@@ -28,53 +33,49 @@ class ContentTooltip extends Tonic {
     }
   }
 
-  show () {
-    console.log('show')
-    this.tooltip.classList.add('show')
-  }
-
-  hide () {
-    console.log('hide')
-    this.tooltip.classList.remove('show')
-  }
-
   mouseenter (e) {
-    this.show()
+    const tooltip = this.root.getElementById('tooltip')
+    tooltip.classList.add('show')
   }
 
   mouseleave (e) {
-    this.hide()
+    const tooltip = this.root.getElementById('tooltip')
+    tooltip.classList.remove('show')
   }
 
   willConnect () {
-    const id = this.getAttribute('id')
-    this.text = this.getAttribute('text')
-    while (this.firstChild) this.firstChild.remove()
-    this.template = document.querySelector(`template[for="${id}"]`)
-  }
-
-  connected () {
-    this.tooltip = this.root.getElementById('tooltip')
-  }
-
-  render () {
     const {
       width,
       height
     } = { ...this.defaults, ...this.props }
 
-    const style = []
+    const id = this.getAttribute('id')
+    this.text = this.getAttribute('text')
 
+    const style = []
     if (width) style.push(`width: ${width};`)
     if (height) style.push(`height: ${height};`)
 
-    return `
-      <span id="text">${this.text.trim()}
-        <div id="tooltip" class="content" style="${style.join('')}">
-          ${this.template.innerHTML}
-        </div>
-      </span>
-    `
+    const span = document.createElement('span')
+    span.textContent = this.innerHTML
+    span.id = 'text'
+
+    while (this.firstChild) this.firstChild.remove()
+
+    const tooltip = document.createElement('div')
+    tooltip.id = 'tooltip'
+    tooltip.className = 'tooltip'
+    tooltip.setAttribute('style', style.join(''))
+    const template = document.querySelector(`template[for="${id}"]`)
+    const clone = document.importNode(template.content, true)
+    tooltip.appendChild(clone)
+    span.appendChild(tooltip)
+    this.root.appendChild(span)
+    this.structure = span
+  }
+
+  render () {
+    return this.structure
   }
 }
 

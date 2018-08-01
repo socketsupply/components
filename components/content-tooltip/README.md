@@ -4,13 +4,14 @@
 
 | Example | Description |
 | :--- | :--- |
-| <content-tooltip id="hello" text="Hello, World"></content-tooltip> | Default |
+| <content-tooltip id="hello">Hello, World</content-tooltip> | Default |
+
+<style>
+  .tooltip {
+    background: blue;
+  }
+</style>
 
 <template for="hello">
-  <style>
-    div {
-      background: red;
-    }
-  </style>
   <h1>Hello</h1>
 </template>

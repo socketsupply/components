@@ -17,12 +17,12 @@ The component `InputToggle` creates a toggle.
       <td>Default toggle</td>
     </tr>
     <tr>
-      <td><input-toggle id="toggle-example-2"></input-toggle></td>
+      <td><input-toggle id="toggle-example-2" label="Label"></input-toggle></td>
       <td>Toggle with label</td>
     </tr>
     <tr>
-      <td><input-toggle id="toggle-example-3" disabled></input-toggle></td>
-      <td>Toggle with <code>disabled</code> attribute</td>
+      <td><input-toggle id="toggle-example-3" label="Disabled" disabled></input-toggle></td>
+      <td>Toggle with <code>disabled</code> attribute and label</td>
     </tr>
   </tbody>
 </table>

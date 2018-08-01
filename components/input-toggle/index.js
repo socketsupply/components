@@ -10,8 +10,17 @@ class InputToggle extends Tonic {
         width: 47px;
         position: relative;
       }
+      .wrapper > label {
+        color: var(--medium);
+        font-weight: 500;
+        font: 12px/14px 'Poppins', sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-left: 58px;
+        padding-top: 9px;
+        display: block;
+      }
       .switch {
-        display: inline-table;
         position: absolute;
         left: 0;
         top: 0;
@@ -62,7 +71,7 @@ class InputToggle extends Tonic {
         top: 4px;
         left: 4px;
         bottom: 4px;
-        background-color: var(--background);
+        background-color: #fff;
         border-radius: 52px;
         transition: margin 0.4s, background 0.4s;
         display: block;
@@ -70,18 +79,17 @@ class InputToggle extends Tonic {
       }
       .switch input.toggle:disabled {
         cursor: default;
+        background-color: var(--background);
       }
       .switch input.toggle:disabled + label {
-        color: var(--disabled);
         cursor: default;
-        background-color: var(--disabled);
+        background-color: var(--background);
       }
-      .switch input.toggle:disabled + label:before,
-      .switch input.toggle:disabled + label:after {
-        color: var(--disabled);
+      .switch input.toggle:disabled + label:before {
+        background-color: var(--background);
       }
       .switch input.toggle:disabled + label:after {
-        background-color: var(--disabled);
+        background-color: #fff;
       }
       .switch input.toggle:checked + label {
         background-color: var(--accent);
@@ -98,7 +106,6 @@ class InputToggle extends Tonic {
       `
 
     this.defaults = {
-      disabled: false,
       checked: false
     }
   }
@@ -109,7 +116,7 @@ class InputToggle extends Tonic {
 
   renderLabel () {
     if (!this.props.label) return ''
-    return `<label>${this.props.label}</label>`
+    return `<label for="${this.props.id}">${this.props.label}</label>`
   }
 
   render () {

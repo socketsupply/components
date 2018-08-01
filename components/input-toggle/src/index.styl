@@ -3,8 +3,17 @@
   width 47px
   position relative
 
+  > label
+    color var(--medium)
+    font-weight 500
+    font 12px/14px 'Poppins', sans-serif
+    text-transform uppercase
+    letter-spacing 1px
+    margin-left 58px
+    padding-top 9px
+    display block
+
 .switch
-  display inline-table
   position absolute
   left 0
   top 0
@@ -56,7 +65,7 @@
         top 4px
         left 4px
         bottom 4px
-        background-color var(--background)
+        background-color white
         border-radius 52px
         transition margin 0.4s, background 0.4s
         display block
@@ -64,15 +73,14 @@
 
     &:disabled
       cursor default
+      background-color var(--background)
       & + label
-        color var(--disabled)
         cursor default
-        background-color var(--disabled)
-        &:before,
+        background-color var(--background)
+        &:before
+          background-color var(--background)
         &:after
-          color var(--disabled)
-        &:after
-          background-color var(--disabled)
+          background-color white
 
     &:checked + label
       background-color var(--accent)

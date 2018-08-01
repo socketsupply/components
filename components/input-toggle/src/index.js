@@ -7,7 +7,6 @@ class InputToggle extends Tonic {
     this.stylesheet = `%style%`
 
     this.defaults = {
-      disabled: false,
       checked: false
     }
   }
@@ -18,7 +17,7 @@ class InputToggle extends Tonic {
 
   renderLabel () {
     if (!this.props.label) return ''
-    return `<label>${this.props.label}</label>`
+    return `<label for="${this.props.id}">${this.props.label}</label>`
   }
 
   render () {

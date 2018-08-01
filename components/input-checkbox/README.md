@@ -42,14 +42,20 @@ The component `InputCheckbox` is used to create a styled checkbox, with or witho
         <input-checkbox
           id="input-checkbox-example-4"
           label="Disabled and Checked"
-          disabled checked>
+          disabled
+          checked>
         </input-checkbox>
       </td>
       <td>Checkbox with label and <code>disabled</code> & <code>checked</code> attributes</td>
     </tr>
     <tr>
       <td>
-        <input-checkbox id="input-checkbox-example-5"></input-checkbox>
+        <input-checkbox
+          id="input-checkbox-example-5"
+          size="25px"
+          on="./sprite.svg#custom_on"
+          off="./sprite.svg#custom_off">
+        </input-checkbox>
       </td>
       <td>Custom SVG Checkbox</td>
     </tr>

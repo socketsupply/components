@@ -31,11 +31,12 @@ The component `InputToggle` creates a toggle.
 
 ### Properties
 
-Note: `id` is required
-
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
+| `id` | *string* | Adds the <code>id</code> attribute <span class="req">required</span> | |
+| `name` | *string* | Adds the <code>name</code> attributes | |
 | `disabled` | *boolean* | Makes the toggle disabled | *false* |
+| `checked` | *boolean* | Turns the toggle "on" | *false* |
 
 ### Static Methods & Members
 

@@ -37,21 +37,22 @@ The component `InputTextarea` creates a text area.
 
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
-| `disabled` | *boolean* | Makes the toggle resizable | *falsen* |
-| `required` | *boolean* | Set textarea to required | *false* |
-| `readonly` | *boolean* | Set textarea to readonly | *false* |
-| `autofocus` | *boolean* | Enable Autofocus | *false* |
+| `id` | *string* | Text area with `id` attribute | |
+| `name` | *string* | Text area with `name` attribute | |
+| `placeholder` | *string* | Add placeholder to text area |  |
 | `spellcheck` | *boolean* | Enable spellcheck | *true* |
-| `placeholder` | *string* | Add placeholder to textarea | *''* |
-| `resize` | *string* | Set to "none" to disable resize | *''* |
-| `name` | *string* | Add name to textarea | *''* |
-| `rows` | *string* | Set number of rows | *''* |
-| `cols` | *string* | Set number of columns | *''* |
-| `minlength` | *string* | Set minimum character length | *''* |
-| `maxlength` | *string* | Set maximum character length | *''* |
-| `width` | *string* | Set width of textarea | *''* |
-| `height` | *string* | Set height of textarea | *''* |
-| `radius` | *string* | Set radius of textarea | *''* |
+| `disabled` | *boolean* | Text area with `disabled` attribute | *false* |
+| `required` | *boolean* | Set text area to `required` | *false* |
+| `readonly` | *boolean* | Set text area to readonly | *false* |
+| `autofocus` | *boolean* | Enable `autofocus` on the text area | *false* |
+| `rows` | *string* | Set number of rows |  |
+| `cols` | *string* | Set number of columns |  |
+| `minlength` | *string* | Set minimum character length |  |
+| `maxlength` | *string* | Set maximum character length |  |
+| `width` | *string* | Set width of text area |  |
+| `height` | *string* | Set height of text area |  |
+| `radius` | *string* | Set radius of text area |  |
+| `resize` | *string* | Set to `none` to disable resize | |
 
 ### Static Methods & Members
 

@@ -45,13 +45,15 @@ The component `InputText` creates an input, with or without a label.
 
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
+| `id` | *string* | Input with `id` attribute | |
+| `name` | *string* | Input with `name` attribute | |
+| `type` | *string* | Type of input (text, password, email) | *text* |
 | `required` | *boolean* | Makes the input required | *false* |
 | `disabled` | *boolean* | Makes the input disabled | *false* |
 | `spellcheck` | *boolean* | Enable spellcheck on the input | *false* |
 | `isinvalid` | *boolean* | Indicates input error | *false* |
-| `type` | *string* | Type of input (text, password, email) | *"text"* |
 | `placeholder` | *string* | Inserts placeholder text | *none* |
-| `width` | *string* | Width of the input | *"250px"* |
+| `width` | *string* | Width of the input | *250px* |
 
 ### Static Methods & Members
 

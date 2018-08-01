@@ -8,32 +8,33 @@ class InputButton extends Tonic {
 
     this.defaults = {
       value: 'Submit',
-      radius: '2px',
-      height: '38px',
-      width: '150px',
+      type: 'submit',
       disabled: false,
       autofocus: false,
-      type: 'submit'
+      height: '38px',
+      width: '150px',
+      radius: '2px'
     }
   }
 
   render () {
     const {
-      type,
-      value,
+      id,
       name,
+      value,
+      type,
       disabled,
       autofocus,
       isLoading,
       isActive,
       width,
       height,
-      padding,
+      radius,
       fill,
-      textColor,
-      radius
+      textColor
     } = { ...this.defaults, ...this.props }
 
+    const idAttr = id ? `id="${id}"` : ''
     const nameAttr = name ? `name="${name}"` : ''
     const valueAttr = value ? `value="${value}"` : ''
     const typeAttr = type ? `type="${type}"` : ''
@@ -41,23 +42,25 @@ class InputButton extends Tonic {
     let style = []
     if (width) style.push(`width: ${width}`)
     if (height) style.push(`height: ${height}`)
-    if (fill) style.push(`background-color: ${fill}`)
-    if (fill) style.push(`border-color: ${fill}`)
-    if (textColor) style.push(`color: ${textColor}`)
-    if (padding) style.push(`padding: ${padding}`)
     if (radius) style.push(`border-radius: ${radius}`)
+    if (fill) {
+      style.push(`background-color: ${fill}`)
+      style.push(`border-color: ${fill}`)
+    }
+    if (textColor) style.push(`color: ${textColor}`)
     style = style.join('; ')
 
     return `
       <div class="wrapper">
         <button
-          ${typeAttr}
-          ${valueAttr}
+          ${idAttr}
           ${nameAttr}
-          ${autofocus ? 'autofocus' : ''}
+          ${valueAttr}
+          ${typeAttr}
           ${disabled ? 'disabled' : ''}
-          ${isLoading ? 'loading' : ''}
-          ${isActive ? 'active' : ''}
+          ${autofocus ? 'autofocus' : ''}
+          ${isLoading ? 'class="loading"' : ''}
+          ${isActive ? 'class="active"' : ''}
           style="${style}">${value}</button>
       </div>
     `

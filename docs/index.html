@@ -203,7 +203,6 @@
 
 <h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>
-<p>Value is required.</p>
 <table>
 <thead>
 <tr>
@@ -214,28 +213,82 @@
 </tr>
 </thead>
 <tbody><tr>
-<td align="left"><code>disabled</code></td>
-<td align="left"><em>boolean</em></td>
-<td align="left">Makes the button disabled</td>
-<td align="left"><em>false</em></td>
+<td align="left"><code>id</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Button with <code>id</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>name</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Button with a <code>name</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>value</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Value of the button <span class="req">required</span></td>
+<td align="left"><em>Submit</em></td>
 </tr>
 <tr>
 <td align="left"><code>type</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">Type of button (i.e. submit)</td>
-<td align="left"><em>&quot;text&quot;</em></td>
+<td align="left"><em>submit</em></td>
+</tr>
+<tr>
+<td align="left"><code>disabled</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Button with the <code>disabled</code> attribute</td>
+<td align="left"><em>false</em></td>
+</tr>
+<tr>
+<td align="left"><code>autofocus</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Button with the <code>autofocus</code> attribute</td>
+<td align="left"><em>false</em></td>
+</tr>
+<tr>
+<td align="left"><code>isLoading</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Loading button</td>
+<td align="left"><em>false</em></td>
+</tr>
+<tr>
+<td align="left"><code>isActive</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Active button</td>
+<td align="left"><em>false</em></td>
 </tr>
 <tr>
 <td align="left"><code>width</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">Width of the button</td>
-<td align="left"><em>300</em></td>
+<td align="left"><em>150px</em></td>
 </tr>
 <tr>
-<td align="left"><code>value</code></td>
+<td align="left"><code>height</code></td>
 <td align="left"><em>string</em></td>
-<td align="left">Value of the button</td>
-<td align="left"><em>Submit</em></td>
+<td align="left">Height of the button</td>
+<td align="left"><em>38px</em></td>
+</tr>
+<tr>
+<td align="left"><code>radius</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Radius of the button</td>
+<td align="left"><em>2px</em></td>
+</tr>
+<tr>
+<td align="left"><code>fill</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Filled button</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>textColor</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">TextColor of the button</td>
+<td align="left"></td>
 </tr>
 </tbody></table>
 <h3 id="static-methods-members">Static Methods &amp; Members</h3>
@@ -331,34 +384,40 @@
 </tr>
 </thead>
 <tbody><tr>
+<td align="left"><code>id</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds <code>id</code> attribute</td>
+<td align="left"><em>none</em></td>
+</tr>
+<tr>
+<td align="left"><code>name</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds <code>name</code> attribute</td>
+<td align="left"><em>none</em></td>
+</tr>
+<tr>
+<td align="left"><code>disabled</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Adds <code>disabled</code> attribute</td>
+<td align="left"><em>#000</em></td>
+</tr>
+<tr>
 <td align="left"><code>checked</code></td>
 <td align="left"><em>boolean</em></td>
-<td align="left">Changes the color of the icon</td>
+<td align="left">Adds <code>checked</code> attribute</td>
 <td align="left"><em>#000</em></td>
 </tr>
 <tr>
 <td align="left"><code>size</code></td>
 <td align="left"><em>string</em></td>
-<td align="left">Changes the width and height of the icon</td>
-<td align="left"><em>30px</em></td>
+<td align="left">Changes the <code>width</code> and <code>height</code> of the icon</td>
+<td align="left"><em>18px</em></td>
 </tr>
 <tr>
 <td align="left"><code>color</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">Changes the color of the icon</td>
 <td align="left"><em>var(--primary)</em></td>
-</tr>
-<tr>
-<td align="left"><code>id</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Changes the color of the icon</td>
-<td align="left"><em>none</em></td>
-</tr>
-<tr>
-<td align="left"><code>name</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Changes the color of the icon</td>
-<td align="left"><em>none</em></td>
 </tr>
 </tbody></table>
 <h3 id="static-methods-members">Static Methods &amp; Members</h3>
@@ -437,6 +496,24 @@
 </tr>
 </thead>
 <tbody><tr>
+<td align="left"><code>id</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Input with <code>id</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>name</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Input with <code>name</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>type</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Type of input (text, password, email)</td>
+<td align="left"><em>text</em></td>
+</tr>
+<tr>
 <td align="left"><code>required</code></td>
 <td align="left"><em>boolean</em></td>
 <td align="left">Makes the input required</td>
@@ -461,12 +538,6 @@
 <td align="left"><em>false</em></td>
 </tr>
 <tr>
-<td align="left"><code>type</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Type of input (text, password, email)</td>
-<td align="left"><em>&quot;text&quot;</em></td>
-</tr>
-<tr>
 <td align="left"><code>placeholder</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">Inserts placeholder text</td>
@@ -476,7 +547,7 @@
 <td align="left"><code>width</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">Width of the input</td>
-<td align="left"><em>&quot;250px&quot;</em></td>
+<td align="left"><em>250px</em></td>
 </tr>
 </tbody></table>
 <h3 id="static-methods-members">Static Methods &amp; Members</h3>
@@ -547,28 +618,22 @@
 </tr>
 </thead>
 <tbody><tr>
-<td align="left"><code>disabled</code></td>
-<td align="left"><em>boolean</em></td>
-<td align="left">Makes the toggle resizable</td>
-<td align="left"><em>falsen</em></td>
+<td align="left"><code>id</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Text area with <code>id</code> attribute</td>
+<td align="left"></td>
 </tr>
 <tr>
-<td align="left"><code>required</code></td>
-<td align="left"><em>boolean</em></td>
-<td align="left">Set textarea to required</td>
-<td align="left"><em>false</em></td>
+<td align="left"><code>name</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Text area with <code>name</code> attribute</td>
+<td align="left"></td>
 </tr>
 <tr>
-<td align="left"><code>readonly</code></td>
-<td align="left"><em>boolean</em></td>
-<td align="left">Set textarea to readonly</td>
-<td align="left"><em>false</em></td>
-</tr>
-<tr>
-<td align="left"><code>autofocus</code></td>
-<td align="left"><em>boolean</em></td>
-<td align="left">Enable Autofocus</td>
-<td align="left"><em>false</em></td>
+<td align="left"><code>placeholder</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Add placeholder to text area</td>
+<td align="left"></td>
 </tr>
 <tr>
 <td align="left"><code>spellcheck</code></td>
@@ -577,64 +642,76 @@
 <td align="left"><em>true</em></td>
 </tr>
 <tr>
-<td align="left"><code>placeholder</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Add placeholder to textarea</td>
-<td align="left"><em>&#39;&#39;</em></td>
+<td align="left"><code>disabled</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Text area with <code>disabled</code> attribute</td>
+<td align="left"><em>false</em></td>
 </tr>
 <tr>
-<td align="left"><code>resize</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Set to &quot;none&quot; to disable resize</td>
-<td align="left"><em>&#39;&#39;</em></td>
+<td align="left"><code>required</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Set text area to <code>required</code></td>
+<td align="left"><em>false</em></td>
 </tr>
 <tr>
-<td align="left"><code>name</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Add name to textarea</td>
-<td align="left"><em>&#39;&#39;</em></td>
+<td align="left"><code>readonly</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Set text area to readonly</td>
+<td align="left"><em>false</em></td>
+</tr>
+<tr>
+<td align="left"><code>autofocus</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Enable <code>autofocus</code> on the text area</td>
+<td align="left"><em>false</em></td>
 </tr>
 <tr>
 <td align="left"><code>rows</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">Set number of rows</td>
-<td align="left"><em>&#39;&#39;</em></td>
+<td align="left"></td>
 </tr>
 <tr>
 <td align="left"><code>cols</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">Set number of columns</td>
-<td align="left"><em>&#39;&#39;</em></td>
+<td align="left"></td>
 </tr>
 <tr>
 <td align="left"><code>minlength</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">Set minimum character length</td>
-<td align="left"><em>&#39;&#39;</em></td>
+<td align="left"></td>
 </tr>
 <tr>
 <td align="left"><code>maxlength</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">Set maximum character length</td>
-<td align="left"><em>&#39;&#39;</em></td>
+<td align="left"></td>
 </tr>
 <tr>
 <td align="left"><code>width</code></td>
 <td align="left"><em>string</em></td>
-<td align="left">Set width of textarea</td>
-<td align="left"><em>&#39;&#39;</em></td>
+<td align="left">Set width of text area</td>
+<td align="left"></td>
 </tr>
 <tr>
 <td align="left"><code>height</code></td>
 <td align="left"><em>string</em></td>
-<td align="left">Set height of textarea</td>
-<td align="left"><em>&#39;&#39;</em></td>
+<td align="left">Set height of text area</td>
+<td align="left"></td>
 </tr>
 <tr>
 <td align="left"><code>radius</code></td>
 <td align="left"><em>string</em></td>
-<td align="left">Set radius of textarea</td>
-<td align="left"><em>&#39;&#39;</em></td>
+<td align="left">Set radius of text area</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>resize</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Set to <code>none</code> to disable resize</td>
+<td align="left"></td>
 </tr>
 </tbody></table>
 <h3 id="static-methods-members">Static Methods &amp; Members</h3>
@@ -691,7 +768,6 @@
 
 <h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>
-<p>Note: <code>id</code> is required</p>
 <table>
 <thead>
 <tr>
@@ -702,9 +778,27 @@
 </tr>
 </thead>
 <tbody><tr>
+<td align="left"><code>id</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds the <code>id</code> attribute <span class="req">required</span></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>name</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds the <code>name</code> attributes</td>
+<td align="left"></td>
+</tr>
+<tr>
 <td align="left"><code>disabled</code></td>
 <td align="left"><em>boolean</em></td>
 <td align="left">Makes the toggle disabled</td>
+<td align="left"><em>false</em></td>
+</tr>
+<tr>
+<td align="left"><code>checked</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Turns the toggle &quot;on&quot;</td>
 <td align="left"><em>false</em></td>
 </tr>
 </tbody></table>

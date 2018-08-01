@@ -7,15 +7,14 @@ class InputTextarea extends Tonic {
     this.stylesheet = `%style%`
 
     this.defaults = {
-      radius: '2px',
-      width: '100%',
-      disabled: false,
-      autofocus: false,
-      readonly: false,
-      required: false,
-      spellcheck: true,
       placeholder: '',
-      resize: ''
+      spellcheck: true,
+      disabled: false,
+      required: false,
+      readonly: false,
+      autofocus: false,
+      width: '100%',
+      radius: '2px'
     }
   }
 
@@ -26,43 +25,48 @@ class InputTextarea extends Tonic {
 
   render () {
     const {
+      id,
       name,
-      disabled,
       placeholder,
       spellcheck,
-      autofocus,
-      readonly,
+      disabled,
       required,
-      resize,
+      readonly,
+      autofocus,
       rows,
       cols,
       minlength,
       maxlength,
       width,
       height,
-      radius
+      radius,
+      resize
     } = { ...this.defaults, ...this.props }
 
+    const idAttr = id ? `id="${id}"` : ''
     const nameAttr = name ? `name="${name}"` : ''
+    const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
+    const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
 
     let style = []
     if (width) style.push(`width: ${width}`)
     if (height) style.push(`height: ${height}`)
     if (radius) style.push(`border-radius: ${radius}`)
-    if (resize) style.push(`resize: none`)
+    if (resize) style.push(`resize: ${resize}`)
     style = style.join('; ')
 
     return `
       <div class="wrapper">
         ${this.renderLabel()}
         <textarea
+          ${idAttr}
           ${nameAttr}
-          ${autofocus ? 'autofocus' : ''}
+          ${placeholderAttr}
+          ${spellcheckAttr}
           ${disabled ? 'disabled' : ''}
-          ${readonly ? 'readonly' : ''}
           ${required ? 'required' : ''}
-          placeholder="${placeholder}"
-          spellcheck="${spellcheck}"
+          ${readonly ? 'readonly' : ''}
+          ${autofocus ? 'autofocus' : ''}
           rows="${rows}"
           cols="${cols}"
           minlength="${minlength}"

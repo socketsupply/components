@@ -62,11 +62,12 @@ The component `InputCheckbox` is used to create a styled checkbox, with or witho
 
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
-| `checked` | *boolean* | Changes the color of the icon | *#000* |
-| `size` | *string* | Changes the width and height of the icon | *30px* |
+| `id` | *string* | Adds `id` attribute | *none* |
+| `name` | *string* | Adds `name` attribute | *none* |
+| `disabled` | *boolean* | Adds `disabled` attribute | *#000* |
+| `checked` | *boolean* | Adds `checked` attribute | *#000* |
+| `size` | *string* | Changes the `width` and `height` of the icon | *18px* |
 | `color` | *string* | Changes the color of the icon | *var(--primary)* |
-| `id` | *string* | Changes the color of the icon | *none* |
-| `name` | *string* | Changes the color of the icon | *none* |
 
 ### Static Methods & Members
 

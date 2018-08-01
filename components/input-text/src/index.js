@@ -8,12 +8,12 @@ class InputText extends Tonic {
 
     this.defaults = {
       type: 'text',
-      width: '250px',
-      disabled: false,
-      ariaInvalid: false,
-      spellcheck: false,
+      value: '',
       placeholder: '',
-      value: ''
+      spellcheck: false,
+      ariaInvalid: false,
+      disabled: false,
+      width: '250px'
     }
   }
 
@@ -24,37 +24,48 @@ class InputText extends Tonic {
 
   render () {
     const {
+      id,
+      name,
       type,
-      width,
-      height,
-      required,
-      disabled,
+      value,
       placeholder,
       spellcheck,
-      radius,
       ariaInvalid,
+      disabled,
+      required,
+      width,
+      height,
       padding,
-      value
+      radius
     } = { ...this.defaults, ...this.props }
 
+    const idAttr = id ? `id="${id}"` : ''
+    const nameAttr = name ? `name="${name}"` : ''
+    const valueAttr = value ? `value="${value}"` : ''
+    const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
+    const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
+    const ariaInvalidAttr = ariaInvalid ? `aria-invalid="${ariaInvalid}"` : ''
+
     let style = []
-    if (padding) style.push(`padding: ${padding}`)
-    if (radius) style.push(`border-radius: ${radius}`)
     if (width) style.push(`width: ${width}`)
     if (height) style.push(`height: ${height}`)
+    if (radius) style.push(`border-radius: ${radius}`)
+    if (padding) style.push(`padding: ${padding}`)
     style = style.join('; ')
 
     return `
       <div class="wrapper">
         ${this.renderLabel()}
         <input
+          ${idAttr}
+          ${nameAttr}
           type="${type}"
-          ${required ? 'required' : ''}
+          ${valueAttr}
+          ${placeholderAttr}
+          ${spellcheckAttr}
+          ${ariaInvalidAttr}
           ${disabled ? 'disabled' : ''}
-          placeholder="${placeholder}"
-          spellcheck="${spellcheck}"
-          value="${value}"
-          aria-invalid="${ariaInvalid}"
+          ${required ? 'required' : ''}
           style="${style}"
         />
       </div>

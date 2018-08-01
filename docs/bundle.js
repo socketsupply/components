@@ -81,16 +81,18 @@ class InputCheckbox extends Tonic {
       color: 'var(--primary)',
       checked: false,
       disabled: false,
-      size: '20px'
+      size: '18px'
     }
   }
 
-  click (e) {
-    if (!e.target.matches('input-checkbox')) return
-    this.setProps(props => ({
-      ...this.props,
-      checked: !props.checked
-    }))
+  change (e) {
+    const state = this.props.checked = !this.props.checked
+    const fn = InputCheckbox._svg[state ? 'on' : 'off']
+    this.label.innerHTML = fn(this.props.color)
+  }
+
+  connected () {
+    this.label = this.root.querySelector('label')
   }
 
   updated (oldProps) {
@@ -443,8 +445,151 @@ class InputTextarea extends Tonic {
 Tonic.add(InputTextarea, { shadow: true })
 
 },{"tonic":9}],6:[function(require,module,exports){
+const Tonic = typeof require === 'function'
+  ? require('tonic') : window.Tonic
 
-},{}],7:[function(require,module,exports){
+class InputToggle extends Tonic {
+  constructor () {
+    super()
+    this.stylesheet = `
+      .wrapper {
+        height: 30px;
+        width: 47px;
+        position: relative;
+      }
+      .switch {
+        display: inline-table;
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+      .switch label:before {
+        font: bold 12px 'Poppins', sans-serif;
+        text-transform: uppercase;
+      }
+      .switch input.toggle {
+        position: absolute;
+        outline: none;
+        user-select: none;
+        z-index: 1;
+        display: none;
+      }
+      .switch input.toggle + label {
+        width: 42px;
+        height: 24px;
+        padding: 2px;
+        display: block;
+        position: relative;
+        background-color: var(--border);
+        border-radius: 60px;
+        transition: background 0.4s;
+        cursor: default;
+      }
+      .switch input.toggle + label:before {
+        content: '';
+        line-height: 29px;
+        text-indent: 29px;
+        position: absolute;
+        top: 1px;
+        left: 1px;
+        bottom: 1px;
+        right: 1px;
+        display: block;
+        border-radius: 60px;
+        transition: background 0.4s;
+        padding-top: 1px;
+        font-size: 0.65em;
+        letter-spacing: 0.05em;
+        background-color: var(--border);
+      }
+      .switch input.toggle + label:after {
+        content: ' ';
+        width: 20px;
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        bottom: 4px;
+        background-color: var(--background);
+        border-radius: 52px;
+        transition: margin 0.4s, background 0.4s;
+        display: block;
+        z-index: 2;
+      }
+      .switch input.toggle:disabled {
+        cursor: default;
+      }
+      .switch input.toggle:disabled + label {
+        color: var(--disabled);
+        cursor: default;
+        background-color: var(--disabled);
+      }
+      .switch input.toggle:disabled + label:before,
+      .switch input.toggle:disabled + label:after {
+        color: var(--disabled);
+      }
+      .switch input.toggle:disabled + label:after {
+        background-color: var(--disabled);
+      }
+      .switch input.toggle:checked + label {
+        background-color: var(--accent);
+      }
+      .switch input.toggle:checked + label:before {
+        content: ' ';
+        background-color: var(--accent);
+        color: var(--background);
+      }
+      .switch input.toggle:checked + label:after {
+        margin-left: 18px;
+        background-color: var(--background);
+      }
+      `
+
+    this.defaults = {
+      disabled: false,
+      checked: false
+    }
+  }
+
+  change (e) {
+    this.props.checked = !this.props.checked
+  }
+
+  renderLabel () {
+    if (!this.props.label) return ''
+    return `<label>${this.props.label}</label>`
+  }
+
+  render () {
+    const {
+      id,
+      name,
+      disabled,
+      checked
+    } = { ...this.defaults, ...this.props }
+
+    const nameAttr = name ? `name="${name}"` : ''
+
+    return `
+      <div class="wrapper">
+        <div class="switch">
+          <input
+            type="checkbox"
+            class="toggle"
+            id="${id}"
+            ${nameAttr}
+            ${disabled ? 'disabled' : ''}
+            ${checked ? 'checked' : ''}>
+          <label for="${id}"></label>
+        </div>
+        ${this.renderLabel()}
+      </div>
+    `
+  }
+}
+
+Tonic.add(InputToggle, { shadow: true })
+
+},{"tonic":9}],7:[function(require,module,exports){
 const scrollToY = require('scrolltoy')
 const main = document.querySelector('main')
 
@@ -555,6 +700,7 @@ class Tonic extends window.HTMLElement {
     super()
     this.props = {}
     this.state = {}
+    this.on = this.addEventListener
     if (this.shadow) this.attachShadow({ mode: 'open' })
     this._bindEventListeners()
   }
@@ -573,7 +719,6 @@ class Tonic extends window.HTMLElement {
 
     const methods = Object.getOwnPropertyNames(c.prototype)
     c.prototype.events = []
-    if (opts.shadow) c.prototype.shadow = true
 
     for (const key in this.prototype) {
       const k = key.slice(2)
@@ -582,6 +727,7 @@ class Tonic extends window.HTMLElement {
       }
     }
 
+    if (opts.shadow) c.prototype.shadow = true
     window.customElements.define(name, c)
   }
 
@@ -616,35 +762,45 @@ class Tonic extends window.HTMLElement {
   }
 
   setProps (o) {
+    const oldProps = JSON.parse(JSON.stringify(this.props))
     this.props = Tonic.sanitize(typeof o === 'function' ? o(this.props) : o)
     if (!this.root) throw new Error('Component not yet connected')
     this.root.appendChild(this._setContent(this.render()))
+    this.updated && this.updated(oldProps)
   }
 
   _bindEventListeners () {
     this.events.forEach(event => {
-      this.addEventListener(event, e => this[event](e))
+      (this.shadowRoot || this).addEventListener(event, e => this[event](e))
     })
   }
 
   _setContent (content) {
     while (this.root.firstChild) this.root.firstChild.remove()
-    let node = content
+    let node = null
+
     if (typeof content === 'string') {
       const tmp = document.createElement('tmp')
       tmp.innerHTML = content
       node = tmp.firstElementChild
+    } else {
+      node = content.cloneNode(true)
     }
+
     if (this.styleNode) node.appendChild(this.styleNode)
     return node
   }
 
   connectedCallback () {
     for (let { name, value } of this.attributes) {
-      if (name === 'id') this.setAttribute('id', value)
-      if (name === 'data') try { value = JSON.parse(value) } catch (e) {}
+      name = name.replace(/-(.)/gui, (_, m) => m.toUpperCase())
       this.props[name] = value
     }
+
+    if (this.props.data) {
+      try { this.props.data = JSON.parse(this.props.data) } catch (e) {}
+    }
+
     this.root = (this.shadowRoot || this)
     this.props = Tonic.sanitize(this.props)
     this.willConnect && this.willConnect()

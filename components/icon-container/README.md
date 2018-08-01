@@ -3,25 +3,28 @@ The component `IconContainer` is used to create an SVG icon with a custom size a
 
 ## Demo
 
-| Example | Description |
-| :--- | :--- |
-| <icon-container></icon-container> | Default Icon (30px) |
-| <icon-container color="#f06653"></icon-container> | Icon with color (30px) |
-| <icon-container size="60px"></icon-container> | Large Icon (60px) |
-
-## Code
-
-#### html
-
-```html
-<icon-container></icon-container>
-```
-
-#### js
-
-```js
-
-```
+<table>
+  <thead>
+    <tr>
+      <th>Example</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><icon-container></icon-container></td>
+      <td>Default Icon (30px)</td>
+    </tr>
+    <tr>
+      <td><icon-container color="#f06653"></icon-container></td>
+      <td>Icon with color (30px)</td>
+    </tr>
+    <tr>
+      <td><icon-container size="60px"></icon-container></td>
+      <td>Large Icon (60px)</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Api
 

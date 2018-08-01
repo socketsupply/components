@@ -4,27 +4,34 @@ The component `InputToggle` creates a toggle.
 
 ## Demo
 
-| Example | Description |
-| :--- | :--- |
-| <input-toggle></input-button> | Default toggle |
-| <input-toggle></input-button> | Toggle with label |
-| <input-toggle></input-button> | Toggle with `disabled` attribute |
-
-## Code
-
-#### Html
-```html
-<input-toggle></input-toggle>
-```
-
-#### JS
-```js
-
-```
+<table>
+  <thead>
+    <tr>
+      <th>Example</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><input-toggle id="toggle-example-1"></input-toggle></td>
+      <td>Default toggle</td>
+    </tr>
+    <tr>
+      <td><input-toggle id="toggle-example-2"></input-toggle></td>
+      <td>Toggle with label</td>
+    </tr>
+    <tr>
+      <td><input-toggle id="toggle-example-3" disabled></input-toggle></td>
+      <td>Toggle with <code>disabled</code> attribute</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Api
 
 ### Properties
+
+Note: `id` is required
 
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |

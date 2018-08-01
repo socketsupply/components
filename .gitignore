@@ -1,3 +1,9 @@
 /node_modules
 package-lock.json
 .DS_Store
+
+# Inserted automatically by Gitmesh
+/.dat
+
+# Inserted automatically by Gitmesh
+/.dat

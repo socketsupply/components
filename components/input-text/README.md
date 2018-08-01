@@ -4,25 +4,40 @@ The component `InputText` creates an input, with or without a label.
 
 ## Demo
 
-| Example | Description |
-| :--- | :--- |
-| <input-text></input-text> | Default input (without label) |
-| <input-text label="label"></input-text> | Input with label |
-| <input-text label="label" placeholder="Type something"></input-text> | Input with label & placeholder |
-| <input-text label="label" value="Value"></input-text> | Input with label & value |
-| <input-text width="100%" label="Full Width"></input-text> | Full width with label |
-
-## Code
-
-#### Html
-```html
-<input-text spellcheck></input-text>
-```
-
-#### JS
-```js
-
-```
+<table>
+  <thead>
+    <tr>
+      <th>Example</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><input-text></input-text></td>
+      <td>Default input (without label)</td>
+    </tr>
+    <tr>
+      <td><input-text label="label"></input-text></td>
+      <td>Input with label</td>
+    </tr>
+    <tr>
+      <td><input-text label="Disabled Input" disabled></input-text></td>
+      <td>Input with label and <code>disabled</code> attribute</td>
+    </tr>
+    <tr>
+      <td><input-text label="Input with Placeholder" placeholder="Type something"></input-text></td>
+      <td>Input with label & placeholder</td>
+    </tr>
+    <tr>
+      <td><input-text label="Input with Value" value="Value"></input-text></td>
+      <td>Input with label & value</td>
+    </tr>
+    <tr>
+      <td><input-text width="100%" label="Full Width"></input-text></td>
+      <td>Full width with label</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Api
 

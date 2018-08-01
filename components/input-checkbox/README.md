@@ -4,27 +4,57 @@ The component `InputCheckbox` is used to create a styled checkbox, with or witho
 
 ## Demo
 
-| Example | Description |
-| :--- | :--- |
-| <input-checkbox id="input-checkbox-example"></input-checkbox> | Default Checkbox |
-| <input-checkbox id="input-checkbox-example-2" label="Label"></input-checkbox> | Checkbox with label |
-| <input-checkbox id="input-checkbox-example-3" label="Disabled" disabled></input-checkbox> | Checkbox with label and `disabled` attribute |
-| <input-checkbox id="input-checkbox-example-4" label="Disabled and Checked" disabled checked></input-checkbox> | Checkbox with label and `disabled` & `checked` attributes |
-| <input-checkbox id="input-checkbox-example-5"></input-checkbox> | Custom SVG Checkbox |
-
-## Code
-
-#### HTML
-
-```html
-<input-checkbox>
-</input-checkbox>
-```
-#### js
-
-```js
-
-```
+<table>
+  <thead>
+    <tr>
+      <th>Example</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <input-checkbox></input-checkbox>
+      </td>
+      <td>Default Checkbox</td>
+    </tr>
+    <tr>
+      <td>
+        <input-checkbox
+          id="input-checkbox-example-2"
+          label="Label">
+        </input-checkbox>
+      </td>
+      <td>Checkbox with Label</td>
+    </tr>
+    <tr>
+      <td>
+        <input-checkbox
+          id="input-checkbox-example-3"
+          label="Disabled"
+          disabled>
+        </input-checkbox>
+      </td>
+      <td>Checkbox with label and <code>disabled</code> attribute</td>
+    </tr>
+    <tr>
+      <td>
+        <input-checkbox
+          id="input-checkbox-example-4"
+          label="Disabled and Checked"
+          disabled checked>
+        </input-checkbox>
+      </td>
+      <td>Checkbox with label and <code>disabled</code> & <code>checked</code> attributes</td>
+    </tr>
+    <tr>
+      <td>
+        <input-checkbox id="input-checkbox-example-5"></input-checkbox>
+      </td>
+      <td>Custom SVG Checkbox</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Api
 

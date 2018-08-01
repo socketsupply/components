@@ -42,16 +42,18 @@ class InputCheckbox extends Tonic {
       color: 'var(--primary)',
       checked: false,
       disabled: false,
-      size: '20px'
+      size: '18px'
     }
   }
 
-  click (e) {
-    if (!e.target.matches('input-checkbox')) return
-    this.setProps(props => ({
-      ...this.props,
-      checked: !props.checked
-    }))
+  change (e) {
+    const state = this.props.checked = !this.props.checked
+    const fn = InputCheckbox._svg[state ? 'on' : 'off']
+    this.label.innerHTML = fn(this.props.color)
+  }
+
+  connected () {
+    this.label = this.root.querySelector('label')
   }
 
   updated (oldProps) {

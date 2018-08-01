@@ -4,24 +4,32 @@ The component `InputTextarea` creates a text area.
 
 ## Demo
 
-| Example | Description |
-| :--- | :--- |
-| <input-textarea></input-textarea> | Default Text area |
-| <input-textarea resize="none"></input-textarea> | Text area without resize |
-| <input-textarea placeholder="Type in me"></input-textarea> | Default Text area with placeholder |
-| <input-textarea label="Label"></input-textarea> | Text area with label |
-
-## Code
-
-#### Html
-```html
-<input-textarea></input-textarea>
-```
-
-#### JS
-```js
-
-```
+<table>
+  <thead>
+    <tr>
+      <th>Example</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><input-textarea></input-textarea></td>
+      <td>Default Text area</td>
+    </tr>
+    <tr>
+      <td><input-textarea resize="none"></input-textarea></td>
+      <td>Text area without resize</td>
+    </tr>
+    <tr>
+      <td><input-textarea placeholder="Type in me"></input-textarea></td>
+      <td>Default Text area with placeholder</td>
+    </tr>
+    <tr>
+      <td><input-textarea label="Label"></input-textarea></td>
+      <td>Text area with label</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Api
 
@@ -29,7 +37,7 @@ The component `InputTextarea` creates a text area.
 
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
-| `disabled` | *boolean* | Makes the toggle resizable | *false* |
+| `disabled` | *boolean* | Makes the toggle resizable | *falsen* |
 | `required` | *boolean* | Set textarea to required | *false* |
 | `readonly` | *boolean* | Set textarea to readonly | *false* |
 | `autofocus` | *boolean* | Enable Autofocus | *false* |

@@ -4,26 +4,40 @@ The component `InputButton` creates a button.
 
 ## Demo
 
-| Example | Description |
-| :--- | :--- |
-| <input-button></input-button> | Default button |
-| <input-button fill="var(--accent)" text-color="white"></input-button> | Fill button |
-| <input-button disabled="true"></input-button> | Button with `disabled` attribute |
-| <input-button value="Click me"></input-button> | Loading button |
-| <input-button radius="50px"></input-button> | Rounded button |
-| <input-button width="100%"></input-button> | Full width button |
-
-## Code
-
-#### Html
-```html
-<input-button></input-button>
-```
-
-#### JS
-```js
-
-```
+<table>
+  <thead>
+    <tr>
+      <th>Example</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><input-button></input-button></td>
+      <td>Default button</td>
+    </tr>
+    <tr>
+      <td><input-button fill="var(--accent)" text-color="white"></input-button></td>
+      <td>Fill button</td>
+    </tr>
+    <tr>
+      <td><input-button disabled="true"></input-button></td>
+      <td>Button with <code>disabled</code> attribute</td>
+    </tr>
+    <tr>
+      <td><input-button value="Click me"></input-button></td>
+      <td>Loading button</td>
+    </tr>
+    <tr>
+      <td><input-button radius="50px"></input-button></td>
+      <td>Rounded button</td>
+    </tr>
+    <tr>
+      <td><input-button width="100%"></input-button></td>
+      <td>Full width button</td>
+    </tr>
+  </tbody>
+</table>
 
 ## Api
 

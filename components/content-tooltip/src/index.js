@@ -13,11 +13,15 @@ class ContentTooltip extends Tonic {
   }
 
   mouseenter (e) {
-    const tooltip = this.root.getElementById('tooltip')
-    tooltip.classList.add('show')
+    clearTimeout(this.timer)
+    this.timer = setTimeout(() => {
+      const tooltip = this.root.getElementById('tooltip')
+      tooltip.classList.add('show')
+    }, 128)
   }
 
   mouseleave (e) {
+    clearTimeout(this.timer)
     const tooltip = this.root.getElementById('tooltip')
     tooltip.classList.remove('show')
   }

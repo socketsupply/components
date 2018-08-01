@@ -19,7 +19,7 @@ class ContentTooltip extends Tonic {
         position: absolute;
         z-index: -1;
         transition: all 0.3s;
-        border: radius 2px;
+        border-radius: 2px;
         box-shadow: 0px 0px 10px rgba(0,0,0,0.4);
       }
       :host span #tooltip.show {
@@ -35,11 +35,15 @@ class ContentTooltip extends Tonic {
   }
 
   mouseenter (e) {
-    const tooltip = this.root.getElementById('tooltip')
-    tooltip.classList.add('show')
+    clearTimeout(this.timer)
+    this.timer = setTimeout(() => {
+      const tooltip = this.root.getElementById('tooltip')
+      tooltip.classList.add('show')
+    }, 128)
   }
 
   mouseleave (e) {
+    clearTimeout(this.timer)
     const tooltip = this.root.getElementById('tooltip')
     tooltip.classList.remove('show')
   }
@@ -124,6 +128,103 @@ Tonic.add(IconContainer)
 const Tonic = typeof require === 'function'
   ? require('tonic') : window.Tonic
 
+class InputButton extends Tonic {
+  constructor () {
+    super()
+    this.stylesheet = `
+      button {
+        min-height: 38px;
+        padding: 8px;
+        font: 12px 'Poppins', sans-serif;
+        font-weight: 400;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border: 1px solid var(--primary);
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        outline: none;
+        transition: all 0.2s ease;
+      }
+      button[disabled] {
+        background-color: var(--secondary);
+        border-color: var(--secondary);
+        color: var(--medium);
+      }
+      button:not([disabled]):hover {
+        background-color: var(--primary);
+        border-color: var(--primary);
+        color: #fff;
+      }
+      `
+
+    this.defaults = {
+      value: 'Submit',
+      type: 'submit',
+      disabled: false,
+      autofocus: false,
+      height: '38px',
+      width: '150px',
+      radius: '2px'
+    }
+  }
+
+  render () {
+    const {
+      id,
+      name,
+      value,
+      type,
+      disabled,
+      autofocus,
+      isLoading,
+      isActive,
+      width,
+      height,
+      radius,
+      fill,
+      textColor
+    } = { ...this.defaults, ...this.props }
+
+    const idAttr = id ? `id="${id}"` : ''
+    const nameAttr = name ? `name="${name}"` : ''
+    const valueAttr = value ? `value="${value}"` : ''
+    const typeAttr = type ? `type="${type}"` : ''
+
+    let style = []
+    if (width) style.push(`width: ${width}`)
+    if (height) style.push(`height: ${height}`)
+    if (radius) style.push(`border-radius: ${radius}`)
+    if (fill) {
+      style.push(`background-color: ${fill}`)
+      style.push(`border-color: ${fill}`)
+    }
+    if (textColor) style.push(`color: ${textColor}`)
+    style = style.join('; ')
+
+    return `
+      <div class="wrapper">
+        <button
+          ${idAttr}
+          ${nameAttr}
+          ${valueAttr}
+          ${typeAttr}
+          ${disabled ? 'disabled' : ''}
+          ${autofocus ? 'autofocus' : ''}
+          ${isLoading ? 'class="loading"' : ''}
+          ${isActive ? 'class="active"' : ''}
+          style="${style}">${value}</button>
+      </div>
+    `
+  }
+}
+
+Tonic.add(InputButton, { shadow: true })
+
+},{"tonic":10}],4:[function(require,module,exports){
+const Tonic = typeof require === 'function'
+  ? require('tonic') : window.Tonic
+
 class InputCheckbox extends Tonic {
   constructor () {
     super()
@@ -162,9 +263,9 @@ class InputCheckbox extends Tonic {
     }
 
     this.defaults = {
-      color: 'var(--primary)',
-      checked: false,
       disabled: false,
+      checked: false,
+      color: 'var(--primary)',
       size: '18px'
     }
   }
@@ -192,23 +293,29 @@ class InputCheckbox extends Tonic {
 
   render () {
     const {
-      color,
       id,
-      checked,
+      name,
       disabled,
-      size,
-      name
+      checked,
+      color,
+      size
     } = { ...this.defaults, ...this.props }
 
     const state = checked ? 'on' : 'off'
-    const checkedAttr = checked ? 'checked' : ''
-    const disabledAttr = disabled ? 'disabled' : ''
+    const idAttr = id ? `id="${id}"` : ''
     const nameAttr = name ? `name="${name}"` : ''
 
     return `
       <div class="wrapper">
-        <input type="checkbox" id="${id}" ${nameAttr} ${disabledAttr} ${checkedAttr}/>
-        <label for="${id}" style="width: ${size}; height: ${size};">
+        <input
+          type="checkbox"
+          ${idAttr}
+          ${nameAttr}
+          ${disabled ? 'disabled' : ''}
+          ${checked ? 'checked' : ''}/>
+        <label
+          for="${id}"
+          style="width: ${size}; height: ${size};">
           ${InputCheckbox._svg[state](color)}
         </label>
         ${this.renderLabel()}
@@ -237,7 +344,7 @@ InputCheckbox._svg.off = color => `
 
 Tonic.add(InputCheckbox, { shadow: true })
 
-},{"tonic":10}],4:[function(require,module,exports){
+},{"tonic":10}],5:[function(require,module,exports){
 const Tonic = typeof require === 'function'
   ? require('tonic') : window.Tonic
 
@@ -273,12 +380,12 @@ class InputText extends Tonic {
 
     this.defaults = {
       type: 'text',
-      width: '250px',
-      disabled: false,
-      ariaInvalid: false,
-      spellcheck: false,
+      value: '',
       placeholder: '',
-      value: ''
+      spellcheck: false,
+      ariaInvalid: false,
+      disabled: false,
+      width: '250px'
     }
   }
 
@@ -289,37 +396,48 @@ class InputText extends Tonic {
 
   render () {
     const {
+      id,
+      name,
       type,
-      width,
-      height,
-      required,
-      disabled,
+      value,
       placeholder,
       spellcheck,
-      radius,
       ariaInvalid,
+      disabled,
+      required,
+      width,
+      height,
       padding,
-      value
+      radius
     } = { ...this.defaults, ...this.props }
 
+    const idAttr = id ? `id="${id}"` : ''
+    const nameAttr = name ? `name="${name}"` : ''
+    const valueAttr = value ? `value="${value}"` : ''
+    const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
+    const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
+    const ariaInvalidAttr = ariaInvalid ? `aria-invalid="${ariaInvalid}"` : ''
+
     let style = []
-    if (padding) style.push(`padding: ${padding}`)
-    if (radius) style.push(`border-radius: ${radius}`)
     if (width) style.push(`width: ${width}`)
     if (height) style.push(`height: ${height}`)
+    if (radius) style.push(`border-radius: ${radius}`)
+    if (padding) style.push(`padding: ${padding}`)
     style = style.join('; ')
 
     return `
       <div class="wrapper">
         ${this.renderLabel()}
         <input
+          ${idAttr}
+          ${nameAttr}
           type="${type}"
-          ${required ? 'required' : ''}
+          ${valueAttr}
+          ${placeholderAttr}
+          ${spellcheckAttr}
+          ${ariaInvalidAttr}
           ${disabled ? 'disabled' : ''}
-          placeholder="${placeholder}"
-          spellcheck="${spellcheck}"
-          value="${value}"
-          aria-invalid="${ariaInvalid}"
+          ${required ? 'required' : ''}
           style="${style}"
         />
       </div>
@@ -328,100 +446,6 @@ class InputText extends Tonic {
 }
 
 Tonic.add(InputText, { shadow: true })
-
-},{"tonic":10}],5:[function(require,module,exports){
-const Tonic = typeof require === 'function'
-  ? require('tonic') : window.Tonic
-
-class InputButton extends Tonic {
-  constructor () {
-    super()
-    this.stylesheet = `
-      button {
-        min-height: 38px;
-        padding: 8px;
-        font: 12px 'Poppins', sans-serif;
-        font-weight: 400;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        border: 1px solid var(--primary);
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-        outline: none;
-        transition: all 0.2s ease;
-      }
-      button[disabled] {
-        background-color: var(--secondary);
-        border-color: var(--secondary);
-        color: var(--medium);
-      }
-      button:not([disabled]):hover {
-        background-color: var(--primary);
-        border-color: var(--primary);
-        color: #fff;
-      }
-      `
-
-    this.defaults = {
-      value: 'Submit',
-      radius: '2px',
-      height: '38px',
-      width: '150px',
-      disabled: false,
-      autofocus: false,
-      type: 'submit'
-    }
-  }
-
-  render () {
-    const {
-      type,
-      value,
-      name,
-      disabled,
-      autofocus,
-      isLoading,
-      isActive,
-      width,
-      height,
-      padding,
-      fill,
-      textColor,
-      radius
-    } = { ...this.defaults, ...this.props }
-
-    const nameAttr = name ? `name="${name}"` : ''
-    const valueAttr = value ? `value="${value}"` : ''
-    const typeAttr = type ? `type="${type}"` : ''
-
-    let style = []
-    if (width) style.push(`width: ${width}`)
-    if (height) style.push(`height: ${height}`)
-    if (fill) style.push(`background-color: ${fill}`)
-    if (fill) style.push(`border-color: ${fill}`)
-    if (textColor) style.push(`color: ${textColor}`)
-    if (padding) style.push(`padding: ${padding}`)
-    if (radius) style.push(`border-radius: ${radius}`)
-    style = style.join('; ')
-
-    return `
-      <div class="wrapper">
-        <button
-          ${typeAttr}
-          ${valueAttr}
-          ${nameAttr}
-          ${autofocus ? 'autofocus' : ''}
-          ${disabled ? 'disabled' : ''}
-          ${isLoading ? 'loading' : ''}
-          ${isActive ? 'active' : ''}
-          style="${style}">${value}</button>
-      </div>
-    `
-  }
-}
-
-Tonic.add(InputButton, { shadow: true })
 
 },{"tonic":10}],6:[function(require,module,exports){
 const Tonic = typeof require === 'function'
@@ -460,15 +484,14 @@ class InputTextarea extends Tonic {
       `
 
     this.defaults = {
-      radius: '2px',
-      width: '100%',
-      disabled: false,
-      autofocus: false,
-      readonly: false,
-      required: false,
-      spellcheck: true,
       placeholder: '',
-      resize: ''
+      spellcheck: true,
+      disabled: false,
+      required: false,
+      readonly: false,
+      autofocus: false,
+      width: '100%',
+      radius: '2px'
     }
   }
 
@@ -479,43 +502,48 @@ class InputTextarea extends Tonic {
 
   render () {
     const {
+      id,
       name,
-      disabled,
       placeholder,
       spellcheck,
-      autofocus,
-      readonly,
+      disabled,
       required,
-      resize,
+      readonly,
+      autofocus,
       rows,
       cols,
       minlength,
       maxlength,
       width,
       height,
-      radius
+      radius,
+      resize
     } = { ...this.defaults, ...this.props }
 
+    const idAttr = id ? `id="${id}"` : ''
     const nameAttr = name ? `name="${name}"` : ''
+    const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
+    const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
 
     let style = []
     if (width) style.push(`width: ${width}`)
     if (height) style.push(`height: ${height}`)
     if (radius) style.push(`border-radius: ${radius}`)
-    if (resize) style.push(`resize: none`)
+    if (resize) style.push(`resize: ${resize}`)
     style = style.join('; ')
 
     return `
       <div class="wrapper">
         ${this.renderLabel()}
         <textarea
+          ${idAttr}
           ${nameAttr}
-          ${autofocus ? 'autofocus' : ''}
+          ${placeholderAttr}
+          ${spellcheckAttr}
           ${disabled ? 'disabled' : ''}
-          ${readonly ? 'readonly' : ''}
           ${required ? 'required' : ''}
-          placeholder="${placeholder}"
-          spellcheck="${spellcheck}"
+          ${readonly ? 'readonly' : ''}
+          ${autofocus ? 'autofocus' : ''}
           rows="${rows}"
           cols="${cols}"
           minlength="${minlength}"

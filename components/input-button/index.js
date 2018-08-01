@@ -67,10 +67,12 @@ class InputButton extends Tonic {
     let style = []
     if (width) style.push(`width: ${width}`)
     if (height) style.push(`height: ${height}`)
-    if (fill) style.push(`background-color: ${fill}`)
-    if (fill) style.push(`border-color: ${fill}`)
-    if (textColor) style.push(`color: ${textColor}`)
     if (radius) style.push(`border-radius: ${radius}`)
+    if (fill) {
+      style.push(`background-color: ${fill}`)
+      style.push(`border-color: ${fill}`)
+    }
+    if (textColor) style.push(`color: ${textColor}`)
     style = style.join('; ')
 
     return `

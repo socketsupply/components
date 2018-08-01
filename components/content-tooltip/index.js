@@ -18,7 +18,7 @@ class ContentTooltip extends Tonic {
         position: absolute;
         z-index: -1;
         transition: all 0.3s;
-        border: radius 2px;
+        border-radius: 2px;
         box-shadow: 0px 0px 10px rgba(0,0,0,0.4);
       }
       :host span #tooltip.show {
@@ -34,11 +34,15 @@ class ContentTooltip extends Tonic {
   }
 
   mouseenter (e) {
-    const tooltip = this.root.getElementById('tooltip')
-    tooltip.classList.add('show')
+    clearTimeout(this.timer)
+    this.timer = setTimeout(() => {
+      const tooltip = this.root.getElementById('tooltip')
+      tooltip.classList.add('show')
+    }, 128)
   }
 
   mouseleave (e) {
+    clearTimeout(this.timer)
     const tooltip = this.root.getElementById('tooltip')
     tooltip.classList.remove('show')
   }

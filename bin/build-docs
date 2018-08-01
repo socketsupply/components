@@ -14,10 +14,12 @@ const intro = `
       A <b>component</b> is a fully self-contained set of styles, behaviors and
       layout. It usually solves a single problem in a way that makes it highly
       reusable. An example would be a <code>ProgressBar</code> or <code>InputToggle</code>.
+    </p>
     <p>
       <b>Tonic</b> is a minimalist class library for building components inspired
       by <b>React</b> but built on top of new web standards &mdash; <b>Web
-      Components</b>.
+      Components</b>. This page documents a collection of components built
+      with Tonic as well as how to build your own components using Tonic.
     </p>
     <div class="row">
       <h3>Features</h3>
@@ -36,7 +38,7 @@ const intro = `
         </ul>
       </div>
     </div>
-  </seciton>
+  </section>
 `
 
 const custom = `

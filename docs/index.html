@@ -20,6 +20,10 @@
       </li>
     
       <li>
+        <a href="#contenttooltip" class="">ContentTooltip</a>
+      </li>
+    
+      <li>
         <a href="#iconcontainer" class="">IconContainer</a>
       </li>
     
@@ -62,10 +66,12 @@
       A <b>component</b> is a fully self-contained set of styles, behaviors and
       layout. It usually solves a single problem in a way that makes it highly
       reusable. An example would be a <code>ProgressBar</code> or <code>InputToggle</code>.
+    </p>
     <p>
       <b>Tonic</b> is a minimalist class library for building components inspired
       by <b>React</b> but built on top of new web standards &mdash; <b>Web
-      Components</b>.
+      Components</b>. This page documents a collection of components built
+      with Tonic as well as how to build your own components using Tonic.
     </p>
     <div class="row">
       <h3>Features</h3>
@@ -84,10 +90,32 @@
         </ul>
       </div>
     </div>
-  </seciton>
+  </section>
 
 
-          <section id="iconcontainer"><h1 id="iconcontainer">IconContainer</h1>
+          <section id="contenttooltip"><h1 id="contenttooltip">ContentTooltip</h1>
+<h2 id="demo">Demo</h2>
+<table>
+<thead>
+<tr>
+<th align="left">Example</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><content-tooltip id="hello" text="Hello, World"></content-tooltip></td>
+<td align="left">Default</td>
+</tr>
+</tbody></table>
+<template for="hello">
+  <style>
+    div {
+      background: red;
+    }
+  </style>
+  <h1>Hello</h1>
+</template>
+</section><section id="iconcontainer"><h1 id="iconcontainer">IconContainer</h1>
 <p>The component <code>IconContainer</code> is used to create an SVG icon with a custom size and color.</p>
 <h2 id="demo">Demo</h2>
 <table>

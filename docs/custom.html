@@ -1,23 +1,69 @@
 <h1>Custom Components</h1>
-<p class="center">
-  A component is a self-contained set of styles, behaviors and layout.
-  It can be as simple to use as an html tag. A component hides complexity
-  and adds usefulness. It should do one thing in a generalized way that
-  makes it reusable.
+
+<p>Building a component starts with creating a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes">Javascript Class</a>.
+The class should have at least one method named <b>render</b>
+which usually returns a string of html.
 </p>
-<pre><code>
-class ChildComponent extends Tonic {
+<pre><code>class ExampleComponent extends Tonic {
+  render () {
+    return `&lt;div&gt;Hello, World.&lt;/div&gt;`
+  }
+}</code>
+</pre>
+
+<p>Next, you can tell the browser about your new class and it will
+create a custom html tag for it.</p>
+<pre><code>Tonic.add(ExampleComponent)</code>
+</pre>
+
+<p>Add your Javascript to your html and now you can now
+use your new component anywhere in your html.</p>
+
+<pre><code>&lt;html&gt;
+  &lt;head&gt;
+  &lt;script src="index.js"&gt;&lt;/script&gt;
+  &lt;/head&gt;
+
+  &lt;body&gt;
+    &lt;example-component&gt;&lt;/example-component&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code>
+</pre>
+
+<p>The result, when rendered by the browser, will be that the html
+from your render function will be inserted into the component. As you
+can see, the potential complexity of your code will be hidden from the
+programmer using it, making their reality a little simpler.</b>
+
+<pre><code>&lt;html&gt;
+  &lt;head&gt;
+  &lt;script src="index.js"&gt;&lt;/script&gt;
+  &lt;/head&gt;
+
+  &lt;body&gt;
+    &lt;example-component&gt;
+      &lt;div&gt;Hello, World.&lt;/div&gt;
+    &lt;/example-component&gt;
+  &lt;/body&gt;
+&lt;/html&gt;</code>
+</pre>
+
+<p>Here is a more complex example that demonstrates some more features
+and some explaination of what they are and how they work.</p>
+
+<pre><code>class ChildComponent extends Tonic {
   <i>//
-  // A constructor is not required.
+  // A <b>constructor</b> (not required) is a class method that will be
+  // called once when an instance of your component is created.
   //</i>
   constructor (props) {
     super(props)
 
     <i>//
-    // CSS can be be read-in from a separate file, compiled by a
-    // or you can use your fav CSS-in-JS solution. Either way,
-    // your style will be "private" and won't affect any other part
-    // of the page. No prefix hacks or monkey patching needed.
+    // You can create a "private" stylesheet that will not affect any
+    // other part of the page. Since we are using <b>Web Components</b>,
+    // this doesn't require any hacks &mdash; hacks that can make debugging
+    // much more difficult.
     //</i>
     this.stylesheet = `
       div {
@@ -31,9 +77,9 @@ class ChildComponent extends Tonic {
   }
 
   <i>//
-  // You can listen to any dom event by creating a method with
-  // the corresponding name. The method will receive the plain
-  // old Javascript event object.
+  // You can listen to any dom event that happens in your component
+  // by creating a method with the corresponding name. The method will
+  // receive the plain old Javascript event object.
   //</i>
   mouseover (e) {
     e.target.style.backgroundColor = someRandomColor

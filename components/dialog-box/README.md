@@ -13,7 +13,10 @@ The component `DialogBox` is used to create a dialog that displays content on to
   </thead>
   <tbody>
     <tr>
-      <td>Click me</td>
+      <td>
+        <dialog-box id="dialog-box-example-1"></dialog-box>
+        <a href="#" id="dialog-box-link-example-1">Click Me</a>
+      </td>
       <td>Default dialog box</td>
       <td>
         <icon-container src="./sprite.svg#code"></icon-container>
@@ -21,6 +24,22 @@ The component `DialogBox` is used to create a dialog that displays content on to
     </tr>
   </tbody>
 </table>
+
+<template for="dialog-box-example-1">
+  <header>Dialog</header>
+  <main>
+    <p>I'm a little dialog,<br> hear me shout</p>
+  </main>
+  <footer>
+    <button>Button<button>
+  </footer>
+</template>
+
+<script>
+  const dialogLink1 = document.getElementById('dialog-box-link-example-1')
+  const dialog1 = document.getElementById('dialog-box-example-1')
+  dialogLink1.addEventListener('click', e => dialog1.show())
+</script>
 
 ## Api
 

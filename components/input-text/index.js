@@ -87,7 +87,6 @@ class InputText extends Tonic {
       height,
       padding,
       radius,
-      color,
       position
     } = { ...this.defaults, ...this.props }
 

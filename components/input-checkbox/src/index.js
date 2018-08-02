@@ -57,7 +57,6 @@ class InputCheckbox extends Tonic {
     } = { ...this.defaults, ...this.props }
 
     const state = checked ? on : off
-    const idAttr = id ? `id="${id}"` : ''
     const nameAttr = name ? `name="${name}"` : ''
     const style = `fill: ${color}; color: ${color};`
 
@@ -65,7 +64,7 @@ class InputCheckbox extends Tonic {
       <div class="wrapper">
         <input
           type="checkbox"
-          ${idAttr}
+          ${id}
           ${nameAttr}
           ${disabled ? 'disabled' : ''}
           ${checked ? 'checked' : ''}/>

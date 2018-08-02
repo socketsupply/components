@@ -14,6 +14,9 @@ class InputCheckbox extends Tonic {
       input[type="checkbox"] {
         display: none;
       }
+      input[type="checkbox"][disabled] + label {
+        opacity: 0.35;
+      }
       label {
         color: var(--primary);
         font: 12px 'Poppins', sans-serif;
@@ -91,7 +94,7 @@ class InputCheckbox extends Tonic {
       <div class="wrapper">
         <input
           type="checkbox"
-          ${id}
+          id="${id}"
           ${nameAttr}
           ${disabled ? 'disabled' : ''}
           ${checked ? 'checked' : ''}/>

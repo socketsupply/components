@@ -64,7 +64,7 @@ class InputCheckbox extends Tonic {
       <div class="wrapper">
         <input
           type="checkbox"
-          ${id}
+          id="${id}"
           ${nameAttr}
           ${disabled ? 'disabled' : ''}
           ${checked ? 'checked' : ''}/>

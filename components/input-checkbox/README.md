@@ -15,17 +15,17 @@ The component `InputCheckbox` is used to create a styled checkbox, with or witho
   <tbody>
     <tr>
       <td>
-        <input-checkbox></input-checkbox>
+        <input-checkbox id="checkbox-example-1"></input-checkbox>
       </td>
       <td>Default Checkbox</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <icon-container id="checkbox-example-2" src="./sprite.svg#code"></icon-container>
       </td>
     </tr>
     <tr>
       <td>
         <input-checkbox
-          id="input-checkbox-example-2"
+          id="checkbox-example-3"
           label="Label">
         </input-checkbox>
       </td>
@@ -37,7 +37,7 @@ The component `InputCheckbox` is used to create a styled checkbox, with or witho
     <tr>
       <td>
         <input-checkbox
-          id="input-checkbox-example-3"
+          id="checkbox-example-4"
           label="Disabled"
           disabled>
         </input-checkbox>
@@ -50,7 +50,7 @@ The component `InputCheckbox` is used to create a styled checkbox, with or witho
     <tr>
       <td>
         <input-checkbox
-          id="input-checkbox-example-4"
+          id="checkbox-example-5"
           label="Disabled and Checked"
           disabled
           checked>
@@ -64,7 +64,7 @@ The component `InputCheckbox` is used to create a styled checkbox, with or witho
     <tr>
       <td>
         <input-checkbox
-          id="input-checkbox-example-5"
+          id="checkbox-example-6"
           size="25px"
           on="./sprite.svg#custom_on"
           off="./sprite.svg#custom_off">
@@ -84,8 +84,8 @@ The component `InputCheckbox` is used to create a styled checkbox, with or witho
 
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
-| `id` | *string* | Adds `id` attribute | *none* |
-| `name` | *string* | Adds `name` attribute | *none* |
+| `id` | *string* | Adds `id` attribute <span class="req">required</span> |  |
+| `name` | *string* | Adds `name` attribute |  |
 | `disabled` | *boolean* | Adds `disabled` attribute | *#000* |
 | `checked` | *boolean* | Adds `checked` attribute | *#000* |
 | `size` | *string* | Changes the `width` and `height` of the icon | *18px* |

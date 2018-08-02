@@ -81,10 +81,6 @@ class DialogBox extends Tonic {
     }
   }
 
-  setContent (s) {
-    
-  }
-
   show () {
     this.root.firstChild.classList.add('show')
   }

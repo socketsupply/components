@@ -6,16 +6,19 @@
     all inherit
 
     .tooltip
-      background white
-      opacity 0
       position absolute
-      z-index -1
-      transition all 0.3s ease-in-out
-      border-radius 2px
-      border 1px solid var(--border)
+      top 30px
+      background white
       box-shadow 0px 30px 90px -20px rgba(0, 0, 0, 0.3)
+      border 1px solid var(--border)
+      border-radius 2px
+      transition all 0.3s ease-in-out
+      visibility hidden
+      z-index -1
+      opacity 0
 
       &.show
+        visibility visible
         opacity 1
         z-index 1
 
@@ -49,3 +52,13 @@
         //   top 100%
         //   border-bottom-color var(--border)
         //   border-right-color var(--border)
+
+    .image
+      position absolute
+      top 0
+      left 0
+      right 0
+      bottom 0
+      background-size cover
+      -webkit-clip-path polygon(0% 0%, 100% 0%, 100% 75%, 55% 75%, 47% 83%, 39% 75%, 0% 75%)
+      clip-path polygon(0% 0%, 100% 0%, 100% 75%, 55% 75%, 47% 83%, 39% 75%, 0% 75%)

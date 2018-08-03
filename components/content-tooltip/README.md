@@ -12,7 +12,9 @@
   </thead>
   <tbody>
     <tr>
-      <td><content-tooltip id="hello">Fix me!! :)</content-tooltip></td>
+      <td>
+        <content-tooltip id="hello">Hover me!</content-tooltip>
+      </td>
       <td>Default content box</td>
       <td>
         <icon-container src="./sprite.svg#code"></icon-container>
@@ -20,12 +22,6 @@
     </tr>
   </tbody>
 </table>
-
-<style>
-  .tooltip {
-    background: blue;
-  }
-</style>
 
 <template for="hello">
   <h1>Hello</h1>

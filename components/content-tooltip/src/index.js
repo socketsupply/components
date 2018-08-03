@@ -51,7 +51,10 @@ class ContentTooltip extends Tonic {
     tooltip.setAttribute('style', style.join(''))
     const template = document.querySelector(`template[for="${id}"]`)
     const clone = document.importNode(template.content, true)
+
+    const image = document.createElement('div.image')
     tooltip.appendChild(clone)
+    clone.appendChild(image)
     span.appendChild(tooltip)
     this.root.appendChild(span)
     this.structure = span

@@ -14,12 +14,13 @@ class ContentTooltip extends Tonic {
         all: inherit;
       }
       :host span .tooltip {
-        background: #fff;
         position: absolute;
-        transition: all 0.3s ease-in-out;
-        border-radius: 2px;
-        border: 1px solid var(--border);
+        top: 30px;
+        background: #fff;
         box-shadow: 0px 30px 90px -20px rgba(0,0,0,0.3);
+        border: 1px solid var(--border);
+        border-radius: 2px;
+        transition: all 0.3s ease-in-out;
       }
       :host span .tooltip.arrow:after {
         content: '';
@@ -41,6 +42,16 @@ class ContentTooltip extends Tonic {
         bottom: 100%;
         border-top-color: var(--border);
         border-left-color: var(--border);
+      }
+      :host span .image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-size: cover;
+        -webkit-clip-path: polygon(0% 0%, 100% 0%, 100% 75%, 55% 75%, 47% 83%, 39% 75%, 0% 75%);
+        clip-path: polygon(0% 0%, 100% 0%, 100% 75%, 55% 75%, 47% 83%, 39% 75%, 0% 75%);
       }
       `
 
@@ -89,7 +100,10 @@ class ContentTooltip extends Tonic {
     tooltip.setAttribute('style', style.join(''))
     const template = document.querySelector(`template[for="${id}"]`)
     const clone = document.importNode(template.content, true)
+
+    const image = document.createElement('div.image')
     tooltip.appendChild(clone)
+    clone.appendChild(image)
     span.appendChild(tooltip)
     this.root.appendChild(span)
     this.structure = span

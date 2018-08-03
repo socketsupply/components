@@ -17,7 +17,11 @@ class InputButton extends Tonic {
         -moz-appearance: none;
         appearance: none;
         outline: none;
-        transition: all 0.2s ease;
+        -webkit-transition: all 0.2s ease-in-out;
+        -moz-transition: all 0.2s ease-in-out;
+        -ms-transition: all 0.2s ease-in-out;
+        -o-transition: all 0.2s ease-in-out;
+        transition: all 0.2s ease-in-out;
       }
       button[disabled] {
         background-color: var(--secondary);

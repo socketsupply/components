@@ -18,7 +18,11 @@ class ContentTooltip extends Tonic {
         opacity: 0;
         position: absolute;
         z-index: -1;
-        transition: all 0.3s;
+        -webkit-transition: all 0.3s ease-in-out;
+        -moz-transition: all 0.3s ease-in-out;
+        -ms-transition: all 0.3s ease-in-out;
+        -o-transition: all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
         border-radius: 2px;
         box-shadow: 0px 30px 90px -20px rgba(0,0,0,0.3), 0 0 1px #a2a9b1;
       }
@@ -100,7 +104,7 @@ class ContentTooltip extends Tonic {
 
 Tonic.add(ContentTooltip, { shadow: true })
 
-},{"tonic":12}],2:[function(require,module,exports){
+},{"tonic":13}],2:[function(require,module,exports){
 const Tonic = typeof require === 'function'
   ? require('tonic') : window.Tonic
 
@@ -253,7 +257,7 @@ class DialogBox extends Tonic {
 
 Tonic.add(DialogBox, { shadow: true })
 
-},{"tonic":12}],3:[function(require,module,exports){
+},{"tonic":13}],3:[function(require,module,exports){
 const Tonic = typeof require === 'function'
   ? require('tonic') : window.Tonic
 
@@ -299,7 +303,7 @@ class IconContainer extends Tonic {
 
 Tonic.add(IconContainer)
 
-},{"tonic":12}],4:[function(require,module,exports){
+},{"tonic":13}],4:[function(require,module,exports){
 const Tonic = typeof require === 'function'
   ? require('tonic') : window.Tonic
 
@@ -319,7 +323,11 @@ class InputButton extends Tonic {
         -moz-appearance: none;
         appearance: none;
         outline: none;
-        transition: all 0.2s ease;
+        -webkit-transition: all 0.2s ease-in-out;
+        -moz-transition: all 0.2s ease-in-out;
+        -ms-transition: all 0.2s ease-in-out;
+        -o-transition: all 0.2s ease-in-out;
+        transition: all 0.2s ease-in-out;
       }
       button[disabled] {
         background-color: var(--secondary);
@@ -396,7 +404,7 @@ class InputButton extends Tonic {
 
 Tonic.add(InputButton, { shadow: true })
 
-},{"tonic":12}],5:[function(require,module,exports){
+},{"tonic":13}],5:[function(require,module,exports){
 const Tonic = typeof require === 'function'
   ? require('tonic') : window.Tonic
 
@@ -512,7 +520,7 @@ class InputCheckbox extends Tonic {
 
 Tonic.add(InputCheckbox, { shadow: true })
 
-},{"tonic":12}],6:[function(require,module,exports){
+},{"tonic":13}],6:[function(require,module,exports){
 const Tonic = typeof require === 'function'
   ? require('tonic') : window.Tonic
 
@@ -548,7 +556,11 @@ class InputText extends Tonic {
         padding: 10px;
         border: 1px solid var(--border);
         border-radius: 3px;
-        transition: border 0.2s ease;
+        -webkit-transition: border 0.2s ease-in-out;
+        -moz-transition: border 0.2s ease-in-out;
+        -ms-transition: border 0.2s ease-in-out;
+        -o-transition: border 0.2s ease-in-out;
+        transition: border 0.2s ease-in-out;
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
@@ -643,7 +655,7 @@ class InputText extends Tonic {
 
 Tonic.add(InputText, { shadow: true })
 
-},{"tonic":12}],7:[function(require,module,exports){
+},{"tonic":13}],7:[function(require,module,exports){
 const Tonic = typeof require === 'function'
   ? require('tonic') : window.Tonic
 
@@ -657,7 +669,11 @@ class InputTextarea extends Tonic {
         padding: 10px;
         border: 1px solid var(--border);
         outline: none;
-        transition: all 0.2s ease;
+        -webkit-transition: all 0.2s ease-in-out;
+        -moz-transition: all 0.2s ease-in-out;
+        -ms-transition: all 0.2s ease-in-out;
+        -o-transition: all 0.2s ease-in-out;
+        transition: all 0.2s ease-in-out;
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
@@ -752,7 +768,7 @@ class InputTextarea extends Tonic {
 
 Tonic.add(InputTextarea, { shadow: true })
 
-},{"tonic":12}],8:[function(require,module,exports){
+},{"tonic":13}],8:[function(require,module,exports){
 const Tonic = typeof require === 'function'
   ? require('tonic') : window.Tonic
 
@@ -799,7 +815,11 @@ class InputToggle extends Tonic {
         position: relative;
         background-color: var(--border);
         border-radius: 60px;
-        transition: background 0.4s;
+        -webkit-transition: background 0.4s ease-in-out;
+        -moz-transition: background 0.4s ease-in-out;
+        -ms-transition: background 0.4s ease-in-out;
+        -o-transition: background 0.4s ease-in-out;
+        transition: background 0.4s ease-in-out;
         cursor: default;
       }
       .switch input.toggle + label:before {
@@ -813,7 +833,11 @@ class InputToggle extends Tonic {
         right: 1px;
         display: block;
         border-radius: 60px;
-        transition: background 0.4s;
+        -webkit-transition: background 0.4s ease-in-out;
+        -moz-transition: background 0.4s ease-in-out;
+        -ms-transition: background 0.4s ease-in-out;
+        -o-transition: background 0.4s ease-in-out;
+        transition: background 0.4s ease-in-out;
         padding-top: 1px;
         font-size: 0.65em;
         letter-spacing: 0.05em;
@@ -828,7 +852,11 @@ class InputToggle extends Tonic {
         bottom: 4px;
         background-color: #fff;
         border-radius: 52px;
-        transition: margin 0.4s, background 0.4s;
+        -webkit-transition: background 0.4s ease-in-out, margin 0.4s ease-in-out;
+        -moz-transition: background 0.4s ease-in-out, margin 0.4s ease-in-out;
+        -ms-transition: background 0.4s ease-in-out, margin 0.4s ease-in-out;
+        -o-transition: background 0.4s ease-in-out, margin 0.4s ease-in-out;
+        transition: background 0.4s ease-in-out, margin 0.4s ease-in-out;
         display: block;
         z-index: 2;
       }
@@ -904,7 +932,7 @@ class InputToggle extends Tonic {
 
 Tonic.add(InputToggle, { shadow: true })
 
-},{"tonic":12}],9:[function(require,module,exports){
+},{"tonic":13}],9:[function(require,module,exports){
 const Tonic = typeof require === 'function'
   ? require('tonic') : window.Tonic
 
@@ -926,6 +954,30 @@ class ProfileImage extends Tonic {
         background-position: center center;
         background-repeat: no-repeat;
       }
+      .wrapper .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0,0,0,0.5);
+        -webkit-transition: opacity 0.2s ease-in-out;
+        -moz-transition: opacity 0.2s ease-in-out;
+        -ms-transition: opacity 0.2s ease-in-out;
+        -o-transition: opacity 0.2s ease-in-out;
+        transition: opacity 0.2s ease-in-out;
+        visibility: hidden;
+        opacity: 0;
+        display: flex;
+      }
+      .wrapper .overlay svg {
+        margin: auto;
+      }
+      .wrapper.editable:hover .overlay {
+        visibility: visible;
+        opacity: 1;
+        cursor: pointer;
+      }
       `
 
     this.defaults = {
@@ -942,7 +994,8 @@ class ProfileImage extends Tonic {
       size,
       src,
       radius,
-      border
+      border,
+      editable
     } = { ...this.defaults, ...this.props }
 
     const idAttr = id ? `id="${id}"` : ''
@@ -958,12 +1011,17 @@ class ProfileImage extends Tonic {
     style = style.join('; ')
 
     return `
-      <div class="wrapper" style="${style}">
+      <div class="wrapper ${editable ? 'editable' : ''}" style="${style}">
         <div
           class="image"
           ${idAttr}
           ${nameAttr}
           style="background-image: url('${src}')">
+        </div>
+        <div class="overlay">
+          <svg style="width: 40px; height: 40px;">
+            <use xlink:href="./sprite.svg#edit" style="fill: #fff; color: #fff;">
+          </svg>
         </div>
       </div>
     `
@@ -972,7 +1030,191 @@ class ProfileImage extends Tonic {
 
 Tonic.add(ProfileImage, { shadow: true })
 
-},{"tonic":12}],10:[function(require,module,exports){
+},{"tonic":13}],10:[function(require,module,exports){
+const Tonic = typeof require === 'function'
+  ? require('tonic') : window.Tonic
+
+class SidePanel extends Tonic {
+  constructor () {
+    super()
+    this.stylesheet = `
+      * {
+        box-sizing: border-box;
+      }
+      .wrapper .panel {
+        width: 500px;
+        position: fixed;
+        bottom: 0;
+        top: 0;
+        background-color: #fff;
+        box-shadow: 0px 0px 28px 0 rgba(0,0,0,0.05);
+        z-index: 100;
+        -webkit-transition: transform 0.3s ease-in-out;
+        -moz-transition: transform 0.3s ease-in-out;
+        -ms-transition: transform 0.3s ease-in-out;
+        -o-transition: transform 0.3s ease-in-out;
+        transition: transform 0.3s ease-in-out;
+      }
+      .wrapper.left .panel {
+        left: 0;
+        transform: translateX(-500px);
+        border-right: 1px solid var(--border);
+      }
+      .wrapper.right .panel {
+        right: 0;
+        transform: translateX(500px);
+        border-left: 1px solid var(--border);
+      }
+      .wrapper.show .panel {
+        transform: translateX(0) !important;
+      }
+      .wrapper.show[overlay="true"] .overlay {
+        opacity: 1;
+        visibility: visible;
+        -webkit-transition: visibility 0s ease-out 1s;
+        -moz-transition: opacity 0.3s ease-in-out, visibility 0s ease 0s;
+        -ms-transition: opacity 0.3s ease-in-out, visibility 0s ease 0s;
+        -o-transition: opacity 0.3s ease-in-out, visibility 0s ease 0s;
+        transition: opacity 0.3s ease-in-out, visibility 0s ease 0s;
+      }
+      .wrapper .overlay {
+        opacity: 0;
+        visibility: hidden;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0,0,0,0.5);
+        -webkit-transition: opacity 0.3s ease-in-out, visibility 0s ease 1s;
+        -moz-transition: opacity 0.3s ease-in-out, visibility 0s ease 1s;
+        -ms-transition: opacity 0.3s ease-in-out, visibility 0s ease 1s;
+        -o-transition: opacity 0.3s ease-in-out, visibility 0s ease 1s;
+        transition: opacity 0.3s ease-in-out, visibility 0s ease 1s;
+      }
+      .wrapper .close {
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        top: 30px;
+        right: 30px;
+      }
+      .wrapper .close svg {
+        width: 100%;
+        height: 100%;
+      }
+      .wrapper header {
+        padding: 20px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 90px;
+        border-bottom: 1px solid var(--border);
+      }
+      .wrapper main {
+        padding: 20px;
+        position: absolute;
+        top: 90px;
+        left: 0;
+        right: 0;
+        bottom: 70px;
+        overflow: scroll;
+      }
+      .wrapper footer {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 70px;
+        padding: 20px;
+        text-align: right;
+        border-top: 1px solid var(--border);
+      }
+      `
+
+    this.defaults = {
+      position: 'right'
+    }
+  }
+
+  show () {
+    this.root.firstChild.classList.add('show')
+  }
+
+  hide () {
+    this.root.firstChild.classList.remove('show')
+  }
+
+  click ({ target }) {
+    const el = Tonic.match(target, '.close')
+    if (el) this.hide()
+    this.value = {}
+  }
+
+  willConnect () {
+    const {
+      name,
+      position,
+      overlay
+    } = { ...this.defaults, ...this.props }
+
+    const id = this.getAttribute('id')
+
+    // create wrapper
+    const wrapper = document.createElement('div')
+    wrapper.id = 'wrapper'
+    wrapper.classList.add('wrapper')
+    wrapper.classList.add(position)
+    if (overlay) {
+      wrapper.setAttribute('overlay', true)
+    }
+    if (name) {
+      wrapper.setAttribute('name', name)
+    }
+
+    // create panel
+    const panel = document.createElement('div')
+    panel.className = 'panel'
+
+    // create overlay
+    const overlayElement = document.createElement('div')
+    overlayElement.className = 'overlay'
+
+    // create template
+    const template = document.querySelector(`template[for="${id}"]`)
+    const clone = document.importNode(template.content, true)
+    const close = document.createElement('div')
+    close.className = 'close'
+
+    // create svg
+    const file = './sprite.svg#close'
+    const nsSvg = 'http://www.w3.org/2000/svg'
+    const nsXlink = 'http://www.w3.org/1999/xlink'
+    const svg = document.createElementNS(nsSvg, 'svg')
+    const use = document.createElementNS(nsSvg, 'use')
+    use.setAttributeNS(nsXlink, 'xlink:href', file)
+
+    // append everything
+    wrapper.appendChild(panel)
+    wrapper.appendChild(panel)
+    wrapper.appendChild(overlayElement)
+    panel.appendChild(clone)
+    panel.appendChild(close)
+    close.appendChild(svg)
+    svg.appendChild(use)
+
+    this.structure = wrapper
+  }
+
+  render () {
+    return this.structure
+  }
+}
+
+Tonic.add(SidePanel, { shadow: true })
+
+},{"tonic":13}],11:[function(require,module,exports){
 const scrollToY = require('scrolltoy')
 const main = document.querySelector('main')
 
@@ -1022,7 +1264,7 @@ function onscroll (event) {
 
 main.addEventListener('scroll', onscroll)
 
-},{"scrolltoy":11}],11:[function(require,module,exports){
+},{"scrolltoy":12}],12:[function(require,module,exports){
 var requestFrame = (function () {
   return window.requestAnimationFrame ||
     window.webkitRequestAnimationFrame ||
@@ -1077,7 +1319,7 @@ module.exports = function scrollToY (el, Y, speed) {
   setY()
 }
 
-},{}],12:[function(require,module,exports){
+},{}],13:[function(require,module,exports){
 class Tonic extends window.HTMLElement {
   constructor () {
     super()
@@ -1205,4 +1447,4 @@ Tonic.escapeMap = { '"': '&quot;', '&': '&amp;', '\'': '&#x27;', '<': '&lt;', '>
 
 if (typeof module === 'object') module.exports = Tonic
 
-},{}]},{},[10,1,2,3,4,5,6,7,8,9]);
+},{}]},{},[11,1,2,3,4,5,6,7,8,9,10]);

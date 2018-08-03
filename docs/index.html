@@ -56,6 +56,10 @@
       </li>
     
       <li>
+        <a href="#sidepanel" class="">SidePanel</a>
+      </li>
+    
+      <li>
         <a href="#custom" class="">Custom</a>
       </li>
     </ul>
@@ -1128,6 +1132,13 @@
         <icon-container src="./sprite.svg#code"></icon-container>
       </td>
     </tr>
+    <tr>
+      <td><profile-image size="150px" editable></profile-image></td>
+      <td>Large Profile Image (150px)</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
   </tbody>
 </table>
 
@@ -1177,6 +1188,177 @@
 <td align="left"><em>string</em></td>
 <td align="left">Change the border of the image (i.e. &#39;1px solid white&#39;)</td>
 <td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>editable</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Add an edit overlay</td>
+<td align="left">false</td>
+</tr>
+</tbody></table>
+<h3 id="static-methods-members">Static Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+</section><section id="sidepanel"><h1 id="sidepanel">SidePanel</h1>
+<p>The component <code>SidePanel</code> create a side panel with overlay (color or transparent).</p>
+<h2 id="demo">Demo</h2>
+<table class="example">
+  <thead>
+    <tr>
+      <th>Example</th>
+      <th>Description</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <side-panel id="side-panel-example-1"></side-panel>
+        <a href="#" id="side-panel-link-example-1">Click Me</a>
+      </td>
+      <td>Default Side Panel (right)</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <side-panel id="side-panel-example-2" position="left"></side-panel>
+        <a href="#" id="side-panel-link-example-2">Click Me</a>
+      </td>
+      <td>Default Side Panel (left)</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <side-panel id="side-panel-example-3" overlay></side-panel>
+        <a href="#" id="side-panel-link-example-3">Click Me</a>
+      </td>
+      <td>Default Side Panel with overlay (right)</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<template for="side-panel-example-1">
+  <header></header>
+  <main>
+    <p>This is a panel</p>
+  </main>
+  <footer>
+    <button>Cancel</button>
+    <button>Confirm</button>
+  </footer>
+</template>
+
+<template for="side-panel-example-2">
+  <header></header>
+  <main>
+    <p>This is a panel but on the left</p>
+  </main>
+  <footer>
+    <button>Cancel</button>
+    <button>Confirm</button>
+  </footer>
+</template>
+
+<template for="side-panel-example-3">
+  <header></header>
+  <main>
+    <p>This is a panel with an overlay</p>
+  </main>
+  <footer>
+    <button>Cancel</button>
+    <button>Confirm</button>
+  </footer>
+</template>
+
+<script>
+  const panelLink1 = document.getElementById('side-panel-link-example-1')
+  const panel1 = document.getElementById('side-panel-example-1')
+  panelLink1.addEventListener('click', e => panel1.show())
+
+  const panelLink2 = document.getElementById('side-panel-link-example-2')
+  const panel2 = document.getElementById('side-panel-example-2')
+  panelLink2.addEventListener('click', e => panel2.show())
+
+  const panelLink3 = document.getElementById('side-panel-link-example-3')
+  const panel3 = document.getElementById('side-panel-example-3')
+  panelLink3.addEventListener('click', e => panel3.show())
+
+  const panels = document.querySelectorAll('.wrapper')
+  console.log(panels, '>>>>>>>')
+  <!-- panels.map(panel => panel.classList.contains('show') console.log('muffin') ) -->
+</script>
+
+<h2 id="code">Code</h2>
+<p>A template is required. Example template structure for panel content:</p>
+<pre><code class="language-html">  &lt;template for= id&gt;
+    &lt;header&gt;
+      &lt;!-- Header content goes here --&gt;
+    &lt;/header&gt;
+    &lt;main&gt;
+      &lt;!-- Main content goes here --&gt;
+    &lt;/main&gt;
+    &lt;footer&gt;
+      &lt;!-- Footer content goes here --&gt;
+    &lt;/footer&gt;
+  &lt;/template&gt;</code></pre>
+<h2 id="api">Api</h2>
+<h3 id="properties">Properties</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>id</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds the <code>id</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>name</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds the <code>name</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>position</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Changes the position of the panel</td>
+<td align="left"><em>right</em></td>
 </tr>
 </tbody></table>
 <h3 id="static-methods-members">Static Methods &amp; Members</h3>

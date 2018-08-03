@@ -33,7 +33,11 @@ class InputText extends Tonic {
         padding: 10px;
         border: 1px solid var(--border);
         border-radius: 3px;
-        transition: border 0.2s ease;
+        -webkit-transition: border 0.2s ease-in-out;
+        -moz-transition: border 0.2s ease-in-out;
+        -ms-transition: border 0.2s ease-in-out;
+        -o-transition: border 0.2s ease-in-out;
+        transition: border 0.2s ease-in-out;
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;

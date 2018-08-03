@@ -44,7 +44,11 @@ class InputToggle extends Tonic {
         position: relative;
         background-color: var(--border);
         border-radius: 60px;
-        transition: background 0.4s;
+        -webkit-transition: background 0.4s ease-in-out;
+        -moz-transition: background 0.4s ease-in-out;
+        -ms-transition: background 0.4s ease-in-out;
+        -o-transition: background 0.4s ease-in-out;
+        transition: background 0.4s ease-in-out;
         cursor: default;
       }
       .switch input.toggle + label:before {
@@ -58,7 +62,11 @@ class InputToggle extends Tonic {
         right: 1px;
         display: block;
         border-radius: 60px;
-        transition: background 0.4s;
+        -webkit-transition: background 0.4s ease-in-out;
+        -moz-transition: background 0.4s ease-in-out;
+        -ms-transition: background 0.4s ease-in-out;
+        -o-transition: background 0.4s ease-in-out;
+        transition: background 0.4s ease-in-out;
         padding-top: 1px;
         font-size: 0.65em;
         letter-spacing: 0.05em;
@@ -73,7 +81,11 @@ class InputToggle extends Tonic {
         bottom: 4px;
         background-color: #fff;
         border-radius: 52px;
-        transition: margin 0.4s, background 0.4s;
+        -webkit-transition: background 0.4s ease-in-out, margin 0.4s ease-in-out;
+        -moz-transition: background 0.4s ease-in-out, margin 0.4s ease-in-out;
+        -ms-transition: background 0.4s ease-in-out, margin 0.4s ease-in-out;
+        -o-transition: background 0.4s ease-in-out, margin 0.4s ease-in-out;
+        transition: background 0.4s ease-in-out, margin 0.4s ease-in-out;
         display: block;
         z-index: 2;
       }

@@ -20,7 +20,8 @@ class ProfileImage extends Tonic {
       size,
       src,
       radius,
-      border
+      border,
+      editable
     } = { ...this.defaults, ...this.props }
 
     const idAttr = id ? `id="${id}"` : ''
@@ -36,12 +37,17 @@ class ProfileImage extends Tonic {
     style = style.join('; ')
 
     return `
-      <div class="wrapper" style="${style}">
+      <div class="wrapper ${editable ? 'editable' : ''}" style="${style}">
         <div
           class="image"
           ${idAttr}
           ${nameAttr}
           style="background-image: url('${src}')">
+        </div>
+        <div class="overlay">
+          <svg style="width: 40px; height: 40px;">
+            <use xlink:href="./sprite.svg#edit" style="fill: #fff; color: #fff;">
+          </svg>
         </div>
       </div>
     `

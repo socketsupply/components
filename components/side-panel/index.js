@@ -1,0 +1,182 @@
+const Tonic = typeof require === 'function'
+  ? require('tonic') : window.Tonic
+
+class SidePanel extends Tonic {
+  constructor () {
+    super()
+    this.stylesheet = `
+      * {
+        box-sizing: border-box;
+      }
+      .wrapper .panel {
+        width: 500px;
+        position: fixed;
+        bottom: 0;
+        top: 0;
+        background-color: #fff;
+        box-shadow: 0px 0px 28px 0 rgba(0,0,0,0.05);
+        z-index: 100;
+        -webkit-transition: transform 0.3s ease-in-out;
+        -moz-transition: transform 0.3s ease-in-out;
+        -ms-transition: transform 0.3s ease-in-out;
+        -o-transition: transform 0.3s ease-in-out;
+        transition: transform 0.3s ease-in-out;
+      }
+      .wrapper.left .panel {
+        left: 0;
+        transform: translateX(-500px);
+        border-right: 1px solid var(--border);
+      }
+      .wrapper.right .panel {
+        right: 0;
+        transform: translateX(500px);
+        border-left: 1px solid var(--border);
+      }
+      .wrapper.show .panel {
+        transform: translateX(0) !important;
+      }
+      .wrapper.show[overlay="true"] .overlay {
+        opacity: 1;
+        visibility: visible;
+        -webkit-transition: visibility 0s ease-out 1s;
+        -moz-transition: opacity 0.3s ease-in-out, visibility 0s ease 0s;
+        -ms-transition: opacity 0.3s ease-in-out, visibility 0s ease 0s;
+        -o-transition: opacity 0.3s ease-in-out, visibility 0s ease 0s;
+        transition: opacity 0.3s ease-in-out, visibility 0s ease 0s;
+      }
+      .wrapper .overlay {
+        opacity: 0;
+        visibility: hidden;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0,0,0,0.5);
+        -webkit-transition: opacity 0.3s ease-in-out, visibility 0s ease 1s;
+        -moz-transition: opacity 0.3s ease-in-out, visibility 0s ease 1s;
+        -ms-transition: opacity 0.3s ease-in-out, visibility 0s ease 1s;
+        -o-transition: opacity 0.3s ease-in-out, visibility 0s ease 1s;
+        transition: opacity 0.3s ease-in-out, visibility 0s ease 1s;
+      }
+      .wrapper .close {
+        width: 30px;
+        height: 30px;
+        position: absolute;
+        top: 30px;
+        right: 30px;
+      }
+      .wrapper .close svg {
+        width: 100%;
+        height: 100%;
+      }
+      .wrapper header {
+        padding: 20px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 90px;
+        border-bottom: 1px solid var(--border);
+      }
+      .wrapper main {
+        padding: 20px;
+        position: absolute;
+        top: 90px;
+        left: 0;
+        right: 0;
+        bottom: 70px;
+        overflow: scroll;
+      }
+      .wrapper footer {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 70px;
+        padding: 20px;
+        text-align: right;
+        border-top: 1px solid var(--border);
+      }
+      `
+
+    this.defaults = {
+      position: 'right'
+    }
+  }
+
+  show () {
+    this.root.firstChild.classList.add('show')
+  }
+
+  hide () {
+    this.root.firstChild.classList.remove('show')
+  }
+
+  click ({ target }) {
+    const el = Tonic.match(target, '.close')
+    if (el) this.hide()
+    this.value = {}
+  }
+
+  willConnect () {
+    const {
+      name,
+      position,
+      overlay
+    } = { ...this.defaults, ...this.props }
+
+    const id = this.getAttribute('id')
+
+    // create wrapper
+    const wrapper = document.createElement('div')
+    wrapper.id = 'wrapper'
+    wrapper.classList.add('wrapper')
+    wrapper.classList.add(position)
+    if (overlay) {
+      wrapper.setAttribute('overlay', true)
+    }
+    if (name) {
+      wrapper.setAttribute('name', name)
+    }
+
+    // create panel
+    const panel = document.createElement('div')
+    panel.className = 'panel'
+
+    // create overlay
+    const overlayElement = document.createElement('div')
+    overlayElement.className = 'overlay'
+
+    // create template
+    const template = document.querySelector(`template[for="${id}"]`)
+    const clone = document.importNode(template.content, true)
+    const close = document.createElement('div')
+    close.className = 'close'
+
+    // create svg
+    const file = './sprite.svg#close'
+    const nsSvg = 'http://www.w3.org/2000/svg'
+    const nsXlink = 'http://www.w3.org/1999/xlink'
+    const svg = document.createElementNS(nsSvg, 'svg')
+    const use = document.createElementNS(nsSvg, 'use')
+    use.setAttributeNS(nsXlink, 'xlink:href', file)
+
+    // append everything
+    wrapper.appendChild(panel)
+    wrapper.appendChild(panel)
+    wrapper.appendChild(overlayElement)
+    panel.appendChild(clone)
+    panel.appendChild(close)
+    close.appendChild(svg)
+    svg.appendChild(use)
+
+    this.structure = wrapper
+  }
+
+  render () {
+    return this.structure
+  }
+}
+
+Tonic.add(SidePanel, { shadow: true })

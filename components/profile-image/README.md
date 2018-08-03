@@ -40,6 +40,13 @@ The component `ProfileImage` is used to create an SVG icon with a custom size an
         <icon-container src="./sprite.svg#code"></icon-container>
       </td>
     </tr>
+    <tr>
+      <td><profile-image size="150px" editable></profile-image></td>
+      <td>Large Profile Image (150px)</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
   </tbody>
 </table>
 
@@ -55,6 +62,7 @@ The component `ProfileImage` is used to create an SVG icon with a custom size an
 | `src` | *string* | Add an image source | *'./default.jpg'* |
 | `radius` | *string* | Change the border-radius of the image | *'5px'* |
 | `border` | *string* | Change the border of the image (i.e. '1px solid white') |  |
+| `editable` | *boolean* | Add an edit overlay | false |
 
 ### Static Methods & Members
 

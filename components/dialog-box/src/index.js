@@ -45,6 +45,10 @@ class DialogBox extends Tonic {
     wrapper.id = 'wrapper'
     wrapper.className = 'wrapper'
 
+    // create overlay
+    const overlay = document.createElement('div')
+    overlay.className = 'overlay'
+
     // create dialog
     const dialog = document.createElement('div')
     dialog.className = 'dialog'
@@ -66,6 +70,7 @@ class DialogBox extends Tonic {
 
     // append everything
     wrapper.appendChild(dialog)
+    wrapper.appendChild(overlay)
     dialog.appendChild(clone)
     dialog.appendChild(close)
     close.appendChild(svg)

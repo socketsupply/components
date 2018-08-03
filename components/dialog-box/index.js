@@ -15,29 +15,54 @@ class DialogBox extends Tonic {
         left: 0;
         right: 0;
         bottom: 0;
-        background-color: rgba(0,0,0,0.25);
         display: flex;
-        opacity: 0;
-        z-index: -100;
+        z-index: 100;
         visibility: hidden;
+        transition: visibility 0s ease 0.5s;
       }
       :host .wrapper.show {
-        opacity: 1;
-        z-index: 100;
         visibility: visible;
+        transition: visibility 0s ease 0s;
+      }
+      :host .wrapper.show .overlay {
+        opacity: 1;
+      }
+      :host .wrapper.show .dialog {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        -ms-transform: scale(1);
+        transform: scale(1);
+      }
+      :host .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0,0,0,0.5);
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
       }
       :host .dialog {
         background-color: #fff;
         margin: auto;
         position: relative;
-        border-radius: 2px;
+        border-radius: 4px;
         box-shadow: 0px 30px 90px -20px rgba(0,0,0,0.3), 0 0 1px #a2a9b1;
         padding-top: 50px;
+        z-index: 1;
+        opacity: 0;
+        -webkit-transform: scale(0.8);
+        -ms-transform: scale(0.8);
+        transform: scale(0.8);
+        transition: all 0.3s ease-in-out;
       }
       :host .dialog header {
         position: absolute;
         top: 25px;
         left: 50%;
+        -webkit-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
         transform: translateX(-50%);
         font: 14px 'Poppins', sans-serif;
         text-transform: uppercase;
@@ -114,6 +139,10 @@ class DialogBox extends Tonic {
     wrapper.id = 'wrapper'
     wrapper.className = 'wrapper'
 
+    // create overlay
+    const overlay = document.createElement('div')
+    overlay.className = 'overlay'
+
     // create dialog
     const dialog = document.createElement('div')
     dialog.className = 'dialog'
@@ -135,6 +164,7 @@ class DialogBox extends Tonic {
 
     // append everything
     wrapper.appendChild(dialog)
+    wrapper.appendChild(overlay)
     dialog.appendChild(clone)
     dialog.appendChild(close)
     close.appendChild(svg)

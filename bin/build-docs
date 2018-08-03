@@ -9,7 +9,8 @@ const dirs = fs.readdirSync(componentsDir)
 
 const intro = `
   <section id="intro">
-    <h1>Intro</h1>
+    <p class="intro-copy"><span class="first-word">Tonic</span> is a minimalist component library inspired by React, based on Web Components.</p>
+    <input-button value="View on Github"></input-button>
     <p>
       A <b>component</b> is a fully self-contained set of styles, behaviors and
       layout. It usually solves a single problem in a way that makes it highly

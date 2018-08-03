@@ -44,10 +44,6 @@ class InputToggle extends Tonic {
         position: relative;
         background-color: var(--border);
         border-radius: 60px;
-        -webkit-transition: background 0.4s ease-in-out;
-        -moz-transition: background 0.4s ease-in-out;
-        -ms-transition: background 0.4s ease-in-out;
-        -o-transition: background 0.4s ease-in-out;
         transition: background 0.4s ease-in-out;
         cursor: default;
       }
@@ -62,10 +58,6 @@ class InputToggle extends Tonic {
         right: 1px;
         display: block;
         border-radius: 60px;
-        -webkit-transition: background 0.4s ease-in-out;
-        -moz-transition: background 0.4s ease-in-out;
-        -ms-transition: background 0.4s ease-in-out;
-        -o-transition: background 0.4s ease-in-out;
         transition: background 0.4s ease-in-out;
         padding-top: 1px;
         font-size: 0.65em;
@@ -81,10 +73,6 @@ class InputToggle extends Tonic {
         bottom: 4px;
         background-color: #fff;
         border-radius: 52px;
-        -webkit-transition: background 0.4s ease-in-out, margin 0.4s ease-in-out;
-        -moz-transition: background 0.4s ease-in-out, margin 0.4s ease-in-out;
-        -ms-transition: background 0.4s ease-in-out, margin 0.4s ease-in-out;
-        -o-transition: background 0.4s ease-in-out, margin 0.4s ease-in-out;
         transition: background 0.4s ease-in-out, margin 0.4s ease-in-out;
         display: block;
         z-index: 2;

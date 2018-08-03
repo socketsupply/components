@@ -63,10 +63,6 @@ h4 {
 a {
   color: inherit;
   text-decoration: none;
-  -webkit-transition: all 0.2s ease-in-out;
-  -moz-transition: all 0.2s ease-in-out;
-  -ms-transition: all 0.2s ease-in-out;
-  -o-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
 }
 span.req {
@@ -167,10 +163,6 @@ nav .footer span {
   text-transform: uppercase;
   letter-spacing: 2px;
   display: block;
-  -webkit-transition: all 0.2s ease-in-out;
-  -moz-transition: all 0.2s ease-in-out;
-  -ms-transition: all 0.2s ease-in-out;
-  -o-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
 }
 nav .footer svg {
@@ -181,10 +173,6 @@ nav .footer svg {
 nav .footer svg use {
   fill: var(--secondary);
   color: var(--secondary);
-  -webkit-transition: all 0.2s ease-in-out;
-  -moz-transition: all 0.2s ease-in-out;
-  -ms-transition: all 0.2s ease-in-out;
-  -o-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
 }
 nav .footer:hover span {
@@ -200,7 +188,7 @@ nav li a {
   background-color: transparent;
   padding: 5px 8px;
   border-radius: 3px;
-  transform: background-color 0.2s ease;
+  transition: background-color 0.2s ease;
 }
 nav li a:hover {
   color: var(--accent);
@@ -222,6 +210,9 @@ main {
   bottom: 0;
   overflow: scroll;
 }
+#intro {
+  margin-top: 100px;
+}
 #intro .col {
   width: 50%;
   display: table-cell;
@@ -230,6 +221,21 @@ main {
 }
 #intro .col li {
   font-size: 18px;
+}
+#intro input-button {
+  text-align: center;
+  margin: 50px 0;
+  display: block;
+}
+#intro span.first-word {
+  color: var(--primary);
+}
+#intro p.intro-copy {
+  color: var(--medium);
+  max-width: 670px;
+  font: 30px 'Caudex', serif;
+  text-align: center;
+  margin: 0 auto;
 }
 section {
   max-width: 800px;

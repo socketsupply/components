@@ -15,7 +15,7 @@ The component `DialogBox` is used to create a dialog that displays content on to
     <tr>
       <td>
         <dialog-box id="dialog-box-example-1"></dialog-box>
-        <a href="#" id="dialog-box-link-example-1">Click Me</a>
+        <input-button id="dialog-box-link-example-1" value="Click to open"></input-button>
       </td>
       <td>Default dialog box</td>
       <td>

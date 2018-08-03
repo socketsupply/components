@@ -16,32 +16,32 @@ class SidePanel extends Tonic {
         background-color: #fff;
         box-shadow: 0px 0px 28px 0 rgba(0,0,0,0.05);
         z-index: 100;
-        -webkit-transition: transform 0.3s ease-in-out;
-        -moz-transition: transform 0.3s ease-in-out;
-        -ms-transition: transform 0.3s ease-in-out;
-        -o-transition: transform 0.3s ease-in-out;
         transition: transform 0.3s ease-in-out;
       }
       .wrapper.left .panel {
         left: 0;
+        -webkit-transform: translateX(-500px);
+        -ms-transform: translateX(-500px);
         transform: translateX(-500px);
         border-right: 1px solid var(--border);
       }
       .wrapper.right .panel {
         right: 0;
+        -webkit-transform: translateX(500px);
+        -ms-transform: translateX(500px);
         transform: translateX(500px);
         border-left: 1px solid var(--border);
       }
-      .wrapper.show .panel {
-        transform: translateX(0) !important;
+      .wrapper.show.right .panel,
+      .wrapper.show.left .panel {
+        -webkit-transform: translateX(0);
+        -ms-transform: translateX(0);
+        transform: translateX(0);
       }
-      .wrapper.show[overlay="true"] .overlay {
+      .wrapper.show.right[overlay="true"] .overlay,
+      .wrapper.show.left[overlay="true"] .overlay {
         opacity: 1;
         visibility: visible;
-        -webkit-transition: visibility 0s ease-out 1s;
-        -moz-transition: opacity 0.3s ease-in-out, visibility 0s ease 0s;
-        -ms-transition: opacity 0.3s ease-in-out, visibility 0s ease 0s;
-        -o-transition: opacity 0.3s ease-in-out, visibility 0s ease 0s;
         transition: opacity 0.3s ease-in-out, visibility 0s ease 0s;
       }
       .wrapper .overlay {
@@ -53,10 +53,6 @@ class SidePanel extends Tonic {
         right: 0;
         bottom: 0;
         background-color: rgba(0,0,0,0.5);
-        -webkit-transition: opacity 0.3s ease-in-out, visibility 0s ease 1s;
-        -moz-transition: opacity 0.3s ease-in-out, visibility 0s ease 1s;
-        -ms-transition: opacity 0.3s ease-in-out, visibility 0s ease 1s;
-        -o-transition: opacity 0.3s ease-in-out, visibility 0s ease 1s;
         transition: opacity 0.3s ease-in-out, visibility 0s ease 1s;
       }
       .wrapper .close {

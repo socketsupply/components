@@ -12,7 +12,7 @@
   </thead>
   <tbody>
     <tr>
-      <td><content-tooltip id="hello">Hello, World</content-tooltip></td>
+      <td><content-tooltip id="hello">Fix me!! :)</content-tooltip></td>
       <td>Default content box</td>
       <td>
         <icon-container src="./sprite.svg#code"></icon-container>

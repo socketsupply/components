@@ -17,10 +17,6 @@ class ContentTooltip extends Tonic {
         opacity: 0;
         position: absolute;
         z-index: -1;
-        -webkit-transition: all 0.3s ease-in-out;
-        -moz-transition: all 0.3s ease-in-out;
-        -ms-transition: all 0.3s ease-in-out;
-        -o-transition: all 0.3s ease-in-out;
         transition: all 0.3s ease-in-out;
         border-radius: 2px;
         box-shadow: 0px 30px 90px -20px rgba(0,0,0,0.3), 0 0 1px #a2a9b1;

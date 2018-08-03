@@ -26,10 +26,6 @@ class ProfileImage extends Tonic {
         right: 0;
         bottom: 0;
         background-color: rgba(0,0,0,0.5);
-        -webkit-transition: opacity 0.2s ease-in-out;
-        -moz-transition: opacity 0.2s ease-in-out;
-        -ms-transition: opacity 0.2s ease-in-out;
-        -o-transition: opacity 0.2s ease-in-out;
         transition: opacity 0.2s ease-in-out;
         visibility: hidden;
         opacity: 0;

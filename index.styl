@@ -60,10 +60,6 @@ h4
 a
   color inherit
   text-decoration none
-  -webkit-transition all 0.2s ease-in-out
-  -moz-transition all 0.2s ease-in-out
-  -ms-transition all 0.2s ease-in-out
-  -o-transition all 0.2s ease-in-out
   transition all 0.2s ease-in-out
 
 span.req
@@ -163,10 +159,6 @@ nav
       text-transform uppercase
       letter-spacing 2px
       display block
-      -webkit-transition all 0.2s ease-in-out
-      -moz-transition all 0.2s ease-in-out
-      -ms-transition all 0.2s ease-in-out
-      -o-transition all 0.2s ease-in-out
       transition all 0.2s ease-in-out
 
     svg
@@ -176,10 +168,6 @@ nav
       use
         fill var(--secondary)
         color var(--secondary)
-        -webkit-transition all 0.2s ease-in-out
-        -moz-transition all 0.2s ease-in-out
-        -ms-transition all 0.2s ease-in-out
-        -o-transition all 0.2s ease-in-out
         transition all 0.2s ease-in-out
     &:hover
       span
@@ -196,7 +184,7 @@ nav
       background-color transparent
       padding 5px 8px
       border-radius 3px
-      transform background-color 0.2s ease
+      transition background-color 0.2s ease
       &:hover
         color var(--accent)
       &.selected
@@ -217,6 +205,8 @@ main
   overflow scroll
 
 #intro
+  margin-top 100px
+
   .col
     width 50%
     display table-cell
@@ -225,6 +215,21 @@ main
 
     li
       font-size 18px
+
+  input-button
+    text-align center
+    margin 50px 0
+    display block
+
+  span.first-word
+    color var(--primary)
+
+  p.intro-copy
+    color var(--medium)
+    max-width 670px
+    font 30px 'Caudex', serif;
+    text-align center
+    margin 0 auto
 
 section
   max-width 800px

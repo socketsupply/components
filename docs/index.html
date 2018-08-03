@@ -73,7 +73,8 @@
         <main>
           
   <section id="intro">
-    <h1>Intro</h1>
+    <p class="intro-copy"><span class="first-word">Tonic</span> is a minimalist component library inspired by React, based on Web Components.</p>
+    <input-button value="View on Github"></input-button>
     <p>
       A <b>component</b> is a fully self-contained set of styles, behaviors and
       layout. It usually solves a single problem in a way that makes it highly
@@ -117,7 +118,7 @@
   </thead>
   <tbody>
     <tr>
-      <td><content-tooltip id="hello">Hello, World</content-tooltip></td>
+      <td><content-tooltip id="hello">Fix me!! :)</content-tooltip></td>
       <td>Default content box</td>
       <td>
         <icon-container src="./sprite.svg#code"></icon-container>
@@ -150,7 +151,7 @@
     <tr>
       <td>
         <dialog-box id="dialog-box-example-1"></dialog-box>
-        <a href="#" id="dialog-box-link-example-1">Click Me</a>
+        <input-button id="dialog-box-link-example-1" value="Click to open"></input-button>
       </td>
       <td>Default dialog box</td>
       <td>
@@ -1237,7 +1238,7 @@
     <tr>
       <td>
         <side-panel id="side-panel-example-1"></side-panel>
-        <a href="#" id="side-panel-link-example-1">Click Me</a>
+        <input-button id="side-panel-link-example-1" value="Click to open"></input-button>
       </td>
       <td>Default Side Panel (right)</td>
       <td>
@@ -1247,7 +1248,7 @@
     <tr>
       <td>
         <side-panel id="side-panel-example-2" position="left"></side-panel>
-        <a href="#" id="side-panel-link-example-2">Click Me</a>
+        <input-button id="side-panel-link-example-2" value="Click to open"></input-button>
       </td>
       <td>Default Side Panel (left)</td>
       <td>
@@ -1257,7 +1258,7 @@
     <tr>
       <td>
         <side-panel id="side-panel-example-3" overlay></side-panel>
-        <a href="#" id="side-panel-link-example-3">Click Me</a>
+        <input-button id="side-panel-link-example-3" value="Click to open"></input-button>
       </td>
       <td>Default Side Panel with overlay (right)</td>
       <td>
@@ -1312,10 +1313,6 @@
   const panelLink3 = document.getElementById('side-panel-link-example-3')
   const panel3 = document.getElementById('side-panel-example-3')
   panelLink3.addEventListener('click', e => panel3.show())
-
-  const panels = document.querySelectorAll('.wrapper')
-  console.log(panels, '>>>>>>>')
-  <!-- panels.map(panel => panel.classList.contains('show') console.log('muffin') ) -->
 </script>
 
 <h2 id="code">Code</h2>

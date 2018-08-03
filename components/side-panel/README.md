@@ -15,7 +15,7 @@ The component `SidePanel` create a side panel with overlay (color or transparent
     <tr>
       <td>
         <side-panel id="side-panel-example-1"></side-panel>
-        <a href="#" id="side-panel-link-example-1">Click Me</a>
+        <input-button id="side-panel-link-example-1" value="Click to open"></input-button>
       </td>
       <td>Default Side Panel (right)</td>
       <td>
@@ -25,7 +25,7 @@ The component `SidePanel` create a side panel with overlay (color or transparent
     <tr>
       <td>
         <side-panel id="side-panel-example-2" position="left"></side-panel>
-        <a href="#" id="side-panel-link-example-2">Click Me</a>
+        <input-button id="side-panel-link-example-2" value="Click to open"></input-button>
       </td>
       <td>Default Side Panel (left)</td>
       <td>
@@ -35,7 +35,7 @@ The component `SidePanel` create a side panel with overlay (color or transparent
     <tr>
       <td>
         <side-panel id="side-panel-example-3" overlay></side-panel>
-        <a href="#" id="side-panel-link-example-3">Click Me</a>
+        <input-button id="side-panel-link-example-3" value="Click to open"></input-button>
       </td>
       <td>Default Side Panel with overlay (right)</td>
       <td>

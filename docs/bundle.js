@@ -18,10 +18,6 @@ class ContentTooltip extends Tonic {
         opacity: 0;
         position: absolute;
         z-index: -1;
-        -webkit-transition: all 0.3s ease-in-out;
-        -moz-transition: all 0.3s ease-in-out;
-        -ms-transition: all 0.3s ease-in-out;
-        -o-transition: all 0.3s ease-in-out;
         transition: all 0.3s ease-in-out;
         border-radius: 2px;
         box-shadow: 0px 30px 90px -20px rgba(0,0,0,0.3), 0 0 1px #a2a9b1;
@@ -122,29 +118,54 @@ class DialogBox extends Tonic {
         left: 0;
         right: 0;
         bottom: 0;
-        background-color: rgba(0,0,0,0.25);
         display: flex;
-        opacity: 0;
-        z-index: -100;
+        z-index: 100;
         visibility: hidden;
+        transition: visibility 0s ease 0.5s;
       }
       :host .wrapper.show {
-        opacity: 1;
-        z-index: 100;
         visibility: visible;
+        transition: visibility 0s ease 0s;
+      }
+      :host .wrapper.show .overlay {
+        opacity: 1;
+      }
+      :host .wrapper.show .dialog {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        -ms-transform: scale(1);
+        transform: scale(1);
+      }
+      :host .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0,0,0,0.5);
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
       }
       :host .dialog {
         background-color: #fff;
         margin: auto;
         position: relative;
-        border-radius: 2px;
+        border-radius: 4px;
         box-shadow: 0px 30px 90px -20px rgba(0,0,0,0.3), 0 0 1px #a2a9b1;
         padding-top: 50px;
+        z-index: 1;
+        opacity: 0;
+        -webkit-transform: scale(0.8);
+        -ms-transform: scale(0.8);
+        transform: scale(0.8);
+        transition: all 0.3s ease-in-out;
       }
       :host .dialog header {
         position: absolute;
         top: 25px;
         left: 50%;
+        -webkit-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
         transform: translateX(-50%);
         font: 14px 'Poppins', sans-serif;
         text-transform: uppercase;
@@ -221,6 +242,10 @@ class DialogBox extends Tonic {
     wrapper.id = 'wrapper'
     wrapper.className = 'wrapper'
 
+    // create overlay
+    const overlay = document.createElement('div')
+    overlay.className = 'overlay'
+
     // create dialog
     const dialog = document.createElement('div')
     dialog.className = 'dialog'
@@ -242,6 +267,7 @@ class DialogBox extends Tonic {
 
     // append everything
     wrapper.appendChild(dialog)
+    wrapper.appendChild(overlay)
     dialog.appendChild(clone)
     dialog.appendChild(close)
     close.appendChild(svg)
@@ -323,10 +349,6 @@ class InputButton extends Tonic {
         -moz-appearance: none;
         appearance: none;
         outline: none;
-        -webkit-transition: all 0.2s ease-in-out;
-        -moz-transition: all 0.2s ease-in-out;
-        -ms-transition: all 0.2s ease-in-out;
-        -o-transition: all 0.2s ease-in-out;
         transition: all 0.2s ease-in-out;
       }
       button[disabled] {
@@ -556,10 +578,6 @@ class InputText extends Tonic {
         padding: 10px;
         border: 1px solid var(--border);
         border-radius: 3px;
-        -webkit-transition: border 0.2s ease-in-out;
-        -moz-transition: border 0.2s ease-in-out;
-        -ms-transition: border 0.2s ease-in-out;
-        -o-transition: border 0.2s ease-in-out;
         transition: border 0.2s ease-in-out;
         -webkit-appearance: none;
         -moz-appearance: none;
@@ -669,10 +687,6 @@ class InputTextarea extends Tonic {
         padding: 10px;
         border: 1px solid var(--border);
         outline: none;
-        -webkit-transition: all 0.2s ease-in-out;
-        -moz-transition: all 0.2s ease-in-out;
-        -ms-transition: all 0.2s ease-in-out;
-        -o-transition: all 0.2s ease-in-out;
         transition: all 0.2s ease-in-out;
         -webkit-appearance: none;
         -moz-appearance: none;
@@ -815,10 +829,6 @@ class InputToggle extends Tonic {
         position: relative;
         background-color: var(--border);
         border-radius: 60px;
-        -webkit-transition: background 0.4s ease-in-out;
-        -moz-transition: background 0.4s ease-in-out;
-        -ms-transition: background 0.4s ease-in-out;
-        -o-transition: background 0.4s ease-in-out;
         transition: background 0.4s ease-in-out;
         cursor: default;
       }
@@ -833,10 +843,6 @@ class InputToggle extends Tonic {
         right: 1px;
         display: block;
         border-radius: 60px;
-        -webkit-transition: background 0.4s ease-in-out;
-        -moz-transition: background 0.4s ease-in-out;
-        -ms-transition: background 0.4s ease-in-out;
-        -o-transition: background 0.4s ease-in-out;
         transition: background 0.4s ease-in-out;
         padding-top: 1px;
         font-size: 0.65em;
@@ -852,10 +858,6 @@ class InputToggle extends Tonic {
         bottom: 4px;
         background-color: #fff;
         border-radius: 52px;
-        -webkit-transition: background 0.4s ease-in-out, margin 0.4s ease-in-out;
-        -moz-transition: background 0.4s ease-in-out, margin 0.4s ease-in-out;
-        -ms-transition: background 0.4s ease-in-out, margin 0.4s ease-in-out;
-        -o-transition: background 0.4s ease-in-out, margin 0.4s ease-in-out;
         transition: background 0.4s ease-in-out, margin 0.4s ease-in-out;
         display: block;
         z-index: 2;
@@ -961,10 +963,6 @@ class ProfileImage extends Tonic {
         right: 0;
         bottom: 0;
         background-color: rgba(0,0,0,0.5);
-        -webkit-transition: opacity 0.2s ease-in-out;
-        -moz-transition: opacity 0.2s ease-in-out;
-        -ms-transition: opacity 0.2s ease-in-out;
-        -o-transition: opacity 0.2s ease-in-out;
         transition: opacity 0.2s ease-in-out;
         visibility: hidden;
         opacity: 0;
@@ -1049,32 +1047,32 @@ class SidePanel extends Tonic {
         background-color: #fff;
         box-shadow: 0px 0px 28px 0 rgba(0,0,0,0.05);
         z-index: 100;
-        -webkit-transition: transform 0.3s ease-in-out;
-        -moz-transition: transform 0.3s ease-in-out;
-        -ms-transition: transform 0.3s ease-in-out;
-        -o-transition: transform 0.3s ease-in-out;
         transition: transform 0.3s ease-in-out;
       }
       .wrapper.left .panel {
         left: 0;
+        -webkit-transform: translateX(-500px);
+        -ms-transform: translateX(-500px);
         transform: translateX(-500px);
         border-right: 1px solid var(--border);
       }
       .wrapper.right .panel {
         right: 0;
+        -webkit-transform: translateX(500px);
+        -ms-transform: translateX(500px);
         transform: translateX(500px);
         border-left: 1px solid var(--border);
       }
-      .wrapper.show .panel {
-        transform: translateX(0) !important;
+      .wrapper.show.right .panel,
+      .wrapper.show.left .panel {
+        -webkit-transform: translateX(0);
+        -ms-transform: translateX(0);
+        transform: translateX(0);
       }
-      .wrapper.show[overlay="true"] .overlay {
+      .wrapper.show.right[overlay="true"] .overlay,
+      .wrapper.show.left[overlay="true"] .overlay {
         opacity: 1;
         visibility: visible;
-        -webkit-transition: visibility 0s ease-out 1s;
-        -moz-transition: opacity 0.3s ease-in-out, visibility 0s ease 0s;
-        -ms-transition: opacity 0.3s ease-in-out, visibility 0s ease 0s;
-        -o-transition: opacity 0.3s ease-in-out, visibility 0s ease 0s;
         transition: opacity 0.3s ease-in-out, visibility 0s ease 0s;
       }
       .wrapper .overlay {
@@ -1086,10 +1084,6 @@ class SidePanel extends Tonic {
         right: 0;
         bottom: 0;
         background-color: rgba(0,0,0,0.5);
-        -webkit-transition: opacity 0.3s ease-in-out, visibility 0s ease 1s;
-        -moz-transition: opacity 0.3s ease-in-out, visibility 0s ease 1s;
-        -ms-transition: opacity 0.3s ease-in-out, visibility 0s ease 1s;
-        -o-transition: opacity 0.3s ease-in-out, visibility 0s ease 1s;
         transition: opacity 0.3s ease-in-out, visibility 0s ease 1s;
       }
       .wrapper .close {

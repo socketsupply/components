@@ -65,6 +65,10 @@ a {
   text-decoration: none;
   transition: all 0.2s ease-in-out;
 }
+.hero {
+  margin-top: 250px;
+  margin-bottom: 150px;
+}
 span.req {
   color: var(--red);
   font-style: italic;
@@ -202,7 +206,7 @@ nav img {
   margin-bottom: 30px;
 }
 main {
-  padding: 0 60px 60px 60px;
+  padding: 0 60px 60px 20px;
   position: absolute;
   top: 0;
   left: 350px;

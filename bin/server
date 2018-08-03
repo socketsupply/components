@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 const http = require('http')
-const fs = require('fs')
 const parse = require('url').parse
 const send = require('send')
 

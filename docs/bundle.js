@@ -1390,9 +1390,8 @@ class Tonic extends window.HTMLElement {
   _bindEventListeners () {
     this.events.forEach(event => {
       const fn = e => this[event](e)
-      this.shadowRoot
-	? this.shadowRoot.addEventListener(event, fn)
-        : this.addEventListener(event, fn)
+      this.shadowRoot.addEventListener(event, e => !e.composed && fn(e))
+      this.addEventListener(event, fn)
     })
   }
 
@@ -1415,7 +1414,7 @@ class Tonic extends window.HTMLElement {
   connectedCallback () {
     for (let { name, value } of this.attributes) {
       name = name.replace(/-(.)/gui, (_, m) => m.toUpperCase())
-      this.props[name] = value || (typeof value === 'undefined' ? '' : name)
+      this.props[name] = value || name
     }
 
     if (this.props.data) {

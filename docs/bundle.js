@@ -108,6 +108,9 @@ class DialogBox extends Tonic {
   constructor () {
     super()
     this.stylesheet = `
+      * {
+        box-sizing: border-box;
+      }
       :host {
         position: relative;
         display: inline-block;
@@ -161,20 +164,21 @@ class DialogBox extends Tonic {
         transition: all 0.3s ease-in-out;
       }
       :host .dialog header {
-        position: absolute;
-        top: 25px;
-        left: 50%;
-        -webkit-transform: translateX(-50%);
-        -ms-transform: translateX(-50%);
-        transform: translateX(-50%);
+        height: 70px;
         font: 14px 'Poppins', sans-serif;
         text-transform: uppercase;
+        text-align: center;
         letter-spacing: 1.5px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        padding: 26px 65px 25px 65px;
       }
       :host .dialog main {
         width: auto;
         text-align: center;
-        padding: 10px 30px 30px 30px;
+        padding: 20px;
         margin: 0 auto;
       }
       :host .dialog .close {
@@ -194,18 +198,22 @@ class DialogBox extends Tonic {
       }
       :host .dialog footer {
         text-align: center;
-        border: 1px solid #f00;
         position: absolute;
         bottom: 0;
         left: 0;
         right: 0;
-        height: 50px;
+        height: 70px;
+        padding: 15px;
+      }
+      :host .dialog footer input-button {
+        display: inline-block;
+        margin: 0 5px;
       }
       `
 
     this.defaults = {
       width: '450px',
-      height: '250px'
+      height: '275px'
     }
   }
 
@@ -220,6 +228,14 @@ class DialogBox extends Tonic {
   click ({ target }) {
     const el = Tonic.match(target, '.close')
     if (el) this.hide()
+
+    const overlay = Tonic.match(target, '.overlay')
+    if (overlay) this.hide()
+
+    const cancel = Tonic.match(target, '[value="cancel]')
+    if (cancel) this.hide()
+    console.log(target, cancel)
+
     this.value = {}
   }
 
@@ -339,7 +355,7 @@ class InputButton extends Tonic {
     this.stylesheet = `
       button {
         min-height: 38px;
-        padding: 8px;
+        padding: 8px 8px 5px 8px;
         font: 12px 'Poppins', sans-serif;
         font-weight: 400;
         text-transform: uppercase;
@@ -1143,6 +1159,10 @@ class SidePanel extends Tonic {
   click ({ target }) {
     const el = Tonic.match(target, '.close')
     if (el) this.hide()
+
+    const overlay = Tonic.match(target, '.overlay')
+    if (overlay) this.hide()
+
     this.value = {}
   }
 

@@ -215,7 +215,11 @@ main {
   overflow: scroll;
 }
 #intro {
-  margin-top: 100px;
+  padding-top: 100px;
+}
+#intro p:not(.intro-copy) {
+  font-size: 17px;
+  line-height: 28px;
 }
 #intro .col {
   width: 50%;

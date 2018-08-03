@@ -15,7 +15,7 @@ The component `DialogBox` is used to create a dialog that displays content on to
     <tr>
       <td>
         <dialog-box id="dialog-box-example-1"></dialog-box>
-        <input-button id="dialog-box-link-example-1" value="Click to open"></input-button>
+        <input-button name="buttonCancel" id="dialog-box-link-example-1" value="Click to open"></input-button>
       </td>
       <td>Default dialog box</td>
       <td>
@@ -31,7 +31,8 @@ The component `DialogBox` is used to create a dialog that displays content on to
     <p>I'm a little dialog,<br> hear me shout</p>
   </main>
   <footer>
-    <button>Button<button>
+    <input-button value="cancel"></input-button>
+    <input-button value="confirm"></input-button>
   </footer>
 </template>
 

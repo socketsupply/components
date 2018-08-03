@@ -153,7 +153,7 @@
     <tr>
       <td>
         <dialog-box id="dialog-box-example-1"></dialog-box>
-        <input-button id="dialog-box-link-example-1" value="Click to open"></input-button>
+        <input-button name="buttonCancel" id="dialog-box-link-example-1" value="Click to open"></input-button>
       </td>
       <td>Default dialog box</td>
       <td>
@@ -169,7 +169,8 @@
     <p>I'm a little dialog,<br> hear me shout</p>
   </main>
   <footer>
-    <button>Button<button>
+    <input-button value="cancel"></input-button>
+    <input-button value="confirm"></input-button>
   </footer>
 </template>
 
@@ -462,6 +463,12 @@
 <td align="left"><code>textColor</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">TextColor of the button</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>href</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Add a location (url) for click event</td>
 <td align="left"></td>
 </tr>
 </tbody></table>

@@ -112,6 +112,10 @@ class SidePanel extends Tonic {
   click ({ target }) {
     const el = Tonic.match(target, '.close')
     if (el) this.hide()
+
+    const overlay = Tonic.match(target, '.overlay')
+    if (overlay) this.hide()
+
     this.value = {}
   }
 

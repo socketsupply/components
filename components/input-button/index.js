@@ -7,7 +7,7 @@ class InputButton extends Tonic {
     this.stylesheet = `
       button {
         min-height: 38px;
-        padding: 8px;
+        padding: 8px 8px 5px 8px;
         font: 12px 'Poppins', sans-serif;
         font-weight: 400;
         text-transform: uppercase;

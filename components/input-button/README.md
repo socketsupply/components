@@ -70,6 +70,7 @@ The component `InputButton` creates a button.
 | `radius` | *string* | Radius of the button | *2px* |
 | `fill` | *string* | Filled button |  |
 | `textColor` | *string* | TextColor of the button |  |
+| `href` | *string* | Add a location (url) for click event | |
 
 ### Static Methods & Members
 

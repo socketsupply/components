@@ -8,7 +8,7 @@ class DialogBox extends Tonic {
 
     this.defaults = {
       width: '450px',
-      height: '250px'
+      height: '275px'
     }
   }
 
@@ -23,6 +23,10 @@ class DialogBox extends Tonic {
   click ({ target }) {
     const el = Tonic.match(target, '.close')
     if (el) this.hide()
+
+    const overlay = Tonic.match(target, '.overlay')
+    if (overlay) this.hide()
+
     this.value = {}
   }
 

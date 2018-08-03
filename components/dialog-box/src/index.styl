@@ -1,3 +1,6 @@
+*
+  box-sizing border-box
+
 :host
   position relative
   display inline-block
@@ -48,20 +51,21 @@
     transition all 0.3s ease-in-out
 
     header
-      position absolute
-      top 25px
-      left 50%
-      -webkit-transform translateX(-50%)
-      -ms-transform translateX(-50%)
-      transform translateX(-50%)
+      height 70px
       font 14px 'Poppins', sans-serif
       text-transform uppercase
+      text-align center
       letter-spacing 1.5px
+      position absolute
+      top 0
+      left 0
+      right 0
+      padding 26px 65px 25px 65px
 
     main
       width auto
       text-align center
-      padding 10px 30px 30px 30px
+      padding 20px
       margin 0 auto
 
     .close
@@ -79,9 +83,13 @@
 
     footer
       text-align center
-      border 1px solid red
       position absolute
       bottom 0
       left 0
       right 0
-      height 50px
+      height 70px
+      padding 15px
+
+      input-button
+        display inline-block
+        margin 0 5px

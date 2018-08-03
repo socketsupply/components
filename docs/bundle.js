@@ -15,30 +15,32 @@ class ContentTooltip extends Tonic {
       }
       :host span .tooltip {
         background: #fff;
-        opacity: 0;
         position: absolute;
-        z-index: -1;
         transition: all 0.3s ease-in-out;
         border-radius: 2px;
-        box-shadow: 0px 30px 90px -20px rgba(0,0,0,0.3), 0 0 1px #a2a9b1;
+        border: 1px solid var(--border);
+        box-shadow: 0px 30px 90px -20px rgba(0,0,0,0.3);
       }
-      :host span .tooltip.show {
-        opacity: 1;
-        z-index: 1;
-      }
-      :host span .tooltip.arrow-top:after {
-        bottom: 100%;
-        left: 50%;
-        border: solid transparent;
-        content: " ";
-        height: 0;
-        width: 0;
+      :host span .tooltip.arrow:after {
+        content: '';
+        width: 12px;
+        height: 12px;
         position: absolute;
+        background-color: #fff;
+        border: 1px solid transparent;
+        border-radius: 2px;
         pointer-events: none;
-        border-color: rgba(255,255,255,0);
-        border-bottom-color: #fff;
-        border-width: 30px;
-        margin-left: -30px;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+        left: 50%;
+        margin-left: -8px;
+      }
+      :host span .tooltip.arrow:after {
+        margin-bottom: -6px;
+        bottom: 100%;
+        border-top-color: var(--border);
+        border-left-color: var(--border);
       }
       `
 
@@ -83,7 +85,7 @@ class ContentTooltip extends Tonic {
 
     const tooltip = document.createElement('div')
     tooltip.id = 'tooltip'
-    tooltip.className = 'tooltip arrow-top'
+    tooltip.className = 'tooltip arrow'
     tooltip.setAttribute('style', style.join(''))
     const template = document.querySelector(`template[for="${id}"]`)
     const clone = document.importNode(template.content, true)
@@ -231,10 +233,6 @@ class DialogBox extends Tonic {
 
     const overlay = Tonic.match(target, '.overlay')
     if (overlay) this.hide()
-
-    const cancel = Tonic.match(target, '[value="cancel]')
-    if (cancel) this.hide()
-    console.log(target, cancel)
 
     this.value = {}
   }

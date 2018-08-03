@@ -47,7 +47,7 @@ class ContentTooltip extends Tonic {
 
     const tooltip = document.createElement('div')
     tooltip.id = 'tooltip'
-    tooltip.className = 'tooltip arrow-top'
+    tooltip.className = 'tooltip arrow'
     tooltip.setAttribute('style', style.join(''))
     const template = document.querySelector(`template[for="${id}"]`)
     const clone = document.importNode(template.content, true)

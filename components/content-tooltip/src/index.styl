@@ -12,22 +12,40 @@
       z-index -1
       transition all 0.3s ease-in-out
       border-radius 2px
-      box-shadow 0px 30px 90px -20px rgba(0, 0, 0, 0.3), 0 0 1px #a2a9b1;
+      border 1px solid var(--border)
+      box-shadow 0px 30px 90px -20px rgba(0, 0, 0, 0.3)
 
       &.show
         opacity 1
         z-index 1
 
-      &.arrow-top:after
-        bottom 100%
-        left 50%
-        border solid transparent
-        content " "
-        height 0
-        width 0
-        position absolute
-        pointer-events none
-        border-color rgba(255, 255, 255, 0)
-        border-bottom-color #fff
-        border-width 30px
-        margin-left -30px
+      &.arrow
+        &:after
+          content ''
+          width 12px
+          height 12px
+          position absolute
+          background-color white
+          border 1px solid transparent
+          border-radius 2px
+          pointer-events none
+          -webkit-transform rotate(45deg)
+          -ms-transform rotate(45deg)
+          transform rotate(45deg)
+          left 50%
+          margin-left -8px
+
+        // &.top
+        &:after
+          margin-bottom -6px
+          bottom 100%
+          border-top-color var(--border)
+          border-left-color var(--border)
+
+        // &.bottom
+        // &:after
+        //   margin-top -6px
+        //   position absolute
+        //   top 100%
+        //   border-bottom-color var(--border)
+        //   border-right-color var(--border)

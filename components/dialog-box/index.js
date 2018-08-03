@@ -129,10 +129,6 @@ class DialogBox extends Tonic {
     const overlay = Tonic.match(target, '.overlay')
     if (overlay) this.hide()
 
-    const cancel = Tonic.match(target, '[value="cancel]')
-    if (cancel) this.hide()
-    console.log(target, cancel)
-
     this.value = {}
   }
 

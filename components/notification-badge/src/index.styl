@@ -1,0 +1,26 @@
+*
+  box-sizing border-box
+
+.notifications
+  background-color var(--secondary)
+  width 40px
+  height 40px
+  padding 10px
+  border-radius 8px
+  span
+    font 15px 'Poppins', sans-serif
+    letter-spacing 1px
+    text-align center
+    position relative
+    // &.new
+    &:after
+      content ''
+      width 8px
+      height 8px
+      display block
+      position absolute
+      top -3px
+      right -6px
+      border-radius 50%
+      background-color var(--red)
+      border 2px solid var(--secondary)

@@ -124,7 +124,7 @@ class ContentTooltip extends Tonic {
 
 Tonic.add(ContentTooltip, { shadow: true })
 
-},{"tonic":13}],2:[function(require,module,exports){
+},{"tonic":15}],2:[function(require,module,exports){
 const Tonic = typeof require === 'function'
   ? require('tonic') : window.Tonic
 
@@ -325,7 +325,7 @@ class DialogBox extends Tonic {
 
 Tonic.add(DialogBox, { shadow: true })
 
-},{"tonic":13}],3:[function(require,module,exports){
+},{"tonic":15}],3:[function(require,module,exports){
 const Tonic = typeof require === 'function'
   ? require('tonic') : window.Tonic
 
@@ -371,7 +371,7 @@ class IconContainer extends Tonic {
 
 Tonic.add(IconContainer)
 
-},{"tonic":13}],4:[function(require,module,exports){
+},{"tonic":15}],4:[function(require,module,exports){
 const Tonic = typeof require === 'function'
   ? require('tonic') : window.Tonic
 
@@ -468,7 +468,7 @@ class InputButton extends Tonic {
 
 Tonic.add(InputButton, { shadow: true })
 
-},{"tonic":13}],5:[function(require,module,exports){
+},{"tonic":15}],5:[function(require,module,exports){
 const Tonic = typeof require === 'function'
   ? require('tonic') : window.Tonic
 
@@ -584,7 +584,7 @@ class InputCheckbox extends Tonic {
 
 Tonic.add(InputCheckbox, { shadow: true })
 
-},{"tonic":13}],6:[function(require,module,exports){
+},{"tonic":15}],6:[function(require,module,exports){
 const Tonic = typeof require === 'function'
   ? require('tonic') : window.Tonic
 
@@ -715,7 +715,7 @@ class InputText extends Tonic {
 
 Tonic.add(InputText, { shadow: true })
 
-},{"tonic":13}],7:[function(require,module,exports){
+},{"tonic":15}],7:[function(require,module,exports){
 const Tonic = typeof require === 'function'
   ? require('tonic') : window.Tonic
 
@@ -824,7 +824,7 @@ class InputTextarea extends Tonic {
 
 Tonic.add(InputTextarea, { shadow: true })
 
-},{"tonic":13}],8:[function(require,module,exports){
+},{"tonic":15}],8:[function(require,module,exports){
 const Tonic = typeof require === 'function'
   ? require('tonic') : window.Tonic
 
@@ -976,7 +976,66 @@ class InputToggle extends Tonic {
 
 Tonic.add(InputToggle, { shadow: true })
 
-},{"tonic":13}],9:[function(require,module,exports){
+},{"tonic":15}],9:[function(require,module,exports){
+const Tonic = typeof require === 'function'
+  ? require('tonic') : window.Tonic
+
+class NotificationBadge extends Tonic {
+  constructor () {
+    super()
+    this.stylesheet = `
+      * {
+        box-sizing: border-box;
+      }
+      .notifications {
+        background-color: var(--secondary);
+        width: 40px;
+        height: 40px;
+        padding: 10px;
+        border-radius: 8px;
+      }
+      .notifications span {
+        font: 15px 'Poppins', sans-serif;
+        letter-spacing: 1px;
+        text-align: center;
+        position: relative;
+      }
+      .notifications span:after {
+        content: '';
+        width: 8px;
+        height: 8px;
+        display: block;
+        position: absolute;
+        top: -3px;
+        right: -6px;
+        border-radius: 50%;
+        background-color: var(--red);
+        border: 2px solid var(--secondary);
+      }
+      `
+
+    this.defaults = {
+    }
+  }
+
+  render () {
+    let {
+      count
+    } = { ...this.defaults, ...this.props }
+
+    count = '23'
+
+    return `
+      <div class="notifications">
+        <span>${count}</span>
+      </div>
+    `
+  }
+}
+
+Tonic.add(NotificationBadge, { shadow: true })
+
+},{"tonic":15}],10:[function(require,module,exports){
 const Tonic = typeof require === 'function'
   ? require('tonic') : window.Tonic
 
@@ -1070,7 +1129,7 @@ class ProfileImage extends Tonic {
 
 Tonic.add(ProfileImage, { shadow: true })
 
-},{"tonic":13}],10:[function(require,module,exports){
+},{"tonic":15}],11:[function(require,module,exports){
 const Tonic = typeof require === 'function'
   ? require('tonic') : window.Tonic
 
@@ -1259,7 +1318,38 @@ class SidePanel extends Tonic {
 
 Tonic.add(SidePanel, { shadow: true })
 
-},{"tonic":13}],11:[function(require,module,exports){
+},{"tonic":15}],12:[function(require,module,exports){
+const Tonic = typeof require === 'function'
+  ? require('tonic') : window.Tonic
+
+class TabMenu extends Tonic {
+  constructor () {
+    super()
+    this.stylesheet = `
+      `
+
+    this.defaults = {
+    }
+  }
+
+  render () {
+    let {
+      id
+    } = { ...this.defaults, ...this.props }
+
+    return `
+      <div class="wrapper>
+        <div class="tab-menu">
+          <div class="tab"></div>
+        </div>
+      </div>
+    `
+  }
+}
+
+Tonic.add(TabMenu, { shadow: true })
+
+},{"tonic":15}],13:[function(require,module,exports){
 const scrollToY = require('scrolltoy')
 const main = document.querySelector('main')
 
@@ -1309,7 +1399,7 @@ function onscroll (event) {
 
 main.addEventListener('scroll', onscroll)
 
-},{"scrolltoy":12}],12:[function(require,module,exports){
+},{"scrolltoy":14}],14:[function(require,module,exports){
 var requestFrame = (function () {
   return window.requestAnimationFrame ||
     window.webkitRequestAnimationFrame ||
@@ -1364,7 +1454,7 @@ module.exports = function scrollToY (el, Y, speed) {
   setY()
 }
 
-},{}],13:[function(require,module,exports){
+},{}],15:[function(require,module,exports){
 class Tonic extends window.HTMLElement {
   constructor () {
     super()
@@ -1492,4 +1582,4 @@ Tonic.escapeMap = { '"': '&quot;', '&': '&amp;', '\'': '&#x27;', '<': '&lt;', '>
 
 if (typeof module === 'object') module.exports = Tonic
 
-},{}]},{},[11,1,2,3,4,5,6,7,8,9,10]);
+},{}]},{},[13,1,2,3,4,5,6,7,8,9,10,11,12]);

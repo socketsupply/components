@@ -11,7 +11,7 @@
     "dev": "./bin/server",
     "build": "npm run build:styl && ./bin/build-src && npm run build:docs",
     "build:styl": "stylus ./index.styl -o ./index.css",
-    "build:docs": "npm run build:docs:js && npm run build:docs:styl",
+    "build:docs": "./bin/build-docs && npm run build:docs:js && npm run build:docs:styl",
     "build:docs:js": "browserify ./docs/src/index.js > ./docs/bundle.js",
     "build:docs:styl": "stylus ./docs/src/index.styl -o ./docs"
   },

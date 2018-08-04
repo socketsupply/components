@@ -178,6 +178,19 @@ code {
   border: 1px solid var(--border);
   border-radius: 3px;
 }
+.theme-picker {
+  position: absolute;
+  text-align: right;
+  width: 80px;
+  right: 14px;
+  top: 14px;
+  z-index: 1000;
+}
+.theme-picker img {
+  margin: auto;
+  width: 18px;
+  height: 18px;
+}
 nav {
   padding: 60px;
   position: fixed;
@@ -210,8 +223,8 @@ nav li a.selected {
   background-color: var(--accent);
 }
 nav a.logo {
-  margin-bottom: 30px;
   display: inline-block;
+  margin-bottom: 10px;
 }
 nav a.logo svg {
   width: 150px;

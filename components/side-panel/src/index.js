@@ -7,7 +7,8 @@ class SidePanel extends Tonic {
     this.stylesheet = `%style%`
 
     this.defaults = {
-      position: 'right'
+      position: 'right',
+      backgroundColor: 'rgba(0,0,0,0.5)'
     }
   }
 
@@ -19,7 +20,7 @@ class SidePanel extends Tonic {
     this.root.firstChild.classList.remove('show')
   }
 
-  click ({ target }) {
+  click (e, target) {
     const el = Tonic.match(target, '.close')
     if (el) this.hide()
 
@@ -33,7 +34,8 @@ class SidePanel extends Tonic {
     const {
       name,
       position,
-      overlay
+      overlay,
+      backgroundColor
     } = { ...this.defaults, ...this.props }
 
     const id = this.getAttribute('id')
@@ -57,6 +59,7 @@ class SidePanel extends Tonic {
     // create overlay
     const overlayElement = document.createElement('div')
     overlayElement.className = 'overlay'
+    overlayElement.setAttribute('style', `background-color: ${backgroundColor}`)
 
     // create template
     const template = document.querySelector(`template[for="${id}"]`)

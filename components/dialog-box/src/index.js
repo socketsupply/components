@@ -20,7 +20,7 @@ class DialogBox extends Tonic {
     this.root.firstChild.classList.remove('show')
   }
 
-  click ({ target }) {
+  click (e, target) {
     const el = Tonic.match(target, '.close')
     if (el) this.hide()
 

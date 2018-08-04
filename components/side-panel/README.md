@@ -34,7 +34,7 @@ The component `SidePanel` create a side panel with overlay (color or transparent
     </tr>
     <tr>
       <td>
-        <side-panel id="side-panel-example-3" overlay></side-panel>
+        <side-panel id="side-panel-example-3" overlay"></side-panel>
         <input-button id="side-panel-link-example-3" value="Click to open"></input-button>
       </td>
       <td>Default Side Panel with overlay (right)</td>
@@ -119,6 +119,8 @@ A template is required. Example template structure for panel content:
 | `id` | *string* | Adds the `id` attribute | |
 | `name` | *string* | Adds the `name` attribute | |
 | `position` | *string* | Changes the position of the panel | *right* |
+| `overlay` | *boolean* | Shows an overlay behind the panel | *false* |
+| `background-color` | *string* | Changes the background color of the overlay | *rgba(0,0,0,0.5)* |
 
 ### Static Methods & Members
 

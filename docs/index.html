@@ -595,13 +595,13 @@
 <td align="left"><code>disabled</code></td>
 <td align="left"><em>boolean</em></td>
 <td align="left">Adds <code>disabled</code> attribute</td>
-<td align="left"><em>#000</em></td>
+<td align="left"><em>false</em></td>
 </tr>
 <tr>
 <td align="left"><code>checked</code></td>
 <td align="left"><em>boolean</em></td>
 <td align="left">Adds <code>checked</code> attribute</td>
-<td align="left"><em>#000</em></td>
+<td align="left"><em>false</em></td>
 </tr>
 <tr>
 <td align="left"><code>size</code></td>
@@ -913,7 +913,7 @@
 <tr>
 <td align="left"><code>readonly</code></td>
 <td align="left"><em>boolean</em></td>
-<td align="left">Set text area to readonly</td>
+<td align="left">Set text area to <code>readonly</code></td>
 <td align="left"><em>false</em></td>
 </tr>
 <tr>
@@ -921,6 +921,12 @@
 <td align="left"><em>boolean</em></td>
 <td align="left">Enable <code>autofocus</code> on the text area</td>
 <td align="left"><em>false</em></td>
+</tr>
+<tr>
+<td align="left"><code>resize</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Set to <code>none</code> to disable resize</td>
+<td align="left"></td>
 </tr>
 <tr>
 <td align="left"><code>rows</code></td>
@@ -956,19 +962,13 @@
 <td align="left"><code>height</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">Set height of text area</td>
-<td align="left"></td>
+<td align="left"><em>100%</em></td>
 </tr>
 <tr>
 <td align="left"><code>radius</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">Set radius of text area</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left"><code>resize</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Set to <code>none</code> to disable resize</td>
-<td align="left"></td>
+<td align="left"><em>2px</em></td>
 </tr>
 </tbody></table>
 <h3 id="static-methods-members">Static Methods &amp; Members</h3>
@@ -1259,7 +1259,7 @@
     </tr>
     <tr>
       <td>
-        <side-panel id="side-panel-example-3" overlay></side-panel>
+        <side-panel id="side-panel-example-3" overlay background-color="red"></side-panel>
         <input-button id="side-panel-link-example-3" value="Click to open"></input-button>
       </td>
       <td>Default Side Panel with overlay (right)</td>
@@ -1358,6 +1358,18 @@
 <td align="left"><em>string</em></td>
 <td align="left">Changes the position of the panel</td>
 <td align="left"><em>right</em></td>
+</tr>
+<tr>
+<td align="left"><code>overlay</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Shows an overlay behind the panel</td>
+<td align="left"><em>false</em></td>
+</tr>
+<tr>
+<td align="left"><code>backgroundColor</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Changes the background color of the overlay</td>
+<td align="left"><em>rgba(0,0,0,0.5)</em></td>
 </tr>
 </tbody></table>
 <h3 id="static-methods-members">Static Methods &amp; Members</h3>

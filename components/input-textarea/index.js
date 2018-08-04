@@ -7,7 +7,7 @@ class InputTextarea extends Tonic {
     this.stylesheet = `
       textarea {
         width: 100%;
-        font: 14px 'Space-Mono', monospace;
+        font: 14px var(--monospace);
         padding: 10px;
         border: 1px solid var(--border);
         outline: none;
@@ -25,7 +25,7 @@ class InputTextarea extends Tonic {
       label {
         color: var(--medium);
         font-weight: 500;
-        font: 12px/14px 'Poppins', sans-serif;
+        font: 12px/14px var(--subheader);
         text-transform: uppercase;
         letter-spacing: 1px;
         padding-bottom: 10px;

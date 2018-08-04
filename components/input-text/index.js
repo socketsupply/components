@@ -29,7 +29,7 @@ class InputText extends Tonic {
       }
       input {
         width: 100%;
-        font: 14px 'Space-Mono', monospace;
+        font: 14px var(--monospace);
         padding: 10px;
         border: 1px solid var(--border);
         border-radius: 3px;

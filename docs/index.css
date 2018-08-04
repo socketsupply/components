@@ -5,6 +5,19 @@ body {
   --monospace: 'Space-Mono', monospace;
 }
 body {
+  --window: #fff;
+  --primary: #36393d;
+  --secondary: #e8e8e4;
+  --medium: #999da0;
+  --accent: #f06653;
+  --border: #e8e8e4;
+  --background: #f7f7f5;
+  --notification: #f06653;
+  --caution: #f06653;
+  --success: #85b274;
+  --warn: #f9a967;
+}
+.theme-dark {
   --window: #2d2f31;
   --primary: #fff;
   --secondary: #c3c3c3;

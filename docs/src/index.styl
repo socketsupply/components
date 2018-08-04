@@ -1,0 +1,223 @@
+@require '../../index.styl'
+
+.hero
+  margin-top 100px
+  margin-bottom 150px
+  @media (max-width: 850px)
+    margin-top 0
+
+span.req
+  color var(--caution)
+  font-style italic
+  display block
+  float right
+
+ul
+  font 15px/30px var(--body)
+  list-style none
+  padding 0
+
+  li
+    margin 10px 0
+
+table
+  width 100%
+  border-collapse collapse
+  border 1px solid var(--border)
+  text-align left
+  &.example
+    td, th
+      &:last-of-type
+        width 50px
+
+th
+  font 13px/16px var(--subheader)
+  font-weight 400
+  text-transform uppercase
+  letter-spacing 1px
+  padding 12px 10px 9px 10px
+  background-color var(--background)
+  border-bottom 1px solid var(--border)
+  border-right 1px solid var(--border)
+
+td
+  line-height 22px
+  padding 15px
+  border-bottom 1px solid var(--border)
+
+td:not(:first-of-type)
+  border-left 1px solid var(--border)
+  -webkit-user-select none
+  -moz-user-select none
+  user-select none
+
+tr:last-of-type td
+  border-bottom 0
+
+td:last-of-type
+  border-right 0
+
+pre
+  padding 15px
+  white-space pre-line
+  border-radius 3px
+  border 1px solid var(--border)
+  background-color var(--background)
+
+  code
+    border 0
+    padding 0
+    line-height 18px
+    white-space pre-wrap
+
+    i
+      color #999
+
+code
+  font-size 14px
+  padding 3px 6px
+  margin 0 2px
+  white-space nowrap
+  background-color var(--background)
+  border 1px solid var(--border)
+  border-radius 3px
+
+nav
+  padding 60px
+  position fixed
+  top 0
+  left 0
+  bottom 0
+  width 300px
+  overflow scroll
+  box-shadow 0 0 30px 0px rgba(0,0,0,0.04)
+  border-right 1px solid var(--border)
+  @media (max-width: 850px)
+    display none
+
+  li
+    a
+      font 18px var(--header)
+      font-weight 400
+      background-color transparent
+      padding 5px 8px
+      border-radius 3px
+      transition background-color 0.2s ease
+      &:hover
+        color var(--accent)
+      &.selected
+        color white
+        background-color var(--accent)
+
+  a.logo
+    // width 150px
+    margin-bottom 30px
+    display inline-block
+    svg
+      width 150px
+      use
+        fill var(--primary)
+        color var(--primary)
+
+main
+  padding 0 60px 60px 20px
+  position absolute
+  top 0
+  left 350px
+  right 0
+  bottom 0
+  overflow scroll
+  @media (max-width: 850px)
+    left 0
+    padding 30px
+
+  .logo
+    display none
+    margin-bottom 50px
+    @media (max-width: 850px)
+      display flex
+      justify-content center
+
+
+  a
+    border-bottom 1px solid var(--border)
+    &:hover
+      color var(--accent)
+      border-bottom-color var(--accent)
+
+  section
+    max-width 800px
+    padding-bottom 60px
+    &:not(:first-of-type)
+      border-top 2px solid var(--border)
+
+  footer
+    max-width 800px
+    text-align center
+    padding 0 50px 50px 50px
+
+    a
+      border-bottom 0
+
+    span
+      color var(--secondary)
+      font 13px var(--subheader)
+      font-weight 600
+      text-transform uppercase
+      letter-spacing 2px
+      display inline-block
+      transition all 0.2s ease-in-out
+
+    svg
+      height 30px
+      width 175px
+      margin 0 auto
+      display block
+      use
+        fill var(--secondary)
+        color var(--secondary)
+        transition all 0.2s ease-in-out
+    &:hover
+      span
+        color var(--primary)
+      svg
+        use
+          fill var(--primary)
+          color var(--primary)
+
+#intro
+  padding-top 100px
+
+  svg
+    width 200px
+    use
+      fill var(--primary)
+      color var(--primary)
+
+  p:not(.intro-copy)
+    font-size 17px
+    line-height 28px
+
+  .col
+    width 50%
+    display table-cell
+    padding 10px 0px
+    padding-right 30px
+
+    li
+      font-size 18px
+
+  input-button
+    text-align center
+    margin 50px 0
+    display block
+
+  span.first-word
+    color var(--primary)
+
+  p.intro-copy
+    color var(--medium)
+    max-width 670px
+    font 30px var(--header)
+    text-align center
+    margin 0 auto

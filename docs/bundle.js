@@ -1,3 +1,58 @@
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+const scrollToY = require('scrolltoy')
+const main = document.querySelector('main')
+
+window.Tonic = require('tonic')
+
+require('../../index.js')
+
+const links = [].slice.call(document.querySelectorAll('nav ul li a'))
+const ranges = []
+let current
+
+links.map(function (link) {
+  const id = link.getAttribute('href').slice(1)
+  const section = document.getElementById(id)
+
+  ranges.push({
+    upper: section.offsetTop,
+    lower: section.offsetTop + section.offsetHeight,
+    id: id,
+    link: link
+  })
+
+  link.addEventListener('click', function (event) {
+    event.preventDefault()
+
+    const prev = document.querySelector('a.selected')
+    if (prev) prev.className = ''
+    link.className = 'selected'
+    scrollToY(main, section.offsetTop, 1500)
+    window.location.hash = id
+  })
+})
+
+function onscroll (event) {
+  if (scrollToY.scrolling) return
+  var pos = main.scrollTop
+
+  pos = pos + 100
+
+  ranges.map(function (range) {
+    if (pos >= range.upper && pos <= range.lower) {
+      if (range.id === current) return
+
+      current = range.id
+      var prev = document.querySelector('a.selected')
+      if (prev) prev.className = ''
+      range.link.className = 'selected'
+    }
+  })
+}
+
+main.addEventListener('scroll', onscroll)
+
+},{"../../index.js":2,"scrolltoy":3,"tonic":4}],2:[function(require,module,exports){
 class ContentTooltip extends Tonic { /* global Tonic */
   constructor () {
     super()
@@ -1362,3 +1417,188 @@ class TabMenu extends Tonic { /* global Tonic */
 }
 
 Tonic.add(TabMenu, { shadow: true })
+
+},{}],3:[function(require,module,exports){
+var requestFrame = (function () {
+  return window.requestAnimationFrame ||
+    window.webkitRequestAnimationFrame ||
+    window.mozRequestAnimationFrame ||
+    function requestAnimationFallback (callback) {
+      window.setTimeout(callback, 1000 / 60)
+    }
+})()
+
+function ease (pos) {
+  return ((pos /= 0.5) < 1)
+    ? (0.5 * Math.pow(pos, 5))
+    : (0.5 * (Math.pow((pos - 2), 5) + 2))
+}
+
+module.exports = function scrollToY (el, Y, speed) {
+  var isWindow = !!el.alert
+  var scrollY = isWindow ? el.scrollY : el.scrollTop
+  var pos = Math.abs(scrollY - Y)
+  var time = Math.max(0.1, Math.min(pos / speed, 0.8))
+
+  let currentTime = 0
+
+  function setY () {
+    module.exports.scrolling = true
+    currentTime += 1 / 60
+
+    var p = currentTime / time
+    var t = ease(p)
+
+    if (p < 1) {
+      var y = scrollY + ((Y - scrollY) * t)
+      requestFrame(setY)
+
+      if (isWindow) {
+        el.scrollTo(0, y)
+      } else {
+        el.scrollTop = y
+      }
+
+      return
+    }
+
+    if (isWindow) {
+      el.scrollTo(0, Y)
+    } else {
+      el.scrollTop = Y
+    }
+
+    module.exports.scrolling = false
+  }
+  setY()
+}
+
+},{}],4:[function(require,module,exports){
+class Tonic extends window.HTMLElement {
+  constructor () {
+    super()
+    this.props = {}
+    this.state = {}
+    if (this.shadow) this.attachShadow({ mode: 'open' })
+    this._bindEventListeners()
+  }
+
+  static match (el, s) {
+    while (!el.matches) {
+      el = el.parentNode
+      if (el.tagName === 'HTML') return null
+    }
+    return el.matches(s) ? el : el.closest(s)
+  }
+
+  static add (c, opts = {}) {
+    if (!c.name) throw Error('Mangling detected, see troubleshooting guide.')
+    const name = c.name.match(/[A-Z][a-z]*/g).join('-').toLowerCase()
+    if (window.customElements.get(name)) return
+
+    const methods = Object.getOwnPropertyNames(c.prototype)
+    c.prototype.events = []
+
+    for (const key in this.prototype) {
+      const k = key.slice(2)
+      if (methods.includes(k)) {
+        c.prototype.events.push(k)
+      }
+    }
+
+    if (opts.shadow) c.prototype.shadow = true
+    window.customElements.define(name, c)
+  }
+
+  static sanitize (o) {
+    for (const [k, v] of Object.entries(o)) {
+      if (typeof v === 'object') o[k] = Tonic.sanitize(v)
+      if (typeof v === 'string') o[k] = Tonic.escape(v)
+    }
+    return o
+  }
+
+  static escape (s) {
+    return s.replace(Tonic.escapeRe, ch => Tonic.escapeMap[ch])
+  }
+
+  html ([s, ...strings], ...values) {
+    const reducer = (a, b) => a.concat(b, strings.shift())
+    const filter = s => s && (s !== true || s === 0)
+    return Tonic.sanitize(values).reduce(reducer, [s]).filter(filter).join('')
+  }
+
+  disconnectedCallback (...args) {
+    this.disconnected && this.disconnected(...args)
+  }
+
+  attributesChangedCallback (...args) {
+    this.attributeChanged && this.attributeChanged(...args)
+  }
+
+  adoptedCallback (...args) {
+    this.adopted && this.adopted(...args)
+  }
+
+  setProps (o) {
+    const oldProps = JSON.parse(JSON.stringify(this.props))
+    this.props = Tonic.sanitize(typeof o === 'function' ? o(this.props) : o)
+    if (!this.root) throw new Error('Component not yet connected')
+    this.root.appendChild(this._setContent(this.render()))
+    this.updated && this.updated(oldProps)
+  }
+
+  _bindEventListeners () {
+    this.events.forEach(event => {
+      const fn = e => this[event](e, e.path[0] || e.target)
+      this.shadowRoot.addEventListener(event, e => !e.composed && fn(e))
+      this.addEventListener(event, fn)
+    })
+  }
+
+  _setContent (content) {
+    while (this.root.firstChild) this.root.firstChild.remove()
+    let node = null
+
+    if (typeof content === 'string') {
+      const tmp = document.createElement('tmp')
+      tmp.innerHTML = content
+      node = tmp.firstElementChild
+    } else {
+      node = content.cloneNode(true)
+    }
+
+    if (this.styleNode) node.appendChild(this.styleNode)
+    return node
+  }
+
+  connectedCallback () {
+    for (let { name, value } of this.attributes) {
+      name = name.replace(/-(.)/gui, (_, m) => m.toUpperCase())
+      this.props[name] = value || name
+    }
+
+    if (this.props.data) {
+      try { this.props.data = JSON.parse(this.props.data) } catch (e) {}
+    }
+
+    this.root = (this.shadowRoot || this)
+    this.props = Tonic.sanitize(this.props)
+    this.willConnect && this.willConnect()
+    this.root.appendChild(this._setContent(this.render()))
+    this.connected && this.connected()
+
+    if (this.stylesheet) {
+      const style = document.createElement('style')
+      style.textContent = this.stylesheet
+      this.styleNode = this.root.appendChild(style)
+    }
+  }
+}
+
+Tonic.escapeRe = /["&'<>`]/g
+Tonic.escapeMap = { '"': '&quot;', '&': '&amp;', '\'': '&#x27;', '<': '&lt;', '>': '&gt;', '`': '&#x60;' }
+
+if (typeof module === 'object') module.exports = Tonic
+
+},{}]},{},[1]);

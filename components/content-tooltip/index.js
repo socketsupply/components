@@ -20,6 +20,14 @@ class ContentTooltip extends Tonic {
         border: 1px solid var(--border);
         border-radius: 2px;
         transition: all 0.3s ease-in-out;
+        visibility: hidden;
+        z-index: -1;
+        opacity: 0;
+      }
+      :host span .tooltip.show {
+        visibility: visible;
+        opacity: 1;
+        z-index: 1;
       }
       :host span .tooltip.arrow:after {
         content: '';

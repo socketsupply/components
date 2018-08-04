@@ -1,15 +1,17 @@
 
     <html>
-      <head>
-        <meta charset="utf-8">
-        <title>Tonic - Component Based Architecture</title>
-        <link href="https://fonts.googleapis.com/css?family=Caudex|Poppins:400,600|Space+Mono" rel="stylesheet">
-        <link href="index.css" rel="stylesheet">
+      
+  <head>
+    <title>Tonic - Component Based Architecture</title>
+    <link href="https://fonts.googleapis.com/css?family=Caudex|Poppins:400,600|Space+Mono" rel="stylesheet">
+    <link href="index.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="./favicon.png">
 
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1 user-scalable=no">
-        <meta name="description" content="Component Based Architecture">
-      </head>
+    <meta http-equiv="Content-Type" charset="utf-8" content="text/html">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1 user-scalable=no">
+    <meta name="description" content="Component Based Architecture">
+  </head>
+
 
       <body>
         <nav>
@@ -63,17 +65,12 @@
         <a href="#custom" class="">Custom</a>
       </li>
     </ul>
-          <a href="#" class="footer">
-            <span>Made by</span>
-            <svg>
-              <use xlink:href="./sprite.svg#cl_logo">
-            </svg>
-          </a>
         </nav>
         <main>
           
   <section id="intro">
     <div class="hero">
+      <div class="logo"><img src="./tonic.svg" width="200px"></div>
       <p class="intro-copy"><span class="first-word">Tonic</span> is a minimalist component library inspired by React, based on Web Components.</p>
       <input-button value="View on Github"></input-button>
     </div>
@@ -1641,6 +1638,15 @@ class AnotherThing extends Tonic {
 
   </section>
 
+
+          <footer>
+            <a href="#">
+              <span>Made by</span>
+              <svg>
+                <use xlink:href="./sprite.svg#cl_logo">
+              </svg>
+            </a>
+          </footer>
         </main>
         <script src="bundle.js"></script>
       </body>

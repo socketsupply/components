@@ -150,6 +150,7 @@ function readMarkdown () {
 
   titles.unshift('Intro')
   titles.push('Custom')
+  titles.push('APIs')
   titles = titles.map(wrapLink)
 
   toc = `<ul>${titles.join('')}</ul>`

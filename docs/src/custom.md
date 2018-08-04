@@ -20,14 +20,14 @@ class ExampleComponent extends Tonic {
 ```
 
 Next, you can tell the browser about your new class and it will create a custom
-html tag for it. There is a weird rule about custom tags, they must be two or
-more words, `FooBar`, is ok, `Bar` won't work.
+html tag for it. There is a weird rule about [custom tags][1], they must be two
+or more words. `FooBar`, is ok, `Bar` won't work.
 
 ```js
 Tonic.add(ExampleComponent)
 ```
 
-Add your Javascript to your html and now you can now use your new component
+Then, add your Javascript to your html and now you can now use your new component
 anywhere in your html.
 
 ```html
@@ -74,7 +74,8 @@ Tonic.add(ComponentB)
 ## Embedding Style Sheets
 
 If you create your component with a `shadow dom`, you can add a stylesheet to
-your component that won't affect the rest of the page.
+your component that won't affect the rest of the page. This is really nice if
+you plan to package and ship your component to other developers.
 
 ```js
 class ExampleComponent extends Tonic {
@@ -82,10 +83,9 @@ class ExampleComponent extends Tonic {
     super()
 
     //
-    // You can create a "private" stylesheet that will not affect any
-    // other part of the page. Since we are using Web Components,
-    // this doesn't require any hacks — hacks that can make debugging
-    // much more difficult.
+    // Your stylesheet will not affect any other part of the page. Since we are
+    // using Web Components, this doesn't require any hacks — hacks that can
+    // make debugging more difficult.
     //
     this.stylesheet = `
       div {
@@ -211,8 +211,43 @@ class AnotherThing extends Tonic {
 }
 ```
 
+# APIs
+
+## STATIC METHODS
+
+| Method | Description |
+| :--- | :--- |
+| `add(Class, Object)` | Register a class as a new custom-tag and provide optional options for it. |
+| `escape(String)` | Escapes html characters from a string (based on [he][3]). |
+| `sanitize(Object)` | Escapes all the strings found in an object literal. |
+| `match(Node, Selector)` | Match the given node against a selector or any matching parent of the given node. This is useful when trying to locate a node from the actual node that was interacted with. |
+
+## INSTANCE METHODS
+
+| Method | Description |
+| :--- | :--- |
+| `setProps(Object)` | Set the properties of a component instance. |
+| `render()` | Returns html to be parsed or a dom node that will overwrite. There is usually no need to call this directly, prefer `componentInstance.setProps({ ... })`. |
+| html\`...\` | Tidy up an html string (use as a [tagged template][2]). |
+
+## "LIFECYCLE" INSTANCE METHODS
+
+The standard "[reactions][1]" (aka lifecycle methods) are available on every
+component (as well as a few others).
+
+| Method | Description |
+| :--- | :--- |
+| `constructor()` | An instance of the element is created or upgraded. Useful for initializing state, settings up event listeners, or creating shadow dom. See the spec for restrictions on what you can do in the constructor. |
+| `willConnect()` | Called prior to the element being inserted into the DOM. Useful for updating configuration, state and preparing for the render. |
+| `connected()` | Called every time the element is inserted into the DOM. Useful for running setup code, such as fetching resources or rendering. Generally, you should try to delay work until this time. |
+| `disconnected()` | Called every time the element is removed from the DOM. Useful for running clean up code. |
+| `updated(oldProps)` | Called after setProps() is called. This method is not called on the initial render. |
+| `attributeChanged(attrName, oldVal, newVal)` | Called when an observed attribute has been added, removed, updated, or replaced. Also called for initial values when an element is created by the parser, or upgraded. Note: only attributes listed in the observedAttributes property will receive this callback. |
+| `adopted()` | The custom element has been moved into a new document (e.g. someone called document.adoptNode(el)). |
+
 More details on [Github][1]
 
 [0]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
-[1]:https://github.com/hxoht/tonic
-
+[1]:https://developers.google.com/web/fundamentals/web-components/customelements
+[2]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
+[3]:https://github.com/mathiasbynens/he

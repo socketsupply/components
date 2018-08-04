@@ -83,6 +83,10 @@
       <li>
         <a href="#custom" class="">Custom</a>
       </li>
+    
+      <li>
+        <a href="#apis" class="">APIs</a>
+      </li>
     </ul>
         </nav>
         <main>
@@ -1793,10 +1797,10 @@ of html.</p>
   }
 }</code></pre>
 <p>Next, you can tell the browser about your new class and it will create a custom
-html tag for it. There is a weird rule about custom tags, they must be two or
-more words, <code>FooBar</code>, is ok, <code>Bar</code> won&#39;t work.</p>
+html tag for it. There is a weird rule about <a href="https://developers.google.com/web/fundamentals/web-components/customelements">custom tags</a>, they must be two
+or more words. <code>FooBar</code>, is ok, <code>Bar</code> won&#39;t work.</p>
 <pre><code class="language-js">Tonic.<span class="hljs-builtin-name">add</span>(ExampleComponent)</code></pre>
-<p>Add your Javascript to your html and now you can now use your new component
+<p>Then, add your Javascript to your html and now you can now use your new component
 anywhere in your html.</p>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
@@ -1829,16 +1833,16 @@ programmer using it, making their reality a little simpler.</p>
 <span class="hljs-selector-tag">Tonic</span><span class="hljs-selector-class">.add</span>(<span class="hljs-selector-tag">ComponentB</span>)</code></pre>
 <h2 id="embedding-style-sheets">Embedding Style Sheets</h2>
 <p>If you create your component with a <code>shadow dom</code>, you can add a stylesheet to
-your component that won&#39;t affect the rest of the page.</p>
+your component that won&#39;t affect the rest of the page. This is really nice if
+you plan to package and ship your component to other developers.</p>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ExampleComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   constructor () {
     <span class="hljs-keyword">super</span>()
 
     <span class="hljs-comment">//</span>
-    <span class="hljs-comment">// You can create a "private" stylesheet that will not affect any</span>
-    <span class="hljs-comment">// other part of the page. Since we are using Web Components,</span>
-    <span class="hljs-comment">// this doesn't require any hacks — hacks that can make debugging</span>
-    <span class="hljs-comment">// much more difficult.</span>
+    <span class="hljs-comment">// Your stylesheet will not affect any other part of the page. Since we are</span>
+    <span class="hljs-comment">// using Web Components, this doesn't require any hacks — hacks that can</span>
+    <span class="hljs-comment">// make debugging more difficult.</span>
     <span class="hljs-comment">//</span>
     <span class="hljs-keyword">this</span>.stylesheet = `
       div {
@@ -1939,7 +1943,93 @@ will automatically be parsed into json for you. Don&#39;t forget single quotes!<
   render () {
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.template
   }
-}</code></pre><p>More details on <a href="https://github.com/hxoht/tonic">Github</a></p>
+}</code></pre><h1 id="apis">APIs</h1>
+<h2 id="static-methods">STATIC METHODS</h2>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>add(Class, Object)</code></td>
+<td align="left">Register a class as a new custom-tag and provide optional options for it.</td>
+</tr>
+<tr>
+<td align="left"><code>escape(String)</code></td>
+<td align="left">Escapes html characters from a string (based on <a href="https://github.com/mathiasbynens/he">he</a>).</td>
+</tr>
+<tr>
+<td align="left"><code>sanitize(Object)</code></td>
+<td align="left">Escapes all the strings found in an object literal.</td>
+</tr>
+<tr>
+<td align="left"><code>match(Node, Selector)</code></td>
+<td align="left">Match the given node against a selector or any matching parent of the given node. This is useful when trying to locate a node from the actual node that was interacted with.</td>
+</tr>
+</tbody></table>
+<h2 id="instance-methods">INSTANCE METHODS</h2>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>setProps(Object)</code></td>
+<td align="left">Set the properties of a component instance.</td>
+</tr>
+<tr>
+<td align="left"><code>render()</code></td>
+<td align="left">Returns html to be parsed or a dom node that will overwrite. There is usually no need to call this directly, prefer <code>componentInstance.setProps({ ... })</code>.</td>
+</tr>
+<tr>
+<td align="left">html`...`</td>
+<td align="left">Tidy up an html string (use as a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals">tagged template</a>).</td>
+</tr>
+</tbody></table>
+<h2 id="lifecycle-instance-methods">&quot;LIFECYCLE&quot; INSTANCE METHODS</h2>
+<p>The standard &quot;<a href="https://developers.google.com/web/fundamentals/web-components/customelements">reactions</a>&quot; (aka lifecycle methods) are available on every
+component (as well as a few others).</p>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>constructor()</code></td>
+<td align="left">An instance of the element is created or upgraded. Useful for initializing state, settings up event listeners, or creating shadow dom. See the spec for restrictions on what you can do in the constructor.</td>
+</tr>
+<tr>
+<td align="left"><code>willConnect()</code></td>
+<td align="left">Called prior to the element being inserted into the DOM. Useful for updating configuration, state and preparing for the render.</td>
+</tr>
+<tr>
+<td align="left"><code>connected()</code></td>
+<td align="left">Called every time the element is inserted into the DOM. Useful for running setup code, such as fetching resources or rendering. Generally, you should try to delay work until this time.</td>
+</tr>
+<tr>
+<td align="left"><code>disconnected()</code></td>
+<td align="left">Called every time the element is removed from the DOM. Useful for running clean up code.</td>
+</tr>
+<tr>
+<td align="left"><code>updated(oldProps)</code></td>
+<td align="left">Called after setProps() is called. This method is not called on the initial render.</td>
+</tr>
+<tr>
+<td align="left"><code>attributeChanged(attrName, oldVal, newVal)</code></td>
+<td align="left">Called when an observed attribute has been added, removed, updated, or replaced. Also called for initial values when an element is created by the parser, or upgraded. Note: only attributes listed in the observedAttributes property will receive this callback.</td>
+</tr>
+<tr>
+<td align="left"><code>adopted()</code></td>
+<td align="left">The custom element has been moved into a new document (e.g. someone called document.adoptNode(el)).</td>
+</tr>
+</tbody></table>
+<p>More details on <a href="https://developers.google.com/web/fundamentals/web-components/customelements">Github</a></p>
 
   </section>
 

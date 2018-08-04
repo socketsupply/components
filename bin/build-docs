@@ -42,7 +42,7 @@ const intro = `
       <h3>Features</h3>
       <div class="col">
         <ul>
-          <li>Quickly read and understand the whole module, ~100 lines.</li>
+          <li>Quickly read and understand the whole module, ~150 lines.</li>
           <li>React-like component composition.</li>
           <li>One-way data binding. Pipe data though connected components.</li>
         </ul>
@@ -60,7 +60,7 @@ const intro = `
 
 const custom = `
   <section id="custom">
-    ${fs.readFileSync(path.join(__dirname, '..', 'docs', 'custom.html'))}
+    ${marked(fs.readFileSync(path.join(__dirname, '..', 'docs', 'custom.md'), 'utf8'))}
   </section>
 `
 

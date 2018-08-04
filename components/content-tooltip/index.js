@@ -29,8 +29,7 @@ class ContentTooltip extends Tonic {
         opacity: 1;
         z-index: 1;
       }
-      :host span .tooltip.arrow:after {
-        content: '';
+      :host span .tooltip.arrow span {
         width: 12px;
         height: 12px;
         position: absolute;
@@ -41,16 +40,16 @@ class ContentTooltip extends Tonic {
         -webkit-transform: rotate(45deg);
         -ms-transform: rotate(45deg);
         transform: rotate(45deg);
+        top: -8px;
         left: 50%;
-        margin-left: -8px;
       }
-      :host span .tooltip.top:after {
+      :host span .tooltip.top span {
         margin-bottom: -6px;
         bottom: 100%;
         border-top-color: var(--border);
         border-left-color: var(--border);
       }
-      :host span .tooltip.bottom:after {
+      :host span .tooltip.bottom span {
         margin-top: -6px;
         position: absolute;
         top: 100%;
@@ -131,6 +130,9 @@ class ContentTooltip extends Tonic {
     if (width) style.push(`width: ${width};`)
     if (height) style.push(`height: ${height};`)
 
+    const arrow = document.createElement('span')
+    arrow.textContent = ' '
+
     const span = document.createElement('span')
     span.textContent = this.innerHTML
     span.id = 'text'
@@ -144,9 +146,8 @@ class ContentTooltip extends Tonic {
     const template = document.querySelector(`template[for="${id}"]`)
     const clone = document.importNode(template.content, true)
 
-    const image = document.createElement('div.image')
+    tooltip.appendChild(arrow)
     tooltip.appendChild(clone)
-    clone.appendChild(image)
     span.appendChild(tooltip)
     this.root.appendChild(span)
     this.structure = span

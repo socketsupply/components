@@ -21,14 +21,21 @@ The component `InputToggle` creates a toggle.
       </td>
     </tr>
     <tr>
-      <td><input-toggle id="toggle-example-2" label="Label"></input-toggle></td>
+      <td><input-toggle checked id="toggle-example-2"></input-toggle></td>
+      <td>Default toggle checked</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td><input-toggle id="toggle-example-3" label="Label"></input-toggle></td>
       <td>Toggle with label</td>
       <td>
         <icon-container src="./sprite.svg#code"></icon-container>
       </td>
     </tr>
     <tr>
-      <td><input-toggle id="toggle-example-3" label="Disabled" disabled></input-toggle></td>
+      <td><input-toggle id="toggle-example-4" label="Disabled" disabled></input-toggle></td>
       <td>Toggle with <code>disabled</code> attribute and label</td>
       <td>
         <icon-container src="./sprite.svg#code"></icon-container>

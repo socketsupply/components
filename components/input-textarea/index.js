@@ -9,6 +9,7 @@ class InputTextarea extends Tonic {
         width: 100%;
         font: 14px var(--monospace);
         padding: 10px;
+        background-color: transparent;
         border: 1px solid var(--border);
         outline: none;
         transition: all 0.2s ease-in-out;
@@ -20,7 +21,7 @@ class InputTextarea extends Tonic {
         border: 1px solid var(--primary);
       }
       textarea:invalid {
-        border-color: var(--red);
+        border-color: var(--caution);
       }
       label {
         color: var(--medium);

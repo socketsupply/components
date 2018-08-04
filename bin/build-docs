@@ -23,7 +23,11 @@ const head = `
 const intro = `
   <section id="intro">
     <div class="hero">
-      <div class="logo"><img src="./tonic.svg" width="200px"></div>
+      <div class="logo">
+        <svg>
+          <use xlink:href="./sprite.svg#tonic_logo">
+        </svg>
+      </div>
       <p class="intro-copy"><span class="first-word">Tonic</span> is a minimalist component library inspired by React, based on Web Components.</p>
       <input-button value="View on Github"></input-button>
     </div>
@@ -71,7 +75,11 @@ function page (toc, sections) {
 
       <body>
         <nav>
-          <a href="./index.html"><img src="./tonic.svg"></a>
+          <a href="./index.html" class="logo">
+            <svg>
+              <use xlink:href="./sprite.svg#tonic_logo">
+            </svg>
+          </a>
           ${toc}
         </nav>
         <main>

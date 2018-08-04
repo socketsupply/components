@@ -13,7 +13,7 @@ class IconContainer extends Tonic {
 
     this.defaults = {
       size: '25px',
-      color: '#000',
+      color: 'var(--primary)',
       src: './sprite.svg#example'
     }
   }
@@ -41,4 +41,4 @@ class IconContainer extends Tonic {
   }
 }
 
-Tonic.add(IconContainer)
+Tonic.add(IconContainer, { shadow: true })

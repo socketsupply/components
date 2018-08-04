@@ -5,13 +5,13 @@ body {
   --monospace: 'Space-Mono', monospace;
 }
 body {
-  --window: #fff;
-  --primary: #36393d;
-  --secondary: #e8e8e4;
+  --window: #2d2f31;
+  --primary: #fff;
+  --secondary: #c3c3c3;
   --medium: #999da0;
   --accent: #f06653;
-  --border: #e8e8e4;
-  --background: #f7f7f5;
+  --border: #484a4c;
+  --background: #3c3c3c;
   --notification: #f06653;
   --caution: #f06653;
   --success: #85b274;
@@ -90,7 +90,7 @@ a {
   }
 }
 span.req {
-  color: var(--red);
+  color: var(--caution);
   font-style: italic;
   display: block;
   float: right;
@@ -196,9 +196,16 @@ nav li a.selected {
   color: #fff;
   background-color: var(--accent);
 }
-nav img {
-  width: 150px;
+nav a.logo {
   margin-bottom: 30px;
+  display: inline-block;
+}
+nav a.logo svg {
+  width: 150px;
+}
+nav a.logo svg use {
+  fill: var(--primary);
+  color: var(--primary);
 }
 main {
   padding: 0 60px 60px 20px;
@@ -276,6 +283,13 @@ main footer:hover svg use {
 }
 #intro {
   padding-top: 100px;
+}
+#intro svg {
+  width: 200px;
+}
+#intro svg use {
+  fill: var(--primary);
+  color: var(--primary);
 }
 #intro p:not(.intro-copy) {
   font-size: 17px;

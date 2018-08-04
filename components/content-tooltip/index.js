@@ -15,7 +15,7 @@ class ContentTooltip extends Tonic {
       :host span .tooltip {
         position: absolute;
         top: 30px;
-        background: #fff;
+        background: var(--window);
         box-shadow: 0px 30px 90px -20px rgba(0,0,0,0.3);
         border: 1px solid var(--border);
         border-radius: 2px;
@@ -33,7 +33,7 @@ class ContentTooltip extends Tonic {
         width: 12px;
         height: 12px;
         position: absolute;
-        background-color: #fff;
+        background-color: var(--window);
         border: 1px solid transparent;
         border-radius: 2px;
         pointer-events: none;

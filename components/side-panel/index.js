@@ -13,7 +13,7 @@ class SidePanel extends Tonic {
         position: fixed;
         bottom: 0;
         top: 0;
-        background-color: #fff;
+        background-color: var(--window);
         box-shadow: 0px 0px 28px 0 rgba(0,0,0,0.05);
         z-index: 100;
         transition: transform 0.3s ease-in-out;

@@ -16,7 +16,8 @@ class NotificationBadge extends Tonic {
         border-radius: 8px;
       }
       .notifications span {
-        font: 15px 'Poppins', sans-serif;
+        color: var(--window);
+        font: 15px var(--subheader);
         letter-spacing: 1px;
         text-align: center;
         position: relative;
@@ -30,7 +31,7 @@ class NotificationBadge extends Tonic {
         top: -3px;
         right: -6px;
         border-radius: 50%;
-        background-color: var(--red);
+        background-color: var(--notification);
         border: 2px solid var(--secondary);
       }
       `

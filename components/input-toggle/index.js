@@ -71,7 +71,7 @@ class InputToggle extends Tonic {
         top: 4px;
         left: 4px;
         bottom: 4px;
-        background-color: #fff;
+        background-color: var(--window);
         border-radius: 52px;
         transition: background 0.4s ease-in-out, margin 0.4s ease-in-out;
         display: block;
@@ -89,7 +89,7 @@ class InputToggle extends Tonic {
         background-color: var(--background);
       }
       .switch input.toggle:disabled + label:after {
-        background-color: #fff;
+        background-color: var(--window);
       }
       .switch input.toggle:checked + label {
         background-color: var(--accent);

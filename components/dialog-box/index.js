@@ -46,18 +46,18 @@ class DialogBox extends Tonic {
         transition: opacity 0.3s ease-in-out;
       }
       :host .dialog {
-        background-color: #fff;
+        padding-top: 50px;
         margin: auto;
         position: relative;
-        border-radius: 4px;
+        background-color: var(--window);
         box-shadow: 0px 30px 90px -20px rgba(0,0,0,0.3), 0 0 1px #a2a9b1;
-        padding-top: 50px;
-        z-index: 1;
-        opacity: 0;
+        border-radius: 4px;
         -webkit-transform: scale(0.8);
         -ms-transform: scale(0.8);
         transform: scale(0.8);
         transition: all 0.3s ease-in-out;
+        z-index: 1;
+        opacity: 0;
       }
       :host .dialog header {
         height: 70px;

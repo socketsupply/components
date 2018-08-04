@@ -1,10 +1,7 @@
 @require 'theme.styl'
-@require 'base.styl'
 
 *
   box-sizing border-box
-
-$mobile = '(max-width: 850px)'
 
 // Base styles
 body
@@ -67,11 +64,11 @@ a
 .hero
   margin-top 100px
   margin-bottom 150px
-  @media $mobile
+  @media (max-width: 850px)
     margin-top 0
 
 span.req
-  color var(--red)
+  color var(--caution)
   font-style italic
   display block
   float right
@@ -156,7 +153,7 @@ nav
   overflow scroll
   box-shadow 0 0 30px 0px rgba(0,0,0,0.04)
   border-right 1px solid var(--border)
-  @media $mobile
+  @media (max-width: 850px)
     display none
 
   li
@@ -173,9 +170,15 @@ nav
         color white
         background-color var(--accent)
 
-  img
-    width 150px
+  a.logo
+    // width 150px
     margin-bottom 30px
+    display inline-block
+    svg
+      width 150px
+      use
+        fill var(--primary)
+        color var(--primary)
 
 main
   padding 0 60px 60px 20px
@@ -185,14 +188,14 @@ main
   right 0
   bottom 0
   overflow scroll
-  @media $mobile
+  @media (max-width: 850px)
     left 0
     padding 30px
 
   .logo
     display none
     margin-bottom 50px
-    @media $mobile
+    @media (max-width: 850px)
       display flex
       justify-content center
 
@@ -245,6 +248,12 @@ main
 
 #intro
   padding-top 100px
+
+  svg
+    width 200px
+    use
+      fill var(--primary)
+      color var(--primary)
 
   p:not(.intro-copy)
     font-size 17px

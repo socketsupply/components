@@ -36,6 +36,7 @@ class InputTextarea extends Tonic { /* global Tonic */
       maxlength,
       width,
       height,
+      theme,
       radius,
       resize
     } = { ...this.defaults, ...this.props }
@@ -44,6 +45,8 @@ class InputTextarea extends Tonic { /* global Tonic */
     const nameAttr = name ? `name="${name}"` : ''
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
+
+    if (theme) this.classList.add(`theme-${theme}`)
 
     let style = []
     if (width) style.push(`width: ${width}`)

@@ -102,6 +102,7 @@ The component `InputText` creates an input, with or without a label.
 | `isinvalid` | *boolean* | Indicates input error | *false* |
 | `placeholder` | *string* | Inserts placeholder text | *none* |
 | `width` | *string* | Width of the input | *250px* |
+| `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
 ### Static Methods & Members
 

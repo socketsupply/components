@@ -27,9 +27,12 @@ class InputButton extends Tonic { /* global Tonic */
       width,
       height,
       radius,
+      theme,
       fill,
       textColor
     } = { ...this.defaults, ...this.props }
+
+    if (theme) this.classList.add(`theme-${theme}`)
 
     const idAttr = id ? `id="${id}"` : ''
     const nameAttr = name ? `name="${name}"` : ''

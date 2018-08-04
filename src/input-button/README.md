@@ -71,6 +71,7 @@ The component `InputButton` creates a button.
 | `fill` | *string* | Filled button |  |
 | `textColor` | *string* | TextColor of the button |  |
 | `href` | *string* | Add a location (url) for click event | |
+| `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
 ### Static Methods & Members
 

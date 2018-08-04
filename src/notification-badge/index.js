@@ -9,8 +9,11 @@ class NotificationBadge extends Tonic { /* global Tonic */
 
   render () {
     let {
-      count
+      count,
+      theme
     } = { ...this.defaults, ...this.props }
+
+    if (theme) this.classList.add(`theme-${theme}`)
 
     count = '23'
 

@@ -22,8 +22,11 @@ class InputToggle extends Tonic { /* global Tonic */
       id,
       name,
       disabled,
+      theme,
       checked
     } = { ...this.defaults, ...this.props }
+
+    if (theme) this.classList.add(`theme-${theme}`)
 
     const nameAttr = name ? `name="${name}"` : ''
 

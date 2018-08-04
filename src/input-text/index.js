@@ -45,6 +45,7 @@ class InputText extends Tonic { /* global Tonic */
       width,
       height,
       padding,
+      theme,
       radius,
       position
     } = { ...this.defaults, ...this.props }
@@ -55,6 +56,8 @@ class InputText extends Tonic { /* global Tonic */
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
     const ariaInvalidAttr = ariaInvalid ? `aria-invalid="${ariaInvalid}"` : ''
+
+    if (theme) this.classList.add(`theme-${theme}`)
 
     let style = []
     if (width) style.push(`width: ${width}`)

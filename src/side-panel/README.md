@@ -121,6 +121,7 @@ A template is required. Example template structure for panel content:
 | `position` | *string* | Changes the position of the panel | *right* |
 | `overlay` | *boolean* | Shows an overlay behind the panel | *false* |
 | `backgroundColor` | *string* | Changes the background color of the overlay | *rgba(0,0,0,0.5)* |
+| `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
 ### Static Methods & Members
 

@@ -360,10 +360,12 @@ class DialogBox extends Tonic { /* global Tonic */
       width,
       height,
       overlay,
+      theme,
       backgroundColor
     } = { ...this.defaults, ...this.props }
 
     const id = this.getAttribute('id')
+    if (theme) this.classList.add(`theme-${theme}`)
 
     const style = []
     if (width) style.push(`width: ${width};`)
@@ -441,8 +443,11 @@ class IconContainer extends Tonic { /* global Tonic */
     let {
       color,
       size,
+      theme,
       src
     } = { ...this.defaults, ...this.props }
+
+    if (theme) this.classList.add(`theme-${theme}`)
 
     if (color === 'undefined' || color === 'color') {
       color = this.defaults.color
@@ -518,9 +523,12 @@ class InputButton extends Tonic { /* global Tonic */
       width,
       height,
       radius,
+      theme,
       fill,
       textColor
     } = { ...this.defaults, ...this.props }
+
+    if (theme) this.classList.add(`theme-${theme}`)
 
     const idAttr = id ? `id="${id}"` : ''
     const nameAttr = name ? `name="${name}"` : ''
@@ -638,9 +646,12 @@ class InputCheckbox extends Tonic { /* global Tonic */
       checked,
       color,
       on,
+      theme,
       off,
       size
     } = { ...this.defaults, ...this.props }
+
+    if (theme) this.classList.add(`theme-${theme}`)
 
     const state = checked ? on : off
     const nameAttr = name ? `name="${name}"` : ''
@@ -755,6 +766,7 @@ class InputText extends Tonic { /* global Tonic */
       width,
       height,
       padding,
+      theme,
       radius,
       position
     } = { ...this.defaults, ...this.props }
@@ -765,6 +777,8 @@ class InputText extends Tonic { /* global Tonic */
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
     const ariaInvalidAttr = ariaInvalid ? `aria-invalid="${ariaInvalid}"` : ''
+
+    if (theme) this.classList.add(`theme-${theme}`)
 
     let style = []
     if (width) style.push(`width: ${width}`)
@@ -863,6 +877,7 @@ class InputTextarea extends Tonic { /* global Tonic */
       maxlength,
       width,
       height,
+      theme,
       radius,
       resize
     } = { ...this.defaults, ...this.props }
@@ -871,6 +886,8 @@ class InputTextarea extends Tonic { /* global Tonic */
     const nameAttr = name ? `name="${name}"` : ''
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
+
+    if (theme) this.classList.add(`theme-${theme}`)
 
     let style = []
     if (width) style.push(`width: ${width}`)
@@ -1026,8 +1043,11 @@ class InputToggle extends Tonic { /* global Tonic */
       id,
       name,
       disabled,
+      theme,
       checked
     } = { ...this.defaults, ...this.props }
+
+    if (theme) this.classList.add(`theme-${theme}`)
 
     const nameAttr = name ? `name="${name}"` : ''
 
@@ -1092,8 +1112,11 @@ class NotificationBadge extends Tonic { /* global Tonic */
 
   render () {
     let {
-      count
+      count,
+      theme
     } = { ...this.defaults, ...this.props }
+
+    if (theme) this.classList.add(`theme-${theme}`)
 
     count = '23'
 
@@ -1118,6 +1141,11 @@ class NotificationToaster extends Tonic { /* global Tonic */
   }
 
   render () {
+    const {
+      theme
+    } = { ...this.defaults, ...this.props }
+
+    if (theme) this.classList.add(`theme-${theme}`)
     return `<div></div>`
   }
 }
@@ -1179,11 +1207,14 @@ class ProfileImage extends Tonic { /* global Tonic */
       src,
       radius,
       border,
+      theme,
       editable
     } = { ...this.defaults, ...this.props }
 
     const idAttr = id ? `id="${id}"` : ''
     const nameAttr = name ? `name="${name}"` : ''
+
+    if (theme) this.classList.add(`theme-${theme}`)
 
     let style = []
     if (size) {
@@ -1338,10 +1369,13 @@ class SidePanel extends Tonic { /* global Tonic */
       name,
       position,
       overlay,
+      theme,
       backgroundColor
     } = { ...this.defaults, ...this.props }
 
     const id = this.getAttribute('id')
+
+    if (theme) this.classList.add(`theme-${theme}`)
 
     // create wrapper
     const wrapper = document.createElement('div')
@@ -1411,14 +1445,14 @@ class TabMenu extends Tonic { /* global Tonic */
 
   render () {
     let {
-      id
+      theme
     } = { ...this.defaults, ...this.props }
 
+    if (theme) this.classList.add(`theme-${theme}`)
+
     return `
-      <div class="wrapper>
-        <div class="tab-menu">
-          <div class="tab"></div>
-        </div>
+      <div class="tab-menu">
+        <div class="tab"></div>
       </div>
     `
   }

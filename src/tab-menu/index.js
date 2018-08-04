@@ -9,14 +9,14 @@ class TabMenu extends Tonic { /* global Tonic */
 
   render () {
     let {
-      id
+      theme
     } = { ...this.defaults, ...this.props }
 
+    if (theme) this.classList.add(`theme-${theme}`)
+
     return `
-      <div class="wrapper>
-        <div class="tab-menu">
-          <div class="tab"></div>
-        </div>
+      <div class="tab-menu">
+        <div class="tab"></div>
       </div>
     `
   }

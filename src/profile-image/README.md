@@ -63,6 +63,7 @@ The component `ProfileImage` is used to create an SVG icon with a custom size an
 | `radius` | *string* | Change the border-radius of the image | *'5px'* |
 | `border` | *string* | Change the border of the image (i.e. '1px solid white') |  |
 | `editable` | *boolean* | Add an edit overlay | false |
+| `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
 ### Static Methods & Members
 

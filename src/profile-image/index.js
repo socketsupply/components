@@ -18,11 +18,14 @@ class ProfileImage extends Tonic { /* global Tonic */
       src,
       radius,
       border,
+      theme,
       editable
     } = { ...this.defaults, ...this.props }
 
     const idAttr = id ? `id="${id}"` : ''
     const nameAttr = name ? `name="${name}"` : ''
+
+    if (theme) this.classList.add(`theme-${theme}`)
 
     let style = []
     if (size) {

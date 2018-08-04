@@ -8,6 +8,11 @@ class NotificationToaster extends Tonic { /* global Tonic */
   }
 
   render () {
+    const {
+      theme
+    } = { ...this.defaults, ...this.props }
+
+    if (theme) this.classList.add(`theme-${theme}`)
     return `<div></div>`
   }
 }

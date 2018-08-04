@@ -90,6 +90,7 @@ The component `InputCheckbox` is used to create a styled checkbox, with or witho
 | `checked` | *boolean* | Adds `checked` attribute | *false* |
 | `size` | *string* | Changes the `width` and `height` of the icon | *18px* |
 | `color` | *string* | Changes the color of the icon | *var(--primary)* |
+| `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
 ### Static Methods & Members
 

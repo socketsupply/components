@@ -30,6 +30,7 @@ The component `NotificationBadge` creates a notification badge with a counter an
 | :--- | :--- | :--- | :--- |
 | `id` | *string* | Adds the `id` attribute | |
 | `name` | *string* | Adds the `name` attribute | |
+| `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
 ### Static Methods & Members
 

@@ -49,9 +49,12 @@ class InputCheckbox extends Tonic { /* global Tonic */
       checked,
       color,
       on,
+      theme,
       off,
       size
     } = { ...this.defaults, ...this.props }
+
+    if (theme) this.classList.add(`theme-${theme}`)
 
     const state = checked ? on : off
     const nameAttr = name ? `name="${name}"` : ''

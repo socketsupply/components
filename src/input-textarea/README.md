@@ -66,6 +66,7 @@ The component `InputTextarea` creates a text area.
 | `width` | *string* | Set width of text area |  |
 | `height` | *string* | Set height of text area | *100%* |
 | `radius` | *string* | Set radius of text area | *2px* |
+| `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
 ### Static Methods & Members
 

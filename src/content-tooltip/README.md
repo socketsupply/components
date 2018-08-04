@@ -13,7 +13,7 @@
   <tbody>
     <tr>
       <td>
-        <content-tooltip theme="dark" id="hello">Hover me!</content-tooltip>
+        <content-tooltip id="hello">Hover me!</content-tooltip>
       </td>
       <td>Default content box</td>
       <td>

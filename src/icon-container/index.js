@@ -14,8 +14,11 @@ class IconContainer extends Tonic { /* global Tonic */
     let {
       color,
       size,
+      theme,
       src
     } = { ...this.defaults, ...this.props }
+
+    if (theme) this.classList.add(`theme-${theme}`)
 
     if (color === 'undefined' || color === 'color') {
       color = this.defaults.color

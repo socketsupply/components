@@ -33,10 +33,13 @@ class SidePanel extends Tonic { /* global Tonic */
       name,
       position,
       overlay,
+      theme,
       backgroundColor
     } = { ...this.defaults, ...this.props }
 
     const id = this.getAttribute('id')
+
+    if (theme) this.classList.add(`theme-${theme}`)
 
     // create wrapper
     const wrapper = document.createElement('div')

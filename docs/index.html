@@ -1562,17 +1562,17 @@ the screen either for a duration or until the user acknowledges it.</p>
 
 <h2 id="code">Code</h2>
 <p>A template is required. Example template structure for panel content:</p>
-<pre><code class="language-html">  &lt;template for= id&gt;
-    &lt;header&gt;
-      &lt;!-- Header content goes here --&gt;
-    &lt;/header&gt;
-    &lt;main&gt;
-      &lt;!-- Main content goes here --&gt;
-    &lt;/main&gt;
-    &lt;footer&gt;
-      &lt;!-- Footer content goes here --&gt;
-    &lt;/footer&gt;
-  &lt;/template&gt;</code></pre>
+<pre><code class="language-html">  <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">for</span>= <span class="hljs-string">id</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">header</span>&gt;</span>
+      <span class="hljs-comment">&lt;!-- Header content goes here --&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">header</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">main</span>&gt;</span>
+      <span class="hljs-comment">&lt;!-- Main content goes here --&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">main</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">footer</span>&gt;</span>
+      <span class="hljs-comment">&lt;!-- Footer content goes here --&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">footer</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
 <h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>
 <table>
@@ -1728,162 +1728,162 @@ the screen either for a duration or until the user acknowledges it.</p>
 <p>Building a component starts with creating a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes">Javascript Class</a>. The class
 should have at least one method named <em>render</em> which usually returns a string
 of html.</p>
-<pre><code class="language-js">class ExampleComponent extends Tonic {
-  //
-  // The render function can return a string of html, it can include other
-  // components as well. It can also return a dom node, we&#39;ll talk about
-  // that later.
-  //
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ExampleComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+  <span class="hljs-comment">//</span>
+  <span class="hljs-comment">// The render function can return a string of html, it can include other</span>
+  <span class="hljs-comment">// components as well. It can also return a dom node, we'll talk about</span>
+  <span class="hljs-comment">// that later.</span>
+  <span class="hljs-comment">//</span>
   render () {
-    return `&lt;div&gt;Hello, World.&lt;/div&gt;`
+    <span class="hljs-keyword">return</span> `&lt;div&gt;<span class="hljs-type">Hello</span>, <span class="hljs-type">World</span>.&lt;/div&gt;`
   }
 }</code></pre>
 <p>Next, you can tell the browser about your new class and it will create a custom
 html tag for it. There is a weird rule about custom tags, they must be two or
 more words, <code>FooBar</code>, is ok, <code>Bar</code> won&#39;t work.</p>
-<pre><code class="language-js">Tonic.add(ExampleComponent)</code></pre>
+<pre><code class="language-js">Tonic.<span class="hljs-builtin-name">add</span>(ExampleComponent)</code></pre>
 <p>Add your Javascript to your html and now you can now use your new component
 anywhere in your html.</p>
-<pre><code class="language-html">&lt;html&gt;
-  &lt;head&gt;
-    &lt;script src=&quot;index.js&quot;&gt;&lt;/script&gt;
-  &lt;/head&gt;
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"index.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
 
-  &lt;body&gt;
-    &lt;example-component&gt;&lt;/example-component&gt;
-  &lt;/body&gt;
-&lt;/html&gt;</code></pre>
+  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">example-component</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">example-component</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
 <p>The result, when rendered by the browser, will be that the html
 from your render function will be inserted into the component. As you
 can see, the potential complexity of your code will be hidden from the
 programmer using it, making their reality a little simpler.</p>
-<pre><code class="language-html">&lt;html&gt;
-  &lt;head&gt;
-    &lt;script src=&quot;index.js&quot;&gt;&lt;/script&gt;
-  &lt;/head&gt;
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"index.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
 
-  &lt;body&gt;
-    &lt;example-component&gt;
-      &lt;div&gt;Hello, World.&lt;/div&gt;
-    &lt;/example-component&gt;
-  &lt;/body&gt;
-&lt;/html&gt;</code></pre>
+  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">example-component</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>Hello, World.<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">example-component</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
 <h2 id="registering-components">Registering Components</h2>
 <p>You must register your components before they can be used. If you specify the
 &quot;shadow&quot; option, your components will render into a <code>shadow dom</code>.</p>
-<pre><code class="language-js">Tonic.add(ComponentA, { shadow: true })
-Tonic.add(ComponentB)</code></pre>
+<pre><code class="language-js"><span class="hljs-selector-tag">Tonic</span><span class="hljs-selector-class">.add</span>(<span class="hljs-selector-tag">ComponentA</span>, { <span class="hljs-attribute">shadow</span>: true })
+<span class="hljs-selector-tag">Tonic</span><span class="hljs-selector-class">.add</span>(<span class="hljs-selector-tag">ComponentB</span>)</code></pre>
 <h2 id="embedding-style-sheets">Embedding Style Sheets</h2>
 <p>If you create your component with a <code>shadow dom</code>, you can add a stylesheet to
 your component that won&#39;t affect the rest of the page.</p>
-<pre><code class="language-js">class ExampleComponent extends Tonic {
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ExampleComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   constructor () {
-    super()
+    <span class="hljs-keyword">super</span>()
 
-    //
-    // You can create a &quot;private&quot; stylesheet that will not affect any
-    // other part of the page. Since we are using Web Components,
-    // this doesn&#39;t require any hacks — hacks that can make debugging
-    // much more difficult.
-    //
-    this.stylesheet = `
+    <span class="hljs-comment">//</span>
+    <span class="hljs-comment">// You can create a "private" stylesheet that will not affect any</span>
+    <span class="hljs-comment">// other part of the page. Since we are using Web Components,</span>
+    <span class="hljs-comment">// this doesn't require any hacks — hacks that can make debugging</span>
+    <span class="hljs-comment">// much more difficult.</span>
+    <span class="hljs-comment">//</span>
+    <span class="hljs-keyword">this</span>.stylesheet = `
       div {
         display: inline-block;
-        border: 1px dotted #666;
-        height: 100px;
-        width: 100px;
-        line-height: 90px;
+        border: <span class="hljs-number">1</span>px dotted #<span class="hljs-number">666</span>;
+        height: <span class="hljs-number">100</span>px;
+        width: <span class="hljs-number">100</span>px;
+        line-height: <span class="hljs-number">90</span>px;
       }
     `
   }
 
   render () {
-    return `&lt;div&gt;&lt;/div&gt;`
+    <span class="hljs-keyword">return</span> `&lt;div&gt;&lt;/div&gt;`
   }
 }</code></pre>
 <h2 id="listening-for-events">Listening For Events</h2>
 <p>Tonic helps you capture events that happen when someone interacts with your
 component. It also helps you organize that code.</p>
-<pre><code class="language-js">class ExampleComponent extends Tonic {
-  //
-  // You can listen to any dom event that happens in your component
-  // by creating a method with the corresponding name. The method will
-  // receive the plain old Javascript event object.
-  //
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ExampleComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+  <span class="hljs-comment">//</span>
+  <span class="hljs-comment">// You can listen to any dom event that happens in your component</span>
+  <span class="hljs-comment">// by creating a method with the corresponding name. The method will</span>
+  <span class="hljs-comment">// receive the plain old Javascript event object.</span>
+  <span class="hljs-comment">//</span>
   mouseover (e, target) {
-    // ...
+    <span class="hljs-comment">// ...</span>
   }
 
-  //
-  // Events that do not normally propagate from the shadow DOM to the standard
-  // DOM will still call your event methods.
-  //
+  <span class="hljs-comment">//</span>
+  <span class="hljs-comment">// Events that do not normally propagate from the shadow DOM to the standard</span>
+  <span class="hljs-comment">// DOM will still call your event methods.</span>
+  <span class="hljs-comment">//</span>
   change (e, target) {
-    // ...
+    <span class="hljs-comment">// ...</span>
   }
 
   click (e, target) {
-    //
-    // Often you&#39;ll want to check what element in the component was actually
-    // clicked. The target attribute will always return the actual element
-    // that was clicked, regardless of what part of the dom it originated.
-    //
-    if (!target.matches(&#39;.parent&#39;)) return
+    <span class="hljs-comment">//</span>
+    <span class="hljs-comment">// Often you'll want to check what element in the component was actually</span>
+    <span class="hljs-comment">// clicked. The target attribute will always return the actual element</span>
+    <span class="hljs-comment">// that was clicked, regardless of what part of the dom it originated.</span>
+    <span class="hljs-comment">//</span>
+    <span class="hljs-keyword">if</span> (!target.matches('.parent')) <span class="hljs-keyword">return</span>
 
-    // ...
+    <span class="hljs-comment">// ...</span>
   }
 
   render () {
-    return `&lt;div&gt;&lt;/div&gt;`
+    <span class="hljs-keyword">return</span> `&lt;div&gt;&lt;/div&gt;`
   }
 }</code></pre>
 <h2 id="passing-data-and-arguments">Passing data and arguments</h2>
 <p>Add components to your html, pass them arguments just like with regular html.</p>
-<pre><code class="language-js">&lt;my-component value=&quot;7a&quot;&gt;
-&lt;/my-component&gt;</code></pre>
+<pre><code class="language-js">&lt;<span class="hljs-keyword">my</span>-component value=<span class="hljs-string">"7a"</span>&gt;
+&lt;/<span class="hljs-keyword">my</span>-component&gt;</code></pre>
 <p>Native HTML only understands strings. If you want to pass non-string props, like
 some json, you need to first stringify it. The &quot;data&quot; attribute is special and
 will automatically be parsed into json for you. Don&#39;t forget single quotes!</p>
-<pre><code class="language-html">&lt;parent-component id=&quot;parent&quot; data=&#39;${JSON.stringify(data)}&#39;&gt;
-&lt;/parent-component&gt;</code></pre>
+<pre><code class="language-html"><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">parent-component</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"parent"</span> <span class="hljs-attr">data</span>=<span class="hljs-string">'$</span></span></span><span class="hljs-template-variable">{JSON.stringify(data)}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">'</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">parent-component</span>&gt;</span></span></code></pre>
 <p>Alternatively, you can call the <code>setProps(...)</code> method on the element directly.</p>
-<pre><code class="language-js">document.getElementById(&#39;parent&#39;).setProps(data)</code></pre>
+<pre><code class="language-js"><span class="hljs-selector-tag">document</span><span class="hljs-selector-class">.getElementById</span>(<span class="hljs-string">'parent'</span>)<span class="hljs-selector-class">.setProps</span>(data)</code></pre>
 <h2 id="pre-renderng-and-optimizing-for-performance">Pre-Renderng and optimizing for performance</h2>
-<pre><code>class AnotherThing extends Tonic {
+<pre><code><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AnotherThing</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   constructor () {
-    super()
+    <span class="hljs-keyword">super</span>()
 
-    //
-    // If you have lots of structure, but only a few
-    // changes, you could prerender your layout to create
-    // a reusable node and pass it to the render method.
-    // This structure could also come from a &lt;template&gt;
-    // tag which would also improve performance.
-    //
-    this.template = document.createElement(&#39;div&#39;)
+    <span class="hljs-comment">//</span>
+    <span class="hljs-comment">// If you have lots of structure, but only a few</span>
+    <span class="hljs-comment">// changes, you could prerender your layout to create</span>
+    <span class="hljs-comment">// a reusable node and pass it to the render method.</span>
+    <span class="hljs-comment">// This structure could also come from a &lt;template&gt;</span>
+    <span class="hljs-comment">// tag which would also improve performance.</span>
+    <span class="hljs-comment">//</span>
+    <span class="hljs-keyword">this</span>.template = document.createElement(<span class="hljs-symbol">'di</span>v')
   }
 
   willConnect () {
-    //
-    // Set state on a component instance or on this instance,
-    // .setProps() will cause a downward cascade of re-rendering.
-    // Set props can also accept a function that will provide
-    // the current props as an argument.
-    //
-    this.setProps({ value: this.getRandomValue() })
+    <span class="hljs-comment">//</span>
+    <span class="hljs-comment">// Set state on a component instance or on this instance,</span>
+    <span class="hljs-comment">// .setProps() will cause a downward cascade of re-rendering.</span>
+    <span class="hljs-comment">// Set props can also accept a function that will provide</span>
+    <span class="hljs-comment">// the current props as an argument.</span>
+    <span class="hljs-comment">//</span>
+    <span class="hljs-keyword">this</span>.setProps({ value: <span class="hljs-keyword">this</span>.getRandomValue() })
   }
 
   connected () {
-    //
-    // Target and update a few nodes directly.
-    //
+    <span class="hljs-comment">//</span>
+    <span class="hljs-comment">// Target and update a few nodes directly.</span>
+    <span class="hljs-comment">//</span>
   }
 
-  //
-  // Render will automatically deep-clone this node for you.
-  //
+  <span class="hljs-comment">//</span>
+  <span class="hljs-comment">// Render will automatically deep-clone this node for you.</span>
+  <span class="hljs-comment">//</span>
   render () {
-    return this.template
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.template
   }
 }</code></pre><p>More details on <a href="https://github.com/hxoht/tonic">Github</a></p>
 

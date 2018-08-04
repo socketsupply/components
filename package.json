@@ -33,6 +33,7 @@
     "tape-run": "^4.0.0"
   },
   "dependencies": {
+    "highlight.js": "^9.12.0",
     "marked": "^0.4.0",
     "scrolltoy": "github:voltraco/scrolltoy",
     "tonic": "github:hxoht/tonic"

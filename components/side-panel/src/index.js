@@ -8,6 +8,7 @@ class SidePanel extends Tonic {
 
     this.defaults = {
       position: 'right',
+      overlay: false,
       backgroundColor: 'rgba(0,0,0,0.5)'
     }
   }
@@ -57,9 +58,12 @@ class SidePanel extends Tonic {
     panel.className = 'panel'
 
     // create overlay
-    const overlayElement = document.createElement('div')
-    overlayElement.className = 'overlay'
-    overlayElement.setAttribute('style', `background-color: ${backgroundColor}`)
+    if (overlay !== 'false') {
+      const overlayElement = document.createElement('div')
+      overlayElement.className = 'overlay'
+      overlayElement.setAttribute('style', `background-color: ${backgroundColor}`)
+      wrapper.appendChild(overlayElement)
+    }
 
     // create template
     const template = document.querySelector(`template[for="${id}"]`)
@@ -78,7 +82,6 @@ class SidePanel extends Tonic {
     // append everything
     wrapper.appendChild(panel)
     wrapper.appendChild(panel)
-    wrapper.appendChild(overlayElement)
     panel.appendChild(clone)
     panel.appendChild(close)
     close.appendChild(svg)

@@ -153,6 +153,26 @@
         <icon-container src="./sprite.svg#code"></icon-container>
       </td>
     </tr>
+    <tr>
+      <td>
+        <dialog-box id="dialog-box-example-2" overlay="false"></dialog-box>
+        <input-button name="buttonCancel" id="dialog-box-link-example-2" value="Click to open"></input-button>
+      </td>
+      <td>Dialog box without overlay</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <dialog-box id="dialog-box-example-3" overlay="true" background-color="rgba(75, 145, 221, 0.5)"></dialog-box>
+        <input-button name="buttonCancel" id="dialog-box-link-example-3" value="Click to open"></input-button>
+      </td>
+      <td>Dialog box with overlay and custom background color</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
   </tbody>
 </table>
 
@@ -167,10 +187,40 @@
   </footer>
 </template>
 
+<template for="dialog-box-example-2">
+  <header>Dialog</header>
+  <main>
+    <p>I'm a little dialog,<br> hear me shout</p>
+  </main>
+  <footer>
+    <input-button value="cancel"></input-button>
+    <input-button value="confirm"></input-button>
+  </footer>
+</template>
+
+<template for="dialog-box-example-3">
+  <header>Dialog</header>
+  <main>
+    <p>I'm a little dialog,<br> hear me shout</p>
+  </main>
+  <footer>
+    <input-button value="cancel"></input-button>
+    <input-button value="confirm"></input-button>
+  </footer>
+</template>
+
 <script>
   const dialogLink1 = document.getElementById('dialog-box-link-example-1')
   const dialog1 = document.getElementById('dialog-box-example-1')
   dialogLink1.addEventListener('click', e => dialog1.show())
+
+  const dialogLink2 = document.getElementById('dialog-box-link-example-2')
+  const dialog2 = document.getElementById('dialog-box-example-2')
+  dialogLink2.addEventListener('click', e => dialog2.show())
+
+  const dialogLink3 = document.getElementById('dialog-box-link-example-3')
+  const dialog3 = document.getElementById('dialog-box-example-3')
+  dialogLink3.addEventListener('click', e => dialog3.show())
 </script>
 
 <h2 id="api">Api</h2>
@@ -185,10 +235,40 @@
 </tr>
 </thead>
 <tbody><tr>
-<td align="left"><code>header</code></td>
+<td align="left"><code>id</code></td>
 <td align="left"><em>string</em></td>
-<td align="left">Sets the header of the dialog</td>
+<td align="left">Adds an <code>id</code> attribute</td>
 <td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>name</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a <code>name</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>width</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Sets the width of the dialog</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>height</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Sets the height of the dialog</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>overlay</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a background overlay</td>
+<td align="left"><em>true</em></td>
+</tr>
+<tr>
+<td align="left"><code>backgroundColor</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Sets the background color of the overlay</td>
+<td align="left"><em>rgba(0,0,0,0.5)</em></td>
 </tr>
 </tbody></table>
 <h3 id="static-methods-members">Static Methods &amp; Members</h3>
@@ -1259,7 +1339,7 @@
     </tr>
     <tr>
       <td>
-        <side-panel id="side-panel-example-3" overlay background-color="red"></side-panel>
+        <side-panel id="side-panel-example-3" overlay="true" background-color="red"></side-panel>
         <input-button id="side-panel-link-example-3" value="Click to open"></input-button>
       </td>
       <td>Default Side Panel with overlay (right)</td>

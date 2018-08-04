@@ -8,7 +8,9 @@ class DialogBox extends Tonic {
 
     this.defaults = {
       width: '450px',
-      height: '275px'
+      height: '275px',
+      overlay: true,
+      backgroundColor: 'rgba(0,0,0,0.5)'
     }
   }
 
@@ -33,7 +35,9 @@ class DialogBox extends Tonic {
   willConnect () {
     const {
       width,
-      height
+      height,
+      overlay,
+      backgroundColor
     } = { ...this.defaults, ...this.props }
 
     const id = this.getAttribute('id')
@@ -50,8 +54,12 @@ class DialogBox extends Tonic {
     wrapper.className = 'wrapper'
 
     // create overlay
-    const overlay = document.createElement('div')
-    overlay.className = 'overlay'
+    if (overlay !== 'false') {
+      const overlayElement = document.createElement('div')
+      overlayElement.className = 'overlay'
+      overlayElement.setAttribute('style', `background-color: ${backgroundColor}`)
+      wrapper.appendChild(overlayElement)
+    }
 
     // create dialog
     const dialog = document.createElement('div')
@@ -74,7 +82,6 @@ class DialogBox extends Tonic {
 
     // append everything
     wrapper.appendChild(dialog)
-    wrapper.appendChild(overlay)
     dialog.appendChild(clone)
     dialog.appendChild(close)
     close.appendChild(svg)

@@ -19,11 +19,7 @@ class ContentTooltip extends Tonic {
         box-shadow: 0px 30px 90px -20px rgba(0,0,0,0.3);
         border: 1px solid var(--border);
         border-radius: 2px;
-<<<<<<< HEAD
-        transition: all 0.3s ease-in-out;
-=======
-        transition: opacity 0.3s ease-in-out, z-index 0.3s ease-in-out;
->>>>>>> wip tooltip
+        transition: opacity 0.3s ease-in-out, z-index 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
         visibility: hidden;
         z-index: -1;
         opacity: 0;
@@ -94,7 +90,10 @@ class ContentTooltip extends Tonic {
       let { top } = this.getBoundingClientRect()
       top += (el.scrollY || 0)
       let left = -(tooltip.offsetWidth / 2) + (this.offsetWidth / 2)
-      left = (left > 0) ? left : 0
+
+      if (left < 0) {
+        left = 0
+      }
 
       if (top < (window.innerHeight / 2)) {
         tooltip.classList.remove('bottom')

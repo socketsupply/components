@@ -19,7 +19,11 @@ class ContentTooltip extends Tonic {
         box-shadow: 0px 30px 90px -20px rgba(0,0,0,0.3);
         border: 1px solid var(--border);
         border-radius: 2px;
+<<<<<<< HEAD
         transition: all 0.3s ease-in-out;
+=======
+        transition: opacity 0.3s ease-in-out, z-index 0.3s ease-in-out;
+>>>>>>> wip tooltip
         visibility: hidden;
         z-index: -1;
         opacity: 0;
@@ -44,11 +48,18 @@ class ContentTooltip extends Tonic {
         left: 50%;
         margin-left: -8px;
       }
-      :host span .tooltip.arrow:after {
+      :host span .tooltip.top:after {
         margin-bottom: -6px;
         bottom: 100%;
         border-top-color: var(--border);
         border-left-color: var(--border);
+      }
+      :host span .tooltip.bottom:after {
+        margin-top: -6px;
+        position: absolute;
+        top: 100%;
+        border-bottom-color: var(--border);
+        border-right-color: var(--border);
       }
       :host span .image {
         position: absolute;
@@ -72,6 +83,32 @@ class ContentTooltip extends Tonic {
     clearTimeout(this.timer)
     this.timer = setTimeout(() => {
       const tooltip = this.root.getElementById('tooltip')
+      let el = this.parentNode
+
+      while (true) {
+        if (!el || el.tagName === 'html') break
+        if (window.getComputedStyle(el).overflow === 'scroll') break
+        el = el.parentNode
+      }
+
+      let { top } = this.getBoundingClientRect()
+      top += (el.scrollY || 0)
+      let left = -(tooltip.offsetWidth / 2) + (this.offsetWidth / 2)
+      left = (left > 0) ? left : 0
+
+      if (top < (window.innerHeight / 2)) {
+        tooltip.classList.remove('bottom')
+        tooltip.classList.add('top')
+        tooltip.style.top = `30px`
+        tooltip.style.left = `${left}px`
+      } else {
+        tooltip.classList.remove('top')
+        tooltip.classList.add('bottom')
+        const offsetTop = tooltip.offsetHeight + this.offsetHeight
+        tooltip.style.top = `-${offsetTop}px`
+        tooltip.style.left = `${left}px`
+      }
+
       tooltip.classList.add('show')
     }, 128)
   }

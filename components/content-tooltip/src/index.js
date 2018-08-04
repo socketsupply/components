@@ -16,6 +16,35 @@ class ContentTooltip extends Tonic {
     clearTimeout(this.timer)
     this.timer = setTimeout(() => {
       const tooltip = this.root.getElementById('tooltip')
+      let el = this.parentNode
+
+      while (true) {
+        if (!el || el.tagName === 'html') break
+        if (window.getComputedStyle(el).overflow === 'scroll') break
+        el = el.parentNode
+      }
+
+      let { top } = this.getBoundingClientRect()
+      top += (el.scrollY || 0)
+      let left = -(tooltip.offsetWidth / 2) + (this.offsetWidth / 2)
+
+      if (left < 0) {
+        left = 0
+      }
+
+      if (top < (window.innerHeight / 2)) {
+        tooltip.classList.remove('bottom')
+        tooltip.classList.add('top')
+        tooltip.style.top = `30px`
+        tooltip.style.left = `${left}px`
+      } else {
+        tooltip.classList.remove('top')
+        tooltip.classList.add('bottom')
+        const offsetTop = tooltip.offsetHeight + this.offsetHeight
+        tooltip.style.top = `-${offsetTop}px`
+        tooltip.style.left = `${left}px`
+      }
+
       tooltip.classList.add('show')
     }, 128)
   }

@@ -1,7 +1,6 @@
 class ContentTooltip extends Tonic { /* global Tonic */
-  constructor () {
-    super()
-    this.stylesheet = `%style%`
+  constructor (props) {
+    super(props)
 
     this.defaults = {
       width: '250px',
@@ -9,7 +8,12 @@ class ContentTooltip extends Tonic { /* global Tonic */
     }
   }
 
+  style () {
+    return `%style%`
+  }
+
   mouseenter (e) {
+    console.log('XXXX', e)
     clearTimeout(this.timer)
     this.timer = setTimeout(() => {
       const tooltip = this.root.getElementById('tooltip')
@@ -27,6 +31,10 @@ class ContentTooltip extends Tonic { /* global Tonic */
 
       if (left < 0) {
         left = 0
+      }
+
+      if ((left + tooltip.offsetWidth) > window.innerWidth) {
+        left = window.innerWidth - tooltip.offsetWidth
       }
 
       if (top < (window.innerHeight / 2)) {
@@ -52,17 +60,17 @@ class ContentTooltip extends Tonic { /* global Tonic */
     tooltip.classList.remove('show')
   }
 
-  willConnect () {
+  render () {
     const {
+      id,
       width,
       theme,
       height
     } = { ...this.defaults, ...this.props }
 
-    const id = this.getAttribute('id')
-    this.text = this.getAttribute('text')
+    console.log(this.props)
 
-    if (theme) this.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`theme-${theme}`)
 
     const style = []
     if (width) style.push(`width: ${width};`)
@@ -72,10 +80,10 @@ class ContentTooltip extends Tonic { /* global Tonic */
     arrow.textContent = ' '
 
     const span = document.createElement('span')
-    span.textContent = this.innerHTML
+    span.textContent = this.root.innerHTML
     span.id = 'text'
 
-    while (this.firstChild) this.firstChild.remove()
+    while (this.root.firstChild) this.root.firstChild.remove()
 
     const tooltip = document.createElement('div')
     tooltip.id = 'tooltip'
@@ -88,12 +96,8 @@ class ContentTooltip extends Tonic { /* global Tonic */
     tooltip.appendChild(clone)
     span.appendChild(tooltip)
     this.root.appendChild(span)
-    this.structure = span
-  }
-
-  render () {
-    return this.structure
+    return span
   }
 }
 
-Tonic.add(ContentTooltip, { shadow: true })
+Tonic.add(ContentTooltip)

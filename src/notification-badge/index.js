@@ -1,10 +1,13 @@
 class NotificationBadge extends Tonic { /* global Tonic */
-  constructor () {
-    super()
-    this.stylesheet = `%style%`
+  constructor (props) {
+    super(props)
 
     this.defaults = {
     }
+  }
+
+  style () {
+    return `%style%`
   }
 
   render () {
@@ -13,7 +16,7 @@ class NotificationBadge extends Tonic { /* global Tonic */
       theme
     } = { ...this.defaults, ...this.props }
 
-    if (theme) this.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`theme-${theme}`)
 
     count = '23'
 
@@ -25,4 +28,4 @@ class NotificationBadge extends Tonic { /* global Tonic */
   }
 }
 
-Tonic.add(NotificationBadge, { shadow: true })
+Tonic.add(NotificationBadge)

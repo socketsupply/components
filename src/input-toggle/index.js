@@ -1,11 +1,14 @@
 class InputToggle extends Tonic { /* global Tonic */
-  constructor () {
-    super()
-    this.stylesheet = `%style%`
+  constructor (props) {
+    super(props)
 
     this.defaults = {
       checked: false
     }
+  }
+
+  style () {
+    return `%style%`
   }
 
   change (e) {
@@ -26,7 +29,7 @@ class InputToggle extends Tonic { /* global Tonic */
       checked
     } = { ...this.defaults, ...this.props }
 
-    if (theme) this.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`theme-${theme}`)
 
     const nameAttr = name ? `name="${name}"` : ''
 
@@ -48,4 +51,4 @@ class InputToggle extends Tonic { /* global Tonic */
   }
 }
 
-Tonic.add(InputToggle, { shadow: true })
+Tonic.add(InputToggle)

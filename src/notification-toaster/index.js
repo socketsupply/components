@@ -1,10 +1,13 @@
 class NotificationToaster extends Tonic { /* global Tonic */
-  constructor () {
-    super()
-    this.stylesheet = `%style%`
+  constructor (props) {
+    super(props)
 
     this.defaults = {
     }
+  }
+
+  style () {
+    return `%style%`
   }
 
   render () {
@@ -12,7 +15,7 @@ class NotificationToaster extends Tonic { /* global Tonic */
       theme
     } = { ...this.defaults, ...this.props }
 
-    if (theme) this.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`theme-${theme}`)
     return `<div></div>`
   }
 }

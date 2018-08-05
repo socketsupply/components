@@ -1,7 +1,6 @@
 class InputText extends Tonic { /* global Tonic */
-  constructor () {
-    super()
-    this.stylesheet = `%style%`
+  constructor (props) {
+    super(props)
 
     this.defaults = {
       type: 'text',
@@ -13,6 +12,10 @@ class InputText extends Tonic { /* global Tonic */
       width: '250px',
       position: 'right'
     }
+  }
+
+  style () {
+    return `%style%`
   }
 
   renderLabel () {
@@ -57,7 +60,7 @@ class InputText extends Tonic { /* global Tonic */
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
     const ariaInvalidAttr = ariaInvalid ? `aria-invalid="${ariaInvalid}"` : ''
 
-    if (theme) this.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`theme-${theme}`)
 
     let style = []
     if (width) style.push(`width: ${width}`)
@@ -88,4 +91,4 @@ class InputText extends Tonic { /* global Tonic */
   }
 }
 
-Tonic.add(InputText, { shadow: true })
+Tonic.add(InputText)

@@ -1,7 +1,6 @@
 class InputTextarea extends Tonic { /* global Tonic */
-  constructor () {
-    super()
-    this.stylesheet = `%style%`
+  constructor (props) {
+    super(props)
 
     this.defaults = {
       placeholder: '',
@@ -13,6 +12,10 @@ class InputTextarea extends Tonic { /* global Tonic */
       width: '100%',
       radius: '2px'
     }
+  }
+
+  style () {
+    return `%style%`
   }
 
   renderLabel () {
@@ -46,7 +49,7 @@ class InputTextarea extends Tonic { /* global Tonic */
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
 
-    if (theme) this.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`theme-${theme}`)
 
     let style = []
     if (width) style.push(`width: ${width}`)
@@ -77,4 +80,4 @@ class InputTextarea extends Tonic { /* global Tonic */
   }
 }
 
-Tonic.add(InputTextarea, { shadow: true })
+Tonic.add(InputTextarea)

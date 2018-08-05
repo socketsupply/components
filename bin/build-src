@@ -14,7 +14,6 @@ const dest = path.join(__dirname, '..', 'index.js')
 const dirs = fs.readdirSync(componentsDir)
 
 const re = /%style%/
-const pre = /\n(\s*)this.stylesheet/u
 
 async function main () {
   const output = []
@@ -30,22 +29,15 @@ async function main () {
     }
 
     const js = fs.readFileSync(src, 'utf8')
-
-    const ws = js.match(pre)
-    let padding = 0
-    let paddedCSS = css
-
-    if (ws) {
-      padding = ws[1].length
-      paddedCSS = '\n' + css.split(/\n/).map(line => {
-        return ' '.repeat(padding + 2) + line
-      }).join('\n')
-    }
-
-    output.push(js.replace(re, () => paddedCSS))
+    output.push(js.replace(re, () => css))
   }
 
-  fs.writeFileSync(dest, output.join('\n'))
+  const js = `
+    document.addEventListener('DOMContentLoaded', e => {
+      ${output.join('\n')}
+    })
+  `
+  fs.writeFileSync(dest, js)
 }
 
 main()

@@ -168,6 +168,17 @@ a {
     margin-top: 0;
   }
 }
+.tooltip {
+  padding: 10px;
+}
+.tooltip h3 {
+  margin: 0;
+}
+.tooltip p {
+  margin: 4px 0;
+  font-size: 12px;
+  line-height: 18px;
+}
 span.req {
   color: var(--caution);
   font-style: italic;

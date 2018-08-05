@@ -1,15 +1,13 @@
 :host
   position relative
   display inline-block
+  cursor default
 
-  span
-    all inherit
-
+  > span
     .tooltip
       position absolute
       top 30px
       background var(--window)
-      box-shadow 0px 30px 90px -20px rgba(0, 0, 0, 0.3)
       border 1px solid var(--border)
       border-radius 2px
       transition opacity 0.3s ease-in-out, z-index 0.3s ease-in-out, box-shadow 0.3s ease-in-out
@@ -19,6 +17,7 @@
       opacity 0
 
       &.show
+        box-shadow 0px 30px 90px -20px rgba(0, 0, 0, 0.3)
         visibility visible
         opacity 1
         z-index 1
@@ -28,6 +27,7 @@
           width 12px
           height 12px
           position absolute
+          z-index -1
           background-color var(--window)
           border 1px solid transparent
           border-radius 2px
@@ -35,7 +35,6 @@
           -webkit-transform rotate(45deg)
           -ms-transform rotate(45deg)
           transform rotate(45deg)
-          top -8px
           left 50%
 
       &.top

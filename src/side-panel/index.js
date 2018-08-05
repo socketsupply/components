@@ -1,13 +1,16 @@
 class SidePanel extends Tonic { /* global Tonic */
-  constructor () {
-    super()
-    this.stylesheet = `%style%`
+  constructor (props) {
+    super(props)
 
     this.defaults = {
       position: 'right',
       overlay: false,
       backgroundColor: 'rgba(0,0,0,0.5)'
     }
+  }
+
+  style () {
+    return `%style%`
   }
 
   show () {
@@ -37,9 +40,9 @@ class SidePanel extends Tonic { /* global Tonic */
       backgroundColor
     } = { ...this.defaults, ...this.props }
 
-    const id = this.getAttribute('id')
+    const id = this.root.getAttribute('id')
 
-    if (theme) this.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`theme-${theme}`)
 
     // create wrapper
     const wrapper = document.createElement('div')
@@ -95,4 +98,4 @@ class SidePanel extends Tonic { /* global Tonic */
   }
 }
 
-Tonic.add(SidePanel, { shadow: true })
+Tonic.add(SidePanel)

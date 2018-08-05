@@ -1,13 +1,16 @@
 class ProfileImage extends Tonic { /* global Tonic */
-  constructor () {
-    super()
-    this.stylesheet = `%style%`
+  constructor (props) {
+    super(props)
 
     this.defaults = {
       size: '50px',
       src: './default.jpg',
       radius: '5px'
     }
+  }
+
+  style () {
+    return `%style%`
   }
 
   render () {
@@ -25,7 +28,7 @@ class ProfileImage extends Tonic { /* global Tonic */
     const idAttr = id ? `id="${id}"` : ''
     const nameAttr = name ? `name="${name}"` : ''
 
-    if (theme) this.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`theme-${theme}`)
 
     let style = []
     if (size) {
@@ -54,4 +57,4 @@ class ProfileImage extends Tonic { /* global Tonic */
   }
 }
 
-Tonic.add(ProfileImage, { shadow: true })
+Tonic.add(ProfileImage)

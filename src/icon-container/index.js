@@ -1,13 +1,16 @@
 class IconContainer extends Tonic { /* global Tonic */
-  constructor () {
-    super()
-    this.stylesheet = `%style%`
+  constructor (props) {
+    super(props)
 
     this.defaults = {
       size: '25px',
       color: 'var(--primary)',
       src: './sprite.svg#example'
     }
+  }
+
+  style () {
+    return `%style%`
   }
 
   render () {
@@ -18,7 +21,7 @@ class IconContainer extends Tonic { /* global Tonic */
       src
     } = { ...this.defaults, ...this.props }
 
-    if (theme) this.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`theme-${theme}`)
 
     if (color === 'undefined' || color === 'color') {
       color = this.defaults.color
@@ -36,4 +39,4 @@ class IconContainer extends Tonic { /* global Tonic */
   }
 }
 
-Tonic.add(IconContainer, { shadow: true })
+Tonic.add(IconContainer)

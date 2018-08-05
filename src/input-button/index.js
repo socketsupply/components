@@ -1,7 +1,6 @@
 class InputButton extends Tonic { /* global Tonic */
-  constructor () {
-    super()
-    this.stylesheet = `%style%`
+  constructor (props) {
+    super(props)
 
     this.defaults = {
       value: 'Submit',
@@ -12,6 +11,10 @@ class InputButton extends Tonic { /* global Tonic */
       width: '150px',
       radius: '2px'
     }
+  }
+
+  style () {
+    return `%style%`
   }
 
   render () {
@@ -32,7 +35,7 @@ class InputButton extends Tonic { /* global Tonic */
       textColor
     } = { ...this.defaults, ...this.props }
 
-    if (theme) this.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`theme-${theme}`)
 
     const idAttr = id ? `id="${id}"` : ''
     const nameAttr = name ? `name="${name}"` : ''
@@ -67,4 +70,4 @@ class InputButton extends Tonic { /* global Tonic */
   }
 }
 
-Tonic.add(InputButton, { shadow: true })
+Tonic.add(InputButton)

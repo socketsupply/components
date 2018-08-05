@@ -1,7 +1,6 @@
 class InputCheckbox extends Tonic { /* global Tonic */
-  constructor () {
-    super()
-    this.stylesheet = `%style%`
+  constructor (props) {
+    super(props)
 
     this.props = {
       checked: false,
@@ -16,6 +15,10 @@ class InputCheckbox extends Tonic { /* global Tonic */
       on: './sprite.svg#checkbox_on',
       off: './sprite.svg#checkbox_off'
     }
+  }
+
+  style () {
+    return `%style%`
   }
 
   change (e) {

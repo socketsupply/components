@@ -1,7 +1,6 @@
 class DialogBox extends Tonic { /* global Tonic */
-  constructor () {
-    super()
-    this.stylesheet = `%style%`
+  constructor (props) {
+    super(props)
 
     this.defaults = {
       width: '450px',
@@ -9,6 +8,10 @@ class DialogBox extends Tonic { /* global Tonic */
       overlay: true,
       backgroundColor: 'rgba(0,0,0,0.5)'
     }
+  }
+
+  style () {
+    return `%style%`
   }
 
   show () {
@@ -38,14 +41,14 @@ class DialogBox extends Tonic { /* global Tonic */
       backgroundColor
     } = { ...this.defaults, ...this.props }
 
-    const id = this.getAttribute('id')
-    if (theme) this.classList.add(`theme-${theme}`)
+    const id = this.root.getAttribute('id')
+    if (theme) this.root.classList.add(`theme-${theme}`)
 
     const style = []
     if (width) style.push(`width: ${width};`)
     if (height) style.push(`height: ${height};`)
 
-    while (this.firstChild) this.firstChild.remove()
+    while (this.root.firstChild) this.root.firstChild.remove()
 
     // create wrapper
     const wrapper = document.createElement('div')
@@ -94,4 +97,4 @@ class DialogBox extends Tonic { /* global Tonic */
   }
 }
 
-Tonic.add(DialogBox, { shadow: true })
+Tonic.add(DialogBox)

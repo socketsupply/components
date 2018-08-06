@@ -1,0 +1,2259 @@
+
+    <html>
+      
+  <head>
+    <title>Tonic - Component Based Architecture</title>
+    <link href="https://fonts.googleapis.com/css?family=Caudex|Poppins:400,600|Space+Mono" rel="stylesheet">
+    <link href="index.css" rel="stylesheet">
+    <link rel="icon" type="image/png" href="./favicon.png">
+
+    <meta http-equiv="Content-Type" charset="utf-8" content="text/html">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1 user-scalable=no">
+    <meta name="description" content="Component Based Architecture">
+  </head>
+
+
+      <body>
+        <div class="theme-picker">
+          <svg>
+            <use xlink:href="./sprite.svg#theme">
+          </svg>
+        </div>
+        <nav>
+          <a href="./index.html" class="logo">
+            <svg>
+              <use xlink:href="./sprite.svg#tonic_logo">
+            </svg>
+          </a>
+          <ul>
+      <li>
+        <a href="#intro" class="selected">Intro</a>
+      </li>
+    
+      <li>
+        <a href="#contenttooltip" class="">ContentTooltip</a>
+      </li>
+    
+      <li>
+        <a href="#dialogbox" class="">DialogBox</a>
+      </li>
+    
+      <li>
+        <a href="#iconcontainer" class="">IconContainer</a>
+      </li>
+    
+      <li>
+        <a href="#inputbutton" class="">InputButton</a>
+      </li>
+    
+      <li>
+        <a href="#inputcheckbox" class="">InputCheckbox</a>
+      </li>
+    
+      <li>
+        <a href="#inputtext" class="">InputText</a>
+      </li>
+    
+      <li>
+        <a href="#inputtextarea" class="">InputTextarea</a>
+      </li>
+    
+      <li>
+        <a href="#inputtoggle" class="">InputToggle</a>
+      </li>
+    
+      <li>
+        <a href="#notificationbadge" class="">NotificationBadge</a>
+      </li>
+    
+      <li>
+        <a href="#notificationcenter" class="">NotificationCenter</a>
+      </li>
+    
+      <li>
+        <a href="#profileimage" class="">ProfileImage</a>
+      </li>
+    
+      <li>
+        <a href="#sidepanel" class="">SidePanel</a>
+      </li>
+    
+      <li>
+        <a href="#tabmenu" class="">TabMenu</a>
+      </li>
+    
+      <li>
+        <a href="#custom" class="">Custom</a>
+      </li>
+    
+      <li>
+        <a href="#apis" class="">APIs</a>
+      </li>
+    </ul>
+        </nav>
+        <main>
+          
+  <section id="intro">
+    <div class="hero">
+      <div class="logo">
+        <svg>
+          <use xlink:href="./sprite.svg#tonic_logo">
+        </svg>
+      </div>
+      <p class="intro-copy"><span class="first-word">Tonic</span> is a minimalist component library inspired by React, based on Web Components.</p>
+      <input-button value="View on Github"></input-button>
+    </div>
+    <p>
+      A <b>component</b> is a fully self-contained set of styles, behaviors and
+      layout. It usually solves a single problem in a way that makes it highly
+      reusable. An example would be a <code>ProgressBar</code> or <code>InputToggle</code>.
+    </p>
+    <p>
+      <b>Tonic</b> is a minimalist class library for building components inspired
+      by <b>React</b> and <b>Web Components</b>. This page documents a collection
+      of components built with Tonic as well as how to build your own components
+      using Tonic.
+    </p>
+    <div class="row">
+      <h3>Features</h3>
+      <div class="col">
+        <ul>
+          <li>Quickly read and understand the whole module, ~150 lines.</li>
+          <li>React-like component composition.</li>
+          <li>One-way data binding. Pipe data though connected components.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <ul>
+          <li>Based on standard web technologies.</li>
+          <li>Events as class methods, not scattered inline.</li>
+          <li>Bring your own Routers, Reducers, Validators, etc.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+
+          <section id="contenttooltip"><h1 id="contenttooltip">ContentTooltip</h1>
+<h2 id="demo">Demo</h2>
+<table class="example">
+  <thead>
+    <tr>
+      <th>Example</th>
+      <th>Description</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <content-tooltip id="hello">Hover me!</content-tooltip>
+      </td>
+      <td>Default content box</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<template for="hello">
+  <link href="index.css" rel="stylesheet">
+  <h3>Hello, World</h3>
+  <p>For over five thousand years ginseng has been used as a natural tonic: stimulant, restorative, refresher, cordial; Medicine analeptic, roborant; informal pick-me-up, bracer, livener.</p>
+</template>
+
+<h2 id="api">Api</h2>
+<h3 id="properties">Properties</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>id</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds an <code>id</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>theme</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
+<td align="left"><code>light</code></td>
+</tr>
+</tbody></table>
+<h3 id="static-methods-members">Static Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+</section><section id="dialogbox"><h1 id="dialogbox">DialogBox</h1>
+<p>The component <code>DialogBox</code> is used to create a dialog that displays content on top of an overlay.</p>
+<h2 id="demo">Demo</h2>
+<table class="example">
+  <thead>
+    <tr>
+      <th>Example</th>
+      <th>Description</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <dialog-box id="dialog-box-example-1"></dialog-box>
+        <input-button name="buttonCancel" id="dialog-box-link-example-1" value="Click to open"></input-button>
+      </td>
+      <td>Default dialog box</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <dialog-box id="dialog-box-example-2" overlay="false"></dialog-box>
+        <input-button name="buttonCancel" id="dialog-box-link-example-2" value="Click to open"></input-button>
+      </td>
+      <td>Dialog box without overlay</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <dialog-box id="dialog-box-example-3" overlay="true" background-color="rgba(75, 145, 221, 0.5)"></dialog-box>
+        <input-button name="buttonCancel" id="dialog-box-link-example-3" value="Click to open"></input-button>
+      </td>
+      <td>Dialog box with overlay and custom background color</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<template for="dialog-box-example-1">
+  <header>Dialog</header>
+  <main>
+    <p>I'm a little dialog,<br> hear me shout</p>
+  </main>
+  <footer>
+    <input-button value="cancel"></input-button>
+    <input-button value="confirm"></input-button>
+  </footer>
+</template>
+
+<template for="dialog-box-example-2">
+  <header>Dialog</header>
+  <main>
+    <p>I'm a little dialog,<br> hear me shout</p>
+  </main>
+  <footer>
+    <input-button value="cancel"></input-button>
+    <input-button value="confirm"></input-button>
+  </footer>
+</template>
+
+<template for="dialog-box-example-3">
+  <header>Dialog</header>
+  <main>
+    <p>I'm a little dialog,<br> hear me shout</p>
+  </main>
+  <footer>
+    <input-button value="cancel"></input-button>
+    <input-button value="confirm"></input-button>
+  </footer>
+</template>
+
+<script>
+  const dialogLink1 = document.getElementById('dialog-box-link-example-1')
+  const dialog1 = document.getElementById('dialog-box-example-1')
+  dialogLink1.addEventListener('click', e => dialog1.show())
+
+  const dialogLink2 = document.getElementById('dialog-box-link-example-2')
+  const dialog2 = document.getElementById('dialog-box-example-2')
+  dialogLink2.addEventListener('click', e => dialog2.show())
+
+  const dialogLink3 = document.getElementById('dialog-box-link-example-3')
+  const dialog3 = document.getElementById('dialog-box-example-3')
+  dialogLink3.addEventListener('click', e => dialog3.show())
+</script>
+
+<h2 id="api">Api</h2>
+<h3 id="properties">Properties</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>id</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds an <code>id</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>name</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a <code>name</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>width</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Sets the width of the dialog</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>height</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Sets the height of the dialog</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>overlay</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a background overlay</td>
+<td align="left"><code>true</code></td>
+</tr>
+<tr>
+<td align="left"><code>backgroundColor</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Sets the background color of the overlay</td>
+<td align="left"><code>rgba(0,0,0,0.5)</code></td>
+</tr>
+<tr>
+<td align="left"><code>theme</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
+<td align="left"><code>light</code></td>
+</tr>
+</tbody></table>
+<h3 id="static-methods-members">Static Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+</section><section id="iconcontainer"><h1 id="iconcontainer">IconContainer</h1>
+<p>The component <code>IconContainer</code> is used to create an SVG icon with a custom size and color.</p>
+<h2 id="demo">Demo</h2>
+<table class="example">
+  <thead>
+    <tr>
+      <th>Example</th>
+      <th>Description</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><icon-container></icon-container></td>
+      <td>Default Icon (25px)</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td><icon-container color="#f06653"></icon-container></td>
+      <td>Icon with color (25px)</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td><icon-container size="60px"></icon-container></td>
+      <td>Large Icon (60px)</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <icon-container size="60px" src="./sprite.svg#custom">
+        </icon-container>
+      </td>
+      <td>Custom Icon (60px)</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="api">Api</h2>
+<h3 id="properties">Properties</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>size</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Changes the width and height of the icon</td>
+<td align="left"><code>25px</code></td>
+</tr>
+<tr>
+<td align="left"><code>color</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Changes the color of the icon</td>
+<td align="left"><code>#000</code></td>
+</tr>
+<tr>
+<td align="left"><code>src</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Allow a custom icon from a sprite</td>
+<td align="left"><code>./sprite.svg#example</code></td>
+</tr>
+<tr>
+<td align="left"><code>theme</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
+<td align="left"><code>light</code></td>
+</tr>
+</tbody></table>
+<h3 id="static-methods-members">Static Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+</section><section id="inputbutton"><h1 id="inputbutton">InputButton</h1>
+<p>The component <code>InputButton</code> creates a button.</p>
+<h2 id="demo">Demo</h2>
+<table class="example">
+  <thead>
+    <tr>
+      <th>Example</th>
+      <th>Description</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><input-button></input-button></td>
+      <td>Default button</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td><input-button fill="var(--accent)" text-color="white"></input-button></td>
+      <td>Fill button</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td><input-button disabled="true"></input-button></td>
+      <td>Button with <code>disabled</code> attribute</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td><input-button value="Click me"></input-button></td>
+      <td>Loading button</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td><input-button width="100%"></input-button></td>
+      <td>Full width button</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="api">Api</h2>
+<h3 id="properties">Properties</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>id</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Button with <code>id</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>name</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Button with a <code>name</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>value</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Value of the button <span class="req">required</span></td>
+<td align="left"><code>Submit</code></td>
+</tr>
+<tr>
+<td align="left"><code>type</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Type of button (i.e. submit)</td>
+<td align="left"><code>submit</code></td>
+</tr>
+<tr>
+<td align="left"><code>disabled</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Button with the <code>disabled</code> attribute</td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left"><code>autofocus</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Button with the <code>autofocus</code> attribute</td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left"><code>isLoading</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Loading button</td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left"><code>isActive</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Active button</td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left"><code>width</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Width of the button</td>
+<td align="left"><code>150px</code></td>
+</tr>
+<tr>
+<td align="left"><code>height</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Height of the button</td>
+<td align="left"><code>38px</code></td>
+</tr>
+<tr>
+<td align="left"><code>radius</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Radius of the button</td>
+<td align="left"><code>2px</code></td>
+</tr>
+<tr>
+<td align="left"><code>fill</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Filled button</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>textColor</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">TextColor of the button</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>href</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Add a location (url) for click event</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>theme</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
+<td align="left"><code>light</code></td>
+</tr>
+</tbody></table>
+<h3 id="static-methods-members">Static Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+</section><section id="inputcheckbox"><h1 id="inputcheckbox">InputCheckbox</h1>
+<p>The component <code>InputCheckbox</code> is used to create a styled checkbox, with or without a label. You can also create a custom checkbox using SVG icons.</p>
+<h2 id="demo">Demo</h2>
+<table class="example">
+  <thead>
+    <tr>
+      <th>Example</th>
+      <th>Description</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <input-checkbox id="checkbox-example-1"></input-checkbox>
+      </td>
+      <td>Default Checkbox</td>
+      <td>
+        <icon-container id="checkbox-example-2" src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input-checkbox
+          id="checkbox-example-3"
+          label="Label">
+        </input-checkbox>
+      </td>
+      <td>Checkbox with Label</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input-checkbox
+          id="checkbox-example-4"
+          label="Disabled"
+          disabled>
+        </input-checkbox>
+      </td>
+      <td>Checkbox with label and <code>disabled</code> attribute</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input-checkbox
+          id="checkbox-example-5"
+          label="Disabled and Checked"
+          disabled
+          checked>
+        </input-checkbox>
+      </td>
+      <td>Checkbox with label and <code>disabled</code> & <code>checked</code> attributes</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input-checkbox
+          id="checkbox-example-6"
+          size="25px"
+          on="./sprite.svg#custom_on"
+          off="./sprite.svg#custom_off">
+        </input-checkbox>
+      </td>
+      <td>Custom SVG Checkbox</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="api">Api</h2>
+<h3 id="properties">Properties</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>id</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds <code>id</code> attribute <span class="req">required</span></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>name</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds <code>name</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>disabled</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Adds <code>disabled</code> attribute</td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left"><code>checked</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Adds <code>checked</code> attribute</td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left"><code>size</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Changes the <code>width</code> and <code>height</code> of the icon</td>
+<td align="left"><code>18px</code></td>
+</tr>
+<tr>
+<td align="left"><code>color</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Changes the color of the icon</td>
+<td align="left"><code>var(--primary)</code></td>
+</tr>
+<tr>
+<td align="left"><code>theme</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
+<td align="left"><code>light</code></td>
+</tr>
+</tbody></table>
+<h3 id="static-methods-members">Static Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>addIcon(state, fn)</code></td>
+<td align="left">Add a custom SVG as the icon for the given state Where the <code>state</code> parameter is either <code>on</code> or <code>off</code> and the <code>fn</code> parameter is a function that returns your SVG&#39;s xml. The function will receive the color prop as an argument.</td>
+</tr>
+</tbody></table>
+<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+</section><section id="inputtext"><h1 id="inputtext">InputText</h1>
+<p>The component <code>InputText</code> creates an input, with or without a label.</p>
+<h2 id="demo">Demo</h2>
+<table class="example">
+  <thead>
+    <tr>
+      <th>Example</th>
+      <th>Description</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><input-text></input-text></td>
+      <td>Default input (without label)</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input-text label="label">
+        </input-text>
+      </td>
+      <td>Input with label</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input-text
+          src="./sprite.svg#example"
+          position="left"
+          label="Input with Icon">
+        </input-text>
+      </td>
+      <td>Input with label and icon (left)</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input-text
+          src="./sprite.svg#example"
+          position="right"
+          label="Input with Icon">
+        </input-text>
+      </td>
+      <td>Input with label and icon (right)</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td><input-text label="Disabled Input" disabled></input-text></td>
+      <td>Input with label and <code>disabled</code> attribute</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td><input-text label="Input with Placeholder" placeholder="Type something"></input-text></td>
+      <td>Input with label & placeholder</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td><input-text label="Input with Value" value="Value"></input-text></td>
+      <td>Input with label & value</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td><input-text width="100%" label="Full Width"></input-text></td>
+      <td>Full width with label</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="api">Api</h2>
+<h3 id="properties">Properties</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>id</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Input with <code>id</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>name</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Input with <code>name</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>type</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Type of input (text, password, email)</td>
+<td align="left"><code>text</code></td>
+</tr>
+<tr>
+<td align="left"><code>required</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Makes the input required</td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left"><code>disabled</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Makes the input disabled</td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left"><code>spellcheck</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Enable spellcheck on the input</td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left"><code>isinvalid</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Indicates input error</td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left"><code>placeholder</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Inserts placeholder text</td>
+<td align="left"><code>none</code></td>
+</tr>
+<tr>
+<td align="left"><code>width</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Width of the input</td>
+<td align="left"><code>250px</code></td>
+</tr>
+<tr>
+<td align="left"><code>theme</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
+<td align="left"><code>light</code></td>
+</tr>
+</tbody></table>
+<h3 id="static-methods-members">Static Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+</section><section id="inputtextarea"><h1 id="inputtextarea">InputTextarea</h1>
+<p>The component <code>InputTextarea</code> creates a text area.</p>
+<h2 id="demo">Demo</h2>
+<table class="example">
+  <thead>
+    <tr>
+      <th>Example</th>
+      <th>Description</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><input-textarea></input-textarea></td>
+      <td>Default Text area</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td><input-textarea resize="none"></input-textarea></td>
+      <td>Text area without resize</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td><input-textarea placeholder="Type in me"></input-textarea></td>
+      <td>Default Text area with placeholder</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td><input-textarea label="Label"></input-textarea></td>
+      <td>Text area with label</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="api">Api</h2>
+<h3 id="properties">Properties</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>id</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Text area with <code>id</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>name</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Text area with <code>name</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>placeholder</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Add placeholder to text area</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>spellcheck</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Enable spellcheck</td>
+<td align="left"><code>true</code></td>
+</tr>
+<tr>
+<td align="left"><code>disabled</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Text area with <code>disabled</code> attribute</td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left"><code>required</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Set text area to <code>required</code></td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left"><code>readonly</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Set text area to <code>readonly</code></td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left"><code>autofocus</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Enable <code>autofocus</code> on the text area</td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left"><code>resize</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Set to <code>none</code> to disable resize</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>rows</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Set number of rows</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>cols</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Set number of columns</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>minlength</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Set minimum character length</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>maxlength</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Set maximum character length</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>width</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Set width of text area</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>height</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Set height of text area</td>
+<td align="left"><code>100%</code></td>
+</tr>
+<tr>
+<td align="left"><code>radius</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Set radius of text area</td>
+<td align="left"><code>2px</code></td>
+</tr>
+<tr>
+<td align="left"><code>theme</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
+<td align="left"><code>light</code></td>
+</tr>
+</tbody></table>
+<h3 id="static-methods-members">Static Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+</section><section id="inputtoggle"><h1 id="inputtoggle">InputToggle</h1>
+<p>The component <code>InputToggle</code> creates a toggle.</p>
+<h2 id="demo">Demo</h2>
+<table class="example">
+  <thead>
+    <tr>
+      <th>Example</th>
+      <th>Description</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><input-toggle id="toggle-example-1"></input-toggle></td>
+      <td>Default toggle</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td><input-toggle checked id="toggle-example-2"></input-toggle></td>
+      <td>Default toggle checked</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td><input-toggle id="toggle-example-3" label="Label"></input-toggle></td>
+      <td>Toggle with label</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td><input-toggle id="toggle-example-4" label="Disabled" disabled></input-toggle></td>
+      <td>Toggle with <code>disabled</code> attribute and label</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="api">Api</h2>
+<h3 id="properties">Properties</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>id</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds the <code>id</code> attribute <span class="req">required</span></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>name</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds the <code>name</code> attributes</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>disabled</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Makes the toggle disabled</td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left"><code>checked</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Turns the toggle &quot;on&quot;</td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left"><code>theme</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
+<td align="left"><code>light</code></td>
+</tr>
+</tbody></table>
+<h3 id="static-methods-members">Static Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+</section><section id="notificationbadge"><h1 id="notificationbadge">NotificationBadge</h1>
+<p>The component <code>NotificationBadge</code> creates a notification badge with a counter and unread alert.</p>
+<h2 id="demo">Demo</h2>
+<table class="example">
+  <thead>
+    <tr>
+      <th>Example</th>
+      <th>Description</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><notification-badge></notification-badge></td>
+      <td>Default Notification Badge</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="api">Api</h2>
+<h3 id="properties">Properties</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>id</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds the <code>id</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>name</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds the <code>name</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>theme</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
+<td align="left"><code>light</code></td>
+</tr>
+</tbody></table>
+<h3 id="static-methods-members">Static Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+</section><section id="notificationcenter"><h1 id="notificationcenter">NotificationCenter</h1>
+<p>The component <code>NotificationCenter</code> creates a notification badge that appears on the screen either for a duration or until the user acknowledges it.</p>
+<h2 id="demo">Demo</h2>
+<p><notification-center></notification-center></p>
+<table class="example">
+  <thead>
+    <tr>
+      <th>Example</th>
+      <th>Description</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <input-button id="toaster-link-1" value="Notify Me"></input-button>
+      </td>
+      <td>Default notification toaster.</td>
+      <td>
+        <icon-container src="./sprite.svg#code">
+        </icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input-button id="toaster-link-2" value="Success"></input-button>
+        <input-button id="toaster-link-3" value="Warning"></input-button>
+        <input-button id="toaster-link-4" value="Danger"></input-button>
+        <input-button id="toaster-link-5" value="Info"></input-button>
+      </td>
+      <td>Default notification toaster with default props.</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input-button id="toaster-link-6" value="Self Close"></input-button>
+      </td>
+      <td>Notification that will expire after some time.</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<script>
+  const toaster = document.getElementsByTagName('notification-center')[0]
+
+  const toasterLink1 = document.getElementById('toaster-link-1')
+  toasterLink1.addEventListener('click', e => {
+    toaster.create({ message: 'Hello, World', title: 'Greetings' })
+  })
+
+  const toasterLink2 = document.getElementById('toaster-link-2')
+  toasterLink2.addEventListener('click', e => {
+    toaster.create({
+      type: 'success'
+    })
+  })
+
+  const toasterLink3 = document.getElementById('toaster-link-3')
+  toasterLink3.addEventListener('click', e => {
+    toaster.create({
+      type: 'warning'
+    })
+  })
+
+  const toasterLink4 = document.getElementById('toaster-link-4')
+  toasterLink4.addEventListener('click', e => {
+    toaster.create({
+      type: 'danger'
+    })
+  })
+
+  const toasterLink5 = document.getElementById('toaster-link-5')
+  toasterLink5.addEventListener('click', e => {
+    toaster.create({
+      type: 'info'
+    })
+  })
+
+  const toasterLink6 = document.getElementById('toaster-link-6')
+  toasterLink6.addEventListener('click', e => {
+    toaster.create({
+      message: 'Will self destruct in 3 seconds',
+      title: 'Howdy',
+      duration: 3e3
+    })
+  })
+</script>
+
+<h2 id="api">Api</h2>
+<h3 id="properties">Properties</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>id</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds an <code>id</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>name</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a <code>name</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>alert</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds an alert type (success, warn, danger)</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>title</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a title</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>message</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a message</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>theme</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
+<td align="left"><code>light</code></td>
+</tr>
+</tbody></table>
+<h3 id="static-methods-members">Static Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+</section><section id="profileimage"><h1 id="profileimage">ProfileImage</h1>
+<p>The component <code>ProfileImage</code> is used to create an SVG icon with a custom size and color.</p>
+<h2 id="demo">Demo</h2>
+<table class="example">
+  <thead>
+    <tr>
+      <th>Example</th>
+      <th>Description</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><profile-image size="18px"></profile-image></td>
+      <td>Small Profile Image (18px)</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td><profile-image></profile-image></td>
+      <td>Default Profile Image (25px)</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td><profile-image size="75px" radius="100%"></profile-image></td>
+      <td>Profile Image with Radius (75px)</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td><profile-image size="150px"></profile-image></td>
+      <td>Large Profile Image (150px)</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <profile-image
+          id="profile-image-examle-editable"
+          size="150px"
+          editable>
+        </profile-image>
+      </td>
+      <td>Large Profile Image (150px)</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<script>
+  {
+    const profile = document.getElementById('profile-image-example-editable')
+    profile.on('changed', e => console.log(e.detail))
+    prifile.on('error', e => consolel.log(e.detail))
+  }
+</script>
+<h2 id="api">Api</h2>
+<h3 id="properties">Properties</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>id</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds the <code>id</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>name</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds the <code>name</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>src</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Add an image source</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>size</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Changes the width and height of the image</td>
+<td align="left"><code>25px</code></td>
+</tr>
+<tr>
+<td align="left"><code>radius</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Change the border-radius of the image</td>
+<td align="left"><code>5px</code></td>
+</tr>
+<tr>
+<td align="left"><code>border</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Change the border of the image (i.e. &#39;1px solid white&#39;)</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>editable</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Add an edit overlay</td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left"><code>theme</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
+<td align="left"><code>light</code></td>
+</tr>
+</tbody></table>
+<h3 id="events">Events</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Name</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>changed</code></td>
+<td align="left">Emitted when the <code>src</code> changes.</td>
+</tr>
+<tr>
+<td align="left"><code>error</code></td>
+<td align="left">Emitted when there was a problem reading the provided input.</td>
+</tr>
+</tbody></table>
+<h3 id="static-methods-members">Static Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+</section><section id="sidepanel"><h1 id="sidepanel">SidePanel</h1>
+<p>The component <code>SidePanel</code> create a side panel with overlay (color or transparent).</p>
+<h2 id="demo">Demo</h2>
+<table class="example">
+  <thead>
+    <tr>
+      <th>Example</th>
+      <th>Description</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <side-panel id="side-panel-example-1"></side-panel>
+        <input-button id="side-panel-link-example-1" value="Click to open"></input-button>
+      </td>
+      <td>Default Side Panel (right)</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <side-panel id="side-panel-example-2" position="left"></side-panel>
+        <input-button id="side-panel-link-example-2" value="Click to open"></input-button>
+      </td>
+      <td>Default Side Panel (left)</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <side-panel id="side-panel-example-3" overlay="true"></side-panel>
+        <input-button id="side-panel-link-example-3" value="Click to open"></input-button>
+      </td>
+      <td>Default Side Panel with overlay (right)</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<template for="side-panel-example-1">
+  <header></header>
+  <main>
+    <p>This is a panel</p>
+  </main>
+  <footer>
+    <button>Cancel</button>
+    <button>Confirm</button>
+  </footer>
+</template>
+
+<template for="side-panel-example-2">
+  <header></header>
+  <main>
+    <p>This is a panel but on the left</p>
+  </main>
+  <footer>
+    <button>Cancel</button>
+    <button>Confirm</button>
+  </footer>
+</template>
+
+<template for="side-panel-example-3">
+  <header></header>
+  <main>
+    <p>This is a panel with an overlay</p>
+  </main>
+  <footer>
+    <button>Cancel</button>
+    <button>Confirm</button>
+  </footer>
+</template>
+
+<script>
+  const panelLink1 = document.getElementById('side-panel-link-example-1')
+  const panel1 = document.getElementById('side-panel-example-1')
+  panelLink1.addEventListener('click', e => panel1.show())
+
+  const panelLink2 = document.getElementById('side-panel-link-example-2')
+  const panel2 = document.getElementById('side-panel-example-2')
+  panelLink2.addEventListener('click', e => panel2.show())
+
+  const panelLink3 = document.getElementById('side-panel-link-example-3')
+  const panel3 = document.getElementById('side-panel-example-3')
+  panelLink3.addEventListener('click', e => panel3.show())
+</script>
+
+<h2 id="code">Code</h2>
+<p>A template is required. Example template structure for panel content:</p>
+<pre><code class="language-html">  <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">for</span>= <span class="hljs-string">id</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">header</span>&gt;</span>
+      <span class="hljs-comment">&lt;!-- Header content goes here --&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">header</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">main</span>&gt;</span>
+      <span class="hljs-comment">&lt;!-- Main content goes here --&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">main</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">footer</span>&gt;</span>
+      <span class="hljs-comment">&lt;!-- Footer content goes here --&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">footer</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+<h2 id="api">Api</h2>
+<h3 id="properties">Properties</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>id</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds the <code>id</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>name</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds the <code>name</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>position</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Changes the position of the panel</td>
+<td align="left"><code>right</code></td>
+</tr>
+<tr>
+<td align="left"><code>overlay</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Shows an overlay behind the panel</td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left"><code>backgroundColor</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Changes the background color of the overlay</td>
+<td align="left"><code>rgba(0,0,0,0.5)</code></td>
+</tr>
+<tr>
+<td align="left"><code>theme</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
+<td align="left"><code>light</code></td>
+</tr>
+</tbody></table>
+<h3 id="static-methods-members">Static Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+</section><section id="tabmenu"><h1 id="tabmenu">TabMenu</h1>
+<p>The component <code>TabMenu</code> creates a menu that activates sections when clicked on.</p>
+<h2 id="demo">Demo</h2>
+<table class="example">
+  <thead>
+    <tr>
+      <th>Example</th>
+      <th>Description</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>TBD</td>
+      <td>Default Tab Menu</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="api">Api</h2>
+<h3 id="properties">Properties</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>id</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds the <code>id</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>name</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds the <code>name</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>tabs</code></td>
+<td align="left"><em>array</em></td>
+<td align="left">Lists the clickable tabs</td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+<h3 id="static-methods-members">Static Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+</section>
+
+          
+  <section id="custom">
+    <h1 id="custom-components">Custom Components</h1>
+<h2 id="getting-started">Getting Started</h2>
+<p>Building a component starts with creating a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes">Javascript Class</a>. The class
+should have at least one method named <em>render</em> which usually returns a string
+of html.</p>
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Greeting</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+  <span class="hljs-comment">//</span>
+  <span class="hljs-comment">// The render function can return a string of html, it can include other</span>
+  <span class="hljs-comment">// components as well. It can also return a dom node, we'll talk about</span>
+  <span class="hljs-comment">// that later.</span>
+  <span class="hljs-comment">//</span>
+  render () {
+    <span class="hljs-keyword">return</span> `&lt;div&gt;<span class="hljs-type">Hello</span>, <span class="hljs-type">World</span>.&lt;/div&gt;`
+  }
+}</code></pre>
+<p>Next, you can tell the browser about your new class and it will create a custom
+html tag for it.</p>
+<p>How you name your class will determine the tag name of your component. The name
+For example, a class named <code>MyGreeting</code> will become <code>&lt;my-greeting&gt;&lt;/my-greeting&gt;</code>,
+and a class named <code>Greeting</code> will become <code>&lt;greeting&gt;&lt;/greeting&gt;</code>.</p>
+<pre><code class="language-js">Tonic.<span class="hljs-builtin-name">add</span>(Greeting)</code></pre>
+<p>Then, add your Javascript to your html and now you can now use your new
+component anywhere in your html. The browser may do weird things if you don&#39;t
+use a closing tag.</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"index.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">greeting</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">greeting</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+<p>The result, when rendered by the browser, will be that the html
+from your render function will be inserted into the component. As you
+can see, the potential complexity of your code will be hidden from the
+programmer using it, making their reality a little simpler.</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"index.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">greeting</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>Hello, World.<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">greeting</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+<h2 id="registering-components">Registering Components</h2>
+<p>You must register your components before they can be used. Your first component
+should generally be added after the <a href="https://caniuse.com/#search=domcontentloaded">DOM is ready</a>.</p>
+<pre><code class="language-js">Tonic.<span class="hljs-builtin-name">add</span>(Greeting)</code></pre>
+<h2 id="embedding-style-sheets">Embedding Style Sheets</h2>
+<p>You can add styles to your component that won&#39;t affect the rest of the page.</p>
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Example</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+  style () {
+
+    <span class="hljs-comment">//</span>
+    <span class="hljs-comment">// When this component is registered, the css will be prefixed by the name</span>
+    <span class="hljs-comment">// of the tag and then added to a stylesheet in the head of the document.</span>
+    <span class="hljs-comment">//</span>
+    <span class="hljs-keyword">return</span> `
+      div {
+        display: inline-block;
+        border: <span class="hljs-number">1</span>px dotted #<span class="hljs-number">666</span>;
+        height: <span class="hljs-number">100</span>px;
+        width: <span class="hljs-number">100</span>px;
+        line-height: <span class="hljs-number">90</span>px;
+      }
+    `
+  }
+
+  render () {
+    <span class="hljs-keyword">return</span> `&lt;div&gt;&lt;/div&gt;`
+  }
+}</code></pre>
+<h2 id="listening-for-events">Listening For Events</h2>
+<p>Tonic helps you capture events that happen when someone interacts with your
+component. It also helps you organize that code.</p>
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Example</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+  <span class="hljs-comment">//</span>
+  <span class="hljs-comment">// You can listen to any dom event that happens in your component</span>
+  <span class="hljs-comment">// by creating a method with the corresponding name. The method will</span>
+  <span class="hljs-comment">// receive the plain old Javascript event object.</span>
+  <span class="hljs-comment">//</span>
+  mouseover (e) {
+    <span class="hljs-comment">// ...</span>
+  }
+
+  change (e) {
+    <span class="hljs-comment">// ...</span>
+  }
+
+  click (e) {
+    <span class="hljs-comment">//</span>
+    <span class="hljs-comment">// Often you'll want to check what element in the component was actually</span>
+    <span class="hljs-comment">// clicked. You can also check the `e.path` attribute to see what was</span>
+    <span class="hljs-comment">// clicked (this is helpful when handling clicks on top of SVGs).</span>
+    <span class="hljs-comment">//</span>
+    <span class="hljs-keyword">if</span> (!e.target.matches('.parent')) <span class="hljs-keyword">return</span>
+
+    <span class="hljs-comment">// ...</span>
+  }
+
+  render () {
+    <span class="hljs-keyword">return</span> `&lt;div&gt;&lt;/div&gt;`
+  }
+}</code></pre>
+<h2 id="passing-data-and-arguments">Passing data and arguments</h2>
+<p>Add components to your html, pass them arguments just like with regular html.</p>
+<pre><code class="language-js">&lt;<span class="hljs-keyword">my</span>-component value=<span class="hljs-string">"7a"</span>&gt;
+&lt;/<span class="hljs-keyword">my</span>-component&gt;</code></pre>
+<p>Native HTML only understands strings. If you want to pass non-string props, like
+some json, you need to first stringify it. The &quot;data&quot; attribute is special and
+will automatically be parsed into json for you. Don&#39;t forget single quotes!</p>
+<pre><code class="language-html"><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">parent-component</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"parent"</span> <span class="hljs-attr">data</span>=<span class="hljs-string">'$</span></span></span><span class="hljs-template-variable">{JSON.stringify(data)}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">'</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">parent-component</span>&gt;</span></span></code></pre>
+<p>Alternatively, you can call the <code>setProps(...)</code> method on the element directly.</p>
+<pre><code class="language-js"><span class="hljs-selector-tag">document</span><span class="hljs-selector-class">.getElementById</span>(<span class="hljs-string">'parent'</span>)<span class="hljs-selector-class">.setProps</span>(data)</code></pre>
+<h2 id="exposing-methods-on-your-component">Exposing methods on your component</h2>
+<p>Sometimes you want to expose a method for other people to use. All your
+component&#39;s methods are private by default! Here&#39;s how to make them accessible.</p>
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ExampleComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+  constructor (props) {
+    <span class="hljs-keyword">super</span>(props)
+    <span class="hljs-keyword">this</span>.root.exampleMethod = () =&gt; <span class="hljs-keyword">this</span>.exampleMethod()
+  }
+
+  exampleMethod () {
+    <span class="hljs-comment">// ...</span>
+  }
+}</code></pre>
+<h2 id="pre-renderng-and-optimizing-for-performance">Pre-Renderng and optimizing for performance</h2>
+<pre><code><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AnotherThing</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+  constructor (props) {
+    <span class="hljs-keyword">super</span>(props)
+
+    <span class="hljs-comment">//</span>
+    <span class="hljs-comment">// If you have lots of structure, but only a few</span>
+    <span class="hljs-comment">// changes, you could prerender your layout to create</span>
+    <span class="hljs-comment">// a reusable node and pass it to the render method.</span>
+    <span class="hljs-comment">// This structure could also come from a &lt;template&gt;</span>
+    <span class="hljs-comment">// tag which would also improve performance.</span>
+    <span class="hljs-comment">//</span>
+    <span class="hljs-keyword">this</span>.template = document.createElement(<span class="hljs-symbol">'di</span>v')
+  }
+
+  willConnect () {
+    <span class="hljs-comment">//</span>
+    <span class="hljs-comment">// Set state on a component instance or on this instance,</span>
+    <span class="hljs-comment">// .setProps() will cause a downward cascade of re-rendering.</span>
+    <span class="hljs-comment">// Set props can also accept a function that will provide</span>
+    <span class="hljs-comment">// the current props as an argument.</span>
+    <span class="hljs-comment">//</span>
+    <span class="hljs-keyword">this</span>.setProps({ value: <span class="hljs-keyword">this</span>.getRandomValue() })
+  }
+
+  connected () {
+    <span class="hljs-comment">//</span>
+    <span class="hljs-comment">// Target and update a few nodes directly.</span>
+    <span class="hljs-comment">//</span>
+  }
+
+  <span class="hljs-comment">//</span>
+  <span class="hljs-comment">// Render will automatically deep-clone this node for you.</span>
+  <span class="hljs-comment">//</span>
+  render () {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.template
+  }
+}</code></pre><h1 id="apis">APIs</h1>
+<h2 id="static-methods">STATIC METHODS</h2>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>add(Class, Object)</code></td>
+<td align="left">Register a class as a new custom-tag and provide optional options for it.</td>
+</tr>
+<tr>
+<td align="left"><code>escape(String)</code></td>
+<td align="left">Escapes html characters from a string (based on <a href="https://github.com/mathiasbynens/he">he</a>).</td>
+</tr>
+<tr>
+<td align="left"><code>sanitize(Object)</code></td>
+<td align="left">Escapes all the strings found in an object literal.</td>
+</tr>
+<tr>
+<td align="left"><code>match(Node, Selector)</code></td>
+<td align="left">Match the given node against a selector or any matching parent of the given node. This is useful when trying to locate a node from the actual node that was interacted with.</td>
+</tr>
+</tbody></table>
+<h2 id="instance-methods">INSTANCE METHODS</h2>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>emit(String, Object)</code></td>
+<td align="left">Emit a custom event on the root element of the component. A listener will receive a plain old javascript event object that contains the <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Creating_and_triggering_events"><code>detail</code></a> property.</td>
+</tr>
+<tr>
+<td align="left"><code>setProps(Object)</code></td>
+<td align="left">Set the properties of a component instance. Can also take a function which will receive the current props as an argument.</td>
+</tr>
+<tr>
+<td align="left"><code>setState(Object)</code></td>
+<td align="left">Set the state of a component instance. Can also take a function which will receive the current props as an argument.</td>
+</tr>
+<tr>
+<td align="left"><code>style()</code></td>
+<td align="left">Returns a string of css to be inlined with the component. This will be &quot;scoped&quot; so that it does not affect the rest of the page. It will also persist across rerenders to save on parsing costs.</td>
+</tr>
+<tr>
+<td align="left"><code>render()</code></td>
+<td align="left">Returns html to be parsed or a dom node that will overwrite. There is usually no need to call this directly, prefer <code>componentInstance.setProps({ ... })</code>.</td>
+</tr>
+<tr>
+<td align="left">html`...`</td>
+<td align="left">Tidy up an html string (use as a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals">tagged template</a>).</td>
+</tr>
+</tbody></table>
+<h2 id="lifecycle-instance-methods">&quot;LIFECYCLE&quot; INSTANCE METHODS</h2>
+<p>The standard &quot;<a href="https://developers.google.com/web/fundamentals/web-components/customelements">reactions</a>&quot; (aka lifecycle methods) are available on every
+component (as well as a few others).</p>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>constructor(props)</code></td>
+<td align="left">An instance of the element is created or upgraded. Useful for initializing state, settings up event listeners, or creating shadow dom. See the spec for restrictions on what you can do in the constructor. A constructor will receive an argument of <code>props</code> and must call <code>super(props)</code>.</td>
+</tr>
+<tr>
+<td align="left"><code>willConnect()</code></td>
+<td align="left">Called prior to the element being inserted into the DOM. Useful for updating configuration, state and preparing for the render.</td>
+</tr>
+<tr>
+<td align="left"><code>connected()</code></td>
+<td align="left">Called every time the element is inserted into the DOM. Useful for running setup code, such as fetching resources or rendering. Generally, you should try to delay work until this time.</td>
+</tr>
+<tr>
+<td align="left"><code>disconnected()</code></td>
+<td align="left">Called every time the element is removed from the DOM. Useful for running clean up code.</td>
+</tr>
+<tr>
+<td align="left"><code>updated(oldProps)</code></td>
+<td align="left">Called after setProps() is called. This method is not called on the initial render.</td>
+</tr>
+</tbody></table>
+<h2 id="events">EVENTS</h2>
+<p>Any method defined on your class that matches a dom method will be called when
+the event is fired. </p>
+
+  </section>
+
+
+          <footer>
+            <a href="#">
+              <span>Made by</span>
+              <svg>
+                <use xlink:href="./sprite.svg#cl_logo">
+              </svg>
+            </a>
+          </footer>
+        </main>
+        <script src="bundle.js"></script>
+      </body>
+    </html>
+  

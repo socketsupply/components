@@ -429,6 +429,7 @@ class InputButton extends Tonic { /* global Tonic */
   text-transform: uppercase;
   letter-spacing: 1px;
   padding: 8px 8px 5px 8px;
+  margin: 10px;
   background-color: transparent;
   border: 1px solid var(--primary);
   outline: none;
@@ -1094,11 +1095,12 @@ class NotificationCenter extends Tonic { /* global Tonic */
 
   defaults () {
     return {
-      closeIcon: NotificationCenter.svg.closeIcon('black'),
-      dangerIcon: NotificationCenter.svg.dangerIcon('red'),
-      warningIcon: NotificationCenter.svg.warningIcon('orange'),
-      successIcon: NotificationCenter.svg.successIcon('green'),
-      infoIcon: NotificationCenter.svg.infoIcon('gray')
+      closeIcon: NotificationCenter.svg.closeIcon,
+      dangerIcon: NotificationCenter.svg.dangerIcon('#f06653'),
+      warningIcon: NotificationCenter.svg.warningIcon('#f9a967'),
+      successIcon: NotificationCenter.svg.successIcon('#85b274'),
+      infoIcon: NotificationCenter.svg.infoIcon('#999da0'),
+      selfClosing: false
     }
   }
 
@@ -1123,7 +1125,6 @@ class NotificationCenter extends Tonic { /* global Tonic */
 .toaster {
   width: auto;
   max-width: 600px;
-  padding-right: 50px;
   margin: 0 auto;
   margin-top: 10px;
   position: relative;
@@ -1144,25 +1145,27 @@ class NotificationCenter extends Tonic { /* global Tonic */
   transform: translateY(0);
   transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
 }
+.toaster.close {
+  padding-right: 50px;
+}
 .toaster.alert {
-  padding-left: 30px;
+  padding-left: 35px;
 }
 .toaster main {
-  padding: 15px 20px;
+  padding: 17px 15px 15px 15px;
 }
 .toaster main .title {
-  font: 13px var(--subheader);
-  text-transform: uppercase;
-  letter-spacing: 1px;
+  font: 14px/18px var(--subheader);
 }
 .toaster main .message {
+  font: 14px/18px var(--subheader);
   color: var(--medium);
 }
 .toaster .icon {
   width: 16px;
   height: 16px;
   position: absolute;
-  left: 16px;
+  left: 20px;
   top: 50%;
   background-size: cover;
   -webkit-transform: translateY(-50%);
@@ -1170,8 +1173,8 @@ class NotificationCenter extends Tonic { /* global Tonic */
   transform: translateY(-50%);
 }
 .toaster .close {
-  width: 23px;
-  height: 23px;
+  width: 20px;
+  height: 20px;
   position: absolute;
   right: 20px;
   top: 50%;
@@ -1181,10 +1184,14 @@ class NotificationCenter extends Tonic { /* global Tonic */
   cursor: pointer;
   background-size: cover;
 }
+.toaster .close svg path {
+  fill: var(--primary);
+  color: var(--primary);
+}
 `
   }
 
-  create ({ message, title, duration, type } = {}) {
+  create ({ message, title, duration, type, selfClosing } = {}) {
     this.show()
 
     const toaster = document.createElement('div')
@@ -1202,28 +1209,40 @@ class NotificationCenter extends Tonic { /* global Tonic */
     messageElement.className = 'message'
     messageElement.textContent = message || this.props.message
 
-    // create close button
-    const close = document.createElement('div')
-    close.className = 'close'
-    close.style.backgroundImage = `url("${this.props.closeIcon}")`
+    if (!selfClosing) {
+      const close = document.createElement('div')
+      close.className = 'close'
+      const color = window.getComputedStyle(this.root).getPropertyValue('--primary')
+      close.style.backgroundImage = `url("${this.props.closeIcon(color)}")`
+      toaster.appendChild(close)
+      toaster.classList.add('close')
+    }
 
-    // create type icon
     if (type) {
       const alertIcon = document.createElement('div')
       alertIcon.className = 'icon'
       toaster.appendChild(alertIcon)
 
-      if (type === 'danger') {
-        alertIcon.style.backgroundImage = `url("${this.props.dangerIcon}")`
-      }
-      if (type === 'warning') {
-        alertIcon.style.backgroundImage = `url("${this.props.warningIcon}")`
-      }
-      if (type === 'success') {
-        alertIcon.style.backgroundImage = `url("${this.props.successIcon}")`
-      }
-      if (type === 'info') {
-        alertIcon.style.backgroundImage = `url("${this.props.infoIcon}")`
+      switch (type) {
+        case 'danger':
+          alertIcon.style.backgroundImage = `url("${this.props.dangerIcon}")`
+          if (!title && !message) { titleElement.textContent = 'Danger' }
+          break
+
+        case 'warning':
+          alertIcon.style.backgroundImage = `url("${this.props.warningIcon}")`
+          if (!title && !message) { titleElement.textContent = 'Warning' }
+          break
+
+        case 'success':
+          alertIcon.style.backgroundImage = `url("${this.props.successIcon}")`
+          if (!title && !message) { titleElement.textContent = 'Success' }
+          break
+
+        case 'info':
+          alertIcon.style.backgroundImage = `url("${this.props.infoIcon}")`
+          if (!title && !message) { titleElement.textContent = 'Information' }
+          break
       }
     }
 
@@ -1231,7 +1250,6 @@ class NotificationCenter extends Tonic { /* global Tonic */
     main.appendChild(titleElement)
     main.appendChild(messageElement)
     this.root.querySelector('.wrapper').appendChild(toaster)
-    toaster.appendChild(close)
     setImmediate(() => toaster.classList.add('show'))
 
     if (duration) {
@@ -1278,7 +1296,11 @@ class NotificationCenter extends Tonic { /* global Tonic */
 NotificationCenter.svg = {}
 
 NotificationCenter.svg.closeIcon = (color) => {
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="${color}" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/></svg>`
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+      <path fill="${color}" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
+    </svg>
+  `
   return `data:image/svg+xml;base64,${window.btoa(svg)}`
 }
 

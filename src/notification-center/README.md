@@ -16,7 +16,7 @@ The component `NotificationCenter` creates a notification badge that appears on 
   <tbody>
     <tr>
       <td>
-        <input-button id="toaster-link-1" value="Click to open"></input-button>
+        <input-button id="toaster-link-1" value="Notify Me"></input-button>
       </td>
       <td>Default notification toaster.</td>
       <td>
@@ -26,7 +26,10 @@ The component `NotificationCenter` creates a notification badge that appears on 
     </tr>
     <tr>
       <td>
-        <input-button id="toaster-link-2" value="Click to open"></input-button>
+        <input-button id="toaster-link-2" value="Success"></input-button>
+        <input-button id="toaster-link-3" value="Warning"></input-button>
+        <input-button id="toaster-link-4" value="Danger"></input-button>
+        <input-button id="toaster-link-5" value="Info"></input-button>
       </td>
       <td>Default notification toaster with default props.</td>
       <td>
@@ -35,7 +38,7 @@ The component `NotificationCenter` creates a notification badge that appears on 
     </tr>
     <tr>
       <td>
-        <input-button id="toaster-link-3" value="Click to open"></input-button>
+        <input-button id="toaster-link-6" value="Self Close"></input-button>
       </td>
       <td>Notification that will expire after some time.</td>
       <td>
@@ -56,14 +59,33 @@ The component `NotificationCenter` creates a notification badge that appears on 
   const toasterLink2 = document.getElementById('toaster-link-2')
   toasterLink2.addEventListener('click', e => {
     toaster.create({
-      title: 'Hello there',
-      message: `This is your last warning! This is your last warning! This is your last warning! This is your last warning! This is your last warning!`,
-      type: 'danger'
+      type: 'success'
     })
   })
 
   const toasterLink3 = document.getElementById('toaster-link-3')
   toasterLink3.addEventListener('click', e => {
+    toaster.create({
+      type: 'warning'
+    })
+  })
+
+  const toasterLink4 = document.getElementById('toaster-link-4')
+  toasterLink4.addEventListener('click', e => {
+    toaster.create({
+      type: 'danger'
+    })
+  })
+
+  const toasterLink5 = document.getElementById('toaster-link-5')
+  toasterLink5.addEventListener('click', e => {
+    toaster.create({
+      type: 'info'
+    })
+  })
+
+  const toasterLink6 = document.getElementById('toaster-link-6')
+  toasterLink6.addEventListener('click', e => {
     toaster.create({
       message: 'Will self destruct in 3 seconds',
       title: 'Howdy',

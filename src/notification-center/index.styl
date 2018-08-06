@@ -17,7 +17,6 @@
 .toaster
   width auto
   max-width 600px
-  padding-right 50px
   margin 0 auto
   margin-top 10px
   position relative
@@ -36,23 +35,24 @@
     -ms-transform translateY(0)
     transform translateY(0)
     transition transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28)
+  &.close
+    padding-right 50px
   &.alert
-    padding-left 30px
+    padding-left 35px
 
   main
-    padding 15px 20px
+    padding 17px 15px 15px 15px
     .title
-      font 13px var(--subheader)
-      text-transform uppercase
-      letter-spacing 1px
+      font 14px/18px var(--subheader)
     .message
+      font 14px/18px var(--subheader)
       color var(--medium)
 
   .icon
     width 16px
     height 16px
     position absolute
-    left 16px
+    left 20px
     top 50%
     background-size cover
     -webkit-transform translateY(-50%)
@@ -60,8 +60,8 @@
     transform translateY(-50%)
 
   .close
-    width 23px
-    height 23px
+    width 20px
+    height 20px
     position absolute
     right 20px
     top 50%
@@ -70,3 +70,7 @@
     transform translateY(-50%)
     cursor pointer
     background-size cover
+    svg
+      path
+        fill var(--primary)
+        color var(--primary)

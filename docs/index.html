@@ -1401,7 +1401,7 @@
       <td>
         <input-button id="toaster-link-1" value="Click to open"></input-button>
       </td>
-      <td>Default notification toaster</td>
+      <td>Default notification toaster.</td>
       <td>
         <icon-container src="./sprite.svg#code">
         </icon-container>
@@ -1411,7 +1411,7 @@
       <td>
         <input-button id="toaster-link-2" value="Click to open"></input-button>
       </td>
-      <td>Default notification toaster with default props</td>
+      <td>Default notification toaster with default props.</td>
       <td>
         <icon-container src="./sprite.svg#code"></icon-container>
       </td>
@@ -1420,7 +1420,7 @@
       <td>
         <input-button id="toaster-link-3" value="Click to open"></input-button>
       </td>
-      <td>Default notification toaster</td>
+      <td>Notification that will expire after some time.</td>
       <td>
         <icon-container src="./sprite.svg#code"></icon-container>
       </td>
@@ -2079,17 +2079,17 @@ component&#39;s methods are private by default! Here&#39;s how to make them acce
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ExampleComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   constructor (props) {
     <span class="hljs-keyword">super</span>(props)
-    <span class="hljs-keyword">this</span>.root.exampleMethod = (...args) =&gt; <span class="hljs-keyword">this</span>.exampleMethod(...args)
+    <span class="hljs-keyword">this</span>.root.exampleMethod = () =&gt; <span class="hljs-keyword">this</span>.exampleMethod()
   }
 
-  exampleMethod (...args) {
+  exampleMethod () {
     <span class="hljs-comment">// ...</span>
   }
 }</code></pre>
 <h2 id="pre-renderng-and-optimizing-for-performance">Pre-Renderng and optimizing for performance</h2>
 <pre><code><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AnotherThing</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
-  constructor () {
-    <span class="hljs-keyword">super</span>()
+  constructor (props) {
+    <span class="hljs-keyword">super</span>(props)
 
     <span class="hljs-comment">//</span>
     <span class="hljs-comment">// If you have lots of structure, but only a few</span>
@@ -2178,7 +2178,7 @@ component&#39;s methods are private by default! Here&#39;s how to make them acce
 <td align="left">Returns html to be parsed or a dom node that will overwrite. There is usually no need to call this directly, prefer <code>componentInstance.setProps({ ... })</code>.</td>
 </tr>
 <tr>
-<td align="left"><code>html\</code>...``</td>
+<td align="left">html`...`</td>
 <td align="left">Tidy up an html string (use as a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals">tagged template</a>).</td>
 </tr>
 </tbody></table>
@@ -2194,7 +2194,7 @@ component (as well as a few others).</p>
 </thead>
 <tbody><tr>
 <td align="left"><code>constructor(props)</code></td>
-<td align="left">An instance of the element is created or upgraded. Useful for initializing state, settings up event listeners, or creating shadow dom. See the spec for restrictions on what you can do in the constructor. A constructor must call <code>super(props)</code>.</td>
+<td align="left">An instance of the element is created or upgraded. Useful for initializing state, settings up event listeners, or creating shadow dom. See the spec for restrictions on what you can do in the constructor. A constructor will receive an argument of <code>props</code> and must call <code>super(props)</code>.</td>
 </tr>
 <tr>
 <td align="left"><code>willConnect()</code></td>

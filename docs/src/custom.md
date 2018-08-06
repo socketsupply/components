@@ -174,10 +174,10 @@ component's methods are private by default! Here's how to make them accessible.
 class ExampleComponent extends Tonic {
   constructor (props) {
     super(props)
-    this.root.exampleMethod = (...args) => this.exampleMethod(...args)
+    this.root.exampleMethod = () => this.exampleMethod()
   }
 
-  exampleMethod (...args) {
+  exampleMethod () {
     // ...
   }
 }
@@ -187,8 +187,8 @@ class ExampleComponent extends Tonic {
 
 ```
 class AnotherThing extends Tonic {
-  constructor () {
-    super()
+  constructor (props) {
+    super(props)
 
     //
     // If you have lots of structure, but only a few
@@ -245,7 +245,7 @@ class AnotherThing extends Tonic {
 | `setState(Object)` | Set the state of a component instance. Can also take a function which will receive the current props as an argument. |
 | `style()` | Returns a string of css to be inlined with the component. This will be "scoped" so that it does not affect the rest of the page. It will also persist across rerenders to save on parsing costs. |
 | `render()` | Returns html to be parsed or a dom node that will overwrite. There is usually no need to call this directly, prefer `componentInstance.setProps({ ... })`. |
-| `html\`...\`` | Tidy up an html string (use as a [tagged template][2]). |
+| html\`...\` | Tidy up an html string (use as a [tagged template][2]). |
 
 ## "LIFECYCLE" INSTANCE METHODS
 
@@ -254,7 +254,7 @@ component (as well as a few others).
 
 | Method | Description |
 | :--- | :--- |
-| `constructor(props)` | An instance of the element is created or upgraded. Useful for initializing state, settings up event listeners, or creating shadow dom. See the spec for restrictions on what you can do in the constructor. A constructor must call `super(props)`. |
+| `constructor(props)` | An instance of the element is created or upgraded. Useful for initializing state, settings up event listeners, or creating shadow dom. See the spec for restrictions on what you can do in the constructor. A constructor will receive an argument of `props` and must call `super(props)`. |
 | `willConnect()` | Called prior to the element being inserted into the DOM. Useful for updating configuration, state and preparing for the render. |
 | `connected()` | Called every time the element is inserted into the DOM. Useful for running setup code, such as fetching resources or rendering. Generally, you should try to delay work until this time. |
 | `disconnected()` | Called every time the element is removed from the DOM. Useful for running clean up code. |

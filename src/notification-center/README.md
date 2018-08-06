@@ -1,5 +1,5 @@
-# NotificationToaster
-The component `NotificationToaster` creates a notification badge that appears on the screen either for a duration or until the user acknowledges it.
+# NotificationCenter
+The component `NotificationCenter` creates a notification badge that appears on the screen either for a duration or until the user acknowledges it.
 
 ## Demo
 
@@ -56,7 +56,9 @@ The component `NotificationToaster` creates a notification badge that appears on
   const toasterLink2 = document.getElementById('toaster-link-2')
   toasterLink2.addEventListener('click', e => {
     toaster.create({
-      title: 'Hello there'
+      title: 'Hello there',
+      message: `This is your last warning! This is your last warning! This is your last warning! This is your last warning! This is your last warning!`,
+      type: 'danger'
     })
   })
 
@@ -78,7 +80,7 @@ The component `NotificationToaster` creates a notification badge that appears on
 | :--- | :--- | :--- | :--- |
 | `id` | *string* | Adds an `id` attribute |  |
 | `name` | *string* | Adds a `name` attribute |  |
-| `type` | *string* | Adds a type (success, warn, danger) |  |
+| `alert` | *string* | Adds an alert type (success, warn, danger) |  |
 | `title` | *string* | Adds a title |  |
 | `message` | *string* | Adds a message |  |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |

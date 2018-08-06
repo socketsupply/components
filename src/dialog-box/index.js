@@ -1,4 +1,11 @@
 class DialogBox extends Tonic { /* global Tonic */
+  constructor (props) {
+    super(props)
+
+    this.root.show = () => this.show()
+    this.root.hide = () => this.hide()
+  }
+
   defaults () {
     return {
       width: '450px',
@@ -20,11 +27,11 @@ class DialogBox extends Tonic { /* global Tonic */
     this.root.firstChild.classList.remove('show')
   }
 
-  click (e, target) {
-    const el = Tonic.match(target, '.close')
+  click (e) {
+    const el = Tonic.match(e.target, '.close')
     if (el) this.hide()
 
-    const overlay = Tonic.match(target, '.overlay')
+    const overlay = Tonic.match(e.target, '.overlay')
     if (overlay) this.hide()
 
     this.value = {}
@@ -50,7 +57,6 @@ class DialogBox extends Tonic { /* global Tonic */
 
     // create wrapper
     const wrapper = document.createElement('div')
-    wrapper.id = 'wrapper'
     wrapper.className = 'wrapper'
 
     // create overlay

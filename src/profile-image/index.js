@@ -2,7 +2,7 @@ class ProfileImage extends Tonic { /* global Tonic */
   defaults () {
     return {
       size: '50px',
-      src: './default.jpg',
+      src: `data:image/svg+xml;base64,${window.btoa('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect fill="#F0F0F0" width="100" height="100"></rect><circle fill="#D6D6D6" cx="49.3" cy="41.3" r="21.1"></circle><path fill="#D6D6D6" d="M48.6,69.5c-18.1,0-33.1,13.2-36,30.5h72C81.8,82.7,66.7,69.5,48.6,69.5z"></path></svg>')}`,
       radius: '5px'
     }
   }
@@ -43,7 +43,7 @@ class ProfileImage extends Tonic { /* global Tonic */
           class="image"
           ${idAttr}
           ${nameAttr}
-          style="background-image: url('${src}')">
+          style="background-image: url('${src}');">
         </div>
         <div class="overlay">
           <svg style="width: 40px; height: 40px;">

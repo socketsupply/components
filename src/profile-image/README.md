@@ -58,8 +58,8 @@ The component `ProfileImage` is used to create an SVG icon with a custom size an
 | :--- | :--- | :--- | :--- |
 | `id` | *string* | Adds the `id` attribute | |
 | `name` | *string* | Adds the `name` attribute | |
+| `src` | *string* | Add an image source | |
 | `size` | *string* | Changes the width and height of the image | `25px` |
-| `src` | *string* | Add an image source | `./default.jpg` |
 | `radius` | *string* | Change the border-radius of the image | `5px` |
 | `border` | *string* | Change the border of the image (i.e. '1px solid white') |  |
 | `editable` | *boolean* | Add an edit overlay | `false` |

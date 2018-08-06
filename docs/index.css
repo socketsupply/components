@@ -164,7 +164,7 @@ body .theme-picker {
   position: absolute;
   top: 30px;
   right: 30px;
-  z-index: 1000;
+  z-index: 99;
 }
 body .theme-picker svg {
   width: 18px;
@@ -232,7 +232,6 @@ body > nav a.logo svg use {
   color: var(--primary);
 }
 body > main {
-  border: 1px solid #f00;
   padding: 0 60px 60px 20px;
   position: absolute;
   top: 0;

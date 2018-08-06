@@ -35,7 +35,12 @@ The component `InputButton` creates a button.
       </td>
     </tr>
     <tr>
-      <td><input-button value="Click me"></input-button></td>
+      <td>
+        <input-button
+          id="loading-button-example"
+          value="Click me">
+        </input-button>
+      </td>
       <td>Loading button</td>
       <td>
         <icon-container src="./sprite.svg#code"></icon-container>
@@ -50,6 +55,18 @@ The component `InputButton` creates a button.
     </tr>
   </tbody>
 </table>
+
+<script>
+  {
+    const button = document.getElementById('loading-button-example')
+    button.addEventListener('click', e => {
+      button.setProps(props => ({
+        ...props,
+        isLoading: !props.isLoading
+      }))
+    })
+  }
+</script>
 
 ## Api
 

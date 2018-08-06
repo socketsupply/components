@@ -442,12 +442,13 @@ class InputButton extends Tonic { /* global Tonic */
     return `button {
   min-height: 38px;
   color: var(--primary);
-  font: 12px 'Poppins', sans-serif;
+  font: 12px var(--subheader);
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 1px;
   padding: 8px 8px 5px 8px;
   margin: 10px;
+  position: relative;
   background-color: transparent;
   border: 1px solid var(--primary);
   outline: none;
@@ -456,7 +457,8 @@ class InputButton extends Tonic { /* global Tonic */
   appearance: none;
   transition: all 0.2s ease-in-out;
 }
-button[disabled] {
+button[disabled],
+button.active {
   color: var(--medium);
   background-color: var(--background);
   border-color: var(--background);
@@ -465,6 +467,78 @@ button:not([disabled]):hover {
   color: var(--window);
   background-color: var(--primary);
   border-color: var(--primary);
+}
+button.loading {
+  color: transparent;
+  background: var(--medium);
+  border-color: var(--medium);
+  pointer-events: none;
+  display: flex;
+}
+button.loading:hover {
+  background: var(--medium);
+  border-color: var(--medium);
+}
+button.loading:before {
+  content: '';
+  width: 13px;
+  height: 13px;
+  display: inline-block;
+  margin: auto;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  border-top-color: transparent;
+  -webkit-animation: spin 0.75s linear 0s infinite;
+  animation: spin 0.75s linear 0s infinite;
+  transition: all 0.3s ease;
+}
+@-moz-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@-o-keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  from {
+    -webkit-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
 }
 `
   }
@@ -505,6 +579,11 @@ button:not([disabled]):hover {
     if (textColor) style.push(`color: ${textColor}`)
     style = style.join('; ')
 
+    let classes = []
+    if (isLoading) classes.push(`loading`)
+    if (isActive) classes.push(`active`)
+    classes = classes.join(' ')
+
     return `
       <div class="wrapper">
         <button
@@ -514,8 +593,7 @@ button:not([disabled]):hover {
           ${typeAttr}
           ${disabled ? 'disabled' : ''}
           ${autofocus ? 'autofocus' : ''}
-          ${isLoading ? 'class="loading"' : ''}
-          ${isActive ? 'class="active"' : ''}
+          class="${classes}"
           style="${style}">${value}</button>
       </div>
     `

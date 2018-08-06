@@ -51,6 +51,11 @@ class InputButton extends Tonic { /* global Tonic */
     if (textColor) style.push(`color: ${textColor}`)
     style = style.join('; ')
 
+    let classes = []
+    if (isLoading) classes.push(`loading`)
+    if (isActive) classes.push(`active`)
+    classes = classes.join(' ')
+
     return `
       <div class="wrapper">
         <button
@@ -60,8 +65,7 @@ class InputButton extends Tonic { /* global Tonic */
           ${typeAttr}
           ${disabled ? 'disabled' : ''}
           ${autofocus ? 'autofocus' : ''}
-          ${isLoading ? 'class="loading"' : ''}
-          ${isActive ? 'class="active"' : ''}
+          class="${classes}"
           style="${style}">${value}</button>
       </div>
     `

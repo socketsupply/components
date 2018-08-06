@@ -541,7 +541,12 @@
       </td>
     </tr>
     <tr>
-      <td><input-button value="Click me"></input-button></td>
+      <td>
+        <input-button
+          id="loading-button-example"
+          value="Click me">
+        </input-button>
+      </td>
       <td>Loading button</td>
       <td>
         <icon-container src="./sprite.svg#code"></icon-container>
@@ -556,6 +561,18 @@
     </tr>
   </tbody>
 </table>
+
+<script>
+  {
+    const button = document.getElementById('loading-button-example')
+    button.addEventListener('click', e => {
+      button.setProps(props => ({
+        ...props,
+        isLoading: !props.isLoading
+      }))
+    })
+  }
+</script>
 
 <h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>

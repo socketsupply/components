@@ -1,12 +1,13 @@
 button
   min-height 38px
   color var(--primary)
-  font 12px 'Poppins', sans-serif
+  font 12px var(--subheader)
   font-weight 400
   text-transform uppercase
   letter-spacing 1px
   padding 8px 8px 5px 8px
   margin 10px
+  position relative
   background-color transparent
   border 1px solid var(--primary)
   outline none
@@ -15,7 +16,8 @@ button
   appearance none
   transition all 0.2s ease-in-out
 
-  &[disabled]
+  &[disabled],
+  &.active
     color var(--medium)
     background-color var(--background)
     border-color var(--background)
@@ -24,3 +26,43 @@ button
     color var(--window)
     background-color var(--primary)
     border-color var(--primary)
+
+  &.loading
+    color transparent
+    background var(--medium)
+    border-color var(--medium)
+    pointer-events none
+    &:hover
+      background var(--medium)
+      border-color var(--medium)
+
+    &:before
+      content ''
+      width 13px
+      height 13px
+      display inline-block
+      position absolute
+      top 50%
+      left 50%
+      -webkit-transform translateX(-50%) translateY(-50%)
+      -ms-transform translateX(-50%) translateY(-50%)
+      transform translateX(-50%) translateY(-50%)
+      border 2px solid white
+      border-radius 50%
+      border-top-color transparent
+      -webkit-animation spin 0.75s linear 0s infinite
+      animation spin 0.75s linear 0s infinite
+      transition all 0.3s ease
+
+@keyframes spin {
+  from {
+    -webkit-transform rotate(0deg)
+    -ms-transform rotate(0deg)
+    transform rotate(0deg)
+  }
+  to {
+    -webkit-transform rotate(360deg)
+    -ms-transform rotate(360deg)
+    transform rotate(360deg)
+  }
+}

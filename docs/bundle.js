@@ -1,3 +1,67 @@
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+const scrollToY = require('scrolltoy')
+const main = document.querySelector('main')
+
+window.Tonic = require('tonic')
+require('../../index.js')
+
+function ready () {
+  const links = [].slice.call(document.querySelectorAll('nav ul li a'))
+  const ranges = []
+  let current
+
+  links.map(function (link) {
+    const id = link.getAttribute('href').slice(1)
+    const section = document.getElementById(id)
+
+    ranges.push({
+      upper: section.offsetTop,
+      lower: section.offsetTop + section.offsetHeight,
+      id: id,
+      link: link
+    })
+
+    link.addEventListener('click', function (event) {
+      event.preventDefault()
+
+      const prev = document.querySelector('a.selected')
+      if (prev) prev.className = ''
+      link.className = 'selected'
+      scrollToY(main, section.offsetTop, 500)
+      window.location.hash = id
+    })
+  })
+
+  function onscroll (event) {
+    if (scrollToY.scrolling) return
+    var pos = main.scrollTop
+
+    pos = pos + 100
+
+    ranges.map(function (range) {
+      if (pos >= range.upper && pos <= range.lower) {
+        if (range.id === current) return
+
+        current = range.id
+        var prev = document.querySelector('a.selected')
+        if (prev) prev.className = ''
+        range.link.className = 'selected'
+      }
+    })
+  }
+
+  const themePicker = document.querySelector('.theme-picker')
+  themePicker.addEventListener('click', e => {
+    document.body.classList.toggle('theme-dark')
+  })
+
+  main.addEventListener('scroll', onscroll)
+}
+
+document.addEventListener('DOMContentLoaded', ready)
+
+},{"../../index.js":2,"scrolltoy":4,"tonic":6}],2:[function(require,module,exports){
+(function (setImmediate){
 
     document.addEventListener('DOMContentLoaded', e => {
       class ContentTooltip extends Tonic { /* global Tonic */
@@ -1690,3 +1754,488 @@ Tonic.add(TabMenu)
 
     })
   
+}).call(this,require("timers").setImmediate)
+},{"timers":5}],3:[function(require,module,exports){
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+},{}],4:[function(require,module,exports){
+var requestFrame = (function () {
+  return window.requestAnimationFrame ||
+    window.webkitRequestAnimationFrame ||
+    window.mozRequestAnimationFrame ||
+    function requestAnimationFallback (callback) {
+      window.setTimeout(callback, 1000 / 60)
+    }
+})()
+
+function ease (pos) {
+  return ((pos /= 0.5) < 1)
+    ? (0.5 * Math.pow(pos, 5))
+    : (0.5 * (Math.pow((pos - 2), 5) + 2))
+}
+
+module.exports = function scrollToY (el, Y, speed) {
+  var isWindow = !!el.alert
+  var scrollY = isWindow ? el.scrollY : el.scrollTop
+  var pos = Math.abs(scrollY - Y)
+  var time = Math.max(0.1, Math.min(pos / speed, 0.8))
+
+  let currentTime = 0
+
+  function setY () {
+    module.exports.scrolling = true
+    currentTime += 1 / 60
+
+    var p = currentTime / time
+    var t = ease(p)
+
+    if (p < 1) {
+      var y = scrollY + ((Y - scrollY) * t)
+      requestFrame(setY)
+
+      if (isWindow) {
+        el.scrollTo(0, y)
+      } else {
+        el.scrollTop = y
+      }
+
+      return
+    }
+
+    if (isWindow) {
+      el.scrollTo(0, Y)
+    } else {
+      el.scrollTop = Y
+    }
+
+    module.exports.scrolling = false
+  }
+  setY()
+}
+
+},{}],5:[function(require,module,exports){
+(function (setImmediate,clearImmediate){
+var nextTick = require('process/browser.js').nextTick;
+var apply = Function.prototype.apply;
+var slice = Array.prototype.slice;
+var immediateIds = {};
+var nextImmediateId = 0;
+
+// DOM APIs, for completeness
+
+exports.setTimeout = function() {
+  return new Timeout(apply.call(setTimeout, window, arguments), clearTimeout);
+};
+exports.setInterval = function() {
+  return new Timeout(apply.call(setInterval, window, arguments), clearInterval);
+};
+exports.clearTimeout =
+exports.clearInterval = function(timeout) { timeout.close(); };
+
+function Timeout(id, clearFn) {
+  this._id = id;
+  this._clearFn = clearFn;
+}
+Timeout.prototype.unref = Timeout.prototype.ref = function() {};
+Timeout.prototype.close = function() {
+  this._clearFn.call(window, this._id);
+};
+
+// Does not start the time, just sets up the members needed.
+exports.enroll = function(item, msecs) {
+  clearTimeout(item._idleTimeoutId);
+  item._idleTimeout = msecs;
+};
+
+exports.unenroll = function(item) {
+  clearTimeout(item._idleTimeoutId);
+  item._idleTimeout = -1;
+};
+
+exports._unrefActive = exports.active = function(item) {
+  clearTimeout(item._idleTimeoutId);
+
+  var msecs = item._idleTimeout;
+  if (msecs >= 0) {
+    item._idleTimeoutId = setTimeout(function onTimeout() {
+      if (item._onTimeout)
+        item._onTimeout();
+    }, msecs);
+  }
+};
+
+// That's not how node.js implements it but the exposed api is the same.
+exports.setImmediate = typeof setImmediate === "function" ? setImmediate : function(fn) {
+  var id = nextImmediateId++;
+  var args = arguments.length < 2 ? false : slice.call(arguments, 1);
+
+  immediateIds[id] = true;
+
+  nextTick(function onNextTick() {
+    if (immediateIds[id]) {
+      // fn.call() is faster so we optimize for the common use-case
+      // @see http://jsperf.com/call-apply-segu
+      if (args) {
+        fn.apply(null, args);
+      } else {
+        fn.call(null);
+      }
+      // Prevent ids from leaking
+      exports.clearImmediate(id);
+    }
+  });
+
+  return id;
+};
+
+exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
+  delete immediateIds[id];
+};
+}).call(this,require("timers").setImmediate,require("timers").clearImmediate)
+},{"process/browser.js":3,"timers":5}],6:[function(require,module,exports){
+class Tonic {
+  constructor (node) {
+    this.props = {}
+    this.state = {}
+    const name = Tonic._splitName(this.constructor.name)
+    this.root = node || document.createElement(name.toLowerCase())
+    Tonic.refs.push(this.root)
+    this.root.destroy = index => this._disconnect(index)
+    this.root.setProps = v => this.setProps(v)
+    this.root.setState = v => this.setState(v)
+    this._bindEventListeners()
+    this._connect()
+  }
+
+  static match (el, s) {
+    if (!el.matches) el = el.parentElement
+    return el.matches(s) ? el : el.closest(s)
+  }
+
+  static add (c) {
+    c.prototype._props = Object.getOwnPropertyNames(c.prototype)
+    if (!c.name) throw Error('Mangling detected, see guide.')
+
+    const name = Tonic._splitName(c.name).toUpperCase()
+    Tonic.registry[name] = c
+    if (c.registered) throw new Error(`Already registered ${c.name}`)
+    c.registered = true
+
+    if (!Tonic.styleNode) {
+      Tonic.styleNode = document.head.appendChild(document.createElement('style'))
+    }
+
+    Tonic._constructTags()
+  }
+
+  static _constructTags () {
+    for (const tagName of Object.keys(Tonic.registry)) {
+      for (const node of document.getElementsByTagName(tagName.toLowerCase())) {
+        if (!Tonic.registry[tagName] || node.destroy) continue
+        const t = new Tonic.registry[tagName](node)
+        if (!t) throw Error('Unable to construct component, see guide.')
+      }
+    }
+  }
+
+  static _scopeCSS (s, tagName) {
+    return s.split('\n').map(line => {
+      if (!line.includes('{')) return line
+      const parts = line.split('{').map(s => s.trim())
+      const selector = parts[0].split(',').map(p => `${tagName} ${p}`).join(', ')
+      return `${selector} { ${parts[1]}`
+    }).join('\n')
+  }
+
+  static sanitize (o) {
+    for (const [k, v] of Object.entries(o)) {
+      if (typeof v === 'object') o[k] = Tonic.sanitize(v)
+      if (typeof v === 'string') o[k] = Tonic.escape(v)
+    }
+    return o
+  }
+
+  static escape (s) {
+    return s.replace(Tonic.escapeRe, ch => Tonic.escapeMap[ch])
+  }
+
+  static _splitName (s) {
+    return s.match(/[A-Z][a-z]*/g).join('-')
+  }
+
+  emit (name, detail) {
+    this.root.dispatchEvent(new window.Event(name, { detail }))
+  }
+
+  html ([s, ...strings], ...values) {
+    const reducer = (a, b) => a.concat(b, strings.shift())
+    const filter = s => s && (s !== true || s === 0)
+    return Tonic.sanitize(values).reduce(reducer, [s]).filter(filter).join('')
+  }
+
+  setState (o) {
+    this.state = typeof o === 'function' ? o(this.state) : o
+  }
+
+  setProps (o) {
+    const oldProps = JSON.parse(JSON.stringify(this.props))
+    this.props = Tonic.sanitize(typeof o === 'function' ? o(this.props) : o)
+    this.root.appendChild(this._setContent(this.render()))
+    Tonic._constructTags()
+    this.updated && this.updated(oldProps)
+  }
+
+  _bindEventListeners () {
+    const hp = Object.getOwnPropertyNames(window.HTMLElement.prototype)
+    for (const p of this._props) {
+      if (hp.indexOf('on' + p) === -1) continue
+      this.root.addEventListener(p, e => this[p](e))
+    }
+  }
+
+  _setContent (content) {
+    while (this.root.firstChild) this.root.firstChild.remove()
+    let node = null
+
+    if (typeof content === 'string') {
+      const tmp = document.createElement('tmp')
+      tmp.innerHTML = content
+      node = tmp.firstElementChild
+    } else {
+      node = content.cloneNode(true)
+    }
+
+    if (this.styleNode) node.insertAdjacentElement('afterbegin', this.styleNode)
+    Tonic.refs.forEach((e, i) => !e.parentNode && e.destroy(i))
+    return node
+  }
+
+  _connect () {
+    for (let { name, value } of this.root.attributes) {
+      name = name.replace(/-(.)/gui, (_, m) => m.toUpperCase())
+      this.props[name] = value || name
+    }
+
+    if (this.props.data) {
+      try { this.props.data = JSON.parse(this.props.data) } catch (e) {}
+    }
+
+    this.props = Tonic.sanitize(this.props)
+
+    for (const [k, v] of Object.entries(this.defaults ? this.defaults() : {})) {
+      if (!this.props[k]) this.props[k] = v
+    }
+
+    this.willConnect && this.willConnect()
+    this.root.appendChild(this._setContent(this.render()))
+    Tonic._constructTags()
+
+    if (this.style && !Tonic.registry[this.root.tagName].styled) {
+      Tonic.registry[this.root.tagName].styled = true
+      const css = Tonic._scopeCSS(this.style(), this.root.tagName.toLowerCase())
+      const textNode = document.createTextNode(css)
+      Tonic.styleNode.appendChild(textNode)
+    }
+
+    this.connected && this.connected()
+  }
+
+  _disconnect (index) {
+    this.disconnected && this.disconnected()
+    delete this.styleNode
+    delete this.root
+    Tonic.refs.splice(index, 1)
+  }
+}
+
+Tonic.refs = []
+Tonic.registry = {}
+Tonic.escapeRe = /["&'<>`]/g
+Tonic.escapeMap = { '"': '&quot;', '&': '&amp;', '\'': '&#x27;', '<': '&lt;', '>': '&gt;', '`': '&#x60;' }
+
+if (typeof module === 'object') module.exports = Tonic
+
+},{}]},{},[1]);

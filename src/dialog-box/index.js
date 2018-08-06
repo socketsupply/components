@@ -4,7 +4,6 @@ class DialogBox extends Tonic { /* global Tonic */
 
     this.root.show = () => this.show()
     this.root.hide = () => this.hide()
-    this.root.setContent = (s) => this.setContent(s)
   }
 
   defaults () {
@@ -13,6 +12,20 @@ class DialogBox extends Tonic { /* global Tonic */
       height: '275px',
       overlay: true,
       backgroundColor: 'rgba(0,0,0,0.5)'
+    }
+  }
+
+  template (s) {
+    const body = `return \`${s}\``
+    return o => {
+      const keys = Object.keys(o)
+      const values = Tonic.sanitize(Object.values(o))
+      //
+      // We have sanitized the strings that are being
+      // passed into the template, so this is ok.
+      //
+      // eslint-disable-next-line
+      return new Function(...keys, body)(...values)
     }
   }
 
@@ -25,7 +38,9 @@ class DialogBox extends Tonic { /* global Tonic */
   }
 
   show () {
-    this.root.firstChild.classList.add('show')
+    setImmediate(() => {
+      this.root.firstChild.classList.add('show')
+    })
   }
 
   hide () {
@@ -78,8 +93,10 @@ class DialogBox extends Tonic { /* global Tonic */
     dialog.setAttribute('style', style.join(''))
 
     // create template
-    const template = document.querySelector(`template[for="${id}"]`)
-    const clone = document.importNode(template.content, true)
+    const templateNode = document.querySelector(`template[for="${id}"]`)
+    const template = this.template(templateNode.innerHTML)
+    const div = document.createElement('div')
+    div.innerHTML = template({ data: this.props })
 
     // close button
     const close = document.createElement('div')
@@ -95,7 +112,7 @@ class DialogBox extends Tonic { /* global Tonic */
 
     // append everything
     wrapper.appendChild(dialog)
-    dialog.appendChild(clone)
+    dialog.appendChild(div)
     dialog.appendChild(close)
     close.appendChild(svg)
     svg.appendChild(use)

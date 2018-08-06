@@ -27,7 +27,7 @@ The component `DialogBox` is used to create a dialog that displays content on to
         <dialog-box id="dialog-box-example-2" overlay="false"></dialog-box>
         <input-button name="buttonCancel" id="dialog-box-link-example-2" value="Click to open"></input-button>
       </td>
-      <td>Dialog box without overlay</td>
+      <td>Dialog box without overlay (also resets its content).</td>
       <td>
         <icon-container src="./sprite.svg#code"></icon-container>
       </td>
@@ -59,7 +59,7 @@ The component `DialogBox` is used to create a dialog that displays content on to
 <template for="dialog-box-example-2">
   <header>Dialog</header>
   <main>
-    <p>I'm a little dialog,<br> hear me shout</p>
+    <p>${data.message || 'Hello, world'}</p>
   </main>
   <footer>
     <input-button value="cancel"></input-button>
@@ -85,13 +85,15 @@ The component `DialogBox` is used to create a dialog that displays content on to
 
   const dialogLink2 = document.getElementById('dialog-box-link-example-2')
   const dialog2 = document.getElementById('dialog-box-example-2')
-  dialog2.addEventListener('click', e => {
-    dialog2.setContent(`
-      <span>Clicked</span>
-    `)
+  
+  let clickCount = 1
+  dialogLink2.addEventListener('click', e => {
+    dialog2.setProps(props => ({
+     ...props,
+      message: `Clicked ${clickCount++} times.`
+    }))
+    dialog2.show()
   })
-  dialogLink2.addEventListener('click', e => dialog2.show())
-
 
   const dialogLink3 = document.getElementById('dialog-box-link-example-3')
   const dialog3 = document.getElementById('dialog-box-example-3')

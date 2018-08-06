@@ -1172,7 +1172,8 @@ class ProfileImage extends Tonic { /* global Tonic */
 
     this.getPictureData(data, (err, data) => {
       if (err) return this.error(err)
-      this.root.style.backgroundImage = 'url("' + data + '")'
+      const slot = this.root.querySelector('.image')
+      slot.style.backgroundImage = 'url("' + data + '")'
     })
   }
 

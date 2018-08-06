@@ -1,4 +1,11 @@
 class SidePanel extends Tonic { /* global Tonic */
+  constructor (props) {
+    super(props)
+
+    this.root.show = () => this.show()
+    this.root.hide = () => this.hide()
+  }
+
   defaults () {
     return {
       position: 'right',

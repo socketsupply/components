@@ -1956,7 +1956,7 @@
   <section id="custom">
     <h1 id="custom-components">Custom Components</h1>
 <h2 id="getting-started">Getting Started</h2>
-<p>Building a component starts with creating a [Javascript Class][0]. The class
+<p>Building a component starts with creating a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes">Javascript Class</a>. The class
 should have at least one method named <em>render</em> which usually returns a string
 of html.</p>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Greeting</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
@@ -2004,7 +2004,7 @@ programmer using it, making their reality a little simpler.</p>
 <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
 <h2 id="registering-components">Registering Components</h2>
 <p>You must register your components before they can be used. Your first component
-should generally be added after the DOM is ready.</p>
+should generally be added after the <a href="https://caniuse.com/#search=domcontentloaded">DOM is ready</a>.</p>
 <pre><code class="language-js">Tonic.<span class="hljs-builtin-name">add</span>(Greeting)</code></pre>
 <h2 id="embedding-style-sheets">Embedding Style Sheets</h2>
 <p>You can add styles to your component that won&#39;t affect the rest of the page.</p>
@@ -2073,6 +2073,19 @@ will automatically be parsed into json for you. Don&#39;t forget single quotes!<
 <span class="hljs-tag">&lt;/<span class="hljs-name">parent-component</span>&gt;</span></span></code></pre>
 <p>Alternatively, you can call the <code>setProps(...)</code> method on the element directly.</p>
 <pre><code class="language-js"><span class="hljs-selector-tag">document</span><span class="hljs-selector-class">.getElementById</span>(<span class="hljs-string">'parent'</span>)<span class="hljs-selector-class">.setProps</span>(data)</code></pre>
+<h2 id="exposing-methods-on-your-component">Exposing methods on your component</h2>
+<p>Sometimes you want to expose a method for other people to use. All your
+component&#39;s methods are private by default! Here&#39;s how to make them accessible.</p>
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ExampleComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+  constructor (props) {
+    <span class="hljs-keyword">super</span>(props)
+    <span class="hljs-keyword">this</span>.root.exampleMethod = (...args) =&gt; <span class="hljs-keyword">this</span>.exampleMethod(...args)
+  }
+
+  exampleMethod (...args) {
+    <span class="hljs-comment">// ...</span>
+  }
+}</code></pre>
 <h2 id="pre-renderng-and-optimizing-for-performance">Pre-Renderng and optimizing for performance</h2>
 <pre><code><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AnotherThing</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   constructor () {
@@ -2202,8 +2215,7 @@ component (as well as a few others).</p>
 </tbody></table>
 <h2 id="events">EVENTS</h2>
 <p>Any method defined on your class that matches a dom method will be called when
-the event is fired. Events that do not normally propagate from the shadow DOM to
-the standard DOM will still call your event methods.</p>
+the event is fired. </p>
 
   </section>
 

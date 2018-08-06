@@ -68,7 +68,7 @@ programmer using it, making their reality a little simpler.
 ## Registering Components
 
 You must register your components before they can be used. Your first component
-should generally be added after the DOM is ready.
+should generally be added after the [DOM is ready][00].
 
 ```js
 Tonic.add(Greeting)
@@ -264,6 +264,8 @@ component (as well as a few others).
 Any method defined on your class that matches a dom method will be called when
 the event is fired. 
 
+[0]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
+[00]:https://caniuse.com/#search=domcontentloaded
 [1]:https://developers.google.com/web/fundamentals/web-components/customelements
 [2]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
 [3]:https://github.com/mathiasbynens/he

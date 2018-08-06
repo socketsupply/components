@@ -110,9 +110,9 @@
     </p>
     <p>
       <b>Tonic</b> is a minimalist class library for building components inspired
-      by <b>React</b> but built on top of new web standards &mdash; <b>Web
-      Components</b>. This page documents a collection of components built
-      with Tonic as well as how to build your own components using Tonic.
+      by <b>React</b> and <b>Web Components</b>. This page documents a collection
+      of components built with Tonic as well as how to build your own components
+      using Tonic.
     </p>
     <div class="row">
       <h3>Features</h3>
@@ -1447,6 +1447,8 @@ the screen either for a duration or until the user acknowledges it.</p>
 <script>
   {
     const profile = document.getElementById('profile-image-example-editable')
+    profile.on('changed', e => console.log(e.detail))
+    prifile.on('error', e => consolel.log(e.detail))
   }
 </script>
 <h2 id="api">Api</h2>
@@ -1507,6 +1509,23 @@ the screen either for a duration or until the user acknowledges it.</p>
 <td align="left"><em>string</em></td>
 <td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
 <td align="left"><code>light</code></td>
+</tr>
+</tbody></table>
+<h3 id="events">Events</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Name</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>changed</code></td>
+<td align="left">Emitted when the <code>src</code> changes.</td>
+</tr>
+<tr>
+<td align="left"><code>error</code></td>
+<td align="left">Emitted when there was a problem reading the provided input.</td>
 </tr>
 </tbody></table>
 <h3 id="static-methods-members">Static Methods &amp; Members</h3>

@@ -1162,18 +1162,16 @@ class ProfileImage extends Tonic { /* global Tonic */
     fileInput.click()
   }
 
-  error (err) {
-    console.error(err)
-  }
-
   change (e) {
     const fileInput = this.root.getElementsByTagName('input')[0]
     const data = fileInput.files[0]
 
     this.getPictureData(data, (err, data) => {
-      if (err) return this.error(err)
+      if (err) return this.emit('error', err)
+
       const slot = this.root.querySelector('.image')
       slot.style.backgroundImage = 'url("' + data + '")'
+      this.emit('changed', data)
     })
   }
 

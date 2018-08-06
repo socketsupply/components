@@ -59,6 +59,8 @@ The component `ProfileImage` is used to create an SVG icon with a custom size an
 <script>
   {
     const profile = document.getElementById('profile-image-example-editable')
+    profile.on('changed', e => console.log(e.detail))
+    prifile.on('error', e => consolel.log(e.detail))
   }
 </script>
 ## Api
@@ -75,6 +77,12 @@ The component `ProfileImage` is used to create an SVG icon with a custom size an
 | `border` | *string* | Change the border of the image (i.e. '1px solid white') |  |
 | `editable` | *boolean* | Add an edit overlay | `false` |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
+
+### Events
+| Name | Description |
+| :--- | :--- |
+| `changed` | Emitted when the `src` changes. |
+| `error` | Emitted when there was a problem reading the provided input. |
 
 ### Static Methods & Members
 

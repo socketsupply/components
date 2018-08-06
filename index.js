@@ -1150,6 +1150,32 @@ class ProfileImage extends Tonic { /* global Tonic */
 `
   }
 
+  getPictureData (src, cb) {
+    const reader = new window.FileReader()
+    reader.onerror = err => cb(err)
+    reader.onload = e => cb(null, e.target.result)
+    reader.readAsDataURL(src)
+  }
+
+  click (e) {
+    const fileInput = this.root.getElementsByTagName('input')[0]
+    fileInput.click()
+  }
+
+  error (err) {
+    console.error(err)
+  }
+
+  change (e) {
+    const fileInput = this.root.getElementsByTagName('input')[0]
+    const data = fileInput.files[0]
+
+    this.getPictureData(data, (err, data) => {
+      if (err) return this.error(err)
+      this.root.style.backgroundImage = 'url("' + data + '")'
+    })
+  }
+
   render () {
     let {
       id,
@@ -1168,10 +1194,12 @@ class ProfileImage extends Tonic { /* global Tonic */
     if (theme) this.root.classList.add(`theme-${theme}`)
 
     let style = []
+
     if (size) {
       style.push(`width: ${size}`)
       style.push(`height: ${size}`)
     }
+
     if (border) style.push(`border: ${border}`)
     if (radius) style.push(`border-radius: ${radius}`)
     style = style.join('; ')
@@ -1184,6 +1212,7 @@ class ProfileImage extends Tonic { /* global Tonic */
           ${nameAttr}
           style="background-image: url('${src}');">
         </div>
+        <input type="file" style="display:none"/>
         <div class="overlay">
           <svg style="width: 40px; height: 40px;">
             <use xlink:href="./sprite.svg#edit" style="fill: #fff; color: #fff;">

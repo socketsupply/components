@@ -41,7 +41,13 @@ The component `ProfileImage` is used to create an SVG icon with a custom size an
       </td>
     </tr>
     <tr>
-      <td><profile-image size="150px" editable></profile-image></td>
+      <td>
+        <profile-image
+          id="profile-image-examle-editable"
+          size="150px"
+          editable>
+        </profile-image>
+      </td>
       <td>Large Profile Image (150px)</td>
       <td>
         <icon-container src="./sprite.svg#code"></icon-container>
@@ -50,6 +56,11 @@ The component `ProfileImage` is used to create an SVG icon with a custom size an
   </tbody>
 </table>
 
+<script>
+  {
+    const profile = document.getElementById('profile-image-example-editable')
+  }
+</script>
 ## Api
 
 ### Properties

@@ -1429,7 +1429,13 @@ the screen either for a duration or until the user acknowledges it.</p>
       </td>
     </tr>
     <tr>
-      <td><profile-image size="150px" editable></profile-image></td>
+      <td>
+        <profile-image
+          id="profile-image-examle-editable"
+          size="150px"
+          editable>
+        </profile-image>
+      </td>
       <td>Large Profile Image (150px)</td>
       <td>
         <icon-container src="./sprite.svg#code"></icon-container>
@@ -1438,6 +1444,11 @@ the screen either for a duration or until the user acknowledges it.</p>
   </tbody>
 </table>
 
+<script>
+  {
+    const profile = document.getElementById('profile-image-example-editable')
+  }
+</script>
 <h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>
 <table>

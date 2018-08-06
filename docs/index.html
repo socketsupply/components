@@ -1399,8 +1399,18 @@ the screen either for a duration or until the user acknowledges it.</p>
   <tbody>
     <tr>
       <td>
-        <notification-toaster id="toaster-example-1" message="This is a toaster!"></notification-toaster>
+        <notification-toaster id="toaster-example-1" title="Toaster" message="Hi, I am a toaster"></notification-toaster>
         <input-button id="toaster-link-example-1" value="Click to open"></input-button>
+      </td>
+      <td>Default notification toaster</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <notification-toaster id="toaster-example-2" title="Toaster 2" message="Hi, I am a toaster"></notification-toaster>
+        <input-button id="toaster-link-example-2" value="Click to open"></input-button>
       </td>
       <td>Default notification toaster</td>
       <td>
@@ -1414,6 +1424,10 @@ the screen either for a duration or until the user acknowledges it.</p>
   const toasterLink1 = document.getElementById('toaster-link-example-1')
   const toaster1 = document.getElementById('toaster-example-1')
   toasterLink1.addEventListener('click', e => toaster1.show())
+
+  const toasterLink2 = document.getElementById('toaster-link-example-2')
+  const toaster2 = document.getElementById('toaster-example-2')
+  toasterLink2.addEventListener('click', e => toaster2.show())
 </script>
 
 <h2 id="api">Api</h2>
@@ -1446,28 +1460,16 @@ the screen either for a duration or until the user acknowledges it.</p>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="left"><code>width</code></td>
+<td align="left"><code>title</code></td>
 <td align="left"><em>string</em></td>
-<td align="left">Sets the width of the toaster</td>
+<td align="left">Adds a title</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="left"><code>height</code></td>
+<td align="left"><code>message</code></td>
 <td align="left"><em>string</em></td>
-<td align="left">Sets the height of the toaster</td>
+<td align="left">Adds a message</td>
 <td align="left"></td>
-</tr>
-<tr>
-<td align="left"><code>overlay</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Adds a background overlay</td>
-<td align="left"><code>true</code></td>
-</tr>
-<tr>
-<td align="left"><code>backgroundColor</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Sets the background color of the overlay</td>
-<td align="left"><code>rgba(0,0,0,0.5)</code></td>
 </tr>
 <tr>
 <td align="left"><code>theme</code></td>

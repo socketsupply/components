@@ -32,6 +32,7 @@ class NotificationToaster extends Tonic { /* global Tonic */
   willConnect () {
     const {
       theme,
+      title,
       message
     } = this.props
 
@@ -48,7 +49,14 @@ class NotificationToaster extends Tonic { /* global Tonic */
     const toaster = document.createElement('div')
     toaster.className = 'toaster'
     const main = document.createElement('main')
-    main.textContent = message
+
+    const titleElement = document.createElement('div')
+    titleElement.className = 'title'
+    titleElement.textContent = title
+
+    const messageElement = document.createElement('div')
+    messageElement.className = 'message'
+    messageElement.textContent = message
 
     // create close button
     const close = document.createElement('div')
@@ -65,6 +73,8 @@ class NotificationToaster extends Tonic { /* global Tonic */
     // append everything
     wrapper.appendChild(toaster)
     toaster.appendChild(main)
+    main.appendChild(titleElement)
+    main.appendChild(messageElement)
     toaster.appendChild(close)
     close.appendChild(svg)
     svg.appendChild(use)

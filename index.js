@@ -1102,6 +1102,13 @@ class NotificationToaster extends Tonic { /* global Tonic */
   box-sizing: border-box;
 }
 .wrapper {
+  border: 1px solid #f00;
+  position: fixed;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  width: auto;
+  height: auto;
   display: flex;
   visibility: hidden;
   transition: visibility 0s ease 0.5s;
@@ -1112,33 +1119,33 @@ class NotificationToaster extends Tonic { /* global Tonic */
 }
 .wrapper.show .toaster {
   opacity: 1;
-  -webkit-transform: scale(1);
-  -ms-transform: scale(1);
-  transform: scale(1);
 }
 .toaster {
   width: auto;
   max-width: 600px;
   padding-right: 50px;
   margin: 0 auto;
-  position: fixed;
-  top: 20px;
+  position: relative;
   background-color: var(--window);
   box-shadow: 0px 30px 90px -20px rgba(0,0,0,0.3), 0 0 1px #a2a9b1;
-  border-radius: 4px;
-  -webkit-transform: scale(0.8);
-  -ms-transform: scale(0.8);
-  transform: scale(0.8);
-  transition: all 0.3s ease-in-out;
+  border-radius: 3px;
   z-index: 1;
   opacity: 0;
 }
 .toaster main {
-  padding: 20px;
+  padding: 15px 20px;
+}
+.toaster main .title {
+  font: 13px var(--subheader);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.toaster main .message {
+  color: var(--medium);
 }
 .toaster .close {
-  width: 25px;
-  height: 25px;
+  width: 23px;
+  height: 23px;
   position: absolute;
   right: 20px;
   top: 50%;
@@ -1175,6 +1182,7 @@ class NotificationToaster extends Tonic { /* global Tonic */
   willConnect () {
     const {
       theme,
+      title,
       message
     } = this.props
 
@@ -1191,7 +1199,14 @@ class NotificationToaster extends Tonic { /* global Tonic */
     const toaster = document.createElement('div')
     toaster.className = 'toaster'
     const main = document.createElement('main')
-    main.textContent = message
+
+    const titleElement = document.createElement('div')
+    titleElement.className = 'title'
+    titleElement.textContent = title
+
+    const messageElement = document.createElement('div')
+    messageElement.className = 'message'
+    messageElement.textContent = message
 
     // create close button
     const close = document.createElement('div')
@@ -1208,6 +1223,8 @@ class NotificationToaster extends Tonic { /* global Tonic */
     // append everything
     wrapper.appendChild(toaster)
     toaster.appendChild(main)
+    main.appendChild(titleElement)
+    main.appendChild(messageElement)
     toaster.appendChild(close)
     close.appendChild(svg)
     svg.appendChild(use)

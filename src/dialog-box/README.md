@@ -62,8 +62,8 @@ The component `DialogBox` is used to create a dialog that displays content on to
     <p>${data.message || 'Hello, world'}</p>
   </main>
   <footer>
-    <input-button value="cancel"></input-button>
-    <input-button value="confirm"></input-button>
+    <input-button value="decrement"></input-button>
+    <input-button value="increment"></input-button>
   </footer>
 </template>
 
@@ -91,9 +91,24 @@ The component `DialogBox` is used to create a dialog that displays content on to
     dialogLink2.addEventListener('click', e => {
       dialog2.setProps(props => ({
        ...props,
-        message: `Clicked ${clickCount++} times.`
+        message: `Clicked ${clickCount} times.`
       }))
       dialog2.show()
+    })
+
+    dialog2.addEventListener('click', e => {
+      if (e.target.value === 'increment') {
+        clickCount++
+      } else if (e.target.value === 'decrement' && clickCount > 0) {
+        clickCount--
+      } else {
+        return
+      }
+      
+      dialog2.setProps(props => ({
+       ...props,
+        message: `Clicked ${clickCount} times.`
+      }))
     })
 
     const dialogLink3 = document.getElementById('dialog-box-link-example-3')

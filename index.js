@@ -175,7 +175,7 @@ class DialogBox extends Tonic { /* global Tonic */
     }
   }
 
-  template (s) {
+  compile (s) {
     const body = `return \`${s}\``
     return o => {
       const keys = Object.keys(o)
@@ -189,11 +189,19 @@ class DialogBox extends Tonic { /* global Tonic */
     }
   }
 
+  template (id) {
+    const node = document.querySelector(`template[for="${id}"]`)
+    const template = this.compile(node.innerHTML)
+    const div = document.createElement('div')
+    div.innerHTML = template({ data: this.props })
+    return div
+  }
+
   style () {
     return `* {
   box-sizing: border-box;
 }
-.wrapper {
+> .wrapper {
   position: fixed;
   top: 0;
   left: 0;
@@ -204,14 +212,14 @@ class DialogBox extends Tonic { /* global Tonic */
   visibility: hidden;
   transition: visibility 0s ease 0.5s;
 }
-.wrapper.show {
+> .wrapper.show {
   visibility: visible;
   transition: visibility 0s ease 0s;
 }
-.wrapper.show .overlay {
+> .wrapper.show .overlay {
   opacity: 1;
 }
-.wrapper.show .dialog {
+> .wrapper.show .dialog {
   opacity: 1;
   -webkit-transform: scale(1);
   -ms-transform: scale(1);
@@ -280,7 +288,7 @@ class DialogBox extends Tonic { /* global Tonic */
   bottom: 0;
   left: 0;
   right: 0;
-  height: 70px;
+  height: 88px;
   padding: 15px;
 }
 .dialog footer input-button {
@@ -301,17 +309,17 @@ class DialogBox extends Tonic { /* global Tonic */
   }
 
   hide () {
-    this.root.firstChild.classList.remove('show')
+    setImmediate(() => {
+      this.root.firstChild.classList.remove('show')
+    })
   }
 
   click (e) {
     const el = Tonic.match(e.target, '.close')
     if (el) this.hide()
 
-    const overlay = Tonic.match(e.target, '.overlay')
+    const overlay = e.target.matches('.overlay')
     if (overlay) this.hide()
-
-    this.value = {}
   }
 
   render () {
@@ -324,13 +332,20 @@ class DialogBox extends Tonic { /* global Tonic */
     } = this.props
 
     const id = this.root.getAttribute('id')
+
+    if (this.state.rendered) {
+      const div = this.root.querySelector('.dialog div')
+      div.parentNode.replaceChild(this.template(id), div)
+      return this.root.firstChild
+    }
+
+    this.state.rendered = true
+
     if (theme) this.root.classList.add(`theme-${theme}`)
 
     const style = []
     if (width) style.push(`width: ${width};`)
     if (height) style.push(`height: ${height};`)
-
-    while (this.root.firstChild) this.root.firstChild.remove()
 
     // create wrapper
     const wrapper = document.createElement('div')
@@ -349,12 +364,6 @@ class DialogBox extends Tonic { /* global Tonic */
     dialog.className = 'dialog'
     dialog.setAttribute('style', style.join(''))
 
-    // create template
-    const templateNode = document.querySelector(`template[for="${id}"]`)
-    const template = this.template(templateNode.innerHTML)
-    const div = document.createElement('div')
-    div.innerHTML = template({ data: this.props })
-
     // close button
     const close = document.createElement('div')
     close.className = 'close'
@@ -369,7 +378,7 @@ class DialogBox extends Tonic { /* global Tonic */
 
     // append everything
     wrapper.appendChild(dialog)
-    dialog.appendChild(div)
+    dialog.appendChild(this.template(id))
     dialog.appendChild(close)
     close.appendChild(svg)
     svg.appendChild(use)

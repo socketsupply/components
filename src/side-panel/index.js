@@ -1,8 +1,6 @@
 class SidePanel extends Tonic { /* global Tonic */
-  constructor (props) {
-    super(props)
-
-    this.defaults = {
+  defaults () {
+    return {
       position: 'right',
       overlay: false,
       backgroundColor: 'rgba(0,0,0,0.5)'
@@ -21,11 +19,11 @@ class SidePanel extends Tonic { /* global Tonic */
     this.root.firstChild.classList.remove('show')
   }
 
-  click (e, target) {
-    const el = Tonic.match(target, '.close')
+  click (e) {
+    const el = Tonic.match(e.target, '.close')
     if (el) this.hide()
 
-    const overlay = Tonic.match(target, '.overlay')
+    const overlay = Tonic.match(e.target, '.overlay')
     if (overlay) this.hide()
 
     this.value = {}
@@ -38,7 +36,9 @@ class SidePanel extends Tonic { /* global Tonic */
       overlay,
       theme,
       backgroundColor
-    } = { ...this.defaults, ...this.props }
+    } = this.props
+
+    console.log(position, this.props)
 
     const id = this.root.getAttribute('id')
 
@@ -49,12 +49,9 @@ class SidePanel extends Tonic { /* global Tonic */
     wrapper.id = 'wrapper'
     wrapper.classList.add('wrapper')
     wrapper.classList.add(position)
-    if (overlay) {
-      wrapper.setAttribute('overlay', true)
-    }
-    if (name) {
-      wrapper.setAttribute('name', name)
-    }
+
+    if (overlay) wrapper.setAttribute('overlay', true)
+    if (name) wrapper.setAttribute('name', name)
 
     // create panel
     const panel = document.createElement('div')

@@ -1,8 +1,6 @@
 class IconContainer extends Tonic { /* global Tonic */
-  constructor (props) {
-    super(props)
-
-    this.defaults = {
+  defaults () {
+    return {
       size: '25px',
       color: 'var(--primary)',
       src: './sprite.svg#example'

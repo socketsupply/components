@@ -1,13 +1,6 @@
 class InputCheckbox extends Tonic { /* global Tonic */
-  constructor (props) {
-    super(props)
-
-    this.props = {
-      checked: false,
-      changed: false
-    }
-
-    this.defaults = {
+  defaults () {
+    return {
       disabled: false,
       checked: false,
       color: 'var(--primary)',

@@ -1,8 +1,6 @@
 class ContentTooltip extends Tonic { /* global Tonic */
-  constructor (props) {
-    super(props)
-
-    this.defaults = {
+  defaults (props) {
+    return {
       width: '250px',
       height: '150px'
     }
@@ -13,11 +11,10 @@ class ContentTooltip extends Tonic { /* global Tonic */
   }
 
   mouseenter (e) {
-    console.log('XXXX', e)
     clearTimeout(this.timer)
     this.timer = setTimeout(() => {
-      const tooltip = this.root.getElementById('tooltip')
-      let el = this.parentNode
+      const tooltip = this.root.querySelector('.tooltip')
+      let el = this.root.parentNode
 
       while (true) {
         if (!el || el.tagName === 'html') break
@@ -25,9 +22,9 @@ class ContentTooltip extends Tonic { /* global Tonic */
         el = el.parentNode
       }
 
-      let { top } = this.getBoundingClientRect()
+      let { top } = this.root.getBoundingClientRect()
       top += (el.scrollY || 0)
-      let left = -(tooltip.offsetWidth / 2) + (this.offsetWidth / 2)
+      let left = -(tooltip.offsetWidth / 2) + (this.root.offsetWidth / 2)
 
       if (left < 0) {
         left = 0
@@ -45,7 +42,7 @@ class ContentTooltip extends Tonic { /* global Tonic */
       } else {
         tooltip.classList.remove('top')
         tooltip.classList.add('bottom')
-        const offsetTop = tooltip.offsetHeight + this.offsetHeight
+        const offsetTop = tooltip.offsetHeight + this.root.offsetHeight
         tooltip.style.top = `-${offsetTop}px`
         tooltip.style.left = `${left}px`
       }
@@ -56,7 +53,7 @@ class ContentTooltip extends Tonic { /* global Tonic */
 
   mouseleave (e) {
     clearTimeout(this.timer)
-    const tooltip = this.root.getElementById('tooltip')
+    const tooltip = this.root.querySelector('.tooltip')
     tooltip.classList.remove('show')
   }
 
@@ -66,9 +63,7 @@ class ContentTooltip extends Tonic { /* global Tonic */
       width,
       theme,
       height
-    } = { ...this.defaults, ...this.props }
-
-    console.log(this.props)
+    } = this.props
 
     if (theme) this.root.classList.add(`theme-${theme}`)
 
@@ -81,12 +76,11 @@ class ContentTooltip extends Tonic { /* global Tonic */
 
     const span = document.createElement('span')
     span.textContent = this.root.innerHTML
-    span.id = 'text'
+    span.className = 'text'
 
     while (this.root.firstChild) this.root.firstChild.remove()
 
     const tooltip = document.createElement('div')
-    tooltip.id = 'tooltip'
     tooltip.className = 'tooltip arrow'
     tooltip.setAttribute('style', style.join(''))
     const template = document.querySelector(`template[for="${id}"]`)

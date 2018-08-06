@@ -1,9 +1,6 @@
 class NotificationBadge extends Tonic { /* global Tonic */
-  constructor (props) {
-    super(props)
-
-    this.defaults = {
-    }
+  defaults () {
+    return {}
   }
 
   style () {

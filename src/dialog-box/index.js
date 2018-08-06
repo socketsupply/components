@@ -1,8 +1,6 @@
 class DialogBox extends Tonic { /* global Tonic */
-  constructor (props) {
-    super(props)
-
-    this.defaults = {
+  defaults () {
+    return {
       width: '450px',
       height: '275px',
       overlay: true,

@@ -1,8 +1,6 @@
 class InputText extends Tonic { /* global Tonic */
-  constructor (props) {
-    super(props)
-
-    this.defaults = {
+  defaults () {
+    return {
       type: 'text',
       value: '',
       placeholder: '',

@@ -1,8 +1,6 @@
 class ProfileImage extends Tonic { /* global Tonic */
-  constructor (props) {
-    super(props)
-
-    this.defaults = {
+  defaults () {
+    return {
       size: '50px',
       src: './default.jpg',
       radius: '5px'

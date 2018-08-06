@@ -1,8 +1,6 @@
 class InputButton extends Tonic { /* global Tonic */
-  constructor (props) {
-    super(props)
-
-    this.defaults = {
+  defaults () {
+    return {
       value: 'Submit',
       type: 'submit',
       disabled: false,

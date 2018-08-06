@@ -1,22 +1,21 @@
 
     document.addEventListener('DOMContentLoaded', e => {
       class ContentTooltip extends Tonic { /* global Tonic */
-  constructor (props) {
-    super(props)
-
-    this.defaults = {
+  defaults (props) {
+    return {
       width: '250px',
       height: '150px'
     }
   }
 
   style () {
-    return `:host {
+    return `.text {
   position: relative;
   display: inline-block;
   cursor: default;
 }
-:host > span .tooltip {
+.text .tooltip {
+  min-width: 250px;
   position: absolute;
   top: 30px;
   background: var(--window);
@@ -27,13 +26,13 @@
   z-index: -1;
   opacity: 0;
 }
-:host > span .tooltip.show {
+.text .tooltip.show {
   box-shadow: 0px 30px 90px -20px rgba(0,0,0,0.3);
   visibility: visible;
   opacity: 1;
   z-index: 1;
 }
-:host > span .tooltip.arrow span {
+.text .tooltip.arrow span {
   width: 12px;
   height: 12px;
   position: absolute;
@@ -47,20 +46,20 @@
   transform: rotate(45deg);
   left: 50%;
 }
-:host > span .tooltip.top span {
+.text .tooltip.top span {
   margin-bottom: -6px;
   bottom: 100%;
   border-top-color: var(--border);
   border-left-color: var(--border);
 }
-:host > span .tooltip.bottom span {
+.text .tooltip.bottom span {
   margin-top: -6px;
   position: absolute;
   top: 100%;
   border-bottom-color: var(--border);
   border-right-color: var(--border);
 }
-:host > span .image {
+.text .image {
   position: absolute;
   top: 0;
   left: 0;
@@ -74,11 +73,10 @@
   }
 
   mouseenter (e) {
-    console.log('XXXX', e)
     clearTimeout(this.timer)
     this.timer = setTimeout(() => {
-      const tooltip = this.root.getElementById('tooltip')
-      let el = this.parentNode
+      const tooltip = this.root.querySelector('.tooltip')
+      let el = this.root.parentNode
 
       while (true) {
         if (!el || el.tagName === 'html') break
@@ -86,9 +84,9 @@
         el = el.parentNode
       }
 
-      let { top } = this.getBoundingClientRect()
+      let { top } = this.root.getBoundingClientRect()
       top += (el.scrollY || 0)
-      let left = -(tooltip.offsetWidth / 2) + (this.offsetWidth / 2)
+      let left = -(tooltip.offsetWidth / 2) + (this.root.offsetWidth / 2)
 
       if (left < 0) {
         left = 0
@@ -106,7 +104,7 @@
       } else {
         tooltip.classList.remove('top')
         tooltip.classList.add('bottom')
-        const offsetTop = tooltip.offsetHeight + this.offsetHeight
+        const offsetTop = tooltip.offsetHeight + this.root.offsetHeight
         tooltip.style.top = `-${offsetTop}px`
         tooltip.style.left = `${left}px`
       }
@@ -117,7 +115,7 @@
 
   mouseleave (e) {
     clearTimeout(this.timer)
-    const tooltip = this.root.getElementById('tooltip')
+    const tooltip = this.root.querySelector('.tooltip')
     tooltip.classList.remove('show')
   }
 
@@ -127,9 +125,7 @@
       width,
       theme,
       height
-    } = { ...this.defaults, ...this.props }
-
-    console.log(this.props)
+    } = this.props
 
     if (theme) this.root.classList.add(`theme-${theme}`)
 
@@ -142,12 +138,11 @@
 
     const span = document.createElement('span')
     span.textContent = this.root.innerHTML
-    span.id = 'text'
+    span.className = 'text'
 
     while (this.root.firstChild) this.root.firstChild.remove()
 
     const tooltip = document.createElement('div')
-    tooltip.id = 'tooltip'
     tooltip.className = 'tooltip arrow'
     tooltip.setAttribute('style', style.join(''))
     const template = document.querySelector(`template[for="${id}"]`)
@@ -164,10 +159,8 @@
 Tonic.add(ContentTooltip)
 
 class DialogBox extends Tonic { /* global Tonic */
-  constructor (props) {
-    super(props)
-
-    this.defaults = {
+  defaults () {
+    return {
       width: '450px',
       height: '275px',
       overlay: true,
@@ -365,10 +358,8 @@ class DialogBox extends Tonic { /* global Tonic */
 Tonic.add(DialogBox)
 
 class IconContainer extends Tonic { /* global Tonic */
-  constructor (props) {
-    super(props)
-
-    this.defaults = {
+  defaults () {
+    return {
       size: '25px',
       color: 'var(--primary)',
       src: './sprite.svg#example'
@@ -412,10 +403,8 @@ class IconContainer extends Tonic { /* global Tonic */
 Tonic.add(IconContainer)
 
 class InputButton extends Tonic { /* global Tonic */
-  constructor (props) {
-    super(props)
-
-    this.defaults = {
+  defaults () {
+    return {
       value: 'Submit',
       type: 'submit',
       disabled: false,
@@ -512,15 +501,8 @@ button:not([disabled]):hover {
 Tonic.add(InputButton)
 
 class InputCheckbox extends Tonic { /* global Tonic */
-  constructor (props) {
-    super(props)
-
-    this.props = {
-      checked: false,
-      changed: false
-    }
-
-    this.defaults = {
+  defaults () {
+    return {
       disabled: false,
       checked: false,
       color: 'var(--primary)',
@@ -629,10 +611,8 @@ svg {
 Tonic.add(InputCheckbox, { shadow: true })
 
 class InputText extends Tonic { /* global Tonic */
-  constructor (props) {
-    super(props)
-
-    this.defaults = {
+  defaults () {
+    return {
       type: 'text',
       value: '',
       placeholder: '',
@@ -759,13 +739,11 @@ input:focus {
   }
 }
 
-Tonic.add(InputText, { shadow: true })
+Tonic.add(InputText)
 
 class InputTextarea extends Tonic { /* global Tonic */
-  constructor (props) {
-    super(props)
-
-    this.defaults = {
+  defaults () {
+    return {
       placeholder: '',
       spellcheck: true,
       disabled: false,
@@ -873,10 +851,8 @@ label {
 Tonic.add(InputTextarea)
 
 class InputToggle extends Tonic { /* global Tonic */
-  constructor (props) {
-    super(props)
-
-    this.defaults = {
+  defaults () {
+    return {
       checked: false
     }
   }
@@ -1023,14 +999,11 @@ class InputToggle extends Tonic { /* global Tonic */
   }
 }
 
-Tonic.add(InputToggle, { shadow: true })
+Tonic.add(InputToggle)
 
 class NotificationBadge extends Tonic { /* global Tonic */
-  constructor (props) {
-    super(props)
-
-    this.defaults = {
-    }
+  defaults () {
+    return {}
   }
 
   style () {
@@ -1087,11 +1060,8 @@ class NotificationBadge extends Tonic { /* global Tonic */
 Tonic.add(NotificationBadge)
 
 class NotificationToaster extends Tonic { /* global Tonic */
-  constructor (props) {
-    super(props)
-
-    this.defaults = {
-    }
+  defaults () {
+    return {}
   }
 
   style () {
@@ -1111,10 +1081,8 @@ class NotificationToaster extends Tonic { /* global Tonic */
 Tonic.add(NotificationToaster)
 
 class ProfileImage extends Tonic { /* global Tonic */
-  constructor (props) {
-    super(props)
-
-    this.defaults = {
+  defaults () {
+    return {
       size: '50px',
       src: './default.jpg',
       radius: '5px'
@@ -1203,13 +1171,11 @@ class ProfileImage extends Tonic { /* global Tonic */
   }
 }
 
-Tonic.add(ProfileImage, { shadow: true })
+Tonic.add(ProfileImage)
 
 class SidePanel extends Tonic { /* global Tonic */
-  constructor (props) {
-    super(props)
-
-    this.defaults = {
+  defaults () {
+    return {
       position: 'right',
       overlay: false,
       backgroundColor: 'rgba(0,0,0,0.5)'
@@ -1316,11 +1282,11 @@ class SidePanel extends Tonic { /* global Tonic */
     this.root.firstChild.classList.remove('show')
   }
 
-  click (e, target) {
-    const el = Tonic.match(target, '.close')
+  click (e) {
+    const el = Tonic.match(e.target, '.close')
     if (el) this.hide()
 
-    const overlay = Tonic.match(target, '.overlay')
+    const overlay = Tonic.match(e.target, '.overlay')
     if (overlay) this.hide()
 
     this.value = {}
@@ -1333,7 +1299,9 @@ class SidePanel extends Tonic { /* global Tonic */
       overlay,
       theme,
       backgroundColor
-    } = { ...this.defaults, ...this.props }
+    } = this.props
+
+    console.log(position, this.props)
 
     const id = this.root.getAttribute('id')
 
@@ -1344,12 +1312,9 @@ class SidePanel extends Tonic { /* global Tonic */
     wrapper.id = 'wrapper'
     wrapper.classList.add('wrapper')
     wrapper.classList.add(position)
-    if (overlay) {
-      wrapper.setAttribute('overlay', true)
-    }
-    if (name) {
-      wrapper.setAttribute('name', name)
-    }
+
+    if (overlay) wrapper.setAttribute('overlay', true)
+    if (name) wrapper.setAttribute('name', name)
 
     // create panel
     const panel = document.createElement('div')
@@ -1393,14 +1358,11 @@ class SidePanel extends Tonic { /* global Tonic */
   }
 }
 
-Tonic.add(SidePanel, { shadow: true })
+Tonic.add(SidePanel)
 
 class TabMenu extends Tonic { /* global Tonic */
-  constructor (props) {
-    super(props)
-
-    this.defaults = {
-    }
+  defaults () {
+    return {}
   }
 
   style () {

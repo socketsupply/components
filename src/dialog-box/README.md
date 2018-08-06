@@ -85,7 +85,13 @@ The component `DialogBox` is used to create a dialog that displays content on to
 
   const dialogLink2 = document.getElementById('dialog-box-link-example-2')
   const dialog2 = document.getElementById('dialog-box-example-2')
+  dialog2.addEventListener('click', e => {
+    dialog2.setContent(`
+      <span>Clicked</span>
+    `)
+  })
   dialogLink2.addEventListener('click', e => dialog2.show())
+
 
   const dialogLink3 = document.getElementById('dialog-box-link-example-3')
   const dialog3 = document.getElementById('dialog-box-example-3')

@@ -294,7 +294,7 @@ class DialogBox extends Tonic { /* global Tonic */
     this.value = {}
   }
 
-  willConnect () {
+  render () {
     const {
       width,
       height,
@@ -352,11 +352,7 @@ class DialogBox extends Tonic { /* global Tonic */
     close.appendChild(svg)
     svg.appendChild(use)
 
-    this.structure = wrapper
-  }
-
-  render () {
-    return this.structure
+    return wrapper
   }
 }
 
@@ -586,8 +582,6 @@ svg {
       off,
       size
     } = this.props
-
-    console.log('>>', this.props)
 
     if (theme) this.classList.add(`theme-${theme}`)
 

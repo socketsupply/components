@@ -4,6 +4,7 @@ class DialogBox extends Tonic { /* global Tonic */
 
     this.root.show = () => this.show()
     this.root.hide = () => this.hide()
+    this.root.setContent = (s) => this.setContent(s)
   }
 
   defaults () {
@@ -17,6 +18,10 @@ class DialogBox extends Tonic { /* global Tonic */
 
   style () {
     return `%style%`
+  }
+
+  setContent (s) {
+    this.root.querySelector('main').innerHTML = s
   }
 
   show () {
@@ -37,7 +42,7 @@ class DialogBox extends Tonic { /* global Tonic */
     this.value = {}
   }
 
-  willConnect () {
+  render () {
     const {
       width,
       height,
@@ -95,11 +100,7 @@ class DialogBox extends Tonic { /* global Tonic */
     close.appendChild(svg)
     svg.appendChild(use)
 
-    this.structure = wrapper
-  }
-
-  render () {
-    return this.structure
+    return wrapper
   }
 }
 

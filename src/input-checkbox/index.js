@@ -50,8 +50,6 @@ class InputCheckbox extends Tonic { /* global Tonic */
       size
     } = this.props
 
-    console.log('>>', this.props)
-
     if (theme) this.classList.add(`theme-${theme}`)
 
     const state = checked ? on : off

@@ -79,17 +79,19 @@ The component `SidePanel` create a side panel with overlay (color or transparent
 </template>
 
 <script>
-  const panelLink1 = document.getElementById('side-panel-link-example-1')
-  const panel1 = document.getElementById('side-panel-example-1')
-  panelLink1.addEventListener('click', e => panel1.show())
+  {
+    const panelLink1 = document.getElementById('side-panel-link-example-1')
+    const panel1 = document.getElementById('side-panel-example-1')
+    panelLink1.addEventListener('click', e => panel1.show())
 
-  const panelLink2 = document.getElementById('side-panel-link-example-2')
-  const panel2 = document.getElementById('side-panel-example-2')
-  panelLink2.addEventListener('click', e => panel2.show())
+    const panelLink2 = document.getElementById('side-panel-link-example-2')
+    const panel2 = document.getElementById('side-panel-example-2')
+    panelLink2.addEventListener('click', e => panel2.show())
 
-  const panelLink3 = document.getElementById('side-panel-link-example-3')
-  const panel3 = document.getElementById('side-panel-example-3')
-  panelLink3.addEventListener('click', e => panel3.show())
+    const panelLink3 = document.getElementById('side-panel-link-example-3')
+    const panel3 = document.getElementById('side-panel-example-3')
+    panelLink3.addEventListener('click', e => panel3.show())
+  }
 </script>
 
 ## Code

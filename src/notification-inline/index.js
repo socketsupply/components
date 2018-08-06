@@ -24,11 +24,14 @@ class NotificationInline extends Tonic { /* global Tonic */
   create ({ message, title, duration, type, selfClosing } = {}) {
     this.show()
 
+    while (this.root.firstChild) this.root.firstChild.remove()
+
     const notification = document.createElement('div')
     notification.className = 'notification'
     const main = document.createElement('main')
     if (type) {
       notification.classList.add('alert')
+      notification.classList.add(type)
     }
 
     const titleElement = document.createElement('div')

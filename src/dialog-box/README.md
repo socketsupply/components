@@ -79,25 +79,27 @@ The component `DialogBox` is used to create a dialog that displays content on to
 </template>
 
 <script>
-  const dialogLink1 = document.getElementById('dialog-box-link-example-1')
-  const dialog1 = document.getElementById('dialog-box-example-1')
-  dialogLink1.addEventListener('click', e => dialog1.show())
+  {
+    const dialogLink1 = document.getElementById('dialog-box-link-example-1')
+    const dialog1 = document.getElementById('dialog-box-example-1')
+    dialogLink1.addEventListener('click', e => dialog1.show())
 
-  const dialogLink2 = document.getElementById('dialog-box-link-example-2')
-  const dialog2 = document.getElementById('dialog-box-example-2')
-  
-  let clickCount = 1
-  dialogLink2.addEventListener('click', e => {
-    dialog2.setProps(props => ({
-     ...props,
-      message: `Clicked ${clickCount++} times.`
-    }))
-    dialog2.show()
-  })
+    const dialogLink2 = document.getElementById('dialog-box-link-example-2')
+    const dialog2 = document.getElementById('dialog-box-example-2')
 
-  const dialogLink3 = document.getElementById('dialog-box-link-example-3')
-  const dialog3 = document.getElementById('dialog-box-example-3')
-  dialogLink3.addEventListener('click', e => dialog3.show())
+    let clickCount = 1
+    dialogLink2.addEventListener('click', e => {
+      dialog2.setProps(props => ({
+       ...props,
+        message: `Clicked ${clickCount++} times.`
+      }))
+      dialog2.show()
+    })
+
+    const dialogLink3 = document.getElementById('dialog-box-link-example-3')
+    const dialog3 = document.getElementById('dialog-box-example-3')
+    dialogLink3.addEventListener('click', e => dialog3.show())
+  }
 </script>
 
 ## Api

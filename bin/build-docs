@@ -82,7 +82,9 @@ function page (toc, sections) {
 
       <body>
         <div class="theme-picker">
-          <img src="/theme.svg"/>
+          <svg>
+            <use xlink:href="./sprite.svg#theme">
+          </svg>
         </div>
         <nav>
           <a href="./index.html" class="logo">

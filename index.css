@@ -17,7 +17,7 @@ body {
   --success: #85b274;
   --warn: #f9a967;
 }
-.theme-dark {
+body.theme-dark {
   --window: #2d2f31;
   --primary: #fff;
   --secondary: #c3c3c3;

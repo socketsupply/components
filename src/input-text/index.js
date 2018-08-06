@@ -49,7 +49,7 @@ class InputText extends Tonic { /* global Tonic */
       theme,
       radius,
       position
-    } = { ...this.defaults, ...this.props }
+    } = this.props
 
     const idAttr = id ? `id="${id}"` : ''
     const nameAttr = name ? `name="${name}"` : ''

@@ -10,7 +10,7 @@ class TabMenu extends Tonic { /* global Tonic */
   render () {
     let {
       theme
-    } = { ...this.defaults, ...this.props }
+    } = this.props
 
     if (theme) this.root.classList.add(`theme-${theme}`)
 

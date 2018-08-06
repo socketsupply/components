@@ -40,7 +40,7 @@ class InputTextarea extends Tonic { /* global Tonic */
       theme,
       radius,
       resize
-    } = { ...this.defaults, ...this.props }
+    } = this.props
 
     const idAttr = id ? `id="${id}"` : ''
     const nameAttr = name ? `name="${name}"` : ''

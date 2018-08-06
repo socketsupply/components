@@ -38,8 +38,6 @@ class SidePanel extends Tonic { /* global Tonic */
       backgroundColor
     } = this.props
 
-    console.log(position, this.props)
-
     const id = this.root.getAttribute('id')
 
     if (theme) this.root.classList.add(`theme-${theme}`)

@@ -28,7 +28,7 @@ class InputCheckbox extends Tonic { /* global Tonic */
 
   updated (oldProps) {
     if (oldProps.checked !== this.props.checked) {
-      this.dispatchEvent(new window.Event('change'))
+      this.root.dispatchEvent(new window.Event('change'))
     }
   }
 
@@ -48,13 +48,19 @@ class InputCheckbox extends Tonic { /* global Tonic */
       theme,
       off,
       size
-    } = { ...this.defaults, ...this.props }
+    } = this.props
 
     if (theme) this.classList.add(`theme-${theme}`)
 
     const state = checked ? on : off
     const nameAttr = name ? `name="${name}"` : ''
     const style = `fill: ${color}; color: ${color};`
+
+    //
+    // the id attribute can be removed to the input
+    // and added to the input inside the component.
+    //
+    this.root.removeAttribute('id')
 
     return `
       <div class="wrapper">
@@ -77,4 +83,4 @@ class InputCheckbox extends Tonic { /* global Tonic */
   }
 }
 
-Tonic.add(InputCheckbox, { shadow: true })
+Tonic.add(InputCheckbox)

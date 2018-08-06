@@ -548,6 +548,7 @@ svg {
   }
 
   change (e) {
+    console.log('CHANGE')
     const state = this.props.checked = !this.props.checked
     const props = { ...this.defaults, ...this.props }
     const file = props[state ? 'on' : 'off']
@@ -561,7 +562,7 @@ svg {
 
   updated (oldProps) {
     if (oldProps.checked !== this.props.checked) {
-      this.dispatchEvent(new window.Event('change'))
+      this.root.dispatchEvent(new window.Event('change'))
     }
   }
 
@@ -581,13 +582,19 @@ svg {
       theme,
       off,
       size
-    } = { ...this.defaults, ...this.props }
+    } = this.props
 
     if (theme) this.classList.add(`theme-${theme}`)
 
     const state = checked ? on : off
     const nameAttr = name ? `name="${name}"` : ''
     const style = `fill: ${color}; color: ${color};`
+
+    //
+    // the id attribute can be removed to the input
+    // and added to the input inside the component.
+    //
+    this.root.removeAttribute('id')
 
     return `
       <div class="wrapper">
@@ -610,7 +617,7 @@ svg {
   }
 }
 
-Tonic.add(InputCheckbox, { shadow: true })
+Tonic.add(InputCheckbox)
 
 class InputText extends Tonic { /* global Tonic */
   defaults () {
@@ -1302,8 +1309,6 @@ class SidePanel extends Tonic { /* global Tonic */
       theme,
       backgroundColor
     } = this.props
-
-    console.log(position, this.props)
 
     const id = this.root.getAttribute('id')
 

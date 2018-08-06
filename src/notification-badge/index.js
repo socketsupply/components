@@ -11,9 +11,15 @@ class NotificationBadge extends Tonic { /* global Tonic */
     let {
       count,
       theme
-    } = { ...this.defaults, ...this.props }
+    } = this.props
 
     if (theme) this.root.classList.add(`theme-${theme}`)
+
+    //
+    // the id attribute can be removed to the input
+    // and added to the input inside the component.
+    //
+    this.root.removeAttribute('id')
 
     count = '23'
 

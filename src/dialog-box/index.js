@@ -44,7 +44,7 @@ class DialogBox extends Tonic { /* global Tonic */
       overlay,
       theme,
       backgroundColor
-    } = { ...this.defaults, ...this.props }
+    } = this.props
 
     const id = this.root.getAttribute('id')
     if (theme) this.root.classList.add(`theme-${theme}`)

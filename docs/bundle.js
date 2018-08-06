@@ -60,7 +60,8 @@ function ready () {
 
 document.addEventListener('DOMContentLoaded', ready)
 
-},{"../../index.js":2,"scrolltoy":3,"tonic":4}],2:[function(require,module,exports){
+},{"../../index.js":2,"scrolltoy":4,"tonic":6}],2:[function(require,module,exports){
+(function (setImmediate){
 
     document.addEventListener('DOMContentLoaded', e => {
       class ContentTooltip extends Tonic { /* global Tonic */
@@ -1147,11 +1148,11 @@ class NotificationBadge extends Tonic { /* global Tonic */
 
 Tonic.add(NotificationBadge)
 
-class NotificationToaster extends Tonic { /* global Tonic */
+class NotificationCenter extends Tonic { /* global Tonic */
   constructor (props) {
     super(props)
 
-    this.root.show = () => this.show()
+    this.root.create = (o) => this.create(o)
     this.root.hide = () => this.hide()
   }
 
@@ -1165,35 +1166,42 @@ class NotificationToaster extends Tonic { /* global Tonic */
   box-sizing: border-box;
 }
 .wrapper {
-  border: 1px solid #f00;
+  user-select: none;
   position: fixed;
+  top: 10px;
   left: 50%;
-  top: 0;
-  transform: translateX(-50%);
-  width: auto;
-  height: auto;
   display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  transform: translateX(-50%);
   visibility: hidden;
-  transition: visibility 0s ease 0.5s;
 }
 .wrapper.show {
   visibility: visible;
-  transition: visibility 0s ease 0s;
-}
-.wrapper.show .toaster {
-  opacity: 1;
 }
 .toaster {
   width: auto;
   max-width: 600px;
   padding-right: 50px;
   margin: 0 auto;
+  margin-top: 10px;
   position: relative;
   background-color: var(--window);
-  box-shadow: 0px 30px 90px -20px rgba(0,0,0,0.3), 0 0 1px #a2a9b1;
+  box-shadow: 0px 10px 40px -20px rgba(0,0,0,0.3), 0 0 1px #a2a9b1;
   border-radius: 3px;
+  -webkit-transform: translateY(-100px);
+  -ms-transform: translateY(-100px);
+  transform: translateY(-100px);
+  transition: opacity 0.2s ease, transform 0s ease 1s;
   z-index: 1;
   opacity: 0;
+}
+.toaster.show {
+  opacity: 1;
+  -webkit-transform: translateY(0);
+  -ms-transform: translateY(0);
+  transform: translateY(0);
+  transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
 }
 .toaster main {
   padding: 15px 20px;
@@ -1228,48 +1236,19 @@ class NotificationToaster extends Tonic { /* global Tonic */
 `
   }
 
-  show () {
-    this.root.firstChild.classList.add('show')
-  }
-
-  hide () {
-    this.root.firstChild.classList.remove('show')
-  }
-
-  click (e) {
-    const el = Tonic.match(e.target, '.close')
-    if (el) this.hide()
-    this.value = {}
-  }
-
-  willConnect () {
-    const {
-      theme,
-      title,
-      message
-    } = this.props
-
-    // const id = this.root.getAttribute('id')
-    if (theme) this.root.classList.add(`theme-${theme}`)
-
-    while (this.root.firstChild) this.root.firstChild.remove()
-
-    // create wrapper
-    const wrapper = document.createElement('div')
-    wrapper.className = 'wrapper'
-
-    // create toaster
+  create ({ message, title, duration } = {}) {
+    this.show()
     const toaster = document.createElement('div')
     toaster.className = 'toaster'
     const main = document.createElement('main')
 
     const titleElement = document.createElement('div')
     titleElement.className = 'title'
-    titleElement.textContent = title
+    titleElement.textContent = title || this.props.title
 
     const messageElement = document.createElement('div')
     messageElement.className = 'message'
-    messageElement.textContent = message
+    messageElement.textContent = message || this.props.message
 
     // create close button
     const close = document.createElement('div')
@@ -1283,24 +1262,59 @@ class NotificationToaster extends Tonic { /* global Tonic */
     const use = document.createElementNS(nsSvg, 'use')
     use.setAttributeNS(nsXlink, 'xlink:href', file)
 
-    // append everything
-    wrapper.appendChild(toaster)
     toaster.appendChild(main)
     main.appendChild(titleElement)
     main.appendChild(messageElement)
     toaster.appendChild(close)
     close.appendChild(svg)
     svg.appendChild(use)
+    this.root.querySelector('.wrapper').appendChild(toaster)
 
-    this.structure = wrapper
+    setImmediate(() => toaster.classList.add('show'))
+
+    if (duration) {
+      setTimeout(() => this.destroy(toaster), duration)
+    }
+  }
+
+  destroy (toaster) {
+    toaster.classList.remove('show')
+    toaster.addEventListener('transitionend', e => {
+      toaster.parentNode.removeChild(toaster)
+    })
+  }
+
+  show () {
+    this.root.firstChild.classList.add('show')
+  }
+
+  hide () {
+    this.root.firstChild.classList.remove('show')
+  }
+
+  click (e) {
+    const el = Tonic.match(e.target, '.close')
+    if (!el) return
+
+    const toaster = el.closest('.toaster')
+    if (toaster) this.destroy(toaster)
   }
 
   render () {
-    return this.structure
+    const {
+      theme
+    } = this.props
+
+    // const id = this.root.getAttribute('id')
+    if (theme) this.root.classList.add(`theme-${theme}`)
+
+    return `
+      <div class="wrapper"></div>
+    `
   }
 }
 
-Tonic.add(NotificationToaster)
+Tonic.add(NotificationCenter)
 
 class ProfileImage extends Tonic { /* global Tonic */
   defaults () {
@@ -1644,7 +1658,194 @@ Tonic.add(TabMenu)
 
     })
   
-},{}],3:[function(require,module,exports){
+}).call(this,require("timers").setImmediate)
+},{"timers":5}],3:[function(require,module,exports){
+// shim for using process in browser
+var process = module.exports = {};
+
+// cached from whatever global is present so that test runners that stub it
+// don't break things.  But we need to wrap it in a try catch in case it is
+// wrapped in strict mode code which doesn't define any globals.  It's inside a
+// function because try/catches deoptimize in certain engines.
+
+var cachedSetTimeout;
+var cachedClearTimeout;
+
+function defaultSetTimout() {
+    throw new Error('setTimeout has not been defined');
+}
+function defaultClearTimeout () {
+    throw new Error('clearTimeout has not been defined');
+}
+(function () {
+    try {
+        if (typeof setTimeout === 'function') {
+            cachedSetTimeout = setTimeout;
+        } else {
+            cachedSetTimeout = defaultSetTimout;
+        }
+    } catch (e) {
+        cachedSetTimeout = defaultSetTimout;
+    }
+    try {
+        if (typeof clearTimeout === 'function') {
+            cachedClearTimeout = clearTimeout;
+        } else {
+            cachedClearTimeout = defaultClearTimeout;
+        }
+    } catch (e) {
+        cachedClearTimeout = defaultClearTimeout;
+    }
+} ())
+function runTimeout(fun) {
+    if (cachedSetTimeout === setTimeout) {
+        //normal enviroments in sane situations
+        return setTimeout(fun, 0);
+    }
+    // if setTimeout wasn't available but was latter defined
+    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+        cachedSetTimeout = setTimeout;
+        return setTimeout(fun, 0);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedSetTimeout(fun, 0);
+    } catch(e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+            return cachedSetTimeout.call(null, fun, 0);
+        } catch(e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+            return cachedSetTimeout.call(this, fun, 0);
+        }
+    }
+
+
+}
+function runClearTimeout(marker) {
+    if (cachedClearTimeout === clearTimeout) {
+        //normal enviroments in sane situations
+        return clearTimeout(marker);
+    }
+    // if clearTimeout wasn't available but was latter defined
+    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+        cachedClearTimeout = clearTimeout;
+        return clearTimeout(marker);
+    }
+    try {
+        // when when somebody has screwed with setTimeout but no I.E. maddness
+        return cachedClearTimeout(marker);
+    } catch (e){
+        try {
+            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+            return cachedClearTimeout.call(null, marker);
+        } catch (e){
+            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+            return cachedClearTimeout.call(this, marker);
+        }
+    }
+
+
+
+}
+var queue = [];
+var draining = false;
+var currentQueue;
+var queueIndex = -1;
+
+function cleanUpNextTick() {
+    if (!draining || !currentQueue) {
+        return;
+    }
+    draining = false;
+    if (currentQueue.length) {
+        queue = currentQueue.concat(queue);
+    } else {
+        queueIndex = -1;
+    }
+    if (queue.length) {
+        drainQueue();
+    }
+}
+
+function drainQueue() {
+    if (draining) {
+        return;
+    }
+    var timeout = runTimeout(cleanUpNextTick);
+    draining = true;
+
+    var len = queue.length;
+    while(len) {
+        currentQueue = queue;
+        queue = [];
+        while (++queueIndex < len) {
+            if (currentQueue) {
+                currentQueue[queueIndex].run();
+            }
+        }
+        queueIndex = -1;
+        len = queue.length;
+    }
+    currentQueue = null;
+    draining = false;
+    runClearTimeout(timeout);
+}
+
+process.nextTick = function (fun) {
+    var args = new Array(arguments.length - 1);
+    if (arguments.length > 1) {
+        for (var i = 1; i < arguments.length; i++) {
+            args[i - 1] = arguments[i];
+        }
+    }
+    queue.push(new Item(fun, args));
+    if (queue.length === 1 && !draining) {
+        runTimeout(drainQueue);
+    }
+};
+
+// v8 likes predictible objects
+function Item(fun, array) {
+    this.fun = fun;
+    this.array = array;
+}
+Item.prototype.run = function () {
+    this.fun.apply(null, this.array);
+};
+process.title = 'browser';
+process.browser = true;
+process.env = {};
+process.argv = [];
+process.version = ''; // empty string to avoid regexp issues
+process.versions = {};
+
+function noop() {}
+
+process.on = noop;
+process.addListener = noop;
+process.once = noop;
+process.off = noop;
+process.removeListener = noop;
+process.removeAllListeners = noop;
+process.emit = noop;
+process.prependListener = noop;
+process.prependOnceListener = noop;
+
+process.listeners = function (name) { return [] }
+
+process.binding = function (name) {
+    throw new Error('process.binding is not supported');
+};
+
+process.cwd = function () { return '/' };
+process.chdir = function (dir) {
+    throw new Error('process.chdir is not supported');
+};
+process.umask = function() { return 0; };
+
+},{}],4:[function(require,module,exports){
 var requestFrame = (function () {
   return window.requestAnimationFrame ||
     window.webkitRequestAnimationFrame ||
@@ -1699,7 +1900,86 @@ module.exports = function scrollToY (el, Y, speed) {
   setY()
 }
 
-},{}],4:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
+(function (setImmediate,clearImmediate){
+var nextTick = require('process/browser.js').nextTick;
+var apply = Function.prototype.apply;
+var slice = Array.prototype.slice;
+var immediateIds = {};
+var nextImmediateId = 0;
+
+// DOM APIs, for completeness
+
+exports.setTimeout = function() {
+  return new Timeout(apply.call(setTimeout, window, arguments), clearTimeout);
+};
+exports.setInterval = function() {
+  return new Timeout(apply.call(setInterval, window, arguments), clearInterval);
+};
+exports.clearTimeout =
+exports.clearInterval = function(timeout) { timeout.close(); };
+
+function Timeout(id, clearFn) {
+  this._id = id;
+  this._clearFn = clearFn;
+}
+Timeout.prototype.unref = Timeout.prototype.ref = function() {};
+Timeout.prototype.close = function() {
+  this._clearFn.call(window, this._id);
+};
+
+// Does not start the time, just sets up the members needed.
+exports.enroll = function(item, msecs) {
+  clearTimeout(item._idleTimeoutId);
+  item._idleTimeout = msecs;
+};
+
+exports.unenroll = function(item) {
+  clearTimeout(item._idleTimeoutId);
+  item._idleTimeout = -1;
+};
+
+exports._unrefActive = exports.active = function(item) {
+  clearTimeout(item._idleTimeoutId);
+
+  var msecs = item._idleTimeout;
+  if (msecs >= 0) {
+    item._idleTimeoutId = setTimeout(function onTimeout() {
+      if (item._onTimeout)
+        item._onTimeout();
+    }, msecs);
+  }
+};
+
+// That's not how node.js implements it but the exposed api is the same.
+exports.setImmediate = typeof setImmediate === "function" ? setImmediate : function(fn) {
+  var id = nextImmediateId++;
+  var args = arguments.length < 2 ? false : slice.call(arguments, 1);
+
+  immediateIds[id] = true;
+
+  nextTick(function onNextTick() {
+    if (immediateIds[id]) {
+      // fn.call() is faster so we optimize for the common use-case
+      // @see http://jsperf.com/call-apply-segu
+      if (args) {
+        fn.apply(null, args);
+      } else {
+        fn.call(null);
+      }
+      // Prevent ids from leaking
+      exports.clearImmediate(id);
+    }
+  });
+
+  return id;
+};
+
+exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
+  delete immediateIds[id];
+};
+}).call(this,require("timers").setImmediate,require("timers").clearImmediate)
+},{"process/browser.js":3,"timers":5}],6:[function(require,module,exports){
 class Tonic {
   constructor (node) {
     this.props = {}

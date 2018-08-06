@@ -1084,11 +1084,11 @@ class NotificationBadge extends Tonic { /* global Tonic */
 
 Tonic.add(NotificationBadge)
 
-class NotificationToaster extends Tonic { /* global Tonic */
+class NotificationCenter extends Tonic { /* global Tonic */
   constructor (props) {
     super(props)
 
-    this.root.show = () => this.show()
+    this.root.create = (o) => this.create(o)
     this.root.hide = () => this.hide()
   }
 
@@ -1102,35 +1102,42 @@ class NotificationToaster extends Tonic { /* global Tonic */
   box-sizing: border-box;
 }
 .wrapper {
-  border: 1px solid #f00;
+  user-select: none;
   position: fixed;
+  top: 10px;
   left: 50%;
-  top: 0;
-  transform: translateX(-50%);
-  width: auto;
-  height: auto;
   display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  transform: translateX(-50%);
   visibility: hidden;
-  transition: visibility 0s ease 0.5s;
 }
 .wrapper.show {
   visibility: visible;
-  transition: visibility 0s ease 0s;
-}
-.wrapper.show .toaster {
-  opacity: 1;
 }
 .toaster {
   width: auto;
   max-width: 600px;
   padding-right: 50px;
   margin: 0 auto;
+  margin-top: 10px;
   position: relative;
   background-color: var(--window);
-  box-shadow: 0px 30px 90px -20px rgba(0,0,0,0.3), 0 0 1px #a2a9b1;
+  box-shadow: 0px 10px 40px -20px rgba(0,0,0,0.3), 0 0 1px #a2a9b1;
   border-radius: 3px;
+  -webkit-transform: translateY(-100px);
+  -ms-transform: translateY(-100px);
+  transform: translateY(-100px);
+  transition: opacity 0.2s ease, transform 0s ease 1s;
   z-index: 1;
   opacity: 0;
+}
+.toaster.show {
+  opacity: 1;
+  -webkit-transform: translateY(0);
+  -ms-transform: translateY(0);
+  transform: translateY(0);
+  transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
 }
 .toaster main {
   padding: 15px 20px;
@@ -1165,48 +1172,19 @@ class NotificationToaster extends Tonic { /* global Tonic */
 `
   }
 
-  show () {
-    this.root.firstChild.classList.add('show')
-  }
-
-  hide () {
-    this.root.firstChild.classList.remove('show')
-  }
-
-  click (e) {
-    const el = Tonic.match(e.target, '.close')
-    if (el) this.hide()
-    this.value = {}
-  }
-
-  willConnect () {
-    const {
-      theme,
-      title,
-      message
-    } = this.props
-
-    // const id = this.root.getAttribute('id')
-    if (theme) this.root.classList.add(`theme-${theme}`)
-
-    while (this.root.firstChild) this.root.firstChild.remove()
-
-    // create wrapper
-    const wrapper = document.createElement('div')
-    wrapper.className = 'wrapper'
-
-    // create toaster
+  create ({ message, title, duration } = {}) {
+    this.show()
     const toaster = document.createElement('div')
     toaster.className = 'toaster'
     const main = document.createElement('main')
 
     const titleElement = document.createElement('div')
     titleElement.className = 'title'
-    titleElement.textContent = title
+    titleElement.textContent = title || this.props.title
 
     const messageElement = document.createElement('div')
     messageElement.className = 'message'
-    messageElement.textContent = message
+    messageElement.textContent = message || this.props.message
 
     // create close button
     const close = document.createElement('div')
@@ -1220,24 +1198,59 @@ class NotificationToaster extends Tonic { /* global Tonic */
     const use = document.createElementNS(nsSvg, 'use')
     use.setAttributeNS(nsXlink, 'xlink:href', file)
 
-    // append everything
-    wrapper.appendChild(toaster)
     toaster.appendChild(main)
     main.appendChild(titleElement)
     main.appendChild(messageElement)
     toaster.appendChild(close)
     close.appendChild(svg)
     svg.appendChild(use)
+    this.root.querySelector('.wrapper').appendChild(toaster)
 
-    this.structure = wrapper
+    setImmediate(() => toaster.classList.add('show'))
+
+    if (duration) {
+      setTimeout(() => this.destroy(toaster), duration)
+    }
+  }
+
+  destroy (toaster) {
+    toaster.classList.remove('show')
+    toaster.addEventListener('transitionend', e => {
+      toaster.parentNode.removeChild(toaster)
+    })
+  }
+
+  show () {
+    this.root.firstChild.classList.add('show')
+  }
+
+  hide () {
+    this.root.firstChild.classList.remove('show')
+  }
+
+  click (e) {
+    const el = Tonic.match(e.target, '.close')
+    if (!el) return
+
+    const toaster = el.closest('.toaster')
+    if (toaster) this.destroy(toaster)
   }
 
   render () {
-    return this.structure
+    const {
+      theme
+    } = this.props
+
+    // const id = this.root.getAttribute('id')
+    if (theme) this.root.classList.add(`theme-${theme}`)
+
+    return `
+      <div class="wrapper"></div>
+    `
   }
 }
 
-Tonic.add(NotificationToaster)
+Tonic.add(NotificationCenter)
 
 class ProfileImage extends Tonic { /* global Tonic */
   defaults () {

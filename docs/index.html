@@ -1385,9 +1385,9 @@
 </tr>
 </tbody></table>
 </section><section id="notificationtoaster"><h1 id="notificationtoaster">NotificationToaster</h1>
-<p>The component <code>NotificationToaster</code> creates a notification badge that appears on
-the screen either for a duration or until the user acknowledges it.</p>
+<p>The component <code>NotificationToaster</code> creates a notification badge that appears on the screen either for a duration or until the user acknowledges it.</p>
 <h2 id="demo">Demo</h2>
+<p><notification-center></notification-center></p>
 <table class="example">
   <thead>
     <tr>
@@ -1399,18 +1399,26 @@ the screen either for a duration or until the user acknowledges it.</p>
   <tbody>
     <tr>
       <td>
-        <notification-toaster id="toaster-example-1" title="Toaster" message="Hi, I am a toaster"></notification-toaster>
-        <input-button id="toaster-link-example-1" value="Click to open"></input-button>
+        <input-button id="toaster-link-1" value="Click to open"></input-button>
       </td>
       <td>Default notification toaster</td>
+      <td>
+        <icon-container src="./sprite.svg#code">
+        </icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input-button id="toaster-link-2" value="Click to open"></input-button>
+      </td>
+      <td>Default notification toaster with default props</td>
       <td>
         <icon-container src="./sprite.svg#code"></icon-container>
       </td>
     </tr>
     <tr>
       <td>
-        <notification-toaster id="toaster-example-2" title="Toaster 2" message="Hi, I am a toaster"></notification-toaster>
-        <input-button id="toaster-link-example-2" value="Click to open"></input-button>
+        <input-button id="toaster-link-3" value="Click to open"></input-button>
       </td>
       <td>Default notification toaster</td>
       <td>
@@ -1421,13 +1429,28 @@ the screen either for a duration or until the user acknowledges it.</p>
 </table>
 
 <script>
-  const toasterLink1 = document.getElementById('toaster-link-example-1')
-  const toaster1 = document.getElementById('toaster-example-1')
-  toasterLink1.addEventListener('click', e => toaster1.show())
+  const toaster = document.getElementsByTagName('notification-center')[0]
 
-  const toasterLink2 = document.getElementById('toaster-link-example-2')
-  const toaster2 = document.getElementById('toaster-example-2')
-  toasterLink2.addEventListener('click', e => toaster2.show())
+  const toasterLink1 = document.getElementById('toaster-link-1')
+  toasterLink1.addEventListener('click', e => {
+    toaster.create({ message: 'Hello, World', title: 'Greetings' })
+  })
+
+  const toasterLink2 = document.getElementById('toaster-link-2')
+  toasterLink2.addEventListener('click', e => {
+    toaster.create({
+      title: 'Hello there'
+    })
+  })
+
+  const toasterLink3 = document.getElementById('toaster-link-3')
+  toasterLink3.addEventListener('click', e => {
+    toaster.create({
+      message: 'Will self destruct in 3 seconds',
+      title: 'Howdy',
+      duration: 3e3
+    })
+  })
 </script>
 
 <h2 id="api">Api</h2>

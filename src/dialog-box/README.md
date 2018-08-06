@@ -102,8 +102,8 @@ The component `DialogBox` is used to create a dialog that displays content on to
 | `name` | *string* | Adds a `name` attribute |  |
 | `width` | *string* | Sets the width of the dialog |  |
 | `height` | *string* | Sets the height of the dialog |  |
-| `overlay` | *string* | Adds a background overlay | *true* |
-| `backgroundColor` | *string* | Sets the background color of the overlay | *rgba(0,0,0,0.5)* |
+| `overlay` | *string* | Adds a background overlay | `true` |
+| `backgroundColor` | *string* | Sets the background color of the overlay | `rgba(0,0,0,0.5)` |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
 ### Static Methods & Members

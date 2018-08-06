@@ -53,19 +53,19 @@ The component `InputTextarea` creates a text area.
 | `id` | *string* | Text area with `id` attribute | |
 | `name` | *string* | Text area with `name` attribute | |
 | `placeholder` | *string* | Add placeholder to text area |  |
-| `spellcheck` | *boolean* | Enable spellcheck | *true* |
-| `disabled` | *boolean* | Text area with `disabled` attribute | *false* |
-| `required` | *boolean* | Set text area to `required` | *false* |
-| `readonly` | *boolean* | Set text area to `readonly` | *false* |
-| `autofocus` | *boolean* | Enable `autofocus` on the text area | *false* |
+| `spellcheck` | *boolean* | Enable spellcheck | `true` |
+| `disabled` | *boolean* | Text area with `disabled` attribute | `false` |
+| `required` | *boolean* | Set text area to `required` | `false` |
+| `readonly` | *boolean* | Set text area to `readonly` | `false` |
+| `autofocus` | *boolean* | Enable `autofocus` on the text area | `false` |
 | `resize` | *string* | Set to `none` to disable resize | |
 | `rows` | *string* | Set number of rows |  |
 | `cols` | *string* | Set number of columns |  |
 | `minlength` | *string* | Set minimum character length |  |
 | `maxlength` | *string* | Set maximum character length |  |
 | `width` | *string* | Set width of text area |  |
-| `height` | *string* | Set height of text area | *100%* |
-| `radius` | *string* | Set radius of text area | *2px* |
+| `height` | *string* | Set height of text area | `100%` |
+| `radius` | *string* | Set radius of text area | `2px` |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
 ### Static Methods & Members

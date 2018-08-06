@@ -90,8 +90,7 @@ a {
   transition: all 0.2s ease-in-out;
 }
 ::placeholder {
-  color: #00f;
-  font-size: 1.5em;
+  color: var(--medium);
 }
 .hljs {
   display: block;
@@ -182,103 +181,15 @@ body .theme-picker svg use {
 body .theme-picker svg:hover {
   opacity: 1;
 }
-.hero {
-  margin-top: 100px;
-  margin-bottom: 150px;
-}
-@media (max-width: 850px) {
-  .hero {
-    margin-top: 0;
-  }
-}
-.tooltip {
-  padding: 10px;
-}
-.tooltip h3 {
-  margin: 0;
-}
-.tooltip p {
-  margin: 4px 0;
-  font-size: 12px;
-  line-height: 18px;
-}
-span.req {
-  color: var(--caution);
-  font-style: italic;
-  display: block;
-  float: right;
-}
-ul {
+body ul {
   font: 15px/30px var(--body);
   list-style: none;
   padding: 0;
 }
-ul li {
+body ul li {
   margin: 10px 0;
 }
-table {
-  width: 100%;
-  border-collapse: collapse;
-  border: 1px solid var(--border);
-  text-align: left;
-}
-table.example td:last-of-type,
-table.example th:last-of-type {
-  width: 50px;
-}
-th {
-  font: 13px/16px var(--subheader);
-  font-weight: 400;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  padding: 12px 10px 9px 10px;
-  background-color: var(--background);
-  border-bottom: 1px solid var(--border);
-  border-right: 1px solid var(--border);
-}
-td {
-  line-height: 22px;
-  padding: 15px;
-  border-bottom: 1px solid var(--border);
-}
-td:not(:first-of-type) {
-  border-left: 1px solid var(--border);
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
-}
-tr:last-of-type td {
-  border-bottom: 0;
-}
-td:last-of-type {
-  border-right: 0;
-}
-pre {
-  padding: 15px;
-  white-space: pre-line;
-  border-radius: 3px;
-  border: 1px solid var(--border);
-  background-color: var(--background);
-}
-pre code {
-  border: 0;
-  padding: 0;
-  line-height: 18px;
-  white-space: pre-wrap;
-}
-pre code i {
-  color: #999;
-}
-code {
-  font-size: 14px;
-  padding: 3px 6px;
-  margin: 0 2px;
-  white-space: nowrap;
-  background-color: var(--background);
-  border: 1px solid var(--border);
-  border-radius: 3px;
-}
-nav {
+body > nav {
   width: 300px;
   padding: 60px;
   position: fixed;
@@ -290,11 +201,11 @@ nav {
   box-shadow: 0 0 30px 0px rgba(0,0,0,0.04);
 }
 @media (max-width: 850px) {
-  nav {
+  body > nav {
     display: none;
   }
 }
-nav li a {
+body > nav li a {
   font: 18px var(--header);
   font-weight: 400;
   padding: 5px 8px;
@@ -302,25 +213,26 @@ nav li a {
   border-radius: 3px;
   transition: background-color 0.2s ease;
 }
-nav li a:hover {
+body > nav li a:hover {
   color: var(--accent);
 }
-nav li a.selected {
+body > nav li a.selected {
   color: #fff;
   background-color: var(--accent);
 }
-nav a.logo {
+body > nav a.logo {
   display: inline-block;
   margin-bottom: 10px;
 }
-nav a.logo svg {
+body > nav a.logo svg {
   width: 150px;
 }
-nav a.logo svg use {
+body > nav a.logo svg use {
   fill: var(--primary);
   color: var(--primary);
 }
-main {
+body > main {
+  border: 1px solid #f00;
   padding: 0 60px 60px 20px;
   position: absolute;
   top: 0;
@@ -330,44 +242,132 @@ main {
   overflow: scroll;
 }
 @media (max-width: 850px) {
-  main {
+  body > main {
     left: 0;
     padding: 30px;
   }
 }
-main .logo {
+body > main .logo {
   margin-bottom: 50px;
   display: none;
 }
 @media (max-width: 850px) {
-  main .logo {
+  body > main .logo {
     display: flex;
     justify-content: center;
   }
 }
-main a {
+body > main a {
   border-bottom: 1px solid var(--border);
 }
-main a:hover {
+body > main a:hover {
   color: var(--accent);
   border-bottom-color: var(--accent);
 }
-main section {
+body > main .hero {
+  margin-top: 100px;
+  margin-bottom: 150px;
+}
+@media (max-width: 850px) {
+  body > main .hero {
+    margin-top: 0;
+  }
+}
+body > main .tooltip {
+  padding: 10px;
+}
+body > main .tooltip h3 {
+  margin: 0;
+}
+body > main .tooltip p {
+  margin: 4px 0;
+  font-size: 12px;
+  line-height: 18px;
+}
+body > main span.req {
+  color: var(--caution);
+  font-style: italic;
+  display: block;
+  float: right;
+}
+body > main table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid var(--border);
+  text-align: left;
+}
+body > main table.example td:last-of-type,
+body > main table.example th:last-of-type {
+  width: 50px;
+}
+body > main th {
+  font: 13px/16px var(--subheader);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 12px 10px 9px 10px;
+  background-color: var(--background);
+  border-bottom: 1px solid var(--border);
+  border-right: 1px solid var(--border);
+}
+body > main td {
+  line-height: 22px;
+  padding: 15px;
+  border-bottom: 1px solid var(--border);
+}
+body > main td:not(:first-of-type) {
+  border-left: 1px solid var(--border);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+body > main tr:last-of-type td {
+  border-bottom: 0;
+}
+body > main td:last-of-type {
+  border-right: 0;
+}
+body > main pre {
+  padding: 15px;
+  white-space: pre-line;
+  border-radius: 3px;
+  border: 1px solid var(--border);
+  background-color: var(--background);
+}
+body > main pre code {
+  border: 0;
+  padding: 0;
+  line-height: 18px;
+  white-space: pre-wrap;
+}
+body > main pre code i {
+  color: #999;
+}
+body > main code {
+  font-size: 14px;
+  padding: 3px 6px;
+  margin: 0 2px;
+  white-space: nowrap;
+  background-color: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+}
+body > main section {
   max-width: 800px;
   padding-bottom: 60px;
 }
-main section:not(:first-of-type) {
+body > main section:not(:first-of-type) {
   border-top: 2px solid var(--border);
 }
-main footer {
+body > main footer {
   max-width: 800px;
   text-align: center;
   padding: 0 50px 50px 50px;
 }
-main footer a {
+body > main footer a {
   border-bottom: 0;
 }
-main footer span {
+body > main footer span {
   color: var(--secondary);
   font: 13px var(--subheader);
   font-weight: 600;
@@ -376,56 +376,56 @@ main footer span {
   display: inline-block;
   transition: all 0.2s ease-in-out;
 }
-main footer svg {
+body > main footer svg {
   height: 30px;
   width: 175px;
   margin: 0 auto;
   display: block;
 }
-main footer svg use {
+body > main footer svg use {
   fill: var(--secondary);
   color: var(--secondary);
   transition: all 0.2s ease-in-out;
 }
-main footer:hover span {
+body > main footer:hover span {
   color: var(--primary);
 }
-main footer:hover svg use {
+body > main footer:hover svg use {
   fill: var(--primary);
   color: var(--primary);
 }
-#intro {
+body #intro {
   padding-top: 100px;
 }
-#intro svg {
+body #intro svg {
   width: 200px;
 }
-#intro svg use {
+body #intro svg use {
   fill: var(--primary);
   color: var(--primary);
 }
-#intro p:not(.intro-copy) {
+body #intro p:not(.intro-copy) {
   font-size: 17px;
   line-height: 28px;
 }
-#intro .col {
+body #intro .col {
   width: 50%;
   display: table-cell;
   padding: 10px 0px;
   padding-right: 30px;
 }
-#intro .col li {
+body #intro .col li {
   font-size: 18px;
 }
-#intro input-button {
+body #intro input-button {
   text-align: center;
   margin: 50px 0;
   display: block;
 }
-#intro span.first-word {
+body #intro span.first-word {
   color: var(--primary);
 }
-#intro p.intro-copy {
+body #intro p.intro-copy {
   color: var(--medium);
   max-width: 670px;
   font: 30px var(--header);

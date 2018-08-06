@@ -1097,7 +1097,7 @@ class NotificationBadge extends Tonic { /* global Tonic */
   border-radius: 8px;
 }
 .notifications span {
-  color: var(--window);
+  color: var(--primary);
   font: 15px var(--subheader);
   letter-spacing: 1px;
   text-align: center;

@@ -59,15 +59,15 @@ The component `InputButton` creates a button.
 | :--- | :--- | :--- | :--- |
 | `id` | *string* | Button with `id` attribute | |
 | `name` | *string* | Button with a `name` attribute | |
-| `value` | *string* | Value of the button <span class="req">required</span> | *Submit* |
-| `type` | *string* | Type of button (i.e. submit) | *submit* |
-| `disabled` | *boolean* | Button with the `disabled` attribute | *false* |
-| `autofocus` | *boolean* | Button with the `autofocus` attribute | *false* |
-| `isLoading` | *boolean* | Loading button | *false* |
-| `isActive` | *boolean* | Active button | *false* |
-| `width` | *string* | Width of the button | *150px* |
-| `height` | *string* | Height of the button | *38px* |
-| `radius` | *string* | Radius of the button | *2px* |
+| `value` | *string* | Value of the button <span class="req">required</span> | `Submit` |
+| `type` | *string* | Type of button (i.e. submit) | `submit` |
+| `disabled` | *boolean* | Button with the `disabled` attribute | `false` |
+| `autofocus` | *boolean* | Button with the `autofocus` attribute | `false` |
+| `isLoading` | *boolean* | Loading button | `false` |
+| `isActive` | *boolean* | Active button | `false` |
+| `width` | *string* | Width of the button | `150px` |
+| `height` | *string* | Height of the button | `38px` |
+| `radius` | *string* | Radius of the button | `2px` |
 | `fill` | *string* | Filled button |  |
 | `textColor` | *string* | TextColor of the button |  |
 | `href` | *string* | Add a location (url) for click event | |

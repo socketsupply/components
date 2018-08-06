@@ -52,8 +52,8 @@ The component `InputToggle` creates a toggle.
 | :--- | :--- | :--- | :--- |
 | `id` | *string* | Adds the <code>id</code> attribute <span class="req">required</span> | |
 | `name` | *string* | Adds the <code>name</code> attributes | |
-| `disabled` | *boolean* | Makes the toggle disabled | *false* |
-| `checked` | *boolean* | Turns the toggle "on" | *false* |
+| `disabled` | *boolean* | Makes the toggle disabled | `false` |
+| `checked` | *boolean* | Turns the toggle "on" | `false` |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
 ### Static Methods & Members

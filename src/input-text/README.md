@@ -95,13 +95,13 @@ The component `InputText` creates an input, with or without a label.
 | :--- | :--- | :--- | :--- |
 | `id` | *string* | Input with `id` attribute | |
 | `name` | *string* | Input with `name` attribute | |
-| `type` | *string* | Type of input (text, password, email) | *text* |
-| `required` | *boolean* | Makes the input required | *false* |
-| `disabled` | *boolean* | Makes the input disabled | *false* |
-| `spellcheck` | *boolean* | Enable spellcheck on the input | *false* |
-| `isinvalid` | *boolean* | Indicates input error | *false* |
-| `placeholder` | *string* | Inserts placeholder text | *none* |
-| `width` | *string* | Width of the input | *250px* |
+| `type` | *string* | Type of input (text, password, email) | `text` |
+| `required` | *boolean* | Makes the input required | `false` |
+| `disabled` | *boolean* | Makes the input disabled | `false` |
+| `spellcheck` | *boolean* | Enable spellcheck on the input | `false` |
+| `isinvalid` | *boolean* | Indicates input error | `false` |
+| `placeholder` | *string* | Inserts placeholder text | `none` |
+| `width` | *string* | Width of the input | `250px` |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
 ### Static Methods & Members

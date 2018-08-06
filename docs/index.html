@@ -1388,6 +1388,120 @@
 <p>The component <code>NotificationToaster</code> creates a notification badge that appears on
 the screen either for a duration or until the user acknowledges it.</p>
 <h2 id="demo">Demo</h2>
+<table class="example">
+  <thead>
+    <tr>
+      <th>Example</th>
+      <th>Description</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <notification-toaster id="toaster-example-1" message="This is a toaster!"></notification-toaster>
+        <input-button id="toaster-link-example-1" value="Click to open"></input-button>
+      </td>
+      <td>Default notification toaster</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<script>
+  const toasterLink1 = document.getElementById('toaster-link-example-1')
+  const toaster1 = document.getElementById('toaster-example-1')
+  toasterLink1.addEventListener('click', e => toaster1.show())
+</script>
+
+<h2 id="api">Api</h2>
+<h3 id="properties">Properties</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>id</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds an <code>id</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>name</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a <code>name</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>type</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a type (success, warn, danger)</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>width</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Sets the width of the toaster</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>height</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Sets the height of the toaster</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>overlay</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a background overlay</td>
+<td align="left"><code>true</code></td>
+</tr>
+<tr>
+<td align="left"><code>backgroundColor</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Sets the background color of the overlay</td>
+<td align="left"><code>rgba(0,0,0,0.5)</code></td>
+</tr>
+<tr>
+<td align="left"><code>theme</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
+<td align="left"><code>light</code></td>
+</tr>
+</tbody></table>
+<h3 id="static-methods-members">Static Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
 </section><section id="profileimage"><h1 id="profileimage">ProfileImage</h1>
 <p>The component <code>ProfileImage</code> is used to create an SVG icon with a custom size and color.</p>
 <h2 id="demo">Demo</h2>

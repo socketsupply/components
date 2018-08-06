@@ -332,6 +332,8 @@ class DialogBox extends Tonic { /* global Tonic */
     // create template
     const template = document.querySelector(`template[for="${id}"]`)
     const clone = document.importNode(template.content, true)
+
+    // close button
     const close = document.createElement('div')
     close.className = 'close'
 
@@ -895,10 +897,10 @@ class InputToggle extends Tonic { /* global Tonic */
 }
 .switch input.toggle {
   position: absolute;
+  display: none;
   outline: none;
   user-select: none;
   z-index: 1;
-  display: none;
 }
 .switch input.toggle + label {
   width: 42px;
@@ -918,8 +920,8 @@ class InputToggle extends Tonic { /* global Tonic */
   position: absolute;
   top: 1px;
   left: 1px;
-  bottom: 1px;
   right: 1px;
+  bottom: 1px;
   display: block;
   border-radius: 60px;
   transition: background 0.4s ease-in-out;
@@ -929,8 +931,8 @@ class InputToggle extends Tonic { /* global Tonic */
   background-color: var(--border);
 }
 .switch input.toggle + label:after {
-  content: ' ';
-  width: 20px;
+  content: '';
+  width: 16px;
   position: absolute;
   top: 4px;
   left: 4px;
@@ -1083,21 +1085,138 @@ class NotificationBadge extends Tonic { /* global Tonic */
 Tonic.add(NotificationBadge)
 
 class NotificationToaster extends Tonic { /* global Tonic */
+  constructor (props) {
+    super(props)
+
+    this.root.show = () => this.show()
+    this.root.hide = () => this.hide()
+  }
+
   defaults () {
-    return {}
+    return {
+    }
   }
 
   style () {
-    return ``
+    return `* {
+  box-sizing: border-box;
+}
+.wrapper {
+  display: flex;
+  visibility: hidden;
+  transition: visibility 0s ease 0.5s;
+}
+.wrapper.show {
+  visibility: visible;
+  transition: visibility 0s ease 0s;
+}
+.wrapper.show .toaster {
+  opacity: 1;
+  -webkit-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+}
+.toaster {
+  width: auto;
+  max-width: 600px;
+  padding-right: 50px;
+  margin: 0 auto;
+  position: fixed;
+  top: 20px;
+  background-color: var(--window);
+  box-shadow: 0px 30px 90px -20px rgba(0,0,0,0.3), 0 0 1px #a2a9b1;
+  border-radius: 4px;
+  -webkit-transform: scale(0.8);
+  -ms-transform: scale(0.8);
+  transform: scale(0.8);
+  transition: all 0.3s ease-in-out;
+  z-index: 1;
+  opacity: 0;
+}
+.toaster main {
+  padding: 20px;
+}
+.toaster .close {
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+.toaster .close svg {
+  width: 100%;
+  height: 100%;
+}
+.toaster .close svg use {
+  fill: var(--primary);
+  color: var(--primary);
+}
+`
+  }
+
+  show () {
+    this.root.firstChild.classList.add('show')
+  }
+
+  hide () {
+    this.root.firstChild.classList.remove('show')
+  }
+
+  click (e) {
+    const el = Tonic.match(e.target, '.close')
+    if (el) this.hide()
+    this.value = {}
+  }
+
+  willConnect () {
+    const {
+      theme,
+      message
+    } = this.props
+
+    // const id = this.root.getAttribute('id')
+    if (theme) this.root.classList.add(`theme-${theme}`)
+
+    while (this.root.firstChild) this.root.firstChild.remove()
+
+    // create wrapper
+    const wrapper = document.createElement('div')
+    wrapper.className = 'wrapper'
+
+    // create toaster
+    const toaster = document.createElement('div')
+    toaster.className = 'toaster'
+    const main = document.createElement('main')
+    main.textContent = message
+
+    // create close button
+    const close = document.createElement('div')
+    close.className = 'close'
+
+    // create svg
+    const file = './sprite.svg#close'
+    const nsSvg = 'http://www.w3.org/2000/svg'
+    const nsXlink = 'http://www.w3.org/1999/xlink'
+    const svg = document.createElementNS(nsSvg, 'svg')
+    const use = document.createElementNS(nsSvg, 'use')
+    use.setAttributeNS(nsXlink, 'xlink:href', file)
+
+    // append everything
+    wrapper.appendChild(toaster)
+    toaster.appendChild(main)
+    toaster.appendChild(close)
+    close.appendChild(svg)
+    svg.appendChild(use)
+
+    this.structure = wrapper
   }
 
   render () {
-    const {
-      theme
-    } = this.props
-
-    if (theme) this.root.classList.add(`theme-${theme}`)
-    return `<div></div>`
+    return this.structure
   }
 }
 

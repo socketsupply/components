@@ -75,6 +75,8 @@ class DialogBox extends Tonic { /* global Tonic */
     // create template
     const template = document.querySelector(`template[for="${id}"]`)
     const clone = document.importNode(template.content, true)
+
+    // close button
     const close = document.createElement('div')
     close.className = 'close'
 

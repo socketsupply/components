@@ -122,11 +122,11 @@ a {
 .hljs-quote,
 .hljs-template-tag,
 .hljs-deletion {
-  color: #4d99bf;
+  color: #f06653;
 }
 .hljs-title,
 .hljs-section {
-  color: #4d99bf;
+  color: #f06653;
   font-weight: bold;
 }
 .hljs-regexp,
@@ -136,16 +136,16 @@ a {
 .hljs-link,
 .hljs-selector-attr,
 .hljs-selector-pseudo {
-  color: #4d99bf;
+  color: #f06653;
 }
 .hljs-literal {
-  color: #4d99bf;
+  color: #f06653;
 }
 .hljs-built_in,
 .hljs-bullet,
 .hljs-code,
 .hljs-addition {
-  color: #4d99bf;
+  color: #f06653;
 }
 .hljs-meta {
   color: #1f7199;

@@ -300,7 +300,7 @@ class DialogBox extends Tonic { /* global Tonic */
       overlay,
       theme,
       backgroundColor
-    } = { ...this.defaults, ...this.props }
+    } = this.props
 
     const id = this.root.getAttribute('id')
     if (theme) this.root.classList.add(`theme-${theme}`)
@@ -382,7 +382,7 @@ class IconContainer extends Tonic { /* global Tonic */
       size,
       theme,
       src
-    } = { ...this.defaults, ...this.props }
+    } = this.props
 
     if (theme) this.root.classList.add(`theme-${theme}`)
 
@@ -463,7 +463,7 @@ button:not([disabled]):hover {
       theme,
       fill,
       textColor
-    } = { ...this.defaults, ...this.props }
+    } = this.props
 
     if (theme) this.root.classList.add(`theme-${theme}`)
 
@@ -548,7 +548,6 @@ svg {
   }
 
   change (e) {
-    console.log('CHANGE')
     const state = this.props.checked = !this.props.checked
     const props = { ...this.defaults, ...this.props }
     const file = props[state ? 'on' : 'off']
@@ -583,6 +582,8 @@ svg {
       off,
       size
     } = this.props
+
+    console.log('>>', this.props)
 
     if (theme) this.classList.add(`theme-${theme}`)
 
@@ -708,7 +709,7 @@ input:focus {
       theme,
       radius,
       position
-    } = { ...this.defaults, ...this.props }
+    } = this.props
 
     const idAttr = id ? `id="${id}"` : ''
     const nameAttr = name ? `name="${name}"` : ''
@@ -819,7 +820,7 @@ label {
       theme,
       radius,
       resize
-    } = { ...this.defaults, ...this.props }
+    } = this.props
 
     const idAttr = id ? `id="${id}"` : ''
     const nameAttr = name ? `name="${name}"` : ''
@@ -984,9 +985,15 @@ class InputToggle extends Tonic { /* global Tonic */
       disabled,
       theme,
       checked
-    } = { ...this.defaults, ...this.props }
+    } = this.props
 
     if (theme) this.root.classList.add(`theme-${theme}`)
+
+    //
+    // the id attribute can be removed to the input
+    // and added to the input inside the component.
+    //
+    this.root.removeAttribute('id')
 
     const nameAttr = name ? `name="${name}"` : ''
 
@@ -1052,9 +1059,15 @@ class NotificationBadge extends Tonic { /* global Tonic */
     let {
       count,
       theme
-    } = { ...this.defaults, ...this.props }
+    } = this.props
 
     if (theme) this.root.classList.add(`theme-${theme}`)
+
+    //
+    // the id attribute can be removed to the input
+    // and added to the input inside the component.
+    //
+    this.root.removeAttribute('id')
 
     count = '23'
 
@@ -1080,7 +1093,7 @@ class NotificationToaster extends Tonic { /* global Tonic */
   render () {
     const {
       theme
-    } = { ...this.defaults, ...this.props }
+    } = this.props
 
     if (theme) this.root.classList.add(`theme-${theme}`)
     return `<div></div>`
@@ -1146,7 +1159,7 @@ class ProfileImage extends Tonic { /* global Tonic */
       border,
       theme,
       editable
-    } = { ...this.defaults, ...this.props }
+    } = this.props
 
     const idAttr = id ? `id="${id}"` : ''
     const nameAttr = name ? `name="${name}"` : ''
@@ -1379,7 +1392,7 @@ class TabMenu extends Tonic { /* global Tonic */
   render () {
     let {
       theme
-    } = { ...this.defaults, ...this.props }
+    } = this.props
 
     if (theme) this.root.classList.add(`theme-${theme}`)
 

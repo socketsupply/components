@@ -29,6 +29,12 @@ class InputToggle extends Tonic { /* global Tonic */
 
     if (theme) this.root.classList.add(`theme-${theme}`)
 
+    //
+    // the id attribute can be removed to the input
+    // and added to the input inside the component.
+    //
+    this.root.removeAttribute('id')
+
     const nameAttr = name ? `name="${name}"` : ''
 
     return `

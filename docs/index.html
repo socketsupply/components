@@ -1933,10 +1933,10 @@ the screen either for a duration or until the user acknowledges it.</p>
   <section id="custom">
     <h1 id="custom-components">Custom Components</h1>
 <h2 id="getting-started">Getting Started</h2>
-<p>Building a component starts with creating a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes">Javascript Class</a>. The class
+<p>Building a component starts with creating a [Javascript Class][0]. The class
 should have at least one method named <em>render</em> which usually returns a string
 of html.</p>
-<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ExampleComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Greeting</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   <span class="hljs-comment">//</span>
   <span class="hljs-comment">// The render function can return a string of html, it can include other</span>
   <span class="hljs-comment">// components as well. It can also return a dom node, we'll talk about</span>
@@ -1947,18 +1947,21 @@ of html.</p>
   }
 }</code></pre>
 <p>Next, you can tell the browser about your new class and it will create a custom
-html tag for it. There is a weird rule about <a href="https://developers.google.com/web/fundamentals/web-components/customelements">custom tags</a>, they must be two
-or more words. <code>FooBar</code>, is ok, <code>Bar</code> won&#39;t work.</p>
-<pre><code class="language-js">Tonic.<span class="hljs-builtin-name">add</span>(ExampleComponent)</code></pre>
-<p>Then, add your Javascript to your html and now you can now use your new component
-anywhere in your html.</p>
+html tag for it.</p>
+<p>How you name your class will determine the tag name of your component. The name
+For example, a class named <code>MyGreeting</code> will become <code>&lt;my-greeting&gt;&lt;/my-greeting&gt;</code>,
+and a class named <code>Greeting</code> will become <code>&lt;greeting&gt;&lt;/greeting&gt;</code>.</p>
+<pre><code class="language-js">Tonic.<span class="hljs-builtin-name">add</span>(Greeting)</code></pre>
+<p>Then, add your Javascript to your html and now you can now use your new
+component anywhere in your html. The browser may do weird things if you don&#39;t
+use a closing tag.</p>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"index.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
 
   <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">example-component</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">example-component</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">greeting</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">greeting</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
 <p>The result, when rendered by the browser, will be that the html
@@ -1971,30 +1974,25 @@ programmer using it, making their reality a little simpler.</p>
   <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
 
   <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">example-component</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">greeting</span>&gt;</span>
       <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>Hello, World.<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">example-component</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">greeting</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
 <h2 id="registering-components">Registering Components</h2>
-<p>You must register your components before they can be used. If you specify the
-&quot;shadow&quot; option, your components will render into a <code>shadow dom</code>.</p>
-<pre><code class="language-js"><span class="hljs-selector-tag">Tonic</span><span class="hljs-selector-class">.add</span>(<span class="hljs-selector-tag">ComponentA</span>, { <span class="hljs-attribute">shadow</span>: true })
-<span class="hljs-selector-tag">Tonic</span><span class="hljs-selector-class">.add</span>(<span class="hljs-selector-tag">ComponentB</span>)</code></pre>
+<p>You must register your components before they can be used. Your first component
+should generally be added after the DOM is ready.</p>
+<pre><code class="language-js">Tonic.<span class="hljs-builtin-name">add</span>(Greeting)</code></pre>
 <h2 id="embedding-style-sheets">Embedding Style Sheets</h2>
-<p>If you create your component with a <code>shadow dom</code>, you can add a stylesheet to
-your component that won&#39;t affect the rest of the page. This is really nice if
-you plan to package and ship your component to other developers.</p>
-<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ExampleComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
-  constructor () {
-    <span class="hljs-keyword">super</span>()
+<p>You can add styles to your component that won&#39;t affect the rest of the page.</p>
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Example</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+  style () {
 
     <span class="hljs-comment">//</span>
-    <span class="hljs-comment">// Your stylesheet will not affect any other part of the page. Since we are</span>
-    <span class="hljs-comment">// using Web Components, this doesn't require any hacks — hacks that can</span>
-    <span class="hljs-comment">// make debugging more difficult.</span>
+    <span class="hljs-comment">// When this component is registered, the css will be prefixed by the name</span>
+    <span class="hljs-comment">// of the tag and then added to a stylesheet in the head of the document.</span>
     <span class="hljs-comment">//</span>
-    <span class="hljs-keyword">this</span>.stylesheet = `
+    <span class="hljs-keyword">return</span> `
       div {
         display: inline-block;
         border: <span class="hljs-number">1</span>px dotted #<span class="hljs-number">666</span>;
@@ -2012,31 +2010,27 @@ you plan to package and ship your component to other developers.</p>
 <h2 id="listening-for-events">Listening For Events</h2>
 <p>Tonic helps you capture events that happen when someone interacts with your
 component. It also helps you organize that code.</p>
-<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ExampleComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Example</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   <span class="hljs-comment">//</span>
   <span class="hljs-comment">// You can listen to any dom event that happens in your component</span>
   <span class="hljs-comment">// by creating a method with the corresponding name. The method will</span>
   <span class="hljs-comment">// receive the plain old Javascript event object.</span>
   <span class="hljs-comment">//</span>
-  mouseover (e, target) {
+  mouseover (e) {
     <span class="hljs-comment">// ...</span>
   }
 
-  <span class="hljs-comment">//</span>
-  <span class="hljs-comment">// Events that do not normally propagate from the shadow DOM to the standard</span>
-  <span class="hljs-comment">// DOM will still call your event methods.</span>
-  <span class="hljs-comment">//</span>
-  change (e, target) {
+  change (e) {
     <span class="hljs-comment">// ...</span>
   }
 
-  click (e, target) {
+  click (e) {
     <span class="hljs-comment">//</span>
     <span class="hljs-comment">// Often you'll want to check what element in the component was actually</span>
-    <span class="hljs-comment">// clicked. The target attribute will always return the actual element</span>
-    <span class="hljs-comment">// that was clicked, regardless of what part of the dom it originated.</span>
+    <span class="hljs-comment">// clicked. You can also check the `e.path` attribute to see what was</span>
+    <span class="hljs-comment">// clicked (this is helpful when handling clicks on top of SVGs).</span>
     <span class="hljs-comment">//</span>
-    <span class="hljs-keyword">if</span> (!target.matches('.parent')) <span class="hljs-keyword">return</span>
+    <span class="hljs-keyword">if</span> (!e.target.matches('.parent')) <span class="hljs-keyword">return</span>
 
     <span class="hljs-comment">// ...</span>
   }
@@ -2128,15 +2122,27 @@ will automatically be parsed into json for you. Don&#39;t forget single quotes!<
 </tr>
 </thead>
 <tbody><tr>
+<td align="left"><code>emit(String, Object)</code></td>
+<td align="left">Emit a custom event on the root element of the component. A listener will receive a plain old javascript event object that contains the <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Creating_and_triggering_events"><code>detail</code></a> property.</td>
+</tr>
+<tr>
 <td align="left"><code>setProps(Object)</code></td>
-<td align="left">Set the properties of a component instance.</td>
+<td align="left">Set the properties of a component instance. Can also take a function which will receive the current props as an argument.</td>
+</tr>
+<tr>
+<td align="left"><code>setState(Object)</code></td>
+<td align="left">Set the state of a component instance. Can also take a function which will receive the current props as an argument.</td>
+</tr>
+<tr>
+<td align="left"><code>style()</code></td>
+<td align="left">Returns a string of css to be inlined with the component. This will be &quot;scoped&quot; so that it does not affect the rest of the page. It will also persist across rerenders to save on parsing costs.</td>
 </tr>
 <tr>
 <td align="left"><code>render()</code></td>
 <td align="left">Returns html to be parsed or a dom node that will overwrite. There is usually no need to call this directly, prefer <code>componentInstance.setProps({ ... })</code>.</td>
 </tr>
 <tr>
-<td align="left">html`...`</td>
+<td align="left"><code>html\</code>...``</td>
 <td align="left">Tidy up an html string (use as a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals">tagged template</a>).</td>
 </tr>
 </tbody></table>
@@ -2151,8 +2157,8 @@ component (as well as a few others).</p>
 </tr>
 </thead>
 <tbody><tr>
-<td align="left"><code>constructor()</code></td>
-<td align="left">An instance of the element is created or upgraded. Useful for initializing state, settings up event listeners, or creating shadow dom. See the spec for restrictions on what you can do in the constructor.</td>
+<td align="left"><code>constructor(props)</code></td>
+<td align="left">An instance of the element is created or upgraded. Useful for initializing state, settings up event listeners, or creating shadow dom. See the spec for restrictions on what you can do in the constructor. A constructor must call <code>super(props)</code>.</td>
 </tr>
 <tr>
 <td align="left"><code>willConnect()</code></td>
@@ -2170,16 +2176,11 @@ component (as well as a few others).</p>
 <td align="left"><code>updated(oldProps)</code></td>
 <td align="left">Called after setProps() is called. This method is not called on the initial render.</td>
 </tr>
-<tr>
-<td align="left"><code>attributeChanged(attrName, oldVal, newVal)</code></td>
-<td align="left">Called when an observed attribute has been added, removed, updated, or replaced. Also called for initial values when an element is created by the parser, or upgraded. Note: only attributes listed in the observedAttributes property will receive this callback.</td>
-</tr>
-<tr>
-<td align="left"><code>adopted()</code></td>
-<td align="left">The custom element has been moved into a new document (e.g. someone called document.adoptNode(el)).</td>
-</tr>
 </tbody></table>
-<p>More details on <a href="https://developers.google.com/web/fundamentals/web-components/customelements">Github</a></p>
+<h2 id="events">EVENTS</h2>
+<p>Any method defined on your class that matches a dom method will be called when
+the event is fired. Events that do not normally propagate from the shadow DOM to
+the standard DOM will still call your event methods.</p>
 
   </section>
 

@@ -7,7 +7,7 @@ should have at least one method named *render* which usually returns a string
 of html.
 
 ```js
-class ExampleComponent extends Tonic {
+class Greeting extends Tonic {
   //
   // The render function can return a string of html, it can include other
   // components as well. It can also return a dom node, we'll talk about
@@ -20,15 +20,19 @@ class ExampleComponent extends Tonic {
 ```
 
 Next, you can tell the browser about your new class and it will create a custom
-html tag for it. There is a weird rule about [custom tags][1], they must be two
-or more words. `FooBar`, is ok, `Bar` won't work.
+html tag for it.
+
+How you name your class will determine the tag name of your component. The name
+For example, a class named `MyGreeting` will become `<my-greeting></my-greeting>`,
+and a class named `Greeting` will become `<greeting></greeting>`.
 
 ```js
-Tonic.add(ExampleComponent)
+Tonic.add(Greeting)
 ```
 
-Then, add your Javascript to your html and now you can now use your new component
-anywhere in your html.
+Then, add your Javascript to your html and now you can now use your new
+component anywhere in your html. The browser may do weird things if you don't
+use a closing tag.
 
 ```html
 <html>
@@ -37,7 +41,7 @@ anywhere in your html.
   </head>
 
   <body>
-    <example-component></example-component>
+    <greeting></greeting>
   </body>
 </html>
 ```
@@ -54,40 +58,36 @@ programmer using it, making their reality a little simpler.
   </head>
 
   <body>
-    <example-component>
+    <greeting>
       <div>Hello, World.</div>
-    </example-component>
+    </greeting>
   </body>
 </html>
 ```
 
 ## Registering Components
 
-You must register your components before they can be used. If you specify the
-"shadow" option, your components will render into a `shadow dom`.
+You must register your components before they can be used. Your first component
+should generally be added after the DOM is ready.
 
 ```js
-Tonic.add(ComponentA, { shadow: true })
-Tonic.add(ComponentB)
+Tonic.add(Greeting)
 ```
 
 ## Embedding Style Sheets
 
-If you create your component with a `shadow dom`, you can add a stylesheet to
-your component that won't affect the rest of the page. This is really nice if
-you plan to package and ship your component to other developers.
+You can add styles to your component that won't affect the rest of the page.
+
 
 ```js
-class ExampleComponent extends Tonic {
-  constructor () {
-    super()
+class Example extends Tonic {
+  style () {
 
     //
-    // Your stylesheet will not affect any other part of the page. Since we are
-    // using Web Components, this doesn't require any hacks — hacks that can
-    // make debugging more difficult.
+    // When this component is registered, the css will be prefixed by the name
+    // of the tag and then added to a stylesheet in the head of the document.
     //
-    this.stylesheet = `
+    return `
       div {
         display: inline-block;
         border: 1px dotted #666;
@@ -110,31 +110,27 @@ Tonic helps you capture events that happen when someone interacts with your
 component. It also helps you organize that code.
 
 ```js
-class ExampleComponent extends Tonic {
+class Example extends Tonic {
   //
   // You can listen to any dom event that happens in your component
   // by creating a method with the corresponding name. The method will
   // receive the plain old Javascript event object.
   //
-  mouseover (e, target) {
+  mouseover (e) {
     // ...
   }
 
-  //
-  // Events that do not normally propagate from the shadow DOM to the standard
-  // DOM will still call your event methods.
-  //
-  change (e, target) {
+  change (e) {
     // ...
   }
 
-  click (e, target) {
+  click (e) {
     //
     // Often you'll want to check what element in the component was actually
-    // clicked. The target attribute will always return the actual element
-    // that was clicked, regardless of what part of the dom it originated.
+    // clicked. You can also check the `e.path` attribute to see what was
+    // clicked (this is helpful when handling clicks on top of SVGs).
     //
-    if (!target.matches('.parent')) return
+    if (!e.target.matches('.parent')) return
 
     // ...
   }
@@ -167,6 +163,24 @@ Alternatively, you can call the `setProps(...)` method on the element directly.
 
 ```js
 document.getElementById('parent').setProps(data)
+```
+
+## Exposing methods on your component
+
+Sometimes you want to expose a method for other people to use. All your
+component's methods are private by default! Here's how to make them accessible.
+
+```js
+class ExampleComponent extends Tonic {
+  constructor (props) {
+    super(props)
+    this.root.exampleMethod = (...args) => this.exampleMethod(...args)
+  }
+
+  exampleMethod (...args) {
+    // ...
+  }
+}
 ```
 
 ## Pre-Renderng and optimizing for performance
@@ -226,9 +240,12 @@ class AnotherThing extends Tonic {
 
 | Method | Description |
 | :--- | :--- |
-| `setProps(Object)` | Set the properties of a component instance. |
+| `emit(String, Object)` | Emit a custom event on the root element of the component. A listener will receive a plain old javascript event object that contains the [`detail`][4] property. |
+| `setProps(Object)` | Set the properties of a component instance. Can also take a function which will receive the current props as an argument. |
+| `setState(Object)` | Set the state of a component instance. Can also take a function which will receive the current props as an argument. |
+| `style()` | Returns a string of css to be inlined with the component. This will be "scoped" so that it does not affect the rest of the page. It will also persist across rerenders to save on parsing costs. |
 | `render()` | Returns html to be parsed or a dom node that will overwrite. There is usually no need to call this directly, prefer `componentInstance.setProps({ ... })`. |
-| html\`...\` | Tidy up an html string (use as a [tagged template][2]). |
+| `html\`...\`` | Tidy up an html string (use as a [tagged template][2]). |
 
 ## "LIFECYCLE" INSTANCE METHODS
 
@@ -237,17 +254,18 @@ component (as well as a few others).
 
 | Method | Description |
 | :--- | :--- |
-| `constructor()` | An instance of the element is created or upgraded. Useful for initializing state, settings up event listeners, or creating shadow dom. See the spec for restrictions on what you can do in the constructor. |
+| `constructor(props)` | An instance of the element is created or upgraded. Useful for initializing state, settings up event listeners, or creating shadow dom. See the spec for restrictions on what you can do in the constructor. A constructor must call `super(props)`. |
 | `willConnect()` | Called prior to the element being inserted into the DOM. Useful for updating configuration, state and preparing for the render. |
 | `connected()` | Called every time the element is inserted into the DOM. Useful for running setup code, such as fetching resources or rendering. Generally, you should try to delay work until this time. |
 | `disconnected()` | Called every time the element is removed from the DOM. Useful for running clean up code. |
 | `updated(oldProps)` | Called after setProps() is called. This method is not called on the initial render. |
-| `attributeChanged(attrName, oldVal, newVal)` | Called when an observed attribute has been added, removed, updated, or replaced. Also called for initial values when an element is created by the parser, or upgraded. Note: only attributes listed in the observedAttributes property will receive this callback. |
-| `adopted()` | The custom element has been moved into a new document (e.g. someone called document.adoptNode(el)). |
 
-More details on [Github][1]
+## EVENTS
+Any method defined on your class that matches a dom method will be called when
+the event is fired. 
 
-[0]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
 [1]:https://developers.google.com/web/fundamentals/web-components/customelements
 [2]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
 [3]:https://github.com/mathiasbynens/he
+[4]:https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Creating_and_triggering_events
+

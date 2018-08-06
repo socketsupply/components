@@ -41,6 +41,13 @@ The component `InputTextarea` creates a text area.
         <icon-container src="./sprite.svg#code"></icon-container>
       </td>
     </tr>
+    <tr>
+      <td><input-textarea label="Disabled Text Area" disabled></input-textarea></td>
+      <td>Text area with `disabled` attribute and label</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
   </tbody>
 </table>
 

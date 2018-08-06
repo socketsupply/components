@@ -1066,6 +1066,13 @@
         <icon-container src="./sprite.svg#code"></icon-container>
       </td>
     </tr>
+    <tr>
+      <td><input-textarea label="Disabled Text Area" disabled></input-textarea></td>
+      <td>Text area with `disabled` attribute and label</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
   </tbody>
 </table>
 
@@ -1570,6 +1577,7 @@
 </section><section id="notificationinline"><h1 id="notificationinline">NotificationInline</h1>
 <p>The component <code>NotificationInline</code> creates a notification badge that appears on the screen either for a duration or until the user acknowledges it.</p>
 <h2 id="demo">Demo</h2>
+<p>The following examples are inline notifications without a specified <code>type</code>.</p>
 <table class="example">
   <thead>
     <tr>
@@ -1581,18 +1589,123 @@
   <tbody>
     <tr>
       <td>
-        <input-button id="notification-inline-link-1" value="Notify Me"></input-button>
+        <input-button
+          id="notification-inline-link-1"
+          value="Notify Me">
+        </input-button>
       </td>
       <td>Default notification.</td>
       <td>
-        <icon-container src="./sprite.svg#code">
-        </icon-container>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input-button
+          id="notification-inline-link-6"
+          value="Notify Me">
+        </input-button>
+      </td>
+      <td>Alert with a title and message</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input-button
+          id="notification-inline-link-7"
+          value="Self Close">
+        </input-button>
+      </td>
+      <td>This alert will close automatically after the specified <code>duration</code></td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
       </td>
     </tr>
   </tbody>
 </table>
 
 <notification-inline id="notification-inline-example-1">
+</notification-inline>
+
+<notification-inline id="notification-inline-example-6">
+</notification-inline>
+
+<notification-inline id="notification-inline-example-7">
+</notification-inline>
+
+<p>The following examples are inline notifications with a specified <code>type</code> and associated icon, the type of which can be one of: <code>success</code>, <code>warning</code>, <code>danger</code>, or <code>info</code>.</p>
+<table class="example">
+  <thead>
+    <tr>
+      <th>Example</th>
+      <th>Description</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <input-button
+          id="notification-inline-link-2"
+          value="Success">
+        </input-button>
+      </td>
+      <td>Success Alert</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input-button
+          id="notification-inline-link-3"
+          value="Warning">
+        </input-button>
+      </td>
+      <td>Warning Alert</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input-button
+          id="notification-inline-link-4"
+          value="Danger">
+        </input-button>
+      </td>
+      <td>Danger Alert</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <input-button
+          id="notification-inline-link-5"
+          value="Information">
+        </input-button>
+      </td>
+      <td>Info Alert</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<notification-inline id="notification-inline-example-2">
+</notification-inline>
+
+<notification-inline id="notification-inline-example-3">
+</notification-inline>
+
+<notification-inline id="notification-inline-example-4">
+</notification-inline>
+
+<notification-inline id="notification-inline-example-5">
 </notification-inline>
 
 <script>
@@ -1602,9 +1715,65 @@
 
     notificationInlineLink1.addEventListener('click', e => {
       notificationInline1.create({
-        message: 'Hello, World',
-        title: 'Greetings',
+        message: 'This is an alert'
+      })
+    })
+
+    const notificationInline2 = document.getElementById('notification-inline-example-2')
+    const notificationInlineLink2 = document.getElementById('notification-inline-link-2')
+
+    notificationInlineLink2.addEventListener('click', e => {
+      notificationInline2.create({
+        type: 'success'
+      })
+    })
+
+    const notificationInline3 = document.getElementById('notification-inline-example-3')
+    const notificationInlineLink3 = document.getElementById('notification-inline-link-3')
+
+    notificationInlineLink3.addEventListener('click', e => {
+      notificationInline3.create({
         type: 'warning'
+      })
+    })
+
+    const notificationInline4 = document.getElementById('notification-inline-example-4')
+    const notificationInlineLink4 = document.getElementById('notification-inline-link-4')
+
+    notificationInlineLink4.addEventListener('click', e => {
+      notificationInline4.create({
+        type: 'danger',
+        title: 'Danger zone!'
+      })
+    })
+
+    const notificationInline5 = document.getElementById('notification-inline-example-5')
+    const notificationInlineLink5 = document.getElementById('notification-inline-link-5')
+
+    notificationInlineLink5.addEventListener('click', e => {
+      notificationInline5.create({
+        type: 'info',
+        message: 'This is an information alert'
+      })
+    })
+
+    const notificationInline6 = document.getElementById('notification-inline-example-6')
+    const notificationInlineLink6 = document.getElementById('notification-inline-link-6')
+
+    notificationInlineLink6.addEventListener('click', e => {
+      notificationInline6.create({
+        title: 'Note',
+        message: 'This is an alert containing both a title and a message.'
+      })
+    })
+
+    const notificationInline7 = document.getElementById('notification-inline-example-7')
+    const notificationInlineLink7 = document.getElementById('notification-inline-link-7')
+
+    notificationInlineLink7.addEventListener('click', e => {
+      notificationInline7.create({
+        title: 'This alert will self destruct in 3 seconds.',
+        duration: 3e3
       })
     })
   }
@@ -1634,12 +1803,6 @@
 <td align="left"></td>
 </tr>
 <tr>
-<td align="left"><code>alert</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Adds an alert type (success, warn, danger)</td>
-<td align="left"></td>
-</tr>
-<tr>
 <td align="left"><code>title</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">Adds a title</td>
@@ -1647,6 +1810,18 @@
 </tr>
 <tr>
 <td align="left"><code>message</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a message</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>type</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds an alert type, <code>success</code>, <code>warning</code>, <code>danger</code> or <code>info</code>)</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>duration</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">Adds a message</td>
 <td align="left"></td>

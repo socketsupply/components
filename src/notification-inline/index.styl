@@ -15,7 +15,7 @@
 .notification
   margin 10px 0
   position relative
-  background-color var(--background)
+  background-color var(--window)
   border-radius 3px
   -webkit-transform scale(0.95)
   -ms-transform scale(0.95)
@@ -24,6 +24,15 @@
   border 1px solid var(--border)
   z-index 1
   opacity 0
+  &.warning
+    border-color var(--warning)
+  &.danger
+    border-color var(--danger)
+  &.success
+    border-color var(--success)
+  &.info
+    border-color var(--secondary)
+
   &.show
     opacity 1
     -webkit-transform scale(1)

@@ -1,4 +1,5 @@
 textarea
+  color var(--primary)
   width 100%
   font 14px var(--monospace)
   padding 10px
@@ -12,8 +13,11 @@ textarea
   &:focus
     border 1px solid var(--primary)
 
-textarea:invalid
-  border-color var(--caution)
+textarea
+  &:invalid
+    border-color var(--danger)
+  &[disabled]
+    background-color var(--background)
 
 label
   color var(--medium)

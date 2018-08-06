@@ -725,8 +725,14 @@ class InputText extends Tonic { /* global Tonic */
 .wrapper.right icon-container {
   right: 10px;
 }
+.wrapper.right input {
+  padding-right: 40px;
+}
 .wrapper.left icon-container {
   left: 10px;
+}
+.wrapper.left input {
+  padding-left: 40px;
 }
 icon-container {
   position: absolute;
@@ -742,6 +748,7 @@ label {
   display: block;
 }
 input {
+  color: var(--primary);
   width: 100%;
   font: 14px var(--monospace);
   padding: 10px;
@@ -756,6 +763,9 @@ input {
 }
 input:focus {
   border-color: var(--primary);
+}
+input[disabled] {
+  background-color: var(--background);
 }
 `
   }
@@ -851,6 +861,7 @@ class InputTextarea extends Tonic { /* global Tonic */
 
   style () {
     return `textarea {
+  color: var(--primary);
   width: 100%;
   font: 14px var(--monospace);
   padding: 10px;
@@ -866,7 +877,10 @@ textarea:focus {
   border: 1px solid var(--primary);
 }
 textarea:invalid {
-  border-color: var(--caution);
+  border-color: var(--danger);
+}
+textarea[disabled] {
+  background-color: var(--background);
 }
 label {
   color: var(--medium);
@@ -1111,7 +1125,7 @@ class NotificationBadge extends Tonic { /* global Tonic */
   box-sizing: border-box;
 }
 .notifications {
-  background-color: var(--secondary);
+  background-color: var(--background);
   width: 40px;
   height: 40px;
   padding: 10px;
@@ -1134,7 +1148,7 @@ class NotificationBadge extends Tonic { /* global Tonic */
   right: -6px;
   border-radius: 50%;
   background-color: var(--notification);
-  border: 2px solid var(--secondary);
+  border: 2px solid var(--background);
 }
 `
   }
@@ -1179,8 +1193,7 @@ class NotificationCenter extends Tonic { /* global Tonic */
       dangerIcon: NotificationCenter.svg.dangerIcon('#f06653'),
       warningIcon: NotificationCenter.svg.warningIcon('#f9a967'),
       successIcon: NotificationCenter.svg.successIcon('#85b274'),
-      infoIcon: NotificationCenter.svg.infoIcon('#999da0'),
-      selfClosing: false
+      infoIcon: NotificationCenter.svg.infoIcon('#999da0')
     }
   }
 
@@ -1271,7 +1284,7 @@ class NotificationCenter extends Tonic { /* global Tonic */
 `
   }
 
-  create ({ message, title, duration, type, selfClosing } = {}) {
+  create ({ message, title, duration, type } = {}) {
     this.show()
 
     const notification = document.createElement('div')
@@ -1289,7 +1302,7 @@ class NotificationCenter extends Tonic { /* global Tonic */
     messageElement.className = 'message'
     messageElement.textContent = message || this.props.message
 
-    if (!selfClosing) {
+    if (!duration) {
       const close = document.createElement('div')
       close.className = 'close'
       const color = window.getComputedStyle(this.root).getPropertyValue('--primary')
@@ -1420,8 +1433,7 @@ class NotificationInline extends Tonic { /* global Tonic */
       dangerIcon: NotificationInline.svg.dangerIcon('#f06653'),
       warningIcon: NotificationInline.svg.warningIcon('#f9a967'),
       successIcon: NotificationInline.svg.successIcon('#85b274'),
-      infoIcon: NotificationInline.svg.infoIcon('#999da0'),
-      selfClosing: false
+      infoIcon: NotificationInline.svg.infoIcon('#999da0')
     }
   }
 
@@ -1444,7 +1456,7 @@ class NotificationInline extends Tonic { /* global Tonic */
 .notification {
   margin: 10px 0;
   position: relative;
-  background-color: var(--background);
+  background-color: var(--window);
   border-radius: 3px;
   -webkit-transform: scale(0.95);
   -ms-transform: scale(0.95);
@@ -1453,6 +1465,18 @@ class NotificationInline extends Tonic { /* global Tonic */
   border: 1px solid var(--border);
   z-index: 1;
   opacity: 0;
+}
+.notification.warning {
+  border-color: var(--warning);
+}
+.notification.danger {
+  border-color: var(--danger);
+}
+.notification.success {
+  border-color: var(--success);
+}
+.notification.info {
+  border-color: var(--secondary);
 }
 .notification.show {
   opacity: 1;
@@ -1507,7 +1531,7 @@ class NotificationInline extends Tonic { /* global Tonic */
 `
   }
 
-  create ({ message, title, duration, type, selfClosing } = {}) {
+  create ({ message, title, duration, type } = {}) {
     this.show()
 
     while (this.root.firstChild) this.root.firstChild.remove()
@@ -1528,7 +1552,7 @@ class NotificationInline extends Tonic { /* global Tonic */
     messageElement.className = 'message'
     messageElement.textContent = message || this.props.message
 
-    if (!selfClosing) {
+    if (!duration) {
       const close = document.createElement('div')
       close.className = 'close'
       const color = window.getComputedStyle(this.root).getPropertyValue('--primary')
@@ -1563,6 +1587,10 @@ class NotificationInline extends Tonic { /* global Tonic */
           if (!title && !message) { titleElement.textContent = 'Information' }
           break
       }
+    }
+
+    if (!type && !message && !title) {
+      messageElement.textContent = 'Empty message'
     }
 
     this.root.appendChild(notification)

@@ -12,8 +12,7 @@ class NotificationCenter extends Tonic { /* global Tonic */
       dangerIcon: NotificationCenter.svg.dangerIcon('#f06653'),
       warningIcon: NotificationCenter.svg.warningIcon('#f9a967'),
       successIcon: NotificationCenter.svg.successIcon('#85b274'),
-      infoIcon: NotificationCenter.svg.infoIcon('#999da0'),
-      selfClosing: false
+      infoIcon: NotificationCenter.svg.infoIcon('#999da0')
     }
   }
 
@@ -21,7 +20,7 @@ class NotificationCenter extends Tonic { /* global Tonic */
     return `%style%`
   }
 
-  create ({ message, title, duration, type, selfClosing } = {}) {
+  create ({ message, title, duration, type } = {}) {
     this.show()
 
     const notification = document.createElement('div')
@@ -39,7 +38,7 @@ class NotificationCenter extends Tonic { /* global Tonic */
     messageElement.className = 'message'
     messageElement.textContent = message || this.props.message
 
-    if (!selfClosing) {
+    if (!duration) {
       const close = document.createElement('div')
       close.className = 'close'
       const color = window.getComputedStyle(this.root).getPropertyValue('--primary')

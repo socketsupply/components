@@ -12,8 +12,7 @@ class NotificationInline extends Tonic { /* global Tonic */
       dangerIcon: NotificationInline.svg.dangerIcon('#f06653'),
       warningIcon: NotificationInline.svg.warningIcon('#f9a967'),
       successIcon: NotificationInline.svg.successIcon('#85b274'),
-      infoIcon: NotificationInline.svg.infoIcon('#999da0'),
-      selfClosing: false
+      infoIcon: NotificationInline.svg.infoIcon('#999da0')
     }
   }
 
@@ -21,7 +20,7 @@ class NotificationInline extends Tonic { /* global Tonic */
     return `%style%`
   }
 
-  create ({ message, title, duration, type, selfClosing } = {}) {
+  create ({ message, title, duration, type } = {}) {
     this.show()
 
     while (this.root.firstChild) this.root.firstChild.remove()
@@ -42,7 +41,7 @@ class NotificationInline extends Tonic { /* global Tonic */
     messageElement.className = 'message'
     messageElement.textContent = message || this.props.message
 
-    if (!selfClosing) {
+    if (!duration) {
       const close = document.createElement('div')
       close.className = 'close'
       const color = window.getComputedStyle(this.root).getPropertyValue('--primary')
@@ -77,6 +76,10 @@ class NotificationInline extends Tonic { /* global Tonic */
           if (!title && !message) { titleElement.textContent = 'Information' }
           break
       }
+    }
+
+    if (!type && !message && !title) {
+      messageElement.textContent = 'Empty message'
     }
 
     this.root.appendChild(notification)

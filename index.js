@@ -164,6 +164,7 @@ class DialogBox extends Tonic { /* global Tonic */
 
     this.root.show = () => this.show()
     this.root.hide = () => this.hide()
+    this.root.setContent = (s) => this.setContent(s)
   }
 
   defaults () {

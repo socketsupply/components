@@ -16,9 +16,9 @@ The component `NotificationCenter` creates a notification badge that appears on 
   <tbody>
     <tr>
       <td>
-        <input-button id="toaster-link-1" value="Notify Me"></input-button>
+        <input-button id="notification-link-1" value="Notify Me"></input-button>
       </td>
-      <td>Default notification toaster.</td>
+      <td>Default notification.</td>
       <td>
         <icon-container src="./sprite.svg#code">
         </icon-container>
@@ -26,19 +26,19 @@ The component `NotificationCenter` creates a notification badge that appears on 
     </tr>
     <tr>
       <td>
-        <input-button id="toaster-link-2" value="Success"></input-button>
-        <input-button id="toaster-link-3" value="Warning"></input-button>
-        <input-button id="toaster-link-4" value="Danger"></input-button>
-        <input-button id="toaster-link-5" value="Info"></input-button>
+        <input-button id="notification-link-2" value="Success"></input-button>
+        <input-button id="notification-link-3" value="Warning"></input-button>
+        <input-button id="notification-link-4" value="Danger"></input-button>
+        <input-button id="notification-link-5" value="Info"></input-button>
       </td>
-      <td>Default notification toaster with default props.</td>
+      <td>Default notification with default props.</td>
       <td>
         <icon-container src="./sprite.svg#code"></icon-container>
       </td>
     </tr>
     <tr>
       <td>
-        <input-button id="toaster-link-6" value="Self Close"></input-button>
+        <input-button id="notification-link-6" value="Self Close"></input-button>
       </td>
       <td>Notification that will expire after some time.</td>
       <td>
@@ -49,44 +49,44 @@ The component `NotificationCenter` creates a notification badge that appears on 
 </table>
 
 <script>
-  const toaster = document.getElementsByTagName('notification-center')[0]
+  const notification = document.getElementsByTagName('notification-center')[0]
 
-  const toasterLink1 = document.getElementById('toaster-link-1')
-  toasterLink1.addEventListener('click', e => {
-    toaster.create({ message: 'Hello, World', title: 'Greetings' })
+  const notificationLink1 = document.getElementById('notification-link-1')
+  notificationLink1.addEventListener('click', e => {
+    notification.create({ message: 'Hello, World', title: 'Greetings' })
   })
 
-  const toasterLink2 = document.getElementById('toaster-link-2')
-  toasterLink2.addEventListener('click', e => {
-    toaster.create({
+  const notificationLink2 = document.getElementById('notification-link-2')
+  notificationLink2.addEventListener('click', e => {
+    notification.create({
       type: 'success'
     })
   })
 
-  const toasterLink3 = document.getElementById('toaster-link-3')
-  toasterLink3.addEventListener('click', e => {
-    toaster.create({
+  const notificationLink3 = document.getElementById('notification-link-3')
+  notificationLink3.addEventListener('click', e => {
+    notification.create({
       type: 'warning'
     })
   })
 
-  const toasterLink4 = document.getElementById('toaster-link-4')
-  toasterLink4.addEventListener('click', e => {
-    toaster.create({
+  const notificationLink4 = document.getElementById('notification-link-4')
+  notificationLink4.addEventListener('click', e => {
+    notification.create({
       type: 'danger'
     })
   })
 
-  const toasterLink5 = document.getElementById('toaster-link-5')
-  toasterLink5.addEventListener('click', e => {
-    toaster.create({
+  const notificationLink5 = document.getElementById('notification-link-5')
+  notificationLink5.addEventListener('click', e => {
+    notification.create({
       type: 'info'
     })
   })
 
-  const toasterLink6 = document.getElementById('toaster-link-6')
-  toasterLink6.addEventListener('click', e => {
-    toaster.create({
+  const notificationLink6 = document.getElementById('notification-link-6')
+  notificationLink6.addEventListener('click', e => {
+    notification.create({
       message: 'Will self destruct in 3 seconds',
       title: 'Howdy',
       duration: 3e3

@@ -1,0 +1,76 @@
+// *
+//   box-sizing border-box
+//
+// .wrapper
+//   user-select none
+//   position fixed
+//   top 10px
+//   left 50%
+//   display flex
+//   flex-wrap wrap
+//   flex-direction column
+//   transform translateX(-50%)
+//   visibility hidden
+//   &.show
+//     visibility visible
+//
+// .notification
+//   width auto
+//   max-width 600px
+//   margin 0 auto
+//   margin-top 10px
+//   position relative
+//   background-color var(--window)
+//   box-shadow 0px 10px 40px -20px rgba(0,0,0,0.4), 0 0 1px #a2a9b1
+//   border-radius 3px
+//   -webkit-transform translateY(-100px)
+//   -ms-transform translateY(-100px)
+//   transform translateY(-100px)
+//   transition opacity 0.2s ease, transform 0s ease 1s
+//   z-index 1
+//   opacity 0
+//   &.show
+//     opacity 1
+//     -webkit-transform translateY(0)
+//     -ms-transform translateY(0)
+//     transform translateY(0)
+//     transition transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28)
+//   &.close
+//     padding-right 50px
+//   &.alert
+//     padding-left 35px
+//
+//   main
+//     padding 17px 15px 15px 15px
+//     .title
+//       font 14px/18px var(--subheader)
+//     .message
+//       font 14px/18px var(--subheader)
+//       color var(--medium)
+//
+//   .icon
+//     width 16px
+//     height 16px
+//     position absolute
+//     left 20px
+//     top 50%
+//     background-size cover
+//     -webkit-transform translateY(-50%)
+//     -ms-transform translateY(-50%)
+//     transform translateY(-50%)
+//
+//   .close
+//     width 20px
+//     height 20px
+//     position absolute
+//     right 20px
+//     top 50%
+//     -webkit-transform translateY(-50%)
+//     -ms-transform translateY(-50%)
+//     transform translateY(-50%)
+//     cursor pointer
+//     background-size cover
+//     svg
+//       path
+//         fill var(--primary)
+//         color var(--primary)

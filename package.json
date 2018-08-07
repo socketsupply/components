@@ -2,14 +2,14 @@
   "name": "components",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "bin": "bin/components",
   "directories": {
     "doc": "docs"
   },
   "scripts": {
     "test": "npm run test:browser",
     "dev": "./bin/server",
-    "build": "npm run build:styl && ./bin/build-src && npm run build:docs",
+    "build": "npm run build:styl && ./bin/components ./test && npm run build:docs",
     "build:styl": "stylus -u autoprefixer-stylus ./index.styl -o ./index.css",
     "build:docs": "./bin/build-docs && npm run build:docs:js && npm run build:docs:styl",
     "build:docs:js": "browserify ./docs/src/index.js > ./docs/bundle.js",

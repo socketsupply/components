@@ -28,11 +28,11 @@
   "devDependencies": {
     "browserify": "^16.2.2",
     "send": "^0.16.2",
-    "stylus": "^0.54.5",
     "tape": "^4.9.1",
     "tape-run": "^4.0.0"
   },
   "dependencies": {
+    "stylus": "^0.54.5",
     "autoprefixer-stylus": "^0.14.0",
     "highlight.js": "^9.12.0",
     "marked": "^0.4.0",

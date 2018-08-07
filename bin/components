@@ -2,6 +2,7 @@
 const fs = require('fs')
 const path = require('path')
 const stylus = require('stylus')
+const mkdirp = require('mkdirp')
 
 const toCSS = str => ({
   then (resolve) {
@@ -16,6 +17,18 @@ const re = /%style%/
 async function main () {
   const args = process.argv.slice(2)
   const dest = args[0]
+
+  if (!dest) {
+    console.log('A destination directory is required')
+    process.exit(1)
+  }
+
+  try {
+    fs.statSync(dest)
+  } catch (err) {
+    mkdirp.sync(dest)
+  }
+
   const dirs = args[1] || fs.readdirSync(componentsDir)
   const output = []
 

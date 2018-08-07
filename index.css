@@ -16,6 +16,7 @@ body {
   --danger: #f06653;
   --success: #85b274;
   --warning: #f9a967;
+  --info: #999da0;
 }
 body.theme-dark {
   --window: #2d2f31;

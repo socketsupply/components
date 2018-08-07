@@ -1,8 +1,8 @@
 class ContentTooltip extends Tonic { /* global Tonic */
   defaults (props) {
     return {
-      width: '250px',
-      height: '150px'
+      width: '450px',
+      height: 'auto'
     }
   }
 

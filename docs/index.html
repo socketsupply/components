@@ -451,7 +451,7 @@
       <td><icon-container></icon-container></td>
       <td>Default Icon (25px)</td>
       <td>
-        <content-tooltip id="icon-container-example-1" width="auto">
+        <content-tooltip id="icon-container-example-1">
           <icon-container src="./sprite.svg#code">
           </icon-container>
         </content-tooltip>
@@ -1563,6 +1563,7 @@
 </tbody></table>
 </section><section id="notificationcenter"><h1 id="notificationcenter">NotificationCenter</h1>
 <p>The component <code>NotificationCenter</code> creates a notification badge that appears on the screen either for a duration or until the user acknowledges it.</p>
+<p>The <code>notification-center</code> element should be included <em>once</em> on the page, and all notifications will be created within this element.</p>
 <h2 id="demo">Demo</h2>
 <p><notification-center></notification-center></p>
 <table class="example">
@@ -1580,8 +1581,10 @@
       </td>
       <td>Default notification.</td>
       <td>
-        <icon-container src="./sprite.svg#code">
-        </icon-container>
+        <content-tooltip id="notification-center-example-1">
+          <icon-container src="./sprite.svg#code">
+          </icon-container>
+        </content-tooltip>
       </td>
     </tr>
     <tr>
@@ -1608,13 +1611,31 @@
   </tbody>
 </table>
 
+<template for="notification-center-example-1">
+  <p>HTML</p>
+  <pre>
+    <code>&lt;notification-center&gt;&lt;/notification-center&gt;</code>
+  </pre>
+
+  <p>JS</p>
+  <pre>
+    <code>
+notification.create({
+  message: 'Hello, World', title: 'Greetings'
+})
+    </code>
+  </pre>
+</template>
+
 <script>
   {
     const notification = document.getElementsByTagName('notification-center')[0]
 
     const notificationLink1 = document.getElementById('notification-link-1')
     notificationLink1.addEventListener('click', e => {
-      notification.create({ message: 'Hello, World', title: 'Greetings' })
+      notification.create({
+        message: 'Hello, World', title: 'Greetings'
+      })
     })
 
     const notificationLink2 = document.getElementById('notification-link-2')
@@ -1696,6 +1717,12 @@
 <td align="left"><em>string</em></td>
 <td align="left">Adds a message</td>
 <td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>position</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Position of the notifications, can be <code>left</code>, <code>right</code> or <code>center</code></td>
+<td align="left"><code>center</code></td>
 </tr>
 <tr>
 <td align="left"><code>theme</code></td>

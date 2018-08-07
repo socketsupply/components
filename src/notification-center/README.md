@@ -1,6 +1,8 @@
 # NotificationCenter
 The component `NotificationCenter` creates a notification badge that appears on the screen either for a duration or until the user acknowledges it.
 
+The `notification-center` element should be included *once* on the page, and all notifications will be created within this element.
+
 ## Demo
 
 <notification-center></notification-center>
@@ -20,8 +22,10 @@ The component `NotificationCenter` creates a notification badge that appears on 
       </td>
       <td>Default notification.</td>
       <td>
-        <icon-container src="./sprite.svg#code">
-        </icon-container>
+        <content-tooltip id="notification-center-example-1">
+          <icon-container src="./sprite.svg#code">
+          </icon-container>
+        </content-tooltip>
       </td>
     </tr>
     <tr>
@@ -48,13 +52,31 @@ The component `NotificationCenter` creates a notification badge that appears on 
   </tbody>
 </table>
 
+<template for="notification-center-example-1">
+  <p>HTML</p>
+  <pre>
+    <code>&lt;notification-center&gt;&lt;/notification-center&gt;</code>
+  </pre>
+
+  <p>JS</p>
+  <pre>
+    <code>
+notification.create({
+  message: 'Hello, World', title: 'Greetings'
+})
+    </code>
+  </pre>
+</template>
+
 <script>
   {
     const notification = document.getElementsByTagName('notification-center')[0]
 
     const notificationLink1 = document.getElementById('notification-link-1')
     notificationLink1.addEventListener('click', e => {
-      notification.create({ message: 'Hello, World', title: 'Greetings' })
+      notification.create({
+        message: 'Hello, World', title: 'Greetings'
+      })
     })
 
     const notificationLink2 = document.getElementById('notification-link-2')
@@ -107,6 +129,7 @@ The component `NotificationCenter` creates a notification badge that appears on 
 | `alert` | *string* | Adds an alert type (success, warn, danger) |  |
 | `title` | *string* | Adds a title |  |
 | `message` | *string* | Adds a message |  |
+| `position` | *string* | Position of the notifications, can be `left`, `right` or `center` | `center` |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
 ### Static Methods & Members

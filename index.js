@@ -3,8 +3,8 @@
       class ContentTooltip extends Tonic { /* global Tonic */
   defaults (props) {
     return {
-      width: '250px',
-      height: '150px'
+      width: '450px',
+      height: 'auto'
     }
   }
 
@@ -1330,12 +1330,16 @@ class NotificationCenter extends Tonic { /* global Tonic */
   }
 
   defaults () {
+    const computed = window.getComputedStyle(this.root)
+    const getVar = s => computed.getPropertyValue(`--${s}`)
+
     return {
       closeIcon: NotificationCenter.svg.closeIcon,
-      dangerIcon: NotificationCenter.svg.dangerIcon('#f06653'),
-      warningIcon: NotificationCenter.svg.warningIcon('#f9a967'),
-      successIcon: NotificationCenter.svg.successIcon('#85b274'),
-      infoIcon: NotificationCenter.svg.infoIcon('#999da0')
+      dangerIcon: NotificationCenter.svg.dangerIcon(getVar('danger')),
+      warningIcon: NotificationCenter.svg.warningIcon(getVar('warning')),
+      successIcon: NotificationCenter.svg.successIcon(getVar('success')),
+      infoIcon: NotificationCenter.svg.infoIcon(getVar('info')),
+      position: 'center'
     }
   }
 
@@ -1347,20 +1351,33 @@ notification-center .wrapper {
   user-select: none;
   position: fixed;
   top: 10px;
-  left: 50%;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
-  transform: translateX(-50%);
   visibility: hidden;
+  z-index: 102;
 }
 notification-center .wrapper.show {
   visibility: visible;
 }
+notification-center .wrapper.center {
+  left: 50%;
+  align-items: center;
+  -webkit-transform: translateX(-50%);
+  -ms-transform: translateX(-50%);
+  transform: translateX(-50%);
+}
+notification-center .wrapper.left {
+  align-items: flex-start;
+  left: 10px;
+}
+notification-center .wrapper.right {
+  align-items: flex-end;
+  right: 10px;
+}
 notification-center .notification {
   width: auto;
   max-width: 600px;
-  margin: 0 auto;
   margin-top: 10px;
   position: relative;
   background-color: var(--window);
@@ -1771,14 +1788,13 @@ notification-inline .notification .close svg path {
 
   render () {
     const {
-      theme
+      theme,
+      position
     } = this.props
 
     if (theme) this.root.classList.add(`theme-${theme}`)
 
-    return `
-      <div class="wrapper"></div>
-    `
+    return `<div class="wrapper ${position}"></div>`
   }
 }
 

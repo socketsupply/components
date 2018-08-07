@@ -16,7 +16,7 @@ The component `IconContainer` is used to create an SVG icon with a custom size a
       <td><icon-container></icon-container></td>
       <td>Default Icon (25px)</td>
       <td>
-        <content-tooltip id="icon-container-example-1" width="auto">
+        <content-tooltip id="icon-container-example-1">
           <icon-container src="./sprite.svg#code">
           </icon-container>
         </content-tooltip>

@@ -32,7 +32,8 @@ body.theme-dark {
   --warn: #f9a967;
 }
 * {
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
 }
 body {
   text-rendering: optimizeLegibility;
@@ -41,10 +42,11 @@ body {
   -moz-font-smoothing: antialiased;
   font-smoothing: antialiased;
   -webkit-font-feature-settings: "kern";
-  -moz-font-feature-settings: "kern";
   font-feature-settings: "kern";
-  font-variant-ligatures: common-ligatures;
-  font-kerning: normal;
+  -webkit-font-variant-ligatures: common-ligatures;
+          font-variant-ligatures: common-ligatures;
+  -webkit-font-kerning: normal;
+          font-kerning: normal;
   font-weight: normal;
   color: var(--primary);
   font-family: var(--body);
@@ -88,7 +90,14 @@ h4 {
 a {
   color: inherit;
   text-decoration: none;
+  -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
+}
+::-webkit-input-placeholder {
+  color: var(--medium);
+}
+:-ms-input-placeholder {
+  color: var(--medium);
 }
 ::placeholder {
   color: var(--medium);

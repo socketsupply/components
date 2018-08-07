@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const fs = require('fs').promises
+const fs = require('fs')
 const path = require('path')
 const stylus = require('stylus')
 
@@ -16,12 +16,12 @@ const re = /%style%/
 async function main () {
   const args = process.argv.slice(2)
   const dest = args[0]
-  const dirs = args[1] || await fs.readdir(componentsDir)
+  const dirs = args[1] || fs.readdirSync(componentsDir)
   const output = []
 
   for (const dir of dirs) {
     try {
-      await fs.stat(path.join(componentsDir, dir))
+      fs.statSync(path.join(componentsDir, dir))
     } catch (err) {
       console.log(`No such component, ${dir}`)
       process.exit(1)
@@ -31,14 +31,14 @@ async function main () {
 
     const styl = path.join(componentsDir, dir, 'index.styl')
     const src = path.join(componentsDir, dir, 'index.js')
-    const { err, css } = await toCSS(await fs.readFile(styl, 'utf8'))
+    const { err, css } = await toCSS(fs.readFileSync(styl, 'utf8'))
 
     if (err) {
       console.error(err.message)
       process.exit(1)
     }
 
-    const js = await fs.readFile(src, 'utf8')
+    const js = fs.readFileSync(src, 'utf8')
     output.push(js.replace(re, () => css))
   }
 
@@ -48,11 +48,11 @@ async function main () {
     })
   `
 
-  const css = await fs.readFile('index.css', 'utf8')
-  await fs.writeFile(path.join(dest, 'index.js'), js)
+  const css = fs.readFileSync(path.join(__dirname, 'index.css'), 'utf8')
+  fs.writeFileSync(path.join(dest, 'index.js'), js)
   console.log(' -> writing index.js')
 
-  await fs.writeFile(path.join(dest, 'index.css'), css)
+  fs.writeFileSync(path.join(dest, 'index.css'), css)
   console.log(' -> writing index.css')
 }
 

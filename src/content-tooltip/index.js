@@ -75,7 +75,7 @@ class ContentTooltip extends Tonic { /* global Tonic */
     arrow.textContent = ' '
 
     const span = document.createElement('span')
-    span.textContent = this.root.innerHTML
+    span.innerHTML = this.root.innerHTML
     span.className = 'text'
 
     while (this.root.firstChild) this.root.firstChild.remove()

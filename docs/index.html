@@ -51,6 +51,10 @@
       </li>
     
       <li>
+        <a href="#inputselect" class="">InputSelect</a>
+      </li>
+    
+      <li>
         <a href="#inputtext" class="">InputText</a>
       </li>
     
@@ -151,7 +155,10 @@
   <tbody>
     <tr>
       <td>
-        <content-tooltip id="hello">Hover me!</content-tooltip>
+        <content-tooltip
+          id="content-tooltip-example-1">
+          Hover me!
+        </content-tooltip>
       </td>
       <td>Default content box</td>
       <td>
@@ -161,12 +168,17 @@
   </tbody>
 </table>
 
-<template for="hello">
+<template for="content-tooltip-example-1">
   <link href="index.css" rel="stylesheet">
   <h3>Hello, World</h3>
   <p>For over five thousand years ginseng has been used as a natural tonic: stimulant, restorative, refresher, cordial; Medicine analeptic, roborant; informal pick-me-up, bracer, livener.</p>
 </template>
 
+<h2 id="code">Code</h2>
+<p>A template is required. Example template structure for tooltip content:</p>
+<pre><code class="language-html">  <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">for</span>= <span class="hljs-string">id</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- Tooltip content goes here --&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
 <h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>
 <table>
@@ -330,6 +342,19 @@
   }
 </script>
 
+<h2 id="code">Code</h2>
+<p>A template is required. Example template structure for dialog content:</p>
+<pre><code class="language-html">  <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">for</span>= <span class="hljs-string">id</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">header</span>&gt;</span>
+      <span class="hljs-comment">&lt;!-- Header content goes here --&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">header</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">main</span>&gt;</span>
+      <span class="hljs-comment">&lt;!-- Main content goes here --&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">main</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">footer</span>&gt;</span>
+      <span class="hljs-comment">&lt;!-- Footer content goes here --&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">footer</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
 <h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>
 <table>
@@ -426,7 +451,10 @@
       <td><icon-container></icon-container></td>
       <td>Default Icon (25px)</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <content-tooltip id="icon-container-example-1" width="auto">
+          <icon-container src="./sprite.svg#code">
+          </icon-container>
+        </content-tooltip>
       </td>
     </tr>
     <tr>
@@ -455,6 +483,10 @@
     </tr>
   </tbody>
 </table>
+
+<template for="icon-container-example-1">
+  <code>&lt;icon-container&gt;&lt;/icon-container&gt;</code>
+</template>
 
 <h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>
@@ -855,6 +887,102 @@
 <tbody><tr>
 <td align="left"><code>addIcon(state, fn)</code></td>
 <td align="left">Add a custom SVG as the icon for the given state Where the <code>state</code> parameter is either <code>on</code> or <code>off</code> and the <code>fn</code> parameter is a function that returns your SVG&#39;s xml. The function will receive the color prop as an argument.</td>
+</tr>
+</tbody></table>
+<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+</section><section id="inputselect"><h1 id="inputselect">InputSelect</h1>
+<p>The component <code>InputSelect</code> creates an input, with or without a label.</p>
+<h2 id="demo">Demo</h2>
+<table class="example">
+  <thead>
+    <tr>
+      <th>Example</th>
+      <th>Description</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><input-select></input-select></td>
+      <td>Default select</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="api">Api</h2>
+<h3 id="properties">Properties</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>id</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Input with <code>id</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>name</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Input with <code>name</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>required</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Makes the input required</td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left"><code>disabled</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Makes the input disabled</td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left"><code>width</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Width of the input</td>
+<td align="left"><code>250px</code></td>
+</tr>
+<tr>
+<td align="left"><code>theme</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
+<td align="left"><code>light</code></td>
+</tr>
+</tbody></table>
+<h3 id="static-methods-members">Static Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
 </tr>
 </tbody></table>
 <h3 id="instance-methods-members">Instance Methods &amp; Members</h3>

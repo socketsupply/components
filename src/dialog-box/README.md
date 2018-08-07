@@ -100,7 +100,7 @@ The component `DialogBox` is used to create a dialog that displays content on to
       } else {
         return
       }
-      
+
       dialog2.setProps(props => ({
        ...props,
         message: `Clicked ${clickCount} times.`
@@ -112,6 +112,24 @@ The component `DialogBox` is used to create a dialog that displays content on to
     dialogLink3.addEventListener('click', e => dialog3.show())
   }
 </script>
+
+## Code
+
+A template is required. Example template structure for dialog content:
+
+```html
+  <template for= id>
+    <header>
+      <!-- Header content goes here -->
+    </header>
+    <main>
+      <!-- Main content goes here -->
+    </main>
+    <footer>
+      <!-- Footer content goes here -->
+    </footer>
+  </template>
+```
 
 ## Api
 

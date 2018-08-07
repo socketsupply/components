@@ -1,13 +1,16 @@
 input-button
   display inline-block
 
+  &[width="100%"]
+    display block
+
   .wrapper
     margin 5px
 
   button
+    color var(--primary)
     width auto
     min-height 40px
-    color var(--primary)
     font 12px var(--subheader)
     font-weight 400
     text-transform uppercase
@@ -17,10 +20,10 @@ input-button
     background-color transparent
     border 1px solid var(--primary)
     outline none
+    transition all 0.3s ease
     -webkit-appearance none
     -moz-appearance none
     appearance none
-    transition background 0.3s ease
 
     &[disabled],
     &.active
@@ -30,8 +33,9 @@ input-button
 
     &:not([disabled]):hover
       color var(--window)
-      background-color var(--primary)
-      border-color var(--primary)
+      background-color var(--primary) !important
+      border-color var(--primary) !important
+      cursor pointer
 
     &.loading
       color transparent

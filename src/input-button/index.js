@@ -8,7 +8,7 @@ class InputButton extends Tonic { /* global Tonic */
       value: 'Submit',
       disabled: false,
       autofocus: false,
-      height: '38px',
+      height: '40px',
       width: '150px',
       radius: '2px'
     }

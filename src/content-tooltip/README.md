@@ -13,7 +13,10 @@
   <tbody>
     <tr>
       <td>
-        <content-tooltip id="hello">Hover me!</content-tooltip>
+        <content-tooltip
+          id="content-tooltip-example-1">
+          Hover me!
+        </content-tooltip>
       </td>
       <td>Default content box</td>
       <td>
@@ -23,11 +26,21 @@
   </tbody>
 </table>
 
-<template for="hello">
+<template for="content-tooltip-example-1">
   <link href="index.css" rel="stylesheet">
   <h3>Hello, World</h3>
   <p>For over five thousand years ginseng has been used as a natural tonic: stimulant, restorative, refresher, cordial; Medicine analeptic, roborant; informal pick-me-up, bracer, livener.</p>
 </template>
+
+## Code
+
+A template is required. Example template structure for tooltip content:
+
+```html
+  <template for= id>
+    <!-- Tooltip content goes here -->
+  </template>
+```
 
 ## Api
 

@@ -48,7 +48,7 @@ async function main () {
     })
   `
 
-  const css = fs.readFileSync(path.join(__dirname, 'index.css'), 'utf8')
+  const css = fs.readFileSync(path.join(__dirname, '..', 'index.css'), 'utf8')
   fs.writeFileSync(path.join(dest, 'index.js'), js)
   console.log(' -> writing index.js')
 

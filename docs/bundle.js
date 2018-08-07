@@ -1586,9 +1586,7 @@ notification-center .notification .close svg path {
 
     if (theme) this.root.classList.add(`theme-${theme}`)
 
-    return `
-      <div class="wrapper"></div>
-    `
+    return `<div class="wrapper"></div>`
   }
 }
 
@@ -2213,10 +2211,51 @@ class ContentTabs extends Tonic { /* global Tonic */
     return `tab-menu {
   display: block;
 }
+tab-menu a {
+  text-decoration: none;
+}
+[data-tab-name]:not([data-tab-group]) {
+  border-bottom: 1px solid transparent;
+}
+[data-tab-name]:not([data-tab-group]).selected {
+  padding-bottom: 2px;
+  border-bottom: 1px solid var(--accent);
+}
 [data-tab-group] {
   display: none;
+  border: 1px solid var(--border);
+}
+[data-tab-group].show {
+  display: block;
 }
 `
+  }
+
+  qs (s, p) {
+    return (p || document).querySelector(s)
+  }
+
+  click (e) {
+    e.preventDefault()
+    if (!Tonic.match(e.target, '[data-tab-name]:not([data-tab-group])')) return
+
+    const group = this.props.group
+    const currentContent = this.qs(`[data-tab-group="${group}"].show`)
+    if (currentContent) currentContent.classList.remove('show')
+
+    const name = e.target.dataset.tabName
+    const target = this.qs(`[data-tab-group="${group}"][data-tab-name="${name}"]`)
+
+    if (!target) {
+      console.warn(`Not found '[data-tab-group="${group}"][data-tab-name="${name}"]'`)
+      return
+    }
+
+    const currentLink = this.qs(`[data-tab-name].selected`)
+    if (currentLink) currentLink.classList.remove('selected')
+
+    target.classList.add('show')
+    e.target.classList.add('selected')
   }
 
   render () {
@@ -2226,13 +2265,7 @@ class ContentTabs extends Tonic { /* global Tonic */
 
     if (theme) this.root.classList.add(`theme-${theme}`)
 
-    const nodes = [...this.root.querySelectorAll('[data-tab-name]')]
-    console.log(nodes)
-
-    const wrapper = document.createElement('div')
-    wrapper.innerHTML = this.root.innerHTML
-
-    return wrapper
+    return this.root.innerHTML
   }
 }
 

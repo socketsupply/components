@@ -1,6 +1,19 @@
 tab-menu
   display block
 
+  a
+    text-decoration none
+
+[data-tab-name]:not([data-tab-group])
+  border-bottom 1px solid transparent
+
+  &.selected
+    padding-bottom 2px
+    border-bottom 1px solid var(--accent)
+
 [data-tab-group]
   display none
+  border 1px solid var(--border)
 
+  &.show
+    display block

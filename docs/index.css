@@ -352,11 +352,11 @@ body > main code {
   border: 1px solid var(--border);
   border-radius: 3px;
 }
-body > main section {
+body > main > section {
   max-width: 800px;
   padding-bottom: 60px;
 }
-body > main section:not(:first-of-type) {
+body > main > section:not(:first-of-type) {
   border-top: 2px solid var(--border);
 }
 body > main footer {

@@ -6,7 +6,6 @@ class InputButton extends Tonic { /* global Tonic */
   defaults () {
     return {
       value: 'Submit',
-      type: 'submit',
       disabled: false,
       autofocus: false,
       height: '38px',

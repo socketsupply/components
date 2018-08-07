@@ -77,7 +77,7 @@ The component `InputButton` creates a button.
 | `id` | *string* | Button with `id` attribute | |
 | `name` | *string* | Button with a `name` attribute | |
 | `value` | *string* | Value of the button <span class="req">required</span> | `Submit` |
-| `type` | *string* | Type of button (i.e. submit) | `submit` |
+| `type` | *string* | Type of button (i.e. submit) | |
 | `disabled` | *boolean* | Button with the `disabled` attribute | `false` |
 | `autofocus` | *boolean* | Button with the `autofocus` attribute | `false` |
 | `isLoading` | *boolean* | Loading button | `false` |

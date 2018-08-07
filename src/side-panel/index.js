@@ -2,8 +2,8 @@ class SidePanel extends Tonic { /* global Tonic */
   constructor (props) {
     super(props)
 
-    this.root.show = () => this.show()
-    this.root.hide = () => this.hide()
+    this.root.show = fn => this.show(fn)
+    this.root.hide = fn => this.hide(fn)
   }
 
   defaults () {
@@ -18,12 +18,16 @@ class SidePanel extends Tonic { /* global Tonic */
     return `%style%`
   }
 
-  show () {
-    this.root.firstChild.classList.add('show')
+  show (fn) {
+    const node = this.root.firstChild
+    node.classList.add('show')
+    fn && node.addEventListener('transitionend', fn, { once: true })
   }
 
-  hide () {
-    this.root.firstChild.classList.remove('show')
+  hide (fn) {
+    const node = this.root.firstChild
+    node.classList.remove('show')
+    fn && node.addEventListener('transitionend', fn, { once: true })
   }
 
   click (e) {

@@ -51,8 +51,8 @@ The component `SidePanel` create a side panel with overlay (color or transparent
     <p>This is a panel</p>
   </main>
   <footer>
-    <button>Cancel</button>
-    <button>Confirm</button>
+    <input-button value="cancel"></input-button>
+    <input-button value="confirm" async="true"></input-button>
   </footer>
 </template>
 
@@ -62,8 +62,8 @@ The component `SidePanel` create a side panel with overlay (color or transparent
     <p>This is a panel but on the left</p>
   </main>
   <footer>
-    <button>Cancel</button>
-    <button>Confirm</button>
+    <input-button value="cancel"></input-button>
+    <input-button value="confirm" async="true"></input-button>
   </footer>
 </template>
 
@@ -73,8 +73,8 @@ The component `SidePanel` create a side panel with overlay (color or transparent
     <p>This is a panel with an overlay</p>
   </main>
   <footer>
-    <input-button>Cancel</input-button>
-    <input-button>Confirm</input-button>
+    <input-button value="cancel"></input-button>
+    <input-button value="confirm" async="true"></input-button>
   </footer>
 </template>
 
@@ -91,6 +91,18 @@ The component `SidePanel` create a side panel with overlay (color or transparent
     const panelLink3 = document.getElementById('side-panel-link-example-3')
     const panel3 = document.getElementById('side-panel-example-3')
     panelLink3.addEventListener('click', e => panel3.show())
+
+    const panels = [...document.getElementsByTagName('side-panel')]
+    panels.forEach(panel => panel.addEventListener('click', e => {
+      if (e.target.value === 'cancel') panel.hide()
+      if (e.target.value === 'confirm') {
+        setTimeout(() => {
+          panel.hide(() => {
+            panel.setProps(props => props)
+          })
+        }, 500)
+      }
+    }))
   }
 </script>
 

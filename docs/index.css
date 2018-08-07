@@ -417,6 +417,37 @@ body > main footer:hover svg use {
 body #intro {
   padding-top: 100px;
 }
+body #intro .status {
+  width: 210px;
+  display: block;
+  font-size: 12px;
+  text-transform: uppercase;
+  font-family: var(--subheader);
+  position: relative;
+  border-radius: 2px;
+  height: 27px;
+  margin: 30px auto 0;
+}
+body #intro .status:after {
+  color: #fff;
+  padding: 4px 8px;
+  height: 18px;
+  position: absolute;
+  content: 'Experimental';
+  background-color: var(--danger);
+  top: 0;
+  right: 0;
+}
+body #intro .status:before {
+  color: var(--medium);
+  padding: 4px 8px;
+  height: 18px;
+  text-align: center;
+  content: 'Project Status';
+  position: absolute;
+  top: 0;
+  left: 0;
+}
 body #intro svg {
   width: 200px;
 }

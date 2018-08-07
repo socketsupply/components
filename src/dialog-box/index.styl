@@ -1,91 +1,92 @@
-*
-  box-sizing border-box
+dialog-box
+  *
+    box-sizing border-box
 
-> .wrapper
-  position fixed
-  top 0
-  left 0
-  right 0
-  bottom 0
-  display flex
-  z-index 100
-  visibility hidden
-  transition visibility 0s ease 0.5s
-  &.show
-    visibility visible
-    transition visibility 0s ease 0s
-    .overlay
-      opacity 1
-    .dialog
-      opacity 1
-      -webkit-transform scale(1)
-      -ms-transform scale(1)
-      transform scale(1)
+  .wrapper
+    position fixed
+    top 0
+    left 0
+    right 0
+    bottom 0
+    display flex
+    z-index 100
+    visibility hidden
+    transition visibility 0s ease 0.5s
+    &.show
+      visibility visible
+      transition visibility 0s ease 0s
+      .overlay
+        opacity 1
+      .dialog
+        opacity 1
+        -webkit-transform scale(1)
+        -ms-transform scale(1)
+        transform scale(1)
 
-.overlay
-  position absolute
-  top 0
-  left 0
-  right 0
-  bottom 0
-  opacity 0
-  transition opacity 0.3s ease-in-out
-
-.dialog
-  padding-top 50px
-  margin auto
-  position relative
-  background-color var(--window)
-  box-shadow 0px 30px 90px -20px rgba(0,0,0,0.3), 0 0 1px #a2a9b1
-  border-radius 4px
-  -webkit-transform scale(0.8)
-  -ms-transform scale(0.8)
-  transform scale(0.8)
-  transition all 0.3s ease-in-out
-  z-index 1
-  opacity 0
-
-  header
-    height 70px
-    font 14px 'Poppins', sans-serif
-    text-transform uppercase
-    text-align center
-    letter-spacing 1.5px
+  .overlay
     position absolute
     top 0
     left 0
     right 0
-    padding 26px 65px 25px 65px
-
-  main
-    width auto
-    text-align center
-    padding 20px
-    margin 0 auto
-
-  .close
-    width 25px
-    height 25px
-    position absolute
-    top 25px
-    right 25px
-    cursor pointer
-    svg
-      width 100%
-      height 100%
-      use
-        fill var(--primary)
-        color var(--primary)
-
-  footer
-    text-align center
-    position absolute
     bottom 0
-    left 0
-    right 0
-    height 88px
-    padding 15px
+    opacity 0
+    transition opacity 0.3s ease-in-out
 
-    input-button
-      display inline-block
-      margin 0 5px
+  .dialog
+    padding-top 50px
+    margin auto
+    position relative
+    background-color var(--window)
+    box-shadow 0px 30px 90px -20px rgba(0,0,0,0.3), 0 0 1px #a2a9b1
+    border-radius 4px
+    -webkit-transform scale(0.8)
+    -ms-transform scale(0.8)
+    transform scale(0.8)
+    transition all 0.3s ease-in-out
+    z-index 1
+    opacity 0
+
+    header
+      height 70px
+      font 14px 'Poppins', sans-serif
+      text-transform uppercase
+      text-align center
+      letter-spacing 1.5px
+      position absolute
+      top 0
+      left 0
+      right 0
+      padding 26px 65px 25px 65px
+
+    main
+      width auto
+      text-align center
+      padding 20px
+      margin 0 auto
+
+    .close
+      width 25px
+      height 25px
+      position absolute
+      top 25px
+      right 25px
+      cursor pointer
+      svg
+        width 100%
+        height 100%
+        use
+          fill var(--primary)
+          color var(--primary)
+
+    footer
+      text-align center
+      position absolute
+      bottom 0
+      left 0
+      right 0
+      height 70px
+      padding 15px
+
+      input-button
+        display inline-block
+        margin 0 5px

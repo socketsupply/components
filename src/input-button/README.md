@@ -37,6 +37,7 @@ The component `InputButton` creates a button.
     <tr>
       <td>
         <input-button
+          async="true"
           id="loading-button-example"
           value="Click me">
         </input-button>
@@ -60,10 +61,9 @@ The component `InputButton` creates a button.
   {
     const button = document.getElementById('loading-button-example')
     button.addEventListener('click', e => {
-      button.setProps(props => ({
-        ...props,
-        isLoading: !props.isLoading
-      }))
+      setTimeout(() => {
+        button.done()
+      }, 3e3)
     })
   }
 </script>

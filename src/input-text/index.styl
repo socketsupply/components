@@ -1,43 +1,44 @@
-.wrapper
-  position relative
-  &.right
-    icon-container
-      right 10px
-    input
-      padding-right 40px
-  &.left
-    icon-container
-      left 10px
-    input
-      padding-left 40px
+input-text
+  .wrapper
+    position relative
+    &.right
+      icon-container
+        right 10px
+      input
+        padding-right 40px
+    &.left
+      icon-container
+        left 10px
+      input
+        padding-left 40px
 
-icon-container
-  position absolute
-  bottom 7px
+  icon-container
+    position absolute
+    bottom 7px
 
-label
-  color var(--medium)
-  font-weight 500
-  font 12px/14px 'Poppins', sans-serif
-  text-transform uppercase
-  letter-spacing 1px
-  padding-bottom 10px
-  display block
+  label
+    color var(--medium)
+    font-weight 500
+    font 12px/14px 'Poppins', sans-serif
+    text-transform uppercase
+    letter-spacing 1px
+    padding-bottom 10px
+    display block
 
-input
-  color var(--primary)
-  width 100%
-  font 14px var(--monospace)
-  padding 10px
-  background-color transparent
-  border 1px solid var(--border)
-  border-radius 3px
-  transition border 0.2s ease-in-out
-  -webkit-appearance none
-  -moz-appearance none
-  appearance none
-  outline none
-  &:focus
-    border-color var(--primary)
-  &[disabled]
-    background-color var(--background)
+  input
+    color var(--primary)
+    width 100%
+    font 14px var(--monospace)
+    padding 10px
+    background-color transparent
+    border 1px solid var(--border)
+    border-radius 3px
+    transition border 0.2s ease-in-out
+    -webkit-appearance none
+    -moz-appearance none
+    appearance none
+    outline none
+    &:focus
+      border-color var(--primary)
+    &[disabled]
+      background-color var(--background)

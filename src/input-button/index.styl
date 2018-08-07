@@ -1,68 +1,76 @@
-button
-  min-height 38px
-  color var(--primary)
-  font 12px var(--subheader)
-  font-weight 400
-  text-transform uppercase
-  letter-spacing 1px
-  padding 8px 8px 5px 8px
-  margin 10px
-  position relative
-  background-color transparent
-  border 1px solid var(--primary)
-  outline none
-  -webkit-appearance none
-  -moz-appearance none
-  appearance none
-  transition all 0.2s ease-in-out
+input-button
+  button
+    min-height 38px
+    color var(--primary)
+    font 12px var(--subheader)
+    font-weight 400
+    text-transform uppercase
+    letter-spacing 1px
+    padding 8px 8px 5px 8px
+    margin 10px
+    position relative
+    background-color transparent
+    border 1px solid var(--primary)
+    outline none
+    -webkit-appearance none
+    -moz-appearance none
+    appearance none
+    transition background 0.3s ease
 
-  &[disabled],
-  &.active
-    color var(--medium)
-    background-color var(--background)
-    border-color var(--background)
+    &[disabled],
+    &.active
+      color var(--medium)
+      background-color var(--background)
+      border-color var(--background)
 
-  &:not([disabled]):hover
-    color var(--window)
-    background-color var(--primary)
-    border-color var(--primary)
+    &:not([disabled]):hover
+      color var(--window)
+      background-color var(--primary)
+      border-color var(--primary)
 
-  &.loading
-    color transparent
-    background var(--medium)
-    border-color var(--medium)
-    pointer-events none
-    &:hover
+    &.loading
+      color transparent
       background var(--medium)
       border-color var(--medium)
+      pointer-events none
+      transition background 0.3s ease
+      &:hover
+        background var(--medium)
+        border-color var(--medium)
+
+      &:before
+        margin-top -8px
+        margin-left -8px
+        display inline-block
+        position absolute
+        top 50%
+        left 50%
+        opacity 1
+        -webkit-transform translateX(-50%) translateY(-50%)
+        -ms-transform translateX(-50%) translateY(-50%)
+        transform translateX(-50%) translateY(-50%)
+        border 2px solid white
+        border-radius 50%
+        border-top-color transparent
+        -webkit-animation spin 1s linear 0s infinite
+        animation spin 1s linear 0s infinite
+        transition opacity 0.3s ease
 
     &:before
       content ''
-      width 13px
-      height 13px
-      display inline-block
-      position absolute
-      top 50%
-      left 50%
-      -webkit-transform translateX(-50%) translateY(-50%)
-      -ms-transform translateX(-50%) translateY(-50%)
-      transform translateX(-50%) translateY(-50%)
-      border 2px solid white
-      border-radius 50%
-      border-top-color transparent
-      -webkit-animation spin 0.75s linear 0s infinite
-      animation spin 0.75s linear 0s infinite
-      transition all 0.3s ease
+      width 14px
+      height 14px
+      opacity 0
 
-@keyframes spin {
-  from {
-    -webkit-transform rotate(0deg)
-    -ms-transform rotate(0deg)
-    transform rotate(0deg)
+  @keyframes spin {
+    from {
+      -webkit-transform: rotate(0deg);
+      -ms-transform: rotate(0deg);
+      transform: rotate(0deg);
+    }
+    to {
+      -webkit-transform: rotate(360deg);
+      -ms-transform: rotate(360deg);
+      transform: rotate(360deg);
+    }
   }
-  to {
-    -webkit-transform rotate(360deg)
-    -ms-transform rotate(360deg)
-    transform rotate(360deg)
-  }
-}

@@ -1,4 +1,8 @@
 class InputButton extends Tonic { /* global Tonic */
+  constructor (props) {
+    super(props)
+    this.root.done = () => this.done()
+  }
   defaults () {
     return {
       value: 'Submit',
@@ -15,6 +19,22 @@ class InputButton extends Tonic { /* global Tonic */
     return `%style%`
   }
 
+  done () {
+    setImmediate(() => {
+      const button = this.root.querySelector('button')
+      button.classList.remove('loading')
+    })
+  }
+
+  click () {
+    if (!this.props.async) return
+
+    setImmediate(() => {
+      const button = this.root.querySelector('button')
+      button.classList.add('loading')
+    })
+  }
+
   render () {
     const {
       id,
@@ -23,7 +43,6 @@ class InputButton extends Tonic { /* global Tonic */
       type,
       disabled,
       autofocus,
-      isLoading,
       isActive,
       width,
       height,
@@ -52,7 +71,6 @@ class InputButton extends Tonic { /* global Tonic */
     style = style.join('; ')
 
     let classes = []
-    if (isLoading) classes.push(`loading`)
     if (isActive) classes.push(`active`)
     classes = classes.join(' ')
 

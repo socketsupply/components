@@ -304,12 +304,8 @@
     const dialogLink2 = document.getElementById('dialog-box-link-example-2')
     const dialog2 = document.getElementById('dialog-box-example-2')
 
-    let clickCount = 1
+    let clickCount = 0
     dialogLink2.addEventListener('click', e => {
-      dialog2.setProps(props => ({
-       ...props,
-        message: `Clicked ${clickCount} times.`
-      }))
       dialog2.show()
     })
 
@@ -2130,8 +2126,8 @@
     <p>This is a panel with an overlay</p>
   </main>
   <footer>
-    <button>Cancel</button>
-    <button>Confirm</button>
+    <input-button>Cancel</input-button>
+    <input-button>Confirm</input-button>
   </footer>
 </template>
 

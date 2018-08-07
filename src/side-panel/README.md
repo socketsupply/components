@@ -73,8 +73,8 @@ The component `SidePanel` create a side panel with overlay (color or transparent
     <p>This is a panel with an overlay</p>
   </main>
   <footer>
-    <button>Cancel</button>
-    <button>Confirm</button>
+    <input-button>Cancel</input-button>
+    <input-button>Confirm</input-button>
   </footer>
 </template>
 

@@ -482,7 +482,6 @@ button.loading {
   background: var(--medium);
   border-color: var(--medium);
   pointer-events: none;
-  display: flex;
 }
 button.loading:hover {
   background: var(--medium);
@@ -493,7 +492,12 @@ button.loading:before {
   width: 13px;
   height: 13px;
   display: inline-block;
-  margin: auto;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translateX(-50%) translateY(-50%);
+  -ms-transform: translateX(-50%) translateY(-50%);
+  transform: translateX(-50%) translateY(-50%);
   border: 2px solid #fff;
   border-radius: 50%;
   border-top-color: transparent;

@@ -5,15 +5,22 @@ content-tabs
     text-decoration none
 
 [data-tab-name]:not([data-tab-group])
+  user-select none
+  font-family var(--subheader)
+  font-size 14px
   border-bottom 1px solid transparent
+  margin-right 8px
 
   &.selected
-    padding-bottom 2px
+    color var(--accent)
     border-bottom 1px solid var(--accent)
 
 [data-tab-group]
+  margin-top 15px
   display none
-  border 1px solid var(--border)
+  border-top 1px solid var(--border)
+  padding-top 15px
+  height 40px
 
   &.show
     display block

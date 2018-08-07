@@ -14,7 +14,12 @@ The component `InputSelect` creates an input, with or without a label.
   </thead>
   <tbody>
     <tr>
-      <td><input-select></input-select></td>
+      <td>
+      <input-select id="options-example-1">
+        <option value="option-a">Option A</option>
+        <option value="option-b">Option B</option>
+        <option value="option-c">Option C</option>
+      </input-select></td>
       <td>Default select</td>
       <td>
         <icon-container src="./sprite.svg#code"></icon-container>
@@ -22,6 +27,8 @@ The component `InputSelect` creates an input, with or without a label.
     </tr>
   </tbody>
 </table>
+
+%js%
 
 ## Api
 

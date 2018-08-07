@@ -208,16 +208,16 @@ content-dialog .dialog footer input-button {
     this.root.querySelector('main').innerHTML = s
   }
 
-  show () {
-    setImmediate(() => {
-      this.root.firstChild.classList.add('show')
-    })
+  show (fn) {
+    const node = this.root.firstElementChild
+    node.classList.add('show')
+    fn && node.addEventListener('transitionend', fn, { once: true })
   }
 
-  hide () {
-    setImmediate(() => {
-      this.root.firstChild.classList.remove('show')
-    })
+  hide (fn) {
+    const node = this.root.firstElementChild
+    node.classList.remove('show')
+    fn && node.addEventListener('transitionend', fn, { once: true })
   }
 
   click (e) {
@@ -500,15 +500,22 @@ content-tabs a {
   text-decoration: none;
 }
 [data-tab-name]:not([data-tab-group]) {
+  user-select: none;
+  font-family: var(--subheader);
+  font-size: 14px;
   border-bottom: 1px solid transparent;
+  margin-right: 8px;
 }
 [data-tab-name]:not([data-tab-group]).selected {
-  padding-bottom: 2px;
+  color: var(--accent);
   border-bottom: 1px solid var(--accent);
 }
 [data-tab-group] {
+  margin-top: 15px;
   display: none;
-  border: 1px solid var(--border);
+  border-top: 1px solid var(--border);
+  padding-top: 15px;
+  height: 40px;
 }
 [data-tab-group].show {
   display: block;
@@ -1137,6 +1144,7 @@ class InputSelect extends Tonic { /* global Tonic */
     const nameAttr = name ? `name="${name}"` : ''
     const valueAttr = value ? `value="${value}"` : ''
 
+    if (id) this.root.removeAttribute('id')
     if (theme) this.root.classList.add(`theme-${theme}`)
 
     let style = []
@@ -1146,6 +1154,8 @@ class InputSelect extends Tonic { /* global Tonic */
     if (padding) style.push(`padding: ${padding}`)
     style.push(`background-image: url('${InputSelect.svg.default()}')`)
     style = style.join('; ')
+
+    const options = this.root.innerHTML
 
     return `
       <div class="wrapper">
@@ -1158,7 +1168,7 @@ class InputSelect extends Tonic { /* global Tonic */
           ${disabled ? 'disabled' : ''}
           ${required ? 'required' : ''}
           style="${style}">
-          <option>Example</option>
+            ${options}
         </select>
       </div>
     `
@@ -1771,8 +1781,6 @@ notification-center .notification .close svg path {
   }
 
   create ({ message, title, duration, type } = {}) {
-    this.show()
-
     const notification = document.createElement('div')
     notification.className = 'notification'
     const main = document.createElement('main')
@@ -1829,7 +1837,11 @@ notification-center .notification .close svg path {
     main.appendChild(titleElement)
     main.appendChild(messageElement)
     this.root.querySelector('.wrapper').appendChild(notification)
-    setImmediate(() => notification.classList.add('show'))
+    this.show()
+
+    setTimeout(() => {
+      notification.classList.add('show')
+    }, 64)
 
     if (duration) {
       setTimeout(() => this.destroy(notification), duration)
@@ -1844,11 +1856,13 @@ notification-center .notification .close svg path {
   }
 
   show () {
-    this.root.firstElementChild.classList.add('show')
+    const node = this.root.firstElementChild
+    node.classList.add('show')
   }
 
   hide () {
-    this.root.firstElementChild.classList.remove('show')
+    const node = this.root.firstElementChild
+    node.classList.remove('show')
   }
 
   click (e) {

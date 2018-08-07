@@ -33,6 +33,7 @@ class InputSelect extends Tonic { /* global Tonic */
     const nameAttr = name ? `name="${name}"` : ''
     const valueAttr = value ? `value="${value}"` : ''
 
+    if (id) this.root.removeAttribute('id')
     if (theme) this.root.classList.add(`theme-${theme}`)
 
     let style = []
@@ -42,6 +43,8 @@ class InputSelect extends Tonic { /* global Tonic */
     if (padding) style.push(`padding: ${padding}`)
     style.push(`background-image: url('${InputSelect.svg.default()}')`)
     style = style.join('; ')
+
+    const options = this.root.innerHTML
 
     return `
       <div class="wrapper">
@@ -54,7 +57,7 @@ class InputSelect extends Tonic { /* global Tonic */
           ${disabled ? 'disabled' : ''}
           ${required ? 'required' : ''}
           style="${style}">
-          <option>Example</option>
+            ${options}
         </select>
       </div>
     `

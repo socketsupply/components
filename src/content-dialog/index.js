@@ -45,16 +45,16 @@ class ContentDialog extends Tonic { /* global Tonic */
     this.root.querySelector('main').innerHTML = s
   }
 
-  show () {
-    setImmediate(() => {
-      this.root.firstChild.classList.add('show')
-    })
+  show (fn) {
+    const node = this.root.firstElementChild
+    node.classList.add('show')
+    fn && node.addEventListener('transitionend', fn, { once: true })
   }
 
-  hide () {
-    setImmediate(() => {
-      this.root.firstChild.classList.remove('show')
-    })
+  hide (fn) {
+    const node = this.root.firstElementChild
+    node.classList.remove('show')
+    fn && node.addEventListener('transitionend', fn, { once: true })
   }
 
   click (e) {

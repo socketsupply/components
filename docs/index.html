@@ -1204,7 +1204,12 @@ button.addEventListener('click', e => {
   </thead>
   <tbody>
     <tr>
-      <td><input-select></input-select></td>
+      <td>
+      <input-select id="options-example-1">
+        <option value="option-a">Option A</option>
+        <option value="option-b">Option B</option>
+        <option value="option-c">Option C</option>
+      </input-select></td>
       <td>Default select</td>
       <td>
         <icon-container src="./sprite.svg#code"></icon-container>
@@ -1212,6 +1217,24 @@ button.addEventListener('click', e => {
     </tr>
   </tbody>
 </table>
+
+<script> {
+      document.addEventListener('DOMContentLoaded', e => {
+  const notification = document.getElementsByTagName('notification-center')[0]
+  const select = document.getElementById('options-example-1')
+
+  select.addEventListener('change', ({ target }) => {
+    const { value } = target.options[target.selectedIndex]
+    notification.create({
+      type: 'success',
+      message: `The value of the selected option was "${value}".`,
+      title: 'Selection',
+      duration: 2000
+    })
+  })
+})
+
+    } </script>
 
 <h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>

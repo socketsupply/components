@@ -25,8 +25,6 @@ class NotificationCenter extends Tonic { /* global Tonic */
   }
 
   create ({ message, title, duration, type } = {}) {
-    this.show()
-
     const notification = document.createElement('div')
     notification.className = 'notification'
     const main = document.createElement('main')
@@ -83,7 +81,11 @@ class NotificationCenter extends Tonic { /* global Tonic */
     main.appendChild(titleElement)
     main.appendChild(messageElement)
     this.root.querySelector('.wrapper').appendChild(notification)
-    setImmediate(() => notification.classList.add('show'))
+    this.show()
+
+    setTimeout(() => {
+      notification.classList.add('show')
+    }, 64)
 
     if (duration) {
       setTimeout(() => this.destroy(notification), duration)
@@ -98,11 +100,13 @@ class NotificationCenter extends Tonic { /* global Tonic */
   }
 
   show () {
-    this.root.firstElementChild.classList.add('show')
+    const node = this.root.firstElementChild
+    node.classList.add('show')
   }
 
   hide () {
-    this.root.firstElementChild.classList.remove('show')
+    const node = this.root.firstElementChild
+    node.classList.remove('show')
   }
 
   click (e) {

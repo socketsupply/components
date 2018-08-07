@@ -1,4 +1,4 @@
-class TabMenu extends Tonic { /* global Tonic */
+class ContentTabs extends Tonic { /* global Tonic */
   defaults () {
     return {}
   }
@@ -14,12 +14,14 @@ class TabMenu extends Tonic { /* global Tonic */
 
     if (theme) this.root.classList.add(`theme-${theme}`)
 
-    return `
-      <div class="tab-menu">
-        <div class="tab"></div>
-      </div>
-    `
+    const nodes = [...this.root.querySelectorAll('[data-tab-name]')]
+    console.log(nodes)
+
+    const wrapper = document.createElement('div')
+    wrapper.innerHTML = this.root.innerHTML
+
+    return wrapper
   }
 }
 
-Tonic.add(TabMenu)
+Tonic.add(ContentTabs)

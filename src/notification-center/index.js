@@ -94,11 +94,11 @@ class NotificationCenter extends Tonic { /* global Tonic */
   }
 
   show () {
-    this.root.firstChild.classList.add('show')
+    this.root.firstElementChild.classList.add('show')
   }
 
   hide () {
-    this.root.firstChild.classList.remove('show')
+    this.root.firstElementChild.classList.remove('show')
   }
 
   click (e) {
@@ -116,9 +116,7 @@ class NotificationCenter extends Tonic { /* global Tonic */
 
     if (theme) this.root.classList.add(`theme-${theme}`)
 
-    return `
-      <div class="wrapper"></div>
-    `
+    return `<div class="wrapper"></div>`
   }
 }
 

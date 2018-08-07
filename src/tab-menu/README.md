@@ -13,7 +13,22 @@ The component `TabMenu` creates a menu that activates sections when clicked on.
   </thead>
   <tbody>
     <tr>
-      <td>TBD</td>
+      <td>
+        <content-tabs group="profile">
+          <a href="#" data-tab-name="one">One</a>
+          <a href="#" data-tab-name="two">Two</a>
+          <a href="#" data-tab-name="three">Three</a>
+        </content-tabs>
+        <section data-tab-group="profile" data-tab-name="one">
+          Content One
+        </section>
+        <section data-tab-group="profile" data-tab-name="two">
+          Content Two
+        </section>
+        <section data-tab-group="profile" data-tab-name="three">
+          Content Three
+        </section>
+      </td>
       <td>Default Tab Menu</td>
       <td>
         <icon-container src="./sprite.svg#code"></icon-container>
@@ -21,6 +36,7 @@ The component `TabMenu` creates a menu that activates sections when clicked on.
     </tr>
   </tbody>
 </table>
+
 
 ## Api
 

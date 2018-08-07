@@ -1500,11 +1500,11 @@ notification-center .notification .close svg path {
   }
 
   show () {
-    this.root.firstChild.classList.add('show')
+    this.root.firstElementChild.classList.add('show')
   }
 
   hide () {
-    this.root.firstChild.classList.remove('show')
+    this.root.firstElementChild.classList.remove('show')
   }
 
   click (e) {
@@ -2140,7 +2140,7 @@ side-panel .wrapper footer {
 
 Tonic.add(SidePanel)
 
-class TabMenu extends Tonic { /* global Tonic */
+class ContentTabs extends Tonic { /* global Tonic */
   defaults () {
     return {}
   }
@@ -2148,6 +2148,9 @@ class TabMenu extends Tonic { /* global Tonic */
   style () {
     return `tab-menu {
   display: block;
+}
+[data-tab-group] {
+  display: none;
 }
 `
   }
@@ -2159,15 +2162,17 @@ class TabMenu extends Tonic { /* global Tonic */
 
     if (theme) this.root.classList.add(`theme-${theme}`)
 
-    return `
-      <div class="tab-menu">
-        <div class="tab"></div>
-      </div>
-    `
+    const nodes = [...this.root.querySelectorAll('[data-tab-name]')]
+    console.log(nodes)
+
+    const wrapper = document.createElement('div')
+    wrapper.innerHTML = this.root.innerHTML
+
+    return wrapper
   }
 }
 
-Tonic.add(TabMenu)
+Tonic.add(ContentTabs)
 
     })
   

@@ -49,9 +49,7 @@ The component `IconContainer` is used to create an SVG icon with a custom size a
   </tbody>
 </table>
 
-<template for="icon-container-example-1">
-  <code>&lt;icon-container&gt;&lt;/icon-container&gt;</code>
-</template>
+%html%
 
 ## Api
 

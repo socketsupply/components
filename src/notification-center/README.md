@@ -52,71 +52,9 @@ The `notification-center` element should be included *once* on the page, and all
   </tbody>
 </table>
 
-<template for="notification-center-example-1">
-  <p>HTML</p>
-  <pre>
-    <code>&lt;notification-center&gt;&lt;/notification-center&gt;</code>
-  </pre>
+%html%
 
-  <p>JS</p>
-  <pre>
-    <code>
-notification.create({
-  message: 'Hello, World', title: 'Greetings'
-})
-    </code>
-  </pre>
-</template>
-
-<script>
-  {
-    const notification = document.getElementsByTagName('notification-center')[0]
-
-    const notificationLink1 = document.getElementById('notification-link-1')
-    notificationLink1.addEventListener('click', e => {
-      notification.create({
-        message: 'Hello, World', title: 'Greetings'
-      })
-    })
-
-    const notificationLink2 = document.getElementById('notification-link-2')
-    notificationLink2.addEventListener('click', e => {
-      notification.create({
-        type: 'success'
-      })
-    })
-
-    const notificationLink3 = document.getElementById('notification-link-3')
-    notificationLink3.addEventListener('click', e => {
-      notification.create({
-        type: 'warning'
-      })
-    })
-
-    const notificationLink4 = document.getElementById('notification-link-4')
-    notificationLink4.addEventListener('click', e => {
-      notification.create({
-        type: 'danger'
-      })
-    })
-
-    const notificationLink5 = document.getElementById('notification-link-5')
-    notificationLink5.addEventListener('click', e => {
-      notification.create({
-        type: 'info'
-      })
-    })
-
-    const notificationLink6 = document.getElementById('notification-link-6')
-    notificationLink6.addEventListener('click', e => {
-      notification.create({
-        message: 'Will self destruct in 3 seconds',
-        title: 'Howdy',
-        duration: 3e3
-      })
-    })
-  }
-</script>
+%js%
 
 ## Api
 

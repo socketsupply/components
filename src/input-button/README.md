@@ -57,16 +57,7 @@ The component `InputButton` creates a button.
   </tbody>
 </table>
 
-<script>
-  {
-    const button = document.getElementById('loading-button-example')
-    button.addEventListener('click', e => {
-      setTimeout(() => {
-        button.done()
-      }, 3e3)
-    })
-  }
-</script>
+%js%
 
 ## Api
 

@@ -31,11 +31,19 @@
       </li>
     
       <li>
-        <a href="#contenttooltip" class="">ContentTooltip</a>
+        <a href="#contentdialog" class="">ContentDialog</a>
       </li>
     
       <li>
-        <a href="#dialogbox" class="">DialogBox</a>
+        <a href="#contentpanel" class="">ContentPanel</a>
+      </li>
+    
+      <li>
+        <a href="#contenttabs" class="">ContentTabs</a>
+      </li>
+    
+      <li>
+        <a href="#contenttooltip" class="">ContentTooltip</a>
       </li>
     
       <li>
@@ -83,14 +91,6 @@
       </li>
     
       <li>
-        <a href="#sidepanel" class="">SidePanel</a>
-      </li>
-    
-      <li>
-        <a href="#tabmenu" class="">TabMenu</a>
-      </li>
-    
-      <li>
         <a href="#custom" class="">Custom</a>
       </li>
     
@@ -103,46 +103,48 @@
           
   <section id="intro">
     <div class="hero">
-      <div class="logo">
-        <svg>
-          <use xlink:href="./sprite.svg#tonic_logo">
-        </svg>
-      </div>
-      <p class="intro-copy"><span class="first-word">Tonic</span> is a minimalist component library inspired by React, based on Web Components.</p>
-      <input-button value="View on Github"></input-button>
-    </div>
-    <p>
-      A <b>component</b> is a fully self-contained set of styles, behaviors and
-      layout. It usually solves a single problem in a way that makes it highly
-      reusable. An example would be a <code>ProgressBar</code> or <code>InputToggle</code>.
-    </p>
-    <p>
-      <b>Tonic</b> is a minimalist class library for building components inspired
-      by <b>React</b> and <b>Web Components</b>. This page documents a collection
-      of components built with Tonic as well as how to build your own components
-      using Tonic.
-    </p>
-    <div class="row">
-      <h3>Features</h3>
-      <div class="col">
-        <ul>
-          <li>Quickly read and understand the whole module, ~150 lines.</li>
-          <li>React-like component composition.</li>
-          <li>One-way data binding. Pipe data though connected components.</li>
-        </ul>
-      </div>
-      <div class="col">
-        <ul>
-          <li>Based on standard web technologies.</li>
-          <li>Events as class methods, not scattered inline.</li>
-          <li>Bring your own Routers, Reducers, Validators, etc.</li>
-        </ul>
-      </div>
-    </div>
+  <div class="logo">
+    <svg>
+      <use xlink:href="./sprite.svg#tonic_logo">
+    </svg>
+  </div>
+  <p class="intro-copy"><span class="first-word">Tonic</span> is a minimalist component library inspired by React, based on Web Components.</p>
+  <input-button value="View on Github"></input-button>
+</div>
+<p>
+  A <b>component</b> is a fully self-contained set of styles, behaviors and
+  layout. It usually solves a single problem in a way that makes it highly
+  reusable. An example would be a <code>ProgressBar</code> or <code>InputToggle</code>.
+</p>
+<p>
+  <b>Tonic</b> is a minimalist class library for building components inspired
+  by <b>React</b> and <b>Web Components</b>. This page documents a collection
+  of components built with Tonic as well as how to build your own components
+  using Tonic.
+</p>
+<div class="row">
+  <h3>Features</h3>
+  <div class="col">
+    <ul>
+      <li>Quickly read and understand the whole module, ~150 lines.</li>
+      <li>React-like component composition.</li>
+      <li>One-way data binding. Pipe data though connected components.</li>
+    </ul>
+  </div>
+  <div class="col">
+    <ul>
+      <li>Based on standard web technologies.</li>
+      <li>Events as class methods, not scattered inline.</li>
+      <li>Bring your own Routers, Reducers, Validators, etc.</li>
+    </ul>
+  </div>
+</div>
+
   </section>
 
 
-          <section id="contenttooltip"><h1 id="contenttooltip">ContentTooltip</h1>
+          <section id="contentdialog"><h1 id="contentdialog">ContentDialog</h1>
+<p>The component <code>ContentDialog</code> is used to create a dialog that displays content on top of an overlay.</p>
 <h2 id="demo">Demo</h2>
 <table class="example">
   <thead>
@@ -155,96 +157,8 @@
   <tbody>
     <tr>
       <td>
-        <content-tooltip
-          id="content-tooltip-example-1">
-          Hover me!
-        </content-tooltip>
-      </td>
-      <td>Default content box</td>
-      <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<template for="content-tooltip-example-1">
-  <link href="index.css" rel="stylesheet">
-  <h3>Hello, World</h3>
-  <p>For over five thousand years ginseng has been used as a natural tonic: stimulant, restorative, refresher, cordial; Medicine analeptic, roborant; informal pick-me-up, bracer, livener.</p>
-</template>
-
-<h2 id="code">Code</h2>
-<p>A template is required. Example template structure for tooltip content:</p>
-<pre><code class="language-html">  <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">for</span>= <span class="hljs-string">id</span>&gt;</span>
-    <span class="hljs-comment">&lt;!-- Tooltip content goes here --&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
-<h2 id="api">Api</h2>
-<h3 id="properties">Properties</h3>
-<table>
-<thead>
-<tr>
-<th align="left">Property</th>
-<th align="left">Type</th>
-<th align="left">Description</th>
-<th align="left">Default</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>id</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Adds an <code>id</code> attribute</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left"><code>theme</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
-<td align="left"><code>light</code></td>
-</tr>
-</tbody></table>
-<h3 id="static-methods-members">Static Methods &amp; Members</h3>
-<table>
-<thead>
-<tr>
-<th align="left">Method</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>methodName()</code></td>
-<td align="left">Description</td>
-</tr>
-</tbody></table>
-<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
-<table>
-<thead>
-<tr>
-<th align="left">Method</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>methodName()</code></td>
-<td align="left">Description</td>
-</tr>
-</tbody></table>
-</section><section id="dialogbox"><h1 id="dialogbox">DialogBox</h1>
-<p>The component <code>DialogBox</code> is used to create a dialog that displays content on top of an overlay.</p>
-<h2 id="demo">Demo</h2>
-<table class="example">
-  <thead>
-    <tr>
-      <th>Example</th>
-      <th>Description</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>
-        <dialog-box id="dialog-box-example-1"></dialog-box>
-        <input-button name="buttonCancel" id="dialog-box-link-example-1" value="Click to open"></input-button>
+        <content-dialog id="content-dialog-example-1"></content-dialog>
+        <input-button name="buttonCancel" id="content-dialog-link-example-1" value="Click to open"></input-button>
       </td>
       <td>Default dialog box</td>
       <td>
@@ -253,8 +167,8 @@
     </tr>
     <tr>
       <td>
-        <dialog-box id="dialog-box-example-2" overlay="false"></dialog-box>
-        <input-button name="buttonCancel" id="dialog-box-link-example-2" value="Click to open"></input-button>
+        <content-dialog id="content-dialog-example-2" overlay="false"></content-dialog>
+        <input-button name="buttonCancel" id="content-dialog-link-example-2" value="Click to open"></input-button>
       </td>
       <td>Dialog box without overlay (also resets its content).</td>
       <td>
@@ -263,8 +177,8 @@
     </tr>
     <tr>
       <td>
-        <dialog-box id="dialog-box-example-3" overlay="true" background-color="rgba(75, 145, 221, 0.5)"></dialog-box>
-        <input-button name="buttonCancel" id="dialog-box-link-example-3" value="Click to open"></input-button>
+        <content-dialog id="content-dialog-example-3" overlay="true" background-color="rgba(75, 145, 221, 0.5)"></content-dialog>
+        <input-button name="buttonCancel" id="content-dialog-link-example-3" value="Click to open"></input-button>
       </td>
       <td>Dialog box with overlay and custom background color</td>
       <td>
@@ -274,7 +188,7 @@
   </tbody>
 </table>
 
-<template for="dialog-box-example-1">
+<template for="content-dialog-example-1">
   <header>Dialog</header>
   <main>
     <p>I'm a little dialog,<br> hear me shout</p>
@@ -285,7 +199,7 @@
   </footer>
 </template>
 
-<template for="dialog-box-example-2">
+<template for="content-dialog-example-2">
   <header>Dialog</header>
   <main>
     <p>${data.message || 'Hello, world'}</p>
@@ -296,7 +210,7 @@
   </footer>
 </template>
 
-<template for="dialog-box-example-3">
+<template for="content-dialog-example-3">
   <header>Dialog</header>
   <main>
     <p>I'm a little dialog,<br> hear me shout</p>
@@ -307,40 +221,40 @@
   </footer>
 </template>
 
-<script>
-  {
-    const dialogLink1 = document.getElementById('dialog-box-link-example-1')
-    const dialog1 = document.getElementById('dialog-box-example-1')
-    dialogLink1.addEventListener('click', e => dialog1.show())
 
-    const dialogLink2 = document.getElementById('dialog-box-link-example-2')
-    const dialog2 = document.getElementById('dialog-box-example-2')
+<script> {
+      const dialogLink1 = document.getElementById('content-dialog-link-example-1')
+const dialog1 = document.getElementById('content-dialog-example-1')
+dialogLink1.addEventListener('click', e => dialog1.show())
 
-    let clickCount = 0
-    dialogLink2.addEventListener('click', e => {
-      dialog2.show()
-    })
+const dialogLink2 = document.getElementById('content-dialog-link-example-2')
+const dialog2 = document.getElementById('content-dialog-example-2')
 
-    dialog2.addEventListener('click', e => {
-      if (e.target.value === 'increment') {
-        clickCount++
-      } else if (e.target.value === 'decrement' && clickCount > 0) {
-        clickCount--
-      } else {
-        return
-      }
+let clickCount = 0
+dialogLink2.addEventListener('click', e => {
+  dialog2.show()
+})
 
-      dialog2.setProps(props => ({
-       ...props,
-        message: `Clicked ${clickCount} times.`
-      }))
-    })
-
-    const dialogLink3 = document.getElementById('dialog-box-link-example-3')
-    const dialog3 = document.getElementById('dialog-box-example-3')
-    dialogLink3.addEventListener('click', e => dialog3.show())
+dialog2.addEventListener('click', e => {
+  if (e.target.value === 'increment') {
+    clickCount++
+  } else if (e.target.value === 'decrement' && clickCount > 0) {
+    clickCount--
+  } else {
+    return
   }
-</script>
+
+  dialog2.setProps(props => ({
+    ...props,
+    message: `Clicked ${clickCount} times.`
+  }))
+})
+
+const dialogLink3 = document.getElementById('content-dialog-link-example-3')
+const dialog3 = document.getElementById('content-dialog-example-3')
+dialogLink3.addEventListener('click', e => dialog3.show())
+
+    } </script>
 
 <h2 id="code">Code</h2>
 <p>A template is required. Example template structure for dialog content:</p>
@@ -435,6 +349,381 @@
 <td align="left">Description</td>
 </tr>
 </tbody></table>
+</section><section id="contentpanel"><h1 id="contentpanel">ContentPanel</h1>
+<p>The component <code>ContentPanel</code> create a content panel with overlay (color or transparent).</p>
+<h2 id="demo">Demo</h2>
+<table class="example">
+  <thead>
+    <tr>
+      <th>Example</th>
+      <th>Description</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <content-panel id="content-panel-example-1"></content-panel>
+        <input-button id="content-panel-link-example-1" value="Click to open"></input-button>
+      </td>
+      <td>Default Content Panel (right)</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <content-panel id="content-panel-example-2" position="left"></content-panel>
+        <input-button id="content-panel-link-example-2" value="Click to open"></input-button>
+      </td>
+      <td>Default Content Panel (left)</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <content-panel id="content-panel-example-3" overlay="true"></content-panel>
+        <input-button id="content-panel-link-example-3" value="Click to open"></input-button>
+      </td>
+      <td>Default Content Panel with overlay (right)</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<template for="content-panel-example-1">
+  <header></header>
+  <main>
+    <p>This is a panel</p>
+  </main>
+  <footer>
+    <input-button value="cancel"></input-button>
+    <input-button value="confirm" async="true"></input-button>
+  </footer>
+</template>
+
+<template for="content-panel-example-2">
+  <header></header>
+  <main>
+    <p>This is a panel but on the left</p>
+  </main>
+  <footer>
+    <input-button value="cancel"></input-button>
+    <input-button value="confirm" async="true"></input-button>
+  </footer>
+</template>
+
+<template for="content-panel-example-3">
+  <header></header>
+  <main>
+    <p>This is a panel with an overlay</p>
+  </main>
+  <footer>
+    <input-button value="cancel"></input-button>
+    <input-button value="confirm" async="true"></input-button>
+  </footer>
+</template>
+
+
+<script> {
+      const panelLink1 = document.getElementById('content-panel-link-example-1')
+const panel1 = document.getElementById('content-panel-example-1')
+panelLink1.addEventListener('click', e => panel1.show())
+
+const panelLink2 = document.getElementById('content-panel-link-example-2')
+const panel2 = document.getElementById('content-panel-example-2')
+panelLink2.addEventListener('click', e => panel2.show())
+
+const panelLink3 = document.getElementById('content-panel-link-example-3')
+const panel3 = document.getElementById('content-panel-example-3')
+panelLink3.addEventListener('click', e => panel3.show())
+
+const panels = [...document.getElementsByTagName('content-panel')]
+panels.forEach(panel => panel.addEventListener('click', e => {
+  if (e.target.value === 'cancel') panel.hide()
+  if (e.target.value === 'confirm') {
+    setTimeout(() => {
+      panel.hide(() => {
+        panel.setProps(props => props)
+      })
+    }, 500)
+  }
+}))
+
+    } </script>
+
+<h2 id="code">Code</h2>
+<p>A template is required. Example template structure for panel content:</p>
+<pre><code class="language-html">  <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">for</span>= <span class="hljs-string">id</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">header</span>&gt;</span>
+      <span class="hljs-comment">&lt;!-- Header content goes here --&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">header</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">main</span>&gt;</span>
+      <span class="hljs-comment">&lt;!-- Main content goes here --&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">main</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">footer</span>&gt;</span>
+      <span class="hljs-comment">&lt;!-- Footer content goes here --&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">footer</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+<h2 id="api">Api</h2>
+<h3 id="properties">Properties</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>id</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds the <code>id</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>name</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds the <code>name</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>position</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Changes the position of the panel</td>
+<td align="left"><code>right</code></td>
+</tr>
+<tr>
+<td align="left"><code>overlay</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Shows an overlay behind the panel</td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left"><code>backgroundColor</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Changes the background color of the overlay</td>
+<td align="left"><code>rgba(0,0,0,0.5)</code></td>
+</tr>
+<tr>
+<td align="left"><code>theme</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
+<td align="left"><code>light</code></td>
+</tr>
+</tbody></table>
+<h3 id="static-methods-members">Static Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+</section><section id="contenttabs"><h1 id="contenttabs">ContentTabs</h1>
+<p>The component <code>ContentTabs</code> creates a menu that activates sections when clicked on.</p>
+<h2 id="demo">Demo</h2>
+<table class="example">
+  <thead>
+    <tr>
+      <th>Example</th>
+      <th>Description</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <content-tabs group="profile">
+          <a href="#" data-tab-name="one" class="selected">One</a>
+          <a href="#" data-tab-name="two">Two</a>
+          <a href="#" data-tab-name="three">Three</a>
+        </content-tabs>
+        <section data-tab-group="profile" data-tab-name="one" class="show">
+          Content One
+        </section>
+        <section data-tab-group="profile" data-tab-name="two">
+          Content Two
+        </section>
+        <section data-tab-group="profile" data-tab-name="three">
+          Content Three
+        </section>
+      </td>
+      <td>Default Tab Menu</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+<h2 id="api">Api</h2>
+<h3 id="properties">Properties</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>id</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds the <code>id</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>name</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds the <code>name</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>tabs</code></td>
+<td align="left"><em>array</em></td>
+<td align="left">Lists the clickable tabs</td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+<h3 id="static-methods-members">Static Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+</section><section id="contenttooltip"><h1 id="contenttooltip">ContentTooltip</h1>
+<h2 id="demo">Demo</h2>
+<table class="example">
+  <thead>
+    <tr>
+      <th>Example</th>
+      <th>Description</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <content-tooltip
+          id="content-tooltip-example-1">
+          Hover me!
+        </content-tooltip>
+      </td>
+      <td>Default content box</td>
+      <td>
+        <icon-container src="./sprite.svg#code"></icon-container>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<template for="content-tooltip-example-1">
+  <link href="index.css" rel="stylesheet">
+  <h3>Hello, World</h3>
+  <p>For over five thousand years ginseng has been used as a natural tonic: stimulant, restorative, refresher, cordial; Medicine analeptic, roborant; informal pick-me-up, bracer, livener.</p>
+</template>
+
+
+<h2 id="code">Code</h2>
+<p>A template is required. Example template structure for tooltip content:</p>
+<pre><code class="language-html">  <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">for</span>= <span class="hljs-string">id</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- Tooltip content goes here --&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
+<h2 id="api">Api</h2>
+<h3 id="properties">Properties</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>id</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds an <code>id</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>theme</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
+<td align="left"><code>light</code></td>
+</tr>
+</tbody></table>
+<h3 id="static-methods-members">Static Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
+<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>methodName()</code></td>
+<td align="left">Description</td>
+</tr>
+</tbody></table>
 </section><section id="iconcontainer"><h1 id="iconcontainer">IconContainer</h1>
 <p>The component <code>IconContainer</code> is used to create an SVG icon with a custom size and color.</p>
 <h2 id="demo">Demo</h2>
@@ -487,6 +776,7 @@
 <template for="icon-container-example-1">
   <code>&lt;icon-container&gt;&lt;/icon-container&gt;</code>
 </template>
+
 
 <h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>
@@ -606,16 +896,15 @@
   </tbody>
 </table>
 
-<script>
-  {
-    const button = document.getElementById('loading-button-example')
-    button.addEventListener('click', e => {
-      setTimeout(() => {
-        button.done()
-      }, 3e3)
-    })
-  }
-</script>
+<script> {
+      const button = document.getElementById('loading-button-example')
+button.addEventListener('click', e => {
+  setTimeout(() => {
+    button.done()
+  }, 3e3)
+})
+
+    } </script>
 
 <h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>
@@ -1627,55 +1916,55 @@ notification.create({
   </pre>
 </template>
 
-<script>
-  {
-    const notification = document.getElementsByTagName('notification-center')[0]
 
-    const notificationLink1 = document.getElementById('notification-link-1')
-    notificationLink1.addEventListener('click', e => {
-      notification.create({
-        message: 'Hello, World', title: 'Greetings'
-      })
-    })
+<script> {
+      const notification = document.getElementsByTagName('notification-center')[0]
 
-    const notificationLink2 = document.getElementById('notification-link-2')
-    notificationLink2.addEventListener('click', e => {
-      notification.create({
-        type: 'success'
-      })
-    })
+const notificationLink1 = document.getElementById('notification-link-1')
+notificationLink1.addEventListener('click', e => {
+  notification.create({
+    message: 'Hello, World', title: 'Greetings'
+  })
+})
 
-    const notificationLink3 = document.getElementById('notification-link-3')
-    notificationLink3.addEventListener('click', e => {
-      notification.create({
-        type: 'warning'
-      })
-    })
+const notificationLink2 = document.getElementById('notification-link-2')
+notificationLink2.addEventListener('click', e => {
+  notification.create({
+    type: 'success'
+  })
+})
 
-    const notificationLink4 = document.getElementById('notification-link-4')
-    notificationLink4.addEventListener('click', e => {
-      notification.create({
-        type: 'danger'
-      })
-    })
+const notificationLink3 = document.getElementById('notification-link-3')
+notificationLink3.addEventListener('click', e => {
+  notification.create({
+    type: 'warning'
+  })
+})
 
-    const notificationLink5 = document.getElementById('notification-link-5')
-    notificationLink5.addEventListener('click', e => {
-      notification.create({
-        type: 'info'
-      })
-    })
+const notificationLink4 = document.getElementById('notification-link-4')
+notificationLink4.addEventListener('click', e => {
+  notification.create({
+    type: 'danger'
+  })
+})
 
-    const notificationLink6 = document.getElementById('notification-link-6')
-    notificationLink6.addEventListener('click', e => {
-      notification.create({
-        message: 'Will self destruct in 3 seconds',
-        title: 'Howdy',
-        duration: 3e3
-      })
-    })
-  }
-</script>
+const notificationLink5 = document.getElementById('notification-link-5')
+notificationLink5.addEventListener('click', e => {
+  notification.create({
+    type: 'info'
+  })
+})
+
+const notificationLink6 = document.getElementById('notification-link-6')
+notificationLink6.addEventListener('click', e => {
+  notification.create({
+    message: 'Will self destruct in 3 seconds',
+    title: 'Howdy',
+    duration: 3e3
+  })
+})
+
+    } </script>
 
 <h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>
@@ -2098,13 +2387,13 @@ notification.create({
   </tbody>
 </table>
 
-<script>
-  {
-    const profile = document.getElementById('profile-image-example-editable')
-    profile.addEventListener('changed', e => console.log(e.detail))
-    profile.addEventListener('error', e => consolel.log(e.detail))
-  }
-</script>
+<script> {
+      const profile = document.getElementById('profile-image-example-editable')
+profile.addEventListener('changed', e => console.log(e.detail))
+profile.addEventListener('error', e => console.log(e.detail))
+
+    } </script>
+
 <h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>
 <table>
@@ -2180,293 +2469,6 @@ notification.create({
 <tr>
 <td align="left"><code>error</code></td>
 <td align="left">Emitted when there was a problem reading the provided input.</td>
-</tr>
-</tbody></table>
-<h3 id="static-methods-members">Static Methods &amp; Members</h3>
-<table>
-<thead>
-<tr>
-<th align="left">Method</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>methodName()</code></td>
-<td align="left">Description</td>
-</tr>
-</tbody></table>
-<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
-<table>
-<thead>
-<tr>
-<th align="left">Method</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>methodName()</code></td>
-<td align="left">Description</td>
-</tr>
-</tbody></table>
-</section><section id="sidepanel"><h1 id="sidepanel">SidePanel</h1>
-<p>The component <code>SidePanel</code> create a side panel with overlay (color or transparent).</p>
-<h2 id="demo">Demo</h2>
-<table class="example">
-  <thead>
-    <tr>
-      <th>Example</th>
-      <th>Description</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>
-        <side-panel id="side-panel-example-1"></side-panel>
-        <input-button id="side-panel-link-example-1" value="Click to open"></input-button>
-      </td>
-      <td>Default Side Panel (right)</td>
-      <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <side-panel id="side-panel-example-2" position="left"></side-panel>
-        <input-button id="side-panel-link-example-2" value="Click to open"></input-button>
-      </td>
-      <td>Default Side Panel (left)</td>
-      <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <side-panel id="side-panel-example-3" overlay="true"></side-panel>
-        <input-button id="side-panel-link-example-3" value="Click to open"></input-button>
-      </td>
-      <td>Default Side Panel with overlay (right)</td>
-      <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<template for="side-panel-example-1">
-  <header></header>
-  <main>
-    <p>This is a panel</p>
-  </main>
-  <footer>
-    <input-button value="cancel"></input-button>
-    <input-button value="confirm" async="true"></input-button>
-  </footer>
-</template>
-
-<template for="side-panel-example-2">
-  <header></header>
-  <main>
-    <p>This is a panel but on the left</p>
-  </main>
-  <footer>
-    <input-button value="cancel"></input-button>
-    <input-button value="confirm" async="true"></input-button>
-  </footer>
-</template>
-
-<template for="side-panel-example-3">
-  <header></header>
-  <main>
-    <p>This is a panel with an overlay</p>
-  </main>
-  <footer>
-    <input-button value="cancel"></input-button>
-    <input-button value="confirm" async="true"></input-button>
-  </footer>
-</template>
-
-<script>
-  {
-    const panelLink1 = document.getElementById('side-panel-link-example-1')
-    const panel1 = document.getElementById('side-panel-example-1')
-    panelLink1.addEventListener('click', e => panel1.show())
-
-    const panelLink2 = document.getElementById('side-panel-link-example-2')
-    const panel2 = document.getElementById('side-panel-example-2')
-    panelLink2.addEventListener('click', e => panel2.show())
-
-    const panelLink3 = document.getElementById('side-panel-link-example-3')
-    const panel3 = document.getElementById('side-panel-example-3')
-    panelLink3.addEventListener('click', e => panel3.show())
-
-    const panels = [...document.getElementsByTagName('side-panel')]
-    panels.forEach(panel => panel.addEventListener('click', e => {
-      if (e.target.value === 'cancel') panel.hide()
-      if (e.target.value === 'confirm') {
-        setTimeout(() => {
-          panel.hide(() => {
-            panel.setProps(props => props)
-          })
-        }, 500)
-      }
-    }))
-  }
-</script>
-
-<h2 id="code">Code</h2>
-<p>A template is required. Example template structure for panel content:</p>
-<pre><code class="language-html">  <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">for</span>= <span class="hljs-string">id</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">header</span>&gt;</span>
-      <span class="hljs-comment">&lt;!-- Header content goes here --&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">header</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">main</span>&gt;</span>
-      <span class="hljs-comment">&lt;!-- Main content goes here --&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">main</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">footer</span>&gt;</span>
-      <span class="hljs-comment">&lt;!-- Footer content goes here --&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">footer</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
-<h2 id="api">Api</h2>
-<h3 id="properties">Properties</h3>
-<table>
-<thead>
-<tr>
-<th align="left">Property</th>
-<th align="left">Type</th>
-<th align="left">Description</th>
-<th align="left">Default</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>id</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Adds the <code>id</code> attribute</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left"><code>name</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Adds the <code>name</code> attribute</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left"><code>position</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Changes the position of the panel</td>
-<td align="left"><code>right</code></td>
-</tr>
-<tr>
-<td align="left"><code>overlay</code></td>
-<td align="left"><em>boolean</em></td>
-<td align="left">Shows an overlay behind the panel</td>
-<td align="left"><code>false</code></td>
-</tr>
-<tr>
-<td align="left"><code>backgroundColor</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Changes the background color of the overlay</td>
-<td align="left"><code>rgba(0,0,0,0.5)</code></td>
-</tr>
-<tr>
-<td align="left"><code>theme</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
-<td align="left"><code>light</code></td>
-</tr>
-</tbody></table>
-<h3 id="static-methods-members">Static Methods &amp; Members</h3>
-<table>
-<thead>
-<tr>
-<th align="left">Method</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>methodName()</code></td>
-<td align="left">Description</td>
-</tr>
-</tbody></table>
-<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
-<table>
-<thead>
-<tr>
-<th align="left">Method</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>methodName()</code></td>
-<td align="left">Description</td>
-</tr>
-</tbody></table>
-</section><section id="tabmenu"><h1 id="tabmenu">TabMenu</h1>
-<p>The component <code>TabMenu</code> creates a menu that activates sections when clicked on.</p>
-<h2 id="demo">Demo</h2>
-<table class="example">
-  <thead>
-    <tr>
-      <th>Example</th>
-      <th>Description</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>
-        <content-tabs group="profile">
-          <a href="#" data-tab-name="one" class="selected">One</a>
-          <a href="#" data-tab-name="two">Two</a>
-          <a href="#" data-tab-name="three">Three</a>
-        </content-tabs>
-        <section data-tab-group="profile" data-tab-name="one" class="show">
-          Content One
-        </section>
-        <section data-tab-group="profile" data-tab-name="two">
-          Content Two
-        </section>
-        <section data-tab-group="profile" data-tab-name="three">
-          Content Three
-        </section>
-      </td>
-      <td>Default Tab Menu</td>
-      <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-
-<h2 id="api">Api</h2>
-<h3 id="properties">Properties</h3>
-<table>
-<thead>
-<tr>
-<th align="left">Property</th>
-<th align="left">Type</th>
-<th align="left">Description</th>
-<th align="left">Default</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>id</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Adds the <code>id</code> attribute</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left"><code>name</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Adds the <code>name</code> attribute</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left"><code>tabs</code></td>
-<td align="left"><em>array</em></td>
-<td align="left">Lists the clickable tabs</td>
-<td align="left"></td>
 </tr>
 </tbody></table>
 <h3 id="static-methods-members">Static Methods &amp; Members</h3>

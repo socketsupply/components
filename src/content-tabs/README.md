@@ -1,5 +1,5 @@
-# TabMenu
-The component `TabMenu` creates a menu that activates sections when clicked on.
+# ContentTabs
+The component `ContentTabs` creates a menu that activates sections when clicked on.
 
 ## Demo
 

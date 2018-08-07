@@ -1,4 +1,4 @@
-class SidePanel extends Tonic { /* global Tonic */
+class ContentPanel extends Tonic { /* global Tonic */
   constructor (props) {
     super(props)
 
@@ -40,7 +40,7 @@ class SidePanel extends Tonic { /* global Tonic */
     this.value = {}
   }
 
-  willConnect () {
+  render () {
     const {
       name,
       position,
@@ -96,12 +96,8 @@ class SidePanel extends Tonic { /* global Tonic */
     close.appendChild(svg)
     svg.appendChild(use)
 
-    this.structure = wrapper
-  }
-
-  render () {
-    return this.structure
+    return wrapper
   }
 }
 
-Tonic.add(SidePanel)
+Tonic.add(ContentPanel)

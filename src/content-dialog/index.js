@@ -1,4 +1,4 @@
-class DialogBox extends Tonic { /* global Tonic */
+class ContentDialog extends Tonic { /* global Tonic */
   constructor (props) {
     super(props)
 
@@ -130,4 +130,4 @@ class DialogBox extends Tonic { /* global Tonic */
   }
 }
 
-Tonic.add(DialogBox)
+Tonic.add(ContentDialog)

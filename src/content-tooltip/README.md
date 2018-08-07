@@ -26,11 +26,7 @@
   </tbody>
 </table>
 
-<template for="content-tooltip-example-1">
-  <link href="index.css" rel="stylesheet">
-  <h3>Hello, World</h3>
-  <p>For over five thousand years ginseng has been used as a natural tonic: stimulant, restorative, refresher, cordial; Medicine analeptic, roborant; informal pick-me-up, bracer, livener.</p>
-</template>
+%html%
 
 ## Code
 

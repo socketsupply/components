@@ -10,11 +10,6 @@ function ready () {
   const ranges = []
   let current
 
-  const githubLink = document.getElementById('github-link')
-  githubLink.addEventListener('click', e => {
-    window.location.href = 'https://github.com/hxoht/tonic'
-  })
-
   links.map(function (link) {
     const id = link.getAttribute('href').slice(1)
     const section = document.getElementById(id)

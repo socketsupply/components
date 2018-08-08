@@ -417,6 +417,9 @@ body > main footer:hover svg use {
 body #intro {
   padding-top: 100px;
 }
+body #intro center {
+  margin-top: 40px;
+}
 body #intro .status {
   width: 210px;
   display: block;

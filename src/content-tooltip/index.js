@@ -1,4 +1,14 @@
 class ContentTooltip extends Tonic { /* global Tonic */
+  constructor (node) {
+    super(node)
+    console.log('NODE', node)
+    const target = node.getAttribute('for')
+    console.log('TARGET', target)
+    const el = document.getElementById(target)
+    el.addEventListener('mouseenter', e => this.show())
+    el.addEventListener('mouseleave', e => this.hide())
+  }
+
   defaults (props) {
     return {
       width: '450px',
@@ -10,7 +20,8 @@ class ContentTooltip extends Tonic { /* global Tonic */
     return `%style%`
   }
 
-  mouseenter (e) {
+  show (e) {
+    console.log('SHOW')
     clearTimeout(this.timer)
     this.timer = setTimeout(() => {
       const tooltip = this.root.querySelector('.tooltip')
@@ -51,7 +62,8 @@ class ContentTooltip extends Tonic { /* global Tonic */
     }, 128)
   }
 
-  mouseleave (e) {
+  hide (e) {
+    console.log('HIDE')
     clearTimeout(this.timer)
     const tooltip = this.root.querySelector('.tooltip')
     tooltip.classList.remove('show')
@@ -59,9 +71,8 @@ class ContentTooltip extends Tonic { /* global Tonic */
 
   render () {
     const {
-      id,
-      width,
       theme,
+      width,
       height
     } = this.props
 
@@ -74,23 +85,15 @@ class ContentTooltip extends Tonic { /* global Tonic */
     const arrow = document.createElement('span')
     arrow.textContent = ' '
 
-    const span = document.createElement('span')
-    span.innerHTML = this.root.innerHTML
-    span.className = 'text'
-
     while (this.root.firstChild) this.root.firstChild.remove()
 
     const tooltip = document.createElement('div')
     tooltip.className = 'tooltip arrow'
     tooltip.setAttribute('style', style.join(''))
-    const template = document.querySelector(`template[for="${id}"]`)
-    const clone = document.importNode(template.content, true)
 
     tooltip.appendChild(arrow)
-    tooltip.appendChild(clone)
-    span.appendChild(tooltip)
-    this.root.appendChild(span)
-    return span
+    tooltip.innerHTML = this.root.innerHTML
+    return tooltip.innerHTML
   }
 }
 

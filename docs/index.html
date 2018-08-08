@@ -736,34 +736,25 @@ panels.forEach(panel => panel.addEventListener('click', e => {
   <thead>
     <tr>
       <th>Example</th>
-      <th>Description</th>
-      <th></th>
+      <th>Description &amp; Code</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><icon-container></icon-container></td>
-      <td>Default Icon (25px)</td>
       <td>
-        <content-tooltip id="icon-container-example-1">
-          <icon-container src="./sprite.svg#code">
-          </icon-container>
-        </content-tooltip>
+        <span id="icon-container-example-1">
+          Default Icon (25px)
+        </span>
       </td>
     </tr>
     <tr>
       <td><icon-container color="#f06653"></icon-container></td>
       <td>Icon with color (25px)</td>
-      <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
-      </td>
     </tr>
     <tr>
       <td><icon-container size="60px"></icon-container></td>
       <td>Large Icon (60px)</td>
-      <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
-      </td>
     </tr>
     <tr>
       <td>
@@ -771,16 +762,13 @@ panels.forEach(panel => panel.addEventListener('click', e => {
         </icon-container>
       </td>
       <td>Custom Icon (60px)</td>
-      <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
-      </td>
     </tr>
   </tbody>
 </table>
 
-<template for="icon-container-example-1">
+<content-tooltip for="icon-container-example-1">
   <code>&lt;icon-container&gt;&lt;/icon-container&gt;</code>
-</template>
+</content-tooltip>
 
 
 <h2 id="api">Api</h2>

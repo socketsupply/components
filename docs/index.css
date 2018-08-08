@@ -313,10 +313,6 @@ body > main table {
   border-collapse: collapse;
   border: 1px solid var(--border);
 }
-body > main table.example td:last-of-type,
-body > main table.example th:last-of-type {
-  width: 50px;
-}
 body > main th {
   font: 13px/16px var(--subheader);
   font-weight: 400;

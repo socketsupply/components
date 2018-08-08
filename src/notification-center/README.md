@@ -22,10 +22,6 @@ The `notification-center` element should be included *once* on the page, and all
       </td>
       <td>Default notification.</td>
       <td>
-        <content-tooltip id="notification-center-example-1">
-          <icon-container src="./sprite.svg#code">
-          </icon-container>
-        </content-tooltip>
       </td>
     </tr>
     <tr>

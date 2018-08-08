@@ -13,10 +13,7 @@
   <tbody>
     <tr>
       <td>
-        <content-tooltip
-          id="content-tooltip-example-1">
-          Hover me!
-        </content-tooltip>
+        xxx
       </td>
       <td>Default content box</td>
       <td>

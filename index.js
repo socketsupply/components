@@ -1,6 +1,4 @@
-
-    document.addEventListener('DOMContentLoaded', e => {
-      class ContentDialog extends Tonic { /* global Tonic */
+class ContentDialog extends Tonic { /* global Tonic */
   constructor (props) {
     super(props)
 
@@ -500,6 +498,25 @@ content-tabs a {
 Tonic.add(ContentTabs)
 
 class ContentTooltip extends Tonic { /* global Tonic */
+  constructor (node) {
+    super(node)
+    const target = node.getAttribute('for')
+    const el = document.getElementById(target)
+    let timer = null
+
+    const leave = e => {
+      clearTimeout(timer)
+      timer = setTimeout(() => {
+        this.hide()
+      }, 256)
+    }
+
+    el.addEventListener('mouseenter', e => this.show(el))
+    node.addEventListener('mouseenter', e => clearTimeout(timer))
+    node.addEventListener('mouseleave', leave)
+    el.addEventListener('mouseleave', leave)
+  }
+
   defaults (props) {
     return {
       width: '450px',
@@ -508,12 +525,7 @@ class ContentTooltip extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `content-tooltip .text {
-  position: relative;
-  display: inline-block;
-  cursor: default;
-}
-content-tooltip .text .tooltip {
+    return `content-tooltip .tooltip {
   position: absolute;
   top: 30px;
   background: var(--window);
@@ -524,13 +536,13 @@ content-tooltip .text .tooltip {
   z-index: -1;
   opacity: 0;
 }
-content-tooltip .text .tooltip.show {
+content-tooltip .tooltip.show {
   box-shadow: 0px 30px 90px -20px rgba(0,0,0,0.3);
   visibility: visible;
   opacity: 1;
   z-index: 1;
 }
-content-tooltip .text .tooltip.arrow span {
+content-tooltip .tooltip .tooltip-arrow {
   width: 12px;
   height: 12px;
   position: absolute;
@@ -544,20 +556,20 @@ content-tooltip .text .tooltip.arrow span {
   transform: rotate(45deg);
   left: 50%;
 }
-content-tooltip .text .tooltip.top span {
+content-tooltip .tooltip.top .tooltip-arrow {
   margin-bottom: -6px;
   bottom: 100%;
   border-top-color: var(--border);
   border-left-color: var(--border);
 }
-content-tooltip .text .tooltip.bottom span {
+content-tooltip .tooltip.bottom .tooltip-arrow {
   margin-top: -6px;
   position: absolute;
   top: 100%;
   border-bottom-color: var(--border);
   border-right-color: var(--border);
 }
-content-tooltip .text .image {
+content-tooltip .image {
   position: absolute;
   top: 0;
   left: 0;
@@ -570,48 +582,44 @@ content-tooltip .text .image {
 `
   }
 
-  mouseenter (e) {
+  show (relativeNode) {
     clearTimeout(this.timer)
     this.timer = setTimeout(() => {
       const tooltip = this.root.querySelector('.tooltip')
-      let el = this.root.parentNode
+      const arrow = this.root.querySelector('.tooltip-arrow')
+      let scrollableArea = relativeNode.parentNode
 
       while (true) {
-        if (!el || el.tagName === 'html') break
-        if (window.getComputedStyle(el).overflow === 'scroll') break
-        el = el.parentNode
+        if (!scrollableArea || scrollableArea.tagName === 'BODY') break
+        if (window.getComputedStyle(scrollableArea).overflow === 'scroll') break
+        scrollableArea = scrollableArea.parentNode
       }
 
-      let { top } = this.root.getBoundingClientRect()
-      top += (el.scrollY || 0)
-      let left = -(tooltip.offsetWidth / 2) + (this.root.offsetWidth / 2)
+      let { top, left } = relativeNode.getBoundingClientRect()
+      let pos = top + scrollableArea.scrollTop
 
-      if (left < 0) {
-        left = 0
-      }
+      left -= scrollableArea.offsetLeft + (tooltip.offsetWidth / 2)
+      left += relativeNode.offsetWidth / 2
 
-      if ((left + tooltip.offsetWidth) > window.innerWidth) {
-        left = window.innerWidth - tooltip.offsetWidth
-      }
+      const offset = relativeNode.offsetHeight + (arrow.offsetHeight / 2)
 
       if (top < (window.innerHeight / 2)) {
         tooltip.classList.remove('bottom')
         tooltip.classList.add('top')
-        tooltip.style.top = `30px`
-        tooltip.style.left = `${left}px`
+        pos += offset
       } else {
         tooltip.classList.remove('top')
         tooltip.classList.add('bottom')
-        const offsetTop = tooltip.offsetHeight + this.root.offsetHeight
-        tooltip.style.top = `-${offsetTop}px`
-        tooltip.style.left = `${left}px`
+        pos -= offset + tooltip.offsetHeight
       }
 
+      tooltip.style.top = `${pos}px`
+      tooltip.style.left = `${left}px`
       tooltip.classList.add('show')
     }, 128)
   }
 
-  mouseleave (e) {
+  hide () {
     clearTimeout(this.timer)
     const tooltip = this.root.querySelector('.tooltip')
     tooltip.classList.remove('show')
@@ -619,9 +627,8 @@ content-tooltip .text .image {
 
   render () {
     const {
-      id,
-      width,
       theme,
+      width,
       height
     } = this.props
 
@@ -631,26 +638,12 @@ content-tooltip .text .image {
     if (width) style.push(`width: ${width};`)
     if (height) style.push(`height: ${height};`)
 
-    const arrow = document.createElement('span')
-    arrow.textContent = ' '
-
-    const span = document.createElement('span')
-    span.innerHTML = this.root.innerHTML
-    span.className = 'text'
-
-    while (this.root.firstChild) this.root.firstChild.remove()
-
-    const tooltip = document.createElement('div')
-    tooltip.className = 'tooltip arrow'
-    tooltip.setAttribute('style', style.join(''))
-    const template = document.querySelector(`template[for="${id}"]`)
-    const clone = document.importNode(template.content, true)
-
-    tooltip.appendChild(arrow)
-    tooltip.appendChild(clone)
-    span.appendChild(tooltip)
-    this.root.appendChild(span)
-    return span
+    return `
+      <div style="${style}" class="tooltip">
+        ${this.root.innerHTML}
+        <span class="tooltip-arrow"></span>
+      </div>
+    `
   }
 }
 
@@ -2236,6 +2229,3 @@ ProfileImage.svg.default = (color) => {
 }
 
 Tonic.add(ProfileImage)
-
-    })
-  

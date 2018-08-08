@@ -9,10 +9,10 @@
   "scripts": {
     "test": "npm run test:browser",
     "dev": "./bin/server",
-    "build": "npm run build:styl && ./bin/components ./test && npm run build:docs",
+    "build": "npm run build:styl && ./bin/components --js . --css . && npm run build:docs",
     "build:styl": "stylus -u autoprefixer-stylus ./index.styl -o ./index.css",
     "build:docs": "./bin/build-docs && npm run build:docs:js && npm run build:docs:styl",
-    "build:docs:js": "browserify ./docs/src/index.js > ./docs/bundle.js",
+    "build:docs:js": "browserify ./docs/src/index.js ./index.js > ./docs/bundle.js",
     "build:docs:styl": "stylus -u autoprefixer-stylus ./docs/src/index.styl -o ./docs"
   },
   "repository": {

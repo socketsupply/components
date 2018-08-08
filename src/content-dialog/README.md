@@ -7,8 +7,7 @@ The component `ContentDialog` is used to create a dialog that displays content o
   <thead>
     <tr>
       <th>Example</th>
-      <th>Description</th>
-      <th></th>
+      <th>Description &amp; Code</th>
     </tr>
   </thead>
   <tbody>
@@ -17,9 +16,8 @@ The component `ContentDialog` is used to create a dialog that displays content o
         <content-dialog id="content-dialog-example-1"></content-dialog>
         <input-button name="buttonCancel" id="content-dialog-link-example-1" value="Click to open"></input-button>
       </td>
-      <td>Default dialog box</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="content-dialog-tooltip-1">Default dialog box</span>
       </td>
     </tr>
     <tr>
@@ -27,9 +25,10 @@ The component `ContentDialog` is used to create a dialog that displays content o
         <content-dialog id="content-dialog-example-2" overlay="false"></content-dialog>
         <input-button name="buttonCancel" id="content-dialog-link-example-2" value="Click to open"></input-button>
       </td>
-      <td>Dialog box without overlay (also resets its content).</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="content-dialog-tooltip-2">
+          Dialog box without overlay (also resets its content).
+        </span>
       </td>
     </tr>
     <tr>
@@ -37,9 +36,10 @@ The component `ContentDialog` is used to create a dialog that displays content o
         <content-dialog id="content-dialog-example-3" overlay="true" background-color="rgba(75, 145, 221, 0.5)"></content-dialog>
         <input-button name="buttonCancel" id="content-dialog-link-example-3" value="Click to open"></input-button>
       </td>
-      <td>Dialog box with overlay and custom background color</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="content-dialog-tooltip-3">
+          Dialog box with overlay and custom background color
+        </span>
       </td>
     </tr>
   </tbody>

@@ -1,5 +1,5 @@
 # ContentPanel
-The component `ContentPanel` create a content panel with overlay (color or transparent).
+The component `ContentPanel` create a content panel with an optional overlay.
 
 ## Demo
 
@@ -7,8 +7,7 @@ The component `ContentPanel` create a content panel with overlay (color or trans
   <thead>
     <tr>
       <th>Example</th>
-      <th>Description</th>
-      <th></th>
+      <th>Description &amp; Code</th>
     </tr>
   </thead>
   <tbody>
@@ -17,9 +16,10 @@ The component `ContentPanel` create a content panel with overlay (color or trans
         <content-panel id="content-panel-example-1"></content-panel>
         <input-button id="content-panel-link-example-1" value="Click to open"></input-button>
       </td>
-      <td>Default Content Panel (right)</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="content-panel-tooltip-1">
+          Default Content Panel (right)
+        </span>
       </td>
     </tr>
     <tr>
@@ -27,9 +27,10 @@ The component `ContentPanel` create a content panel with overlay (color or trans
         <content-panel id="content-panel-example-2" position="left"></content-panel>
         <input-button id="content-panel-link-example-2" value="Click to open"></input-button>
       </td>
-      <td>Default Content Panel (left)</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="content-panel-tooltip-2">
+          Default Content Panel (left)
+        </span>
       </td>
     </tr>
     <tr>
@@ -37,9 +38,10 @@ The component `ContentPanel` create a content panel with overlay (color or trans
         <content-panel id="content-panel-example-3" overlay="true"></content-panel>
         <input-button id="content-panel-link-example-3" value="Click to open"></input-button>
       </td>
-      <td>Default Content Panel with overlay (right)</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="content-panel-tooltip-3">
+          Default Content Panel with overlay (right)
+        </span>
       </td>
     </tr>
   </tbody>
@@ -76,7 +78,7 @@ A template is required. Example template structure for panel content:
 | `id` | *string* | Adds the `id` attribute | |
 | `name` | *string* | Adds the `name` attribute | |
 | `position` | *string* | Changes the position of the panel | `right` |
-| `overlay` | *boolean* | Shows an overlay behind the panel | `false` |
+| `overlay` | *boolean* | Shows an overlay behind the panel, blocks page interaction | `false` |
 | `backgroundColor` | *string* | Changes the background color of the overlay | `rgba(0,0,0,0.5)` |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 

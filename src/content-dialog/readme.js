@@ -5,23 +5,21 @@ dialogLink1.addEventListener('click', e => dialog1.show())
 const dialogLink2 = document.getElementById('content-dialog-link-example-2')
 const dialog2 = document.getElementById('content-dialog-example-2')
 
-let clickCount = 0
-dialogLink2.addEventListener('click', e => {
-  dialog2.show()
-})
+let count = 0
+dialogLink2.addEventListener('click', e => dialog2.show())
 
-dialog2.addEventListener('click', e => {
-  if (e.target.value === 'increment') {
-    clickCount++
-  } else if (e.target.value === 'decrement' && clickCount > 0) {
-    clickCount--
+dialog2.addEventListener('click', (e) => {
+  if (!e.target.value) return
+
+  if (e.target.value === 'decrement') {
+    (count > 0) && count--
   } else {
-    return
+    count++
   }
 
   dialog2.setProps(props => ({
     ...props,
-    message: `Clicked ${clickCount} times.`
+    message: `Clicked ${count} times.`
   }))
 })
 

@@ -42,7 +42,7 @@ class InputButton extends Tonic { /* global Tonic */
       type,
       disabled,
       autofocus,
-      isActive,
+      active,
       width,
       height,
       radius,
@@ -70,7 +70,7 @@ class InputButton extends Tonic { /* global Tonic */
     style = style.join('; ')
 
     let classes = []
-    if (isActive) classes.push(`active`)
+    if (active) classes.push(`active`)
     classes = classes.join(' ')
 
     return `

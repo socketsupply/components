@@ -30,3 +30,63 @@
     <input-button value="confirm" async="true"></input-button>
   </footer>
 </template>
+
+
+<content-tooltip for="content-panel-tooltip-1" width="500px">
+
+<span class="code-type">html</span>
+```html
+<content-panel
+  id="content-panel-example-1">
+</content-panel>
+```
+
+<span class="code-type">js</span>
+```js
+const link = document.getElementById('panel-link')
+const panel = document.getElementById('panel')
+
+link.addEventListener('click', e => panel.show())
+```
+
+</content-tooltip>
+
+<content-tooltip for="content-panel-tooltip-2" width="500px">
+
+<span class="code-type">html</span>
+```html
+<content-panel
+  id="content-panel-example-2"
+  position="left">
+</content-panel>
+```
+
+<span class="code-type">js</span>
+```js
+const link = document.getElementById('panel-link')
+const panel = document.getElementById('panel')
+
+link.addEventListener('click', e => panel.show())
+```
+
+</content-tooltip>
+
+<content-tooltip for="content-panel-tooltip-3" width="500px">
+
+<span class="code-type">html</span>
+```html
+<content-panel
+  id="content-panel-example-3"
+  overlay="true">
+</content-panel>
+```
+
+<span class="code-type">js</span>
+```js
+const link = document.getElementById('panel-link')
+const panel = document.getElementById('panel')
+
+link.addEventListener('click', e => panel.show())
+```
+
+</content-tooltip>

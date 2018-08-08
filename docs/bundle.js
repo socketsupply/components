@@ -494,9 +494,6 @@ class ContentTabs extends Tonic { /* global Tonic */
     return `content-tabs {
   display: block;
 }
-content-tabs a {
-  text-decoration: none;
-}
 [data-tab-name]:not([data-tab-group]) {
   user-select: none;
   font-family: var(--subheader);
@@ -632,16 +629,6 @@ content-tooltip .tooltip.bottom .tooltip-arrow {
   top: 100%;
   border-bottom-color: var(--border);
   border-right-color: var(--border);
-}
-content-tooltip .image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-size: cover;
-  -webkit-clip-path: polygon(0% 0%, 100% 0%, 100% 75%, 55% 75%, 47% 83%, 39% 75%, 0% 75%);
-  clip-path: polygon(0% 0%, 100% 0%, 100% 75%, 55% 75%, 47% 83%, 39% 75%, 0% 75%);
 }
 `
   }

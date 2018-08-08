@@ -1,5 +1,7 @@
 # ContentTooltip
 
+The `ContentTooltip` component creates a dynamically positioned pop-up tooltip filled with custom content that shows during the `hover` state of the corresponding trigger element.
+
 ## Demo
 
 <table class="example">
@@ -13,11 +15,12 @@
   <tbody>
     <tr>
       <td>
-        xxx
+        <span id="content-tooltip-example-1">Hover me!</span>
       </td>
-      <td>Default content box</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="content-tooltip-tooltip-1">
+          Default content box
+        </span>
       </td>
     </tr>
   </tbody>
@@ -27,13 +30,7 @@
 
 ## Code
 
-A template is required. Example template structure for tooltip content:
-
-```html
-  <template for= id>
-    <!-- Tooltip content goes here -->
-  </template>
-```
+The trigger element must contain an `id` that corresponds to the `for` element on the `content-tooltip` element.
 
 ## Api
 
@@ -41,7 +38,9 @@ A template is required. Example template structure for tooltip content:
 
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
-| `id` | *string* | Adds an `id` attribute |  |
+| `for` | *string* | Adds a `for` attribute <span class="req">required</span> |  |
+| `width` | *string* | Changes the `width` style |  |
+| `height` | *string* | Changes `height` style |  |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
 ### Static Methods & Members

@@ -71,7 +71,7 @@ The component `InputButton` creates a button.
 | `type` | *string* | Type of button (i.e. submit) | |
 | `disabled` | *boolean* | Button with the `disabled` attribute | `false` |
 | `autofocus` | *boolean* | Button with the `autofocus` attribute | `false` |
-| `isLoading` | *boolean* | Loading button | `false` |
+| `async` | *boolean* | Loading button | `false` |
 | `isActive` | *boolean* | Active button | `false` |
 | `width` | *string* | Width of the button | `150px` |
 | `height` | *string* | Height of the button | `38px` |

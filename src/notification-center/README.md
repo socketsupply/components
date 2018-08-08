@@ -22,6 +22,7 @@ The `notification-center` element should be included *once* on the page, and all
       </td>
       <td>Default notification.</td>
       <td>
+        xxx
       </td>
     </tr>
     <tr>

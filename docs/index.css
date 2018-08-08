@@ -330,10 +330,6 @@ body > main td {
 }
 body > main td:not(:first-of-type) {
   border-left: 1px solid var(--border);
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-      user-select: none;
 }
 body > main tr:last-of-type td {
   border-bottom: 0;

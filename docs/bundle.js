@@ -911,7 +911,7 @@ input-button button:before {
       type,
       disabled,
       autofocus,
-      isActive,
+      active,
       width,
       height,
       radius,
@@ -939,7 +939,7 @@ input-button button:before {
     style = style.join('; ')
 
     let classes = []
-    if (isActive) classes.push(`active`)
+    if (active) classes.push(`active`)
     classes = classes.join(' ')
 
     return `

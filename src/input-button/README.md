@@ -9,29 +9,25 @@ The component `InputButton` creates a button.
     <tr>
       <th>Example</th>
       <th>Description</th>
-      <th></th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><input-button></input-button></td>
-      <td>Default button</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="button-example-tooltip-1">Default button</span>
       </td>
     </tr>
     <tr>
       <td><input-button fill="var(--accent)" text-color="white"></input-button></td>
-      <td>Fill button</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="button-example-tooltip-2">Fill button</span>
       </td>
     </tr>
     <tr>
       <td><input-button disabled="true"></input-button></td>
-      <td>Button with <code>disabled</code> attribute</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="button-example-tooltip-3">Button with <code>disabled</code> attribute</span>
       </td>
     </tr>
     <tr>
@@ -42,20 +38,20 @@ The component `InputButton` creates a button.
           value="Click me">
         </input-button>
       </td>
-      <td>Loading button</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="button-example-tooltip-4">Loading button</span>
       </td>
     </tr>
     <tr>
       <td><input-button width="100%"></input-button></td>
-      <td>Full width button</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="button-example-tooltip-5">Full width button</span>
       </td>
     </tr>
   </tbody>
 </table>
+
+%html%
 
 %js%
 

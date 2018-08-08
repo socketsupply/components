@@ -21,7 +21,9 @@ attributes of the url.
           Content for "/foo/${this.state.number}".
         </content-route>
       </td>
-      <td>Content routing</td>
+      <td>
+        <span id="content-route-example-1">Conditional content based on url</span>
+      </td>
     </tr>
   </tbody>
 </table>
@@ -43,6 +45,8 @@ attributes of the url.
     margin-right: 8px;
   }
 </style>
+
+%html%
 
 %js%
 

@@ -674,7 +674,9 @@ attributes of the url.</p>
           Content for "/foo/${this.state.number}".
         </content-route>
       </td>
-      <td>Content routing</td>
+      <td>
+        <span id="content-route-example-1">Conditional content based on url</span>
+      </td>
     </tr>
   </tbody>
 </table>
@@ -696,6 +698,16 @@ attributes of the url.</p>
     margin-right: 8px;
   }
 </style>
+
+<content-tooltip for="content-route-example-1" width="500px">
+
+<p><span class="code-type">html</span></p>
+<pre><code class="language-html">&lt;content-route path=<span class="hljs-string">"/foo/:number"</span>&gt;
+  Content <span class="hljs-keyword">for</span> <span class="hljs-string">"/foo/<span class="hljs-subst">${<span class="hljs-keyword">this</span>.state.number}</span>"</span>.
+&lt;/content-route&gt;</code></pre>
+</content-tooltip>
+
+
 
 <script> {
       const link1 = document.getElementById('content-route-link-1')

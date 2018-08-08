@@ -8,19 +8,21 @@ The component `NotificationBadge` creates a notification badge with a counter an
     <tr>
       <th>Example</th>
       <th>Description</th>
-      <th></th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><notification-badge></notification-badge></td>
-      <td>Default Notification Badge</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="notification-badge-tooltip-1">
+          Default Notification Badge
+        </span>
       </td>
     </tr>
   </tbody>
 </table>
+
+%html%
 
 ## Api
 
@@ -32,14 +34,8 @@ The component `NotificationBadge` creates a notification badge with a counter an
 | `name` | *string* | Adds the `name` attribute | |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
-### Static Methods & Members
-
-| Method | Description |
-| :--- | :--- |
-| `methodName()` | Description |
-
 ### Instance Methods & Members
 
 | Method | Description |
 | :--- | :--- |
-| `methodName()` | Description |
+| `count()` | Description |

@@ -61,7 +61,7 @@ The `notification-center` element should be included *once* on the page, and all
 | :--- | :--- | :--- | :--- |
 | `id` | *string* | Adds an `id` attribute |  |
 | `name` | *string* | Adds a `name` attribute |  |
-| `alert` | *string* | Adds an alert type (success, warn, danger) |  |
+| `type` | *string* | Adds an alert type (`success`, `warning`, `danger`, `info`) |  |
 | `title` | *string* | Adds a title |  |
 | `message` | *string* | Adds a message |  |
 | `position` | *string* | Position of the notifications, can be `left`, `right` or `center` | `center` |

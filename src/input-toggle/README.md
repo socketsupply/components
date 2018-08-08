@@ -9,40 +9,45 @@ The component `InputToggle` creates a toggle.
     <tr>
       <th>Example</th>
       <th>Description</th>
-      <th></th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><input-toggle id="toggle-example-1"></input-toggle></td>
-      <td>Default toggle</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="toggle-example-tooltip-1">
+          Default toggle
+        </span>
       </td>
     </tr>
     <tr>
       <td><input-toggle checked id="toggle-example-2"></input-toggle></td>
-      <td>Default toggle checked</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="toggle-example-tooltip-2">
+          Default toggle checked
+        </span>
       </td>
     </tr>
     <tr>
       <td><input-toggle id="toggle-example-3" label="Label"></input-toggle></td>
-      <td>Toggle with label</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="toggle-example-tooltip-3">
+          Toggle with label
+        </span>
       </td>
     </tr>
     <tr>
       <td><input-toggle id="toggle-example-4" label="Disabled" disabled></input-toggle></td>
-      <td>Toggle with <code>disabled</code> attribute and label</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="toggle-example-tooltip-4">
+          Toggle with <code>disabled</code> attribute and label
+        </span>
       </td>
     </tr>
   </tbody>
 </table>
+
+%html%
 
 ## Api
 
@@ -60,10 +65,4 @@ The component `InputToggle` creates a toggle.
 
 | Method | Description |
 | :--- | :--- |
-| `methodName()` | Description |
-
-### Instance Methods & Members
-
-| Method | Description |
-| :--- | :--- |
-| `methodName()` | Description |
+| `change()` | Bind to `change` event |

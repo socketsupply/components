@@ -9,15 +9,15 @@ The component `InputText` creates an input, with or without a label.
     <tr>
       <th>Example</th>
       <th>Description</th>
-      <th></th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><input-text></input-text></td>
-      <td>Default input (without label)</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="input-example-tooltip-1">
+          Default input (without label)
+        </span>
       </td>
     </tr>
     <tr>
@@ -25,9 +25,10 @@ The component `InputText` creates an input, with or without a label.
         <input-text label="label">
         </input-text>
       </td>
-      <td>Input with label</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="input-example-tooltip-2">
+          Input with label
+        </span>
       </td>
     </tr>
     <tr>
@@ -38,9 +39,10 @@ The component `InputText` creates an input, with or without a label.
           label="Input with Icon">
         </input-text>
       </td>
-      <td>Input with label and icon (left)</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="input-example-tooltip-3">
+          Input with label and icon (left)
+        </span>
       </td>
     </tr>
     <tr>
@@ -51,41 +53,48 @@ The component `InputText` creates an input, with or without a label.
           label="Input with Icon">
         </input-text>
       </td>
-      <td>Input with label and icon (right)</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="input-example-tooltip-4">
+          Input with label and icon (right)
+        </span>
       </td>
     </tr>
     <tr>
       <td><input-text label="Disabled Input" disabled></input-text></td>
-      <td>Input with label and <code>disabled</code> attribute</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="input-example-tooltip-5">
+          Input with label and <code>disabled</code> attribute
+        </span>
       </td>
     </tr>
     <tr>
       <td><input-text label="Input with Placeholder" placeholder="Type something"></input-text></td>
-      <td>Input with label & placeholder</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="input-example-tooltip-6">
+          Input with label & placeholder
+        </span>
       </td>
     </tr>
     <tr>
       <td><input-text label="Input with Value" value="Value"></input-text></td>
-      <td>Input with label & value</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="input-example-tooltip-7">
+          Input with label & value
+        </span>
       </td>
     </tr>
     <tr>
       <td><input-text width="100%" label="Full Width"></input-text></td>
-      <td>Full width with label</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="input-example-tooltip-8">
+          Full width with label
+        </span>
       </td>
     </tr>
   </tbody>
 </table>
+
+%html%
 
 ## Api
 
@@ -103,15 +112,3 @@ The component `InputText` creates an input, with or without a label.
 | `placeholder` | *string* | Inserts placeholder text | `none` |
 | `width` | *string* | Width of the input | `250px` |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
-
-### Static Methods & Members
-
-| Method | Description |
-| :--- | :--- |
-| `methodName()` | Description |
-
-### Instance Methods & Members
-
-| Method | Description |
-| :--- | :--- |
-| `methodName()` | Description |

@@ -1602,15 +1602,15 @@ button.addEventListener('click', e => {
     <tr>
       <th>Example</th>
       <th>Description</th>
-      <th></th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><input-text></input-text></td>
-      <td>Default input (without label)</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="input-example-tooltip-1">
+          Default input (without label)
+        </span>
       </td>
     </tr>
     <tr>
@@ -1618,9 +1618,10 @@ button.addEventListener('click', e => {
         <input-text label="label">
         </input-text>
       </td>
-      <td>Input with label</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="input-example-tooltip-2">
+          Input with label
+        </span>
       </td>
     </tr>
     <tr>
@@ -1631,9 +1632,10 @@ button.addEventListener('click', e => {
           label="Input with Icon">
         </input-text>
       </td>
-      <td>Input with label and icon (left)</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="input-example-tooltip-3">
+          Input with label and icon (left)
+        </span>
       </td>
     </tr>
     <tr>
@@ -1644,41 +1646,115 @@ button.addEventListener('click', e => {
           label="Input with Icon">
         </input-text>
       </td>
-      <td>Input with label and icon (right)</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="input-example-tooltip-4">
+          Input with label and icon (right)
+        </span>
       </td>
     </tr>
     <tr>
       <td><input-text label="Disabled Input" disabled></input-text></td>
-      <td>Input with label and <code>disabled</code> attribute</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="input-example-tooltip-5">
+          Input with label and <code>disabled</code> attribute
+        </span>
       </td>
     </tr>
     <tr>
       <td><input-text label="Input with Placeholder" placeholder="Type something"></input-text></td>
-      <td>Input with label & placeholder</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="input-example-tooltip-6">
+          Input with label & placeholder
+        </span>
       </td>
     </tr>
     <tr>
       <td><input-text label="Input with Value" value="Value"></input-text></td>
-      <td>Input with label & value</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="input-example-tooltip-7">
+          Input with label & value
+        </span>
       </td>
     </tr>
     <tr>
       <td><input-text width="100%" label="Full Width"></input-text></td>
-      <td>Full width with label</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="input-example-tooltip-8">
+          Full width with label
+        </span>
       </td>
     </tr>
   </tbody>
 </table>
+
+<content-tooltip for="input-example-tooltip-1" width="300px">
+
+<p><span class="code-type">html</span></p>
+<pre><code class="language-html"><span class="hljs-section">&lt;input-text&gt;</span><span class="hljs-section">&lt;/input-text&gt;</span></code></pre>
+</content-tooltip>
+
+<content-tooltip for="input-example-tooltip-2" width="400px">
+
+<p><span class="code-type">html</span></p>
+<pre><code class="language-html">&lt;<span class="hljs-keyword">input</span>-text <span class="hljs-keyword">label</span>=<span class="hljs-string">"label"</span>&gt;&lt;/<span class="hljs-keyword">input</span>-text&gt;</code></pre>
+</content-tooltip>
+
+<content-tooltip for="input-example-tooltip-3" width="300px">
+
+<p><span class="code-type">html</span></p>
+<pre><code class="language-html">&lt;input-<span class="hljs-built_in">text</span>
+  src=<span class="hljs-string">"./sprite.svg#example"</span>
+  <span class="hljs-built_in">position</span>=<span class="hljs-string">"left"</span>
+  label=<span class="hljs-string">"Input with Icon"</span>&gt;
+&lt;/input-<span class="hljs-built_in">text</span>&gt;</code></pre>
+</content-tooltip>
+
+<content-tooltip for="input-example-tooltip-4" width="300px">
+
+<p><span class="code-type">html</span></p>
+<pre><code class="language-html">&lt;input-<span class="hljs-built_in">text</span>
+  src=<span class="hljs-string">"./sprite.svg#example"</span>
+  <span class="hljs-built_in">position</span>=<span class="hljs-string">"right"</span>
+  label=<span class="hljs-string">"Input with Icon"</span>&gt;
+&lt;/input-<span class="hljs-built_in">text</span>&gt;</code></pre>
+</content-tooltip>
+
+<content-tooltip for="input-example-tooltip-5" width="300px">
+
+<p><span class="code-type">html</span></p>
+<pre><code class="language-html">&lt;<span class="hljs-keyword">input</span>-text
+  <span class="hljs-keyword">label</span>=<span class="hljs-string">"Disabled Input"</span>
+  disabled&gt;
+&lt;/<span class="hljs-keyword">input</span>-text&gt;</code></pre>
+</content-tooltip>
+
+<content-tooltip for="input-example-tooltip-6" width="350px">
+
+<p><span class="code-type">html</span></p>
+<pre><code class="language-html">&lt;<span class="hljs-keyword">input</span>-text
+  <span class="hljs-keyword">label</span>=<span class="hljs-string">"Input with Placeholder"</span>
+  placeholder=<span class="hljs-string">"Type something"</span>&gt;
+&lt;/<span class="hljs-keyword">input</span>-text&gt;</code></pre>
+</content-tooltip>
+
+<content-tooltip for="input-example-tooltip-7" width="300px">
+
+<p><span class="code-type">html</span></p>
+<pre><code class="language-html">&lt;input-<span class="hljs-built_in">text</span>
+  label=<span class="hljs-string">"Input with Value"</span>
+  <span class="hljs-built_in">value</span>=<span class="hljs-string">"Value"</span>&gt;
+&lt;/input-<span class="hljs-built_in">text</span>&gt;</code></pre>
+</content-tooltip>
+
+<content-tooltip for="input-example-tooltip-8" width="275px">
+
+<p><span class="code-type">html</span></p>
+<pre><code class="language-html">&lt;input-<span class="hljs-literal">text</span>
+  <span class="hljs-literal">width</span>=<span class="hljs-string">"100%"</span>
+  <span class="hljs-keyword">label</span>=<span class="hljs-string">"Full Width"</span>&gt;
+&lt;/input-<span class="hljs-literal">text</span>&gt;</code></pre>
+</content-tooltip>
+
 
 <h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>
@@ -1752,32 +1828,6 @@ button.addEventListener('click', e => {
 <td align="left"><code>light</code></td>
 </tr>
 </tbody></table>
-<h3 id="static-methods-members">Static Methods &amp; Members</h3>
-<table>
-<thead>
-<tr>
-<th align="left">Method</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>methodName()</code></td>
-<td align="left">Description</td>
-</tr>
-</tbody></table>
-<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
-<table>
-<thead>
-<tr>
-<th align="left">Method</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>methodName()</code></td>
-<td align="left">Description</td>
-</tr>
-</tbody></table>
 </section><section id="inputtextarea"><h1 id="inputtextarea">InputTextarea</h1>
 <p>The component <code>InputTextarea</code> creates a text area.</p>
 <h2 id="demo">Demo</h2>
@@ -1786,47 +1836,91 @@ button.addEventListener('click', e => {
     <tr>
       <th>Example</th>
       <th>Description</th>
-      <th></th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><input-textarea></input-textarea></td>
-      <td>Default Text area</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="textarea-tooltip-1">
+          Default Text area
+        </span>
       </td>
     </tr>
     <tr>
       <td><input-textarea resize="none"></input-textarea></td>
-      <td>Text area without resize</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="textarea-tooltip-2">
+          Text area without resize
+        </span>
       </td>
     </tr>
     <tr>
       <td><input-textarea placeholder="Type in me"></input-textarea></td>
-      <td>Default Text area with placeholder</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="textarea-tooltip-3">
+          Default Text area with placeholder
+        </span>
       </td>
     </tr>
     <tr>
       <td><input-textarea label="Label"></input-textarea></td>
-      <td>Text area with label</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="textarea-tooltip-4">
+          Text area with label
+        </span>
       </td>
     </tr>
     <tr>
       <td><input-textarea label="Disabled Text Area" disabled></input-textarea></td>
-      <td>Text area with `disabled` attribute and label</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="textarea-tooltip-5">
+          Text area with <code>disabled</code> attribute and label
+        </span>
       </td>
     </tr>
   </tbody>
 </table>
+
+<content-tooltip for="textarea-tooltip-1" width="350px">
+
+<p><span class="code-type">html</span></p>
+<pre><code class="language-html"><span class="hljs-section">&lt;input-textarea&gt;</span><span class="hljs-section">&lt;/input-textarea&gt;</span></code></pre>
+</content-tooltip>
+
+<content-tooltip for="textarea-tooltip-2" width="250px">
+
+<p><span class="code-type">html</span></p>
+<pre><code class="language-html">&lt;input-<span class="hljs-selector-tag">textarea</span>
+  <span class="hljs-attribute">resize</span>=<span class="hljs-string">"none"</span>&gt;
+&lt;/input-textarea&gt;</code></pre>
+</content-tooltip>
+
+<content-tooltip for="textarea-tooltip-3" width="300px">
+
+<p><span class="code-type">html</span></p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-textarea</span>
+  <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Type in me"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">input-textarea</span>&gt;</span></code></pre>
+</content-tooltip>
+
+<content-tooltip for="textarea-tooltip-4" width="250px">
+
+<p><span class="code-type">html</span></p>
+<pre><code class="language-html">&lt;<span class="hljs-keyword">input</span>-textarea
+  <span class="hljs-keyword">label</span>=<span class="hljs-string">"Label"</span>&gt;
+&lt;/<span class="hljs-keyword">input</span>-textarea&gt;</code></pre>
+</content-tooltip>
+
+<content-tooltip for="textarea-tooltip-5" width="300px">
+
+<p><span class="code-type">html</span></p>
+<pre><code class="language-html">&lt;<span class="hljs-keyword">input</span>-textarea
+  <span class="hljs-keyword">label</span>=<span class="hljs-string">"Disabled Text Area"</span>
+  disabled&gt;
+&lt;/<span class="hljs-keyword">input</span>-textarea&gt;</code></pre>
+</content-tooltip>
+
 
 <h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>
@@ -1942,32 +2036,6 @@ button.addEventListener('click', e => {
 <td align="left"><code>light</code></td>
 </tr>
 </tbody></table>
-<h3 id="static-methods-members">Static Methods &amp; Members</h3>
-<table>
-<thead>
-<tr>
-<th align="left">Method</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>methodName()</code></td>
-<td align="left">Description</td>
-</tr>
-</tbody></table>
-<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
-<table>
-<thead>
-<tr>
-<th align="left">Method</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>methodName()</code></td>
-<td align="left">Description</td>
-</tr>
-</tbody></table>
 </section><section id="inputtoggle"><h1 id="inputtoggle">InputToggle</h1>
 <p>The component <code>InputToggle</code> creates a toggle.</p>
 <h2 id="demo">Demo</h2>
@@ -1976,40 +2044,79 @@ button.addEventListener('click', e => {
     <tr>
       <th>Example</th>
       <th>Description</th>
-      <th></th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><input-toggle id="toggle-example-1"></input-toggle></td>
-      <td>Default toggle</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="toggle-example-tooltip-1">
+          Default toggle
+        </span>
       </td>
     </tr>
     <tr>
       <td><input-toggle checked id="toggle-example-2"></input-toggle></td>
-      <td>Default toggle checked</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="toggle-example-tooltip-2">
+          Default toggle checked
+        </span>
       </td>
     </tr>
     <tr>
       <td><input-toggle id="toggle-example-3" label="Label"></input-toggle></td>
-      <td>Toggle with label</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="toggle-example-tooltip-3">
+          Toggle with label
+        </span>
       </td>
     </tr>
     <tr>
       <td><input-toggle id="toggle-example-4" label="Disabled" disabled></input-toggle></td>
-      <td>Toggle with <code>disabled</code> attribute and label</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="toggle-example-tooltip-4">
+          Toggle with <code>disabled</code> attribute and label
+        </span>
       </td>
     </tr>
   </tbody>
 </table>
+
+<content-tooltip for="toggle-example-tooltip-1" width="300px">
+
+<p><span class="code-type">html</span></p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-toggle</span>
+  <span class="hljs-attr">id</span>=<span class="hljs-string">"toggle-example-1"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">input-toggle</span>&gt;</span></code></pre>
+</content-tooltip>
+
+<content-tooltip for="toggle-example-tooltip-2" width="300px">
+
+<p><span class="code-type">html</span></p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-toggle</span>
+  <span class="hljs-attr">id</span>=<span class="hljs-string">"toggle-example-2"</span>
+  <span class="hljs-attr">checked</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">input-toggle</span>&gt;</span></code></pre>
+</content-tooltip>
+
+<content-tooltip for="toggle-example-tooltip-3" width="300px">
+
+<p><span class="code-type">html</span></p>
+<pre><code class="language-html">&lt;<span class="hljs-keyword">input</span>-toggle
+  id=<span class="hljs-string">"toggle-example-3"</span>
+  <span class="hljs-keyword">label</span>=<span class="hljs-string">"Label"</span>&gt;
+&lt;/<span class="hljs-keyword">input</span>-toggle&gt;</code></pre>
+</content-tooltip>
+
+<content-tooltip for="toggle-example-tooltip-4" width="300px">
+
+<p><span class="code-type">html</span></p>
+<pre><code class="language-html">&lt;<span class="hljs-keyword">input</span>-toggle
+  id=<span class="hljs-string">"toggle-example-4"</span>
+  <span class="hljs-keyword">label</span>=<span class="hljs-string">"Disabled"</span> disabled&gt;
+&lt;/<span class="hljs-keyword">input</span>-toggle&gt;</code></pre>
+</content-tooltip>
+
 
 <h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>
@@ -2062,21 +2169,8 @@ button.addEventListener('click', e => {
 </tr>
 </thead>
 <tbody><tr>
-<td align="left"><code>methodName()</code></td>
-<td align="left">Description</td>
-</tr>
-</tbody></table>
-<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
-<table>
-<thead>
-<tr>
-<th align="left">Method</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>methodName()</code></td>
-<td align="left">Description</td>
+<td align="left"><code>change()</code></td>
+<td align="left">Bind to <code>change</code> event</td>
 </tr>
 </tbody></table>
 </section><section id="notificationbadge"><h1 id="notificationbadge">NotificationBadge</h1>
@@ -2087,19 +2181,26 @@ button.addEventListener('click', e => {
     <tr>
       <th>Example</th>
       <th>Description</th>
-      <th></th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><notification-badge></notification-badge></td>
-      <td>Default Notification Badge</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="notification-badge-tooltip-1">
+          Default Notification Badge
+        </span>
       </td>
     </tr>
   </tbody>
 </table>
+
+<content-tooltip for="notification-badge-tooltip-1">
+
+<p><span class="code-type">html</span></p>
+<pre><code class="language-html"><span class="hljs-section">&lt;notification-badge&gt;</span><span class="hljs-section">&lt;/notification-badge&gt;</span></code></pre>
+</content-tooltip>
+
 
 <h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>
@@ -2131,19 +2232,6 @@ button.addEventListener('click', e => {
 <td align="left"><code>light</code></td>
 </tr>
 </tbody></table>
-<h3 id="static-methods-members">Static Methods &amp; Members</h3>
-<table>
-<thead>
-<tr>
-<th align="left">Method</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>methodName()</code></td>
-<td align="left">Description</td>
-</tr>
-</tbody></table>
 <h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
 <table>
 <thead>
@@ -2153,7 +2241,7 @@ button.addEventListener('click', e => {
 </tr>
 </thead>
 <tbody><tr>
-<td align="left"><code>methodName()</code></td>
+<td align="left"><code>count()</code></td>
 <td align="left">Description</td>
 </tr>
 </tbody></table>
@@ -2294,9 +2382,9 @@ notificationLink6.addEventListener('click', e => {
 <td align="left"></td>
 </tr>
 <tr>
-<td align="left"><code>alert</code></td>
+<td align="left"><code>type</code></td>
 <td align="left"><em>string</em></td>
-<td align="left">Adds an alert type (success, warn, danger)</td>
+<td align="left">Adds an alert type (<code>success</code>, <code>warning</code>, <code>danger</code>, <code>info</code>)</td>
 <td align="left"></td>
 </tr>
 <tr>
@@ -2642,36 +2730,39 @@ notificationInlineLink7.addEventListener('click', e => {
     <tr>
       <th>Example</th>
       <th>Description</th>
-      <th></th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td><profile-image size="18px"></profile-image></td>
-      <td>Small Profile Image (18px)</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="profile-image-tooltip-1">
+          Small Profile Image (18px)
+        </span>
       </td>
     </tr>
     <tr>
       <td><profile-image></profile-image></td>
-      <td>Default Profile Image (25px)</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="profile-image-tooltip-2">
+          Default Profile Image (25px)
+        </span>
       </td>
     </tr>
     <tr>
       <td><profile-image size="75px" radius="100%"></profile-image></td>
-      <td>Profile Image with Radius (75px)</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="profile-image-tooltip-3">
+          Profile Image with Radius (75px)
+        </span>
       </td>
     </tr>
     <tr>
       <td><profile-image size="150px"></profile-image></td>
-      <td>Large Profile Image (150px)</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="profile-image-tooltip-4">
+          Large Profile Image (150px)
+        </span>
       </td>
     </tr>
     <tr>
@@ -2682,13 +2773,56 @@ notificationInlineLink7.addEventListener('click', e => {
           editable>
         </profile-image>
       </td>
-      <td>Large Editable Profile Image (150px)</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="profile-image-tooltip-5">
+          Large Editable Profile Image (150px)
+        </span>
       </td>
     </tr>
   </tbody>
 </table>
+
+<content-tooltip for="profile-image-tooltip-1" width="250px">
+
+<p><span class="code-type">html</span></p>
+<pre><code class="language-html">&lt;profile-<span class="hljs-built_in">image</span>
+  <span class="hljs-built_in">size</span>=<span class="hljs-string">"18px"</span>&gt;
+&lt;/profile-<span class="hljs-built_in">image</span>&gt;</code></pre>
+</content-tooltip>
+
+<content-tooltip for="profile-image-tooltip-2" width="350px">
+
+<p><span class="code-type">html</span></p>
+<pre><code class="language-html"><span class="hljs-section">&lt;profile-image&gt;</span><span class="hljs-section">&lt;/profile-image&gt;</span></code></pre>
+</content-tooltip>
+
+<content-tooltip for="profile-image-tooltip-3" width="250px">
+
+<p><span class="code-type">html</span></p>
+<pre><code class="language-html">&lt;profile-<span class="hljs-built_in">image</span>
+  <span class="hljs-built_in">size</span>=<span class="hljs-string">"75px"</span>
+  radius=<span class="hljs-string">"100%"</span>&gt;
+&lt;/profile-<span class="hljs-built_in">image</span>&gt;</code></pre>
+</content-tooltip>
+
+<content-tooltip for="profile-image-tooltip-4" width="250px">
+
+<p><span class="code-type">html</span></p>
+<pre><code class="language-html">&lt;profile-<span class="hljs-built_in">image</span>
+  <span class="hljs-built_in">size</span>=<span class="hljs-string">"150px"</span>&gt;
+&lt;/profile-<span class="hljs-built_in">image</span>&gt;</code></pre>
+</content-tooltip>
+
+<content-tooltip for="profile-image-tooltip-5">
+
+<p><span class="code-type">html</span></p>
+<pre><code class="language-html">&lt;profile-<span class="hljs-built_in">image</span>
+  id=<span class="hljs-string">"profile-image-example-editable"</span>
+  <span class="hljs-built_in">size</span>=<span class="hljs-string">"150px"</span>
+  editable&gt;
+&lt;/profile-<span class="hljs-built_in">image</span>&gt;</code></pre>
+</content-tooltip>
+
 
 <script> {
       const profile = document.getElementById('profile-image-example-editable')
@@ -2772,32 +2906,6 @@ profile.addEventListener('error', e => console.log(e.detail))
 <tr>
 <td align="left"><code>error</code></td>
 <td align="left">Emitted when there was a problem reading the provided input.</td>
-</tr>
-</tbody></table>
-<h3 id="static-methods-members">Static Methods &amp; Members</h3>
-<table>
-<thead>
-<tr>
-<th align="left">Method</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>methodName()</code></td>
-<td align="left">Description</td>
-</tr>
-</tbody></table>
-<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
-<table>
-<thead>
-<tr>
-<th align="left">Method</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>methodName()</code></td>
-<td align="left">Description</td>
 </tr>
 </tbody></table>
 </section>

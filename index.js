@@ -1563,6 +1563,8 @@ notification-badge .notifications span:after {
     this.root.removeAttribute('id')
 
     count = '23'
+    // TODO add ability to change count
+    // TODO add flag for "new" notifications
 
     return `
       <div class="notifications">

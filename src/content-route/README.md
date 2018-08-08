@@ -1,6 +1,8 @@
 # ContentRoute
-The component `ContentRoute` conditionally renders content based on the current
-route (or when the route changes).
+The `ContentRoute` component will render it's children components if the
+browser's current url matches its `path` property. This component will detect
+__pushstate__, __popstate__ and __replacestate__ events and rerender with the
+attributes of the url.
 
 ## Demo
 
@@ -14,12 +16,35 @@ route (or when the route changes).
   <tbody>
     <tr>
       <td>
+        <a href="#" id="content-route-link-2">Back</a><a href="#" id="content-route-link-1">Set</a>
+        <content-route path="/foo/:number">
+          Content for "/foo/${this.state.number}".
+        </content-route>
       </td>
       <td>Content routing</td>
     </tr>
   </tbody>
 </table>
 
+<style>
+  content-route {
+    margin-top: 16px;
+    border: 1px solid var(--border);
+    padding: 4px;
+    display: block;
+    min-height: 32px;
+    color: var(--info);
+  }
+
+  #content-route-link-1,
+  #content-route-link-2 {
+    font-size: 14px;
+    font-family: var(--subheader);
+    margin-right: 8px;
+  }
+</style>
+
+%js%
 
 ## Api
 

@@ -281,7 +281,7 @@ body > main a:hover {
   border-bottom-color: var(--accent);
 }
 body > main .hero {
-  margin-top: 100px;
+  margin-top: 125px;
   margin-bottom: 150px;
 }
 @media (max-width: 850px) {
@@ -410,7 +410,17 @@ body #intro {
   padding-top: 100px;
 }
 body #intro center {
+  color: var(--info);
   margin-top: 40px;
+}
+body #intro center img {
+  vertical-align: middle;
+}
+body #intro center a {
+  text-transform: uppercase;
+  font-family: var(--subheader);
+  color: var(--info);
+  margin: 8px;
 }
 body #intro .status {
   width: 210px;

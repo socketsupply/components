@@ -488,26 +488,61 @@ Tonic.add(ContentPanel)
 class ContentRoute extends Tonic { /* global Tonic */
   constructor (node) {
     super(node)
-    const path = this.getAttribute('path')
-    this.keys = []
-    this.match = ContentRoute.matcher(path, this.keys)
 
-    window.addEventListener('popstate', e => {
-      console.log('route POP', e)
-      this.setProps(this.props)
-    })
+    if (ContentRoute.patched) return
+    ContentRoute.patched = true
+
+    const createEvent = function (type) {
+      const orig = window.history[type]
+      return function (...args) {
+        var value = orig.call(this, ...args)
+        window.dispatchEvent(new window.Event(type.toLowerCase()))
+        return value
+      }
+    }
+
+    const fn = e => this.setProps(this.props)
+    window.addEventListener('popstate', fn)
+    window.addEventListener('pushstate', fn)
+    window.addEventListener('replacestate', fn)
+
+    window.history.pushState = createEvent('pushState')
+    window.history.replaceState = createEvent('replaceState')
+  }
+
+  willConnect () {
+    this.html = this.root.innerHTML
+  }
+
+  compile (s) {
+    const body = `return \`${s}\``
+    return o => {
+      const keys = Object.keys(o)
+      const values = Tonic.sanitize(Object.values(o))
+      //
+      // We have sanitized the strings that are being
+      // passed into the template, so this is ok.
+      //
+      // eslint-disable-next-line
+      const fn = new Function(...keys, body)
+      return fn.bind(this)(...values)
+    }
   }
 
   render () {
-    const match = this.match(window.location.path)
-    console.log('route RENDER', match)
+    const path = this.root.getAttribute('path')
+    const keys = []
+    const matcher = ContentRoute.matcher(path, keys)
+    const match = matcher.exec(window.location.pathname)
 
     if (match) {
       match.slice(1).forEach((m, i) => {
-        this.props[this.keys[i].name] = m
+        this.state[keys[i].name] = m
       })
-      console.log('route MATCH', this.props)
-      return this.root.innerHTML
+
+      this.root.classList.add('show')
+      const template = this.compile(this.html)
+      return template({ data: this.props })
     }
 
     return ''

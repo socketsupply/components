@@ -197,7 +197,10 @@ class AnotherThing extends Tonic {
     // This structure could also come from a <template>
     // tag which would also improve performance.
     //
-    this.template = document.createElement('div')
+    const template = document.createDocumentFragment()
+    template.appendChild(document.createElement('span'))  
+    
+    this.template = template
   }
 
   willConnect () {

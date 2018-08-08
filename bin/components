@@ -3,6 +3,9 @@ const fs = require('fs')
 const path = require('path')
 const stylus = require('stylus')
 const mkdirp = require('mkdirp')
+const argv = require('minimist')(process.argv.slice(2))
+const pkgComponents = require('../package.json')
+const pkgTonic = require('../node_modules/tonic/package.json')
 
 const toCSS = str => ({
   then (resolve) {
@@ -14,33 +17,23 @@ const componentsDir = path.join(__dirname, '..', 'src')
 
 const re = /%style%/
 
-async function main () {
-  const args = process.argv.slice(2)
-  const dest = args[0]
-
-  if (!dest) {
-    console.log('A destination directory is required')
-    process.exit(1)
-  }
-
+async function js () {
   try {
-    fs.statSync(dest)
+    fs.statSync(argv.js)
   } catch (err) {
-    mkdirp.sync(dest)
+    mkdirp.sync(argv.js)
   }
 
-  const dirs = args[1] || fs.readdirSync(componentsDir)
+  const dirs = argv._.length ? argv._ : fs.readdirSync(componentsDir)
   const output = []
 
   for (const dir of dirs) {
     try {
       fs.statSync(path.join(componentsDir, dir))
     } catch (err) {
-      console.log(`No such component, ${dir}`)
+      console.error(`No such component, ${dir}`)
       process.exit(1)
     }
-
-    console.log(` -> compiling ${dir}`)
 
     const styl = path.join(componentsDir, dir, 'index.styl')
     const src = path.join(componentsDir, dir, 'index.js')
@@ -51,22 +44,44 @@ async function main () {
       process.exit(1)
     }
 
-    const js = fs.readFileSync(src, 'utf8')
-    output.push(js.replace(re, () => css))
+    output.push(fs.readFileSync(src, 'utf8').replace(re, () => css))
   }
 
-  const js = `
-    document.addEventListener('DOMContentLoaded', e => {
-      ${output.join('\n')}
-    })
-  `
+  const wrapped = `document.addEventListener('DOMContentLoaded', e => {
+  ${output.join('\n')}
+})`
 
-  const css = fs.readFileSync(path.join(__dirname, '..', 'index.css'), 'utf8')
-  fs.writeFileSync(path.join(dest, 'index.js'), js)
-  console.log(' -> writing index.js')
+  const js = argv.wrap ? wrapped : output.join('\n')
 
-  fs.writeFileSync(path.join(dest, 'index.css'), css)
-  console.log(' -> writing index.css')
+  fs.writeFileSync(path.join(argv.js, 'index.js'), js)
 }
 
-main()
+function css () {
+  const css = fs.readFileSync(path.join(__dirname, '..', 'index.css'), 'utf8')
+  fs.writeFileSync(path.join(argv.css, 'index.css'), css)
+}
+
+const help = `
+components v${pkgComponents.version} (tonic v${pkgTonic.version})
+
+Usage:
+  components --help
+  components --js <path> [--bundle] --css <path> [component-name...]
+
+Examples:
+  components --js ./js --css ./css
+  components --js ./js --bundle --css ./css
+  components --js ./js --css ./css content-dialog input-button
+`
+
+if (argv.v || argv.version) {
+  console.log(pkgComponents.version)
+}
+
+if (argv.h || argv.help) {
+  console.log(help)
+  process.exit(0)
+}
+
+if (argv.js) js()
+if (argv.css) css()

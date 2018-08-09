@@ -162,4 +162,8 @@ The following examples are inline notifications with a specified `type` and asso
 
 | Method | Description |
 | :--- | :--- |
-| `methodName()` | Description |
+| `show()` | Shows the notification center |
+| `hide()` | Removes a notification |
+| `click()` | Removes a notification |
+| `create()` | Creates a notification |
+| `destroy()` | Removes a notification |

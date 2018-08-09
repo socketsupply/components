@@ -78,14 +78,8 @@ The default section should have the class `show` to start.
 | `id` | *string* | Adds the `id` attribute | |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
-### Static Methods & Members
-
-| Method | Description |
-| :--- | :--- |
-| `methodName()` | Description |
-
 ### Instance Methods & Members
 
 | Method | Description |
 | :--- | :--- |
-| `methodName()` | Description |
+| `click()` | Click event |

@@ -87,4 +87,5 @@ The component `InputButton` creates a button.
 
 | Method | Description |
 | :--- | :--- |
-| `methodName()` | Description |
+| `click()` | Click event |
+| `done()` | Removes loading from an async button |

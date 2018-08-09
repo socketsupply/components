@@ -390,19 +390,6 @@ dialogLink3.addEventListener('click', e => dialog3.show())
 <td align="left"><code>light</code></td>
 </tr>
 </tbody></table>
-<h3 id="static-methods-members">Static Methods &amp; Members</h3>
-<table>
-<thead>
-<tr>
-<th align="left">Method</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>methodName()</code></td>
-<td align="left">Description</td>
-</tr>
-</tbody></table>
 <h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
 <table>
 <thead>
@@ -412,8 +399,16 @@ dialogLink3.addEventListener('click', e => dialog3.show())
 </tr>
 </thead>
 <tbody><tr>
-<td align="left"><code>methodName()</code></td>
-<td align="left">Description</td>
+<td align="left"><code>show()</code></td>
+<td align="left">Shows the dialog</td>
+</tr>
+<tr>
+<td align="left"><code>hide()</code></td>
+<td align="left">Hides the dialog</td>
+</tr>
+<tr>
+<td align="left"><code>click()</code></td>
+<td align="left">Click event</td>
 </tr>
 </tbody></table>
 </section><section id="contentpanel"><h1 id="contentpanel">ContentPanel</h1>
@@ -627,19 +622,6 @@ panels.forEach(panel => panel.addEventListener('click', e => {
 <td align="left"><code>light</code></td>
 </tr>
 </tbody></table>
-<h3 id="static-methods-members">Static Methods &amp; Members</h3>
-<table>
-<thead>
-<tr>
-<th align="left">Method</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>methodName()</code></td>
-<td align="left">Description</td>
-</tr>
-</tbody></table>
 <h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
 <table>
 <thead>
@@ -649,8 +631,16 @@ panels.forEach(panel => panel.addEventListener('click', e => {
 </tr>
 </thead>
 <tbody><tr>
-<td align="left"><code>methodName()</code></td>
-<td align="left">Description</td>
+<td align="left"><code>show()</code></td>
+<td align="left">Shows the panel</td>
+</tr>
+<tr>
+<td align="left"><code>hide()</code></td>
+<td align="left">Hides the panel</td>
+</tr>
+<tr>
+<td align="left"><code>click()</code></td>
+<td align="left">Click event</td>
 </tr>
 </tbody></table>
 </section><section id="contentroute"><h1 id="contentroute">ContentRoute</h1>
@@ -866,19 +856,6 @@ link2.addEventListener('click', e => {
 <td align="left"><code>light</code></td>
 </tr>
 </tbody></table>
-<h3 id="static-methods-members">Static Methods &amp; Members</h3>
-<table>
-<thead>
-<tr>
-<th align="left">Method</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>methodName()</code></td>
-<td align="left">Description</td>
-</tr>
-</tbody></table>
 <h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
 <table>
 <thead>
@@ -888,8 +865,8 @@ link2.addEventListener('click', e => {
 </tr>
 </thead>
 <tbody><tr>
-<td align="left"><code>methodName()</code></td>
-<td align="left">Description</td>
+<td align="left"><code>click()</code></td>
+<td align="left">Click event</td>
 </tr>
 </tbody></table>
 </section><section id="contenttooltip"><h1 id="contenttooltip">ContentTooltip</h1>
@@ -972,19 +949,6 @@ link2.addEventListener('click', e => {
 <td align="left"><code>light</code></td>
 </tr>
 </tbody></table>
-<h3 id="static-methods-members">Static Methods &amp; Members</h3>
-<table>
-<thead>
-<tr>
-<th align="left">Method</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>methodName()</code></td>
-<td align="left">Description</td>
-</tr>
-</tbody></table>
 <h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
 <table>
 <thead>
@@ -994,8 +958,12 @@ link2.addEventListener('click', e => {
 </tr>
 </thead>
 <tbody><tr>
-<td align="left"><code>methodName()</code></td>
-<td align="left">Description</td>
+<td align="left"><code>show()</code></td>
+<td align="left">Shows the tooltip</td>
+</tr>
+<tr>
+<td align="left"><code>hide()</code></td>
+<td align="left">Hides the tooltip</td>
 </tr>
 </tbody></table>
 </section><section id="iconcontainer"><h1 id="iconcontainer">IconContainer</h1>
@@ -1100,32 +1068,6 @@ link2.addEventListener('click', e => {
 <td align="left"><em>string</em></td>
 <td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
 <td align="left"><code>light</code></td>
-</tr>
-</tbody></table>
-<h3 id="static-methods-members">Static Methods &amp; Members</h3>
-<table>
-<thead>
-<tr>
-<th align="left">Method</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>methodName()</code></td>
-<td align="left">Description</td>
-</tr>
-</tbody></table>
-<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
-<table>
-<thead>
-<tr>
-<th align="left">Method</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>methodName()</code></td>
-<td align="left">Description</td>
 </tr>
 </tbody></table>
 </section><section id="inputbutton"><h1 id="inputbutton">InputButton</h1>
@@ -1350,8 +1292,12 @@ button.addEventListener('click', e => {
 </tr>
 </thead>
 <tbody><tr>
-<td align="left"><code>methodName()</code></td>
-<td align="left">Description</td>
+<td align="left"><code>click()</code></td>
+<td align="left">Click event</td>
+</tr>
+<tr>
+<td align="left"><code>done()</code></td>
+<td align="left">Removes loading from an async button</td>
 </tr>
 </tbody></table>
 </section><section id="inputcheckbox"><h1 id="inputcheckbox">InputCheckbox</h1>
@@ -1560,19 +1506,6 @@ button.addEventListener('click', e => {
 <td align="left">Add a custom SVG as the icon for the given state Where the <code>state</code> parameter is either <code>on</code> or <code>off</code> and the <code>fn</code> parameter is a function that returns your SVG&#39;s xml. The function will receive the color prop as an argument.</td>
 </tr>
 </tbody></table>
-<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
-<table>
-<thead>
-<tr>
-<th align="left">Method</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>methodName()</code></td>
-<td align="left">Description</td>
-</tr>
-</tbody></table>
 </section><section id="inputselect"><h1 id="inputselect">InputSelect</h1>
 <p>The component <code>InputSelect</code> creates an select input, with or without a label.</p>
 <h2 id="demo">Demo</h2>
@@ -1714,7 +1647,7 @@ button.addEventListener('click', e => {
 <td align="left"><code>light</code></td>
 </tr>
 </tbody></table>
-<h3 id="static-methods-members">Static Methods &amp; Members</h3>
+<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
 <table>
 <thead>
 <tr>
@@ -2293,7 +2226,7 @@ button.addEventListener('click', e => {
 <td align="left"><code>light</code></td>
 </tr>
 </tbody></table>
-<h3 id="static-methods-members">Static Methods &amp; Members</h3>
+<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
 <table>
 <thead>
 <tr>
@@ -2375,12 +2308,11 @@ button.addEventListener('click', e => {
 </thead>
 <tbody><tr>
 <td align="left"><code>count()</code></td>
-<td align="left">Description</td>
+<td align="left"></td>
 </tr>
 </tbody></table>
 </section><section id="notificationcenter"><h1 id="notificationcenter">NotificationCenter</h1>
-<p>The component <code>NotificationCenter</code> creates a notification badge that appears on the screen either for a duration or until the user acknowledges it.</p>
-<p>The <code>notification-center</code> element should be included <em>once</em> on the page, and all notifications will be created within this element.</p>
+<p>The component <code>NotificationCenter</code> creates a container for all notifications to be added to.</p>
 <h2 id="demo">Demo</h2>
 <p><notification-center></notification-center></p>
 <table class="example">
@@ -2491,6 +2423,11 @@ notificationLink6.addEventListener('click', e => {
 
     } </script>
 
+<h2 id="code">Code</h2>
+<p>The following code should be included once on the page:</p>
+<pre><code class="language-html"><span class="hljs-section">&lt;notification-center&gt;</span><span class="hljs-section">&lt;/notification-center&gt;</span></code></pre>
+<p>To create a new notification:</p>
+<pre><code class="language-js"></code></pre>
 <h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>
 <table>
@@ -2567,8 +2504,24 @@ notificationLink6.addEventListener('click', e => {
 </tr>
 </thead>
 <tbody><tr>
-<td align="left"><code>methodName()</code></td>
-<td align="left">Description</td>
+<td align="left"><code>show()</code></td>
+<td align="left">Shows the notification center</td>
+</tr>
+<tr>
+<td align="left"><code>hide()</code></td>
+<td align="left">Removes a notification</td>
+</tr>
+<tr>
+<td align="left"><code>click()</code></td>
+<td align="left">Removes a notification</td>
+</tr>
+<tr>
+<td align="left"><code>create()</code></td>
+<td align="left">Creates a notification</td>
+</tr>
+<tr>
+<td align="left"><code>destroy()</code></td>
+<td align="left">Removes a notification</td>
 </tr>
 </tbody></table>
 </section><section id="notificationinline"><h1 id="notificationinline">NotificationInline</h1>
@@ -2851,8 +2804,24 @@ notificationInlineLink7.addEventListener('click', e => {
 </tr>
 </thead>
 <tbody><tr>
-<td align="left"><code>methodName()</code></td>
-<td align="left">Description</td>
+<td align="left"><code>show()</code></td>
+<td align="left">Shows the notification center</td>
+</tr>
+<tr>
+<td align="left"><code>hide()</code></td>
+<td align="left">Removes a notification</td>
+</tr>
+<tr>
+<td align="left"><code>click()</code></td>
+<td align="left">Removes a notification</td>
+</tr>
+<tr>
+<td align="left"><code>create()</code></td>
+<td align="left">Creates a notification</td>
+</tr>
+<tr>
+<td align="left"><code>destroy()</code></td>
+<td align="left">Removes a notification</td>
 </tr>
 </tbody></table>
 </section><section id="profileimage"><h1 id="profileimage">ProfileImage</h1>

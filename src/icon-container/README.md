@@ -52,15 +52,3 @@ The component `IconContainer` is used to create an SVG icon with a custom size a
 | `color` | *string* | Changes the color of the icon | `#000` |
 | `src` | *string* | Allow a custom icon from a sprite | `./sprite.svg#example` |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
-
-### Static Methods & Members
-
-| Method | Description |
-| :--- | :--- |
-| `methodName()` | Description |
-
-### Instance Methods & Members
-
-| Method | Description |
-| :--- | :--- |
-| `methodName()` | Description |

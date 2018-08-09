@@ -101,9 +101,3 @@ The component `InputCheckbox` is used to create a styled checkbox, with or witho
 | Method | Description |
 | :--- | :--- |
 | `addIcon(state, fn)` | Add a custom SVG as the icon for the given state Where the `state` parameter is either `on` or `off` and the `fn` parameter is a function that returns your SVG's xml. The function will receive the color prop as an argument. |
-
-### Instance Methods & Members
-
-| Method | Description |
-| :--- | :--- |
-| `methodName()` | Description |

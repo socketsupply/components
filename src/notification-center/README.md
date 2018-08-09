@@ -1,7 +1,5 @@
 # NotificationCenter
-The component `NotificationCenter` creates a notification badge that appears on the screen either for a duration or until the user acknowledges it.
-
-The `notification-center` element should be included *once* on the page, and all notifications will be created within this element.
+The component `NotificationCenter` creates a container for all notifications to be added to.
 
 ## Demo
 
@@ -53,6 +51,20 @@ The `notification-center` element should be included *once* on the page, and all
 
 %js%
 
+## Code
+
+The following code should be included once on the page:
+
+```html
+<notification-center></notification-center>
+```
+
+To create a new notification:
+
+```js
+
+```
+
 ## Api
 
 ### Properties
@@ -77,4 +89,8 @@ The `notification-center` element should be included *once* on the page, and all
 
 | Method | Description |
 | :--- | :--- |
-| `methodName()` | Description |
+| `show()` | Shows the notification center |
+| `hide()` | Removes a notification |
+| `click()` | Removes a notification |
+| `create()` | Creates a notification |
+| `destroy()` | Removes a notification |

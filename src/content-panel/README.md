@@ -82,14 +82,10 @@ A template is required. Example template structure for panel content:
 | `backgroundColor` | *string* | Changes the background color of the overlay | `rgba(0,0,0,0.5)` |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
-### Static Methods & Members
-
-| Method | Description |
-| :--- | :--- |
-| `methodName()` | Description |
-
 ### Instance Methods & Members
 
 | Method | Description |
 | :--- | :--- |
-| `methodName()` | Description |
+| `show()` | Shows the panel |
+| `hide()` | Hides the panel |
+| `click()` | Click event |

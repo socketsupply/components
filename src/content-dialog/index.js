@@ -11,6 +11,7 @@ class ContentDialog extends Tonic { /* global Tonic */
       width: '450px',
       height: '275px',
       overlay: true,
+      // closeIcon: ContentDialog.svg.closeIcon('red'),
       backgroundColor: 'rgba(0,0,0,0.5)'
     }
   }
@@ -62,6 +63,7 @@ class ContentDialog extends Tonic { /* global Tonic */
       height,
       overlay,
       theme,
+      color,
       backgroundColor
     } = this.props
 
@@ -81,11 +83,9 @@ class ContentDialog extends Tonic { /* global Tonic */
     if (width) style.push(`width: ${width};`)
     if (height) style.push(`height: ${height};`)
 
-    // create wrapper
     const wrapper = document.createElement('div')
     wrapper.className = 'wrapper'
 
-    // create overlay
     if (overlay !== 'false') {
       const overlayElement = document.createElement('div')
       overlayElement.className = 'overlay'
@@ -101,24 +101,26 @@ class ContentDialog extends Tonic { /* global Tonic */
     // close button
     const close = document.createElement('div')
     close.className = 'close'
-
-    // create svg
-    const file = './sprite.svg#close'
-    const nsSvg = 'http://www.w3.org/2000/svg'
-    const nsXlink = 'http://www.w3.org/1999/xlink'
-    const svg = document.createElementNS(nsSvg, 'svg')
-    const use = document.createElementNS(nsSvg, 'use')
-    use.setAttributeNS(nsXlink, 'xlink:href', file)
+    // close.style.backgroundImage = `url("${this.closeIcon(color)}")`
 
     // append everything
     wrapper.appendChild(dialog)
     dialog.appendChild(this.template(id))
     dialog.appendChild(close)
-    close.appendChild(svg)
-    svg.appendChild(use)
 
     return wrapper
   }
+}
+
+ContentDialog.svg = {}
+
+ContentDialog.svg.closeIcon = (color) => {
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+      <path fill="${color}" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
+    </svg>
+  `
+  return `data:image/svg+xml;base64,${window.btoa(svg)}`
 }
 
 Tonic.add(ContentDialog)

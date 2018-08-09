@@ -43,14 +43,9 @@ The trigger element must contain an `id` that corresponds to the `for` element o
 | `height` | *string* | Changes `height` style |  |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
-### Static Methods & Members
-
-| Method | Description |
-| :--- | :--- |
-| `methodName()` | Description |
-
 ### Instance Methods & Members
 
 | Method | Description |
 | :--- | :--- |
-| `methodName()` | Description |
+| `show()` | Shows the tooltip |
+| `hide()` | Hides the tooltip |

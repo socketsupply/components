@@ -38,4 +38,4 @@ The component `NotificationBadge` creates a notification badge with a counter an
 
 | Method | Description |
 | :--- | :--- |
-| `count()` | Description |
+| `count()` |  |

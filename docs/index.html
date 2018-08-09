@@ -213,7 +213,7 @@
 <template for="content-dialog-example-2">
   <header>Dialog</header>
   <main>
-    <p>${data.message || 'Hello, world'}</p>
+    <p>${this.props.message || 'Hello, world'}</p>
   </main>
   <footer>
     <input-button value="decrement"></input-button>
@@ -270,6 +270,7 @@ dialog.addEventListener(<span class="hljs-string">'click'</span>, <span class="h
 
   dialog.setProps(<span class="hljs-function"><span class="hljs-params">props</span> =&gt;</span> ({
     ...props,
+    count,
     message: <span class="hljs-string">`Clicked <span class="hljs-subst">${count}</span> times.`</span>
   }))
 })</code></pre>

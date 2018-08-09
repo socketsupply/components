@@ -53,7 +53,7 @@ class InputText extends Tonic { /* global Tonic */
 
     const idAttr = id ? `id="${id}"` : ''
     const nameAttr = name ? `name="${name}"` : ''
-    const valueAttr = value ? `value="${value}"` : ''
+    const valueAttr = (value && value !== 'undefined') ? `value="${value}"` : ''
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
     const ariaInvalidAttr = ariaInvalid ? `aria-invalid="${ariaInvalid}"` : ''

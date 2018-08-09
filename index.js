@@ -11,8 +11,8 @@ class ContentDialog extends Tonic { /* global Tonic */
       width: '450px',
       height: '275px',
       overlay: true,
-      backgroundColor: 'rgba(0,0,0,0.5)',
-      closeIcon: ContentDialog.svg.closeIcon('var(--primary)')
+      closeIcon: ContentDialog.svg.closeIcon,
+      backgroundColor: 'rgba(0,0,0,0.5)'
     }
   }
 
@@ -25,7 +25,7 @@ class ContentDialog extends Tonic { /* global Tonic */
     const node = document.querySelector(`template[for="${id}"]`)
     const template = this.compile(node.innerHTML)
     const div = document.createElement('div')
-    div.innerHTML = template({ data: this.props })
+    div.innerHTML = template()
     return div
   }
 
@@ -190,7 +190,7 @@ content-dialog .dialog footer input-button {
     // close button
     const close = document.createElement('div')
     close.className = 'close'
-    close.style.backgroundImage = `url("${this.closeIcon(color)}")`
+    close.style.backgroundImage = `url("${this.props.closeIcon(color)}")`
 
     // append everything
     wrapper.appendChild(dialog)
@@ -204,6 +204,8 @@ content-dialog .dialog footer input-button {
 ContentDialog.svg = {}
 
 ContentDialog.svg.closeIcon = (color) => {
+  color = color || 'red'
+
   const svg = `
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
       <path fill="${color}" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
@@ -1449,7 +1451,7 @@ input-text input[disabled] {
 
     const idAttr = id ? `id="${id}"` : ''
     const nameAttr = name ? `name="${name}"` : ''
-    const valueAttr = value ? `value="${value}"` : ''
+    const valueAttr = (value && value !== 'undefined') ? `value="${value}"` : ''
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
     const ariaInvalidAttr = ariaInvalid ? `aria-invalid="${ariaInvalid}"` : ''

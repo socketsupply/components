@@ -10,6 +10,7 @@ class ContentPanel extends Tonic { /* global Tonic */
     return {
       position: 'right',
       overlay: false,
+      closeIcon: ContentPanel.svg.closeIcon,
       backgroundColor: 'rgba(0,0,0,0.5)'
     }
   }
@@ -46,6 +47,7 @@ class ContentPanel extends Tonic { /* global Tonic */
       position,
       overlay,
       theme,
+      color,
       backgroundColor
     } = this.props
 
@@ -66,7 +68,6 @@ class ContentPanel extends Tonic { /* global Tonic */
     const panel = document.createElement('div')
     panel.className = 'panel'
 
-    // create overlay
     if (overlay !== 'false') {
       const overlayElement = document.createElement('div')
       overlayElement.className = 'overlay'
@@ -77,27 +78,32 @@ class ContentPanel extends Tonic { /* global Tonic */
     // create template
     const template = document.querySelector(`template[for="${id}"]`)
     const clone = document.importNode(template.content, true)
+
     const close = document.createElement('div')
     close.className = 'close'
-
-    // create svg
-    const file = './sprite.svg#close'
-    const nsSvg = 'http://www.w3.org/2000/svg'
-    const nsXlink = 'http://www.w3.org/1999/xlink'
-    const svg = document.createElementNS(nsSvg, 'svg')
-    const use = document.createElementNS(nsSvg, 'use')
-    use.setAttributeNS(nsXlink, 'xlink:href', file)
+    const computedStyles = window.getComputedStyle(this.root)
+    const colorAttr = color || computedStyles.getPropertyValue('--primary')
+    close.style.backgroundImage = `url("${this.props.closeIcon(colorAttr)}")`
 
     // append everything
     wrapper.appendChild(panel)
     wrapper.appendChild(panel)
     panel.appendChild(clone)
     panel.appendChild(close)
-    close.appendChild(svg)
-    svg.appendChild(use)
 
     return wrapper
   }
+}
+
+ContentPanel.svg = {}
+
+ContentPanel.svg.closeIcon = (color) => {
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+      <path fill="${color}" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
+    </svg>
+  `
+  return `data:image/svg+xml;base64,${window.btoa(svg)}`
 }
 
 Tonic.add(ContentPanel)

@@ -36,6 +36,8 @@ class InputSelect extends Tonic { /* global Tonic */
     if (id) this.root.removeAttribute('id')
     if (theme) this.root.classList.add(`theme-${theme}`)
 
+    this.root.style.width = width
+
     let style = []
     if (width) style.push(`width: ${width}`)
     if (height) style.push(`height: ${height}`)

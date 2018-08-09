@@ -424,7 +424,7 @@ body #intro center a {
   margin: 15px;
 }
 body #intro .status {
-  width: 230px;
+  width: 250px;
   font: 12px var(--subheader);
   text-transform: uppercase;
   display: -webkit-box;
@@ -495,4 +495,9 @@ body content-tooltip span.code-type {
   letter-spacing: 1px;
   display: block;
   padding: 5px;
+}
+body content-dialog header,
+body content-dialog main,
+body content-dialog footer {
+  text-align: center;
 }

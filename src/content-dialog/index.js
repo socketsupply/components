@@ -103,7 +103,7 @@ class ContentDialog extends Tonic { /* global Tonic */
     close.className = 'close'
 
     const computedStyles = window.getComputedStyle(this.root)
-    const colorAttr = color || computedStyles.getPropertyValue('--medium')
+    const colorAttr = color || computedStyles.getPropertyValue('--primary')
     close.style.backgroundImage = `url("${this.props.closeIcon(colorAttr)}")`
 
     // append everything

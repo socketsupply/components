@@ -497,6 +497,8 @@ class ContentRoute extends Tonic { /* global Tonic */
       return function (...args) {
         var value = orig.call(this, ...args)
         window.dispatchEvent(new window.Event(type.toLowerCase()))
+        const nodes = document.getElementsByTagName('content-route')
+        for (const node of nodes) node.setProps(p => p)
         return value
       }
     }

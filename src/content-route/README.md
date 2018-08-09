@@ -56,7 +56,8 @@ attributes of the url.
 
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
-| `path` | *string* | A tokenized string, `/books/:book` for example. | |
+| `path` | *string* | A tokenized string to match against the current url, `/books/:book` for example. | |
+| `none` | *string* | If specified, and no matches have been made so far, this component will render. | |
 
 ### Static Methods & Members
 

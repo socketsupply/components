@@ -28,40 +28,42 @@ class ContentRoute extends Tonic { /* global Tonic */
   }
 
   compile (s) {
-    const body = `return \`${s}\``
-    return o => {
-      const keys = Object.keys(o)
-      const values = Tonic.sanitize(Object.values(o))
-      //
-      // We have sanitized the strings that are being
-      // passed into the template, so this is ok.
-      //
-      // eslint-disable-next-line
-      const fn = new Function(...keys, body)
-      return fn.bind(this)(...values)
-    }
+    // eslint-disable-next-line
+    return new Function(`return \`${s}\``).bind(this)
   }
 
   render () {
+    const template = this.compile(this.html)
+
+    const none = this.root.hasAttribute('none')
+
+    if (none) {
+      if (ContentRoute.matches) return
+      this.root.classList.add('show')
+      return template()
+    }
+
     const path = this.root.getAttribute('path')
     const keys = []
     const matcher = ContentRoute.matcher(path, keys)
     const match = matcher.exec(window.location.pathname)
 
     if (match) {
+      ContentRoute.matches = true
+
       match.slice(1).forEach((m, i) => {
         this.state[keys[i].name] = m
       })
 
       this.root.classList.add('show')
-      const template = this.compile(this.html)
-      return template({ data: this.props })
+      return template()
     }
 
     return ''
   }
 }
 
+ContentRoute.matches = false
 ContentRoute.matcher = (() => {
   //
   // Most of this was lifted from the path-to-regex project which can

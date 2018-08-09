@@ -1288,6 +1288,7 @@ class InputSelect extends Tonic { /* global Tonic */
   defaults () {
     return {
       disabled: false,
+      iconArrow: InputSelect.svg.default(),
       width: '250px'
     }
   }
@@ -1342,7 +1343,8 @@ class InputSelect extends Tonic { /* global Tonic */
     if (height) style.push(`height: ${height}`)
     if (radius) style.push(`border-radius: ${radius}`)
     if (padding) style.push(`padding: ${padding}`)
-    style.push(`background-image: url('${InputSelect.svg.default()}')`)
+
+    style.push(`background-image: url('${this.props.iconArrow}')`)
     style = style.join('; ')
 
     const options = this.root.innerHTML
@@ -2336,9 +2338,7 @@ notification-inline .notification .close svg path {
 
     if (theme) this.root.classList.add(`theme-${theme}`)
 
-    return `
-      <div class="wrapper"></div>
-    `
+    return `<div class="wrapper"></div>`
   }
 }
 

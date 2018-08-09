@@ -2,9 +2,15 @@ class ProfileImage extends Tonic { /* global Tonic */
   defaults () {
     return {
       size: '50px',
-      src: ProfileImage.svg.default('#f0f0f0'),
+      src: ProfileImage.svg.default(),
+      iconEdit: ProfileImage.svg.edit(),
       radius: '5px'
     }
+  }
+
+  getPropertyValue (s) {
+    const computed = window.getComputedStyle(this.root)
+    return computed.getPropertyValue(`--${s}`).trim()
   }
 
   style () {
@@ -74,9 +80,7 @@ class ProfileImage extends Tonic { /* global Tonic */
         </div>
         <input type="file" style="display:none"/>
         <div class="overlay">
-          <svg style="width: 40px; height: 40px;">
-            <use xlink:href="./sprite.svg#edit" style="fill: #fff; color: #fff;">
-          </svg>
+          <div style="background-image: url('${this.props.iconEdit}')"></div>
         </div>
       </div>
     `
@@ -84,9 +88,19 @@ class ProfileImage extends Tonic { /* global Tonic */
 }
 
 ProfileImage.svg = {}
-ProfileImage.svg.default = (color) => {
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect fill="${color}" width="100" height="100"></rect><circle fill="#D6D6D6" cx="49.3" cy="41.3" r="21.1"></circle><path fill="#D6D6D6" d="M48.6,69.5c-18.1,0-33.1,13.2-36,30.5h72C81.8,82.7,66.7,69.5,48.6,69.5z"></path></svg>`
-  return `data:image/svg+xml;base64,${window.btoa(svg)}`
-}
+ProfileImage.svg.toURL = s => `data:image/svg+xml;base64,${window.btoa(s)}`
+ProfileImage.svg.default = () => ProfileImage.svg.toURL(`
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <rect fill="#F0F0F0" width="100" height="100"></rect>
+    <circle fill="#D6D6D6" cx="49.3" cy="41.3" r="21.1"></circle>
+    <path fill="#D6D6D6" d="M48.6,69.5c-18.1,0-33.1,13.2-36,30.5h72C81.8,82.7,66.7,69.5,48.6,69.5z"></path>
+  </svg>
+`)
+
+ProfileImage.svg.edit = () => ProfileImage.svg.toURL(`
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <path fill="#fff" d="M79.8,32.8L67.5,20.5c-0.2-0.2-0.5-0.2-0.7,0L25.2,62.1c-0.1,0.1-0.1,0.1-0.1,0.2L20.8,79c0,0.2,0,0.4,0.1,0.5c0.1,0.1,0.2,0.1,0.4,0.1c0,0,0.1,0,0.1,0l16.6-4.4c0.1,0,0.2-0.1,0.2-0.1l41.6-41.6C79.9,33.3,79.9,33,79.8,32.8z M67.1,25.8l7.3,7.3L36.9,70.7l-7.3-7.3L67.1,25.8z M33,72.4l-6.8,1.8l1.8-6.9L33,72.4z"/>
+  </svg>
+`)
 
 Tonic.add(ProfileImage)

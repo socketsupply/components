@@ -70,12 +70,17 @@ class ContentDialog extends Tonic { /* global Tonic */
     this.root.hide = () => this.hide()
   }
 
+  getPropertyValue (s) {
+    const computed = window.getComputedStyle(this.root)
+    return computed.getPropertyValue(`--${s}`).trim()
+  }
+
   defaults () {
     return {
       width: '450px',
       height: '275px',
       overlay: true,
-      closeIcon: ContentDialog.svg.closeIcon,
+      closeIcon: ContentDialog.svg.closeIcon(this.getPropertyValue('primary')),
       backgroundColor: 'rgba(0,0,0,0.5)'
     }
   }
@@ -252,9 +257,9 @@ content-dialog .dialog footer input-button {
     const close = document.createElement('div')
     close.className = 'close'
 
-    const computedStyles = window.getComputedStyle(this.root)
-    const colorAttr = color || computedStyles.getPropertyValue('--primary')
-    close.style.backgroundImage = `url("${this.props.closeIcon(colorAttr)}")`
+    const iconColor = color || this.getPropertyValue('primary')
+    const url = ContentDialog.svg.closeIcon(iconColor)
+    close.style.backgroundImage = `url("${url}")`
 
     // append everything
     wrapper.appendChild(dialog)
@@ -266,15 +271,12 @@ content-dialog .dialog footer input-button {
 }
 
 ContentDialog.svg = {}
-
-ContentDialog.svg.closeIcon = (color) => {
-  const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-      <path fill="${color}" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
-    </svg>
-  `
-  return `data:image/svg+xml;base64,${window.btoa(svg)}`
-}
+ContentDialog.svg.toURL = s => `data:image/svg+xml;base64,${window.btoa(s)}`
+ContentDialog.svg.closeIcon = color => ContentDialog.svg.toURL(`
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <path fill="${color}" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
+  </svg>
+`)
 
 Tonic.add(ContentDialog)
 
@@ -284,6 +286,11 @@ class ContentPanel extends Tonic { /* global Tonic */
 
     this.root.show = fn => this.show(fn)
     this.root.hide = fn => this.hide(fn)
+  }
+
+  getPropertyValue (s) {
+    const computed = window.getComputedStyle(this.root)
+    return computed.getPropertyValue(`--${s}`).trim()
   }
 
   defaults () {
@@ -445,9 +452,10 @@ content-panel .wrapper footer {
 
     const close = document.createElement('div')
     close.className = 'close'
-    const computedStyles = window.getComputedStyle(this.root)
-    const colorAttr = color || computedStyles.getPropertyValue('--primary')
-    close.style.backgroundImage = `url("${this.props.closeIcon(colorAttr)}")`
+
+    const iconColor = color || this.getPropertyValue('primary')
+    const url = ContentPanel.svg.closeIcon(iconColor)
+    close.style.backgroundImage = `url("${url}")`
 
     // append everything
     wrapper.appendChild(panel)
@@ -460,15 +468,12 @@ content-panel .wrapper footer {
 }
 
 ContentPanel.svg = {}
-
-ContentPanel.svg.closeIcon = (color) => {
-  const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-      <path fill="${color}" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
-    </svg>
-  `
-  return `data:image/svg+xml;base64,${window.btoa(svg)}`
-}
+ContentPanel.svg.toURL = s => `data:image/svg+xml;base64,${window.btoa(s)}`
+ContentPanel.svg.closeIcon = color => ContentPanel.svg.toURL(`
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <path fill="${color}" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
+  </svg>
+`)
 
 Tonic.add(ContentPanel)
 
@@ -1210,13 +1215,16 @@ input-button button:before {
 Tonic.add(InputButton)
 
 class InputCheckbox extends Tonic { /* global Tonic */
+  getPropertyValue (s) {
+    const computed = window.getComputedStyle(this.root)
+    return computed.getPropertyValue(`--${s}`).trim()
+  }
+
   defaults () {
     return {
       disabled: false,
       checked: false,
-      size: '18px',
-      onIcon: InputCheckbox.svg.onIcon,
-      offIcon: InputCheckbox.svg.offIcon
+      size: '18px'
     }
   }
 
@@ -1251,10 +1259,9 @@ input-checkbox label:nth-of-type(2) {
 
   change (e) {
     const state = this.props.checked = !this.props.checked
-    const props = { ...this.defaults, ...this.props }
-    const file = props[state ? 'onIcon' : 'offIcon']
-    const url = `url("${file('red')}"), url("fallback.svg")`
-    this.root.querySelector('label.icon').style.backgroundImage = url
+    const color = this.props.color || this.getPropertyValue('primary')
+    const url = InputCheckbox.svg[state ? 'iconOn' : 'iconOff'](color)
+    this.root.querySelector('label.icon').style.backgroundImage = `url("${url}")`
   }
 
   connected () {
@@ -1280,15 +1287,20 @@ input-checkbox label:nth-of-type(2) {
       checked,
       color,
       theme,
+      iconOn,
+      iconOff,
       size
     } = this.props
 
     if (theme) this.classList.add(`theme-${theme}`)
 
-    const nameAttr = name ? `name="${name}"` : ''
+    if (!color) this.props.color = this.getPropertyValue('primary')
+    if (!iconOn) this.props.iconOn = InputCheckbox.svg.iconOn(this.props.color)
+    if (!iconOff) this.props.iconOff = InputCheckbox.svg.iconOff(this.props.color)
 
-    const computedStyles = window.getComputedStyle(this.root)
-    const colorAttr = color || computedStyles.getPropertyValue('--primary')
+    let url = this.props[checked ? 'iconOn' : 'iconOff']
+
+    const nameAttr = name ? `name="${name}"` : ''
 
     //
     // the id attribute can be removed to the input
@@ -1310,7 +1322,7 @@ input-checkbox label:nth-of-type(2) {
           style="
             width: ${size};
             height: ${size};
-            background-image: url('${this.props.offIcon(colorAttr)}');">
+            background-image: url('${url}');">
         </label>
         ${this.renderLabel()}
       </div>
@@ -1319,25 +1331,20 @@ input-checkbox label:nth-of-type(2) {
 }
 
 InputCheckbox.svg = {}
+InputCheckbox.svg.toURL = s => `data:image/svg+xml;base64,${window.btoa(s)}`
 
-InputCheckbox.svg.onIcon = (color) => {
-  const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-      <path fill="${color}" d="M79.7,1H21.3C10.4,1,1.5,9.9,1.5,20.8v58.4C1.5,90.1,10.4,99,21.3,99h58.4c10.9,0,19.8-8.9,19.8-19.8V20.8C99.5,9.9,90.6,1,79.7,1z M93.3,79.3c0,7.5-6.1,13.6-13.6,13.6H21.3c-7.5,0-13.6-6.1-13.6-13.6V20.9c0-7.5,6.1-13.6,13.6-13.6V7.2h58.4c7.5,0,13.6,6.1,13.6,13.6V79.3z"/>
-      <polygon fill="${color}" points="44,61.7 23.4,41.1 17.5,47 44,73.5 85.1,32.4 79.2,26.5 "/>
-    </svg>
-  `
-  return `data:image/svg+xml;base64,${window.btoa(svg)}`
-}
+InputCheckbox.svg.iconOn = (color) => InputCheckbox.svg.toURL(`
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <path fill="${color}" d="M79.7,1H21.3C10.4,1,1.5,9.9,1.5,20.8v58.4C1.5,90.1,10.4,99,21.3,99h58.4c10.9,0,19.8-8.9,19.8-19.8V20.8C99.5,9.9,90.6,1,79.7,1z M93.3,79.3c0,7.5-6.1,13.6-13.6,13.6H21.3c-7.5,0-13.6-6.1-13.6-13.6V20.9c0-7.5,6.1-13.6,13.6-13.6V7.2h58.4c7.5,0,13.6,6.1,13.6,13.6V79.3z"/>
+    <polygon fill="${color}" points="44,61.7 23.4,41.1 17.5,47 44,73.5 85.1,32.4 79.2,26.5 "/>
+  </svg>
+`)
 
-InputCheckbox.svg.offIcon = (color) => {
-  const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-      <path fill="${color}" d="M79.7,99H21.3C10.4,99,1.5,90.1,1.5,79.2V20.8C1.5,9.9,10.4,1,21.3,1h58.4c10.9,0,19.8,8.9,19.8,19.8v58.4C99.5,90.1,90.6,99,79.7,99z M21.3,7.3c-7.5,0-13.6,6.1-13.6,13.6v58.4c0,7.5,6.1,13.6,13.6,13.6h58.4c7.5,0,13.6-6.1,13.6-13.6V20.8c0-7.5-6.1-13.6-13.6-13.6H21.3V7.3z"/>
-    </svg>
-  `
-  return `data:image/svg+xml;base64,${window.btoa(svg)}`
-}
+InputCheckbox.svg.iconOff = (color) => InputCheckbox.svg.toURL(`
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <path fill="${color}" d="M79.7,99H21.3C10.4,99,1.5,90.1,1.5,79.2V20.8C1.5,9.9,10.4,1,21.3,1h58.4c10.9,0,19.8,8.9,19.8,19.8v58.4C99.5,90.1,90.6,99,79.7,99z M21.3,7.3c-7.5,0-13.6,6.1-13.6,13.6v58.4c0,7.5,6.1,13.6,13.6,13.6h58.4c7.5,0,13.6-6.1,13.6-13.6V20.8c0-7.5-6.1-13.6-13.6-13.6H21.3V7.3z"/>
+  </svg>
+`)
 
 Tonic.add(InputCheckbox)
 
@@ -1392,6 +1399,8 @@ class InputSelect extends Tonic { /* global Tonic */
     if (id) this.root.removeAttribute('id')
     if (theme) this.root.classList.add(`theme-${theme}`)
 
+    this.root.style.width = width
+
     let style = []
     if (width) style.push(`width: ${width}`)
     if (height) style.push(`height: ${height}`)
@@ -1421,10 +1430,12 @@ class InputSelect extends Tonic { /* global Tonic */
 }
 
 InputSelect.svg = {}
-InputSelect.svg.default = () => {
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="#D7DBDD" d="M61.4,45.8l-11,13.4c-0.2,0.3-0.5,0.3-0.7,0l-11-13.4c-0.3-0.3-0.1-0.8,0.4-0.8h22C61.4,45,61.7,45.5,61.4,45.8z"/></svg>`
-  return `data:image/svg+xml;base64,${window.btoa(svg)}`
-}
+InputSelect.svg.toURL = s => `data:image/svg+xml;base64,${window.btoa(s)}`
+InputSelect.svg.default = () => InputSelect.svg.toURL(`
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <path fill="#D7DBDD" d="M61.4,45.8l-11,13.4c-0.2,0.3-0.5,0.3-0.7,0l-11-13.4c-0.3-0.3-0.1-0.8,0.4-0.8h22C61.4,45,61.7,45.5,61.4,45.8z"/>
+  </svg>
+`)
 
 Tonic.add(InputSelect)
 
@@ -1913,16 +1924,18 @@ class NotificationCenter extends Tonic { /* global Tonic */
     this.root.hide = () => this.hide()
   }
 
-  defaults () {
+  getPropertyValue (s) {
     const computed = window.getComputedStyle(this.root)
-    const getVar = s => computed.getPropertyValue(`--${s}`)
+    return computed.getPropertyValue(`--${s}`).trim()
+  }
 
+  defaults () {
     return {
-      closeIcon: NotificationCenter.svg.closeIcon,
-      dangerIcon: NotificationCenter.svg.dangerIcon(getVar('danger')),
-      warningIcon: NotificationCenter.svg.warningIcon(getVar('warning')),
-      successIcon: NotificationCenter.svg.successIcon(getVar('success')),
-      infoIcon: NotificationCenter.svg.infoIcon(getVar('info')),
+      closeIcon: NotificationCenter.svg.closeIcon(this.getPropertyValue('primary')),
+      dangerIcon: NotificationCenter.svg.dangerIcon(this.getPropertyValue('danger')),
+      warningIcon: NotificationCenter.svg.warningIcon(this.getPropertyValue('warning')),
+      successIcon: NotificationCenter.svg.successIcon(this.getPropertyValue('success')),
+      infoIcon: NotificationCenter.svg.infoIcon(this.getPropertyValue('info')),
       position: 'center'
     }
   }
@@ -2046,8 +2059,7 @@ notification-center .notification .close svg path {
     if (!duration) {
       const close = document.createElement('div')
       close.className = 'close'
-      const color = window.getComputedStyle(this.root).getPropertyValue('--primary')
-      close.style.backgroundImage = `url("${this.props.closeIcon(color)}")`
+      close.style.backgroundImage = `url("${this.props.closeIcon}")`
       notification.appendChild(close)
       notification.classList.add('close')
     }
@@ -2133,35 +2145,37 @@ notification-center .notification .close svg path {
 }
 
 NotificationCenter.svg = {}
+NotificationCenter.svg.toURL = s => `data:image/svg+xml;base64,${window.btoa(s)}`
 
-NotificationCenter.svg.closeIcon = (color) => {
-  const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-      <path fill="${color}" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
-    </svg>
-  `
-  return `data:image/svg+xml;base64,${window.btoa(svg)}`
-}
+NotificationCenter.svg.closeIcon = color => NotificationCenter.svg.toURL(`
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <path fill="${color}" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
+  </svg>
+`)
 
-NotificationCenter.svg.dangerIcon = (color) => {
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="${color}" d="M50.1,6.7C26.3,6.7,6.9,26.2,6.9,50s19.4,43.2,43.2,43.2c23.8,0,43.2-19.5,43.2-43.3C93.3,26.1,74,6.7,50.1,6.7z M53.9,76.4h-7.6V68h7.6V76.4z M53.9,60.5h-7.6V25.6h7.6V60.5z"/></svg>`
-  return `data:image/svg+xml;base64,${window.btoa(svg)}`
-}
+NotificationCenter.svg.dangerIcon = color => NotificationCenter.svg.toURL(`
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <path fill="${color}" d="M50.1,6.7C26.3,6.7,6.9,26.2,6.9,50s19.4,43.2,43.2,43.2c23.8,0,43.2-19.5,43.2-43.3C93.3,26.1,74,6.7,50.1,6.7z M53.9,76.4h-7.6V68h7.6V76.4z M53.9,60.5h-7.6V25.6h7.6V60.5z"/>
+  </svg>
+`)
 
-NotificationCenter.svg.warningIcon = (color) => {
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="${color}" d="M98.6,86.6l-46-79.7c-1.2-2-4-2-5.2,0l-46,79.7c-1.2,2,0.3,4.5,2.6,4.5h92C98.3,91.1,99.8,88.6,98.6,86.6z M53.9,80.4h-7.6V72h7.6V80.4z M53.9,64.5h-7.6V29.6h7.6V64.5z"/></svg>`
-  return `data:image/svg+xml;base64,${window.btoa(svg)}`
-}
+NotificationCenter.svg.warningIcon = color => NotificationCenter.svg.toURL(`
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <path fill="${color}" d="M98.6,86.6l-46-79.7c-1.2-2-4-2-5.2,0l-46,79.7c-1.2,2,0.3,4.5,2.6,4.5h92C98.3,91.1,99.8,88.6,98.6,86.6z M53.9,80.4h-7.6V72h7.6V80.4z M53.9,64.5h-7.6V29.6h7.6V64.5z"/>
+  </svg>
+`)
 
-NotificationCenter.svg.successIcon = (color) => {
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="${color}" d="M50.1,6.7C26.3,6.7,6.9,26.2,6.9,50s19.4,43.2,43.2,43.2c23.8,0,43.2-19.5,43.2-43.3C93.3,26.1,74,6.7,50.1,6.7z M43.4,71.5L22,50.1l4.8-4.8L43.4,62l28.5-28.5l4.8,4.8L43.4,71.5z"/></svg>`
-  return `data:image/svg+xml;base64,${window.btoa(svg)}`
-}
+NotificationCenter.svg.successIcon = color => NotificationCenter.svg.toURL(`
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <path fill="${color}" d="M50.1,6.7C26.3,6.7,6.9,26.2,6.9,50s19.4,43.2,43.2,43.2c23.8,0,43.2-19.5,43.2-43.3C93.3,26.1,74,6.7,50.1,6.7z M43.4,71.5L22,50.1l4.8-4.8L43.4,62l28.5-28.5l4.8,4.8L43.4,71.5z"/>
+  </svg>
+`)
 
-NotificationCenter.svg.infoIcon = (color) => {
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="${color}" d="M50.1,6.7C26.3,6.7,6.9,26.2,6.9,50s19.4,43.2,43.2,43.2c23.8,0,43.2-19.5,43.2-43.3C93.3,26.1,74,6.7,50.1,6.7z M54.1,75.5h-8.1v-7.8h8.1V75.5z M64.1,47.6c-0.8,1.1-2.4,2.7-4.8,4.5L57,54c-1.4,1.1-2.3,2.3-2.7,3.7c-0.3,0.8-0.4,2-0.4,3.6h-8c0.1-3.4,0.5-5.8,1-7.1c0.5-1.3,2-2.9,4.3-4.7l2.4-1.9c0.8-0.6,1.5-1.3,2-2.1c0.9-1.3,1.4-2.8,1.4-4.3c0-1.8-0.5-3.4-1.6-4.9c-1.1-1.5-3-2.3-5.8-2.3c-2.7,0-4.7,0.9-5.9,2.8c-1,1.6-1.6,3.3-1.7,5.1h-8.6c0.4-5.9,2.5-10.1,6.4-12.6l0,0c2.5-1.6,5.7-2.5,9.4-2.5c4.9,0,9,1.2,12.2,3.5c3.2,2.3,4.8,5.7,4.8,10.3C66.2,43.4,65.5,45.7,64.1,47.6z"/></svg>`
-  return `data:image/svg+xml;base64,${window.btoa(svg)}`
-}
+NotificationCenter.svg.infoIcon = color => NotificationCenter.svg.toURL(`
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <path fill="${color}" d="M50.1,6.7C26.3,6.7,6.9,26.2,6.9,50s19.4,43.2,43.2,43.2c23.8,0,43.2-19.5,43.2-43.3C93.3,26.1,74,6.7,50.1,6.7z M54.1,75.5h-8.1v-7.8h8.1V75.5z M64.1,47.6c-0.8,1.1-2.4,2.7-4.8,4.5L57,54c-1.4,1.1-2.3,2.3-2.7,3.7c-0.3,0.8-0.4,2-0.4,3.6h-8c0.1-3.4,0.5-5.8,1-7.1c0.5-1.3,2-2.9,4.3-4.7l2.4-1.9c0.8-0.6,1.5-1.3,2-2.1c0.9-1.3,1.4-2.8,1.4-4.3c0-1.8-0.5-3.4-1.6-4.9c-1.1-1.5-3-2.3-5.8-2.3c-2.7,0-4.7,0.9-5.9,2.8c-1,1.6-1.6,3.3-1.7,5.1h-8.6c0.4-5.9,2.5-10.1,6.4-12.6l0,0c2.5-1.6,5.7-2.5,9.4-2.5c4.9,0,9,1.2,12.2,3.5c3.2,2.3,4.8,5.7,4.8,10.3C66.2,43.4,65.5,45.7,64.1,47.6z"/>
+  </svg>
+`)
 
 Tonic.add(NotificationCenter)
 
@@ -2173,13 +2187,18 @@ class NotificationInline extends Tonic { /* global Tonic */
     this.root.hide = () => this.hide()
   }
 
+  getPropertyValue (s) {
+    const computed = window.getComputedStyle(this.root)
+    return computed.getPropertyValue(`--${s}`).trim()
+  }
+
   defaults () {
     return {
-      closeIcon: NotificationInline.svg.closeIcon,
-      dangerIcon: NotificationInline.svg.dangerIcon('#f06653'),
-      warningIcon: NotificationInline.svg.warningIcon('#f9a967'),
-      successIcon: NotificationInline.svg.successIcon('#85b274'),
-      infoIcon: NotificationInline.svg.infoIcon('#999da0')
+      closeIcon: NotificationInline.svg.closeIcon(),
+      dangerIcon: NotificationInline.svg.dangerIcon(this.getPropertyValue('danger')),
+      warningIcon: NotificationInline.svg.warningIcon(this.getPropertyValue('warning')),
+      successIcon: NotificationInline.svg.successIcon(this.getPropertyValue('success')),
+      infoIcon: NotificationInline.svg.infoIcon(this.getPropertyValue('info'))
     }
   }
 
@@ -2301,8 +2320,7 @@ notification-inline .notification .close svg path {
     if (!duration) {
       const close = document.createElement('div')
       close.className = 'close'
-      const color = window.getComputedStyle(this.root).getPropertyValue('--primary')
-      close.style.backgroundImage = `url("${this.props.closeIcon(color)}")`
+      close.style.backgroundImage = `url("${this.props.closeIcon}")`
       notification.appendChild(close)
       notification.classList.add('close')
     }
@@ -2389,35 +2407,37 @@ notification-inline .notification .close svg path {
 }
 
 NotificationInline.svg = {}
+NotificationInline.svg.toURL = s => `data:image/svg+xml;base64,${window.btoa(s)}`
 
-NotificationInline.svg.closeIcon = (color) => {
-  const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-      <path fill="${color}" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
-    </svg>
-  `
-  return `data:image/svg+xml;base64,${window.btoa(svg)}`
-}
+NotificationInline.svg.closeIcon = color => NotificationInline.svg.toURL(`
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <path fill="${color}" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
+  </svg>
+`)
 
-NotificationInline.svg.dangerIcon = (color) => {
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="${color}" d="M50.1,6.7C26.3,6.7,6.9,26.2,6.9,50s19.4,43.2,43.2,43.2c23.8,0,43.2-19.5,43.2-43.3C93.3,26.1,74,6.7,50.1,6.7z M53.9,76.4h-7.6V68h7.6V76.4z M53.9,60.5h-7.6V25.6h7.6V60.5z"/></svg>`
-  return `data:image/svg+xml;base64,${window.btoa(svg)}`
-}
+NotificationInline.svg.dangerIcon = color => NotificationInline.svg.toURL(`
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <path fill="${color}" d="M50.1,6.7C26.3,6.7,6.9,26.2,6.9,50s19.4,43.2,43.2,43.2c23.8,0,43.2-19.5,43.2-43.3C93.3,26.1,74,6.7,50.1,6.7z M53.9,76.4h-7.6V68h7.6V76.4z M53.9,60.5h-7.6V25.6h7.6V60.5z"/>
+  </svg>
+`)
 
-NotificationInline.svg.warningIcon = (color) => {
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="${color}" d="M98.6,86.6l-46-79.7c-1.2-2-4-2-5.2,0l-46,79.7c-1.2,2,0.3,4.5,2.6,4.5h92C98.3,91.1,99.8,88.6,98.6,86.6z M53.9,80.4h-7.6V72h7.6V80.4z M53.9,64.5h-7.6V29.6h7.6V64.5z"/></svg>`
-  return `data:image/svg+xml;base64,${window.btoa(svg)}`
-}
+NotificationInline.svg.warningIcon = color => NotificationInline.svg.toURL(`
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <path fill="${color}" d="M98.6,86.6l-46-79.7c-1.2-2-4-2-5.2,0l-46,79.7c-1.2,2,0.3,4.5,2.6,4.5h92C98.3,91.1,99.8,88.6,98.6,86.6z M53.9,80.4h-7.6V72h7.6V80.4z M53.9,64.5h-7.6V29.6h7.6V64.5z"/>
+  </svg>
+`)
 
-NotificationInline.svg.successIcon = (color) => {
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="${color}" d="M50.1,6.7C26.3,6.7,6.9,26.2,6.9,50s19.4,43.2,43.2,43.2c23.8,0,43.2-19.5,43.2-43.3C93.3,26.1,74,6.7,50.1,6.7z M43.4,71.5L22,50.1l4.8-4.8L43.4,62l28.5-28.5l4.8,4.8L43.4,71.5z"/></svg>`
-  return `data:image/svg+xml;base64,${window.btoa(svg)}`
-}
+NotificationInline.svg.successIcon = color => NotificationInline.svg.toURL(`
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <path fill="${color}" d="M50.1,6.7C26.3,6.7,6.9,26.2,6.9,50s19.4,43.2,43.2,43.2c23.8,0,43.2-19.5,43.2-43.3C93.3,26.1,74,6.7,50.1,6.7z M43.4,71.5L22,50.1l4.8-4.8L43.4,62l28.5-28.5l4.8,4.8L43.4,71.5z"/>
+  </svg>
+`)
 
-NotificationInline.svg.infoIcon = (color) => {
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><path fill="${color}" d="M50.1,6.7C26.3,6.7,6.9,26.2,6.9,50s19.4,43.2,43.2,43.2c23.8,0,43.2-19.5,43.2-43.3C93.3,26.1,74,6.7,50.1,6.7z M54.1,75.5h-8.1v-7.8h8.1V75.5z M64.1,47.6c-0.8,1.1-2.4,2.7-4.8,4.5L57,54c-1.4,1.1-2.3,2.3-2.7,3.7c-0.3,0.8-0.4,2-0.4,3.6h-8c0.1-3.4,0.5-5.8,1-7.1c0.5-1.3,2-2.9,4.3-4.7l2.4-1.9c0.8-0.6,1.5-1.3,2-2.1c0.9-1.3,1.4-2.8,1.4-4.3c0-1.8-0.5-3.4-1.6-4.9c-1.1-1.5-3-2.3-5.8-2.3c-2.7,0-4.7,0.9-5.9,2.8c-1,1.6-1.6,3.3-1.7,5.1h-8.6c0.4-5.9,2.5-10.1,6.4-12.6l0,0c2.5-1.6,5.7-2.5,9.4-2.5c4.9,0,9,1.2,12.2,3.5c3.2,2.3,4.8,5.7,4.8,10.3C66.2,43.4,65.5,45.7,64.1,47.6z"/></svg>`
-  return `data:image/svg+xml;base64,${window.btoa(svg)}`
-}
+NotificationInline.svg.infoIcon = color => NotificationInline.svg.toURL(`
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <path fill="${color}" d="M50.1,6.7C26.3,6.7,6.9,26.2,6.9,50s19.4,43.2,43.2,43.2c23.8,0,43.2-19.5,43.2-43.3C93.3,26.1,74,6.7,50.1,6.7z M54.1,75.5h-8.1v-7.8h8.1V75.5z M64.1,47.6c-0.8,1.1-2.4,2.7-4.8,4.5L57,54c-1.4,1.1-2.3,2.3-2.7,3.7c-0.3,0.8-0.4,2-0.4,3.6h-8c0.1-3.4,0.5-5.8,1-7.1c0.5-1.3,2-2.9,4.3-4.7l2.4-1.9c0.8-0.6,1.5-1.3,2-2.1c0.9-1.3,1.4-2.8,1.4-4.3c0-1.8-0.5-3.4-1.6-4.9c-1.1-1.5-3-2.3-5.8-2.3c-2.7,0-4.7,0.9-5.9,2.8c-1,1.6-1.6,3.3-1.7,5.1h-8.6c0.4-5.9,2.5-10.1,6.4-12.6l0,0c2.5-1.6,5.7-2.5,9.4-2.5c4.9,0,9,1.2,12.2,3.5c3.2,2.3,4.8,5.7,4.8,10.3C66.2,43.4,65.5,45.7,64.1,47.6z"/>
+  </svg>
+`)
 
 Tonic.add(NotificationInline)
 
@@ -2425,9 +2445,15 @@ class ProfileImage extends Tonic { /* global Tonic */
   defaults () {
     return {
       size: '50px',
-      src: ProfileImage.svg.default('#f0f0f0'),
+      src: ProfileImage.svg.default(),
+      iconEdit: ProfileImage.svg.edit(),
       radius: '5px'
     }
+  }
+
+  getPropertyValue (s) {
+    const computed = window.getComputedStyle(this.root)
+    return computed.getPropertyValue(`--${s}`).trim()
   }
 
   style () {
@@ -2457,8 +2483,15 @@ profile-image .wrapper .overlay {
   opacity: 0;
   display: flex;
 }
-profile-image .wrapper .overlay svg {
-  margin: auto;
+profile-image .wrapper .overlay div {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-size: 40px 40px;
+  background-repeat: no-repeat;
+  background-position: center center;
 }
 profile-image .wrapper.editable:hover .overlay {
   visibility: visible;
@@ -2531,9 +2564,7 @@ profile-image .wrapper.editable:hover .overlay {
         </div>
         <input type="file" style="display:none"/>
         <div class="overlay">
-          <svg style="width: 40px; height: 40px;">
-            <use xlink:href="./sprite.svg#edit" style="fill: #fff; color: #fff;">
-          </svg>
+          <div style="background-image: url('${this.props.iconEdit}')"></div>
         </div>
       </div>
     `
@@ -2541,10 +2572,20 @@ profile-image .wrapper.editable:hover .overlay {
 }
 
 ProfileImage.svg = {}
-ProfileImage.svg.default = (color) => {
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect fill="${color}" width="100" height="100"></rect><circle fill="#D6D6D6" cx="49.3" cy="41.3" r="21.1"></circle><path fill="#D6D6D6" d="M48.6,69.5c-18.1,0-33.1,13.2-36,30.5h72C81.8,82.7,66.7,69.5,48.6,69.5z"></path></svg>`
-  return `data:image/svg+xml;base64,${window.btoa(svg)}`
-}
+ProfileImage.svg.toURL = s => `data:image/svg+xml;base64,${window.btoa(s)}`
+ProfileImage.svg.default = () => ProfileImage.svg.toURL(`
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <rect fill="#F0F0F0" width="100" height="100"></rect>
+    <circle fill="#D6D6D6" cx="49.3" cy="41.3" r="21.1"></circle>
+    <path fill="#D6D6D6" d="M48.6,69.5c-18.1,0-33.1,13.2-36,30.5h72C81.8,82.7,66.7,69.5,48.6,69.5z"></path>
+  </svg>
+`)
+
+ProfileImage.svg.edit = () => ProfileImage.svg.toURL(`
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <path fill="#fff" d="M79.8,32.8L67.5,20.5c-0.2-0.2-0.5-0.2-0.7,0L25.2,62.1c-0.1,0.1-0.1,0.1-0.1,0.2L20.8,79c0,0.2,0,0.4,0.1,0.5c0.1,0.1,0.2,0.1,0.4,0.1c0,0,0.1,0,0.1,0l16.6-4.4c0.1,0,0.2-0.1,0.2-0.1l41.6-41.6C79.9,33.3,79.9,33,79.8,32.8z M67.1,25.8l7.3,7.3L36.9,70.7l-7.3-7.3L67.1,25.8z M33,72.4l-6.8,1.8l1.8-6.9L33,72.4z"/>
+  </svg>
+`)
 
 Tonic.add(ProfileImage)
 

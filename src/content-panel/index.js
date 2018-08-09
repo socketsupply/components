@@ -6,6 +6,11 @@ class ContentPanel extends Tonic { /* global Tonic */
     this.root.hide = fn => this.hide(fn)
   }
 
+  getPropertyValue (s) {
+    const computed = window.getComputedStyle(this.root)
+    return computed.getPropertyValue(`--${s}`).trim()
+  }
+
   defaults () {
     return {
       position: 'right',
@@ -81,9 +86,10 @@ class ContentPanel extends Tonic { /* global Tonic */
 
     const close = document.createElement('div')
     close.className = 'close'
-    const computedStyles = window.getComputedStyle(this.root)
-    const colorAttr = color || computedStyles.getPropertyValue('--primary')
-    close.style.backgroundImage = `url("${this.props.closeIcon(colorAttr)}")`
+
+    const iconColor = color || this.getPropertyValue('primary')
+    const url = ContentPanel.svg.closeIcon(iconColor)
+    close.style.backgroundImage = `url("${url}")`
 
     // append everything
     wrapper.appendChild(panel)
@@ -96,14 +102,11 @@ class ContentPanel extends Tonic { /* global Tonic */
 }
 
 ContentPanel.svg = {}
-
-ContentPanel.svg.closeIcon = (color) => {
-  const svg = `
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-      <path fill="${color}" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
-    </svg>
-  `
-  return `data:image/svg+xml;base64,${window.btoa(svg)}`
-}
+ContentPanel.svg.toURL = s => `data:image/svg+xml;base64,${window.btoa(s)}`
+ContentPanel.svg.closeIcon = color => ContentPanel.svg.toURL(`
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <path fill="${color}" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
+  </svg>
+`)
 
 Tonic.add(ContentPanel)

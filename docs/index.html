@@ -702,9 +702,13 @@ attributes of the url.</p>
 <content-tooltip for="content-route-example-1" width="500px">
 
 <p><span class="code-type">html</span></p>
-<pre><code class="language-html">&lt;content-route path=<span class="hljs-string">"/foo/:number"</span>&gt;
-  Content <span class="hljs-keyword">for</span> <span class="hljs-string">"/foo/<span class="hljs-subst">${<span class="hljs-keyword">this</span>.state.number}</span>"</span>.
-&lt;/content-route&gt;</code></pre>
+<pre><code class="language-html">&lt;<span class="hljs-built_in">content</span>-route path=<span class="hljs-string">"/foo/:number"</span>&gt;
+  Content <span class="hljs-keyword">for</span> <span class="hljs-string">"/foo/${this.state.number}"</span>.
+&lt;/<span class="hljs-built_in">content</span>-route&gt;
+
+&lt;<span class="hljs-built_in">content</span>-route none&gt;
+  <span class="hljs-number">404</span> ☹︎
+&lt;/<span class="hljs-built_in">content</span>-route&gt;</code></pre>
 </content-tooltip>
 
 
@@ -740,7 +744,13 @@ link2.addEventListener('click', e => {
 <tbody><tr>
 <td align="left"><code>path</code></td>
 <td align="left"><em>string</em></td>
-<td align="left">A tokenized string, <code>/books/:book</code> for example.</td>
+<td align="left">A tokenized string to match against the current url, <code>/books/:book</code> for example.</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>none</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">If specified, and no matches have been made so far, this component will render.</td>
 <td align="left"></td>
 </tr>
 </tbody></table>

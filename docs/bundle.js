@@ -1552,7 +1552,12 @@ input-text input[disabled] {
     if (theme) this.root.classList.add(`theme-${theme}`)
 
     let style = []
-    if (width) style.push(`width: ${width}`)
+
+    if (width) {
+      this.root.style.width = width
+      style.push(`width: ${width}`)
+    }
+
     if (height) style.push(`height: ${height}`)
     if (radius) style.push(`border-radius: ${radius}`)
     if (padding) style.push(`padding: ${padding}`)

@@ -503,10 +503,7 @@ class ContentRoute extends Tonic { /* global Tonic */
       }
     }
 
-    const fn = e => this.setProps(this.props)
-    window.addEventListener('popstate', fn)
-    window.addEventListener('pushstate', fn)
-    window.addEventListener('replacestate', fn)
+    window.addEventListener('popstate', e => this.setProps(p => p))
 
     window.history.pushState = createEvent('pushState')
     window.history.replaceState = createEvent('replaceState')

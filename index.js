@@ -16,17 +16,8 @@ class ContentDialog extends Tonic { /* global Tonic */
   }
 
   compile (s) {
-    const body = `return \`${s}\``
-    return o => {
-      const keys = Object.keys(o)
-      const values = Tonic.sanitize(Object.values(o))
-      //
-      // We have sanitized the strings that are being
-      // passed into the template, so this is ok.
-      //
-      // eslint-disable-next-line
-      return new Function(...keys, body)(...values)
-    }
+    // eslint-disable-next-line
+    return new Function(`return \`${s}\``).bind(this)
   }
 
   template (id) {

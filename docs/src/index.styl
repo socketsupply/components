@@ -221,41 +221,35 @@ body
         vertical-align middle
 
       a
-        text-transform uppercase
-        font-family var(--subheader)
         color var(--info)
-        margin 8px
+        font 13px var(--subheader)
+        text-transform uppercase
+        letter-spacing 1px
+        margin 15px
 
     .status
-      width 210px
-      display block
-      font-size 12px
+      width 250px
+      font 12px var(--subheader)
       text-transform uppercase
-      font-family var(--subheader)
-      position relative
-      border-radius 2px
-      height 27px
-      margin 30px auto 0
-
-      &:after
-        color white
-        padding 4px 8px
-        height 18px
-        position absolute
-        content 'Experimental'
-        background-color var(--danger)
-        top 0
-        right 0
+      display flex
+      justify-content space-around
+      margin 30px auto 0 auto
 
       &:before
-        color var(--medium)
-        padding 4px 8px
-        height 18px
-        text-align center
         content 'Project Status'
-        position absolute
-        top 0
-        left 0
+        color var(--medium)
+        text-align center
+        letter-spacing 1px
+        padding 4px 8px
+        display inline-block
+
+      &:after
+        content 'Experimental'
+        color white
+        letter-spacing 1px
+        padding 4px 8px
+        display inline-block
+        background-color var(--danger)
 
     svg
       width 200px
@@ -269,9 +263,9 @@ body
 
     .col
       width 50%
-      display table-cell
       padding 10px 0px
       padding-right 30px
+      display table-cell
 
       li
         font-size 18px

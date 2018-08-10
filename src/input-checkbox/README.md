@@ -93,7 +93,7 @@ The component `InputCheckbox` is used to create a styled checkbox, with or witho
 | `size` | *string* | Changes the `width` and `height` of the icon | `18px` |
 | `icon-on` | *string* | Add a custom SVG icon `on` state |  |
 | `icon-off` | *string* | Add a custom SVG icon for the `off` state |  |
-| `color` | *string* | Changes the color of the icon | `var(--primary)` |
+| `color` | *string* | Changes the color of the icon | `--primary` |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
 ### Static Methods & Members

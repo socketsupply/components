@@ -2640,3 +2640,89 @@ ProfileImage.svg.edit = () => ProfileImage.svg.toURL(`
 `)
 
 Tonic.add(ProfileImage)
+
+class ProgressBar extends Tonic { /* global Tonic */
+  defaults () {
+    return {
+      width: '300px',
+      height: '15px'
+    }
+  }
+
+  getPropertyValue (s) {
+    const computed = window.getComputedStyle(this.root)
+    return computed.getPropertyValue(`--${s}`).trim()
+  }
+
+  style () {
+    return `progress-bar {
+  display: block;
+}
+progress-bar .wrapper {
+  background-color: var(--background);
+  position: relative;
+}
+progress-bar .wrapper .progress {
+  background-color: var(--accent);
+  width: 25%;
+  height: 100%;
+  animation: progress 8s infinite;
+}
+@-moz-keyframes progress {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+@-webkit-keyframes progress {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+@-o-keyframes progress {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+@keyframes progress {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+`
+  }
+
+  render () {
+    let {
+      width,
+      height,
+      theme
+    } = this.props
+
+    if (theme) this.root.classList.add(`theme-${theme}`)
+
+    let style = []
+    if (width) style.push(`width: ${width}`)
+    if (height) style.push(`height: ${height}`)
+    style = style.join('; ')
+
+    return `
+      <div class="wrapper" style="${style}">
+        <div class="progress"></div>
+      </div>
+    `
+  }
+}
+
+Tonic.add(ProgressBar)

@@ -95,6 +95,10 @@
       </li>
     
       <li>
+        <a href="#progressbar" class="">ProgressBar</a>
+      </li>
+    
+      <li>
         <a href="#custom" class="">Custom</a>
       </li>
     
@@ -1488,7 +1492,7 @@ button.addEventListener('click', e => {
 <td align="left"><code>color</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">Changes the color of the icon</td>
-<td align="left"><code>var(--primary)</code></td>
+<td align="left"><code>--primary</code></td>
 </tr>
 <tr>
 <td align="left"><code>theme</code></td>
@@ -3145,6 +3149,85 @@ profile.addEventListener('error', e => console.log(e.detail))
 <td align="left"><em>boolean</em></td>
 <td align="left">Add an edit overlay</td>
 <td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left"><code>theme</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
+<td align="left"><code>light</code></td>
+</tr>
+</tbody></table>
+<h3 id="events">Events</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Name</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>changed</code></td>
+<td align="left">Emitted when the <code>src</code> changes.</td>
+</tr>
+<tr>
+<td align="left"><code>error</code></td>
+<td align="left">Emitted when there was a problem reading the provided input.</td>
+</tr>
+</tbody></table>
+</section><section id="progressbar"><h1 id="progressbar">ProgressBar</h1>
+<p>The component <code>ProgressBar</code> creates an updatable progress bar.</p>
+<h2 id="demo">Demo</h2>
+<table class="example">
+  <thead>
+    <tr>
+      <th>Example</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><progress-bar></progress-bar></td>
+      <td>
+          Default Progress Bar
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+<script> {
+
+    } </script>
+
+<h2 id="api">Api</h2>
+<h3 id="properties">Properties</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>width</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Changes the width of the progress bar</td>
+<td align="left"><code>300px</code></td>
+</tr>
+<tr>
+<td align="left"><code>height</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Changes the height of the progress bar</td>
+<td align="left"><code>15px</code></td>
+</tr>
+<tr>
+<td align="left"><code>color</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Changes the color of the progress bar</td>
+<td align="left"><code>--accent</code></td>
 </tr>
 <tr>
 <td align="left"><code>theme</code></td>

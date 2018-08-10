@@ -1,0 +1,20 @@
+progress-bar
+  display block
+
+  .wrapper
+    background-color var(--background)
+    position relative
+
+    .progress
+      background-color var(--accent)
+      width 25%
+      height 100%
+      animation progress 8s infinite
+
+@keyframes progress {
+  from {
+    width 0%
+  } to {
+    width 100%
+  }
+}

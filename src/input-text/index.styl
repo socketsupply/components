@@ -36,7 +36,50 @@ input-text
     -moz-appearance none
     appearance none
     outline none
+    &:invalid
+      border-color var(--error)
+      &:focus
+        border-color var(--error)
+      ~ .invalid
+        transform translateY(0)
+        visibility visible
+        opacity 1
+        transition opacity 0.2s ease, transform 0.2s ease, visibility 1s ease 0s
+
     &:focus
       border-color var(--primary)
     &[disabled]
       background-color var(--background)
+
+  .invalid
+    font-size 14px
+    text-align center
+    position absolute
+    bottom 50px
+    left 0
+    right 0
+    transform translateY(-10px)
+    transition opacity 0.2s ease, transform 0.2s ease, visibility 0s ease 1s
+    visibility hidden
+    opacity 0
+
+    span
+      color white
+      padding 2px 6px
+      background-color var(--error)
+      border-radius 2px
+      position relative
+      display inline-block
+      margin 0 auto
+      &:after
+        content ''
+        width 0
+        height 0
+        display block
+        position absolute
+        bottom -6px
+        left 50%
+        transform translateX(-50%)
+        border-left 6px solid transparent
+        border-right 6px solid transparent
+        border-top 6px solid var(--error)

@@ -22,12 +22,20 @@ The component `InputText` creates an input, with or without a label.
     </tr>
     <tr>
       <td>
-        <input-text label="label">
+        <input-text label="label" placeholder="Type something...">
         </input-text>
       </td>
       <td>
         <span id="input-example-tooltip-2">
-          Input with label
+          Input with label and placeholder
+        </span>
+      </td>
+    </tr>
+    <tr>
+      <td><input-text label="Email Address" type="email" error-message="Invalid Email"></input-text></td>
+      <td>
+        <span id="input-example-tooltip-6">
+          Email input with label and error validation
         </span>
       </td>
     </tr>
@@ -68,14 +76,6 @@ The component `InputText` creates an input, with or without a label.
       </td>
     </tr>
     <tr>
-      <td><input-text label="Input with Placeholder" placeholder="Type something"></input-text></td>
-      <td>
-        <span id="input-example-tooltip-6">
-          Input with label & placeholder
-        </span>
-      </td>
-    </tr>
-    <tr>
       <td><input-text label="Input with Value" value="Value"></input-text></td>
       <td>
         <span id="input-example-tooltip-7">
@@ -91,10 +91,29 @@ The component `InputText` creates an input, with or without a label.
         </span>
       </td>
     </tr>
+    <tr>
+      <td>
+        <input-text
+          width="100%"
+          id="input-invalidation-example-1">
+        </input-text>
+        <div class="invalidate-buttons">
+          <input-button value="set-invalid">Set Invalid</input-button>
+          <input-button value="set-valid">Set Valid</input-button>
+        </div>
+      </td>
+      <td>
+        <span id="input-example-tooltip-8">
+          Invalidated input
+        </span>
+      </td>
+    </tr>
   </tbody>
 </table>
 
 %html%
+
+%js%
 
 ## Api
 
@@ -111,6 +130,7 @@ The component `InputText` creates an input, with or without a label.
 | `invalid` | *boolean* | Adds the `invalid` attribute | `false` |
 | `aria-invalid` | *boolean* | Adds `aria-invalid` attribute | `false` |
 | `placeholder` | *string* | Inserts `placeholder` text | |
+| `error-message` | *string* | Changes error message text | |
 | `label` | *string* | Adds a label to the input | |
 | `src` | *string* | Adds an icon to the input | |
 | `position` | *string* | The position of an icon, if specified | |
@@ -118,3 +138,9 @@ The component `InputText` creates an input, with or without a label.
 | `width` | *string* | Width of the input | `250px` |
 | `radius` | *string* | Radius of the input | `3px` |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
+
+### Instance Methods & Members
+
+| Method | Description |
+| :--- | :--- |
+| `invalidate()` | Invalidate the input. Takes `msg` |

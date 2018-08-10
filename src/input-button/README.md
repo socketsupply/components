@@ -35,7 +35,7 @@ The component `InputButton` creates a button.
         <input-button
           async="true"
           id="loading-button-example"
-          value="Click me">
+          value="click-me">Click me
         </input-button>
       </td>
       <td>

@@ -73,6 +73,8 @@ class InputButton extends Tonic { /* global Tonic */
     if (active) classes.push(`active`)
     classes = classes.join(' ')
 
+    const label = this.root.textContent || value
+
     return `
       <div class="wrapper">
         <button
@@ -83,7 +85,7 @@ class InputButton extends Tonic { /* global Tonic */
           ${disabled ? 'disabled' : ''}
           ${autofocus ? 'autofocus' : ''}
           class="${classes}"
-          style="${style}">${value}</button>
+          style="${style}">${label}</button>
       </div>
     `
   }

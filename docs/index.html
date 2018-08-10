@@ -1108,7 +1108,7 @@ link2.addEventListener('click', e => {
         <input-button
           async="true"
           id="loading-button-example"
-          value="Click me">
+          value="click-me">Click me
         </input-button>
       </td>
       <td>
@@ -1722,12 +1722,20 @@ button.addEventListener('click', e => {
     </tr>
     <tr>
       <td>
-        <input-text label="label">
+        <input-text label="label" placeholder="Type something...">
         </input-text>
       </td>
       <td>
         <span id="input-example-tooltip-2">
-          Input with label
+          Input with label and placeholder
+        </span>
+      </td>
+    </tr>
+    <tr>
+      <td><input-text label="Email Address" type="email" error-message="Invalid Email"></input-text></td>
+      <td>
+        <span id="input-example-tooltip-6">
+          Email input with label and error validation
         </span>
       </td>
     </tr>
@@ -1768,14 +1776,6 @@ button.addEventListener('click', e => {
       </td>
     </tr>
     <tr>
-      <td><input-text label="Input with Placeholder" placeholder="Type something"></input-text></td>
-      <td>
-        <span id="input-example-tooltip-6">
-          Input with label & placeholder
-        </span>
-      </td>
-    </tr>
-    <tr>
       <td><input-text label="Input with Value" value="Value"></input-text></td>
       <td>
         <span id="input-example-tooltip-7">
@@ -1791,6 +1791,23 @@ button.addEventListener('click', e => {
         </span>
       </td>
     </tr>
+    <tr>
+      <td>
+        <input-text
+          width="100%"
+          id="input-invalidation-example-1">
+        </input-text>
+        <div class="invalidate-buttons">
+          <input-button value="set-invalid">Set Invalid</input-button>
+          <input-button value="set-valid">Set Valid</input-button>
+        </div>
+      </td>
+      <td>
+        <span id="input-example-tooltip-8">
+          Invalidated input
+        </span>
+      </td>
+    </tr>
   </tbody>
 </table>
 
@@ -1803,7 +1820,10 @@ button.addEventListener('click', e => {
 <content-tooltip for="input-example-tooltip-2" width="400px">
 
 <p><span class="code-type">html</span></p>
-<pre><code class="language-html">&lt;<span class="hljs-keyword">input</span>-text <span class="hljs-keyword">label</span>=<span class="hljs-string">"label"</span>&gt;&lt;/<span class="hljs-keyword">input</span>-text&gt;</code></pre>
+<pre><code class="language-html">&lt;<span class="hljs-keyword">input</span>-text
+  <span class="hljs-keyword">label</span>=<span class="hljs-string">"label"</span>
+  placeholder=<span class="hljs-string">"Type Something..."</span>&gt;
+&lt;/<span class="hljs-keyword">input</span>-text&gt;</code></pre>
 </content-tooltip>
 
 <content-tooltip for="input-example-tooltip-3" width="300px">
@@ -1839,8 +1859,9 @@ button.addEventListener('click', e => {
 
 <p><span class="code-type">html</span></p>
 <pre><code class="language-html">&lt;<span class="hljs-keyword">input</span>-text
-  <span class="hljs-keyword">label</span>=<span class="hljs-string">"Input with Placeholder"</span>
-  placeholder=<span class="hljs-string">"Type something"</span>&gt;
+  <span class="hljs-keyword">label</span>=<span class="hljs-string">"Email Address"</span>
+  <span class="hljs-keyword">type</span>=<span class="hljs-string">"email"</span>
+  <span class="hljs-keyword">error</span>-message=<span class="hljs-string">"Invalid Email"</span>&gt;
 &lt;/<span class="hljs-keyword">input</span>-text&gt;</code></pre>
 </content-tooltip>
 
@@ -1862,6 +1883,21 @@ button.addEventListener('click', e => {
 &lt;/input-<span class="hljs-literal">text</span>&gt;</code></pre>
 </content-tooltip>
 
+
+<script> {
+      const setInvalid = document.querySelector('input-button[value="set-invalid"]')
+const setValid = document.querySelector('input-button[value="set-valid"]')
+const input = document.querySelector('#input-invalidation-example-1')
+
+setInvalid.addEventListener('click', (e) => {
+  input.setInvalid('There was a problem')
+})
+
+setValid.addEventListener('click', (e) => {
+  input.setValid()
+})
+
+    } </script>
 
 <h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>
@@ -1929,6 +1965,12 @@ button.addEventListener('click', e => {
 <td align="left"></td>
 </tr>
 <tr>
+<td align="left"><code>error-message</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Changes error message text</td>
+<td align="left"></td>
+</tr>
+<tr>
 <td align="left"><code>label</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">Adds a label to the input</td>
@@ -1969,6 +2011,19 @@ button.addEventListener('click', e => {
 <td align="left"><em>string</em></td>
 <td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
 <td align="left"><code>light</code></td>
+</tr>
+</tbody></table>
+<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>invalidate()</code></td>
+<td align="left">Invalidate the input. Takes <code>msg</code></td>
 </tr>
 </tbody></table>
 </section><section id="inputtextarea"><h1 id="inputtextarea">InputTextarea</h1>

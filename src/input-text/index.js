@@ -1,4 +1,10 @@
 class InputText extends Tonic { /* global Tonic */
+  constructor (node) {
+    super(node)
+    this.root.setInvalid = msg => this.setInvalid(msg)
+    this.root.setValid = () => this.setValid()
+  }
+
   defaults () {
     return {
       type: 'text',
@@ -10,8 +16,24 @@ class InputText extends Tonic { /* global Tonic */
       radius: '3px',
       disabled: false,
       width: '250px',
-      position: 'right'
+      position: 'right',
+      errorMessage: 'Invalid'
     }
+  }
+
+  setValid () {
+    this.setProps(props => ({
+      ...props,
+      invalid: false
+    }))
+  }
+
+  setInvalid (msg) {
+    this.setProps(props => ({
+      ...props,
+      invalid: true,
+      errorMessage: msg
+    }))
   }
 
   style () {
@@ -34,6 +56,17 @@ class InputText extends Tonic { /* global Tonic */
     `
   }
 
+  updated () {
+    const input = this.root.querySelector('input')
+    setTimeout(() => {
+      if (this.props.invalid) {
+        input.setCustomValidity(this.props.errorMessage)
+      } else {
+        input.setCustomValidity('')
+      }
+    }, 32)
+  }
+
   render () {
     const {
       id,
@@ -43,7 +76,6 @@ class InputText extends Tonic { /* global Tonic */
       placeholder,
       spellcheck,
       ariaInvalid,
-      invalid,
       disabled,
       required,
       pattern,
@@ -62,7 +94,6 @@ class InputText extends Tonic { /* global Tonic */
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
     const ariaInvalidAttr = ariaInvalid ? `aria-invalid="${ariaInvalid}"` : ''
-    const invalidAttr = invalid ? `invalid="${invalid}"` : ''
 
     if (theme) this.root.classList.add(`theme-${theme}`)
 
@@ -92,11 +123,13 @@ class InputText extends Tonic { /* global Tonic */
           ${placeholderAttr}
           ${spellcheckAttr}
           ${ariaInvalidAttr}
-          ${invalidAttr}
           ${disabled ? 'disabled' : ''}
           ${required ? 'required' : ''}
           style="${style}"
         />
+        <div class="invalid">
+          <span>${this.props.errorMessage}</span>
+        </div>
       </div>
     `
   }

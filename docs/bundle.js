@@ -1205,6 +1205,8 @@ input-button button:before {
     if (active) classes.push(`active`)
     classes = classes.join(' ')
 
+    const label = this.root.textContent || value
+
     return `
       <div class="wrapper">
         <button
@@ -1215,7 +1217,7 @@ input-button button:before {
           ${disabled ? 'disabled' : ''}
           ${autofocus ? 'autofocus' : ''}
           class="${classes}"
-          style="${style}">${value}</button>
+          style="${style}">${label}</button>
       </div>
     `
   }
@@ -1457,6 +1459,12 @@ InputSelect.svg.default = () => InputSelect.svg.toURL(`
 Tonic.add(InputSelect)
 
 class InputText extends Tonic { /* global Tonic */
+  constructor (node) {
+    super(node)
+    this.root.setInvalid = msg => this.setInvalid(msg)
+    this.root.setValid = () => this.setValid()
+  }
+
   defaults () {
     return {
       type: 'text',
@@ -1468,8 +1476,24 @@ class InputText extends Tonic { /* global Tonic */
       radius: '3px',
       disabled: false,
       width: '250px',
-      position: 'right'
+      position: 'right',
+      errorMessage: 'Invalid'
     }
+  }
+
+  setValid () {
+    this.setProps(props => ({
+      ...props,
+      invalid: false
+    }))
+  }
+
+  setInvalid (msg) {
+    this.setProps(props => ({
+      ...props,
+      invalid: true,
+      errorMessage: msg
+    }))
   }
 
   style () {
@@ -1513,11 +1537,57 @@ input-text input {
   appearance: none;
   outline: none;
 }
+input-text input:invalid {
+  border-color: var(--error);
+}
+input-text input:invalid:focus {
+  border-color: var(--error);
+}
+input-text input:invalid ~ .invalid {
+  transform: translateY(0);
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 1s ease 0s;
+}
 input-text input:focus {
   border-color: var(--primary);
 }
 input-text input[disabled] {
   background-color: var(--background);
+}
+input-text .invalid {
+  font-size: 14px;
+  text-align: center;
+  position: absolute;
+  bottom: 50px;
+  left: 0;
+  right: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s ease 1s;
+  visibility: hidden;
+  opacity: 0;
+}
+input-text .invalid span {
+  color: #fff;
+  padding: 2px 6px;
+  background-color: var(--error);
+  border-radius: 2px;
+  position: relative;
+  display: inline-block;
+  margin: 0 auto;
+}
+input-text .invalid span:after {
+  content: '';
+  width: 0;
+  height: 0;
+  display: block;
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 6px solid var(--error);
 }
 `
   }
@@ -1538,6 +1608,17 @@ input-text input[disabled] {
     `
   }
 
+  updated () {
+    const input = this.root.querySelector('input')
+    setTimeout(() => {
+      if (this.props.invalid) {
+        input.setCustomValidity(this.props.errorMessage)
+      } else {
+        input.setCustomValidity('')
+      }
+    }, 32)
+  }
+
   render () {
     const {
       id,
@@ -1547,7 +1628,6 @@ input-text input[disabled] {
       placeholder,
       spellcheck,
       ariaInvalid,
-      invalid,
       disabled,
       required,
       pattern,
@@ -1566,7 +1646,6 @@ input-text input[disabled] {
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
     const ariaInvalidAttr = ariaInvalid ? `aria-invalid="${ariaInvalid}"` : ''
-    const invalidAttr = invalid ? `invalid="${invalid}"` : ''
 
     if (theme) this.root.classList.add(`theme-${theme}`)
 
@@ -1596,11 +1675,13 @@ input-text input[disabled] {
           ${placeholderAttr}
           ${spellcheckAttr}
           ${ariaInvalidAttr}
-          ${invalidAttr}
           ${disabled ? 'disabled' : ''}
           ${required ? 'required' : ''}
           style="${style}"
         />
+        <div class="invalid">
+          <span>${this.props.errorMessage}</span>
+        </div>
       </div>
     `
   }

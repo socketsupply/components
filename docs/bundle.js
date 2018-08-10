@@ -136,7 +136,12 @@ content-dialog .overlay {
   transition: opacity 0.3s ease-in-out;
 }
 content-dialog .dialog {
-  padding-top: 50px;
+  min-width: 350px;
+  min-height: 250px;
+  height: auto;
+  width: auto;
+  padding-top: 70px;
+  padding-bottom: 75px;
   margin: auto;
   position: relative;
   background-color: var(--window);
@@ -178,12 +183,10 @@ content-dialog .dialog footer {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 88px;
-  padding: 15px;
-}
-content-dialog .dialog footer input-button {
-  display: inline-block;
-  margin: 0 5px;
+  height: 75px;
+  padding: 12px;
+  display: flex;
+  justify-content: center;
 }
 `
   }
@@ -1292,6 +1295,8 @@ input-checkbox label:nth-of-type(2) {
       size
     } = this.props
 
+    console.log(this.props)
+
     if (theme) this.classList.add(`theme-${theme}`)
 
     if (!color) this.props.color = this.getPropertyValue('primary')
@@ -1303,7 +1308,7 @@ input-checkbox label:nth-of-type(2) {
     const nameAttr = name ? `name="${name}"` : ''
 
     //
-    // the id attribute can be removed to the input
+    // the id attribute can be removed from the component
     // and added to the input inside the component.
     //
     this.root.removeAttribute('id')
@@ -1353,7 +1358,8 @@ class InputSelect extends Tonic { /* global Tonic */
     return {
       disabled: false,
       iconArrow: InputSelect.svg.default(),
-      width: '250px'
+      width: '250px',
+      radius: '2px'
     }
   }
 
@@ -1364,12 +1370,20 @@ class InputSelect extends Tonic { /* global Tonic */
   background-color: var(--window);
   background-repeat: no-repeat;
   background-position: center right;
-  border-radius: 2px;
   border: 1px solid var(--border);
   outline: none;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+}
+input-select label {
+  color: var(--medium);
+  font: 12px/14px var(--subheader);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding-bottom: 10px;
+  display: block;
 }
 `
   }
@@ -1383,7 +1397,6 @@ class InputSelect extends Tonic { /* global Tonic */
     const {
       id,
       name,
-      value,
       disabled,
       required,
       width,
@@ -1395,7 +1408,6 @@ class InputSelect extends Tonic { /* global Tonic */
 
     const idAttr = id ? `id="${id}"` : ''
     const nameAttr = name ? `name="${name}"` : ''
-    const valueAttr = value ? `value="${value}"` : ''
 
     if (id) this.root.removeAttribute('id')
     if (theme) this.root.classList.add(`theme-${theme}`)
@@ -1420,7 +1432,6 @@ class InputSelect extends Tonic { /* global Tonic */
         <select
           ${idAttr}
           ${nameAttr}
-          ${valueAttr}
           ${disabled ? 'disabled' : ''}
           ${required ? 'required' : ''}
           style="${style}">
@@ -1449,6 +1460,8 @@ class InputText extends Tonic { /* global Tonic */
       placeholder: '',
       spellcheck: false,
       ariaInvalid: false,
+      invalid: false,
+      radius: '3px',
       disabled: false,
       width: '250px',
       position: 'right'
@@ -1478,7 +1491,7 @@ input-text icon-container {
 input-text label {
   color: var(--medium);
   font-weight: 500;
-  font: 12px/14px 'Poppins', sans-serif;
+  font: 12px/14px var(--subheader);
   text-transform: uppercase;
   letter-spacing: 1px;
   padding-bottom: 10px;
@@ -1486,12 +1499,10 @@ input-text label {
 }
 input-text input {
   color: var(--primary);
-  width: 100%;
   font: 14px var(--monospace);
   padding: 10px;
   background-color: transparent;
   border: 1px solid var(--border);
-  border-radius: 3px;
   transition: border 0.2s ease-in-out;
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -1532,8 +1543,10 @@ input-text input[disabled] {
       placeholder,
       spellcheck,
       ariaInvalid,
+      invalid,
       disabled,
       required,
+      pattern,
       width,
       height,
       padding,
@@ -1544,10 +1557,12 @@ input-text input[disabled] {
 
     const idAttr = id ? `id="${id}"` : ''
     const nameAttr = name ? `name="${name}"` : ''
+    const patternAttr = pattern ? `pattern="${pattern}"` : ''
     const valueAttr = (value && value !== 'undefined') ? `value="${value}"` : ''
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
     const ariaInvalidAttr = ariaInvalid ? `aria-invalid="${ariaInvalid}"` : ''
+    const invalidAttr = invalid ? `invalid="${invalid}"` : ''
 
     if (theme) this.root.classList.add(`theme-${theme}`)
 
@@ -1571,11 +1586,13 @@ input-text input[disabled] {
         <input
           ${idAttr}
           ${nameAttr}
+          ${patternAttr}
           type="${type}"
           ${valueAttr}
           ${placeholderAttr}
           ${spellcheckAttr}
           ${ariaInvalidAttr}
+          ${invalidAttr}
           ${disabled ? 'disabled' : ''}
           ${required ? 'required' : ''}
           style="${style}"

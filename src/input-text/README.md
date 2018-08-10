@@ -105,10 +105,16 @@ The component `InputText` creates an input, with or without a label.
 | `id` | *string* | Input with `id` attribute | |
 | `name` | *string* | Input with `name` attribute | |
 | `type` | *string* | Type of input (text, password, email) | `text` |
-| `required` | *boolean* | Makes the input required | `false` |
-| `disabled` | *boolean* | Makes the input disabled | `false` |
-| `spellcheck` | *boolean* | Enable spellcheck on the input | `false` |
-| `isinvalid` | *boolean* | Indicates input error | `false` |
-| `placeholder` | *string* | Inserts placeholder text | `none` |
+| `required` | *boolean* | Makes the input `required` | `false` |
+| `disabled` | *boolean* | Makes the input `disabled` | `false` |
+| `spellcheck` | *boolean* | Enable `spellcheck` on the input | `false` |
+| `invalid` | *boolean* | Adds the `invalid` attribute | `false` |
+| `aria-invalid` | *boolean* | Adds `aria-invalid` attribute | `false` |
+| `placeholder` | *string* | Inserts `placeholder` text | |
+| `label` | *string* | Adds a label to the input | |
+| `src` | *string* | Adds an icon to the input | |
+| `position` | *string* | The position of an icon, if specified | |
+| `pattern` | *string* | Regex for checking value | |
 | `width` | *string* | Width of the input | `250px` |
+| `radius` | *string* | Radius of the input | `3px` |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |

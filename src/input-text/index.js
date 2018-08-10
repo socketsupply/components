@@ -6,6 +6,8 @@ class InputText extends Tonic { /* global Tonic */
       placeholder: '',
       spellcheck: false,
       ariaInvalid: false,
+      invalid: false,
+      radius: '3px',
       disabled: false,
       width: '250px',
       position: 'right'
@@ -41,8 +43,10 @@ class InputText extends Tonic { /* global Tonic */
       placeholder,
       spellcheck,
       ariaInvalid,
+      invalid,
       disabled,
       required,
+      pattern,
       width,
       height,
       padding,
@@ -53,10 +57,12 @@ class InputText extends Tonic { /* global Tonic */
 
     const idAttr = id ? `id="${id}"` : ''
     const nameAttr = name ? `name="${name}"` : ''
+    const patternAttr = pattern ? `pattern="${pattern}"` : ''
     const valueAttr = (value && value !== 'undefined') ? `value="${value}"` : ''
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
     const ariaInvalidAttr = ariaInvalid ? `aria-invalid="${ariaInvalid}"` : ''
+    const invalidAttr = invalid ? `invalid="${invalid}"` : ''
 
     if (theme) this.root.classList.add(`theme-${theme}`)
 
@@ -80,11 +86,13 @@ class InputText extends Tonic { /* global Tonic */
         <input
           ${idAttr}
           ${nameAttr}
+          ${patternAttr}
           type="${type}"
           ${valueAttr}
           ${placeholderAttr}
           ${spellcheckAttr}
           ${ariaInvalidAttr}
+          ${invalidAttr}
           ${disabled ? 'disabled' : ''}
           ${required ? 'required' : ''}
           style="${style}"

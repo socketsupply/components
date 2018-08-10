@@ -45,6 +45,18 @@ The component `InputSelect` creates an select input, with or without a label.
         </span>
       </td>
     </tr>
+    <tr>
+      <td>
+        <input-select label="label" id="options-example-3">
+          <option value="option-a">Option A</option>
+          <option value="option-b">Option B</option>
+          <option value="option-c">Option C</option>
+        </input-select>
+      </td>
+      <td>
+        <span id="select-example-tooltip-3">Default select box with label</span>
+      </td>
+    </tr>
   </tbody>
 </table>
 
@@ -58,11 +70,14 @@ The component `InputSelect` creates an select input, with or without a label.
 
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
-| `id` | *string* | Input with `id` attribute | |
-| `name` | *string* | Input with `name` attribute | |
-| `required` | *boolean* | Makes the input required | `false` |
-| `disabled` | *boolean* | Makes the input disabled | `false` |
-| `width` | *string* | Width of the input | `250px` |
+| `id` | *string* | Select box with `id` attribute | |
+| `name` | *string* | Select box with `name` attribute | |
+| `required` | *boolean* | Makes the select box required | `false` |
+| `disabled` | *boolean* | Makes the select box disabled | `false` |
+| `label` | *string* | Adds a label to the select box | |
+| `width` | *string* | Width of the select box | `250px` |
+| `height` | *string* | Height of the select box | |
+| `radius` | *string* | Radius of the select box | `2px` |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
 ### Instance Methods & Members

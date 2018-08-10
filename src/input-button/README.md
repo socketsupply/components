@@ -68,12 +68,12 @@ The component `InputButton` creates a button.
 | `disabled` | *boolean* | Button with the `disabled` attribute | `false` |
 | `autofocus` | *boolean* | Button with the `autofocus` attribute | `false` |
 | `async` | *boolean* | Loading button | `false` |
-| `isActive` | *boolean* | Active button | `false` |
+| `is-active` | *boolean* | Active button | `false` |
 | `width` | *string* | Width of the button | `150px` |
 | `height` | *string* | Height of the button | `38px` |
 | `radius` | *string* | Radius of the button | `2px` |
 | `fill` | *string* | Filled button |  |
-| `textColor` | *string* | TextColor of the button |  |
+| `text-color` | *string* | TextColor of the button |  |
 | `href` | *string* | Add a location (url) for click event | |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 

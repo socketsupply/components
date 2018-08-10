@@ -65,8 +65,8 @@ The component `InputCheckbox` is used to create a styled checkbox, with or witho
         <input-checkbox
           id="checkbox-example-5"
           size="25px"
-          on="./sprite.svg#custom_on"
-          off="./sprite.svg#custom_off">
+          icon-on="./sprite.svg#custom_on"
+          icon-off="./sprite.svg#custom_off">
         </input-checkbox>
       </td>
       <td>
@@ -91,8 +91,8 @@ The component `InputCheckbox` is used to create a styled checkbox, with or witho
 | `disabled` | *boolean* | Adds `disabled` attribute | `false` |
 | `checked` | *boolean* | Adds `checked` attribute | `false` |
 | `size` | *string* | Changes the `width` and `height` of the icon | `18px` |
-| `on` | *string* | Add a custom SVG icon `on` state |  |
-| `off` | *string* | Add a custom SVG icon for the `off` state |  |
+| `icon-on` | *string* | Add a custom SVG icon `on` state |  |
+| `icon-off` | *string* | Add a custom SVG icon for the `off` state |  |
 | `color` | *string* | Changes the color of the icon | `var(--primary)` |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 

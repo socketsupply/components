@@ -51,6 +51,8 @@ class InputCheckbox extends Tonic { /* global Tonic */
       size
     } = this.props
 
+    console.log(this.props)
+
     if (theme) this.classList.add(`theme-${theme}`)
 
     if (!color) this.props.color = this.getPropertyValue('primary')
@@ -62,7 +64,7 @@ class InputCheckbox extends Tonic { /* global Tonic */
     const nameAttr = name ? `name="${name}"` : ''
 
     //
-    // the id attribute can be removed to the input
+    // the id attribute can be removed from the component
     // and added to the input inside the component.
     //
     this.root.removeAttribute('id')

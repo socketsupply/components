@@ -33,7 +33,12 @@ content-dialog
     transition opacity 0.3s ease-in-out
 
   .dialog
-    padding-top 50px
+    min-width 350px
+    min-height 250px
+    height auto
+    width auto
+    padding-top 70px
+    padding-bottom 75px
     margin auto
     position relative
     background-color var(--window)
@@ -75,9 +80,7 @@ content-dialog
       bottom 0
       left 0
       right 0
-      height 88px
-      padding 15px
-
-      input-button
-        display inline-block
-        margin 0 5px
+      height 75px
+      padding 12px
+      display flex
+      justify-content center

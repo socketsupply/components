@@ -78,7 +78,7 @@ A template is required. Example template structure for dialog content:
 | `width` | *string* | Sets the width of the dialog |  |
 | `height` | *string* | Sets the height of the dialog |  |
 | `overlay` | *string* | Adds a background overlay | `true` |
-| `backgroundColor` | *string* | Sets the background color of the overlay | `rgba(0,0,0,0.5)` |
+| `background-color` | *string* | Sets the background color of the overlay | `rgba(0,0,0,0.5)` |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
 ### Instance Methods & Members

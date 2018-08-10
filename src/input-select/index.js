@@ -3,7 +3,8 @@ class InputSelect extends Tonic { /* global Tonic */
     return {
       disabled: false,
       iconArrow: InputSelect.svg.default(),
-      width: '250px'
+      width: '250px',
+      radius: '2px'
     }
   }
 
@@ -20,7 +21,6 @@ class InputSelect extends Tonic { /* global Tonic */
     const {
       id,
       name,
-      value,
       disabled,
       required,
       width,
@@ -32,7 +32,6 @@ class InputSelect extends Tonic { /* global Tonic */
 
     const idAttr = id ? `id="${id}"` : ''
     const nameAttr = name ? `name="${name}"` : ''
-    const valueAttr = value ? `value="${value}"` : ''
 
     if (id) this.root.removeAttribute('id')
     if (theme) this.root.classList.add(`theme-${theme}`)
@@ -57,7 +56,6 @@ class InputSelect extends Tonic { /* global Tonic */
         <select
           ${idAttr}
           ${nameAttr}
-          ${valueAttr}
           ${disabled ? 'disabled' : ''}
           ${required ? 'required' : ''}
           style="${style}">

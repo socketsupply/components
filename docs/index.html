@@ -147,6 +147,9 @@
       <li>Bring your own Routers, Reducers, Validators, etc.</li>
     </ul>
   </div>
+
+  <p>Please Note: When changing component properties in HTML, do not use camel case.
+  <br>For example, <code>background-color</code> instead of <code>backgroundColor</code>.</p>
 </div>
 
 <span class="status"></span>
@@ -379,7 +382,7 @@ dialogLink3.addEventListener('click', e => dialog3.show())
 <td align="left"><code>true</code></td>
 </tr>
 <tr>
-<td align="left"><code>backgroundColor</code></td>
+<td align="left"><code>background-color</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">Sets the background color of the overlay</td>
 <td align="left"><code>rgba(0,0,0,0.5)</code></td>
@@ -611,7 +614,7 @@ panels.forEach(panel => panel.addEventListener('click', e => {
 <td align="left"><code>false</code></td>
 </tr>
 <tr>
-<td align="left"><code>backgroundColor</code></td>
+<td align="left"><code>background-color</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">Changes the background color of the overlay</td>
 <td align="left"><code>rgba(0,0,0,0.5)</code></td>
@@ -1223,7 +1226,7 @@ button.addEventListener('click', e => {
 <td align="left"><code>false</code></td>
 </tr>
 <tr>
-<td align="left"><code>isActive</code></td>
+<td align="left"><code>is-active</code></td>
 <td align="left"><em>boolean</em></td>
 <td align="left">Active button</td>
 <td align="left"><code>false</code></td>
@@ -1253,7 +1256,7 @@ button.addEventListener('click', e => {
 <td align="left"></td>
 </tr>
 <tr>
-<td align="left"><code>textColor</code></td>
+<td align="left"><code>text-color</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">TextColor of the button</td>
 <td align="left"></td>
@@ -1365,8 +1368,8 @@ button.addEventListener('click', e => {
         <input-checkbox
           id="checkbox-example-5"
           size="25px"
-          on="./sprite.svg#custom_on"
-          off="./sprite.svg#custom_off">
+          icon-on="./sprite.svg#custom_on"
+          icon-off="./sprite.svg#custom_off">
         </input-checkbox>
       </td>
       <td>
@@ -1470,13 +1473,13 @@ button.addEventListener('click', e => {
 <td align="left"><code>18px</code></td>
 </tr>
 <tr>
-<td align="left"><code>on</code></td>
+<td align="left"><code>icon-on</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">Add a custom SVG icon <code>on</code> state</td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="left"><code>off</code></td>
+<td align="left"><code>icon-off</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">Add a custom SVG icon for the <code>off</code> state</td>
 <td align="left"></td>
@@ -1551,6 +1554,18 @@ button.addEventListener('click', e => {
         </span>
       </td>
     </tr>
+    <tr>
+      <td>
+        <input-select label="label" id="options-example-3">
+          <option value="option-a">Option A</option>
+          <option value="option-b">Option B</option>
+          <option value="option-c">Option C</option>
+        </input-select>
+      </td>
+      <td>
+        <span id="select-example-tooltip-3">Default select box with label</span>
+      </td>
+    </tr>
   </tbody>
 </table>
 
@@ -1581,7 +1596,14 @@ button.addEventListener('click', e => {
 <span class="hljs-tag">&lt;/<span class="hljs-name">input-select</span>&gt;</span></code></pre>
 </content-tooltip>
 
+<content-tooltip for="select-example-tooltip-3">
 
+<p><span class="code-type">html</span></p>
+<pre><code class="language-html">&lt;input-<span class="hljs-keyword">select</span> id=<span class="hljs-string">"options-example-1"</span>&gt;
+  &lt;<span class="hljs-keyword">option</span> value=<span class="hljs-string">"option-a"</span>&gt;<span class="hljs-keyword">Option</span> A&lt;/<span class="hljs-keyword">option</span>&gt;
+  &lt;<span class="hljs-keyword">option</span> value=<span class="hljs-string">"option-b"</span>&gt;<span class="hljs-keyword">Option</span> B&lt;/<span class="hljs-keyword">option</span>&gt;
+  &lt;<span class="hljs-keyword">option</span> value=<span class="hljs-string">"option-c"</span>&gt;<span class="hljs-keyword">Option</span> C&lt;/<span class="hljs-keyword">option</span>&gt;
+&lt;/input-<span class="hljs-keyword">select</span>&gt;</code></pre>
 <script> {
       document.addEventListener('DOMContentLoaded', e => {
   const notification = document.getElementsByTagName('notification-center')[0]
@@ -1614,32 +1636,50 @@ button.addEventListener('click', e => {
 <tbody><tr>
 <td align="left"><code>id</code></td>
 <td align="left"><em>string</em></td>
-<td align="left">Input with <code>id</code> attribute</td>
+<td align="left">Select box with <code>id</code> attribute</td>
 <td align="left"></td>
 </tr>
 <tr>
 <td align="left"><code>name</code></td>
 <td align="left"><em>string</em></td>
-<td align="left">Input with <code>name</code> attribute</td>
+<td align="left">Select box with <code>name</code> attribute</td>
 <td align="left"></td>
 </tr>
 <tr>
 <td align="left"><code>required</code></td>
 <td align="left"><em>boolean</em></td>
-<td align="left">Makes the input required</td>
+<td align="left">Makes the select box required</td>
 <td align="left"><code>false</code></td>
 </tr>
 <tr>
 <td align="left"><code>disabled</code></td>
 <td align="left"><em>boolean</em></td>
-<td align="left">Makes the input disabled</td>
+<td align="left">Makes the select box disabled</td>
 <td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left"><code>label</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a label to the select box</td>
+<td align="left"></td>
 </tr>
 <tr>
 <td align="left"><code>width</code></td>
 <td align="left"><em>string</em></td>
-<td align="left">Width of the input</td>
+<td align="left">Width of the select box</td>
 <td align="left"><code>250px</code></td>
+</tr>
+<tr>
+<td align="left"><code>height</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Height of the select box</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>radius</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Radius of the select box</td>
+<td align="left"><code>2px</code></td>
 </tr>
 <tr>
 <td align="left"><code>theme</code></td>
@@ -1855,38 +1895,74 @@ button.addEventListener('click', e => {
 <tr>
 <td align="left"><code>required</code></td>
 <td align="left"><em>boolean</em></td>
-<td align="left">Makes the input required</td>
+<td align="left">Makes the input <code>required</code></td>
 <td align="left"><code>false</code></td>
 </tr>
 <tr>
 <td align="left"><code>disabled</code></td>
 <td align="left"><em>boolean</em></td>
-<td align="left">Makes the input disabled</td>
+<td align="left">Makes the input <code>disabled</code></td>
 <td align="left"><code>false</code></td>
 </tr>
 <tr>
 <td align="left"><code>spellcheck</code></td>
 <td align="left"><em>boolean</em></td>
-<td align="left">Enable spellcheck on the input</td>
+<td align="left">Enable <code>spellcheck</code> on the input</td>
 <td align="left"><code>false</code></td>
 </tr>
 <tr>
-<td align="left"><code>isinvalid</code></td>
+<td align="left"><code>invalid</code></td>
 <td align="left"><em>boolean</em></td>
-<td align="left">Indicates input error</td>
+<td align="left">Adds the <code>invalid</code> attribute</td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left"><code>aria-invalid</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Adds <code>aria-invalid</code> attribute</td>
 <td align="left"><code>false</code></td>
 </tr>
 <tr>
 <td align="left"><code>placeholder</code></td>
 <td align="left"><em>string</em></td>
-<td align="left">Inserts placeholder text</td>
-<td align="left"><code>none</code></td>
+<td align="left">Inserts <code>placeholder</code> text</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>label</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a label to the input</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>src</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds an icon to the input</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>position</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">The position of an icon, if specified</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>pattern</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Regex for checking value</td>
+<td align="left"></td>
 </tr>
 <tr>
 <td align="left"><code>width</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">Width of the input</td>
 <td align="left"><code>250px</code></td>
+</tr>
+<tr>
+<td align="left"><code>radius</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Radius of the input</td>
+<td align="left"><code>3px</code></td>
 </tr>
 <tr>
 <td align="left"><code>theme</code></td>

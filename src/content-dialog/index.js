@@ -14,7 +14,7 @@ class ContentDialog extends Tonic { /* global Tonic */
   defaults () {
     return {
       width: '450px',
-      height: '275px',
+      height: 'auto',
       overlay: true,
       closeIcon: ContentDialog.svg.closeIcon(this.getPropertyValue('primary')),
       backgroundColor: 'rgba(0,0,0,0.5)'

@@ -3,11 +3,12 @@ notification-badge
     box-sizing border-box
 
   .notifications
-    background-color var(--background)
     width 40px
     height 40px
     padding 10px
+    background-color var(--background)
     border-radius 8px
+
     span
       color var(--primary)
       font 15px var(--subheader)
@@ -18,10 +19,15 @@ notification-badge
         content ''
         width 8px
         height 8px
-        display block
+        display none
         position absolute
         top -3px
         right -6px
-        border-radius 50%
         background-color var(--notification)
         border 2px solid var(--background)
+        border-radius 50%
+
+    &.new
+      span
+        &:after
+          display block

@@ -245,10 +245,10 @@ body > nav a.logo svg use {
   color: var(--primary);
 }
 body > main {
-  padding: 0 60px 60px 20px;
+  padding: 0 60px 60px 60px;
   position: absolute;
   top: 0;
-  left: 350px;
+  left: 300px;
   right: 0;
   bottom: 0;
   overflow: scroll;
@@ -500,4 +500,10 @@ body content-dialog header,
 body content-dialog main,
 body content-dialog footer {
   text-align: center;
+}
+body content-dialog main {
+  height: 200px;
+}
+body content-tags [data-tab-group] {
+  height: 40px;
 }

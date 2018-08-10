@@ -54,7 +54,7 @@ The component `InputSelect` creates an select input, with or without a label.
         </input-select>
       </td>
       <td>
-        <span id="select-example-tooltip-3">Default select box with label</span>
+        <span id="select-example-tooltip-3">Select box with label</span>
       </td>
     </tr>
   </tbody>

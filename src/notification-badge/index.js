@@ -16,7 +16,7 @@ class NotificationBadge extends Tonic { /* global Tonic */
     if (theme) this.root.classList.add(`theme-${theme}`)
 
     //
-    // the id attribute can be removed to the input
+    // the id attribute can be removed from the component
     // and added to the input inside the component.
     //
     this.root.removeAttribute('id')

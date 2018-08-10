@@ -78,7 +78,7 @@ class ContentDialog extends Tonic { /* global Tonic */
   defaults () {
     return {
       width: '450px',
-      height: '275px',
+      height: 'auto',
       overlay: true,
       closeIcon: ContentDialog.svg.closeIcon(this.getPropertyValue('primary')),
       backgroundColor: 'rgba(0,0,0,0.5)'
@@ -767,7 +767,6 @@ class ContentTabs extends Tonic { /* global Tonic */
   display: none;
   border-top: 1px solid var(--border);
   padding-top: 15px;
-  height: 40px;
 }
 [data-tab-group].show {
   display: block;
@@ -1884,10 +1883,10 @@ class NotificationBadge extends Tonic { /* global Tonic */
   box-sizing: border-box;
 }
 notification-badge .notifications {
-  background-color: var(--background);
   width: 40px;
   height: 40px;
   padding: 10px;
+  background-color: var(--background);
   border-radius: 8px;
 }
 notification-badge .notifications span {
@@ -1901,13 +1900,16 @@ notification-badge .notifications span:after {
   content: '';
   width: 8px;
   height: 8px;
-  display: block;
+  display: none;
   position: absolute;
   top: -3px;
   right: -6px;
-  border-radius: 50%;
   background-color: var(--notification);
   border: 2px solid var(--background);
+  border-radius: 50%;
+}
+notification-badge .notifications.new span:after {
+  display: block;
 }
 `
   }
@@ -1921,7 +1923,7 @@ notification-badge .notifications span:after {
     if (theme) this.root.classList.add(`theme-${theme}`)
 
     //
-    // the id attribute can be removed to the input
+    // the id attribute can be removed from the component
     // and added to the input inside the component.
     //
     this.root.removeAttribute('id')

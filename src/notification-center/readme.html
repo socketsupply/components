@@ -1,15 +1,64 @@
-<template for="notification-center-example-1">
-  <p>HTML</p>
-  <pre>
-    <code>&lt;notification-center&gt;&lt;/notification-center&gt;</code>
-  </pre>
+<content-tooltip for="notification-center-tooltip-1" width="550px">
 
-  <p>JS</p>
-  <pre>
-    <code>
-notification.create({
-  message: 'Hello, World', title: 'Greetings'
+<span class="code-type">html</span>
+```html
+<notification-center></notification-center>
+```
+
+<span class="code-type">js</span>
+```js
+const notification = document.querySelector('notification-center')
+const link = document.getElementById('notification-link')
+
+link.addEventListener('click', e => {
+  notification.create({
+    message: 'Hello, World', title: 'Greetings'
+  })
 })
-    </code>
-  </pre>
-</template>
+```
+
+</content-tooltip>
+
+<content-tooltip for="notification-center-tooltip-2" width="550px">
+
+<span class="code-type">html</span>
+```html
+<notification-center></notification-center>
+```
+
+<span class="code-type">js</span>
+```js
+const notification = document.querySelector('notification-center')
+const link = document.getElementById('notification-link')
+
+link.addEventListener('click', e => {
+  notification.create({
+    type: 'success'
+  })
+})
+```
+
+</content-tooltip>
+
+<content-tooltip for="notification-center-tooltip-3" width="550px">
+
+<span class="code-type">html</span>
+```html
+<notification-center></notification-center>
+```
+
+<span class="code-type">js</span>
+```js
+const notification = document.querySelector('notification-center')
+const link = document.getElementById('notification-link')
+
+link.addEventListener('click', e => {
+  notification.create({
+    title: 'Howdy',
+    message: 'Will self destruct in 3 seconds',
+    duration: 3e3
+  })
+})
+```
+
+</content-tooltip>

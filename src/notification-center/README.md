@@ -10,7 +10,6 @@ The component `NotificationCenter` creates a container for all notifications to 
     <tr>
       <th>Example</th>
       <th>Description</th>
-      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -18,9 +17,10 @@ The component `NotificationCenter` creates a container for all notifications to 
       <td>
         <input-button id="notification-link-1" value="Notify Me"></input-button>
       </td>
-      <td>Default notification.</td>
       <td>
-        xxx
+        <span id="notification-center-tooltip-1">
+          Default notification
+        </span>
       </td>
     </tr>
     <tr>
@@ -30,18 +30,20 @@ The component `NotificationCenter` creates a container for all notifications to 
         <input-button id="notification-link-4" value="Danger"></input-button>
         <input-button id="notification-link-5" value="Info"></input-button>
       </td>
-      <td>Default notification with default props.</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="notification-center-tooltip-2">
+          Default notification with default props
+        </span>
       </td>
     </tr>
     <tr>
       <td>
         <input-button id="notification-link-6" value="Self Close"></input-button>
       </td>
-      <td>Notification that will expire after some time.</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="notification-center-tooltip-3">
+          Notification that will expire after some time
+        </span>
       </td>
     </tr>
   </tbody>
@@ -62,7 +64,13 @@ The following code should be included once on the page:
 To create a new notification:
 
 ```js
+const notification = document.querySelector('notification-center')
 
+notification.create({
+  title: 'Howdy',
+  message: 'Will self destruct in 3 seconds',
+  duration: 3e3
+})
 ```
 
 ## Api

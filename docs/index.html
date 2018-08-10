@@ -2484,7 +2484,6 @@ notificationCounter.addEventListener('click', (e) => {
     <tr>
       <th>Example</th>
       <th>Description</th>
-      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -2492,9 +2491,10 @@ notificationCounter.addEventListener('click', (e) => {
       <td>
         <input-button id="notification-link-1" value="Notify Me"></input-button>
       </td>
-      <td>Default notification.</td>
       <td>
-        xxx
+        <span id="notification-center-tooltip-1">
+          Default notification
+        </span>
       </td>
     </tr>
     <tr>
@@ -2504,42 +2504,75 @@ notificationCounter.addEventListener('click', (e) => {
         <input-button id="notification-link-4" value="Danger"></input-button>
         <input-button id="notification-link-5" value="Info"></input-button>
       </td>
-      <td>Default notification with default props.</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="notification-center-tooltip-2">
+          Default notification with default props
+        </span>
       </td>
     </tr>
     <tr>
       <td>
         <input-button id="notification-link-6" value="Self Close"></input-button>
       </td>
-      <td>Notification that will expire after some time.</td>
       <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
+        <span id="notification-center-tooltip-3">
+          Notification that will expire after some time
+        </span>
       </td>
     </tr>
   </tbody>
 </table>
 
-<template for="notification-center-example-1">
-  <p>HTML</p>
-  <pre>
-    <code>&lt;notification-center&gt;&lt;/notification-center&gt;</code>
-  </pre>
+<content-tooltip for="notification-center-tooltip-1" width="550px">
 
-  <p>JS</p>
-  <pre>
-    <code>
-notification.create({
-  message: 'Hello, World', title: 'Greetings'
-})
-    </code>
-  </pre>
-</template>
+<p><span class="code-type">html</span></p>
+<pre><code class="language-html"><span class="hljs-section">&lt;notification-center&gt;</span><span class="hljs-section">&lt;/notification-center&gt;</span></code></pre>
+<p><span class="code-type">js</span></p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> notification = <span class="hljs-built_in">document</span>.<span class="hljs-built_in">querySelector</span>(<span class="hljs-string">'notification-center'</span>)
+<span class="hljs-keyword">const</span> link = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'notification-link'</span>)
+
+link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
+  notification.create({
+    message: <span class="hljs-string">'Hello, World'</span>, title: <span class="hljs-string">'Greetings'</span>
+  })
+})</code></pre>
+</content-tooltip>
+
+<content-tooltip for="notification-center-tooltip-2" width="550px">
+
+<p><span class="code-type">html</span></p>
+<pre><code class="language-html"><span class="hljs-section">&lt;notification-center&gt;</span><span class="hljs-section">&lt;/notification-center&gt;</span></code></pre>
+<p><span class="code-type">js</span></p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> notification = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'notification-center'</span>)
+<span class="hljs-keyword">const</span> link = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'notification-link'</span>)
+
+link.addEventListener(<span class="hljs-string">'click'</span>, <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> {
+  notification.create({
+    <span class="hljs-keyword">type</span>: <span class="hljs-string">'success'</span>
+  })
+})</code></pre>
+</content-tooltip>
+
+<content-tooltip for="notification-center-tooltip-3" width="550px">
+
+<p><span class="code-type">html</span></p>
+<pre><code class="language-html"><span class="hljs-section">&lt;notification-center&gt;</span><span class="hljs-section">&lt;/notification-center&gt;</span></code></pre>
+<p><span class="code-type">js</span></p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> notification = <span class="hljs-built_in">document</span>.<span class="hljs-built_in">querySelector</span>(<span class="hljs-string">'notification-center'</span>)
+<span class="hljs-keyword">const</span> link = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'notification-link'</span>)
+
+link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
+  notification.create({
+    title: <span class="hljs-string">'Howdy'</span>,
+    message: <span class="hljs-string">'Will self destruct in 3 seconds'</span>,
+    duration: <span class="hljs-number">3e3</span>
+  })
+})</code></pre>
+</content-tooltip>
 
 
 <script> {
-      const notification = document.getElementsByTagName('notification-center')[0]
+      const notification = document.querySelector('notification-center')
 
 const notificationLink1 = document.getElementById('notification-link-1')
 notificationLink1.addEventListener('click', e => {
@@ -2591,7 +2624,13 @@ notificationLink6.addEventListener('click', e => {
 <p>The following code should be included once on the page:</p>
 <pre><code class="language-html"><span class="hljs-section">&lt;notification-center&gt;</span><span class="hljs-section">&lt;/notification-center&gt;</span></code></pre>
 <p>To create a new notification:</p>
-<pre><code class="language-js"></code></pre>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> notification = <span class="hljs-built_in">document</span>.<span class="hljs-built_in">querySelector</span>(<span class="hljs-string">'notification-center'</span>)
+
+notification.create({
+  title: <span class="hljs-string">'Howdy'</span>,
+  message: <span class="hljs-string">'Will self destruct in 3 seconds'</span>,
+  duration: <span class="hljs-number">3e3</span>
+})</code></pre>
 <h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>
 <table>
@@ -2697,7 +2736,6 @@ notificationLink6.addEventListener('click', e => {
     <tr>
       <th>Example</th>
       <th>Description</th>
-      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -2705,37 +2743,31 @@ notificationLink6.addEventListener('click', e => {
       <td>
         <input-button
           id="notification-inline-link-1"
-          value="Notify Me">
+          value="notify">
+          Notify Me
         </input-button>
       </td>
       <td>Default notification.</td>
-      <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
-      </td>
     </tr>
     <tr>
       <td>
         <input-button
           id="notification-inline-link-6"
-          value="Notify Me">
+          value="notify">
+          Notify Me
         </input-button>
       </td>
       <td>Alert with a title and message</td>
-      <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
-      </td>
     </tr>
     <tr>
       <td>
         <input-button
           id="notification-inline-link-7"
-          value="Self Close">
+          value="self-close">
+          Self Close
         </input-button>
       </td>
       <td>This alert will close automatically after the specified <code>duration</code></td>
-      <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
-      </td>
     </tr>
   </tbody>
 </table>
@@ -2755,7 +2787,6 @@ notificationLink6.addEventListener('click', e => {
     <tr>
       <th>Example</th>
       <th>Description</th>
-      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -2763,49 +2794,41 @@ notificationLink6.addEventListener('click', e => {
       <td>
         <input-button
           id="notification-inline-link-2"
-          value="Success">
+          value="success">
+          Success
         </input-button>
       </td>
       <td>Success Alert</td>
-      <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
-      </td>
     </tr>
     <tr>
       <td>
         <input-button
           id="notification-inline-link-3"
-          value="Warning">
+          value="warning">
+          Warning
         </input-button>
       </td>
       <td>Warning Alert</td>
-      <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
-      </td>
     </tr>
     <tr>
       <td>
         <input-button
           id="notification-inline-link-4"
-          value="Danger">
+          value="danger">
+          Danger
         </input-button>
       </td>
       <td>Danger Alert</td>
-      <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
-      </td>
     </tr>
     <tr>
       <td>
         <input-button
           id="notification-inline-link-5"
-          value="Information">
+          value="information">
+          Information
         </input-button>
       </td>
       <td>Info Alert</td>
-      <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
-      </td>
     </tr>
   </tbody>
 </table>
@@ -3194,12 +3217,6 @@ profile.addEventListener('error', e => console.log(e.detail))
   </tbody>
 </table>
 
-
-
-<script> {
-
-    } </script>
-
 <h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>
 <table>
@@ -3234,23 +3251,6 @@ profile.addEventListener('error', e => console.log(e.detail))
 <td align="left"><em>string</em></td>
 <td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
 <td align="left"><code>light</code></td>
-</tr>
-</tbody></table>
-<h3 id="events">Events</h3>
-<table>
-<thead>
-<tr>
-<th align="left">Name</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>changed</code></td>
-<td align="left">Emitted when the <code>src</code> changes.</td>
-</tr>
-<tr>
-<td align="left"><code>error</code></td>
-<td align="left">Emitted when there was a problem reading the provided input.</td>
 </tr>
 </tbody></table>
 </section>

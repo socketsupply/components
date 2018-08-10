@@ -1,4 +1,4 @@
-const notification = document.getElementsByTagName('notification-center')[0]
+const notification = document.querySelector('notification-center')
 
 const notificationLink1 = document.getElementById('notification-link-1')
 notificationLink1.addEventListener('click', e => {

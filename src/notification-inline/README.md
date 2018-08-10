@@ -10,7 +10,6 @@ The following examples are inline notifications without a specified `type`.
     <tr>
       <th>Example</th>
       <th>Description</th>
-      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -18,37 +17,31 @@ The following examples are inline notifications without a specified `type`.
       <td>
         <input-button
           id="notification-inline-link-1"
-          value="Notify Me">
+          value="notify">
+          Notify Me
         </input-button>
       </td>
       <td>Default notification.</td>
-      <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
-      </td>
     </tr>
     <tr>
       <td>
         <input-button
           id="notification-inline-link-6"
-          value="Notify Me">
+          value="notify">
+          Notify Me
         </input-button>
       </td>
       <td>Alert with a title and message</td>
-      <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
-      </td>
     </tr>
     <tr>
       <td>
         <input-button
           id="notification-inline-link-7"
-          value="Self Close">
+          value="self-close">
+          Self Close
         </input-button>
       </td>
       <td>This alert will close automatically after the specified <code>duration</code></td>
-      <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
-      </td>
     </tr>
   </tbody>
 </table>
@@ -69,7 +62,6 @@ The following examples are inline notifications with a specified `type` and asso
     <tr>
       <th>Example</th>
       <th>Description</th>
-      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -77,49 +69,41 @@ The following examples are inline notifications with a specified `type` and asso
       <td>
         <input-button
           id="notification-inline-link-2"
-          value="Success">
+          value="success">
+          Success
         </input-button>
       </td>
       <td>Success Alert</td>
-      <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
-      </td>
     </tr>
     <tr>
       <td>
         <input-button
           id="notification-inline-link-3"
-          value="Warning">
+          value="warning">
+          Warning
         </input-button>
       </td>
       <td>Warning Alert</td>
-      <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
-      </td>
     </tr>
     <tr>
       <td>
         <input-button
           id="notification-inline-link-4"
-          value="Danger">
+          value="danger">
+          Danger
         </input-button>
       </td>
       <td>Danger Alert</td>
-      <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
-      </td>
     </tr>
     <tr>
       <td>
         <input-button
           id="notification-inline-link-5"
-          value="Information">
+          value="information">
+          Information
         </input-button>
       </td>
       <td>Info Alert</td>
-      <td>
-        <icon-container src="./sprite.svg#code"></icon-container>
-      </td>
     </tr>
   </tbody>
 </table>

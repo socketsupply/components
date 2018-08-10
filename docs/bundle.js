@@ -211,7 +211,6 @@ content-dialog .dialog footer {
     const node = this.root.firstElementChild
     node.classList.remove('show')
     fn && node.addEventListener('transitionend', fn, { once: true })
-    console.log(this._escapeHandler)
     document.removeEventListener('keyup', this._escapeHandler)
   }
 

@@ -199,6 +199,11 @@ content-dialog .dialog footer {
     const node = this.root.firstElementChild
     node.classList.add('show')
     fn && node.addEventListener('transitionend', fn, { once: true })
+
+    document.addEventListener('keyup', e => {
+      if (!e.keyCode === 27) return
+      this.hide()
+    }, { once: true })
   }
 
   hide (fn) {

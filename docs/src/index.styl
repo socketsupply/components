@@ -307,3 +307,21 @@ body
   content-tags
     [data-tab-group]
       height 40px
+
+  notification-badge
+    display inline-block
+    user-select none
+
+  .notification-counter
+    display inline-block
+    margin-left 15px
+
+    span.add-notification,
+    span.subtract-notification
+      display inline-block
+      margin-left 15px
+      border-bottom 1px solid var(--border)
+      user-select none
+      cursor pointer
+      &:hover
+        border-bottom-color var(--accent)

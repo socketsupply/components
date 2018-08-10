@@ -5,7 +5,9 @@ notification-badge
   .notifications
     width 40px
     height 40px
+    text-align center
     padding 10px
+    position relative
     background-color var(--background)
     border-radius 8px
 
@@ -14,15 +16,14 @@ notification-badge
       font 15px var(--subheader)
       letter-spacing 1px
       text-align center
-      position relative
       &:after
         content ''
         width 8px
         height 8px
         display none
         position absolute
-        top -3px
-        right -6px
+        top 7px
+        right 6px
         background-color var(--notification)
         border 2px solid var(--background)
         border-radius 50%

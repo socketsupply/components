@@ -1,6 +1,8 @@
 class NotificationBadge extends Tonic { /* global Tonic */
   defaults () {
-    return {}
+    return {
+      count: 0
+    }
   }
 
   style () {
@@ -21,12 +23,15 @@ class NotificationBadge extends Tonic { /* global Tonic */
     //
     this.root.removeAttribute('id')
 
-    count = '23'
-    // TODO add ability to change count
-    // TODO add flag for "new" notifications
+    // if (count > 0) {
+    //   const badge = this.root.firstElementChild
+    //   badge.classList.add('new')
+    // }
+
+    const newAttr = (count > 0) ? 'new' : ''
 
     return `
-      <div class="notifications">
+      <div class="notifications ${newAttr}">
         <span>${count}</span>
       </div>
     `

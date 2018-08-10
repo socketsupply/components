@@ -2328,7 +2328,13 @@ button.addEventListener('click', e => {
   </thead>
   <tbody>
     <tr>
-      <td><notification-badge></notification-badge></td>
+      <td>
+        <notification-badge></notification-badge>
+        <div class="notification-counter">
+          <span class="add-notification">Add</span>
+          <span class="subtract-notification">Subtract</span>
+        </div>
+      </td>
       <td>
         <span id="notification-badge-tooltip-1">
           Default Notification Badge
@@ -2345,6 +2351,35 @@ button.addEventListener('click', e => {
 </content-tooltip>
 
 
+<script> {
+      const notificationCounter = document.querySelector('.notification-counter')
+const notificationBadge = document.querySelector('notification-badge')
+
+let count = 0
+
+notificationCounter.addEventListener('click', (e) => {
+  if (!e.target) return
+
+  if (e.target.classList.contains('add-notification')) {
+    count++
+  } else if (e.target.classList.contains('subtract-notification')) {
+    (count > 0) && count--
+  }
+
+  notificationBadge.setProps(props => ({
+    ...props,
+    count: `${count}`
+  }))
+})
+
+    } </script>
+
+<h2 id="code">Code</h2>
+<p>To update the notification count, pass in the <code>count</code> property.</p>
+<pre><code class="language-js">notificationBadge.setProps(<span class="hljs-function"><span class="hljs-params">props</span> =&gt;</span> ({
+  ...props,
+  <span class="hljs-attr">count</span>: <span class="hljs-string">`<span class="hljs-subst">${count}</span>`</span>
+}))</code></pre>
 <h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>
 <table>
@@ -2369,23 +2404,16 @@ button.addEventListener('click', e => {
 <td align="left"></td>
 </tr>
 <tr>
+<td align="left"><code>count</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Updates the <code>count</code> property</td>
+<td align="left"></td>
+</tr>
+<tr>
 <td align="left"><code>theme</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
 <td align="left"><code>light</code></td>
-</tr>
-</tbody></table>
-<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
-<table>
-<thead>
-<tr>
-<th align="left">Method</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>count()</code></td>
-<td align="left"></td>
 </tr>
 </tbody></table>
 </section><section id="notificationcenter"><h1 id="notificationcenter">NotificationCenter</h1>

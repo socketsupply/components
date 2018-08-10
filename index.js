@@ -1230,8 +1230,6 @@ input-checkbox label:nth-of-type(2) {
       size
     } = this.props
 
-    console.log(this.props)
-
     if (theme) this.classList.add(`theme-${theme}`)
 
     if (!color) this.props.color = this.getPropertyValue('primary')
@@ -1811,7 +1809,9 @@ Tonic.add(InputToggle)
 
 class NotificationBadge extends Tonic { /* global Tonic */
   defaults () {
-    return {}
+    return {
+      count: 0
+    }
   }
 
   style () {
@@ -1821,7 +1821,9 @@ class NotificationBadge extends Tonic { /* global Tonic */
 notification-badge .notifications {
   width: 40px;
   height: 40px;
+  text-align: center;
   padding: 10px;
+  position: relative;
   background-color: var(--background);
   border-radius: 8px;
 }
@@ -1830,7 +1832,6 @@ notification-badge .notifications span {
   font: 15px var(--subheader);
   letter-spacing: 1px;
   text-align: center;
-  position: relative;
 }
 notification-badge .notifications span:after {
   content: '';
@@ -1838,8 +1839,8 @@ notification-badge .notifications span:after {
   height: 8px;
   display: none;
   position: absolute;
-  top: -3px;
-  right: -6px;
+  top: 7px;
+  right: 6px;
   background-color: var(--notification);
   border: 2px solid var(--background);
   border-radius: 50%;
@@ -1864,12 +1865,15 @@ notification-badge .notifications.new span:after {
     //
     this.root.removeAttribute('id')
 
-    count = '23'
-    // TODO add ability to change count
-    // TODO add flag for "new" notifications
+    // if (count > 0) {
+    //   const badge = this.root.firstElementChild
+    //   badge.classList.add('new')
+    // }
+
+    const newAttr = (count > 0) ? 'new' : ''
 
     return `
-      <div class="notifications">
+      <div class="notifications ${newAttr}">
         <span>${count}</span>
       </div>
     `

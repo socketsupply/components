@@ -12,7 +12,13 @@ The component `NotificationBadge` creates a notification badge with a counter an
   </thead>
   <tbody>
     <tr>
-      <td><notification-badge></notification-badge></td>
+      <td>
+        <notification-badge></notification-badge>
+        <div class="notification-counter">
+          <span class="add-notification">Add</span>
+          <span class="subtract-notification">Subtract</span>
+        </div>
+      </td>
       <td>
         <span id="notification-badge-tooltip-1">
           Default Notification Badge
@@ -24,6 +30,19 @@ The component `NotificationBadge` creates a notification badge with a counter an
 
 %html%
 
+%js%
+
+## Code
+
+To update the notification count, pass in the `count` property.
+
+```js
+notificationBadge.setProps(props => ({
+  ...props,
+  count: `${count}`
+}))
+```
+
 ## Api
 
 ### Properties
@@ -32,10 +51,5 @@ The component `NotificationBadge` creates a notification badge with a counter an
 | :--- | :--- | :--- | :--- |
 | `id` | *string* | Adds the `id` attribute | |
 | `name` | *string* | Adds the `name` attribute | |
+| `count` | *string* | Updates the `count` property | |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
-
-### Instance Methods & Members
-
-| Method | Description |
-| :--- | :--- |
-| `count()` |  |

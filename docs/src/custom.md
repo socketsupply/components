@@ -76,19 +76,15 @@ Tonic.add(Greeting)
 
 ## Embedding Style Sheets
 
-You can add styles to your component that won't affect the rest of the page.
-
+Any styles returned from your component will be attached to a style element in
+the head. Prefix your styles with the name of the component to ensure that they
+are not applied to other parts of the page where the component is used.
 
 ```js
-class Example extends Tonic {
+class Quxx extends Tonic {
   style () {
-
-    //
-    // When this component is registered, the css will be prefixed by the name
-    // of the tag and then added to a stylesheet in the head of the document.
-    //
     return `
-      div {
+      quxx div {
         display: inline-block;
         border: 1px dotted #666;
         height: 100px;

@@ -3310,16 +3310,13 @@ programmer using it, making their reality a little simpler.</p>
 should generally be added after the <a href="https://caniuse.com/#search=domcontentloaded">DOM is ready</a>.</p>
 <pre><code class="language-js">Tonic.<span class="hljs-builtin-name">add</span>(Greeting)</code></pre>
 <h2 id="embedding-style-sheets">Embedding Style Sheets</h2>
-<p>You can add styles to your component that won&#39;t affect the rest of the page.</p>
-<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Example</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+<p>Any styles returned from your component will be attached to a style element in
+the head. Prefix your styles with the name of the component to ensure that they
+are not applied to other parts of the page where the component is used.</p>
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Quxx</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   style () {
-
-    <span class="hljs-comment">//</span>
-    <span class="hljs-comment">// When this component is registered, the css will be prefixed by the name</span>
-    <span class="hljs-comment">// of the tag and then added to a stylesheet in the head of the document.</span>
-    <span class="hljs-comment">//</span>
     <span class="hljs-keyword">return</span> `
-      div {
+      quxx div {
         display: inline-block;
         border: <span class="hljs-number">1</span>px dotted #<span class="hljs-number">666</span>;
         height: <span class="hljs-number">100</span>px;

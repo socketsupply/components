@@ -3368,27 +3368,28 @@ component. It also helps you organize that code.</p>
 <p>An important distinction about Tonic, is that it prefers <code>event delegation</code> as
 opposed to <code>indivudual event listeners</code>.</p>
 <p>The convention of most frameworks is to attach individual event listeners,
-like this <code>onClick={myHandler()}</code> or <code>click=myHandler</code>, etc. (usually in the
-form of some very non-standard way). In a case where you have a table with 2000
-rows, this will create 2000 individual listeners.</p>
+like this <code>onClick={myHandler()}</code> or <code>click=myHandler</code>, etc. (usually in some
+non-standard way). In a case where you have a table with 2000 rows, this will
+create 2000 individual listeners.</p>
 <p>With <a href="https://davidwalsh.name/event-delegate">event delegation</a>, we take advantage of the browser&#39;s event model.
-Most events &quot;<em>bubble</em>&quot;. This means that a <em>click</em> event on a child element will
-be observable from its parent element, and that parent&#39;s parent, continuing up
-the document&#39;s hierarchy. Because of this, we can create fewer listeners and we
-don&#39;t need to rebind them when the DOM is re-created.</p>
+Most events &quot;<em>bubble</em>&quot;. This means that a <em>click</em> event on a child element
+will be observable from its parent element, and that parent&#39;s parent,
+continuing up the document&#39;s hierarchy. Because of this, we can create fewer
+listeners and we don&#39;t need to rebind them when the DOM is re-created.</p>
 <p>When an event bubbles up to our class&#39;s event handler method, we can check
-exactly what was clicked. Each event handler method receives an <code>event</code> object
-which contains a <code>target</code> property, that will be the exact element that was
-clicked. The <code>path</code> property is an array of elements containing the exact
-hierarchy.</p>
-<p>There are some helpful DOM APIs for testing properties and characteristics
-of an element. <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/matches"><code>Element.matches()</code></a> tests if an element matches a selector,
-and <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/closest"><code>Element.closest</code></a> finds the closest ancestor from the element that
-matches the given selector.</p>
+exactly what was clicked. Each event handler method will receive an <code>event</code>
+object which contains a <code>target</code> property, that will be the exact element
+that was clicked. The <code>path</code> property is an array of elements containing the
+exact hierarchy. This is all plain old Javascript.</p>
+<p>There are some helpful native DOM APIs for testing properties of an element.
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/matches"><code>Element.matches()</code></a> tests if an element matches a selector, and
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/closest"><code>Element.closest</code></a> finds the closest ancestor from the element that matches
+the given selector.</p>
 <p>Tonic also provides a helper function, <code>Tonic.matches(el, &#39;selector&#39;)</code>, this
 checks if the element matches the selector, and if not, tries to find the
-closest match. In this example we show how a child component can bubble data
-from its click to a parent component.</p>
+closest match.</p>
+<p>This example shows how a child component can bubble data from its click to a
+parent component.</p>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Child</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   click (e) {
     e.detail.foo = <span class="hljs-literal">true</span>

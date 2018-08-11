@@ -145,31 +145,33 @@ An important distinction about Tonic, is that it prefers `event delegation` as
 opposed to `indivudual event listeners`.
 
 The convention of most frameworks is to attach individual event listeners,
-like this `onClick={myHandler()}` or `click=myHandler`, etc. (usually in the
-form of some very non-standard way). In a case where you have a table with 2000
-rows, this will create 2000 individual listeners.
+like this `onClick={myHandler()}` or `click=myHandler`, etc. (usually in some
+non-standard way). In a case where you have a table with 2000 rows, this will
+create 2000 individual listeners.
 
 With [event delegation][5], we take advantage of the browser's event model.
-Most events "*bubble*". This means that a *click* event on a child element will
-be observable from its parent element, and that parent's parent, continuing up
-the document's hierarchy. Because of this, we can create fewer listeners and we
-don't need to rebind them when the DOM is re-created.
+Most events "*bubble*". This means that a *click* event on a child element
+will be observable from its parent element, and that parent's parent,
+continuing up the document's hierarchy. Because of this, we can create fewer
+listeners and we don't need to rebind them when the DOM is re-created.
 
 When an event bubbles up to our class's event handler method, we can check
-exactly what was clicked. Each event handler method receives an `event` object
-which contains a `target` property, that will be the exact element that was
-clicked. The `path` property is an array of elements containing the exact
-hierarchy.
+exactly what was clicked. Each event handler method will receive an `event`
+object which contains a `target` property, that will be the exact element
+that was clicked. The `path` property is an array of elements containing the
+exact hierarchy. This is all plain old Javascript.
 
-There are some helpful DOM APIs for testing properties and characteristics
-of an element. [`Element.matches()`][6] tests if an element matches a selector,
-and [`Element.closest`][7] finds the closest ancestor from the element that
-matches the given selector.
+There are some helpful native DOM APIs for testing properties of an element.
+[`Element.matches()`][6] tests if an element matches a selector, and
+[`Element.closest`][7] finds the closest ancestor from the element that matches
+the given selector.
 
 Tonic also provides a helper function, `Tonic.matches(el, 'selector')`, this
 checks if the element matches the selector, and if not, tries to find the
-closest match. In this example we show how a child component can bubble data
-from its click to a parent component.
+closest match.
+
+This example shows how a child component can bubble data from its click to a
+parent component.
 
 ```js
 class Child extends Tonic {

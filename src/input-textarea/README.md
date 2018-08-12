@@ -37,10 +37,20 @@ The component `InputTextarea` creates a text area.
       </td>
     </tr>
     <tr>
-      <td><input-textarea label="Label"></input-textarea></td>
+      <td>
+        <input-textarea label="Label">-----BEGIN RSA PRIVATE KEY-----
+MIIJKQIBAAKCAgEApbbV5/5tQihBemiceFEbBv7olUAnzwpTLQExUnmEF45XqPJO
+xDnpNDqIYjkx/aHyc8OsBSyZWkNMLmoaMGDfZ7rPWEtUoXj8nK4PY4QcpYq9/Dtr
+zXhcHsrZA1Sq8VE/FxqV8NsoKb+rAL3ZqfPZ2A41PJ0OND+vPaUQ/+z0FOMUWr/+
+8uDrE0dZphVMNTrmrt/nbPLWh7IGLPxoy3Rrd5e+Nh660ndapjQU0XP71S6DVJ5B
+iqclwg8aJP68sDqvLwbzUae5j0pAzPq/NTiESarxQMeBxHeePLPcxPoWC7+HVBKp
++fBBcogKeeGGa3XLO1cIJDmV4YeJj4VRgallkVzri4JAwSA2UArC5WfGmmBzKRE3
+DQOpwmgVzh0l4D4WxEC+Zgg181JacsahBmgxZxtMVFZ4yT+nW5TMHRo1lSTS...
+-----END RSA PRIVATE KEY-----</input-textarea>
+      </td>
       <td>
         <span id="textarea-tooltip-4">
-          Text area with label
+          Text area with label and content
         </span>
       </td>
     </tr>

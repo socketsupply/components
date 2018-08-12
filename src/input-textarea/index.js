@@ -21,6 +21,10 @@ class InputTextarea extends Tonic { /* global Tonic */
     return `<label>${this.props.label}</label>`
   }
 
+  willConnect () {
+    this.props.value = this.props.value || this.root.textContent
+  }
+
   render () {
     const {
       id,
@@ -38,6 +42,7 @@ class InputTextarea extends Tonic { /* global Tonic */
       width,
       height,
       theme,
+      value,
       radius,
       resize
     } = this.props
@@ -72,7 +77,7 @@ class InputTextarea extends Tonic { /* global Tonic */
           cols="${cols}"
           minlength="${minlength}"
           maxlength="${maxlength}"
-          style="${style}"></textarea>
+          style="${style}">${value}</textarea>
       </div>
     `
   }

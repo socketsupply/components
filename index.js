@@ -1623,6 +1623,10 @@ input-textarea label {
     return `<label>${this.props.label}</label>`
   }
 
+  willConnect () {
+    this.props.value = this.props.value || this.root.textContent
+  }
+
   render () {
     const {
       id,
@@ -1640,6 +1644,7 @@ input-textarea label {
       width,
       height,
       theme,
+      value,
       radius,
       resize
     } = this.props
@@ -1674,7 +1679,7 @@ input-textarea label {
           cols="${cols}"
           minlength="${minlength}"
           maxlength="${maxlength}"
-          style="${style}"></textarea>
+          style="${style}">${value}</textarea>
       </div>
     `
   }

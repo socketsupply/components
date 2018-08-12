@@ -47,11 +47,13 @@ async function js () {
     output.push(fs.readFileSync(src, 'utf8').replace(re, () => css))
   }
 
-  const wrapped = `document.addEventListener('DOMContentLoaded', e => {
-  ${output.join('\n')}
-})`
+  const bundled = `
+    ${fs.readFileSync(path.join('node_modules', 'tonic', 'index.js'), 'utf8')}
+    window.Tonic = Tonic
+    ${output.join('\n')}
+  `
 
-  const js = argv.wrap ? wrapped : output.join('\n')
+  const js = argv.bundle ? bundled : output.join('\n')
 
   fs.writeFileSync(path.join(argv.js, 'index.js'), js)
 }
@@ -66,7 +68,7 @@ components v${pkgComponents.version} (tonic v${pkgTonic.version})
 
 Usage:
   components --help
-  components --js <path> [--bundle] --css <path> [component-name...]
+  components --js <path> [--wrap] --css <path> [component-name...]
 
 Examples:
   components --js ./js --css ./css

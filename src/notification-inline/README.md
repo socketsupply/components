@@ -108,19 +108,11 @@ The following examples are inline notifications with a specified `type` and asso
   </tbody>
 </table>
 
-<notification-inline id="notification-inline-example-2">
-</notification-inline>
+%html%
 
-<notification-inline id="notification-inline-example-3">
-</notification-inline>
-
-<notification-inline id="notification-inline-example-4">
-</notification-inline>
-
-<notification-inline id="notification-inline-example-5">
-</notification-inline>
-
-%js%
+```html
+%html%
+```
 
 ## Api
 

@@ -9,10 +9,10 @@
   "scripts": {
     "test": "npm run test:browser",
     "dev": "./bin/server",
-    "build": "npm run build:styl && ./bin/components --js . --css . && npm run build:docs",
+    "build": "npm run build:styl && ./bin/components --bundle --js . --css . && npm run build:docs",
     "build:styl": "stylus -u autoprefixer-stylus ./index.styl -o ./index.css",
-    "build:docs": "./bin/build-docs && npm run build:docs:js && npm run build:docs:styl",
-    "build:docs:js": "browserify ./docs/src/index.js ./index.js > ./docs/bundle.js",
+    "build:docs": "npm run build:docs:js && ./bin/build-docs && npm run build:docs:styl",
+    "build:docs:js": "browserify ./docs/src/index.js > ./docs/bundle.js",
     "build:docs:styl": "stylus -u autoprefixer-stylus ./docs/src/index.styl -o ./docs"
   },
   "repository": {
@@ -27,14 +27,15 @@
   "homepage": "https://github.com/conductorlab/components#readme",
   "devDependencies": {
     "browserify": "^16.2.2",
+    "highlight.js": "^9.12.0",
+    "marked": "^0.4.0",
+    "pygmentize-bundled": "^2.3.0",
     "send": "^0.16.2",
     "tape": "^4.9.1",
     "tape-run": "^4.0.0"
   },
   "dependencies": {
     "autoprefixer-stylus": "^0.14.0",
-    "highlight.js": "^9.12.0",
-    "marked": "^0.4.0",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
     "scrolltoy": "github:voltraco/scrolltoy",

@@ -19,7 +19,7 @@ class InputButton extends Tonic { /* global Tonic */
   }
 
   done () {
-    setImmediate(() => {
+    window.requestAnimationFrame(() => {
       const button = this.root.querySelector('button')
       button.classList.remove('loading')
     })
@@ -28,7 +28,7 @@ class InputButton extends Tonic { /* global Tonic */
   click () {
     if (!this.props.async) return
 
-    setImmediate(() => {
+    window.requestAnimationFrame(() => {
       const button = this.root.querySelector('button')
       button.classList.add('loading')
     })

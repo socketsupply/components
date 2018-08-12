@@ -30,8 +30,6 @@ The component `NotificationBadge` creates a notification badge with a counter an
 
 %html%
 
-%js%
-
 ## Code
 
 To update the notification count, pass in the `count` property.

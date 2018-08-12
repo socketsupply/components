@@ -62,8 +62,6 @@ The component `InputSelect` creates an select input, with or without a label.
 
 %html%
 
-%js%
-
 ## Api
 
 ### Properties

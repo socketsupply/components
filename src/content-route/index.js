@@ -11,7 +11,9 @@ class ContentRoute extends Tonic { /* global Tonic */
         var value = orig.call(this, ...args)
         window.dispatchEvent(new window.Event(type.toLowerCase()))
         const nodes = document.getElementsByTagName('content-route')
-        for (const node of nodes) node.setProps(p => p)
+        for (const node of nodes) {
+          node.setProps(p => p)
+        }
         return value
       }
     }
@@ -23,23 +25,17 @@ class ContentRoute extends Tonic { /* global Tonic */
   }
 
   willConnect () {
-    this.html = this.root.innerHTML
-  }
-
-  compile (s) {
-    // eslint-disable-next-line
-    return new Function(`return \`${s}\``).bind(this)
+    this.template = document.createElement('template')
+    this.template.innerHTML = this.root.innerHTML
   }
 
   render () {
-    const template = this.compile(this.html)
-
     const none = this.root.hasAttribute('none')
 
     if (none) {
       if (ContentRoute.matches) return
       this.root.classList.add('show')
-      return template()
+      return this.template.content.cloneNode(true)
     }
 
     const path = this.root.getAttribute('path')
@@ -51,11 +47,11 @@ class ContentRoute extends Tonic { /* global Tonic */
       ContentRoute.matches = true
 
       match.slice(1).forEach((m, i) => {
-        this.state[keys[i].name] = m
+        this.props[keys[i].name] = m
       })
 
       this.root.classList.add('show')
-      return template()
+      return this.template.content.cloneNode(true)
     }
 
     return ''

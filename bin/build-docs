@@ -5,8 +5,9 @@ const marked = require('marked')
 const hl = require('highlight.js')
 
 marked.setOptions({
-  highlight: code => {
-    return hl.highlightAuto(code).value
+  renderer: new marked.Renderer(),
+  highlight: (code, lang = 'javascript', escaped) => {
+    return hl.highlight(lang, code).value
   }
 })
 
@@ -22,35 +23,15 @@ const read = (...args) => {
   }
 }
 
-const head = `
-  <head>
-    <title>Tonic - Component Based Architecture</title>
-    <link href="https://fonts.googleapis.com/css?family=Caudex|Poppins:400,600|Space+Mono" rel="stylesheet">
-    <link href="index.css" rel="stylesheet">
-    <link rel="icon" type="image/png" href="./favicon.png">
-
-    <meta http-equiv="Content-Type" charset="utf-8" content="text/html">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1 user-scalable=no">
-    <meta name="description" content="Component Based Architecture">
-  </head>
-`
-
-const intro = `
-  <section id="intro">
-    ${read(__dirname, '..', 'docs', 'src', 'intro.html')}
-  </section>
-`
-
-const custom = `
-  <section id="custom">
-    ${marked(read(__dirname, '..', 'docs', 'src', 'custom.md'))}
-  </section>
-`
+const append = (s) => {
+  fs.appendFileSync(path.join(__dirname, '..', 'docs', 'bundle.js'), s)
+}
 
 function page (toc, sections) {
   return `
     <html>
-      ${head}
+
+      ${read(__dirname, '..', 'docs', 'src', 'head.html')}
 
       <body>
         <div class="theme-picker">
@@ -64,14 +45,21 @@ function page (toc, sections) {
               <use xlink:href="./sprite.svg#tonic_logo">
             </svg>
           </a>
+
           ${toc}
+
         </nav>
         <main>
-          ${intro}
+
+          <section id="intro">
+            ${read(__dirname, '..', 'docs', 'src', 'intro.html')}
+          </section>
 
           ${sections}
 
-          ${custom}
+          <section id="custom">
+            ${marked(read(__dirname, '..', 'docs', 'src', 'custom.md'))}
+          </section>
 
           <footer>
             <a href="#">
@@ -91,8 +79,10 @@ function page (toc, sections) {
 let toc = ''
 let sections = []
 
-function readMarkdown () {
+function write () {
   let titles = []
+
+  append(read(__dirname, '..', 'index.js'))
 
   function wrapLink (str, i) {
     const selected = i === 0 ? 'selected' : ''
@@ -105,16 +95,18 @@ function readMarkdown () {
   }
 
   function wrapSection (str, title) {
-    return `<section id="${title.toLowerCase()}">${marked(str)}</section>`
+    return `<section id="${title.toLowerCase()}">${str}</section>`
   }
 
   for (const dir of dirs) {
     let s = read(componentsDir, dir, 'README.md')
-    s = s.replace(/%html%/, read(componentsDir, dir, 'readme.html'))
 
-    s = s.replace(/%js%/, `<script> {
-      ${read(componentsDir, dir, 'readme.js')}
-    } </script>`)
+    const html = read(componentsDir, dir, 'readme.html')
+    s = s.replace(/%html%/g, html)
+
+    const js = read(componentsDir, dir, 'readme.js')
+    append(js)
+    s = s.replace(/%js%/g, js)
 
     if (s) {
       const { 0: match } = /^#\s*(.*)[\n|\r]/.exec(s)
@@ -122,7 +114,7 @@ function readMarkdown () {
 
       const title = match.slice(1).trim()
       titles.push(title)
-      sections.push({ title, content: wrapSection(s, title) })
+      sections.push({ title, content: wrapSection(marked(s), title) })
     }
   }
 
@@ -136,7 +128,7 @@ function readMarkdown () {
   toc = `<ul>${titles.join('')}</ul>`
 }
 
-readMarkdown()
+write()
 
 sections = sections
   .sort((a, b) => a.title.localeCompare(b.title))

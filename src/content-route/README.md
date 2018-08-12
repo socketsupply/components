@@ -1,7 +1,7 @@
 # ContentRoute
 The `ContentRoute` component will render it's children components if the
 browser's current url matches its `path` property. This component will detect
-__pushstate__, __popstate__ and __replacestate__ events and rerender with the
+`pushstate`, `popstate` and `replacestate` events and rerender with the
 attributes of the url.
 
 ## Demo
@@ -18,7 +18,7 @@ attributes of the url.
       <td>
         <a href="#" id="content-route-link-2">Back</a><a href="#" id="content-route-link-1">Set</a>
         <content-route path="/foo/:number">
-          Content for "/foo/${this.state.number}".
+          Content for "/foo/:number".
         </content-route>
       </td>
       <td>
@@ -27,6 +27,12 @@ attributes of the url.
     </tr>
   </tbody>
 </table>
+
+%html%
+
+```js
+%js%
+```
 
 <style>
   content-route {
@@ -45,10 +51,6 @@ attributes of the url.
     margin-right: 8px;
   }
 </style>
-
-%html%
-
-%js%
 
 ## Api
 

@@ -113,8 +113,6 @@ The component `InputText` creates an input, with or without a label.
 
 %html%
 
-%js%
-
 ## Api
 
 ### Properties

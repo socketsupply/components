@@ -90,7 +90,9 @@ class NotificationInline extends Tonic { /* global Tonic */
     notification.appendChild(main)
     main.appendChild(titleElement)
     main.appendChild(messageElement)
-    setImmediate(() => notification.classList.add('show'))
+    window.requestAnimationFrame(() => {
+      notification.classList.add('show')
+    })
 
     if (duration) {
       setTimeout(() => this.destroy(notification), duration)
@@ -105,7 +107,7 @@ class NotificationInline extends Tonic { /* global Tonic */
   }
 
   show () {
-    setImmediate(() => {
+    window.requestAnimationFrame(() => {
       this.root.firstChild.classList.add('show')
     })
   }

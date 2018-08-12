@@ -297,6 +297,7 @@ class AnotherThing extends Tonic {
 | :--- | :--- |
 | `emit(String, Object)` | Emit a custom event on the root element of the component. A listener will receive a plain old javascript event object that contains the [`detail`][4] property. |
 | `setProps(Object)` | Set the properties of a component instance. Can also take a function which will receive the current props as an argument. |
+| `getProps()` | Get the properties of a component instance. |
 | `setState(Object)` | Set the state of a component instance. Can also take a function which will receive the current props as an argument. |
 | `style()` | Returns a string of css to be inlined with the component. This will be "scoped" so that it does not affect the rest of the page. It will also persist across rerenders to save on parsing costs. |
 | `render()` | Returns html to be parsed or a dom node that will overwrite. There is usually no need to call this directly, prefer `componentInstance.setProps({ ... })`. |
@@ -314,10 +315,6 @@ component (as well as a few others).
 | `connected()` | Called every time the element is inserted into the DOM. Useful for running setup code, such as fetching resources or rendering. Generally, you should try to delay work until this time. |
 | `disconnected()` | Called every time the element is removed from the DOM. Useful for running clean up code. |
 | `updated(oldProps)` | Called after setProps() is called. This method is not called on the initial render. |
-
-## EVENTS
-Any method defined on your class that matches a dom method will be called when
-the event is fired. 
 
 [0]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
 [00]:https://caniuse.com/#search=domcontentloaded

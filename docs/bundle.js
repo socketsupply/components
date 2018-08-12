@@ -1,11 +1,9 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 const scrollToY = require('scrolltoy')
-const main = document.querySelector('main')
-
-window.Tonic = require('tonic')
-require('../../index.js')
 
 function ready () {
+  console.log('XXXXXX')
+  const main = document.querySelector('main')
   const links = [].slice.call(document.querySelectorAll('nav ul li a'))
   const ranges = []
   let current
@@ -60,434 +58,224 @@ function ready () {
 
 document.addEventListener('DOMContentLoaded', ready)
 
-},{"../../index.js":2,"scrolltoy":4,"tonic":6}],2:[function(require,module,exports){
-(function (setImmediate){
-class ContentDialog extends Tonic { /* global Tonic */
-  constructor (props) {
-    super(props)
+},{"scrolltoy":2}],2:[function(require,module,exports){
+var requestFrame = (function () {
+  return window.requestAnimationFrame ||
+    window.webkitRequestAnimationFrame ||
+    window.mozRequestAnimationFrame ||
+    function requestAnimationFallback (callback) {
+      window.setTimeout(callback, 1000 / 60)
+    }
+})()
 
-    this.root.show = () => this.show()
-    this.root.hide = () => this.hide()
+function ease (pos) {
+  return ((pos /= 0.5) < 1)
+    ? (0.5 * Math.pow(pos, 5))
+    : (0.5 * (Math.pow((pos - 2), 5) + 2))
+}
+
+module.exports = function scrollToY (el, Y, speed) {
+  var isWindow = !!el.alert
+  var scrollY = isWindow ? el.scrollY : el.scrollTop
+  var pos = Math.abs(scrollY - Y)
+  var time = Math.max(0.1, Math.min(pos / speed, 0.8))
+
+  let currentTime = 0
+
+  function setY () {
+    module.exports.scrolling = true
+    currentTime += 1 / 60
+
+    var p = currentTime / time
+    var t = ease(p)
+
+    if (p < 1) {
+      var y = scrollY + ((Y - scrollY) * t)
+      requestFrame(setY)
+
+      if (isWindow) {
+        el.scrollTo(0, y)
+      } else {
+        el.scrollTop = y
+      }
+
+      return
+    }
+
+    if (isWindow) {
+      el.scrollTo(0, Y)
+    } else {
+      el.scrollTop = Y
+    }
+
+    module.exports.scrolling = false
+  }
+  setY()
+}
+
+},{}]},{},[1]);
+
+    class Tonic {
+  constructor (node) {
+    this.props = {}
+    this.state = {}
+    const name = Tonic._splitName(this.constructor.name)
+    this.root = node || document.createElement(name.toLowerCase())
+    this.root.disconnect = index => this._disconnect(index)
+    this.root.setProps = v => this.setProps(v)
+    this.root.setState = v => this.setState(v)
+    this.root.getProps = () => this.getProps()
+    this._bindEventListeners()
+    if (this.wrap) {
+      const render = this.render
+      this.render = () => this.wrap(render.bind(this))
+    }
+    this._connect()
+    Tonic.refs.push(this.root)
   }
 
-  getPropertyValue (s) {
-    const computed = window.getComputedStyle(this.root)
-    return computed.getPropertyValue(`--${s}`).trim()
+  getProps () {
+    return this.props
   }
 
-  defaults () {
-    return {
-      width: '450px',
-      height: 'auto',
-      overlay: true,
-      closeIcon: ContentDialog.svg.closeIcon(this.getPropertyValue('primary')),
-      backgroundColor: 'rgba(0,0,0,0.5)'
+  static match (el, s) {
+    if (!el.matches) el = el.parentElement
+    return el.matches(s) ? el : el.closest(s)
+  }
+
+  static add (c) {
+    c.prototype._props = Object.getOwnPropertyNames(c.prototype)
+    if (!c.name || c.name.length === 1) throw Error('Mangling detected, see guide. https://github.com/hxoht/tonic/blob/master/HELP.md.')
+
+    const name = Tonic._splitName(c.name)
+    Tonic.registry[name.toUpperCase()] = Tonic[c.name] = c
+    Tonic.tags = Object.keys(Tonic.registry)
+    if (c.registered) throw new Error(`Already registered ${c.name}`)
+    c.registered = true
+
+    if (!Tonic.styleNode) {
+      Tonic.styleNode = document.head.appendChild(document.createElement('style'))
+    }
+    Tonic._constructTags()
+  }
+
+  static _constructTags (root) {
+    for (const tagName of Tonic.tags) {
+      for (const node of (root || document).getElementsByTagName(tagName)) {
+        if (node.disconnect) continue
+        const t = new Tonic.registry[tagName](node)
+        if (!t) throw Error('Unable to construct component, see guide.')
+      }
     }
   }
 
-  compile (s) {
-    // eslint-disable-next-line
-    return new Function(`return \`${s}\``).bind(this)
-  }
-
-  template (id) {
-    const node = document.querySelector(`template[for="${id}"]`)
-    const template = this.compile(node.innerHTML)
-    const div = document.createElement('div')
-    div.innerHTML = template()
-    return div
-  }
-
-  style () {
-    return `content-dialog * {
-  box-sizing: border-box;
-}
-content-dialog > .wrapper {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  z-index: 100;
-  visibility: hidden;
-  transition: visibility 0s ease 0.5s;
-}
-content-dialog > .wrapper.show {
-  visibility: visible;
-  transition: visibility 0s ease 0s;
-}
-content-dialog > .wrapper.show .overlay {
-  opacity: 1;
-}
-content-dialog > .wrapper.show .dialog {
-  opacity: 1;
-  -webkit-transform: scale(1);
-  -ms-transform: scale(1);
-  transform: scale(1);
-}
-content-dialog .overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-}
-content-dialog .dialog {
-  min-width: 350px;
-  min-height: 250px;
-  height: auto;
-  width: auto;
-  padding-top: 70px;
-  padding-bottom: 75px;
-  margin: auto;
-  position: relative;
-  background-color: var(--window);
-  box-shadow: 0px 30px 90px -20px rgba(0,0,0,0.3), 0 0 1px #a2a9b1;
-  border-radius: 4px;
-  -webkit-transform: scale(0.8);
-  -ms-transform: scale(0.8);
-  transform: scale(0.8);
-  transition: all 0.3s ease-in-out;
-  z-index: 1;
-  opacity: 0;
-}
-content-dialog .dialog header {
-  height: 70px;
-  font: 14px var(--subheader);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  padding: 26px 65px 25px 65px;
-}
-content-dialog .dialog main {
-  width: auto;
-  padding: 20px;
-  margin: 0 auto;
-}
-content-dialog .dialog .close {
-  width: 25px;
-  height: 25px;
-  position: absolute;
-  top: 25px;
-  right: 25px;
-  cursor: pointer;
-}
-content-dialog .dialog footer {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 75px;
-  padding: 12px;
-  display: flex;
-  justify-content: center;
-}
-`
-  }
-
-  setContent (s) {
-    this.root.querySelector('main').innerHTML = s
-  }
-
-  show (fn) {
-    const node = this.root.firstElementChild
-    node.classList.add('show')
-    fn && node.addEventListener('transitionend', fn, { once: true })
-
-    this._escapeHandler = e => {
-      if (e.keyCode === 27) this.hide()
+  static sanitize (o) {
+    for (const [k, v] of Object.entries(o)) {
+      if (typeof v === 'object') o[k] = Tonic.sanitize(v)
+      if (typeof v === 'string') o[k] = Tonic.escape(v)
     }
-
-    document.addEventListener('keyup', this._escapeHandler)
+    return o
   }
 
-  hide (fn) {
-    const node = this.root.firstElementChild
-    node.classList.remove('show')
-    fn && node.addEventListener('transitionend', fn, { once: true })
-    document.removeEventListener('keyup', this._escapeHandler)
+  static escape (s) {
+    return s.replace(Tonic.escapeRe, ch => Tonic.escapeMap[ch])
   }
 
-  click (e) {
-    const el = Tonic.match(e.target, '.close')
-    if (el) this.hide()
-
-    const overlay = e.target.matches('.overlay')
-    if (overlay) this.hide()
+  static _splitName (s) {
+    return s.match(/[A-Z][a-z]*/g).join('-')
   }
 
-  render () {
-    const {
-      width,
-      height,
-      overlay,
-      theme,
-      color,
-      backgroundColor
-    } = this.props
-
-    const id = this.root.getAttribute('id')
-
-    if (this.state.rendered) {
-      const div = this.root.querySelector('.dialog div')
-      div.parentNode.replaceChild(this.template(id), div)
-      return this.root.firstChild
-    }
-
-    this.state.rendered = true
-
-    if (theme) this.root.classList.add(`theme-${theme}`)
-
-    const style = []
-    if (width) style.push(`width: ${width};`)
-    if (height) style.push(`height: ${height};`)
-
-    const wrapper = document.createElement('div')
-    wrapper.className = 'wrapper'
-
-    if (overlay !== 'false') {
-      const overlayElement = document.createElement('div')
-      overlayElement.className = 'overlay'
-      overlayElement.setAttribute('style', `background-color: ${backgroundColor}`)
-      wrapper.appendChild(overlayElement)
-    }
-
-    // create dialog
-    const dialog = document.createElement('div')
-    dialog.className = 'dialog'
-    dialog.setAttribute('style', style.join(''))
-
-    // close button
-    const close = document.createElement('div')
-    close.className = 'close'
-
-    const iconColor = color || this.getPropertyValue('primary')
-    const url = ContentDialog.svg.closeIcon(iconColor)
-    close.style.backgroundImage = `url("${url}")`
-
-    // append everything
-    wrapper.appendChild(dialog)
-    dialog.appendChild(this.template(id))
-    dialog.appendChild(close)
-
-    return wrapper
-  }
-}
-
-ContentDialog.svg = {}
-ContentDialog.svg.toURL = s => `data:image/svg+xml;base64,${window.btoa(s)}`
-ContentDialog.svg.closeIcon = color => ContentDialog.svg.toURL(`
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path fill="${color}" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
-  </svg>
-`)
-
-Tonic.add(ContentDialog)
-
-class ContentPanel extends Tonic { /* global Tonic */
-  constructor (props) {
-    super(props)
-
-    this.root.show = fn => this.show(fn)
-    this.root.hide = fn => this.hide(fn)
+  html ([s, ...strings], ...values) {
+    const reducer = (a, b) => a.concat(b, strings.shift())
+    const filter = s => s && (s !== true || s === 0)
+    return Tonic.sanitize(values).reduce(reducer, [s]).filter(filter).join('')
   }
 
-  getPropertyValue (s) {
-    const computed = window.getComputedStyle(this.root)
-    return computed.getPropertyValue(`--${s}`).trim()
+  setState (o) {
+    this.state = typeof o === 'function' ? o(this.state) : o
   }
 
-  defaults () {
-    return {
-      position: 'right',
-      overlay: false,
-      closeIcon: ContentPanel.svg.closeIcon,
-      backgroundColor: 'rgba(0,0,0,0.5)'
+  setProps (o) {
+    const oldProps = JSON.parse(JSON.stringify(this.props))
+    this.props = Tonic.sanitize(typeof o === 'function' ? o(this.props) : o)
+    if (!this.root) throw new Error('.setProps called on destroyed component, see guide.')
+    this._setContent(this.root, this.render())
+    Tonic._constructTags(this.root)
+    this.updated && this.updated(oldProps)
+  }
+
+  _bindEventListeners () {
+    const hp = Object.getOwnPropertyNames(window.HTMLElement.prototype)
+    for (const p of this._props) {
+      if (hp.indexOf('on' + p) === -1) continue
+      this.root.addEventListener(p, e => this[p](e))
     }
   }
 
-  style () {
-    return `content-panel * {
-  box-sizing: border-box;
-}
-content-panel .wrapper .panel {
-  width: 500px;
-  position: fixed;
-  bottom: 0;
-  top: 0;
-  background-color: var(--window);
-  box-shadow: 0px 0px 28px 0 rgba(0,0,0,0.05);
-  z-index: 100;
-  transition: transform 0.3s ease-in-out;
-}
-content-panel .wrapper.left .panel {
-  left: 0;
-  -webkit-transform: translateX(-500px);
-  -ms-transform: translateX(-500px);
-  transform: translateX(-500px);
-  border-right: 1px solid var(--border);
-}
-content-panel .wrapper.right .panel {
-  right: 0;
-  -webkit-transform: translateX(500px);
-  -ms-transform: translateX(500px);
-  transform: translateX(500px);
-  border-left: 1px solid var(--border);
-}
-content-panel .wrapper.show.right .panel,
-content-panel .wrapper.show.left .panel {
-  -webkit-transform: translateX(0);
-  -ms-transform: translateX(0);
-  transform: translateX(0);
-}
-content-panel .wrapper.show.right[overlay="true"] .overlay,
-content-panel .wrapper.show.left[overlay="true"] .overlay {
-  opacity: 1;
-  visibility: visible;
-  transition: opacity 0.3s ease-in-out, visibility 0s ease 0s;
-}
-content-panel .wrapper .overlay {
-  opacity: 0;
-  visibility: hidden;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  transition: opacity 0.3s ease-in-out, visibility 0s ease 1s;
-}
-content-panel .wrapper .close {
-  width: 25px;
-  height: 25px;
-  position: absolute;
-  top: 30px;
-  right: 30px;
-  cursor: pointer;
-}
-content-panel .wrapper header {
-  padding: 20px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 90px;
-}
-content-panel .wrapper main {
-  padding: 20px;
-  position: absolute;
-  top: 90px;
-  left: 0;
-  right: 0;
-  bottom: 70px;
-  overflow: scroll;
-}
-content-panel .wrapper footer {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 70px;
-  padding: 10px;
-  text-align: center;
-  border-top: 1px solid var(--border);
-}
-`
-  }
-
-  show (fn) {
-    const node = this.root.firstChild
-    node.classList.add('show')
-    fn && node.addEventListener('transitionend', fn, { once: true })
-  }
-
-  hide (fn) {
-    const node = this.root.firstChild
-    node.classList.remove('show')
-    fn && node.addEventListener('transitionend', fn, { once: true })
-  }
-
-  click (e) {
-    const el = Tonic.match(e.target, '.close')
-    if (el) this.hide()
-
-    const overlay = Tonic.match(e.target, '.overlay')
-    if (overlay) this.hide()
-
-    this.value = {}
-  }
-
-  render () {
-    const {
-      name,
-      position,
-      overlay,
-      theme,
-      color,
-      backgroundColor
-    } = this.props
-
-    const id = this.root.getAttribute('id')
-
-    if (theme) this.root.classList.add(`theme-${theme}`)
-
-    // create wrapper
-    const wrapper = document.createElement('div')
-    wrapper.id = 'wrapper'
-    wrapper.classList.add('wrapper')
-    wrapper.classList.add(position)
-
-    if (overlay) wrapper.setAttribute('overlay', true)
-    if (name) wrapper.setAttribute('name', name)
-
-    // create panel
-    const panel = document.createElement('div')
-    panel.className = 'panel'
-
-    if (overlay !== 'false') {
-      const overlayElement = document.createElement('div')
-      overlayElement.className = 'overlay'
-      overlayElement.setAttribute('style', `background-color: ${backgroundColor}`)
-      wrapper.appendChild(overlayElement)
+  _setContent (target, content = '') {
+    for (const tagName of Tonic.tags) {
+      for (const node of target.getElementsByTagName(tagName)) {
+        const index = Tonic.refs.findIndex(ref => ref === node)
+        if (index === -1) continue
+        node.disconnect(index)
+      }
     }
 
-    // create template
-    const template = document.querySelector(`template[for="${id}"]`)
-    const clone = document.importNode(template.content, true)
+    if (typeof content === 'string') {
+      target.innerHTML = content.trim()
+    } else {
+      while (target.firstChild) target.removeChild(target.firstChild)
+      target.appendChild(content)
+    }
+    this.root = target
+  }
 
-    const close = document.createElement('div')
-    close.className = 'close'
+  _connect () {
+    for (let { name, value } of this.root.attributes) {
+      name = name.replace(/-(.)/gui, (_, m) => m.toUpperCase())
+      this.props[name] = value === 'undefined' ? undefined : (value || name)
+    }
 
-    const iconColor = color || this.getPropertyValue('primary')
-    const url = ContentPanel.svg.closeIcon(iconColor)
-    close.style.backgroundImage = `url("${url}")`
+    if (this.props.data) {
+      try { this.props.data = JSON.parse(this.props.data) } catch (e) {}
+    }
 
-    // append everything
-    wrapper.appendChild(panel)
-    wrapper.appendChild(panel)
-    panel.appendChild(clone)
-    panel.appendChild(close)
+    this.props = Tonic.sanitize(this.props)
 
-    return wrapper
+    for (const [k, v] of Object.entries(this.defaults ? this.defaults() : {})) {
+      if (!this.props[k]) this.props[k] = v
+    }
+
+    this.willConnect && this.willConnect()
+    this._setContent(this.root, this.render())
+    Tonic._constructTags(this.root)
+
+    if (this.style && !Tonic.registry[this.root.tagName].styled) {
+      Tonic.registry[this.root.tagName].styled = true
+      const textNode = document.createTextNode(this.style())
+      Tonic.styleNode.appendChild(textNode)
+    }
+
+    this.connected && this.connected()
+  }
+
+  _disconnect (index) {
+    this.disconnected && this.disconnected()
+    delete this.root
+    Tonic.refs.splice(index, 1)
   }
 }
 
-ContentPanel.svg = {}
-ContentPanel.svg.toURL = s => `data:image/svg+xml;base64,${window.btoa(s)}`
-ContentPanel.svg.closeIcon = color => ContentPanel.svg.toURL(`
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path fill="${color}" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
-  </svg>
-`)
+Tonic.tags = []
+Tonic.refs = []
+Tonic.registry = {}
+Tonic.escapeRe = /["&'<>`]/g
+Tonic.escapeMap = { '"': '&quot;', '&': '&amp;', '\'': '&#x27;', '<': '&lt;', '>': '&gt;', '`': '&#x60;' }
 
-Tonic.add(ContentPanel)
+if (typeof module === 'object') module.exports = Tonic
 
-class ContentRoute extends Tonic { /* global Tonic */
+    window.Tonic = Tonic
+    class ContentRoute extends Tonic { /* global Tonic */
   constructor (node) {
     super(node)
 
@@ -500,7 +288,9 @@ class ContentRoute extends Tonic { /* global Tonic */
         var value = orig.call(this, ...args)
         window.dispatchEvent(new window.Event(type.toLowerCase()))
         const nodes = document.getElementsByTagName('content-route')
-        for (const node of nodes) node.setProps(p => p)
+        for (const node of nodes) {
+          node.setProps(p => p)
+        }
         return value
       }
     }
@@ -512,23 +302,17 @@ class ContentRoute extends Tonic { /* global Tonic */
   }
 
   willConnect () {
-    this.html = this.root.innerHTML
-  }
-
-  compile (s) {
-    // eslint-disable-next-line
-    return new Function(`return \`${s}\``).bind(this)
+    this.template = document.createElement('template')
+    this.template.innerHTML = this.root.innerHTML
   }
 
   render () {
-    const template = this.compile(this.html)
-
     const none = this.root.hasAttribute('none')
 
     if (none) {
       if (ContentRoute.matches) return
       this.root.classList.add('show')
-      return template()
+      return this.template.content.cloneNode(true)
     }
 
     const path = this.root.getAttribute('path')
@@ -540,11 +324,11 @@ class ContentRoute extends Tonic { /* global Tonic */
       ContentRoute.matches = true
 
       match.slice(1).forEach((m, i) => {
-        this.state[keys[i].name] = m
+        this.props[keys[i].name] = m
       })
 
       this.root.classList.add('show')
-      return template()
+      return this.template.content.cloneNode(true)
     }
 
     return ''
@@ -963,6 +747,214 @@ content-tooltip .tooltip.bottom .tooltip-arrow {
 
 Tonic.add(ContentTooltip)
 
+class Dialog extends Tonic { /* global Tonic */
+  constructor (props) {
+    super(props)
+
+    this.root.show = () => this.show()
+    this.root.hide = () => this.hide()
+
+    this.root.addEventListener('click', e => {
+      const el = Tonic.match(e.target, '.close')
+      if (el) this.hide()
+
+      const overlay = e.target.matches('.overlay')
+      if (overlay) this.hide()
+    })
+  }
+
+  getPropertyValue (s) {
+    const computed = window.getComputedStyle(this.root)
+    return computed.getPropertyValue(`--${s}`).trim()
+  }
+
+  defaults () {
+    return {
+      width: '450px',
+      height: 'auto',
+      overlay: true,
+      closeIcon: Dialog.svg.closeIcon(this.getPropertyValue('primary')),
+      backgroundColor: 'rgba(0,0,0,0.5)'
+    }
+  }
+
+  style () {
+    return `.dialog * {
+  box-sizing: border-box;
+}
+.dialog > .wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  z-index: 100;
+  visibility: hidden;
+  transition: visibility 0s ease 0.5s;
+}
+.dialog > .wrapper.show {
+  visibility: visible;
+  transition: visibility 0s ease 0s;
+}
+.dialog > .wrapper.show .overlay {
+  opacity: 1;
+}
+.dialog > .wrapper.show .dialog {
+  opacity: 1;
+  -webkit-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+}
+.dialog .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+.dialog .dialog {
+  min-width: 350px;
+  min-height: 250px;
+  height: auto;
+  width: auto;
+  padding-top: 70px;
+  padding-bottom: 75px;
+  margin: auto;
+  position: relative;
+  background-color: var(--window);
+  box-shadow: 0px 30px 90px -20px rgba(0,0,0,0.3), 0 0 1px #a2a9b1;
+  border-radius: 4px;
+  -webkit-transform: scale(0.8);
+  -ms-transform: scale(0.8);
+  transform: scale(0.8);
+  transition: all 0.3s ease-in-out;
+  z-index: 1;
+  opacity: 0;
+}
+.dialog .dialog header {
+  height: 70px;
+  font: 14px var(--subheader);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 26px 65px 25px 65px;
+}
+.dialog .dialog main {
+  width: auto;
+  padding: 20px;
+  margin: 0 auto;
+}
+.dialog .dialog .close {
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  cursor: pointer;
+}
+.dialog .dialog footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 75px;
+  padding: 12px;
+  display: flex;
+  justify-content: center;
+}
+`
+  }
+
+  show (fn) {
+    const node = this.root.firstElementChild
+    node.classList.add('show')
+    fn && node.addEventListener('transitionend', fn, { once: true })
+
+    this._escapeHandler = e => {
+      if (e.keyCode === 27) this.hide()
+    }
+
+    document.addEventListener('keyup', this._escapeHandler)
+  }
+
+  hide (fn) {
+    const node = this.root.firstElementChild
+    node.classList.remove('show')
+    fn && node.addEventListener('transitionend', fn, { once: true })
+    document.removeEventListener('keyup', this._escapeHandler)
+  }
+
+  wrap (render) {
+    const {
+      width,
+      height,
+      overlay,
+      theme,
+      color,
+      backgroundColor
+    } = this.props
+
+    this.root.classList.add('dialog')
+
+    const template = document.createElement('template')
+    const wrapper = document.createElement('div')
+
+    const isOpen = !!this.root.querySelector('.wrapper.show')
+    wrapper.className = isOpen ? 'wrapper show' : 'wrapper'
+
+    const content = render()
+
+    typeof content === 'string'
+      ? (template.innerHTML = content)
+      : [...content.children].forEach(el => template.appendChild(el))
+
+    if (theme) this.root.classList.add(`theme-${theme}`)
+
+    const style = []
+    if (width) style.push(`width: ${width};`)
+    if (height) style.push(`height: ${height};`)
+
+    if (overlay !== 'false') {
+      const overlayElement = document.createElement('div')
+      overlayElement.className = 'overlay'
+      overlayElement.setAttribute('style', `background-color: ${backgroundColor}`)
+      wrapper.appendChild(overlayElement)
+    }
+
+    const dialog = document.createElement('div')
+    dialog.className = 'dialog'
+    dialog.setAttribute('style', style.join(''))
+
+    const close = document.createElement('div')
+    close.className = 'close'
+
+    const iconColor = color || this.getPropertyValue('primary')
+    const url = Dialog.svg.closeIcon(iconColor)
+    close.style.backgroundImage = `url("${url}")`
+
+    wrapper.appendChild(dialog)
+    dialog.appendChild(template.content)
+    dialog.appendChild(close)
+    return wrapper
+  }
+}
+
+Dialog.svg = {}
+Dialog.svg.toURL = s => `data:image/svg+xml;base64,${window.btoa(s)}`
+Dialog.svg.closeIcon = color => Dialog.svg.toURL(`
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <path fill="${color}" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
+  </svg>
+`)
+
+Tonic.Dialog = Dialog
+
 class IconContainer extends Tonic { /* global Tonic */
   defaults () {
     return {
@@ -995,6 +987,7 @@ class IconContainer extends Tonic { /* global Tonic */
     }
 
     const style = `fill: ${color}; color: ${color};`
+    console.log(style)
 
     return `
       <div class="wrapper" style="width: ${size}; height: ${size};">
@@ -1151,7 +1144,7 @@ input-button button:before {
   }
 
   done () {
-    setImmediate(() => {
+    window.requestAnimationFrame(() => {
       const button = this.root.querySelector('button')
       button.classList.remove('loading')
     })
@@ -1160,7 +1153,7 @@ input-button button:before {
   click () {
     if (!this.props.async) return
 
-    setImmediate(() => {
+    window.requestAnimationFrame(() => {
       const button = this.root.querySelector('button')
       button.classList.add('loading')
     })
@@ -2476,7 +2469,9 @@ notification-inline .notification .close svg path {
     notification.appendChild(main)
     main.appendChild(titleElement)
     main.appendChild(messageElement)
-    setImmediate(() => notification.classList.add('show'))
+    window.requestAnimationFrame(() => {
+      notification.classList.add('show')
+    })
 
     if (duration) {
       setTimeout(() => this.destroy(notification), duration)
@@ -2491,7 +2486,7 @@ notification-inline .notification .close svg path {
   }
 
   show () {
-    setImmediate(() => {
+    window.requestAnimationFrame(() => {
       this.root.firstChild.classList.add('show')
     })
   }
@@ -2553,6 +2548,206 @@ NotificationInline.svg.infoIcon = color => NotificationInline.svg.toURL(`
 `)
 
 Tonic.add(NotificationInline)
+
+class Panel extends Tonic { /* global Tonic */
+  constructor (props) {
+    super(props)
+
+    this.root.show = fn => this.show(fn)
+    this.root.hide = fn => this.hide(fn)
+
+    this.root.addEventListener('click', e => {
+      const el = Tonic.match(e.target, '.close')
+      if (el) this.hide()
+
+      const overlay = Tonic.match(e.target, '.overlay')
+      if (overlay) this.hide()
+    })
+  }
+
+  getPropertyValue (s) {
+    const computed = window.getComputedStyle(this.root)
+    return computed.getPropertyValue(`--${s}`).trim()
+  }
+
+  defaults () {
+    return {
+      position: 'right',
+      overlay: false,
+      closeIcon: Panel.svg.closeIcon,
+      backgroundColor: 'rgba(0,0,0,0.5)'
+    }
+  }
+
+  style () {
+    return `.panel * {
+  box-sizing: border-box;
+}
+.panel .wrapper .panel {
+  width: 500px;
+  position: fixed;
+  bottom: 0;
+  top: 0;
+  background-color: var(--window);
+  box-shadow: 0px 0px 28px 0 rgba(0,0,0,0.05);
+  z-index: 100;
+  transition: transform 0.3s ease-in-out;
+}
+.panel .wrapper.left .panel {
+  left: 0;
+  -webkit-transform: translateX(-500px);
+  -ms-transform: translateX(-500px);
+  transform: translateX(-500px);
+  border-right: 1px solid var(--border);
+}
+.panel .wrapper.right .panel {
+  right: 0;
+  -webkit-transform: translateX(500px);
+  -ms-transform: translateX(500px);
+  transform: translateX(500px);
+  border-left: 1px solid var(--border);
+}
+.panel .wrapper.show.right .panel,
+.panel .wrapper.show.left .panel {
+  -webkit-transform: translateX(0);
+  -ms-transform: translateX(0);
+  transform: translateX(0);
+}
+.panel .wrapper.show.right[overlay="true"] .overlay,
+.panel .wrapper.show.left[overlay="true"] .overlay {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease-in-out, visibility 0s ease 0s;
+}
+.panel .wrapper .overlay {
+  opacity: 0;
+  visibility: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: opacity 0.3s ease-in-out, visibility 0s ease 1s;
+}
+.panel .wrapper .close {
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  cursor: pointer;
+}
+.panel .wrapper header {
+  padding: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 90px;
+}
+.panel .wrapper main {
+  padding: 20px;
+  position: absolute;
+  top: 90px;
+  left: 0;
+  right: 0;
+  bottom: 70px;
+  overflow: scroll;
+}
+.panel .wrapper footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 70px;
+  padding: 10px;
+  text-align: center;
+  border-top: 1px solid var(--border);
+}
+`
+  }
+
+  show (fn) {
+    const node = this.root.firstChild
+    node.classList.add('show')
+    fn && node.addEventListener('transitionend', fn, { once: true })
+  }
+
+  hide (fn) {
+    const node = this.root.firstChild
+    node.classList.remove('show')
+    fn && node.addEventListener('transitionend', fn, { once: true })
+  }
+
+  wrap (render) {
+    const {
+      name,
+      position,
+      overlay,
+      theme,
+      color,
+      backgroundColor
+    } = this.props
+
+    this.root.classList.add('panel')
+
+    const wrapper = document.createElement('div')
+    const template = document.createElement('template')
+
+    const content = render()
+
+    typeof content === 'string'
+      ? (template.innerHTML = content)
+      : [...content.children].forEach(el => template.appendChild(el))
+
+    if (theme) this.root.classList.add(`theme-${theme}`)
+
+    const isOpen = !!this.root.querySelector('.wrapper.show')
+    wrapper.className = isOpen ? 'wrapper show' : 'wrapper'
+    wrapper.id = 'wrapper'
+    wrapper.classList.add(position)
+
+    if (overlay) wrapper.setAttribute('overlay', true)
+    if (name) wrapper.setAttribute('name', name)
+
+    // create panel
+    const panel = document.createElement('div')
+    panel.className = 'panel'
+
+    if (overlay !== 'false') {
+      const overlayElement = document.createElement('div')
+      overlayElement.className = 'overlay'
+      overlayElement.setAttribute('style', `background-color: ${backgroundColor}`)
+      wrapper.appendChild(overlayElement)
+    }
+
+    // create template
+    const close = document.createElement('div')
+    close.className = 'close'
+
+    const iconColor = color || this.getPropertyValue('primary')
+    const url = Panel.svg.closeIcon(iconColor)
+    close.style.backgroundImage = `url("${url}")`
+
+    // append everything
+    wrapper.appendChild(panel)
+    wrapper.appendChild(panel)
+    panel.appendChild(template.content)
+    panel.appendChild(close)
+
+    return wrapper
+  }
+}
+
+Panel.svg = {}
+Panel.svg.toURL = s => `data:image/svg+xml;base64,${window.btoa(s)}`
+Panel.svg.closeIcon = color => Panel.svg.toURL(`
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <path fill="${color}" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
+  </svg>
+`)
+
+Tonic.Panel = Panel
 
 class ProfileImage extends Tonic { /* global Tonic */
   defaults () {
@@ -2788,471 +2983,264 @@ progress-bar .wrapper .progress {
 
 Tonic.add(ProgressBar)
 
-}).call(this,require("timers").setImmediate)
-},{"timers":5}],3:[function(require,module,exports){
-// shim for using process in browser
-var process = module.exports = {};
+  const link1 = document.getElementById('content-route-link-1')
+const link2 = document.getElementById('content-route-link-2')
 
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
+link1.addEventListener('click', e => {
+  e.preventDefault()
+  const r = Math.random().toString(16).slice(2, 4)
+  window.history.pushState({}, 'Foo 100', '/foo/' + r)
+})
 
-var cachedSetTimeout;
-var cachedClearTimeout;
+link2.addEventListener('click', e => {
+  e.preventDefault()
+  window.history.back()
+})
+class MyDialog extends Tonic.Dialog {
+  click (e) {
+    if (!e.target.value) return
 
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
+    const color = Math.random().toString(16).slice(2, 8)
+
+    this.setProps(props => ({
+      ...props,
+      color,
+      message: `Random Color #${color}`
+    }))
+  }
+
+  render () {
+    return `
+      <header>
+        Dialog
+      </header>
+      <main>
+        <p style="color: #${this.props.color};">${this.props.message}</p>
+      </main>
+      <footer>
+        <input-button value="increment">Random Color</input-button>
+      </footer>
+    `
+  }
 }
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
+
+Tonic.add(MyDialog)
+
+const link = document.getElementById('example-dialog-link')
+const dialog = document.getElementById('example-dialog')
+
+link.addEventListener('click', e => dialog.show())
+const button = document.getElementById('loading-button-example')
+button.addEventListener('click', e => {
+  setTimeout(() => {
+    button.done()
+  }, 3e3)
+})
+document.addEventListener('DOMContentLoaded', e => {
+  const notification = document.getElementsByTagName('notification-center')[0]
+  const select = document.getElementById('options-example-1')
+
+  select.addEventListener('change', ({ target }) => {
+    const { value } = target.options[target.selectedIndex]
+    notification.create({
+      type: 'success',
+      message: `The value of the selected option was "${value}".`,
+      title: 'Selection',
+      duration: 2000
+    })
+  })
+})
+const setInvalid = document.querySelector('input-button[value="set-invalid"]')
+const setValid = document.querySelector('input-button[value="set-valid"]')
+const input = document.querySelector('#input-invalidation-example-1')
+
+setInvalid.addEventListener('click', (e) => {
+  input.setInvalid('There was a problem')
+})
+
+setValid.addEventListener('click', (e) => {
+  input.setValid()
+})
+const notificationCounter = document.querySelector('.notification-counter')
+const notificationBadge = document.querySelector('notification-badge')
+
+let count = 0
+
+notificationCounter.addEventListener('click', (e) => {
+  if (!e.target) return
+
+  if (e.target.classList.contains('add-notification')) {
+    count++
+  } else if (e.target.classList.contains('subtract-notification')) {
+    (count > 0) && count--
+  }
+
+  notificationBadge.setProps(props => ({
+    ...props,
+    count: `${count}`
+  }))
+})
+const notification = document.querySelector('notification-center')
+
+const notificationLink1 = document.getElementById('notification-link-1')
+notificationLink1.addEventListener('click', e => {
+  notification.create({
+    message: 'Hello, World', title: 'Greetings'
+  })
+})
+
+const notificationLink2 = document.getElementById('notification-link-2')
+notificationLink2.addEventListener('click', e => {
+  notification.create({
+    type: 'success'
+  })
+})
+
+const notificationLink3 = document.getElementById('notification-link-3')
+notificationLink3.addEventListener('click', e => {
+  notification.create({
+    type: 'warning'
+  })
+})
+
+const notificationLink4 = document.getElementById('notification-link-4')
+notificationLink4.addEventListener('click', e => {
+  notification.create({
+    type: 'danger'
+  })
+})
+
+const notificationLink5 = document.getElementById('notification-link-5')
+notificationLink5.addEventListener('click', e => {
+  notification.create({
+    type: 'info'
+  })
+})
+
+const notificationLink6 = document.getElementById('notification-link-6')
+notificationLink6.addEventListener('click', e => {
+  notification.create({
+    message: 'Will self destruct in 3 seconds',
+    title: 'Howdy',
+    duration: 3e3
+  })
+})
+const notificationInline1 = document.getElementById('notification-inline-example-1')
+const notificationInlineLink1 = document.getElementById('notification-inline-link-1')
+
+notificationInlineLink1.addEventListener('click', e => {
+  notificationInline1.create({
+    message: 'This is an alert'
+  })
+})
+
+const notificationInline2 = document.getElementById('notification-inline-example-2')
+const notificationInlineLink2 = document.getElementById('notification-inline-link-2')
+
+notificationInlineLink2.addEventListener('click', e => {
+  notificationInline2.create({
+    type: 'success'
+  })
+})
+
+const notificationInline3 = document.getElementById('notification-inline-example-3')
+const notificationInlineLink3 = document.getElementById('notification-inline-link-3')
+
+notificationInlineLink3.addEventListener('click', e => {
+  notificationInline3.create({
+    type: 'warning'
+  })
+})
+
+const notificationInline4 = document.getElementById('notification-inline-example-4')
+const notificationInlineLink4 = document.getElementById('notification-inline-link-4')
+
+notificationInlineLink4.addEventListener('click', e => {
+  notificationInline4.create({
+    type: 'danger',
+    title: 'Danger zone!'
+  })
+})
+
+const notificationInline5 = document.getElementById('notification-inline-example-5')
+const notificationInlineLink5 = document.getElementById('notification-inline-link-5')
+
+notificationInlineLink5.addEventListener('click', e => {
+  notificationInline5.create({
+    type: 'info',
+    message: 'This is an information alert'
+  })
+})
+
+const notificationInline6 = document.getElementById('notification-inline-example-6')
+const notificationInlineLink6 = document.getElementById('notification-inline-link-6')
+
+notificationInlineLink6.addEventListener('click', e => {
+  notificationInline6.create({
+    title: 'Note',
+    message: 'This is an alert containing both a title and a message.'
+  })
+})
+
+const notificationInline7 = document.getElementById('notification-inline-example-7')
+const notificationInlineLink7 = document.getElementById('notification-inline-link-7')
+
+notificationInlineLink7.addEventListener('click', e => {
+  notificationInline7.create({
+    title: 'This alert will self destruct in 3 seconds.',
+    duration: 3e3
+  })
+})
+class MyPanel extends Tonic.Panel {
+  async getArticle (title) {
     try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-process.prependListener = noop;
-process.prependOnceListener = noop;
-
-process.listeners = function (name) { return [] }
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-},{}],4:[function(require,module,exports){
-var requestFrame = (function () {
-  return window.requestAnimationFrame ||
-    window.webkitRequestAnimationFrame ||
-    window.mozRequestAnimationFrame ||
-    function requestAnimationFallback (callback) {
-      window.setTimeout(callback, 1000 / 60)
-    }
-})()
-
-function ease (pos) {
-  return ((pos /= 0.5) < 1)
-    ? (0.5 * Math.pow(pos, 5))
-    : (0.5 * (Math.pow((pos - 2), 5) + 2))
-}
-
-module.exports = function scrollToY (el, Y, speed) {
-  var isWindow = !!el.alert
-  var scrollY = isWindow ? el.scrollY : el.scrollTop
-  var pos = Math.abs(scrollY - Y)
-  var time = Math.max(0.1, Math.min(pos / speed, 0.8))
-
-  let currentTime = 0
-
-  function setY () {
-    module.exports.scrolling = true
-    currentTime += 1 / 60
-
-    var p = currentTime / time
-    var t = ease(p)
-
-    if (p < 1) {
-      var y = scrollY + ((Y - scrollY) * t)
-      requestFrame(setY)
-
-      if (isWindow) {
-        el.scrollTo(0, y)
-      } else {
-        el.scrollTop = y
-      }
-
-      return
-    }
-
-    if (isWindow) {
-      el.scrollTo(0, Y)
-    } else {
-      el.scrollTop = Y
-    }
-
-    module.exports.scrolling = false
-  }
-  setY()
-}
-
-},{}],5:[function(require,module,exports){
-(function (setImmediate,clearImmediate){
-var nextTick = require('process/browser.js').nextTick;
-var apply = Function.prototype.apply;
-var slice = Array.prototype.slice;
-var immediateIds = {};
-var nextImmediateId = 0;
-
-// DOM APIs, for completeness
-
-exports.setTimeout = function() {
-  return new Timeout(apply.call(setTimeout, window, arguments), clearTimeout);
-};
-exports.setInterval = function() {
-  return new Timeout(apply.call(setInterval, window, arguments), clearInterval);
-};
-exports.clearTimeout =
-exports.clearInterval = function(timeout) { timeout.close(); };
-
-function Timeout(id, clearFn) {
-  this._id = id;
-  this._clearFn = clearFn;
-}
-Timeout.prototype.unref = Timeout.prototype.ref = function() {};
-Timeout.prototype.close = function() {
-  this._clearFn.call(window, this._id);
-};
-
-// Does not start the time, just sets up the members needed.
-exports.enroll = function(item, msecs) {
-  clearTimeout(item._idleTimeoutId);
-  item._idleTimeout = msecs;
-};
-
-exports.unenroll = function(item) {
-  clearTimeout(item._idleTimeoutId);
-  item._idleTimeout = -1;
-};
-
-exports._unrefActive = exports.active = function(item) {
-  clearTimeout(item._idleTimeoutId);
-
-  var msecs = item._idleTimeout;
-  if (msecs >= 0) {
-    item._idleTimeoutId = setTimeout(function onTimeout() {
-      if (item._onTimeout)
-        item._onTimeout();
-    }, msecs);
-  }
-};
-
-// That's not how node.js implements it but the exposed api is the same.
-exports.setImmediate = typeof setImmediate === "function" ? setImmediate : function(fn) {
-  var id = nextImmediateId++;
-  var args = arguments.length < 2 ? false : slice.call(arguments, 1);
-
-  immediateIds[id] = true;
-
-  nextTick(function onNextTick() {
-    if (immediateIds[id]) {
-      // fn.call() is faster so we optimize for the common use-case
-      // @see http://jsperf.com/call-apply-segu
-      if (args) {
-        fn.apply(null, args);
-      } else {
-        fn.call(null);
-      }
-      // Prevent ids from leaking
-      exports.clearImmediate(id);
-    }
-  });
-
-  return id;
-};
-
-exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
-  delete immediateIds[id];
-};
-}).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-},{"process/browser.js":3,"timers":5}],6:[function(require,module,exports){
-class Tonic {
-  constructor (node) {
-    this.props = {}
-    this.state = {}
-    const name = Tonic._splitName(this.constructor.name)
-    this.root = node || document.createElement(name.toLowerCase())
-    Tonic.refs.push(this.root)
-    this.root.destroy = index => this._disconnect(index)
-    this.root.setProps = v => this.setProps(v)
-    this.root.setState = v => this.setState(v)
-    this._bindEventListeners()
-    this._connect()
-  }
-
-  static match (el, s) {
-    if (!el.matches) el = el.parentElement
-    return el.matches(s) ? el : el.closest(s)
-  }
-
-  static add (c) {
-    c.prototype._props = Object.getOwnPropertyNames(c.prototype)
-    if (!c.name) throw Error('Mangling detected, see guide.')
-
-    const name = Tonic._splitName(c.name).toUpperCase()
-    Tonic.registry[name] = c
-    if (c.registered) throw new Error(`Already registered ${c.name}`)
-    c.registered = true
-
-    if (!Tonic.styleNode) {
-      Tonic.styleNode = document.head.appendChild(document.createElement('style'))
-    }
-
-    Tonic._constructTags()
-  }
-
-  static _constructTags () {
-    for (const tagName of Object.keys(Tonic.registry)) {
-      for (const node of document.getElementsByTagName(tagName.toLowerCase())) {
-        if (!Tonic.registry[tagName] || node.destroy) continue
-        const t = new Tonic.registry[tagName](node)
-        if (!t) throw Error('Unable to construct component, see guide.')
-      }
+      const res = await fetch(`https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=${title}&origin=*`)
+      return Object.values((await res.json()).query.pages)[0]
+    } catch (err) {
+      return { title: 'Error', extract: err.message }
     }
   }
 
-  static sanitize (o) {
-    for (const [k, v] of Object.entries(o)) {
-      if (typeof v === 'object') o[k] = Tonic.sanitize(v)
-      if (typeof v === 'string') o[k] = Tonic.escape(v)
+  async click (e) {
+    if (e.target.value === 'close') {
+      return this.hide()
     }
-    return o
-  }
 
-  static escape (s) {
-    return s.replace(Tonic.escapeRe, ch => Tonic.escapeMap[ch])
-  }
+    if (e.target.value === 'get') {
+      const page = await this.getArticle('HTML')
 
-  static _splitName (s) {
-    return s.match(/[A-Z][a-z]*/g).join('-')
-  }
-
-  emit (name, detail) {
-    this.root.dispatchEvent(new window.Event(name, { detail }))
-  }
-
-  html ([s, ...strings], ...values) {
-    const reducer = (a, b) => a.concat(b, strings.shift())
-    const filter = s => s && (s !== true || s === 0)
-    return Tonic.sanitize(values).reduce(reducer, [s]).filter(filter).join('')
-  }
-
-  setState (o) {
-    this.state = typeof o === 'function' ? o(this.state) : o
-  }
-
-  setProps (o) {
-    const oldProps = JSON.parse(JSON.stringify(this.props))
-    this.props = Tonic.sanitize(typeof o === 'function' ? o(this.props) : o)
-    this._setContent(this.root, this.render())
-    Tonic._constructTags()
-    this.updated && this.updated(oldProps)
-  }
-
-  _bindEventListeners () {
-    const hp = Object.getOwnPropertyNames(window.HTMLElement.prototype)
-    for (const p of this._props) {
-      if (hp.indexOf('on' + p) === -1) continue
-      this.root.addEventListener(p, e => this[p](e))
+      this.setProps(props => ({
+        ...props,
+        ...page
+      }))
     }
   }
 
-  _setContent (target, content) {
-    if (typeof content === 'string') {
-      target.innerHTML = content
-    } else {
-      while (target.firstChild) target.firstChild.remove()
-      target.appendChild(content)
-    }
-    Tonic.refs.forEach((e, i) => !e.parentNode && e.destroy(i))
-  }
-
-  _connect () {
-    for (let { name, value } of this.root.attributes) {
-      name = name.replace(/-(.)/gui, (_, m) => m.toUpperCase())
-      this.props[name] = value || name
-    }
-
-    if (this.props.data) {
-      try { this.props.data = JSON.parse(this.props.data) } catch (e) {}
-    }
-
-    this.props = Tonic.sanitize(this.props)
-
-    for (const [k, v] of Object.entries(this.defaults ? this.defaults() : {})) {
-      if (!this.props[k]) this.props[k] = v
-    }
-
-    this.willConnect && this.willConnect()
-    this._setContent(this.root, this.render())
-    Tonic._constructTags()
-
-    if (this.style && !Tonic.registry[this.root.tagName].styled) {
-      Tonic.registry[this.root.tagName].styled = true
-      const textNode = document.createTextNode(this.style())
-      Tonic.styleNode.appendChild(textNode)
-    }
-
-    this.connected && this.connected()
-  }
-
-  _disconnect (index) {
-    this.disconnected && this.disconnected()
-    delete this.styleNode
-    delete this.root
-    Tonic.refs.splice(index, 1)
+  render () {
+    return `
+      <header></header>
+      <main>
+        <h3>${this.props.title || 'Hello'}
+        <p>${this.props.extract || 'Click "get" to fetch the content.'}</p>
+      </main>
+      <footer>
+        <input-button value="close">Close</input-button>
+        <input-button value="get" async="true">Get</input-button>
+      </footer>
+    `
   }
 }
 
-Tonic.refs = []
-Tonic.registry = {}
-Tonic.escapeRe = /["&'<>`]/g
-Tonic.escapeMap = { '"': '&quot;', '&': '&amp;', '\'': '&#x27;', '<': '&lt;', '>': '&gt;', '`': '&#x60;' }
+Tonic.add(MyPanel)
 
-if (typeof module === 'object') module.exports = Tonic
+//
+// For this example, a button element will trigger the
+// `.show()` method on the panel when it is clicked.
+//
+const panelLink = document.getElementById('content-panel-link-example')
+const panel = document.getElementById('content-panel-example')
 
-},{}]},{},[1,2]);
+panelLink.addEventListener('click', e => panel.show())
+const profile = document.getElementById('profile-image-example-editable')
+profile.addEventListener('changed', e => console.log(e.detail))
+profile.addEventListener('error', e => console.log(e.detail))

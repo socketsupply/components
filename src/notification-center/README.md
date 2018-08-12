@@ -51,26 +51,18 @@ The component `NotificationCenter` creates a container for all notifications to 
 
 %html%
 
-%js%
-
 ## Code
 
 The following code should be included once on the page:
 
 ```html
-<notification-center></notification-center>
+%html%
 ```
 
 To create a new notification:
 
 ```js
-const notification = document.querySelector('notification-center')
-
-notification.create({
-  title: 'Howdy',
-  message: 'Will self destruct in 3 seconds',
-  duration: 3e3
-})
+%js%
 ```
 
 ## Api

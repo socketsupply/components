@@ -1,429 +1,165 @@
-class ContentDialog extends Tonic { /* global Tonic */
-  constructor (props) {
-    super(props)
 
-    this.root.show = () => this.show()
-    this.root.hide = () => this.hide()
+    class Tonic {
+  constructor (node) {
+    this.props = {}
+    this.state = {}
+    const name = Tonic._splitName(this.constructor.name)
+    this.root = node || document.createElement(name.toLowerCase())
+    this.root.disconnect = index => this._disconnect(index)
+    this.root.setProps = v => this.setProps(v)
+    this.root.setState = v => this.setState(v)
+    this.root.getProps = () => this.getProps()
+    this._bindEventListeners()
+    if (this.wrap) {
+      const render = this.render
+      this.render = () => this.wrap(render.bind(this))
+    }
+    this._connect()
+    Tonic.refs.push(this.root)
   }
 
-  getPropertyValue (s) {
-    const computed = window.getComputedStyle(this.root)
-    return computed.getPropertyValue(`--${s}`).trim()
+  getProps () {
+    return this.props
   }
 
-  defaults () {
-    return {
-      width: '450px',
-      height: 'auto',
-      overlay: true,
-      closeIcon: ContentDialog.svg.closeIcon(this.getPropertyValue('primary')),
-      backgroundColor: 'rgba(0,0,0,0.5)'
+  static match (el, s) {
+    if (!el.matches) el = el.parentElement
+    return el.matches(s) ? el : el.closest(s)
+  }
+
+  static add (c) {
+    c.prototype._props = Object.getOwnPropertyNames(c.prototype)
+    if (!c.name || c.name.length === 1) throw Error('Mangling detected, see guide. https://github.com/hxoht/tonic/blob/master/HELP.md.')
+
+    const name = Tonic._splitName(c.name)
+    Tonic.registry[name.toUpperCase()] = Tonic[c.name] = c
+    Tonic.tags = Object.keys(Tonic.registry)
+    if (c.registered) throw new Error(`Already registered ${c.name}`)
+    c.registered = true
+
+    if (!Tonic.styleNode) {
+      Tonic.styleNode = document.head.appendChild(document.createElement('style'))
+    }
+    Tonic._constructTags()
+  }
+
+  static _constructTags (root) {
+    for (const tagName of Tonic.tags) {
+      for (const node of (root || document).getElementsByTagName(tagName)) {
+        if (node.disconnect) continue
+        const t = new Tonic.registry[tagName](node)
+        if (!t) throw Error('Unable to construct component, see guide.')
+      }
     }
   }
 
-  compile (s) {
-    // eslint-disable-next-line
-    return new Function(`return \`${s}\``).bind(this)
-  }
-
-  template (id) {
-    const node = document.querySelector(`template[for="${id}"]`)
-    const template = this.compile(node.innerHTML)
-    const div = document.createElement('div')
-    div.innerHTML = template()
-    return div
-  }
-
-  style () {
-    return `content-dialog * {
-  box-sizing: border-box;
-}
-content-dialog > .wrapper {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  z-index: 100;
-  visibility: hidden;
-  transition: visibility 0s ease 0.5s;
-}
-content-dialog > .wrapper.show {
-  visibility: visible;
-  transition: visibility 0s ease 0s;
-}
-content-dialog > .wrapper.show .overlay {
-  opacity: 1;
-}
-content-dialog > .wrapper.show .dialog {
-  opacity: 1;
-  -webkit-transform: scale(1);
-  -ms-transform: scale(1);
-  transform: scale(1);
-}
-content-dialog .overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-}
-content-dialog .dialog {
-  min-width: 350px;
-  min-height: 250px;
-  height: auto;
-  width: auto;
-  padding-top: 70px;
-  padding-bottom: 75px;
-  margin: auto;
-  position: relative;
-  background-color: var(--window);
-  box-shadow: 0px 30px 90px -20px rgba(0,0,0,0.3), 0 0 1px #a2a9b1;
-  border-radius: 4px;
-  -webkit-transform: scale(0.8);
-  -ms-transform: scale(0.8);
-  transform: scale(0.8);
-  transition: all 0.3s ease-in-out;
-  z-index: 1;
-  opacity: 0;
-}
-content-dialog .dialog header {
-  height: 70px;
-  font: 14px var(--subheader);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  padding: 26px 65px 25px 65px;
-}
-content-dialog .dialog main {
-  width: auto;
-  padding: 20px;
-  margin: 0 auto;
-}
-content-dialog .dialog .close {
-  width: 25px;
-  height: 25px;
-  position: absolute;
-  top: 25px;
-  right: 25px;
-  cursor: pointer;
-}
-content-dialog .dialog footer {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 75px;
-  padding: 12px;
-  display: flex;
-  justify-content: center;
-}
-`
-  }
-
-  setContent (s) {
-    this.root.querySelector('main').innerHTML = s
-  }
-
-  show (fn) {
-    const node = this.root.firstElementChild
-    node.classList.add('show')
-    fn && node.addEventListener('transitionend', fn, { once: true })
-
-    this._escapeHandler = e => {
-      if (e.keyCode === 27) this.hide()
+  static sanitize (o) {
+    for (const [k, v] of Object.entries(o)) {
+      if (typeof v === 'object') o[k] = Tonic.sanitize(v)
+      if (typeof v === 'string') o[k] = Tonic.escape(v)
     }
-
-    document.addEventListener('keyup', this._escapeHandler)
+    return o
   }
 
-  hide (fn) {
-    const node = this.root.firstElementChild
-    node.classList.remove('show')
-    fn && node.addEventListener('transitionend', fn, { once: true })
-    document.removeEventListener('keyup', this._escapeHandler)
+  static escape (s) {
+    return s.replace(Tonic.escapeRe, ch => Tonic.escapeMap[ch])
   }
 
-  click (e) {
-    const el = Tonic.match(e.target, '.close')
-    if (el) this.hide()
-
-    const overlay = e.target.matches('.overlay')
-    if (overlay) this.hide()
+  static _splitName (s) {
+    return s.match(/[A-Z][a-z]*/g).join('-')
   }
 
-  render () {
-    const {
-      width,
-      height,
-      overlay,
-      theme,
-      color,
-      backgroundColor
-    } = this.props
-
-    const id = this.root.getAttribute('id')
-
-    if (this.state.rendered) {
-      const div = this.root.querySelector('.dialog div')
-      div.parentNode.replaceChild(this.template(id), div)
-      return this.root.firstChild
-    }
-
-    this.state.rendered = true
-
-    if (theme) this.root.classList.add(`theme-${theme}`)
-
-    const style = []
-    if (width) style.push(`width: ${width};`)
-    if (height) style.push(`height: ${height};`)
-
-    const wrapper = document.createElement('div')
-    wrapper.className = 'wrapper'
-
-    if (overlay !== 'false') {
-      const overlayElement = document.createElement('div')
-      overlayElement.className = 'overlay'
-      overlayElement.setAttribute('style', `background-color: ${backgroundColor}`)
-      wrapper.appendChild(overlayElement)
-    }
-
-    // create dialog
-    const dialog = document.createElement('div')
-    dialog.className = 'dialog'
-    dialog.setAttribute('style', style.join(''))
-
-    // close button
-    const close = document.createElement('div')
-    close.className = 'close'
-
-    const iconColor = color || this.getPropertyValue('primary')
-    const url = ContentDialog.svg.closeIcon(iconColor)
-    close.style.backgroundImage = `url("${url}")`
-
-    // append everything
-    wrapper.appendChild(dialog)
-    dialog.appendChild(this.template(id))
-    dialog.appendChild(close)
-
-    return wrapper
-  }
-}
-
-ContentDialog.svg = {}
-ContentDialog.svg.toURL = s => `data:image/svg+xml;base64,${window.btoa(s)}`
-ContentDialog.svg.closeIcon = color => ContentDialog.svg.toURL(`
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path fill="${color}" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
-  </svg>
-`)
-
-Tonic.add(ContentDialog)
-
-class ContentPanel extends Tonic { /* global Tonic */
-  constructor (props) {
-    super(props)
-
-    this.root.show = fn => this.show(fn)
-    this.root.hide = fn => this.hide(fn)
+  html ([s, ...strings], ...values) {
+    const reducer = (a, b) => a.concat(b, strings.shift())
+    const filter = s => s && (s !== true || s === 0)
+    return Tonic.sanitize(values).reduce(reducer, [s]).filter(filter).join('')
   }
 
-  getPropertyValue (s) {
-    const computed = window.getComputedStyle(this.root)
-    return computed.getPropertyValue(`--${s}`).trim()
+  setState (o) {
+    this.state = typeof o === 'function' ? o(this.state) : o
   }
 
-  defaults () {
-    return {
-      position: 'right',
-      overlay: false,
-      closeIcon: ContentPanel.svg.closeIcon,
-      backgroundColor: 'rgba(0,0,0,0.5)'
+  setProps (o) {
+    const oldProps = JSON.parse(JSON.stringify(this.props))
+    this.props = Tonic.sanitize(typeof o === 'function' ? o(this.props) : o)
+    if (!this.root) throw new Error('.setProps called on destroyed component, see guide.')
+    this._setContent(this.root, this.render())
+    Tonic._constructTags(this.root)
+    this.updated && this.updated(oldProps)
+  }
+
+  _bindEventListeners () {
+    const hp = Object.getOwnPropertyNames(window.HTMLElement.prototype)
+    for (const p of this._props) {
+      if (hp.indexOf('on' + p) === -1) continue
+      this.root.addEventListener(p, e => this[p](e))
     }
   }
 
-  style () {
-    return `content-panel * {
-  box-sizing: border-box;
-}
-content-panel .wrapper .panel {
-  width: 500px;
-  position: fixed;
-  bottom: 0;
-  top: 0;
-  background-color: var(--window);
-  box-shadow: 0px 0px 28px 0 rgba(0,0,0,0.05);
-  z-index: 100;
-  transition: transform 0.3s ease-in-out;
-}
-content-panel .wrapper.left .panel {
-  left: 0;
-  -webkit-transform: translateX(-500px);
-  -ms-transform: translateX(-500px);
-  transform: translateX(-500px);
-  border-right: 1px solid var(--border);
-}
-content-panel .wrapper.right .panel {
-  right: 0;
-  -webkit-transform: translateX(500px);
-  -ms-transform: translateX(500px);
-  transform: translateX(500px);
-  border-left: 1px solid var(--border);
-}
-content-panel .wrapper.show.right .panel,
-content-panel .wrapper.show.left .panel {
-  -webkit-transform: translateX(0);
-  -ms-transform: translateX(0);
-  transform: translateX(0);
-}
-content-panel .wrapper.show.right[overlay="true"] .overlay,
-content-panel .wrapper.show.left[overlay="true"] .overlay {
-  opacity: 1;
-  visibility: visible;
-  transition: opacity 0.3s ease-in-out, visibility 0s ease 0s;
-}
-content-panel .wrapper .overlay {
-  opacity: 0;
-  visibility: hidden;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  transition: opacity 0.3s ease-in-out, visibility 0s ease 1s;
-}
-content-panel .wrapper .close {
-  width: 25px;
-  height: 25px;
-  position: absolute;
-  top: 30px;
-  right: 30px;
-  cursor: pointer;
-}
-content-panel .wrapper header {
-  padding: 20px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 90px;
-}
-content-panel .wrapper main {
-  padding: 20px;
-  position: absolute;
-  top: 90px;
-  left: 0;
-  right: 0;
-  bottom: 70px;
-  overflow: scroll;
-}
-content-panel .wrapper footer {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 70px;
-  padding: 10px;
-  text-align: center;
-  border-top: 1px solid var(--border);
-}
-`
-  }
-
-  show (fn) {
-    const node = this.root.firstChild
-    node.classList.add('show')
-    fn && node.addEventListener('transitionend', fn, { once: true })
-  }
-
-  hide (fn) {
-    const node = this.root.firstChild
-    node.classList.remove('show')
-    fn && node.addEventListener('transitionend', fn, { once: true })
-  }
-
-  click (e) {
-    const el = Tonic.match(e.target, '.close')
-    if (el) this.hide()
-
-    const overlay = Tonic.match(e.target, '.overlay')
-    if (overlay) this.hide()
-
-    this.value = {}
-  }
-
-  render () {
-    const {
-      name,
-      position,
-      overlay,
-      theme,
-      color,
-      backgroundColor
-    } = this.props
-
-    const id = this.root.getAttribute('id')
-
-    if (theme) this.root.classList.add(`theme-${theme}`)
-
-    // create wrapper
-    const wrapper = document.createElement('div')
-    wrapper.id = 'wrapper'
-    wrapper.classList.add('wrapper')
-    wrapper.classList.add(position)
-
-    if (overlay) wrapper.setAttribute('overlay', true)
-    if (name) wrapper.setAttribute('name', name)
-
-    // create panel
-    const panel = document.createElement('div')
-    panel.className = 'panel'
-
-    if (overlay !== 'false') {
-      const overlayElement = document.createElement('div')
-      overlayElement.className = 'overlay'
-      overlayElement.setAttribute('style', `background-color: ${backgroundColor}`)
-      wrapper.appendChild(overlayElement)
+  _setContent (target, content = '') {
+    for (const tagName of Tonic.tags) {
+      for (const node of target.getElementsByTagName(tagName)) {
+        const index = Tonic.refs.findIndex(ref => ref === node)
+        if (index === -1) continue
+        node.disconnect(index)
+      }
     }
 
-    // create template
-    const template = document.querySelector(`template[for="${id}"]`)
-    const clone = document.importNode(template.content, true)
+    if (typeof content === 'string') {
+      target.innerHTML = content.trim()
+    } else {
+      while (target.firstChild) target.removeChild(target.firstChild)
+      target.appendChild(content)
+    }
+    this.root = target
+  }
 
-    const close = document.createElement('div')
-    close.className = 'close'
+  _connect () {
+    for (let { name, value } of this.root.attributes) {
+      name = name.replace(/-(.)/gui, (_, m) => m.toUpperCase())
+      this.props[name] = value === 'undefined' ? undefined : (value || name)
+    }
 
-    const iconColor = color || this.getPropertyValue('primary')
-    const url = ContentPanel.svg.closeIcon(iconColor)
-    close.style.backgroundImage = `url("${url}")`
+    if (this.props.data) {
+      try { this.props.data = JSON.parse(this.props.data) } catch (e) {}
+    }
 
-    // append everything
-    wrapper.appendChild(panel)
-    wrapper.appendChild(panel)
-    panel.appendChild(clone)
-    panel.appendChild(close)
+    this.props = Tonic.sanitize(this.props)
 
-    return wrapper
+    for (const [k, v] of Object.entries(this.defaults ? this.defaults() : {})) {
+      if (!this.props[k]) this.props[k] = v
+    }
+
+    this.willConnect && this.willConnect()
+    this._setContent(this.root, this.render())
+    Tonic._constructTags(this.root)
+
+    if (this.style && !Tonic.registry[this.root.tagName].styled) {
+      Tonic.registry[this.root.tagName].styled = true
+      const textNode = document.createTextNode(this.style())
+      Tonic.styleNode.appendChild(textNode)
+    }
+
+    this.connected && this.connected()
+  }
+
+  _disconnect (index) {
+    this.disconnected && this.disconnected()
+    delete this.root
+    Tonic.refs.splice(index, 1)
   }
 }
 
-ContentPanel.svg = {}
-ContentPanel.svg.toURL = s => `data:image/svg+xml;base64,${window.btoa(s)}`
-ContentPanel.svg.closeIcon = color => ContentPanel.svg.toURL(`
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path fill="${color}" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
-  </svg>
-`)
+Tonic.tags = []
+Tonic.refs = []
+Tonic.registry = {}
+Tonic.escapeRe = /["&'<>`]/g
+Tonic.escapeMap = { '"': '&quot;', '&': '&amp;', '\'': '&#x27;', '<': '&lt;', '>': '&gt;', '`': '&#x60;' }
 
-Tonic.add(ContentPanel)
+if (typeof module === 'object') module.exports = Tonic
 
-class ContentRoute extends Tonic { /* global Tonic */
+    window.Tonic = Tonic
+    class ContentRoute extends Tonic { /* global Tonic */
   constructor (node) {
     super(node)
 
@@ -436,7 +172,9 @@ class ContentRoute extends Tonic { /* global Tonic */
         var value = orig.call(this, ...args)
         window.dispatchEvent(new window.Event(type.toLowerCase()))
         const nodes = document.getElementsByTagName('content-route')
-        for (const node of nodes) node.setProps(p => p)
+        for (const node of nodes) {
+          node.setProps(p => p)
+        }
         return value
       }
     }
@@ -448,23 +186,17 @@ class ContentRoute extends Tonic { /* global Tonic */
   }
 
   willConnect () {
-    this.html = this.root.innerHTML
-  }
-
-  compile (s) {
-    // eslint-disable-next-line
-    return new Function(`return \`${s}\``).bind(this)
+    this.template = document.createElement('template')
+    this.template.innerHTML = this.root.innerHTML
   }
 
   render () {
-    const template = this.compile(this.html)
-
     const none = this.root.hasAttribute('none')
 
     if (none) {
       if (ContentRoute.matches) return
       this.root.classList.add('show')
-      return template()
+      return this.template.content.cloneNode(true)
     }
 
     const path = this.root.getAttribute('path')
@@ -476,11 +208,11 @@ class ContentRoute extends Tonic { /* global Tonic */
       ContentRoute.matches = true
 
       match.slice(1).forEach((m, i) => {
-        this.state[keys[i].name] = m
+        this.props[keys[i].name] = m
       })
 
       this.root.classList.add('show')
-      return template()
+      return this.template.content.cloneNode(true)
     }
 
     return ''
@@ -899,6 +631,214 @@ content-tooltip .tooltip.bottom .tooltip-arrow {
 
 Tonic.add(ContentTooltip)
 
+class Dialog extends Tonic { /* global Tonic */
+  constructor (props) {
+    super(props)
+
+    this.root.show = () => this.show()
+    this.root.hide = () => this.hide()
+
+    this.root.addEventListener('click', e => {
+      const el = Tonic.match(e.target, '.close')
+      if (el) this.hide()
+
+      const overlay = e.target.matches('.overlay')
+      if (overlay) this.hide()
+    })
+  }
+
+  getPropertyValue (s) {
+    const computed = window.getComputedStyle(this.root)
+    return computed.getPropertyValue(`--${s}`).trim()
+  }
+
+  defaults () {
+    return {
+      width: '450px',
+      height: 'auto',
+      overlay: true,
+      closeIcon: Dialog.svg.closeIcon(this.getPropertyValue('primary')),
+      backgroundColor: 'rgba(0,0,0,0.5)'
+    }
+  }
+
+  style () {
+    return `.dialog * {
+  box-sizing: border-box;
+}
+.dialog > .wrapper {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  z-index: 100;
+  visibility: hidden;
+  transition: visibility 0s ease 0.5s;
+}
+.dialog > .wrapper.show {
+  visibility: visible;
+  transition: visibility 0s ease 0s;
+}
+.dialog > .wrapper.show .overlay {
+  opacity: 1;
+}
+.dialog > .wrapper.show .dialog {
+  opacity: 1;
+  -webkit-transform: scale(1);
+  -ms-transform: scale(1);
+  transform: scale(1);
+}
+.dialog .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+.dialog .dialog {
+  min-width: 350px;
+  min-height: 250px;
+  height: auto;
+  width: auto;
+  padding-top: 70px;
+  padding-bottom: 75px;
+  margin: auto;
+  position: relative;
+  background-color: var(--window);
+  box-shadow: 0px 30px 90px -20px rgba(0,0,0,0.3), 0 0 1px #a2a9b1;
+  border-radius: 4px;
+  -webkit-transform: scale(0.8);
+  -ms-transform: scale(0.8);
+  transform: scale(0.8);
+  transition: all 0.3s ease-in-out;
+  z-index: 1;
+  opacity: 0;
+}
+.dialog .dialog header {
+  height: 70px;
+  font: 14px var(--subheader);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 26px 65px 25px 65px;
+}
+.dialog .dialog main {
+  width: auto;
+  padding: 20px;
+  margin: 0 auto;
+}
+.dialog .dialog .close {
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  cursor: pointer;
+}
+.dialog .dialog footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 75px;
+  padding: 12px;
+  display: flex;
+  justify-content: center;
+}
+`
+  }
+
+  show (fn) {
+    const node = this.root.firstElementChild
+    node.classList.add('show')
+    fn && node.addEventListener('transitionend', fn, { once: true })
+
+    this._escapeHandler = e => {
+      if (e.keyCode === 27) this.hide()
+    }
+
+    document.addEventListener('keyup', this._escapeHandler)
+  }
+
+  hide (fn) {
+    const node = this.root.firstElementChild
+    node.classList.remove('show')
+    fn && node.addEventListener('transitionend', fn, { once: true })
+    document.removeEventListener('keyup', this._escapeHandler)
+  }
+
+  wrap (render) {
+    const {
+      width,
+      height,
+      overlay,
+      theme,
+      color,
+      backgroundColor
+    } = this.props
+
+    this.root.classList.add('dialog')
+
+    const template = document.createElement('template')
+    const wrapper = document.createElement('div')
+
+    const isOpen = !!this.root.querySelector('.wrapper.show')
+    wrapper.className = isOpen ? 'wrapper show' : 'wrapper'
+
+    const content = render()
+
+    typeof content === 'string'
+      ? (template.innerHTML = content)
+      : [...content.children].forEach(el => template.appendChild(el))
+
+    if (theme) this.root.classList.add(`theme-${theme}`)
+
+    const style = []
+    if (width) style.push(`width: ${width};`)
+    if (height) style.push(`height: ${height};`)
+
+    if (overlay !== 'false') {
+      const overlayElement = document.createElement('div')
+      overlayElement.className = 'overlay'
+      overlayElement.setAttribute('style', `background-color: ${backgroundColor}`)
+      wrapper.appendChild(overlayElement)
+    }
+
+    const dialog = document.createElement('div')
+    dialog.className = 'dialog'
+    dialog.setAttribute('style', style.join(''))
+
+    const close = document.createElement('div')
+    close.className = 'close'
+
+    const iconColor = color || this.getPropertyValue('primary')
+    const url = Dialog.svg.closeIcon(iconColor)
+    close.style.backgroundImage = `url("${url}")`
+
+    wrapper.appendChild(dialog)
+    dialog.appendChild(template.content)
+    dialog.appendChild(close)
+    return wrapper
+  }
+}
+
+Dialog.svg = {}
+Dialog.svg.toURL = s => `data:image/svg+xml;base64,${window.btoa(s)}`
+Dialog.svg.closeIcon = color => Dialog.svg.toURL(`
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <path fill="${color}" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
+  </svg>
+`)
+
+Tonic.Dialog = Dialog
+
 class IconContainer extends Tonic { /* global Tonic */
   defaults () {
     return {
@@ -931,6 +871,7 @@ class IconContainer extends Tonic { /* global Tonic */
     }
 
     const style = `fill: ${color}; color: ${color};`
+    console.log(style)
 
     return `
       <div class="wrapper" style="width: ${size}; height: ${size};">
@@ -1087,7 +1028,7 @@ input-button button:before {
   }
 
   done () {
-    setImmediate(() => {
+    window.requestAnimationFrame(() => {
       const button = this.root.querySelector('button')
       button.classList.remove('loading')
     })
@@ -1096,7 +1037,7 @@ input-button button:before {
   click () {
     if (!this.props.async) return
 
-    setImmediate(() => {
+    window.requestAnimationFrame(() => {
       const button = this.root.querySelector('button')
       button.classList.add('loading')
     })
@@ -2412,7 +2353,9 @@ notification-inline .notification .close svg path {
     notification.appendChild(main)
     main.appendChild(titleElement)
     main.appendChild(messageElement)
-    setImmediate(() => notification.classList.add('show'))
+    window.requestAnimationFrame(() => {
+      notification.classList.add('show')
+    })
 
     if (duration) {
       setTimeout(() => this.destroy(notification), duration)
@@ -2427,7 +2370,7 @@ notification-inline .notification .close svg path {
   }
 
   show () {
-    setImmediate(() => {
+    window.requestAnimationFrame(() => {
       this.root.firstChild.classList.add('show')
     })
   }
@@ -2489,6 +2432,206 @@ NotificationInline.svg.infoIcon = color => NotificationInline.svg.toURL(`
 `)
 
 Tonic.add(NotificationInline)
+
+class Panel extends Tonic { /* global Tonic */
+  constructor (props) {
+    super(props)
+
+    this.root.show = fn => this.show(fn)
+    this.root.hide = fn => this.hide(fn)
+
+    this.root.addEventListener('click', e => {
+      const el = Tonic.match(e.target, '.close')
+      if (el) this.hide()
+
+      const overlay = Tonic.match(e.target, '.overlay')
+      if (overlay) this.hide()
+    })
+  }
+
+  getPropertyValue (s) {
+    const computed = window.getComputedStyle(this.root)
+    return computed.getPropertyValue(`--${s}`).trim()
+  }
+
+  defaults () {
+    return {
+      position: 'right',
+      overlay: false,
+      closeIcon: Panel.svg.closeIcon,
+      backgroundColor: 'rgba(0,0,0,0.5)'
+    }
+  }
+
+  style () {
+    return `.panel * {
+  box-sizing: border-box;
+}
+.panel .wrapper .panel {
+  width: 500px;
+  position: fixed;
+  bottom: 0;
+  top: 0;
+  background-color: var(--window);
+  box-shadow: 0px 0px 28px 0 rgba(0,0,0,0.05);
+  z-index: 100;
+  transition: transform 0.3s ease-in-out;
+}
+.panel .wrapper.left .panel {
+  left: 0;
+  -webkit-transform: translateX(-500px);
+  -ms-transform: translateX(-500px);
+  transform: translateX(-500px);
+  border-right: 1px solid var(--border);
+}
+.panel .wrapper.right .panel {
+  right: 0;
+  -webkit-transform: translateX(500px);
+  -ms-transform: translateX(500px);
+  transform: translateX(500px);
+  border-left: 1px solid var(--border);
+}
+.panel .wrapper.show.right .panel,
+.panel .wrapper.show.left .panel {
+  -webkit-transform: translateX(0);
+  -ms-transform: translateX(0);
+  transform: translateX(0);
+}
+.panel .wrapper.show.right[overlay="true"] .overlay,
+.panel .wrapper.show.left[overlay="true"] .overlay {
+  opacity: 1;
+  visibility: visible;
+  transition: opacity 0.3s ease-in-out, visibility 0s ease 0s;
+}
+.panel .wrapper .overlay {
+  opacity: 0;
+  visibility: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: opacity 0.3s ease-in-out, visibility 0s ease 1s;
+}
+.panel .wrapper .close {
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  cursor: pointer;
+}
+.panel .wrapper header {
+  padding: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 90px;
+}
+.panel .wrapper main {
+  padding: 20px;
+  position: absolute;
+  top: 90px;
+  left: 0;
+  right: 0;
+  bottom: 70px;
+  overflow: scroll;
+}
+.panel .wrapper footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 70px;
+  padding: 10px;
+  text-align: center;
+  border-top: 1px solid var(--border);
+}
+`
+  }
+
+  show (fn) {
+    const node = this.root.firstChild
+    node.classList.add('show')
+    fn && node.addEventListener('transitionend', fn, { once: true })
+  }
+
+  hide (fn) {
+    const node = this.root.firstChild
+    node.classList.remove('show')
+    fn && node.addEventListener('transitionend', fn, { once: true })
+  }
+
+  wrap (render) {
+    const {
+      name,
+      position,
+      overlay,
+      theme,
+      color,
+      backgroundColor
+    } = this.props
+
+    this.root.classList.add('panel')
+
+    const wrapper = document.createElement('div')
+    const template = document.createElement('template')
+
+    const content = render()
+
+    typeof content === 'string'
+      ? (template.innerHTML = content)
+      : [...content.children].forEach(el => template.appendChild(el))
+
+    if (theme) this.root.classList.add(`theme-${theme}`)
+
+    const isOpen = !!this.root.querySelector('.wrapper.show')
+    wrapper.className = isOpen ? 'wrapper show' : 'wrapper'
+    wrapper.id = 'wrapper'
+    wrapper.classList.add(position)
+
+    if (overlay) wrapper.setAttribute('overlay', true)
+    if (name) wrapper.setAttribute('name', name)
+
+    // create panel
+    const panel = document.createElement('div')
+    panel.className = 'panel'
+
+    if (overlay !== 'false') {
+      const overlayElement = document.createElement('div')
+      overlayElement.className = 'overlay'
+      overlayElement.setAttribute('style', `background-color: ${backgroundColor}`)
+      wrapper.appendChild(overlayElement)
+    }
+
+    // create template
+    const close = document.createElement('div')
+    close.className = 'close'
+
+    const iconColor = color || this.getPropertyValue('primary')
+    const url = Panel.svg.closeIcon(iconColor)
+    close.style.backgroundImage = `url("${url}")`
+
+    // append everything
+    wrapper.appendChild(panel)
+    wrapper.appendChild(panel)
+    panel.appendChild(template.content)
+    panel.appendChild(close)
+
+    return wrapper
+  }
+}
+
+Panel.svg = {}
+Panel.svg.toURL = s => `data:image/svg+xml;base64,${window.btoa(s)}`
+Panel.svg.closeIcon = color => Panel.svg.toURL(`
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <path fill="${color}" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
+  </svg>
+`)
+
+Tonic.Panel = Panel
 
 class ProfileImage extends Tonic { /* global Tonic */
   defaults () {
@@ -2723,3 +2866,5 @@ progress-bar .wrapper .progress {
 }
 
 Tonic.add(ProgressBar)
+
+  

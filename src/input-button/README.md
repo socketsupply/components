@@ -53,7 +53,13 @@ The component `InputButton` creates a button.
 
 %html%
 
+```html
+%html%
+```
+
+```js
 %js%
+```
 
 ## Api
 

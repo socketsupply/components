@@ -1,16 +1,16 @@
 
     <html>
-      
-  <head>
-    <title>Tonic - Component Based Architecture</title>
-    <link href="https://fonts.googleapis.com/css?family=Caudex|Poppins:400,600|Space+Mono" rel="stylesheet">
-    <link href="index.css" rel="stylesheet">
-    <link rel="icon" type="image/png" href="./favicon.png">
 
-    <meta http-equiv="Content-Type" charset="utf-8" content="text/html">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1 user-scalable=no">
-    <meta name="description" content="Component Based Architecture">
-  </head>
+      <head>
+  <title>Tonic - Component Based Architecture</title>
+  <link href="https://fonts.googleapis.com/css?family=Caudex|Poppins:400,600|Space+Mono" rel="stylesheet">
+  <link href="index.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="./favicon.png">
+
+  <meta http-equiv="Content-Type" charset="utf-8" content="text/html">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1 user-scalable=no">
+  <meta name="description" content="Component Based Architecture">
+</head>
 
 
       <body>
@@ -25,17 +25,10 @@
               <use xlink:href="./sprite.svg#tonic_logo">
             </svg>
           </a>
+
           <ul>
       <li>
         <a href="#intro" class="selected">Intro</a>
-      </li>
-    
-      <li>
-        <a href="#contentdialog" class="">ContentDialog</a>
-      </li>
-    
-      <li>
-        <a href="#contentpanel" class="">ContentPanel</a>
       </li>
     
       <li>
@@ -48,6 +41,10 @@
     
       <li>
         <a href="#contenttooltip" class="">ContentTooltip</a>
+      </li>
+    
+      <li>
+        <a href="#dialog" class="">Dialog</a>
       </li>
     
       <li>
@@ -91,6 +88,10 @@
       </li>
     
       <li>
+        <a href="#panel" class="">Panel</a>
+      </li>
+    
+      <li>
         <a href="#profileimage" class="">ProfileImage</a>
       </li>
     
@@ -106,11 +107,12 @@
         <a href="#apis" class="">APIs</a>
       </li>
     </ul>
+
         </nav>
         <main>
-          
-  <section id="intro">
-    <div class="hero">
+
+          <section id="intro">
+            <div class="hero">
   <div class="logo">
     <svg>
       <use xlink:href="./sprite.svg#tonic_logo">
@@ -158,503 +160,12 @@
 
 <span class="status"></span>
 
-  </section>
+          </section>
 
-
-          <section id="contentdialog"><h1 id="contentdialog">ContentDialog</h1>
-<p>The component <code>ContentDialog</code> is used to create a dialog that displays content on top of an overlay.</p>
-<h2 id="demo">Demo</h2>
-<table class="example">
-  <thead>
-    <tr>
-      <th>Example</th>
-      <th>Description &amp; Code</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>
-        <content-dialog id="content-dialog-example-1"></content-dialog>
-        <input-button name="buttonCancel" id="content-dialog-link-example-1" value="Click to open"></input-button>
-      </td>
-      <td>
-        <span id="content-dialog-tooltip-1">Default dialog box</span>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <content-dialog id="content-dialog-example-2" overlay="false"></content-dialog>
-        <input-button name="buttonCancel" id="content-dialog-link-example-2" value="Click to open"></input-button>
-      </td>
-      <td>
-        <span id="content-dialog-tooltip-2">
-          Dialog box without overlay (also resets its content).
-        </span>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <content-dialog id="content-dialog-example-3" overlay="true" background-color="rgba(75, 145, 221, 0.5)"></content-dialog>
-        <input-button name="buttonCancel" id="content-dialog-link-example-3" value="Click to open"></input-button>
-      </td>
-      <td>
-        <span id="content-dialog-tooltip-3">
-          Dialog box with overlay and custom background color
-        </span>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<template for="content-dialog-example-1">
-  <header>Dialog</header>
-  <main>
-    <p>I'm a little dialog,<br> hear me shout</p>
-  </main>
-  <footer>
-    <input-button value="cancel"></input-button>
-    <input-button value="confirm"></input-button>
-  </footer>
-</template>
-
-<template for="content-dialog-example-2">
-  <header>Dialog</header>
-  <main>
-    <p>${this.props.message || 'Hello, world'}</p>
-  </main>
-  <footer>
-    <input-button value="decrement"></input-button>
-    <input-button value="increment"></input-button>
-  </footer>
-</template>
-
-<template for="content-dialog-example-3">
-  <header>Dialog</header>
-  <main>
-    <p>I'm a little dialog,<br> hear me shout</p>
-  </main>
-  <footer>
-    <input-button value="cancel"></input-button>
-    <input-button value="confirm"></input-button>
-  </footer>
-</template>
-
-<content-tooltip for="content-dialog-tooltip-1" width="500px">
-
-<p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"dialog-link"</span>&gt;</span>Link<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">content-dialog</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"dialog"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">content-dialog</span>&gt;</span></code></pre>
-<p><span class="code-type">js</span></p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> link = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'dialog-link'</span>)
-<span class="hljs-keyword">const</span> dialog = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'dialog'</span>)
-
-link.addEventListener(<span class="hljs-string">'click'</span>, <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> dialog.show())</code></pre>
-</content-tooltip>
-
-<content-tooltip for="content-dialog-tooltip-2" width="500px">
-
-<p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">content-dialog</span>
-  <span class="hljs-attr">id</span>=<span class="hljs-string">"content-dialog-example-2"</span>
-  <span class="hljs-attr">overlay</span>=<span class="hljs-string">"false"</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">content-dialog</span>&gt;</span></code></pre>
-<p><span class="code-type">js</span></p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> link = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'dialog-link'</span>)
-<span class="hljs-keyword">const</span> dialog = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'dialog'</span>)
-
-link.addEventListener(<span class="hljs-string">'click'</span>, <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> dialog.show())
-
-<span class="hljs-keyword">let</span> count = <span class="hljs-number">0</span>
-
-dialog.addEventListener(<span class="hljs-string">'click'</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
-  <span class="hljs-keyword">if</span> (!e.target.value) <span class="hljs-keyword">return</span>
-
-  <span class="hljs-keyword">if</span> (e.target.value === <span class="hljs-string">'decrement'</span>) {
-    (count &gt; <span class="hljs-number">0</span>) &amp;&amp; count--
-  } <span class="hljs-keyword">else</span> {
-    count++
-  }
-
-  dialog.setProps(<span class="hljs-function"><span class="hljs-params">props</span> =&gt;</span> ({
-    ...props,
-    count,
-    message: <span class="hljs-string">`Clicked <span class="hljs-subst">${count}</span> times.`</span>
-  }))
-})</code></pre>
-</content-tooltip>
-
-<content-tooltip for="content-dialog-tooltip-3" width="500px">
-
-<p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">content-dialog</span>
-  <span class="hljs-attr">id</span>=<span class="hljs-string">"content-dialog-example-3"</span>
-  <span class="hljs-attr">overlay</span>=<span class="hljs-string">"true"</span>
-  <span class="hljs-attr">backgroundColor</span>=<span class="hljs-string">"rgba(75, 145, 221, 0.5)"</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">content-dialog</span>&gt;</span></code></pre>
-<p><span class="code-type">js</span></p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> link = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'dialog-link'</span>)
-<span class="hljs-keyword">const</span> dialog = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'dialog'</span>)
-
-link.addEventListener(<span class="hljs-string">'click'</span>, <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> dialog.show())</code></pre>
-</content-tooltip>
-
-
-<script> {
-      const dialogLink1 = document.getElementById('content-dialog-link-example-1')
-const dialog1 = document.getElementById('content-dialog-example-1')
-dialogLink1.addEventListener('click', e => dialog1.show())
-
-const dialogLink2 = document.getElementById('content-dialog-link-example-2')
-const dialog2 = document.getElementById('content-dialog-example-2')
-
-let count = 0
-dialogLink2.addEventListener('click', e => dialog2.show())
-
-dialog2.addEventListener('click', (e) => {
-  if (!e.target.value) return
-
-  if (e.target.value === 'decrement') {
-    (count > 0) && count--
-  } else {
-    count++
-  }
-
-  dialog2.setProps(props => ({
-    ...props,
-    message: `Clicked ${count} times.`
-  }))
-})
-
-const dialogLink3 = document.getElementById('content-dialog-link-example-3')
-const dialog3 = document.getElementById('content-dialog-example-3')
-dialogLink3.addEventListener('click', e => dialog3.show())
-
-    } </script>
-
-<h2 id="code">Code</h2>
-<p>A template is required. Example template structure for dialog content:</p>
-<pre><code class="language-html">  <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">for</span>= <span class="hljs-string">id</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">header</span>&gt;</span>
-      <span class="hljs-comment">&lt;!-- Header content goes here --&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">header</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">main</span>&gt;</span>
-      <span class="hljs-comment">&lt;!-- Main content goes here --&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">main</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">footer</span>&gt;</span>
-      <span class="hljs-comment">&lt;!-- Footer content goes here --&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">footer</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
-<h2 id="api">Api</h2>
-<h3 id="properties">Properties</h3>
-<table>
-<thead>
-<tr>
-<th align="left">Property</th>
-<th align="left">Type</th>
-<th align="left">Description</th>
-<th align="left">Default</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>id</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Adds an <code>id</code> attribute</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left"><code>name</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Adds a <code>name</code> attribute</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left"><code>width</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Sets the width of the dialog</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left"><code>height</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Sets the height of the dialog</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left"><code>overlay</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Adds a background overlay</td>
-<td align="left"><code>true</code></td>
-</tr>
-<tr>
-<td align="left"><code>background-color</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Sets the background color of the overlay</td>
-<td align="left"><code>rgba(0,0,0,0.5)</code></td>
-</tr>
-<tr>
-<td align="left"><code>theme</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
-<td align="left"><code>light</code></td>
-</tr>
-</tbody></table>
-<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
-<table>
-<thead>
-<tr>
-<th align="left">Method</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>show()</code></td>
-<td align="left">Shows the dialog</td>
-</tr>
-<tr>
-<td align="left"><code>hide()</code></td>
-<td align="left">Hides the dialog</td>
-</tr>
-<tr>
-<td align="left"><code>click()</code></td>
-<td align="left">Click event</td>
-</tr>
-</tbody></table>
-</section><section id="contentpanel"><h1 id="contentpanel">ContentPanel</h1>
-<p>The component <code>ContentPanel</code> create a content panel with an optional overlay.</p>
-<h2 id="demo">Demo</h2>
-<table class="example">
-  <thead>
-    <tr>
-      <th>Example</th>
-      <th>Description &amp; Code</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>
-        <content-panel id="content-panel-example-1"></content-panel>
-        <input-button id="content-panel-link-example-1" value="Click to open"></input-button>
-      </td>
-      <td>
-        <span id="content-panel-tooltip-1">
-          Default Content Panel (right)
-        </span>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <content-panel id="content-panel-example-2" position="left"></content-panel>
-        <input-button id="content-panel-link-example-2" value="Click to open"></input-button>
-      </td>
-      <td>
-        <span id="content-panel-tooltip-2">
-          Default Content Panel (left)
-        </span>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <content-panel id="content-panel-example-3" overlay="true"></content-panel>
-        <input-button id="content-panel-link-example-3" value="Click to open"></input-button>
-      </td>
-      <td>
-        <span id="content-panel-tooltip-3">
-          Default Content Panel with overlay (right)
-        </span>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-<template for="content-panel-example-1">
-  <header></header>
-  <main>
-    <p>This is a panel</p>
-  </main>
-  <footer>
-    <input-button value="cancel"></input-button>
-    <input-button value="confirm" async="true"></input-button>
-  </footer>
-</template>
-
-<template for="content-panel-example-2">
-  <header></header>
-  <main>
-    <p>This is a panel but on the left</p>
-  </main>
-  <footer>
-    <input-button value="cancel"></input-button>
-    <input-button value="confirm" async="true"></input-button>
-  </footer>
-</template>
-
-<template for="content-panel-example-3">
-  <header></header>
-  <main>
-    <p>This is a panel with an overlay</p>
-  </main>
-  <footer>
-    <input-button value="cancel"></input-button>
-    <input-button value="confirm" async="true"></input-button>
-  </footer>
-</template>
-
-
-<content-tooltip for="content-panel-tooltip-1" width="500px">
-
-<p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">content-panel</span>
-  <span class="hljs-attr">id</span>=<span class="hljs-string">"content-panel-example-1"</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">content-panel</span>&gt;</span></code></pre>
-<p><span class="code-type">js</span></p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> link = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'panel-link'</span>)
-<span class="hljs-keyword">const</span> panel = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'panel'</span>)
-
-link.addEventListener(<span class="hljs-string">'click'</span>, <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> panel.show())</code></pre>
-</content-tooltip>
-
-<content-tooltip for="content-panel-tooltip-2" width="500px">
-
-<p><span class="code-type">html</span></p>
-<pre><code class="language-html">&lt;<span class="hljs-built_in">content</span>-panel
-  id=<span class="hljs-string">"content-panel-example-2"</span>
-  <span class="hljs-built_in">position</span>=<span class="hljs-string">"left"</span>&gt;
-&lt;/<span class="hljs-built_in">content</span>-panel&gt;</code></pre>
-<p><span class="code-type">js</span></p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> link = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'panel-link'</span>)
-<span class="hljs-keyword">const</span> panel = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'panel'</span>)
-
-link.addEventListener(<span class="hljs-string">'click'</span>, <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> panel.show())</code></pre>
-</content-tooltip>
-
-<content-tooltip for="content-panel-tooltip-3" width="500px">
-
-<p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">content-panel</span>
-  <span class="hljs-attr">id</span>=<span class="hljs-string">"content-panel-example-3"</span>
-  <span class="hljs-attr">overlay</span>=<span class="hljs-string">"true"</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">content-panel</span>&gt;</span></code></pre>
-<p><span class="code-type">js</span></p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> link = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'panel-link'</span>)
-<span class="hljs-keyword">const</span> panel = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'panel'</span>)
-
-link.addEventListener(<span class="hljs-string">'click'</span>, <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> panel.show())</code></pre>
-</content-tooltip>
-
-
-<script> {
-      const panelLink1 = document.getElementById('content-panel-link-example-1')
-const panel1 = document.getElementById('content-panel-example-1')
-panelLink1.addEventListener('click', e => panel1.show())
-
-const panelLink2 = document.getElementById('content-panel-link-example-2')
-const panel2 = document.getElementById('content-panel-example-2')
-panelLink2.addEventListener('click', e => panel2.show())
-
-const panelLink3 = document.getElementById('content-panel-link-example-3')
-const panel3 = document.getElementById('content-panel-example-3')
-panelLink3.addEventListener('click', e => panel3.show())
-
-const panels = [...document.getElementsByTagName('content-panel')]
-panels.forEach(panel => panel.addEventListener('click', e => {
-  if (e.target.value === 'cancel') panel.hide()
-  if (e.target.value === 'confirm') {
-    setTimeout(() => {
-      panel.hide(() => {
-        panel.setProps(props => props)
-      })
-    }, 500)
-  }
-}))
-
-    } </script>
-
-<h2 id="code">Code</h2>
-<p>A template is required. Example template structure for panel content:</p>
-<pre><code class="language-html">  <span class="hljs-tag">&lt;<span class="hljs-name">template</span> <span class="hljs-attr">for</span>= <span class="hljs-string">id</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">header</span>&gt;</span>
-      <span class="hljs-comment">&lt;!-- Header content goes here --&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">header</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">main</span>&gt;</span>
-      <span class="hljs-comment">&lt;!-- Main content goes here --&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">main</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">footer</span>&gt;</span>
-      <span class="hljs-comment">&lt;!-- Footer content goes here --&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">footer</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">template</span>&gt;</span></code></pre>
-<h2 id="api">Api</h2>
-<h3 id="properties">Properties</h3>
-<table>
-<thead>
-<tr>
-<th align="left">Property</th>
-<th align="left">Type</th>
-<th align="left">Description</th>
-<th align="left">Default</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>id</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Adds the <code>id</code> attribute</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left"><code>name</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Adds the <code>name</code> attribute</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left"><code>position</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Changes the position of the panel</td>
-<td align="left"><code>right</code></td>
-</tr>
-<tr>
-<td align="left"><code>overlay</code></td>
-<td align="left"><em>boolean</em></td>
-<td align="left">Shows an overlay behind the panel, blocks page interaction</td>
-<td align="left"><code>false</code></td>
-</tr>
-<tr>
-<td align="left"><code>background-color</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Changes the background color of the overlay</td>
-<td align="left"><code>rgba(0,0,0,0.5)</code></td>
-</tr>
-<tr>
-<td align="left"><code>theme</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
-<td align="left"><code>light</code></td>
-</tr>
-</tbody></table>
-<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
-<table>
-<thead>
-<tr>
-<th align="left">Method</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>show()</code></td>
-<td align="left">Shows the panel</td>
-</tr>
-<tr>
-<td align="left"><code>hide()</code></td>
-<td align="left">Hides the panel</td>
-</tr>
-<tr>
-<td align="left"><code>click()</code></td>
-<td align="left">Click event</td>
-</tr>
-</tbody></table>
-</section><section id="contentroute"><h1 id="contentroute">ContentRoute</h1>
+          <section id="contentroute"><h1 id="contentroute">ContentRoute</h1>
 <p>The <code>ContentRoute</code> component will render it&#39;s children components if the
 browser&#39;s current url matches its <code>path</code> property. This component will detect
-<strong>pushstate</strong>, <strong>popstate</strong> and <strong>replacestate</strong> events and rerender with the
+<code>pushstate</code>, <code>popstate</code> and <code>replacestate</code> events and rerender with the
 attributes of the url.</p>
 <h2 id="demo">Demo</h2>
 <table class="example">
@@ -669,7 +180,7 @@ attributes of the url.</p>
       <td>
         <a href="#" id="content-route-link-2">Back</a><a href="#" id="content-route-link-1">Set</a>
         <content-route path="/foo/:number">
-          Content for "/foo/${this.state.number}".
+          Content for "/foo/:number".
         </content-route>
       </td>
       <td>
@@ -679,6 +190,34 @@ attributes of the url.</p>
   </tbody>
 </table>
 
+<content-tooltip for="content-route-example-1" width="500px">
+
+<p><span class="code-type">html</span></p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">content-route</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"/foo/:number"</span>&gt;</span>
+  Content for "/foo/${this.state.number}".
+<span class="hljs-tag">&lt;/<span class="hljs-name">content-route</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">content-route</span> <span class="hljs-attr">none</span>&gt;</span>
+  404 ☹︎
+<span class="hljs-tag">&lt;/<span class="hljs-name">content-route</span>&gt;</span></code></pre>
+</content-tooltip>
+
+
+
+<pre><code class="language-js"><span class="hljs-keyword">const</span> link1 = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'content-route-link-1'</span>)
+<span class="hljs-keyword">const</span> link2 = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'content-route-link-2'</span>)
+
+link1.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
+  e.preventDefault()
+  <span class="hljs-keyword">const</span> r = <span class="hljs-built_in">Math</span>.random().toString(<span class="hljs-number">16</span>).slice(<span class="hljs-number">2</span>, <span class="hljs-number">4</span>)
+  <span class="hljs-built_in">window</span>.history.pushState({}, <span class="hljs-string">'Foo 100'</span>, <span class="hljs-string">'/foo/'</span> + r)
+})
+
+link2.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
+  e.preventDefault()
+  <span class="hljs-built_in">window</span>.history.back()
+})
+</code></pre>
 <style>
   content-route {
     margin-top: 16px;
@@ -696,37 +235,6 @@ attributes of the url.</p>
     margin-right: 8px;
   }
 </style>
-
-<content-tooltip for="content-route-example-1" width="500px">
-
-<p><span class="code-type">html</span></p>
-<pre><code class="language-html">&lt;<span class="hljs-built_in">content</span>-route path=<span class="hljs-string">"/foo/:number"</span>&gt;
-  Content <span class="hljs-keyword">for</span> <span class="hljs-string">"/foo/${this.state.number}"</span>.
-&lt;/<span class="hljs-built_in">content</span>-route&gt;
-
-&lt;<span class="hljs-built_in">content</span>-route none&gt;
-  <span class="hljs-number">404</span> ☹︎
-&lt;/<span class="hljs-built_in">content</span>-route&gt;</code></pre>
-</content-tooltip>
-
-
-
-<script> {
-      const link1 = document.getElementById('content-route-link-1')
-const link2 = document.getElementById('content-route-link-2')
-
-link1.addEventListener('click', e => {
-  e.preventDefault()
-  const r = Math.random().toString(16).slice(2, 4)
-  window.history.pushState({}, 'Foo 100', '/foo/' + r)
-})
-
-link2.addEventListener('click', e => {
-  e.preventDefault()
-  window.history.back()
-})
-
-    } </script>
 
 <h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>
@@ -829,17 +337,17 @@ link2.addEventListener('click', e => {
 <span class="hljs-tag">&lt;/<span class="hljs-name">content-tabs</span>&gt;</span></code></pre>
 <p>Each section must contain the <code>data-tab-name</code> corresponding to its tab and the attribute <code>data-tab-group</code> corresponding to the tabs <code>group</code>, i.e. &quot;profile&quot;.</p>
 <p>The default section should have the class <code>show</code> to start.</p>
-<pre><code class="language-html">&lt;section data-<span class="hljs-literal">tab</span>-group=<span class="hljs-string">"profile"</span> data-<span class="hljs-literal">tab</span>-<span class="hljs-built_in">name</span>=<span class="hljs-string">"one"</span> <span class="hljs-built_in">class</span>=<span class="hljs-string">"show"</span>&gt;
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">section</span> <span class="hljs-attr">data-tab-group</span>=<span class="hljs-string">"profile"</span> <span class="hljs-attr">data-tab-name</span>=<span class="hljs-string">"one"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"show"</span>&gt;</span>
   Content One
-&lt;/section&gt;
+<span class="hljs-tag">&lt;/<span class="hljs-name">section</span>&gt;</span>
 
-&lt;section data-<span class="hljs-literal">tab</span>-group=<span class="hljs-string">"profile"</span> data-<span class="hljs-literal">tab</span>-<span class="hljs-built_in">name</span>=<span class="hljs-string">"two"</span>&gt;
+<span class="hljs-tag">&lt;<span class="hljs-name">section</span> <span class="hljs-attr">data-tab-group</span>=<span class="hljs-string">"profile"</span> <span class="hljs-attr">data-tab-name</span>=<span class="hljs-string">"two"</span>&gt;</span>
   Content Two
-&lt;/section&gt;
+<span class="hljs-tag">&lt;/<span class="hljs-name">section</span>&gt;</span>
 
-&lt;section data-<span class="hljs-literal">tab</span>-group=<span class="hljs-string">"profile"</span> data-<span class="hljs-literal">tab</span>-<span class="hljs-built_in">name</span>=<span class="hljs-string">"three"</span>&gt;
+<span class="hljs-tag">&lt;<span class="hljs-name">section</span> <span class="hljs-attr">data-tab-group</span>=<span class="hljs-string">"profile"</span> <span class="hljs-attr">data-tab-name</span>=<span class="hljs-string">"three"</span>&gt;</span>
   Content Three
-&lt;/section&gt;</code></pre>
+<span class="hljs-tag">&lt;/<span class="hljs-name">section</span>&gt;</span></code></pre>
 <h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>
 <table>
@@ -974,6 +482,162 @@ link2.addEventListener('click', e => {
 <td align="left">Hides the tooltip</td>
 </tr>
 </tbody></table>
+</section><section id="dialog"><h1 id="dialog">Dialog</h1>
+<p><code>Dialog</code> is not a component, it is a base class. You can extend it to create
+your own dialog class which can be registered and then used as a tag.</p>
+<h2 id="demo">Demo</h2>
+<table class="example">
+  <thead>
+    <tr>
+      <th>Example</th>
+      <th>Description &amp; Code</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <input-button
+          id="example-dialog-link">
+          Click To Open
+        </input-button>
+      </td>
+      <td>
+        <span id="content-dialog-tooltip-1">Default dialog box</span>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<my-dialog id="example-dialog" message="Hello.">
+</my-dialog>
+
+<style>
+  my-dialog header,
+  my-dialog main {
+    text-align: center;
+  }
+</style>
+
+
+<h2 id="code">Code</h2>
+<pre><code><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyDialog</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span>.<span class="hljs-title">Dialog</span> </span>{
+  click (e) {
+    <span class="hljs-keyword">if</span> (!e.target.value) <span class="hljs-keyword">return</span>
+
+    <span class="hljs-keyword">const</span> color = <span class="hljs-built_in">Math</span>.random().toString(<span class="hljs-number">16</span>).slice(<span class="hljs-number">2</span>, <span class="hljs-number">8</span>)
+
+    <span class="hljs-keyword">this</span>.setProps(<span class="hljs-function"><span class="hljs-params">props</span> =&gt;</span> ({
+      ...props,
+      color,
+      <span class="hljs-attr">message</span>: <span class="hljs-string">`Random Color #<span class="hljs-subst">${color}</span>`</span>
+    }))
+  }
+
+  render () {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`
+      &lt;header&gt;
+        Dialog
+      &lt;/header&gt;
+      &lt;main&gt;
+        &lt;p style="color: #<span class="hljs-subst">${<span class="hljs-keyword">this</span>.props.color}</span>;"&gt;<span class="hljs-subst">${<span class="hljs-keyword">this</span>.props.message}</span>&lt;/p&gt;
+      &lt;/main&gt;
+      &lt;footer&gt;
+        &lt;input-button value="increment"&gt;Random Color&lt;/input-button&gt;
+      &lt;/footer&gt;
+    `</span>
+  }
+}
+
+Tonic.add(MyDialog)
+
+<span class="hljs-keyword">const</span> link = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'example-dialog-link'</span>)
+<span class="hljs-keyword">const</span> dialog = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'example-dialog'</span>)
+
+link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; dialog.show())
+</code></pre><pre><code>&lt;my-dialog id=<span class="hljs-string">"example-dialog"</span> message=<span class="hljs-string">"Hello."</span>&gt;
+<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">my-dialog</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">style</span>&gt;</span><span class="css">
+  <span class="hljs-selector-tag">my-dialog</span> <span class="hljs-selector-tag">header</span>,
+  <span class="hljs-selector-tag">my-dialog</span> <span class="hljs-selector-tag">main</span> {
+    <span class="hljs-attribute">text-align</span>: center;
+  }
+</span><span class="hljs-tag">&lt;/<span class="hljs-name">style</span>&gt;</span>
+</span></code></pre><h2 id="api">Api</h2>
+<h3 id="properties">Properties</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>id</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds an <code>id</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>name</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a <code>name</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>width</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Sets the width of the dialog</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>height</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Sets the height of the dialog</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>overlay</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a background overlay</td>
+<td align="left"><code>true</code></td>
+</tr>
+<tr>
+<td align="left"><code>background-color</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Sets the background color of the overlay</td>
+<td align="left"><code>rgba(0,0,0,0.5)</code></td>
+</tr>
+<tr>
+<td align="left"><code>theme</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
+<td align="left"><code>light</code></td>
+</tr>
+</tbody></table>
+<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>show()</code></td>
+<td align="left">Shows the dialog</td>
+</tr>
+<tr>
+<td align="left"><code>hide()</code></td>
+<td align="left">Hides the dialog</td>
+</tr>
+<tr>
+<td align="left"><code>click()</code></td>
+<td align="left">Click event</td>
+</tr>
+</tbody></table>
 </section><section id="iconcontainer"><h1 id="iconcontainer">IconContainer</h1>
 <p>The component <code>IconContainer</code> is used to create an SVG icon with a custom size and color.</p>
 <h2 id="demo">Demo</h2>
@@ -986,26 +650,38 @@ link2.addEventListener('click', e => {
   </thead>
   <tbody>
     <tr>
-      <td><icon-container></icon-container></td>
+      <td>
+        <icon-container>
+        </icon-container>
+      </td>
       <td>
         <span id="icon-container-tooltip-1">Default Icon (25px)</span>
       </td>
     </tr>
     <tr>
-      <td><icon-container color="#f06653"></icon-container></td>
+      <td>
+        <icon-container color="#f06653">
+        </icon-container>
+      </td>
       <td>
         <span id="icon-container-tooltip-2">Icon with color (25px)</span>
       </td>
     </tr>
     <tr>
-      <td><icon-container size="60px"></icon-container></td>
+      <td>
+        <icon-container size="60px">
+        </icon-container>
+      </td>
       <td>
         <span id="icon-container-tooltip-3">Large Icon (60px)</span>
       </td>
     </tr>
     <tr>
       <td>
-        <icon-container size="60px" src="./sprite.svg#custom"></icon-container>
+        <icon-container
+          size="60px"
+          src="./sprite.svg#custom">
+        </icon-container>
       </td>
       <td>
         <span id="icon-container-tooltip-4">Custom Icon (60px)</span>
@@ -1017,7 +693,7 @@ link2.addEventListener('click', e => {
 <content-tooltip for="icon-container-tooltip-1">
 
 <p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-section">&lt;icon-container&gt;</span><span class="hljs-section">&lt;/icon-container&gt;</span></code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">icon-container</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">icon-container</span>&gt;</span></code></pre>
 </content-tooltip>
 
 <content-tooltip for="icon-container-tooltip-2" width="500px">
@@ -1131,52 +807,88 @@ link2.addEventListener('click', e => {
 <content-tooltip for="button-example-tooltip-1" width="300px">
 
 <p><span class="code-type">html</span></p>
-<pre><code class="language-html">&lt;<span class="hljs-keyword">input</span>-<span class="hljs-keyword">button</span>&gt;&lt;/<span class="hljs-keyword">input</span>-<span class="hljs-keyword">button</span>&gt;</code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-button</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">input-button</span>&gt;</span></code></pre>
 </content-tooltip>
 
 <content-tooltip for="button-example-tooltip-2" width="300px">
 
 <p><span class="code-type">html</span></p>
-<pre><code class="language-html">&lt;<span class="hljs-keyword">input</span>-<span class="hljs-keyword">button</span>
-  fill=<span class="hljs-string">"var(--accent)"</span>
-  textColor=<span class="hljs-string">"white"</span>&gt;
-&lt;/<span class="hljs-keyword">input</span>-<span class="hljs-keyword">button</span>&gt;</code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-button</span>
+  <span class="hljs-attr">fill</span>=<span class="hljs-string">"var(--accent)"</span>
+  <span class="hljs-attr">textColor</span>=<span class="hljs-string">"white"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">input-button</span>&gt;</span></code></pre>
 </content-tooltip>
 
 <content-tooltip for="button-example-tooltip-3">
 
 <p><span class="code-type">html</span></p>
-<pre><code class="language-html">&lt;<span class="hljs-keyword">input</span>-<span class="hljs-keyword">button</span> disabled=<span class="hljs-string">"true"</span>&gt;&lt;/<span class="hljs-keyword">input</span>-<span class="hljs-keyword">button</span>&gt;</code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-button</span> <span class="hljs-attr">disabled</span>=<span class="hljs-string">"true"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">input-button</span>&gt;</span></code></pre>
 </content-tooltip>
 
 <content-tooltip for="button-example-tooltip-4" width="300px">
 
 <p><span class="code-type">html</span></p>
-<pre><code class="language-html">&lt;<span class="hljs-keyword">input</span>-<span class="hljs-keyword">button</span>
-  async=<span class="hljs-string">"true"</span>
-  id=<span class="hljs-string">"loading-button-example"</span>
-  value=<span class="hljs-string">"Click me"</span>&gt;
-&lt;/<span class="hljs-keyword">input</span>-<span class="hljs-keyword">button</span>&gt;</code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-button</span>
+  <span class="hljs-attr">async</span>=<span class="hljs-string">"true"</span>
+  <span class="hljs-attr">id</span>=<span class="hljs-string">"loading-button-example"</span>
+  <span class="hljs-attr">value</span>=<span class="hljs-string">"Click me"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">input-button</span>&gt;</span></code></pre>
 </content-tooltip>
 
 <content-tooltip for="button-example-tooltip-5">
 
 <p><span class="code-type">html</span></p>
-<pre><code class="language-html">&lt;<span class="hljs-keyword">input</span>-<span class="hljs-keyword">button</span> <span class="hljs-keyword">width</span>=<span class="hljs-string">"100%"</span>&gt;&lt;/<span class="hljs-keyword">input</span>-<span class="hljs-keyword">button</span>&gt;</code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-button</span> <span class="hljs-attr">width</span>=<span class="hljs-string">"100%"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">input-button</span>&gt;</span></code></pre>
 </content-tooltip>
 
 
-<script> {
-      const button = document.getElementById('loading-button-example')
-button.addEventListener('click', e => {
-  setTimeout(() => {
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">content-tooltip</span> <span class="hljs-attr">for</span>=<span class="hljs-string">"button-example-tooltip-1"</span> <span class="hljs-attr">width</span>=<span class="hljs-string">"300px"</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"code-type"</span>&gt;</span>html<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+```html
+<span class="hljs-tag">&lt;<span class="hljs-name">input-button</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">input-button</span>&gt;</span></code></pre>
+</content-tooltip>
+
+<content-tooltip for="button-example-tooltip-2" width="300px">
+
+<p><span class="code-type">html</span></p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-button</span>
+  <span class="hljs-attr">fill</span>=<span class="hljs-string">"var(--accent)"</span>
+  <span class="hljs-attr">textColor</span>=<span class="hljs-string">"white"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">input-button</span>&gt;</span></code></pre>
+</content-tooltip>
+
+<content-tooltip for="button-example-tooltip-3">
+
+<p><span class="code-type">html</span></p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-button</span> <span class="hljs-attr">disabled</span>=<span class="hljs-string">"true"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">input-button</span>&gt;</span></code></pre>
+</content-tooltip>
+
+<content-tooltip for="button-example-tooltip-4" width="300px">
+
+<p><span class="code-type">html</span></p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-button</span>
+  <span class="hljs-attr">async</span>=<span class="hljs-string">"true"</span>
+  <span class="hljs-attr">id</span>=<span class="hljs-string">"loading-button-example"</span>
+  <span class="hljs-attr">value</span>=<span class="hljs-string">"Click me"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">input-button</span>&gt;</span></code></pre>
+</content-tooltip>
+
+<content-tooltip for="button-example-tooltip-5">
+
+<p><span class="code-type">html</span></p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-button</span> <span class="hljs-attr">width</span>=<span class="hljs-string">"100%"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">input-button</span>&gt;</span></code></pre>
+</content-tooltip>
+
+<pre><code>
+<span class="hljs-string">``</span><span class="hljs-string">`js
+const button = document.getElementById('loading-button-example')
+button.addEventListener('click', e =&gt; {
+  setTimeout(() =&gt; {
     button.done()
   }, 3e3)
 })
-
-    } </script>
-
-<h2 id="api">Api</h2>
+</span></code></pre><h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>
 <table>
 <thead>
@@ -1396,42 +1108,42 @@ button.addEventListener('click', e => {
 <content-tooltip for="checkbox-example-tooltip-2" width="300px">
 
 <p><span class="code-type">html</span></p>
-<pre><code class="language-html">&lt;<span class="hljs-keyword">input</span>-checkbox
-  id=<span class="hljs-string">"checkbox-example-3"</span>
-  <span class="hljs-keyword">label</span>=<span class="hljs-string">"Label"</span>&gt;
-&lt;/<span class="hljs-keyword">input</span>-checkbox&gt;</code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-checkbox</span>
+  <span class="hljs-attr">id</span>=<span class="hljs-string">"checkbox-example-3"</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">"Label"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">input-checkbox</span>&gt;</span></code></pre>
 </content-tooltip>
 
 <content-tooltip for="checkbox-example-tooltip-3" width="300px">
 
 <p><span class="code-type">html</span></p>
-<pre><code class="language-html">&lt;<span class="hljs-keyword">input</span>-checkbox
-  id=<span class="hljs-string">"checkbox-example-3"</span>
-  <span class="hljs-keyword">label</span>=<span class="hljs-string">"Disabled"</span>
-  disabled&gt;
-&lt;/<span class="hljs-keyword">input</span>-checkbox&gt;</code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-checkbox</span>
+  <span class="hljs-attr">id</span>=<span class="hljs-string">"checkbox-example-3"</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">"Disabled"</span>
+  <span class="hljs-attr">disabled</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">input-checkbox</span>&gt;</span></code></pre>
 </content-tooltip>
 
 <content-tooltip for="checkbox-example-tooltip-4" width="350px">
 
 <p><span class="code-type">html</span></p>
-<pre><code class="language-html">&lt;<span class="hljs-keyword">input</span>-checkbox
-  id=<span class="hljs-string">"checkbox-example-4"</span>
-  <span class="hljs-keyword">label</span>=<span class="hljs-string">"Disabled and Checked"</span>
-  disabled
-  checked&gt;
-&lt;/<span class="hljs-keyword">input</span>-checkbox&gt;</code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-checkbox</span>
+  <span class="hljs-attr">id</span>=<span class="hljs-string">"checkbox-example-4"</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">"Disabled and Checked"</span>
+  <span class="hljs-attr">disabled</span>
+  <span class="hljs-attr">checked</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">input-checkbox</span>&gt;</span></code></pre>
 </content-tooltip>
 
 <content-tooltip for="checkbox-example-tooltip-5" width="350px">
 
 <p><span class="code-type">html</span></p>
-<pre><code class="language-html">&lt;input-checkbox
-  id=<span class="hljs-string">"checkbox-example-5"</span>
-  size=<span class="hljs-string">"25px"</span>
-  <span class="hljs-literal">on</span>=<span class="hljs-string">"./sprite.svg<span class="hljs-subst">#custom_on</span>"</span>
-  <span class="hljs-literal">off</span>=<span class="hljs-string">"./sprite.svg<span class="hljs-subst">#custom_off</span>"</span>&gt;
-&lt;/input-checkbox&gt;</code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-checkbox</span>
+  <span class="hljs-attr">id</span>=<span class="hljs-string">"checkbox-example-5"</span>
+  <span class="hljs-attr">size</span>=<span class="hljs-string">"25px"</span>
+  <span class="hljs-attr">on</span>=<span class="hljs-string">"./sprite.svg#custom_on"</span>
+  <span class="hljs-attr">off</span>=<span class="hljs-string">"./sprite.svg#custom_off"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">input-checkbox</span>&gt;</span></code></pre>
 </content-tooltip>
 
 
@@ -1576,11 +1288,11 @@ button.addEventListener('click', e => {
 <content-tooltip for="select-example-tooltip-1">
 
 <p><span class="code-type">html</span></p>
-<pre><code class="language-html">&lt;input-<span class="hljs-keyword">select</span> id=<span class="hljs-string">"options-example-1"</span>&gt;
-  &lt;<span class="hljs-keyword">option</span> value=<span class="hljs-string">"option-a"</span>&gt;<span class="hljs-keyword">Option</span> A&lt;/<span class="hljs-keyword">option</span>&gt;
-  &lt;<span class="hljs-keyword">option</span> value=<span class="hljs-string">"option-b"</span>&gt;<span class="hljs-keyword">Option</span> B&lt;/<span class="hljs-keyword">option</span>&gt;
-  &lt;<span class="hljs-keyword">option</span> value=<span class="hljs-string">"option-c"</span>&gt;<span class="hljs-keyword">Option</span> C&lt;/<span class="hljs-keyword">option</span>&gt;
-&lt;/input-<span class="hljs-keyword">select</span>&gt;</code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-select</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"options-example-1"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"option-a"</span>&gt;</span>Option A<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"option-b"</span>&gt;</span>Option B<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"option-c"</span>&gt;</span>Option C<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">input-select</span>&gt;</span></code></pre>
 </content-tooltip>
 
 <content-tooltip for="select-example-tooltip-2" width="500px">
@@ -1603,29 +1315,11 @@ button.addEventListener('click', e => {
 <content-tooltip for="select-example-tooltip-3">
 
 <p><span class="code-type">html</span></p>
-<pre><code class="language-html">&lt;input-<span class="hljs-keyword">select</span> id=<span class="hljs-string">"options-example-1"</span>&gt;
-  &lt;<span class="hljs-keyword">option</span> value=<span class="hljs-string">"option-a"</span>&gt;<span class="hljs-keyword">Option</span> A&lt;/<span class="hljs-keyword">option</span>&gt;
-  &lt;<span class="hljs-keyword">option</span> value=<span class="hljs-string">"option-b"</span>&gt;<span class="hljs-keyword">Option</span> B&lt;/<span class="hljs-keyword">option</span>&gt;
-  &lt;<span class="hljs-keyword">option</span> value=<span class="hljs-string">"option-c"</span>&gt;<span class="hljs-keyword">Option</span> C&lt;/<span class="hljs-keyword">option</span>&gt;
-&lt;/input-<span class="hljs-keyword">select</span>&gt;</code></pre>
-<script> {
-      document.addEventListener('DOMContentLoaded', e => {
-  const notification = document.getElementsByTagName('notification-center')[0]
-  const select = document.getElementById('options-example-1')
-
-  select.addEventListener('change', ({ target }) => {
-    const { value } = target.options[target.selectedIndex]
-    notification.create({
-      type: 'success',
-      message: `The value of the selected option was "${value}".`,
-      title: 'Selection',
-      duration: 2000
-    })
-  })
-})
-
-    } </script>
-
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-select</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"options-example-1"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"option-a"</span>&gt;</span>Option A<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"option-b"</span>&gt;</span>Option B<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"option-c"</span>&gt;</span>Option C<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">input-select</span>&gt;</span></code></pre>
 <h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>
 <table>
@@ -1818,90 +1512,75 @@ button.addEventListener('click', e => {
 <content-tooltip for="input-example-tooltip-1" width="300px">
 
 <p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-section">&lt;input-text&gt;</span><span class="hljs-section">&lt;/input-text&gt;</span></code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-text</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">input-text</span>&gt;</span></code></pre>
 </content-tooltip>
 
 <content-tooltip for="input-example-tooltip-2" width="400px">
 
 <p><span class="code-type">html</span></p>
-<pre><code class="language-html">&lt;<span class="hljs-keyword">input</span>-text
-  <span class="hljs-keyword">label</span>=<span class="hljs-string">"label"</span>
-  placeholder=<span class="hljs-string">"Type Something..."</span>&gt;
-&lt;/<span class="hljs-keyword">input</span>-text&gt;</code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-text</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">"label"</span>
+  <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Type Something..."</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">input-text</span>&gt;</span></code></pre>
 </content-tooltip>
 
 <content-tooltip for="input-example-tooltip-3" width="300px">
 
 <p><span class="code-type">html</span></p>
-<pre><code class="language-html">&lt;input-<span class="hljs-built_in">text</span>
-  src=<span class="hljs-string">"./sprite.svg#example"</span>
-  <span class="hljs-built_in">position</span>=<span class="hljs-string">"left"</span>
-  label=<span class="hljs-string">"Input with Icon"</span>&gt;
-&lt;/input-<span class="hljs-built_in">text</span>&gt;</code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-text</span>
+  <span class="hljs-attr">src</span>=<span class="hljs-string">"./sprite.svg#example"</span>
+  <span class="hljs-attr">position</span>=<span class="hljs-string">"left"</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">"Input with Icon"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">input-text</span>&gt;</span></code></pre>
 </content-tooltip>
 
 <content-tooltip for="input-example-tooltip-4" width="300px">
 
 <p><span class="code-type">html</span></p>
-<pre><code class="language-html">&lt;input-<span class="hljs-built_in">text</span>
-  src=<span class="hljs-string">"./sprite.svg#example"</span>
-  <span class="hljs-built_in">position</span>=<span class="hljs-string">"right"</span>
-  label=<span class="hljs-string">"Input with Icon"</span>&gt;
-&lt;/input-<span class="hljs-built_in">text</span>&gt;</code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-text</span>
+  <span class="hljs-attr">src</span>=<span class="hljs-string">"./sprite.svg#example"</span>
+  <span class="hljs-attr">position</span>=<span class="hljs-string">"right"</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">"Input with Icon"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">input-text</span>&gt;</span></code></pre>
 </content-tooltip>
 
 <content-tooltip for="input-example-tooltip-5" width="300px">
 
 <p><span class="code-type">html</span></p>
-<pre><code class="language-html">&lt;<span class="hljs-keyword">input</span>-text
-  <span class="hljs-keyword">label</span>=<span class="hljs-string">"Disabled Input"</span>
-  disabled&gt;
-&lt;/<span class="hljs-keyword">input</span>-text&gt;</code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-text</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">"Disabled Input"</span>
+  <span class="hljs-attr">disabled</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">input-text</span>&gt;</span></code></pre>
 </content-tooltip>
 
 <content-tooltip for="input-example-tooltip-6" width="350px">
 
 <p><span class="code-type">html</span></p>
-<pre><code class="language-html">&lt;<span class="hljs-keyword">input</span>-text
-  <span class="hljs-keyword">label</span>=<span class="hljs-string">"Email Address"</span>
-  <span class="hljs-keyword">type</span>=<span class="hljs-string">"email"</span>
-  <span class="hljs-keyword">error</span>-message=<span class="hljs-string">"Invalid Email"</span>&gt;
-&lt;/<span class="hljs-keyword">input</span>-text&gt;</code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-text</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">"Email Address"</span>
+  <span class="hljs-attr">type</span>=<span class="hljs-string">"email"</span>
+  <span class="hljs-attr">error-message</span>=<span class="hljs-string">"Invalid Email"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">input-text</span>&gt;</span></code></pre>
 </content-tooltip>
 
 <content-tooltip for="input-example-tooltip-7" width="300px">
 
 <p><span class="code-type">html</span></p>
-<pre><code class="language-html">&lt;input-<span class="hljs-built_in">text</span>
-  label=<span class="hljs-string">"Input with Value"</span>
-  <span class="hljs-built_in">value</span>=<span class="hljs-string">"Value"</span>&gt;
-&lt;/input-<span class="hljs-built_in">text</span>&gt;</code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-text</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">"Input with Value"</span>
+  <span class="hljs-attr">value</span>=<span class="hljs-string">"Value"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">input-text</span>&gt;</span></code></pre>
 </content-tooltip>
 
 <content-tooltip for="input-example-tooltip-8" width="275px">
 
 <p><span class="code-type">html</span></p>
-<pre><code class="language-html">&lt;input-<span class="hljs-literal">text</span>
-  <span class="hljs-literal">width</span>=<span class="hljs-string">"100%"</span>
-  <span class="hljs-keyword">label</span>=<span class="hljs-string">"Full Width"</span>&gt;
-&lt;/input-<span class="hljs-literal">text</span>&gt;</code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-text</span>
+  <span class="hljs-attr">width</span>=<span class="hljs-string">"100%"</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">"Full Width"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">input-text</span>&gt;</span></code></pre>
 </content-tooltip>
 
-
-<script> {
-      const setInvalid = document.querySelector('input-button[value="set-invalid"]')
-const setValid = document.querySelector('input-button[value="set-valid"]')
-const input = document.querySelector('#input-invalidation-example-1')
-
-setInvalid.addEventListener('click', (e) => {
-  input.setInvalid('There was a problem')
-})
-
-setValid.addEventListener('click', (e) => {
-  input.setValid()
-})
-
-    } </script>
 
 <h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>
@@ -2087,15 +1766,15 @@ setValid.addEventListener('click', (e) => {
 <content-tooltip for="textarea-tooltip-1" width="350px">
 
 <p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-section">&lt;input-textarea&gt;</span><span class="hljs-section">&lt;/input-textarea&gt;</span></code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-textarea</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">input-textarea</span>&gt;</span></code></pre>
 </content-tooltip>
 
 <content-tooltip for="textarea-tooltip-2" width="250px">
 
 <p><span class="code-type">html</span></p>
-<pre><code class="language-html">&lt;input-<span class="hljs-selector-tag">textarea</span>
-  <span class="hljs-attribute">resize</span>=<span class="hljs-string">"none"</span>&gt;
-&lt;/input-textarea&gt;</code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-textarea</span>
+  <span class="hljs-attr">resize</span>=<span class="hljs-string">"none"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">input-textarea</span>&gt;</span></code></pre>
 </content-tooltip>
 
 <content-tooltip for="textarea-tooltip-3" width="300px">
@@ -2109,18 +1788,18 @@ setValid.addEventListener('click', (e) => {
 <content-tooltip for="textarea-tooltip-4" width="250px">
 
 <p><span class="code-type">html</span></p>
-<pre><code class="language-html">&lt;<span class="hljs-keyword">input</span>-textarea
-  <span class="hljs-keyword">label</span>=<span class="hljs-string">"Label"</span>&gt;
-&lt;/<span class="hljs-keyword">input</span>-textarea&gt;</code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-textarea</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">"Label"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">input-textarea</span>&gt;</span></code></pre>
 </content-tooltip>
 
 <content-tooltip for="textarea-tooltip-5" width="300px">
 
 <p><span class="code-type">html</span></p>
-<pre><code class="language-html">&lt;<span class="hljs-keyword">input</span>-textarea
-  <span class="hljs-keyword">label</span>=<span class="hljs-string">"Disabled Text Area"</span>
-  disabled&gt;
-&lt;/<span class="hljs-keyword">input</span>-textarea&gt;</code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-textarea</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">"Disabled Text Area"</span>
+  <span class="hljs-attr">disabled</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">input-textarea</span>&gt;</span></code></pre>
 </content-tooltip>
 
 
@@ -2304,19 +1983,19 @@ setValid.addEventListener('click', (e) => {
 <content-tooltip for="toggle-example-tooltip-3" width="300px">
 
 <p><span class="code-type">html</span></p>
-<pre><code class="language-html">&lt;<span class="hljs-keyword">input</span>-toggle
-  id=<span class="hljs-string">"toggle-example-3"</span>
-  <span class="hljs-keyword">label</span>=<span class="hljs-string">"Label"</span>&gt;
-&lt;/<span class="hljs-keyword">input</span>-toggle&gt;</code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-toggle</span>
+  <span class="hljs-attr">id</span>=<span class="hljs-string">"toggle-example-3"</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">"Label"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">input-toggle</span>&gt;</span></code></pre>
 </content-tooltip>
 
 <content-tooltip for="toggle-example-tooltip-4" width="300px">
 
 <p><span class="code-type">html</span></p>
-<pre><code class="language-html">&lt;<span class="hljs-keyword">input</span>-toggle
-  id=<span class="hljs-string">"toggle-example-4"</span>
-  <span class="hljs-keyword">label</span>=<span class="hljs-string">"Disabled"</span> disabled&gt;
-&lt;/<span class="hljs-keyword">input</span>-toggle&gt;</code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-toggle</span>
+  <span class="hljs-attr">id</span>=<span class="hljs-string">"toggle-example-4"</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">"Disabled"</span> <span class="hljs-attr">disabled</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">input-toggle</span>&gt;</span></code></pre>
 </content-tooltip>
 
 
@@ -2406,32 +2085,9 @@ setValid.addEventListener('click', (e) => {
 <content-tooltip for="notification-badge-tooltip-1">
 
 <p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-section">&lt;notification-badge&gt;</span><span class="hljs-section">&lt;/notification-badge&gt;</span></code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">notification-badge</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">notification-badge</span>&gt;</span></code></pre>
 </content-tooltip>
 
-
-<script> {
-      const notificationCounter = document.querySelector('.notification-counter')
-const notificationBadge = document.querySelector('notification-badge')
-
-let count = 0
-
-notificationCounter.addEventListener('click', (e) => {
-  if (!e.target) return
-
-  if (e.target.classList.contains('add-notification')) {
-    count++
-  } else if (e.target.classList.contains('subtract-notification')) {
-    (count > 0) && count--
-  }
-
-  notificationBadge.setProps(props => ({
-    ...props,
-    count: `${count}`
-  }))
-})
-
-    } </script>
 
 <h2 id="code">Code</h2>
 <p>To update the notification count, pass in the <code>count</code> property.</p>
@@ -2526,14 +2182,14 @@ notificationCounter.addEventListener('click', (e) => {
 <content-tooltip for="notification-center-tooltip-1" width="550px">
 
 <p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-section">&lt;notification-center&gt;</span><span class="hljs-section">&lt;/notification-center&gt;</span></code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">notification-center</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">notification-center</span>&gt;</span></code></pre>
 <p><span class="code-type">js</span></p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> notification = <span class="hljs-built_in">document</span>.<span class="hljs-built_in">querySelector</span>(<span class="hljs-string">'notification-center'</span>)
+<pre><code class="language-js"><span class="hljs-keyword">const</span> notification = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'notification-center'</span>)
 <span class="hljs-keyword">const</span> link = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'notification-link'</span>)
 
 link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
   notification.create({
-    message: <span class="hljs-string">'Hello, World'</span>, title: <span class="hljs-string">'Greetings'</span>
+    <span class="hljs-attr">message</span>: <span class="hljs-string">'Hello, World'</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">'Greetings'</span>
   })
 })</code></pre>
 </content-tooltip>
@@ -2541,14 +2197,14 @@ link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
 <content-tooltip for="notification-center-tooltip-2" width="550px">
 
 <p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-section">&lt;notification-center&gt;</span><span class="hljs-section">&lt;/notification-center&gt;</span></code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">notification-center</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">notification-center</span>&gt;</span></code></pre>
 <p><span class="code-type">js</span></p>
 <pre><code class="language-js"><span class="hljs-keyword">const</span> notification = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'notification-center'</span>)
 <span class="hljs-keyword">const</span> link = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'notification-link'</span>)
 
-link.addEventListener(<span class="hljs-string">'click'</span>, <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> {
+link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
   notification.create({
-    <span class="hljs-keyword">type</span>: <span class="hljs-string">'success'</span>
+    <span class="hljs-attr">type</span>: <span class="hljs-string">'success'</span>
   })
 })</code></pre>
 </content-tooltip>
@@ -2556,82 +2212,121 @@ link.addEventListener(<span class="hljs-string">'click'</span>, <span class="hlj
 <content-tooltip for="notification-center-tooltip-3" width="550px">
 
 <p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-section">&lt;notification-center&gt;</span><span class="hljs-section">&lt;/notification-center&gt;</span></code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">notification-center</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">notification-center</span>&gt;</span></code></pre>
 <p><span class="code-type">js</span></p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> notification = <span class="hljs-built_in">document</span>.<span class="hljs-built_in">querySelector</span>(<span class="hljs-string">'notification-center'</span>)
+<pre><code class="language-js"><span class="hljs-keyword">const</span> notification = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'notification-center'</span>)
 <span class="hljs-keyword">const</span> link = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'notification-link'</span>)
 
 link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
   notification.create({
-    title: <span class="hljs-string">'Howdy'</span>,
-    message: <span class="hljs-string">'Will self destruct in 3 seconds'</span>,
-    duration: <span class="hljs-number">3e3</span>
+    <span class="hljs-attr">title</span>: <span class="hljs-string">'Howdy'</span>,
+    <span class="hljs-attr">message</span>: <span class="hljs-string">'Will self destruct in 3 seconds'</span>,
+    <span class="hljs-attr">duration</span>: <span class="hljs-number">3e3</span>
   })
 })</code></pre>
 </content-tooltip>
 
 
-<script> {
-      const notification = document.querySelector('notification-center')
+<h2 id="code">Code</h2>
+<p>The following code should be included once on the page:</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">content-tooltip</span> <span class="hljs-attr">for</span>=<span class="hljs-string">"notification-center-tooltip-1"</span> <span class="hljs-attr">width</span>=<span class="hljs-string">"550px"</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"code-type"</span>&gt;</span>html<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+```html
+<span class="hljs-tag">&lt;<span class="hljs-name">notification-center</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">notification-center</span>&gt;</span></code></pre>
+<p><span class="code-type">js</span></p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> notification = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'notification-center'</span>)
+<span class="hljs-keyword">const</span> link = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'notification-link'</span>)
+
+link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
+  notification.create({
+    <span class="hljs-attr">message</span>: <span class="hljs-string">'Hello, World'</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">'Greetings'</span>
+  })
+})</code></pre>
+</content-tooltip>
+
+<content-tooltip for="notification-center-tooltip-2" width="550px">
+
+<p><span class="code-type">html</span></p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">notification-center</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">notification-center</span>&gt;</span></code></pre>
+<p><span class="code-type">js</span></p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> notification = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'notification-center'</span>)
+<span class="hljs-keyword">const</span> link = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'notification-link'</span>)
+
+link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
+  notification.create({
+    <span class="hljs-attr">type</span>: <span class="hljs-string">'success'</span>
+  })
+})</code></pre>
+</content-tooltip>
+
+<content-tooltip for="notification-center-tooltip-3" width="550px">
+
+<p><span class="code-type">html</span></p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">notification-center</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">notification-center</span>&gt;</span></code></pre>
+<p><span class="code-type">js</span></p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> notification = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'notification-center'</span>)
+<span class="hljs-keyword">const</span> link = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'notification-link'</span>)
+
+link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
+  notification.create({
+    <span class="hljs-attr">title</span>: <span class="hljs-string">'Howdy'</span>,
+    <span class="hljs-attr">message</span>: <span class="hljs-string">'Will self destruct in 3 seconds'</span>,
+    <span class="hljs-attr">duration</span>: <span class="hljs-number">3e3</span>
+  })
+})</code></pre>
+</content-tooltip>
+
+<pre><code>
+To create a <span class="hljs-keyword">new</span> notification:
+
+<span class="hljs-string">``</span><span class="hljs-string">`js
+const notification = document.querySelector('notification-center')
 
 const notificationLink1 = document.getElementById('notification-link-1')
-notificationLink1.addEventListener('click', e => {
+notificationLink1.addEventListener('click', e =&gt; {
   notification.create({
     message: 'Hello, World', title: 'Greetings'
   })
 })
 
 const notificationLink2 = document.getElementById('notification-link-2')
-notificationLink2.addEventListener('click', e => {
+notificationLink2.addEventListener('click', e =&gt; {
   notification.create({
     type: 'success'
   })
 })
 
 const notificationLink3 = document.getElementById('notification-link-3')
-notificationLink3.addEventListener('click', e => {
+notificationLink3.addEventListener('click', e =&gt; {
   notification.create({
     type: 'warning'
   })
 })
 
 const notificationLink4 = document.getElementById('notification-link-4')
-notificationLink4.addEventListener('click', e => {
+notificationLink4.addEventListener('click', e =&gt; {
   notification.create({
     type: 'danger'
   })
 })
 
 const notificationLink5 = document.getElementById('notification-link-5')
-notificationLink5.addEventListener('click', e => {
+notificationLink5.addEventListener('click', e =&gt; {
   notification.create({
     type: 'info'
   })
 })
 
 const notificationLink6 = document.getElementById('notification-link-6')
-notificationLink6.addEventListener('click', e => {
+notificationLink6.addEventListener('click', e =&gt; {
   notification.create({
     message: 'Will self destruct in 3 seconds',
     title: 'Howdy',
     duration: 3e3
   })
 })
-
-    } </script>
-
-<h2 id="code">Code</h2>
-<p>The following code should be included once on the page:</p>
-<pre><code class="language-html"><span class="hljs-section">&lt;notification-center&gt;</span><span class="hljs-section">&lt;/notification-center&gt;</span></code></pre>
-<p>To create a new notification:</p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> notification = <span class="hljs-built_in">document</span>.<span class="hljs-built_in">querySelector</span>(<span class="hljs-string">'notification-center'</span>)
-
-notification.create({
-  title: <span class="hljs-string">'Howdy'</span>,
-  message: <span class="hljs-string">'Will self destruct in 3 seconds'</span>,
-  duration: <span class="hljs-number">3e3</span>
-})</code></pre>
-<h2 id="api">Api</h2>
+</span></code></pre><h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>
 <table>
 <thead>
@@ -2845,76 +2540,21 @@ notification.create({
 <notification-inline id="notification-inline-example-5">
 </notification-inline>
 
-<script> {
-      const notificationInline1 = document.getElementById('notification-inline-example-1')
-const notificationInlineLink1 = document.getElementById('notification-inline-link-1')
 
-notificationInlineLink1.addEventListener('click', e => {
-  notificationInline1.create({
-    message: 'This is an alert'
-  })
-})
 
-const notificationInline2 = document.getElementById('notification-inline-example-2')
-const notificationInlineLink2 = document.getElementById('notification-inline-link-2')
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">notification-inline</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"notification-inline-example-2"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">notification-inline</span>&gt;</span>
 
-notificationInlineLink2.addEventListener('click', e => {
-  notificationInline2.create({
-    type: 'success'
-  })
-})
+<span class="hljs-tag">&lt;<span class="hljs-name">notification-inline</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"notification-inline-example-3"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">notification-inline</span>&gt;</span>
 
-const notificationInline3 = document.getElementById('notification-inline-example-3')
-const notificationInlineLink3 = document.getElementById('notification-inline-link-3')
+<span class="hljs-tag">&lt;<span class="hljs-name">notification-inline</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"notification-inline-example-4"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">notification-inline</span>&gt;</span>
 
-notificationInlineLink3.addEventListener('click', e => {
-  notificationInline3.create({
-    type: 'warning'
-  })
-})
+<span class="hljs-tag">&lt;<span class="hljs-name">notification-inline</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"notification-inline-example-5"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">notification-inline</span>&gt;</span>
 
-const notificationInline4 = document.getElementById('notification-inline-example-4')
-const notificationInlineLink4 = document.getElementById('notification-inline-link-4')
-
-notificationInlineLink4.addEventListener('click', e => {
-  notificationInline4.create({
-    type: 'danger',
-    title: 'Danger zone!'
-  })
-})
-
-const notificationInline5 = document.getElementById('notification-inline-example-5')
-const notificationInlineLink5 = document.getElementById('notification-inline-link-5')
-
-notificationInlineLink5.addEventListener('click', e => {
-  notificationInline5.create({
-    type: 'info',
-    message: 'This is an information alert'
-  })
-})
-
-const notificationInline6 = document.getElementById('notification-inline-example-6')
-const notificationInlineLink6 = document.getElementById('notification-inline-link-6')
-
-notificationInlineLink6.addEventListener('click', e => {
-  notificationInline6.create({
-    title: 'Note',
-    message: 'This is an alert containing both a title and a message.'
-  })
-})
-
-const notificationInline7 = document.getElementById('notification-inline-example-7')
-const notificationInlineLink7 = document.getElementById('notification-inline-link-7')
-
-notificationInlineLink7.addEventListener('click', e => {
-  notificationInline7.create({
-    title: 'This alert will self destruct in 3 seconds.',
-    duration: 3e3
-  })
-})
-
-    } </script>
-
+</code></pre>
 <h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>
 <table>
@@ -3011,6 +2651,170 @@ notificationInlineLink7.addEventListener('click', e => {
 <td align="left">Removes a notification</td>
 </tr>
 </tbody></table>
+</section><section id="panel"><h1 id="panel">Panel</h1>
+<p><code>Panel</code> is not a component, it is a base class. You can extend it to create
+your own panel class which can be registered and then used as a tag.</p>
+<h2 id="demo">Demo</h2>
+<table class="example">
+  <thead>
+    <tr>
+      <th>Example</th>
+      <th>Description &amp; Code</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <input-button
+          id="content-panel-link-example">
+          Click to open
+        </input-button>
+      </td>
+      <td>
+        <span id="content-panel-tooltip-1">
+          Default Content Panel with overlay (right)
+        </span>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p><my-panel
+  id="content-panel-example"
+  overlay="true">
+</my-panel></p>
+<style>
+  my-panel h3 {
+    margin: 0;
+  }
+</style>
+
+<h2 id="code">Code</h2>
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyPanel</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span>.<span class="hljs-title">Panel</span> </span>{
+  <span class="hljs-keyword">async</span> getArticle (title) {
+    <span class="hljs-keyword">try</span> {
+      <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> fetch(<span class="hljs-string">`https://en.wikipedia.org/w/api.php?format=json&amp;action=query&amp;prop=extracts&amp;exintro=&amp;explaintext=&amp;titles=<span class="hljs-subst">${title}</span>&amp;origin=*`</span>)
+      <span class="hljs-keyword">return</span> <span class="hljs-built_in">Object</span>.values((<span class="hljs-keyword">await</span> res.json()).query.pages)[<span class="hljs-number">0</span>]
+    } <span class="hljs-keyword">catch</span> (err) {
+      <span class="hljs-keyword">return</span> { <span class="hljs-attr">title</span>: <span class="hljs-string">'Error'</span>, <span class="hljs-attr">extract</span>: err.message }
+    }
+  }
+
+  <span class="hljs-keyword">async</span> click (e) {
+    <span class="hljs-keyword">if</span> (e.target.value === <span class="hljs-string">'close'</span>) {
+      <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.hide()
+    }
+
+    <span class="hljs-keyword">if</span> (e.target.value === <span class="hljs-string">'get'</span>) {
+      <span class="hljs-keyword">const</span> page = <span class="hljs-keyword">await</span> <span class="hljs-keyword">this</span>.getArticle(<span class="hljs-string">'HTML'</span>)
+
+      <span class="hljs-keyword">this</span>.setProps(<span class="hljs-function"><span class="hljs-params">props</span> =&gt;</span> ({
+        ...props,
+        ...page
+      }))
+    }
+  }
+
+  render () {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`
+      &lt;header&gt;&lt;/header&gt;
+      &lt;main&gt;
+        &lt;h3&gt;<span class="hljs-subst">${<span class="hljs-keyword">this</span>.props.title || <span class="hljs-string">'Hello'</span>}</span>
+        &lt;p&gt;<span class="hljs-subst">${<span class="hljs-keyword">this</span>.props.extract || <span class="hljs-string">'Click "get" to fetch the content.'</span>}</span>&lt;/p&gt;
+      &lt;/main&gt;
+      &lt;footer&gt;
+        &lt;input-button value="close"&gt;Close&lt;/input-button&gt;
+        &lt;input-button value="get" async="true"&gt;Get&lt;/input-button&gt;
+      &lt;/footer&gt;
+    `</span>
+  }
+}
+
+Tonic.add(MyPanel)
+
+<span class="hljs-comment">//</span>
+<span class="hljs-comment">// For this example, a button element will trigger the</span>
+<span class="hljs-comment">// `.show()` method on the panel when it is clicked.</span>
+<span class="hljs-comment">//</span>
+<span class="hljs-keyword">const</span> panelLink = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'content-panel-link-example'</span>)
+<span class="hljs-keyword">const</span> panel = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'content-panel-example'</span>)
+
+panelLink.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; panel.show())
+</code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">my-panel</span>
+  <span class="hljs-attr">id</span>=<span class="hljs-string">"content-panel-example"</span>
+  <span class="hljs-attr">overlay</span>=<span class="hljs-string">"true"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">my-panel</span>&gt;</span>
+</code></pre>
+<h2 id="api">Api</h2>
+<h3 id="properties">Properties</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>id</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds the <code>id</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>name</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds the <code>name</code> attribute</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>position</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Changes the position of the panel</td>
+<td align="left"><code>right</code></td>
+</tr>
+<tr>
+<td align="left"><code>overlay</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Shows an overlay behind the panel, blocks page interaction</td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left"><code>background-color</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Changes the background color of the overlay</td>
+<td align="left"><code>rgba(0,0,0,0.5)</code></td>
+</tr>
+<tr>
+<td align="left"><code>theme</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
+<td align="left"><code>light</code></td>
+</tr>
+</tbody></table>
+<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>show()</code></td>
+<td align="left">Shows the panel</td>
+</tr>
+<tr>
+<td align="left"><code>hide()</code></td>
+<td align="left">Hides the panel</td>
+</tr>
+<tr>
+<td align="left"><code>click()</code></td>
+<td align="left">Click event</td>
+</tr>
+</tbody></table>
 </section><section id="profileimage"><h1 id="profileimage">ProfileImage</h1>
 <p>The component <code>ProfileImage</code> is used to create an SVG icon with a custom size and color.</p>
 <h2 id="demo">Demo</h2>
@@ -3074,52 +2878,49 @@ notificationInlineLink7.addEventListener('click', e => {
 <content-tooltip for="profile-image-tooltip-1" width="250px">
 
 <p><span class="code-type">html</span></p>
-<pre><code class="language-html">&lt;profile-<span class="hljs-built_in">image</span>
-  <span class="hljs-built_in">size</span>=<span class="hljs-string">"18px"</span>&gt;
-&lt;/profile-<span class="hljs-built_in">image</span>&gt;</code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">profile-image</span>
+  <span class="hljs-attr">size</span>=<span class="hljs-string">"18px"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">profile-image</span>&gt;</span></code></pre>
 </content-tooltip>
 
 <content-tooltip for="profile-image-tooltip-2" width="350px">
 
 <p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-section">&lt;profile-image&gt;</span><span class="hljs-section">&lt;/profile-image&gt;</span></code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">profile-image</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">profile-image</span>&gt;</span></code></pre>
 </content-tooltip>
 
 <content-tooltip for="profile-image-tooltip-3" width="250px">
 
 <p><span class="code-type">html</span></p>
-<pre><code class="language-html">&lt;profile-<span class="hljs-built_in">image</span>
-  <span class="hljs-built_in">size</span>=<span class="hljs-string">"75px"</span>
-  radius=<span class="hljs-string">"100%"</span>&gt;
-&lt;/profile-<span class="hljs-built_in">image</span>&gt;</code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">profile-image</span>
+  <span class="hljs-attr">size</span>=<span class="hljs-string">"75px"</span>
+  <span class="hljs-attr">radius</span>=<span class="hljs-string">"100%"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">profile-image</span>&gt;</span></code></pre>
 </content-tooltip>
 
 <content-tooltip for="profile-image-tooltip-4" width="250px">
 
 <p><span class="code-type">html</span></p>
-<pre><code class="language-html">&lt;profile-<span class="hljs-built_in">image</span>
-  <span class="hljs-built_in">size</span>=<span class="hljs-string">"150px"</span>&gt;
-&lt;/profile-<span class="hljs-built_in">image</span>&gt;</code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">profile-image</span>
+  <span class="hljs-attr">size</span>=<span class="hljs-string">"150px"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">profile-image</span>&gt;</span></code></pre>
 </content-tooltip>
 
 <content-tooltip for="profile-image-tooltip-5">
 
 <p><span class="code-type">html</span></p>
-<pre><code class="language-html">&lt;profile-<span class="hljs-built_in">image</span>
-  id=<span class="hljs-string">"profile-image-example-editable"</span>
-  <span class="hljs-built_in">size</span>=<span class="hljs-string">"150px"</span>
-  editable&gt;
-&lt;/profile-<span class="hljs-built_in">image</span>&gt;</code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">profile-image</span>
+  <span class="hljs-attr">id</span>=<span class="hljs-string">"profile-image-example-editable"</span>
+  <span class="hljs-attr">size</span>=<span class="hljs-string">"150px"</span>
+  <span class="hljs-attr">editable</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">profile-image</span>&gt;</span></code></pre>
 </content-tooltip>
 
 
-<script> {
-      const profile = document.getElementById('profile-image-example-editable')
-profile.addEventListener('changed', e => console.log(e.detail))
-profile.addEventListener('error', e => console.log(e.detail))
-
-    } </script>
-
+<pre><code class="language-js"><span class="hljs-keyword">const</span> profile = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'profile-image-example-editable'</span>)
+profile.addEventListener(<span class="hljs-string">'changed'</span>, e =&gt; <span class="hljs-built_in">console</span>.log(e.detail))
+profile.addEventListener(<span class="hljs-string">'error'</span>, e =&gt; <span class="hljs-built_in">console</span>.log(e.detail))
+</code></pre>
 <h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>
 <table>
@@ -3255,9 +3056,8 @@ profile.addEventListener('error', e => console.log(e.detail))
 </tbody></table>
 </section>
 
-          
-  <section id="custom">
-    <h1 id="custom-components">Custom Components</h1>
+          <section id="custom">
+            <h1 id="custom-components">Custom Components</h1>
 <h2 id="getting-started">Getting Started</h2>
 <p>Building a component starts with creating a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes">Javascript Class</a>. The class
 should have at least one method named <em>render</em> which usually returns a string
@@ -3269,7 +3069,7 @@ of html.</p>
   <span class="hljs-comment">// that later.</span>
   <span class="hljs-comment">//</span>
   render () {
-    <span class="hljs-keyword">return</span> `&lt;div&gt;<span class="hljs-type">Hello</span>, <span class="hljs-type">World</span>.&lt;/div&gt;`
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div&gt;Hello, World.&lt;/div&gt;`</span>
   }
 }</code></pre>
 <p>Next, you can tell the browser about your new class and it will create a custom
@@ -3277,7 +3077,7 @@ html tag for it.</p>
 <p>How you name your class will determine the tag name of your component. The name
 For example, a class named <code>MyGreeting</code> will become <code>&lt;my-greeting&gt;&lt;/my-greeting&gt;</code>,
 and a class named <code>Greeting</code> will become <code>&lt;greeting&gt;&lt;/greeting&gt;</code>.</p>
-<pre><code class="language-js">Tonic.<span class="hljs-builtin-name">add</span>(Greeting)</code></pre>
+<pre><code class="language-js">Tonic.add(Greeting)</code></pre>
 <p>Then, add your Javascript to your html and now you can now use your new
 component anywhere in your html. The browser may do weird things if you don&#39;t
 use a closing tag.</p>
@@ -3308,26 +3108,26 @@ programmer using it, making their reality a little simpler.</p>
 <h2 id="registering-components">Registering Components</h2>
 <p>You must register your components before they can be used. Your first component
 should generally be added after the <a href="https://caniuse.com/#search=domcontentloaded">DOM is ready</a>.</p>
-<pre><code class="language-js">Tonic.<span class="hljs-builtin-name">add</span>(Greeting)</code></pre>
+<pre><code class="language-js">Tonic.add(Greeting)</code></pre>
 <h2 id="embedding-style-sheets">Embedding Style Sheets</h2>
 <p>Any styles returned from your component will be attached to a style element in
 the head. Prefix your styles with the name of the component to ensure that they
 are not applied to other parts of the page where the component is used.</p>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Quxx</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   style () {
-    <span class="hljs-keyword">return</span> `
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`
       quxx div {
         display: inline-block;
-        border: <span class="hljs-number">1</span>px dotted #<span class="hljs-number">666</span>;
-        height: <span class="hljs-number">100</span>px;
-        width: <span class="hljs-number">100</span>px;
-        line-height: <span class="hljs-number">90</span>px;
+        border: 1px dotted #666;
+        height: 100px;
+        width: 100px;
+        line-height: 90px;
       }
-    `
+    `</span>
   }
 
   render () {
-    <span class="hljs-keyword">return</span> `&lt;div&gt;&lt;/div&gt;`
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div&gt;&lt;/div&gt;`</span>
   }
 }</code></pre>
 <h2 id="listening-for-events">Listening For Events</h2>
@@ -3353,13 +3153,13 @@ component. It also helps you organize that code.</p>
     <span class="hljs-comment">// clicked. You can also check the `e.path` attribute to see what was</span>
     <span class="hljs-comment">// clicked (this is helpful when handling clicks on top of SVGs).</span>
     <span class="hljs-comment">//</span>
-    <span class="hljs-keyword">if</span> (!e.target.matches('.parent')) <span class="hljs-keyword">return</span>
+    <span class="hljs-keyword">if</span> (!e.target.matches(<span class="hljs-string">'.parent'</span>)) <span class="hljs-keyword">return</span>
 
     <span class="hljs-comment">// ...</span>
   }
 
   render () {
-    <span class="hljs-keyword">return</span> `&lt;div&gt;&lt;/div&gt;`
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div&gt;&lt;/div&gt;`</span>
   }
 }</code></pre>
 <p>An important distinction about Tonic, is that it prefers <code>event delegation</code> as
@@ -3392,37 +3192,37 @@ parent component.</p>
     e.detail.foo = <span class="hljs-literal">true</span>
   }
   render () {
-    <span class="hljs-keyword">return</span> `&lt;div <span class="hljs-class"><span class="hljs-keyword">class</span></span>=<span class="hljs-string">"foo"</span>&gt;<span class="hljs-type">Click</span> <span class="hljs-type">Me</span>&lt;/div&gt;`
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div class="foo"&gt;Click Me&lt;/div&gt;`</span>
   }
 }</code></pre>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Parent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   click (e) {
-    <span class="hljs-keyword">if</span> (e.target.matches('.foo')) {
-      console.log(e.detail)
+    <span class="hljs-keyword">if</span> (e.target.matches(<span class="hljs-string">'.foo'</span>)) {
+      <span class="hljs-built_in">console</span>.log(e.detail)
     }
   }
   render () {
-    <span class="hljs-keyword">return</span> `&lt;child&gt;&lt;/child&gt;`
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;child&gt;&lt;/child&gt;`</span>
   }
 }</code></pre>
 <h2 id="passing-data-and-arguments">Passing data and arguments</h2>
 <p>Add components to your html, pass them arguments just like with regular html.</p>
-<pre><code class="language-js">&lt;<span class="hljs-keyword">my</span>-component value=<span class="hljs-string">"7a"</span>&gt;
-&lt;/<span class="hljs-keyword">my</span>-component&gt;</code></pre>
+<pre><code class="language-js">&lt;my-component value=<span class="hljs-string">"7a"</span>&gt;
+<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">my-component</span>&gt;</span></span></code></pre>
 <p>Native HTML only understands strings. If you want to pass non-string props, like
 some json, you need to first stringify it. The &quot;data&quot; attribute is special and
 will automatically be parsed into json for you. Don&#39;t forget single quotes!</p>
-<pre><code class="language-html"><span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">parent-component</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"parent"</span> <span class="hljs-attr">data</span>=<span class="hljs-string">'$</span></span></span><span class="hljs-template-variable">{JSON.stringify(data)}</span><span class="xml"><span class="hljs-tag"><span class="hljs-string">'</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">parent-component</span>&gt;</span></span></code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">parent-component</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"parent"</span> <span class="hljs-attr">data</span>=<span class="hljs-string">'${JSON.stringify(data)}'</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">parent-component</span>&gt;</span></code></pre>
 <p>Alternatively, you can call the <code>setProps(...)</code> method on the element directly.</p>
-<pre><code class="language-js"><span class="hljs-selector-tag">document</span><span class="hljs-selector-class">.getElementById</span>(<span class="hljs-string">'parent'</span>)<span class="hljs-selector-class">.setProps</span>(data)</code></pre>
+<pre><code class="language-js"><span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'parent'</span>).setProps(data)</code></pre>
 <h2 id="exposing-methods-on-your-component">Exposing methods on your component</h2>
 <p>Sometimes you want to expose a method for other people to use. All your
 component&#39;s methods are private by default! Here&#39;s how to make them accessible.</p>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ExampleComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
-  constructor (props) {
+  <span class="hljs-keyword">constructor</span> (props) {
     <span class="hljs-keyword">super</span>(props)
-    <span class="hljs-keyword">this</span>.root.exampleMethod = () =&gt; <span class="hljs-keyword">this</span>.exampleMethod()
+    <span class="hljs-keyword">this</span>.root.exampleMethod = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-keyword">this</span>.exampleMethod()
   }
 
   exampleMethod () {
@@ -3431,7 +3231,7 @@ component&#39;s methods are private by default! Here&#39;s how to make them acce
 }</code></pre>
 <h2 id="pre-renderng-and-optimizing-for-performance">Pre-Renderng and optimizing for performance</h2>
 <pre><code><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AnotherThing</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
-  constructor (props) {
+  <span class="hljs-keyword">constructor</span> (props) {
     <span class="hljs-keyword">super</span>(props)
 
     <span class="hljs-comment">//</span>
@@ -3441,8 +3241,8 @@ component&#39;s methods are private by default! Here&#39;s how to make them acce
     <span class="hljs-comment">// This structure could also come from a &lt;template&gt;</span>
     <span class="hljs-comment">// tag which would also improve performance.</span>
     <span class="hljs-comment">//</span>
-    const template = document.createDocumentFragment()
-    template.appendChild(document.createElement(<span class="hljs-symbol">'spa</span>n'))  
+    <span class="hljs-keyword">const</span> template = <span class="hljs-built_in">document</span>.createDocumentFragment()
+    template.appendChild(<span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">'span'</span>))  
 
     <span class="hljs-keyword">this</span>.template = template
   }
@@ -3454,7 +3254,7 @@ component&#39;s methods are private by default! Here&#39;s how to make them acce
     <span class="hljs-comment">// Set props can also accept a function that will provide</span>
     <span class="hljs-comment">// the current props as an argument.</span>
     <span class="hljs-comment">//</span>
-    <span class="hljs-keyword">this</span>.setProps({ value: <span class="hljs-keyword">this</span>.getRandomValue() })
+    <span class="hljs-keyword">this</span>.setProps({ <span class="hljs-attr">value</span>: <span class="hljs-keyword">this</span>.getRandomValue() })
   }
 
   connected () {
@@ -3559,12 +3359,8 @@ component (as well as a few others).</p>
 <td align="left">Called after setProps() is called. This method is not called on the initial render.</td>
 </tr>
 </tbody></table>
-<h2 id="events">EVENTS</h2>
-<p>Any method defined on your class that matches a dom method will be called when
-the event is fired. </p>
 
-  </section>
-
+          </section>
 
           <footer>
             <a href="#">

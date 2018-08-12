@@ -26,6 +26,7 @@ class IconContainer extends Tonic { /* global Tonic */
     }
 
     const style = `fill: ${color}; color: ${color};`
+    console.log(style)
 
     return `
       <div class="wrapper" style="width: ${size}; height: ${size};">

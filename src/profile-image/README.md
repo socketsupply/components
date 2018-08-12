@@ -62,7 +62,9 @@ The component `ProfileImage` is used to create an SVG icon with a custom size an
 
 %html%
 
+```js
 %js%
+```
 
 ## Api
 

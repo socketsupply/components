@@ -30,6 +30,8 @@ attributes of the url.
 
 %html%
 
+## Code
+
 ```js
 %js%
 ```

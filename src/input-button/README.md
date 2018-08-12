@@ -53,6 +53,8 @@ The component `InputButton` creates a button.
 
 %html%
 
+## Code
+
 ```html
 %html%
 ```

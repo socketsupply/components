@@ -115,7 +115,10 @@ module.exports = function scrollToY (el, Y, speed) {
 
 },{}]},{},[1]);
 
-    class Tonic {
+//
+// Warning. Do not edit. This is a generated file.
+//
+class Tonic {
   constructor (node) {
     this.props = {}
     this.state = {}
@@ -275,8 +278,8 @@ Tonic.escapeMap = { '"': '&quot;', '&': '&amp;', '\'': '&#x27;', '<': '&lt;', '>
 
 if (typeof module === 'object') module.exports = Tonic
 
-    window.Tonic = Tonic
-    class ContentRoute extends Tonic { /* global Tonic */
+window.Tonic = Tonic
+class ContentRoute extends Tonic { /* global Tonic */
   constructor (node) {
     super(node)
 
@@ -2989,8 +2992,7 @@ const link2 = document.getElementById('content-route-link-2')
 
 link1.addEventListener('click', e => {
   e.preventDefault()
-  const r = Math.random().toString(16).slice(2, 4)
-  window.history.pushState({}, 'Foo 100', '/foo/' + r)
+  window.history.pushState({}, 'Foo 100', '/foo/100')
 })
 
 link2.addEventListener('click', e => {

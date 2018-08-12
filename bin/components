@@ -48,9 +48,12 @@ async function js () {
   }
 
   const bundled = `
-    ${fs.readFileSync(path.join('node_modules', 'tonic', 'index.js'), 'utf8')}
-    window.Tonic = Tonic
-    ${output.join('\n')}
+//
+// Warning. Do not edit. This is a generated file.
+//
+${fs.readFileSync(path.join('node_modules', 'tonic', 'index.js'), 'utf8')}
+window.Tonic = Tonic
+${output.join('\n')}
   `
 
   const js = argv.bundle ? bundled : output.join('\n')

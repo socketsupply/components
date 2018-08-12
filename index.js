@@ -1,5 +1,8 @@
 
-    class Tonic {
+//
+// Warning. Do not edit. This is a generated file.
+//
+class Tonic {
   constructor (node) {
     this.props = {}
     this.state = {}
@@ -159,8 +162,8 @@ Tonic.escapeMap = { '"': '&quot;', '&': '&amp;', '\'': '&#x27;', '<': '&lt;', '>
 
 if (typeof module === 'object') module.exports = Tonic
 
-    window.Tonic = Tonic
-    class ContentRoute extends Tonic { /* global Tonic */
+window.Tonic = Tonic
+class ContentRoute extends Tonic { /* global Tonic */
   constructor (node) {
     super(node)
 

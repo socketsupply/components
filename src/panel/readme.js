@@ -28,7 +28,7 @@ class MyPanel extends Tonic.Panel {
       <header></header>
       <main>
         <h3>${this.props.title || 'Hello'}
-        <p>${this.props.extract || 'Click "get" to fetch the content.'}</p>
+        <p>${this.props.extract || 'Click "get" to fetch the content from Wikipedia.'}</p>
       </main>
       <footer>
         <input-button value="close">Close</input-button>

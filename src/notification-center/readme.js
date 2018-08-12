@@ -1,45 +1,31 @@
 const notification = document.querySelector('notification-center')
 
-const notificationLink1 = document.getElementById('notification-link-1')
-notificationLink1.addEventListener('click', e => {
-  notification.create({
-    message: 'Hello, World', title: 'Greetings'
-  })
-})
+const onClick = (id, fn) => document
+  .getElementById(id)
+  .addEventListener('click', fn)
 
-const notificationLink2 = document.getElementById('notification-link-2')
-notificationLink2.addEventListener('click', e => {
-  notification.create({
-    type: 'success'
-  })
-})
+onClick('notification-button-1', e => notification.create({
+  message: 'Hello, World', title: 'Greetings'
+}))
 
-const notificationLink3 = document.getElementById('notification-link-3')
-notificationLink3.addEventListener('click', e => {
-  notification.create({
-    type: 'warning'
-  })
-})
+onClick('notification-button-2', e => notification.create({
+  type: 'success'
+}))
 
-const notificationLink4 = document.getElementById('notification-link-4')
-notificationLink4.addEventListener('click', e => {
-  notification.create({
-    type: 'danger'
-  })
-})
+onClick('notification-button-3', e => notification.create({
+  type: 'warning'
+}))
 
-const notificationLink5 = document.getElementById('notification-link-5')
-notificationLink5.addEventListener('click', e => {
-  notification.create({
-    type: 'info'
-  })
-})
+onClick('notification-button-4', e => notification.create({
+  type: 'danger'
+}))
 
-const notificationLink6 = document.getElementById('notification-link-6')
-notificationLink6.addEventListener('click', e => {
-  notification.create({
-    message: 'Will self destruct in 3 seconds',
-    title: 'Howdy',
-    duration: 3e3
-  })
-})
+onClick('notification-button-5', e => notification.create({
+  type: 'info'
+}))
+
+onClick('notification-button-6', e => notification.create({
+  message: 'Will self destruct in 3 seconds',
+  title: 'Howdy',
+  duration: 3e3
+}))

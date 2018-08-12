@@ -3085,51 +3085,37 @@ notificationCounter.addEventListener('click', (e) => {
 })
 const notification = document.querySelector('notification-center')
 
-const notificationLink1 = document.getElementById('notification-link-1')
-notificationLink1.addEventListener('click', e => {
-  notification.create({
-    message: 'Hello, World', title: 'Greetings'
-  })
-})
+const onClick = (id, fn) => document
+  .getElementById(id)
+  .addEventListener('click', fn)
 
-const notificationLink2 = document.getElementById('notification-link-2')
-notificationLink2.addEventListener('click', e => {
-  notification.create({
-    type: 'success'
-  })
-})
+onClick('notification-button-1', e => notification.create({
+  message: 'Hello, World', title: 'Greetings'
+}))
 
-const notificationLink3 = document.getElementById('notification-link-3')
-notificationLink3.addEventListener('click', e => {
-  notification.create({
-    type: 'warning'
-  })
-})
+onClick('notification-button-2', e => notification.create({
+  type: 'success'
+}))
 
-const notificationLink4 = document.getElementById('notification-link-4')
-notificationLink4.addEventListener('click', e => {
-  notification.create({
-    type: 'danger'
-  })
-})
+onClick('notification-button-3', e => notification.create({
+  type: 'warning'
+}))
 
-const notificationLink5 = document.getElementById('notification-link-5')
-notificationLink5.addEventListener('click', e => {
-  notification.create({
-    type: 'info'
-  })
-})
+onClick('notification-button-4', e => notification.create({
+  type: 'danger'
+}))
 
-const notificationLink6 = document.getElementById('notification-link-6')
-notificationLink6.addEventListener('click', e => {
-  notification.create({
-    message: 'Will self destruct in 3 seconds',
-    title: 'Howdy',
-    duration: 3e3
-  })
-})
+onClick('notification-button-5', e => notification.create({
+  type: 'info'
+}))
+
+onClick('notification-button-6', e => notification.create({
+  message: 'Will self destruct in 3 seconds',
+  title: 'Howdy',
+  duration: 3e3
+}))
 const notificationInline1 = document.getElementById('notification-inline-example-1')
-const notificationInlineLink1 = document.getElementById('notification-inline-link-1')
+const notificationInlineLink1 = document.getElementById('notification-inline-button-1')
 
 notificationInlineLink1.addEventListener('click', e => {
   notificationInline1.create({
@@ -3138,7 +3124,7 @@ notificationInlineLink1.addEventListener('click', e => {
 })
 
 const notificationInline2 = document.getElementById('notification-inline-example-2')
-const notificationInlineLink2 = document.getElementById('notification-inline-link-2')
+const notificationInlineLink2 = document.getElementById('notification-inline-button-2')
 
 notificationInlineLink2.addEventListener('click', e => {
   notificationInline2.create({
@@ -3147,7 +3133,7 @@ notificationInlineLink2.addEventListener('click', e => {
 })
 
 const notificationInline3 = document.getElementById('notification-inline-example-3')
-const notificationInlineLink3 = document.getElementById('notification-inline-link-3')
+const notificationInlineLink3 = document.getElementById('notification-inline-button-3')
 
 notificationInlineLink3.addEventListener('click', e => {
   notificationInline3.create({
@@ -3156,7 +3142,7 @@ notificationInlineLink3.addEventListener('click', e => {
 })
 
 const notificationInline4 = document.getElementById('notification-inline-example-4')
-const notificationInlineLink4 = document.getElementById('notification-inline-link-4')
+const notificationInlineLink4 = document.getElementById('notification-inline-button-4')
 
 notificationInlineLink4.addEventListener('click', e => {
   notificationInline4.create({
@@ -3166,7 +3152,7 @@ notificationInlineLink4.addEventListener('click', e => {
 })
 
 const notificationInline5 = document.getElementById('notification-inline-example-5')
-const notificationInlineLink5 = document.getElementById('notification-inline-link-5')
+const notificationInlineLink5 = document.getElementById('notification-inline-button-5')
 
 notificationInlineLink5.addEventListener('click', e => {
   notificationInline5.create({
@@ -3176,7 +3162,7 @@ notificationInlineLink5.addEventListener('click', e => {
 })
 
 const notificationInline6 = document.getElementById('notification-inline-example-6')
-const notificationInlineLink6 = document.getElementById('notification-inline-link-6')
+const notificationInlineLink6 = document.getElementById('notification-inline-button-6')
 
 notificationInlineLink6.addEventListener('click', e => {
   notificationInline6.create({
@@ -3186,7 +3172,7 @@ notificationInlineLink6.addEventListener('click', e => {
 })
 
 const notificationInline7 = document.getElementById('notification-inline-example-7')
-const notificationInlineLink7 = document.getElementById('notification-inline-link-7')
+const notificationInlineLink7 = document.getElementById('notification-inline-button-7')
 
 notificationInlineLink7.addEventListener('click', e => {
   notificationInline7.create({
@@ -3224,7 +3210,7 @@ class MyPanel extends Tonic.Panel {
       <header></header>
       <main>
         <h3>${this.props.title || 'Hello'}
-        <p>${this.props.extract || 'Click "get" to fetch the content.'}</p>
+        <p>${this.props.extract || 'Click "get" to fetch the content from Wikipedia.'}</p>
       </main>
       <footer>
         <input-button value="close">Close</input-button>

@@ -3,8 +3,6 @@ The component `NotificationCenter` creates a container for all notifications to 
 
 ## Demo
 
-<notification-center></notification-center>
-
 <table class="example">
   <thead>
     <tr>
@@ -15,7 +13,7 @@ The component `NotificationCenter` creates a container for all notifications to 
   <tbody>
     <tr>
       <td>
-        <input-button id="notification-link-1" value="Notify Me"></input-button>
+        <input-button id="notification-button-1" value="Notify Me"></input-button>
       </td>
       <td>
         <span id="notification-center-tooltip-1">
@@ -25,10 +23,10 @@ The component `NotificationCenter` creates a container for all notifications to 
     </tr>
     <tr>
       <td>
-        <input-button id="notification-link-2" value="Success"></input-button>
-        <input-button id="notification-link-3" value="Warning"></input-button>
-        <input-button id="notification-link-4" value="Danger"></input-button>
-        <input-button id="notification-link-5" value="Info"></input-button>
+        <input-button id="notification-button-2" value="Success"></input-button>
+        <input-button id="notification-button-3" value="Warning"></input-button>
+        <input-button id="notification-button-4" value="Danger"></input-button>
+        <input-button id="notification-button-5" value="Info"></input-button>
       </td>
       <td>
         <span id="notification-center-tooltip-2">
@@ -38,7 +36,7 @@ The component `NotificationCenter` creates a container for all notifications to 
     </tr>
     <tr>
       <td>
-        <input-button id="notification-link-6" value="Self Close"></input-button>
+        <input-button id="notification-button-6" value="Self Close"></input-button>
       </td>
       <td>
         <span id="notification-center-tooltip-3">

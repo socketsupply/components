@@ -16,7 +16,7 @@ The following examples are inline notifications without a specified `type`.
     <tr>
       <td>
         <input-button
-          id="notification-inline-link-1"
+          id="notification-inline-button-1"
           value="notify">
           Notify Me
         </input-button>
@@ -26,7 +26,7 @@ The following examples are inline notifications without a specified `type`.
     <tr>
       <td>
         <input-button
-          id="notification-inline-link-6"
+          id="notification-inline-button-6"
           value="notify">
           Notify Me
         </input-button>
@@ -36,7 +36,7 @@ The following examples are inline notifications without a specified `type`.
     <tr>
       <td>
         <input-button
-          id="notification-inline-link-7"
+          id="notification-inline-button-7"
           value="self-close">
           Self Close
         </input-button>
@@ -68,7 +68,7 @@ The following examples are inline notifications with a specified `type` and asso
     <tr>
       <td>
         <input-button
-          id="notification-inline-link-2"
+          id="notification-inline-button-2"
           value="success">
           Success
         </input-button>
@@ -78,7 +78,7 @@ The following examples are inline notifications with a specified `type` and asso
     <tr>
       <td>
         <input-button
-          id="notification-inline-link-3"
+          id="notification-inline-button-3"
           value="warning">
           Warning
         </input-button>
@@ -88,7 +88,7 @@ The following examples are inline notifications with a specified `type` and asso
     <tr>
       <td>
         <input-button
-          id="notification-inline-link-4"
+          id="notification-inline-button-4"
           value="danger">
           Danger
         </input-button>
@@ -98,7 +98,7 @@ The following examples are inline notifications with a specified `type` and asso
     <tr>
       <td>
         <input-button
-          id="notification-inline-link-5"
+          id="notification-inline-button-5"
           value="information">
           Information
         </input-button>

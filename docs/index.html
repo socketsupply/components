@@ -2135,7 +2135,6 @@ button.addEventListener('click', e =&gt; {
 </section><section id="notificationcenter"><h1 id="notificationcenter">NotificationCenter</h1>
 <p>The component <code>NotificationCenter</code> creates a container for all notifications to be added to.</p>
 <h2 id="demo">Demo</h2>
-<p><notification-center></notification-center></p>
 <table class="example">
   <thead>
     <tr>
@@ -2146,7 +2145,7 @@ button.addEventListener('click', e =&gt; {
   <tbody>
     <tr>
       <td>
-        <input-button id="notification-link-1" value="Notify Me"></input-button>
+        <input-button id="notification-button-1" value="Notify Me"></input-button>
       </td>
       <td>
         <span id="notification-center-tooltip-1">
@@ -2156,10 +2155,10 @@ button.addEventListener('click', e =&gt; {
     </tr>
     <tr>
       <td>
-        <input-button id="notification-link-2" value="Success"></input-button>
-        <input-button id="notification-link-3" value="Warning"></input-button>
-        <input-button id="notification-link-4" value="Danger"></input-button>
-        <input-button id="notification-link-5" value="Info"></input-button>
+        <input-button id="notification-button-2" value="Success"></input-button>
+        <input-button id="notification-button-3" value="Warning"></input-button>
+        <input-button id="notification-button-4" value="Danger"></input-button>
+        <input-button id="notification-button-5" value="Info"></input-button>
       </td>
       <td>
         <span id="notification-center-tooltip-2">
@@ -2169,7 +2168,7 @@ button.addEventListener('click', e =&gt; {
     </tr>
     <tr>
       <td>
-        <input-button id="notification-link-6" value="Self Close"></input-button>
+        <input-button id="notification-button-6" value="Self Close"></input-button>
       </td>
       <td>
         <span id="notification-center-tooltip-3">
@@ -2180,155 +2179,46 @@ button.addEventListener('click', e =&gt; {
   </tbody>
 </table>
 
-<content-tooltip for="notification-center-tooltip-1" width="550px">
-
-<p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">notification-center</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">notification-center</span>&gt;</span></code></pre>
-<p><span class="code-type">js</span></p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> notification = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'notification-center'</span>)
-<span class="hljs-keyword">const</span> link = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'notification-link'</span>)
-
-link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
-  notification.create({
-    <span class="hljs-attr">message</span>: <span class="hljs-string">'Hello, World'</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">'Greetings'</span>
-  })
-})</code></pre>
-</content-tooltip>
-
-<content-tooltip for="notification-center-tooltip-2" width="550px">
-
-<p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">notification-center</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">notification-center</span>&gt;</span></code></pre>
-<p><span class="code-type">js</span></p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> notification = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'notification-center'</span>)
-<span class="hljs-keyword">const</span> link = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'notification-link'</span>)
-
-link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
-  notification.create({
-    <span class="hljs-attr">type</span>: <span class="hljs-string">'success'</span>
-  })
-})</code></pre>
-</content-tooltip>
-
-<content-tooltip for="notification-center-tooltip-3" width="550px">
-
-<p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">notification-center</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">notification-center</span>&gt;</span></code></pre>
-<p><span class="code-type">js</span></p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> notification = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'notification-center'</span>)
-<span class="hljs-keyword">const</span> link = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'notification-link'</span>)
-
-link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
-  notification.create({
-    <span class="hljs-attr">title</span>: <span class="hljs-string">'Howdy'</span>,
-    <span class="hljs-attr">message</span>: <span class="hljs-string">'Will self destruct in 3 seconds'</span>,
-    <span class="hljs-attr">duration</span>: <span class="hljs-number">3e3</span>
-  })
-})</code></pre>
-</content-tooltip>
-
-
+<p><notification-center></notification-center></p>
 <h2 id="code">Code</h2>
 <p>The following code should be included once on the page:</p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">content-tooltip</span> <span class="hljs-attr">for</span>=<span class="hljs-string">"notification-center-tooltip-1"</span> <span class="hljs-attr">width</span>=<span class="hljs-string">"550px"</span>&gt;</span>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">notification-center</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">notification-center</span>&gt;</span>
 
-<span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"code-type"</span>&gt;</span>html<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-
-```html
-<span class="hljs-tag">&lt;<span class="hljs-name">notification-center</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">notification-center</span>&gt;</span></code></pre>
-<p><span class="code-type">js</span></p>
+</code></pre>
+<p>To create a new notification:</p>
 <pre><code class="language-js"><span class="hljs-keyword">const</span> notification = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'notification-center'</span>)
-<span class="hljs-keyword">const</span> link = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'notification-link'</span>)
 
-link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
-  notification.create({
-    <span class="hljs-attr">message</span>: <span class="hljs-string">'Hello, World'</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">'Greetings'</span>
-  })
-})</code></pre>
-</content-tooltip>
+<span class="hljs-keyword">const</span> onClick = <span class="hljs-function">(<span class="hljs-params">id, fn</span>) =&gt;</span> <span class="hljs-built_in">document</span>
+  .getElementById(id)
+  .addEventListener(<span class="hljs-string">'click'</span>, fn)
 
-<content-tooltip for="notification-center-tooltip-2" width="550px">
+onClick(<span class="hljs-string">'notification-button-1'</span>, e =&gt; notification.create({
+  <span class="hljs-attr">message</span>: <span class="hljs-string">'Hello, World'</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">'Greetings'</span>
+}))
 
-<p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">notification-center</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">notification-center</span>&gt;</span></code></pre>
-<p><span class="code-type">js</span></p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> notification = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'notification-center'</span>)
-<span class="hljs-keyword">const</span> link = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'notification-link'</span>)
+onClick(<span class="hljs-string">'notification-button-2'</span>, e =&gt; notification.create({
+  <span class="hljs-attr">type</span>: <span class="hljs-string">'success'</span>
+}))
 
-link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
-  notification.create({
-    <span class="hljs-attr">type</span>: <span class="hljs-string">'success'</span>
-  })
-})</code></pre>
-</content-tooltip>
+onClick(<span class="hljs-string">'notification-button-3'</span>, e =&gt; notification.create({
+  <span class="hljs-attr">type</span>: <span class="hljs-string">'warning'</span>
+}))
 
-<content-tooltip for="notification-center-tooltip-3" width="550px">
+onClick(<span class="hljs-string">'notification-button-4'</span>, e =&gt; notification.create({
+  <span class="hljs-attr">type</span>: <span class="hljs-string">'danger'</span>
+}))
 
-<p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">notification-center</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">notification-center</span>&gt;</span></code></pre>
-<p><span class="code-type">js</span></p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> notification = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'notification-center'</span>)
-<span class="hljs-keyword">const</span> link = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'notification-link'</span>)
+onClick(<span class="hljs-string">'notification-button-5'</span>, e =&gt; notification.create({
+  <span class="hljs-attr">type</span>: <span class="hljs-string">'info'</span>
+}))
 
-link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
-  notification.create({
-    <span class="hljs-attr">title</span>: <span class="hljs-string">'Howdy'</span>,
-    <span class="hljs-attr">message</span>: <span class="hljs-string">'Will self destruct in 3 seconds'</span>,
-    <span class="hljs-attr">duration</span>: <span class="hljs-number">3e3</span>
-  })
-})</code></pre>
-</content-tooltip>
-
-<pre><code>
-To create a <span class="hljs-keyword">new</span> notification:
-
-<span class="hljs-string">``</span><span class="hljs-string">`js
-const notification = document.querySelector('notification-center')
-
-const notificationLink1 = document.getElementById('notification-link-1')
-notificationLink1.addEventListener('click', e =&gt; {
-  notification.create({
-    message: 'Hello, World', title: 'Greetings'
-  })
-})
-
-const notificationLink2 = document.getElementById('notification-link-2')
-notificationLink2.addEventListener('click', e =&gt; {
-  notification.create({
-    type: 'success'
-  })
-})
-
-const notificationLink3 = document.getElementById('notification-link-3')
-notificationLink3.addEventListener('click', e =&gt; {
-  notification.create({
-    type: 'warning'
-  })
-})
-
-const notificationLink4 = document.getElementById('notification-link-4')
-notificationLink4.addEventListener('click', e =&gt; {
-  notification.create({
-    type: 'danger'
-  })
-})
-
-const notificationLink5 = document.getElementById('notification-link-5')
-notificationLink5.addEventListener('click', e =&gt; {
-  notification.create({
-    type: 'info'
-  })
-})
-
-const notificationLink6 = document.getElementById('notification-link-6')
-notificationLink6.addEventListener('click', e =&gt; {
-  notification.create({
-    message: 'Will self destruct in 3 seconds',
-    title: 'Howdy',
-    duration: 3e3
-  })
-})
-</span></code></pre><h2 id="api">Api</h2>
+onClick(<span class="hljs-string">'notification-button-6'</span>, e =&gt; notification.create({
+  <span class="hljs-attr">message</span>: <span class="hljs-string">'Will self destruct in 3 seconds'</span>,
+  <span class="hljs-attr">title</span>: <span class="hljs-string">'Howdy'</span>,
+  <span class="hljs-attr">duration</span>: <span class="hljs-number">3e3</span>
+}))
+</code></pre>
+<h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>
 <table>
 <thead>
@@ -2439,7 +2329,7 @@ notificationLink6.addEventListener('click', e =&gt; {
     <tr>
       <td>
         <input-button
-          id="notification-inline-link-1"
+          id="notification-inline-button-1"
           value="notify">
           Notify Me
         </input-button>
@@ -2449,7 +2339,7 @@ notificationLink6.addEventListener('click', e =&gt; {
     <tr>
       <td>
         <input-button
-          id="notification-inline-link-6"
+          id="notification-inline-button-6"
           value="notify">
           Notify Me
         </input-button>
@@ -2459,7 +2349,7 @@ notificationLink6.addEventListener('click', e =&gt; {
     <tr>
       <td>
         <input-button
-          id="notification-inline-link-7"
+          id="notification-inline-button-7"
           value="self-close">
           Self Close
         </input-button>
@@ -2490,7 +2380,7 @@ notificationLink6.addEventListener('click', e =&gt; {
     <tr>
       <td>
         <input-button
-          id="notification-inline-link-2"
+          id="notification-inline-button-2"
           value="success">
           Success
         </input-button>
@@ -2500,7 +2390,7 @@ notificationLink6.addEventListener('click', e =&gt; {
     <tr>
       <td>
         <input-button
-          id="notification-inline-link-3"
+          id="notification-inline-button-3"
           value="warning">
           Warning
         </input-button>
@@ -2510,7 +2400,7 @@ notificationLink6.addEventListener('click', e =&gt; {
     <tr>
       <td>
         <input-button
-          id="notification-inline-link-4"
+          id="notification-inline-button-4"
           value="danger">
           Danger
         </input-button>
@@ -2520,7 +2410,7 @@ notificationLink6.addEventListener('click', e =&gt; {
     <tr>
       <td>
         <input-button
-          id="notification-inline-link-5"
+          id="notification-inline-button-5"
           value="information">
           Information
         </input-button>
@@ -2722,7 +2612,7 @@ your own panel class which can be registered and then used as a tag.</p>
       &lt;header&gt;&lt;/header&gt;
       &lt;main&gt;
         &lt;h3&gt;<span class="hljs-subst">${<span class="hljs-keyword">this</span>.props.title || <span class="hljs-string">'Hello'</span>}</span>
-        &lt;p&gt;<span class="hljs-subst">${<span class="hljs-keyword">this</span>.props.extract || <span class="hljs-string">'Click "get" to fetch the content.'</span>}</span>&lt;/p&gt;
+        &lt;p&gt;<span class="hljs-subst">${<span class="hljs-keyword">this</span>.props.extract || <span class="hljs-string">'Click "get" to fetch the content from Wikipedia.'</span>}</span>&lt;/p&gt;
       &lt;/main&gt;
       &lt;footer&gt;
         &lt;input-button value="close"&gt;Close&lt;/input-button&gt;

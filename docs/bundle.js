@@ -1760,7 +1760,6 @@ input-textarea label {
       width,
       height,
       theme,
-      value,
       radius,
       resize
     } = this.props
@@ -1779,6 +1778,8 @@ input-textarea label {
     if (resize) style.push(`resize: ${resize}`)
     style = style.join('; ')
 
+    if (this.props.value === 'undefined') this.props.value = ''
+
     return `
       <div class="wrapper">
         ${this.renderLabel()}
@@ -1795,7 +1796,7 @@ input-textarea label {
           cols="${cols}"
           minlength="${minlength}"
           maxlength="${maxlength}"
-          style="${style}">${value}</textarea>
+          style="${style}">${this.props.value}</textarea>
       </div>
     `
   }

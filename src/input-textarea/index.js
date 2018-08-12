@@ -42,7 +42,6 @@ class InputTextarea extends Tonic { /* global Tonic */
       width,
       height,
       theme,
-      value,
       radius,
       resize
     } = this.props
@@ -61,6 +60,8 @@ class InputTextarea extends Tonic { /* global Tonic */
     if (resize) style.push(`resize: ${resize}`)
     style = style.join('; ')
 
+    if (this.props.value === 'undefined') this.props.value = ''
+
     return `
       <div class="wrapper">
         ${this.renderLabel()}
@@ -77,7 +78,7 @@ class InputTextarea extends Tonic { /* global Tonic */
           cols="${cols}"
           minlength="${minlength}"
           maxlength="${maxlength}"
-          style="${style}">${value}</textarea>
+          style="${style}">${this.props.value}</textarea>
       </div>
     `
   }

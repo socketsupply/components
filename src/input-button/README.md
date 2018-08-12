@@ -51,8 +51,6 @@ The component `InputButton` creates a button.
   </tbody>
 </table>
 
-%html%
-
 ## Code
 
 ```html

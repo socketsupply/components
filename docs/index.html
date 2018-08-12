@@ -141,7 +141,7 @@
   <h3>Features</h3>
   <div class="col">
     <ul>
-      <li>Tonic is small. The whole module is about 150 lines.</li>
+      <li>Tonic is tiny. About 150 lines of code.</li>
       <li>React-like component composition.</li>
       <li>One-way data binding. Pipe data though connected components.</li>
     </ul>
@@ -149,8 +149,8 @@
   <div class="col">
     <ul>
       <li>Based on standard web technologies.</li>
-      <li><b>Event delegation</b> is superior to direct handlers.</li>
-      <li>Bring your own Routers, Reducers, Validators, etc.</li>
+      <li>Prefer <b>event delegation</b> over individual handlers.</li>
+      <li>Mix in your own Routers, Reducers, Validators, etc.</li>
     </ul>
   </div>
 
@@ -804,92 +804,21 @@ link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; dialog.s
   </tbody>
 </table>
 
-<content-tooltip for="button-example-tooltip-1" width="300px">
-
-<p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-button</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">input-button</span>&gt;</span></code></pre>
-</content-tooltip>
-
-<content-tooltip for="button-example-tooltip-2" width="300px">
-
-<p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-button</span>
-  <span class="hljs-attr">fill</span>=<span class="hljs-string">"var(--accent)"</span>
-  <span class="hljs-attr">textColor</span>=<span class="hljs-string">"white"</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">input-button</span>&gt;</span></code></pre>
-</content-tooltip>
-
-<content-tooltip for="button-example-tooltip-3">
-
-<p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-button</span> <span class="hljs-attr">disabled</span>=<span class="hljs-string">"true"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">input-button</span>&gt;</span></code></pre>
-</content-tooltip>
-
-<content-tooltip for="button-example-tooltip-4" width="300px">
-
-<p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-button</span>
-  <span class="hljs-attr">async</span>=<span class="hljs-string">"true"</span>
-  <span class="hljs-attr">id</span>=<span class="hljs-string">"loading-button-example"</span>
-  <span class="hljs-attr">value</span>=<span class="hljs-string">"Click me"</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">input-button</span>&gt;</span></code></pre>
-</content-tooltip>
-
-<content-tooltip for="button-example-tooltip-5">
-
-<p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-button</span> <span class="hljs-attr">width</span>=<span class="hljs-string">"100%"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">input-button</span>&gt;</span></code></pre>
-</content-tooltip>
-
-
 <h2 id="code">Code</h2>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">content-tooltip</span> <span class="hljs-attr">for</span>=<span class="hljs-string">"button-example-tooltip-1"</span> <span class="hljs-attr">width</span>=<span class="hljs-string">"300px"</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"code-type"</span>&gt;</span>html<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-```html
-<span class="hljs-tag">&lt;<span class="hljs-name">input-button</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">input-button</span>&gt;</span></code></pre>
-</content-tooltip>
-
-<content-tooltip for="button-example-tooltip-2" width="300px">
-
-<p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-button</span>
-  <span class="hljs-attr">fill</span>=<span class="hljs-string">"var(--accent)"</span>
-  <span class="hljs-attr">textColor</span>=<span class="hljs-string">"white"</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">input-button</span>&gt;</span></code></pre>
-</content-tooltip>
-
-<content-tooltip for="button-example-tooltip-3">
-
-<p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-button</span> <span class="hljs-attr">disabled</span>=<span class="hljs-string">"true"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">input-button</span>&gt;</span></code></pre>
-</content-tooltip>
-
-<content-tooltip for="button-example-tooltip-4" width="300px">
-
-<p><span class="code-type">html</span></p>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-button</span>
   <span class="hljs-attr">async</span>=<span class="hljs-string">"true"</span>
   <span class="hljs-attr">id</span>=<span class="hljs-string">"loading-button-example"</span>
-  <span class="hljs-attr">value</span>=<span class="hljs-string">"Click me"</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">input-button</span>&gt;</span></code></pre>
-</content-tooltip>
-
-<content-tooltip for="button-example-tooltip-5">
-
-<p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-button</span> <span class="hljs-attr">width</span>=<span class="hljs-string">"100%"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">input-button</span>&gt;</span></code></pre>
-</content-tooltip>
-
-<pre><code>
-<span class="hljs-string">``</span><span class="hljs-string">`js
-const button = document.getElementById('loading-button-example')
-button.addEventListener('click', e =&gt; {
-  setTimeout(() =&gt; {
+  <span class="hljs-attr">value</span>=<span class="hljs-string">"click-me"</span>&gt;</span>Click me
+<span class="hljs-tag">&lt;/<span class="hljs-name">input-button</span>&gt;</span>
+</code></pre>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> button = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'loading-button-example'</span>)
+button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
+  setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
     button.done()
-  }, 3e3)
+  }, <span class="hljs-number">3e3</span>)
 })
-</span></code></pre><h2 id="api">Api</h2>
+</code></pre>
+<h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>
 <table>
 <thead>

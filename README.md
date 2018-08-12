@@ -4,25 +4,19 @@
 A collection of components built with [Tonic](https://github.com/hxoht/tonic).
 
 # USAGE
-You can use `npx` to create build artifacts in your project.
+You can install the components package with npm and it will bundle `Tonic` into
+a single file.
 
 ```bash
-npx hxoht/components --js ./path/for/js --css ./path/for/css
+npm install hxoht/components
 ```
 
-You can build a subset of componenets by supplying a list of
-tag-names (separated by spaces).
-
-```bash
-npx hxoht/components \
-  --js ./path/for/js --css ./path/for/css \
-  content-dialog content-tabs profile-image
+```js
+const Tonic = require('components')
 ```
 
-Alternatively, you can `npm install hxoht/components`. In a
-`package.json` script, do this (which will be faster than using `npx`
-if for example you have a fork and you need to re-build your components
-frequently)...
+If you want to produce build artifacts (like the base css), you can either
+create a build script, or use `npx`.
 
 ```json
 {
@@ -30,6 +24,19 @@ frequently)...
     "build": "components --js ./path/for/js --css ./path/fo/css"
   }
 }
+```
+
+```bash
+npx hxoht/components --js ./path/for/js --css ./path/for/css
+```
+
+You can also build a subset of componenets by supplying a list of tag-names
+(separated by spaces).
+
+```bash
+npx hxoht/components \
+  --js ./path/for/js --css ./path/for/css \
+  content-dialog content-tabs profile-image
 ```
 
 # DEVELOPMENT

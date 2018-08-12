@@ -18,10 +18,6 @@
     Tonic.refs.push(this.root)
   }
 
-  getProps () {
-    return this.props
-  }
-
   static match (el, s) {
     if (!el.matches) el = el.parentElement
     return el.matches(s) ? el : el.closest(s)
@@ -40,6 +36,7 @@
     if (!Tonic.styleNode) {
       Tonic.styleNode = document.head.appendChild(document.createElement('style'))
     }
+
     Tonic._constructTags()
   }
 
@@ -86,6 +83,10 @@
     this._setContent(this.root, this.render())
     Tonic._constructTags(this.root)
     this.updated && this.updated(oldProps)
+  }
+
+  getProps () {
+    return this.props
   }
 
   _bindEventListeners () {

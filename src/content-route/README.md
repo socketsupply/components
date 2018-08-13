@@ -28,9 +28,11 @@ attributes of the url.
   </tbody>
 </table>
 
-%html%
-
 ## Code
+
+```html
+%html%
+```
 
 ```js
 %js%

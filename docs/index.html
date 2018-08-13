@@ -190,21 +190,15 @@ attributes of the url.</p>
   </tbody>
 </table>
 
-<content-tooltip for="content-route-example-1" width="500px">
-
-<p><span class="code-type">html</span></p>
+<h2 id="code">Code</h2>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">content-route</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"/foo/:number"</span>&gt;</span>
-  Content for "/foo/${this.state.number}".
+  Content for "/foo/:number".
 <span class="hljs-tag">&lt;/<span class="hljs-name">content-route</span>&gt;</span>
 
 <span class="hljs-tag">&lt;<span class="hljs-name">content-route</span> <span class="hljs-attr">none</span>&gt;</span>
-  404 ☹︎
-<span class="hljs-tag">&lt;/<span class="hljs-name">content-route</span>&gt;</span></code></pre>
-</content-tooltip>
-
-
-
-<h2 id="code">Code</h2>
+  404
+<span class="hljs-tag">&lt;/<span class="hljs-name">content-route</span>&gt;</span>
+</code></pre>
 <pre><code class="language-js"><span class="hljs-keyword">const</span> link1 = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'content-route-link-1'</span>)
 <span class="hljs-keyword">const</span> link2 = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'content-route-link-2'</span>)
 

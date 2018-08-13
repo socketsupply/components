@@ -653,6 +653,7 @@ class Dialog extends Tonic { /* global Tonic */
 
     this.root.show = () => this.show()
     this.root.hide = () => this.hide()
+    this.root.event = name => this.event(name)
 
     this.root.addEventListener('click', e => {
       const el = Tonic.match(e.target, '.close')
@@ -788,6 +789,28 @@ class Dialog extends Tonic { /* global Tonic */
     node.classList.remove('show')
     fn && node.addEventListener('transitionend', fn, { once: true })
     document.removeEventListener('keyup', this._escapeHandler)
+  }
+
+  event (eventName) {
+    const that = this
+
+    return {
+      then (resolve) {
+        const listener = event => {
+          const close = Tonic.match(event.target, '.close')
+          const value = Tonic.match(event.target, '[value]')
+
+          if (close || value) {
+            that.root.removeEventListener(eventName, listener)
+          }
+
+          if (close) return resolve({})
+          if (value) resolve({ [event.target.value]: true })
+        }
+
+        that.root.addEventListener(eventName, listener)
+      }
+    }
   }
 
   wrap (render) {

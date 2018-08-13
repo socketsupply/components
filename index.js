@@ -113,7 +113,7 @@ class Tonic {
       target.innerHTML = content.trim()
     } else {
       while (target.firstChild) target.removeChild(target.firstChild)
-      target.appendChild(content)
+      target.appendChild(content.cloneNode(true))
     }
     this.root = target
   }
@@ -1369,15 +1369,13 @@ class InputText extends Tonic { /* global Tonic */
   }
 
   setValid () {
-    this.setProps(props => ({
-      ...props,
+    this.setProps(props => Object.assign({}, props, {
       invalid: false
     }))
   }
 
   setInvalid (msg) {
-    this.setProps(props => ({
-      ...props,
+    this.setProps(props => Object.assign({}, props, {
       invalid: true,
       errorMessage: msg
     }))

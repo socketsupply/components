@@ -2996,22 +2996,16 @@ component. It also helps you organize that code.</p>
     <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div&gt;&lt;/div&gt;`</span>
   }
 }</code></pre>
-<p>An important distinction about Tonic, is that it prefers <code>event delegation</code> as
-opposed to <code>indivudual event listeners</code>.</p>
 <p>The convention of most frameworks is to attach individual event listeners,
-like this <code>onClick={myHandler()}</code> or <code>click=myHandler</code>, etc. (usually in some
-non-standard way). In a case where you have a table with 2000 rows, this will
-create 2000 individual listeners.</p>
-<p>With <a href="https://davidwalsh.name/event-delegate">event delegation</a>, we take advantage of the browser&#39;s event model.
-Most events &quot;<em>bubble</em>&quot;. This means that a <em>click</em> event on a child element
-will be observable from its parent element, and that parent&#39;s parent,
-continuing up the document&#39;s hierarchy. Because of this, we can create fewer
-listeners and we don&#39;t need to rebind them when the DOM is re-created.</p>
-<p>When an event bubbles up to our class&#39;s event handler method, we can check
-exactly what was clicked. Each event handler method will receive an <code>event</code>
-object which contains a <code>target</code> property, that will be the exact element
-that was clicked. The <code>path</code> property is an array of elements containing the
-exact hierarchy. This is all plain old Javascript.</p>
+like this <code>onClick={myHandler()}</code> or <code>click=myHandler</code>, etc. In a case where
+you have a table with 2000 rows, this will create 2000 individual listeners.</p>
+<p>With <a href="https://davidwalsh.name/event-delegate">event delegation</a>, we can attach a single event listener and watch
+for interactions on the clild elements of a component. With this approach we
+create fewer listeners and we don&#39;t need to rebind them when the DOM is
+re-created.</p>
+<p>Each event handler method will receive the plain old Javascript <code>event</code> object.
+This object contains a <code>target</code> property, the exact element that was clicked.
+The <code>path</code> property is an array of elements containing the exact hierarchy.</p>
 <p>There are some helpful native DOM APIs for testing properties of an element.
 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/matches"><code>Element.matches()</code></a> tests if an element matches a selector, and
 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/closest"><code>Element.closest</code></a> finds the closest ancestor from the element that matches
@@ -3019,11 +3013,11 @@ the given selector.</p>
 <p>Tonic also provides a helper function, <code>Tonic.matches(el, &#39;selector&#39;)</code>, this
 checks if the element matches the selector, and if not, tries to find the
 closest match.</p>
-<p>This example shows how a child component can bubble data from its click to a
-parent component.</p>
+<p>Here, when a particular element inside a child component is clicked, we
+intercept the click event and pass along some data to the parent component.</p>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Child</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   click (e) {
-    e.detail.foo = <span class="hljs-literal">true</span>
+    e.detail.bar = <span class="hljs-literal">true</span>
   }
   render () {
     <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div class="foo"&gt;Click Me&lt;/div&gt;`</span>
@@ -3032,7 +3026,7 @@ parent component.</p>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Parent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   click (e) {
     <span class="hljs-keyword">if</span> (e.target.matches(<span class="hljs-string">'.foo'</span>)) {
-      <span class="hljs-built_in">console</span>.log(e.detail)
+      <span class="hljs-built_in">console</span>.log(e.detail.bar)
     }
   }
   render () {
@@ -3075,10 +3069,10 @@ component&#39;s methods are private by default! Here&#39;s how to make them acce
     <span class="hljs-comment">// This structure could also come from a &lt;template&gt;</span>
     <span class="hljs-comment">// tag which would also improve performance.</span>
     <span class="hljs-comment">//</span>
-    <span class="hljs-keyword">const</span> template = <span class="hljs-built_in">document</span>.createDocumentFragment()
+    <span class="hljs-keyword">const</span> template = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">'template'</span>)
     template.appendChild(<span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">'span'</span>))  
 
-    <span class="hljs-keyword">this</span>.template = template
+    <span class="hljs-keyword">this</span>.template = template.content
   }
 
   willConnect () {
@@ -3088,7 +3082,7 @@ component&#39;s methods are private by default! Here&#39;s how to make them acce
     <span class="hljs-comment">// Set props can also accept a function that will provide</span>
     <span class="hljs-comment">// the current props as an argument.</span>
     <span class="hljs-comment">//</span>
-    <span class="hljs-keyword">this</span>.setProps({ <span class="hljs-attr">value</span>: <span class="hljs-keyword">this</span>.getRandomValue() })
+    <span class="hljs-keyword">this</span>.setProps({ <span class="hljs-attr">value</span>: <span class="hljs-string">'foo'</span> })
   }
 
   connected () {

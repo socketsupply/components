@@ -128,6 +128,7 @@ class Tonic {
     this.root.setProps = v => this.setProps(v)
     this.root.setState = v => this.setState(v)
     this.root.getProps = () => this.getProps()
+    this.root.getState = () => this.getState()
     this._bindEventListeners()
     if (this.wrap) {
       const render = this.render
@@ -193,6 +194,10 @@ class Tonic {
 
   setState (o) {
     this.state = typeof o === 'function' ? o(this.state) : o
+  }
+
+  getState () {
+    return this.state
   }
 
   setProps (o) {

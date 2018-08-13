@@ -852,6 +852,7 @@ class Dialog extends Tonic { /* global Tonic */
   opacity: 0;
 }
 .dialog .dialog header {
+  text-align: center;
   height: 70px;
   font: 14px var(--subheader);
   text-transform: uppercase;

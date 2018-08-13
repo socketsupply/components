@@ -9,17 +9,16 @@ The `ContentTooltip` component creates a dynamically positioned pop-up tooltip f
     <tr>
       <th>Example</th>
       <th>Description</th>
-      <th></th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <span id="content-tooltip-example-1">Hover me!</span>
+        <span id="content-tooltip-example-1">Hover over this text</span>
       </td>
       <td>
         <span id="content-tooltip-tooltip-1">
-          Default content box
+          Default content box. Hover here for another example.
         </span>
       </td>
     </tr>
@@ -28,9 +27,35 @@ The `ContentTooltip` component creates a dynamically positioned pop-up tooltip f
 
 %html%
 
+<content-tooltip for="content-tooltip-tooltip-1" width="515px">
+
+<span class="code-type">Html</span>
+
+```html
+<span id="content-tooltip-example-1">Hover me!</span>
+
+<content-tooltip for="content-tooltip-example-1">
+  <!-- HTML Content -->
+</content-tooltip>
+```
+
+</content-tooltip>
+
+<style>
+  #content-tooltip-example-1 {
+    cursor: default;
+  }
+</style>
+
 ## Code
 
-The trigger element must contain an `id` that corresponds to the `for` element on the `content-tooltip` element.
+The element that will be used to trigger the display of the tooltip must
+contain an `id` that matches the `for` attribute on the `content-tooltip`
+element.
+
+```html
+%html%
+```
 
 ## Api
 

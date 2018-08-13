@@ -148,7 +148,7 @@
   </div>
   <div class="col">
     <ul>
-      <li>Based on standard web technologies.</li>
+      <li>Prefer Javascript Template Literals to weird Template Langauges.</li>
       <li>Prefer <b>event delegation</b> over individual handlers.</li>
       <li>Mix in your own Routers, Reducers, Validators, etc.</li>
     </ul>
@@ -387,17 +387,16 @@ link2.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
     <tr>
       <th>Example</th>
       <th>Description</th>
-      <th></th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <td>
-        <span id="content-tooltip-example-1">Hover me!</span>
+        <span id="content-tooltip-example-1">Hover over this text</span>
       </td>
       <td>
         <span id="content-tooltip-tooltip-1">
-          Default content box
+          Default content box. Hover here for another example.
         </span>
       </td>
     </tr>
@@ -405,10 +404,9 @@ link2.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
 </table>
 
 <content-tooltip for="content-tooltip-example-1">
-  <link href="index.css" rel="stylesheet">
-  <h3>Hello, World</h3>
-  <p>For over five thousand years ginseng has been used as a natural tonic: stimulant, restorative, refresher, cordial; Medicine analeptic, roborant; informal pick-me-up, bracer, livener.</p>
+  <img src="/tonic.svg" width="100px">
 </content-tooltip>
+
 
 <content-tooltip for="content-tooltip-tooltip-1" width="515px">
 
@@ -420,9 +418,20 @@ link2.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
 <span class="hljs-tag">&lt;/<span class="hljs-name">content-tooltip</span>&gt;</span></code></pre>
 </content-tooltip>
 
+<style>
+  #content-tooltip-example-1 {
+    cursor: default;
+  }
+</style>
 
 <h2 id="code">Code</h2>
-<p>The trigger element must contain an <code>id</code> that corresponds to the <code>for</code> element on the <code>content-tooltip</code> element.</p>
+<p>The element that will be used to trigger the display of the tooltip must
+contain an <code>id</code> that matches the <code>for</code> attribute on the <code>content-tooltip</code>
+element.</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">content-tooltip</span> <span class="hljs-attr">for</span>=<span class="hljs-string">"content-tooltip-example-1"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"/tonic.svg"</span> <span class="hljs-attr">width</span>=<span class="hljs-string">"100px"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">content-tooltip</span>&gt;</span>
+</code></pre>
 <h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>
 <table>

@@ -631,7 +631,7 @@ class ContentTooltip extends Tonic { /* global Tonic */
 
   defaults (props) {
     return {
-      width: '450px',
+      width: 'auto',
       height: 'auto'
     }
   }
@@ -643,7 +643,7 @@ class ContentTooltip extends Tonic { /* global Tonic */
   background: var(--window);
   border: 1px solid var(--border);
   border-radius: 2px;
-  transition: opacity 0.3s ease-in-out, z-index 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  transition: visibility 0.2s ease-in-out, opacity 0.2s ease-in-out, z-index 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
   visibility: hidden;
   z-index: -1;
   opacity: 0;
@@ -717,8 +717,11 @@ content-tooltip .tooltip.bottom .tooltip-arrow {
 
       tooltip.style.top = `${pos}px`
       tooltip.style.left = `${left}px`
-      tooltip.classList.add('show')
-    }, 128)
+
+      window.requestAnimationFrame(() => {
+        tooltip.classList.add('show')
+      })
+    }, 256)
   }
 
   hide () {
@@ -740,9 +743,13 @@ content-tooltip .tooltip.bottom .tooltip-arrow {
     if (width) style.push(`width: ${width};`)
     if (height) style.push(`height: ${height};`)
 
+    const value = this.root.innerHTML.trim()
+
     return `
-      <div style="${style}" class="tooltip">
-        ${this.root.innerHTML}
+      <div
+        style="${style}"
+        class="tooltip">
+          ${value}
         <span class="tooltip-arrow"></span>
       </div>
     `

@@ -1297,6 +1297,9 @@ class InputSelect extends Tonic { /* global Tonic */
   -moz-appearance: none;
   appearance: none;
 }
+input-select select[disabled] {
+  background-color: var(--background);
+}
 input-select label {
   color: var(--medium);
   font: 12px/14px var(--subheader);

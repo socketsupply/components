@@ -129,7 +129,7 @@ class NotificationInline extends Tonic { /* global Tonic */
   }
 
   connected () {
-    if (!this.props.display) return
+    if (this.props.display !== 'true') return
     if (this.root.querySelector('main')) return
     this.props.message = this.html
     this.create(this.props)

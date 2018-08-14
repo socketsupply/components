@@ -107,11 +107,6 @@ class NotificationInline extends Tonic { /* global Tonic */
   }
 
   show () {
-    if (!this.root.firstChild) {
-      this.props.message = this.props.message || this.root.innerHTML
-      this.create(this.props)
-    }
-
     window.requestAnimationFrame(() => {
       this.root.firstChild.classList.add('show')
     })
@@ -127,6 +122,17 @@ class NotificationInline extends Tonic { /* global Tonic */
 
     const notification = el.closest('.notification')
     if (notification) this.destroy(notification)
+  }
+
+  willConnect () {
+    this.html = this.root.innerHTML
+  }
+
+  connected () {
+    if (!this.props.display) return
+    if (this.root.querySelector('main')) return
+    this.props.message = this.html
+    this.create(this.props)
   }
 
   render () {

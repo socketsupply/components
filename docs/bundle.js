@@ -2450,7 +2450,7 @@ notification-inline .notification .close svg path {
 `
   }
 
-  create ({ message, title, duration, type } = {}) {
+  create ({ message, title, duration, type, dismiss } = {}) {
     this.show()
 
     while (this.root.firstChild) this.root.firstChild.remove()
@@ -2471,7 +2471,8 @@ notification-inline .notification .close svg path {
     messageElement.className = 'message'
     messageElement.innerHTML = message || this.props.message
 
-    if (!duration) {
+    console.log(dismiss)
+    if (!duration && (dismiss !== 'false')) {
       const close = document.createElement('div')
       close.className = 'close'
       close.style.backgroundImage = `url("${this.props.closeIcon}")`

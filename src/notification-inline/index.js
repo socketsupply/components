@@ -25,7 +25,7 @@ class NotificationInline extends Tonic { /* global Tonic */
     return `%style%`
   }
 
-  create ({ message, title, duration, type } = {}) {
+  create ({ message, title, duration, type, dismiss } = {}) {
     this.show()
 
     while (this.root.firstChild) this.root.firstChild.remove()
@@ -46,7 +46,7 @@ class NotificationInline extends Tonic { /* global Tonic */
     messageElement.className = 'message'
     messageElement.innerHTML = message || this.props.message
 
-    if (!duration) {
+    if (!duration && (dismiss !== 'false')) {
       const close = document.createElement('div')
       close.className = 'close'
       close.style.backgroundImage = `url("${this.props.closeIcon}")`

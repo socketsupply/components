@@ -126,6 +126,7 @@ The following examples are inline notifications with a specified `type` and asso
 | `message` | *string* | Adds a message. If no message attribute is provided the inner HTML will be used. |  |
 | `type` | *string* | Adds an alert type, `success`, `warning`, `danger` or `info`) |  |
 | `duration` | *string* | The duration that the component will be displayed before being hidden. |  |
+| `dismiss` | *boolean* | If set to `false`, the close button will not be added to the notification. |  |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
 ### Static Methods & Members

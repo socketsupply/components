@@ -2353,7 +2353,7 @@ notification-inline .notification .close svg path {
 
     const messageElement = document.createElement('div')
     messageElement.className = 'message'
-    messageElement.textContent = message || this.props.message
+    messageElement.innerHTML = message || this.props.message
 
     if (!duration) {
       const close = document.createElement('div')
@@ -2416,6 +2416,11 @@ notification-inline .notification .close svg path {
   }
 
   show () {
+    if (!this.root.firstChild) {
+      this.props.message = this.props.message || this.root.innerHTML
+      this.create(this.props)
+    }
+
     window.requestAnimationFrame(() => {
       this.root.firstChild.classList.add('show')
     })

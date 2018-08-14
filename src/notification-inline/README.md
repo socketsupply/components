@@ -123,9 +123,9 @@ The following examples are inline notifications with a specified `type` and asso
 | `id` | *string* | Adds an `id` attribute |  |
 | `name` | *string* | Adds a `name` attribute |  |
 | `title` | *string* | Adds a title |  |
-| `message` | *string* | Adds a message |  |
+| `message` | *string* | Adds a message. If no message attribute is provided the inner HTML will be used. |  |
 | `type` | *string* | Adds an alert type, `success`, `warning`, `danger` or `info`) |  |
-| `duration` | *string* | Adds a message |  |
+| `duration` | *string* | The duration that the component will be displayed before being hidden. |  |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
 ### Static Methods & Members

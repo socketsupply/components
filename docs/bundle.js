@@ -2471,7 +2471,6 @@ notification-inline .notification .close svg path {
     messageElement.className = 'message'
     messageElement.innerHTML = message || this.props.message
 
-    console.log(dismiss)
     if (!duration && (dismiss !== 'false')) {
       const close = document.createElement('div')
       close.className = 'close'
@@ -2555,7 +2554,7 @@ notification-inline .notification .close svg path {
   }
 
   connected () {
-    if (!this.props.display) return
+    if (this.props.display !== 'true') return
     if (this.root.querySelector('main')) return
     this.props.message = this.html
     this.create(this.props)

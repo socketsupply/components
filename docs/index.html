@@ -3056,6 +3056,46 @@ will automatically be parsed into json for you. Don&#39;t forget single quotes!<
 <span class="hljs-tag">&lt;/<span class="hljs-name">parent-component</span>&gt;</span></code></pre>
 <p>Alternatively, you can call the <code>setProps(...)</code> method on the element directly.</p>
 <pre><code class="language-js"><span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'parent'</span>).setProps(data)</code></pre>
+<h2 id="composing-components-">Composing components.</h2>
+<p>You may want to move the children of a component inside some aditional layout
+when the render() function is executed. The <code>this.children</code> property is helpful
+for this. This is not a &quot;special&quot; member of the <code>props</code> object like React
+(which is unintuitive), it&#39;s a member of the class instance.</p>
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Parent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+  render () {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`
+      &lt;div class="parent"&gt;
+        &lt;another-component&gt;
+          <span class="hljs-subst">${<span class="hljs-keyword">this</span>.children}</span>
+        &lt;/another-component&gt;
+      &lt;/div&gt;
+    `</span>
+  }
+}
+
+Tonic.add(Parent)
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Child</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+  render () {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`
+      &lt;div class="child"&gt;
+        <span class="hljs-subst">${<span class="hljs-keyword">this</span>.props.value}</span>
+      &lt;/div&gt;
+    `</span>
+  }
+}
+
+Tonic.add(Child)</code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">child</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"hello world"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">child</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span></code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"parent"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">child</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"child"</span>&gt;</span>hello world<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">child</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span></code></pre>
 <h2 id="exposing-methods-on-your-component">Exposing methods on your component</h2>
 <p>Sometimes you want to expose a method for other people to use. All your
 component&#39;s methods are private by default! Here&#39;s how to make them accessible.</p>

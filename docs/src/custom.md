@@ -210,6 +210,57 @@ Alternatively, you can call the `setProps(...)` method on the element directly.
 document.getElementById('parent').setProps(data)
 ```
 
+## Composing components.
+
+You may want to move the children of a component inside some aditional layout
+when the render() function is executed. The `this.children` property is helpful
+for this. This is not a "special" member of the `props` object like React
+(which is unintuitive), it's a member of the class instance.
+
+```js
+class Parent extends Tonic {
+  render () {
+    return `
+      <div class="parent">
+        <another-component>
+          ${this.children}
+        </another-component>
+      </div>
+    `
+  }
+}
+
+Tonic.add(Parent)
+
+class Child extends Tonic {
+  render () {
+    return `
+      <div class="child">
+        ${this.props.value}
+      </div>
+    `
+  }
+}
+
+Tonic.add(Child)
+```
+
+```html
+<parent>
+  <child value="hello world"></child>
+</parent>
+```
+
+```html
+<parent>
+  <div class="parent">
+    <child>
+      <div class="child">hello world</div>
+    </child>
+  </div>
+</parent>
+```
+
 ## Exposing methods on your component
 
 Sometimes you want to expose a method for other people to use. All your

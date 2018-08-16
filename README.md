@@ -12,7 +12,7 @@ npm install hxoht/components
 ```
 
 ```js
-const Tonic = require('components')
+const Tonic = require('components') // Tonic is bundled in here and is the only export.
 ```
 
 If you want to produce build artifacts (like the base css), you can either

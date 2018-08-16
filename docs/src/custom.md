@@ -246,6 +246,7 @@ Tonic.add(Child)
 ```
 
 ### Input HTML
+
 ```html
 <parent>
   <child value="hello world"></child>

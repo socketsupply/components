@@ -245,7 +245,7 @@ class Child extends Tonic {
 Tonic.add(Child)
 ```
 
-### Input HTML
+#### Input HTML
 
 ```html
 <parent>
@@ -253,7 +253,7 @@ Tonic.add(Child)
 </parent>
 ```
 
-### Output HTML
+#### Output HTML
 
 ```html
 <parent>

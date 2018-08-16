@@ -3044,6 +3044,9 @@ intercept the click event and pass along some data to the parent component.</p>
     <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;child&gt;&lt;/child&gt;`</span>
   }
 }</code></pre>
+<p>The event object has a <a href="https://developer.mozilla.org/en-US/docs/Web/API/Event/stopPropagation"><code>.stopPropagation()</code></a> method that is useful for
+preventing an event from bubbling up to parent components. You may also be
+interested in the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault"><code>.preventDefault()</code></a> method.</p>
 <h2 id="passing-data-and-arguments">Passing data and arguments</h2>
 <p>Add components to your html, pass them arguments just like with regular html.</p>
 <pre><code class="language-js">&lt;my-component value=<span class="hljs-string">"7a"</span>&gt;

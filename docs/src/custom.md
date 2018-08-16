@@ -186,6 +186,10 @@ class Parent extends Tonic {
 }
 ```
 
+The event object has a [`.stopPropagation()`][8] method that is useful for
+preventing an event from bubbling up to parent components. You may also be
+interested in the [`.preventDefault()`][9] method.
+
 ## Passing data and arguments
 
 Add components to your html, pass them arguments just like with regular html.
@@ -375,3 +379,5 @@ component (as well as a few others).
 [5]:https://davidwalsh.name/event-delegate
 [6]:https://developer.mozilla.org/en-US/docs/Web/API/Element/matches
 [7]:https://developer.mozilla.org/en-US/docs/Web/API/Element/closest
+[8]:https://developer.mozilla.org/en-US/docs/Web/API/Event/stopPropagation
+[9]:https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault

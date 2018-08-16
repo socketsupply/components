@@ -322,8 +322,14 @@ link2.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
 
 
 <h2 id="code">Code</h2>
-<p>In order to link each tab to the section that will be displayed, pass <code>group</code> to the <code>content-tabs</code> component with the name of the group, i.e. &quot;profile&quot;. Within the component, each tab and each section must contain a corresponding <code>data-tab-name</code>.</p>
-<p>The default tab should have the class <code>selected</code> to start.</p>
+<p>In order to link each tab to the section that will be displayed, pass <code>group</code> to
+the <code>content-tabs</code> component with the name of the group, i.e. &quot;profile&quot;. Within
+the component, each tab and each section must contain a corresponding
+<code>data-tab-name</code>.</p>
+<p>The default tab should have the class <code>selected</code>. The structure inside the
+<code>content-tabs</code> component cab be whatever you want, spans, links, links inside
+divs, they can all be different, it doesn&#39;t matter as long as you use the
+<code>data-tab-name</code> property.</p>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">content-tabs</span> <span class="hljs-attr">group</span>=<span class="hljs-string">"profile"</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">data-tab-name</span>=<span class="hljs-string">"one"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"selected"</span>&gt;</span>One<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">data-tab-name</span>=<span class="hljs-string">"two"</span>&gt;</span>Two<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>

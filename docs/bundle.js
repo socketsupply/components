@@ -579,13 +579,17 @@ class ContentTabs extends Tonic { /* global Tonic */
     return (p || document).querySelector(s)
   }
 
+  getCurrentContentNode (group) {
+    return this.qs(`[data-tab-group="${group}"].show`)
+  }
+
   click (e) {
     e.preventDefault()
     if (!Tonic.match(e.target, '[data-tab-name]:not([data-tab-group])')) return
 
     const group = this.props.group
-    const currentContent = this.qs(`[data-tab-group="${group}"].show`)
-    if (currentContent) currentContent.classList.remove('show')
+    const currentContentNode = this.getCurrentContentNode(group)
+    if (currentContentNode) currentContentNode.classList.remove('show')
 
     const name = e.target.dataset.tabName
     const target = this.qs(`[data-tab-group="${group}"][data-tab-name="${name}"]`)
@@ -595,11 +599,26 @@ class ContentTabs extends Tonic { /* global Tonic */
       return
     }
 
-    const currentLink = this.qs(`[data-tab-name].selected`)
-    if (currentLink) currentLink.classList.remove('selected')
+    const currentContentLink = this.qs(`[data-tab-name].selected`)
+    if (currentContentLink) currentContentLink.classList.remove('selected')
 
     target.classList.add('show')
     e.target.classList.add('selected')
+  }
+
+  connected () {
+    const currentLink = this.qs(`[data-tab-name].selected`)
+    if (!currentLink) return
+
+    const name = currentLink.dataset.tabName
+    const group = this.props.group
+    console.log('TABS CONNECTED', name, group)
+    if (!group) return
+
+    const target = this.qs(`[data-tab-group="${group}"][data-tab-name="${name}"]`)
+    if (!target) return
+
+    target.classList.add('show')
   }
 
   render () {

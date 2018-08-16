@@ -18,7 +18,7 @@ The component `ContentTabs` creates a menu that activates sections when clicked 
           <span data-tab-name="two">Two</span>
           <span data-tab-name="three">Three</span>
         </content-tabs>
-        <section data-tab-group="profile" data-tab-name="one" class="show">
+        <section data-tab-group="profile" data-tab-name="one">
           Content One
         </section>
         <section data-tab-group="profile" data-tab-name="two">
@@ -53,10 +53,8 @@ The default tab should have the class `selected` to start.
 
 Each section must contain the `data-tab-name` corresponding to its tab and the attribute `data-tab-group` corresponding to the tabs `group`, i.e. "profile".
 
-The default section should have the class `show` to start.
-
 ```html
-<section data-tab-group="profile" data-tab-name="one" class="show">
+<section data-tab-group="profile" data-tab-name="one">
   Content One
 </section>
 

@@ -245,18 +245,23 @@ class Child extends Tonic {
 Tonic.add(Child)
 ```
 
+### Input HTML
 ```html
 <parent>
   <child value="hello world"></child>
 </parent>
 ```
 
+### Output HTML
+
 ```html
 <parent>
   <div class="parent">
-    <child>
-      <div class="child">hello world</div>
-    </child>
+    <another-component>
+      <child>
+        <div class="child">hello world</div>
+      </child>
+    </another-component>
   </div>
 </parent>
 ```

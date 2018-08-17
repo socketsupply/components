@@ -609,10 +609,20 @@ class ContentTabs extends Tonic { /* global Tonic */
   }
 
   connected () {
-    const currentLink = this.qs(`[data-tab-name].selected`, this.root)
-    if (!currentLink) return
+    let name = this.root.getAttribute('selected')
 
-    const name = currentLink.dataset.tabName
+    if (name) {
+      const targetLink = this.qs(`[data-tab-name=${name}]`, this.root)
+      targetLink.classList.add('selected')
+    } else {
+      const currentLink = this.qs(`[data-tab-name].selected`, this.root)
+      if (!currentLink) {
+        console.warn(`Not found '[data.tab-name].selected'`)
+        return
+      }
+      name = currentLink.dataset.tabName
+    }
+
     const group = this.props.group
     if (!group) return
 

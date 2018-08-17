@@ -293,8 +293,8 @@ link2.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
   <tbody>
     <tr>
       <td>
-        <content-tabs group="profile">
-          <span data-tab-name="one" class="selected">One</span>
+        <content-tabs group="profile" selected="two">
+          <span data-tab-name="one">One</span>
           <span data-tab-name="two">Two</span>
           <span data-tab-name="three">Three</span>
         </content-tabs>
@@ -327,9 +327,9 @@ Each tab in a tab group will have content that is associated by a <code>name</co
 <p>The structure inside the <code>content-tabs</code> component can be arbitrary, spans,
 links, links inside divs, they can all be different, it doesn&#39;t matter as long
 as you add the <code>data-tab-name</code> property to the thing that will be clicked.</p>
-<p>The default tab should have the class <code>selected</code>.</p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">content-tabs</span> <span class="hljs-attr">group</span>=<span class="hljs-string">"profile"</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">data-tab-name</span>=<span class="hljs-string">"one"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"selected"</span>&gt;</span>One<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<p>The default tab should be specified by the <code>selected</code> property.</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">content-tabs</span> <span class="hljs-attr">group</span>=<span class="hljs-string">"profile"</span> <span class="hljs-attr">selected</span>=<span class="hljs-string">"one"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">data-tab-name</span>=<span class="hljs-string">"one"</span>&gt;</span>One<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">data-tab-name</span>=<span class="hljs-string">"two"</span>&gt;</span>Two<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"special-tab"</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"/three.png"</span> <span class="hljs-attr">data-tab-name</span>=<span class="hljs-string">"three"</span>/&gt;</span>

@@ -13,8 +13,8 @@ The component `ContentTabs` creates a menu that activates sections when clicked 
   <tbody>
     <tr>
       <td>
-        <content-tabs group="profile">
-          <span data-tab-name="one" class="selected">One</span>
+        <content-tabs group="profile" selected="two">
+          <span data-tab-name="one">One</span>
           <span data-tab-name="two">Two</span>
           <span data-tab-name="three">Three</span>
         </content-tabs>
@@ -46,11 +46,11 @@ The structure inside the `content-tabs` component can be arbitrary, spans,
 links, links inside divs, they can all be different, it doesn't matter as long
 as you add the `data-tab-name` property to the thing that will be clicked.
 
-The default tab should have the class `selected`.
+The default tab should be specified by the `selected` property.
 
 ```html
-<content-tabs group="profile">
-  <span data-tab-name="one" class="selected">One</span>
+<content-tabs group="profile" selected="one">
+  <span data-tab-name="one">One</span>
   <span data-tab-name="two">Two</span>
   <div class="special-tab">
     <img src="/three.png" data-tab-name="three"/>

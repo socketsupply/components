@@ -322,20 +322,21 @@ link2.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
 
 
 <h2 id="code">Code</h2>
-<p>In order to link each tab to the section that will be displayed, pass <code>group</code> to
-the <code>content-tabs</code> component with the name of the group, i.e. &quot;profile&quot;. Within
-the component, each tab and each section must contain a corresponding
-<code>data-tab-name</code>.</p>
-<p>The default tab should have the class <code>selected</code>. The structure inside the
-<code>content-tabs</code> component cab be whatever you want, spans, links, links inside
-divs, they can all be different, it doesn&#39;t matter as long as you use the
-<code>data-tab-name</code> property.</p>
+<p>Tabs have two imporant concepts. The idea of a <code>group</code> and the idea of a <code>name</code>.
+Each tab in a tab group will have content that is associated by a <code>name</code>.</p>
+<p>The structure inside the <code>content-tabs</code> component can be arbitrary, spans,
+links, links inside divs, they can all be different, it doesn&#39;t matter as long
+as you add the <code>data-tab-name</code> property to the thing that will be clicked.</p>
+<p>The default tab should have the class <code>selected</code>.</p>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">content-tabs</span> <span class="hljs-attr">group</span>=<span class="hljs-string">"profile"</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">data-tab-name</span>=<span class="hljs-string">"one"</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"selected"</span>&gt;</span>One<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">data-tab-name</span>=<span class="hljs-string">"two"</span>&gt;</span>Two<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">data-tab-name</span>=<span class="hljs-string">"three"</span>&gt;</span>Three<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"special-tab"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"/three.png"</span> <span class="hljs-attr">data-tab-name</span>=<span class="hljs-string">"three"</span>/&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">content-tabs</span>&gt;</span></code></pre>
-<p>Each section must contain the <code>data-tab-name</code> corresponding to its tab and the attribute <code>data-tab-group</code> corresponding to the tabs <code>group</code>, i.e. &quot;profile&quot;.</p>
+<p>You can use any tag for the content (<code>section</code> is a nice one to use), and the
+tag containing the content can be located anywhere in your document.</p>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">section</span> <span class="hljs-attr">data-tab-group</span>=<span class="hljs-string">"profile"</span> <span class="hljs-attr">data-tab-name</span>=<span class="hljs-string">"one"</span>&gt;</span>
   Content One
 <span class="hljs-tag">&lt;/<span class="hljs-name">section</span>&gt;</span>

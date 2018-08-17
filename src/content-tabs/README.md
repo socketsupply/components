@@ -39,25 +39,27 @@ The component `ContentTabs` creates a menu that activates sections when clicked 
 
 ## Code
 
-In order to link each tab to the section that will be displayed, pass `group` to
-the `content-tabs` component with the name of the group, i.e. "profile". Within
-the component, each tab and each section must contain a corresponding
-`data-tab-name`.
+Tabs have two imporant concepts. The idea of a `group` and the idea of a `name`.
+Each tab in a tab group will have content that is associated by a `name`.
 
-The default tab should have the class `selected`. The structure inside the
-`content-tabs` component cab be whatever you want, spans, links, links inside
-divs, they can all be different, it doesn't matter as long as you use the
-`data-tab-name` property.
+The structure inside the `content-tabs` component can be arbitrary, spans,
+links, links inside divs, they can all be different, it doesn't matter as long
+as you add the `data-tab-name` property to the thing that will be clicked.
+
+The default tab should have the class `selected`.
 
 ```html
 <content-tabs group="profile">
   <span data-tab-name="one" class="selected">One</span>
   <span data-tab-name="two">Two</span>
-  <span data-tab-name="three">Three</span>
+  <div class="special-tab">
+    <img src="/three.png" data-tab-name="three"/>
+  </div>
 </content-tabs>
 ```
 
-Each section must contain the `data-tab-name` corresponding to its tab and the attribute `data-tab-group` corresponding to the tabs `group`, i.e. "profile".
+You can use any tag for the content (`section` is a nice one to use), and the
+tag containing the content can be located anywhere in your document.
 
 ```html
 <section data-tab-group="profile" data-tab-name="one">

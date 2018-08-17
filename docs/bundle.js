@@ -1445,7 +1445,7 @@ input-select.loading .wrapper:before {
   left: 50%;
   opacity: 1;
   transform: translateX(-50%);
-  border: 2px solid var(--border);
+  border: 2px solid var(--medium);
   border-radius: 50%;
   border-top-color: transparent;
   animation: spin 1s linear 0s infinite;

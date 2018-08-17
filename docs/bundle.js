@@ -2,7 +2,6 @@
 const scrollToY = require('scrolltoy')
 
 function ready () {
-  console.log('XXXXXX')
   const main = document.querySelector('main')
   const links = [].slice.call(document.querySelectorAll('nav ul li a'))
   const ranges = []
@@ -125,7 +124,7 @@ class Tonic {
     const name = Tonic._splitName(this.constructor.name)
     this.root = node || document.createElement(name)
     this.root.disconnect = index => this._disconnect(index)
-    this.root.rerender = v => this.rerender(v)
+    this.root.reRender = v => this.reRender(v)
     this.root.setState = v => this.setState(v)
     this.root.getProps = () => this.getProps()
     this.root.getState = () => this.getState()
@@ -187,7 +186,7 @@ class Tonic {
   html ([s, ...strings], ...values) {
     const reducer = (a, b) => a.concat(b, strings.shift())
     const filter = s => s && (s !== true || s === 0)
-    return Tonic.sanitize(values).reduce(reducer, [s]).filter(filter).join('')
+    return values.reduce(reducer, [s]).filter(filter).join('')
   }
 
   setState (o) {
@@ -198,10 +197,10 @@ class Tonic {
     return this.state
   }
 
-  rerender (o = this.props) {
+  reRender (o = this.props) {
     const oldProps = JSON.parse(JSON.stringify(this.props))
     this.props = Tonic.sanitize(typeof o === 'function' ? o(this.props) : o)
-    if (!this.root) throw new Error('.rerender called on destroyed component, see guide.')
+    if (!this.root) throw new Error('.reRender called on destroyed component, see guide.')
     this._setContent(this.root, this.render())
     Tonic._constructTags(this.root)
     this.updated && this.updated(oldProps)
@@ -1077,8 +1076,9 @@ Tonic.add(IconContainer)
 class InputButton extends Tonic { /* global Tonic */
   constructor (props) {
     super(props)
-    this.root.done = () => this.done()
+    this.root.loading = (state) => this.loading(state)
   }
+
   defaults () {
     return {
       value: 'Submit',
@@ -1216,20 +1216,17 @@ input-button button:before {
 `
   }
 
-  done () {
+  loading (state) {
     window.requestAnimationFrame(() => {
       const button = this.root.querySelector('button')
-      button.classList.remove('loading')
+      const method = state ? 'add' : 'remove'
+      if (button) button.classList[method]('loading')
     })
   }
 
   click () {
     if (!this.props.async) return
-
-    window.requestAnimationFrame(() => {
-      const button = this.root.querySelector('button')
-      button.classList.add('loading')
-    })
+    this.loading(true)
   }
 
   render () {
@@ -1426,6 +1423,11 @@ InputCheckbox.svg.iconOff = (color) => InputCheckbox.svg.toURL(`
 Tonic.add(InputCheckbox)
 
 class InputSelect extends Tonic { /* global Tonic */
+  constructor (props) {
+    super(props)
+    this.root.loading = (state) => this.loading(state)
+  }
+
   defaults () {
     return {
       disabled: false,
@@ -1461,6 +1463,28 @@ input-select label {
   display: block;
 }
 `
+  }
+
+  get value () {
+    return this.root.querySelector('select').value
+  }
+
+  get option () {
+    const node = this.root.querySelector('select')
+    return node.options[node.selectedIndex]
+  }
+
+  get selectedIndex () {
+    const node = this.root.querySelector('select')
+    return node.selectedIndex
+  }
+
+  loading (state) {
+    window.requestAnimationFrame(() => {
+      const select = this.root.querySelector('select')
+      const method = state ? 'add' : 'remove'
+      if (select) select.classList[method]('loading')
+    })
   }
 
   renderLabel () {
@@ -1552,9 +1576,12 @@ class InputText extends Tonic { /* global Tonic */
       radius: '3px',
       disabled: false,
       width: '250px',
-      position: 'right',
       errorMessage: 'Invalid'
     }
+  }
+
+  get value () {
+    return this.root.querySelector('input').value
   }
 
   setValid () {
@@ -1810,6 +1837,10 @@ input-textarea label {
   display: block;
 }
 `
+  }
+
+  get value () {
+    return this.root.querySelector('textarea').value
   }
 
   renderLabel () {
@@ -3132,20 +3163,6 @@ button.addEventListener('click', e => {
   setTimeout(() => {
     button.done()
   }, 3e3)
-})
-document.addEventListener('DOMContentLoaded', e => {
-  const notification = document.getElementsByTagName('notification-center')[0]
-  const select = document.getElementById('options-example-1')
-
-  select.addEventListener('change', ({ target }) => {
-    const { value } = target.options[target.selectedIndex]
-    notification.create({
-      type: 'success',
-      message: `The value of the selected option was "${value}".`,
-      title: 'Selection',
-      duration: 2000
-    })
-  })
 })
 const setInvalid = document.querySelector('input-button[value="set-invalid"]')
 const setValid = document.querySelector('input-button[value="set-valid"]')

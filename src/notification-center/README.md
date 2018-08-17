@@ -47,20 +47,35 @@ The component `NotificationCenter` creates a container for all notifications to 
   </tbody>
 </table>
 
-%html%
+<notification-center></notification-center>
 
 ## Code
 
 The following code should be included once on the page:
 
+#### HTML
 ```html
-%html%
+<notification-center></notification-center>
 ```
+
+---
 
 To create a new notification:
 
+#### JS
 ```js
-%js%
+const notification = document.querySelector('notification-center')
+
+const onClick = (id, fn) => document
+  .getElementById(id)
+  .addEventListener('click', fn)
+
+onClick('notification-button', e => notification.create({
+  type: 'success',
+  title: 'Howdy',
+  message: 'Will self destruct in 3 seconds',
+  duration: 3e3
+}))
 ```
 
 ## Api

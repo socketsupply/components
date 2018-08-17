@@ -16,6 +16,10 @@ class InputTextarea extends Tonic { /* global Tonic */
     return `%style%`
   }
 
+  get value () {
+    return this.root.querySelector('textarea').value
+  }
+
   renderLabel () {
     if (!this.props.label) return ''
     return `<label>${this.props.label}</label>`

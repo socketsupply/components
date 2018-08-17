@@ -137,13 +137,16 @@
   of components built with Tonic as well as how to build your own components
   using Tonic.
 </p>
+
+<span class="status"></span>
+
 <div class="row">
   <h3>Features</h3>
   <div class="col">
     <ul>
       <li>Tonic is tiny. About 150 lines of code.</li>
       <li>React-like component composition.</li>
-      <li>One-way data binding. Pipe data though connected components.</li>
+      <li>One-way data binding. Pipe data through connected components.</li>
     </ul>
   </div>
   <div class="col">
@@ -154,11 +157,9 @@
     </ul>
   </div>
 
-  <p>Please Note: When changing component properties in HTML, do not use camel case.
-  <br>For example, <code>background-color</code> instead of <code>backgroundColor</code>.</p>
+  <p>Note: When changing component properties in HTML, do not use camel case.
+  <br>For example, use <code>background-color</code> instead of <code>backgroundColor</code>.</p>
 </div>
-
-<span class="status"></span>
 
           </section>
 
@@ -1166,7 +1167,7 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
 </tr>
 </tbody></table>
 </section><section id="inputselect"><h1 id="inputselect">InputSelect</h1>
-<p>The component <code>InputSelect</code> creates an select input, with or without a label.</p>
+<p>The component <code>InputSelect</code> creates an select input.</p>
 <h2 id="demo">Demo</h2>
 <table class="example">
   <thead>
@@ -1178,19 +1179,7 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
   <tbody>
     <tr>
       <td>
-        <input-select id="options-example-1">
-          <option value="option-a">Option A</option>
-          <option value="option-b">Option B</option>
-          <option value="option-c">Option C</option>
-        </input-select>
-      </td>
-      <td>
-        <span id="select-example-tooltip-1">Default select (using <code>change</code> event)</span>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <input-select id="options-example-2">
+        <input-select label="Type of Bird" id="options-example-1">
           <option value="none" selected disabled>Select One</option>
           <optgroup label="Aerial Birds">
             <option value="sparrow">Sparrow</option>
@@ -1204,60 +1193,18 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
         </input-select>
       </td>
       <td>
-        <span id="select-example-tooltip-2">
-          Select with <code>optgroup</code>
-        </span>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <input-select label="label" id="options-example-3">
-          <option value="option-a">Option A</option>
-          <option value="option-b">Option B</option>
-          <option value="option-c">Option C</option>
-        </input-select>
-      </td>
-      <td>
-        <span id="select-example-tooltip-3">Select box with label</span>
+        <span id="select-example-tooltip-1">Default select with label (using <code>change</code> event)</span>
       </td>
     </tr>
   </tbody>
 </table>
 
-<content-tooltip for="select-example-tooltip-1">
-
-<p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-select</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"options-example-1"</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"option-a"</span>&gt;</span>Option A<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"option-b"</span>&gt;</span>Option B<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"option-c"</span>&gt;</span>Option C<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">input-select</span>&gt;</span></code></pre>
-</content-tooltip>
-
-<content-tooltip for="select-example-tooltip-2" width="500px">
-
-<p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-select</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"options-example-2"</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"none"</span> <span class="hljs-attr">selected</span> <span class="hljs-attr">disabled</span>&gt;</span>Select One<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">optgroup</span> <span class="hljs-attr">label</span>=<span class="hljs-string">"Aerial Birds"</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"sparrow"</span>&gt;</span>Sparrow<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"dove"</span>&gt;</span>Dove<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"crow"</span>&gt;</span>Crow<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">optgroup</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">optgroup</span> <span class="hljs-attr">label</span>=<span class="hljs-string">"Water Birds"</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"duck"</span>&gt;</span>Duck<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"swan"</span>&gt;</span>Swan<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">optgroup</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">input-select</span>&gt;</span></code></pre>
-</content-tooltip>
-
-<content-tooltip for="select-example-tooltip-3">
-
-<p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-select</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"options-example-1"</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"option-a"</span>&gt;</span>Option A<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"option-b"</span>&gt;</span>Option B<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"option-c"</span>&gt;</span>Option C<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
+<h2 id="code">Code</h2>
+<h4 id="html">HTML</h4>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-select</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"a"</span>&gt;</span>Option A<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"b"</span>&gt;</span>Option B<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"c"</span>&gt;</span>Option C<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">input-select</span>&gt;</span></code></pre>
 <h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>
@@ -1341,7 +1288,19 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
 </thead>
 <tbody><tr>
 <td align="left"><code>change()</code></td>
-<td align="left">Bind to the <code>change</code> event</td>
+<td align="left">The native <code>change</code> event on the select input.</td>
+</tr>
+<tr>
+<td align="left"><code>option</code></td>
+<td align="left">A <code>getter</code> that provides the currently selected option from the select input inside the component.</td>
+</tr>
+<tr>
+<td align="left"><code>value</code></td>
+<td align="left">A <code>getter</code> that provides the current value of the select input from inside of the component.</td>
+</tr>
+<tr>
+<td align="left"><code>selectedIndex</code></td>
+<td align="left">A <code>getter</code> that provides the selected index of the select input inside the component.</td>
 </tr>
 </tbody></table>
 </section><section id="inputtext"><h1 id="inputtext">InputText</h1>
@@ -1355,14 +1314,6 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
     </tr>
   </thead>
   <tbody>
-    <tr>
-      <td><input-text></input-text></td>
-      <td>
-        <span id="input-example-tooltip-1">
-          Default input (without label)
-        </span>
-      </td>
-    </tr>
     <tr>
       <td>
         <input-text label="label" placeholder="Type something...">
@@ -1399,44 +1350,6 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
     <tr>
       <td>
         <input-text
-          src="./sprite.svg#example"
-          position="right"
-          label="Input with Icon">
-        </input-text>
-      </td>
-      <td>
-        <span id="input-example-tooltip-4">
-          Input with label and icon (right)
-        </span>
-      </td>
-    </tr>
-    <tr>
-      <td><input-text label="Disabled Input" disabled></input-text></td>
-      <td>
-        <span id="input-example-tooltip-5">
-          Input with label and <code>disabled</code> attribute
-        </span>
-      </td>
-    </tr>
-    <tr>
-      <td><input-text label="Input with Value" value="Value"></input-text></td>
-      <td>
-        <span id="input-example-tooltip-7">
-          Input with label & value
-        </span>
-      </td>
-    </tr>
-    <tr>
-      <td><input-text width="100%" label="Full Width"></input-text></td>
-      <td>
-        <span id="input-example-tooltip-8">
-          Full width with label
-        </span>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <input-text
           width="100%"
           id="input-invalidation-example-1">
         </input-text>
@@ -1453,12 +1366,6 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
     </tr>
   </tbody>
 </table>
-
-<content-tooltip for="input-example-tooltip-1" width="300px">
-
-<p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-text</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">input-text</span>&gt;</span></code></pre>
-</content-tooltip>
 
 <content-tooltip for="input-example-tooltip-2" width="400px">
 
@@ -1479,25 +1386,6 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
 <span class="hljs-tag">&lt;/<span class="hljs-name">input-text</span>&gt;</span></code></pre>
 </content-tooltip>
 
-<content-tooltip for="input-example-tooltip-4" width="300px">
-
-<p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-text</span>
-  <span class="hljs-attr">src</span>=<span class="hljs-string">"./sprite.svg#example"</span>
-  <span class="hljs-attr">position</span>=<span class="hljs-string">"right"</span>
-  <span class="hljs-attr">label</span>=<span class="hljs-string">"Input with Icon"</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">input-text</span>&gt;</span></code></pre>
-</content-tooltip>
-
-<content-tooltip for="input-example-tooltip-5" width="300px">
-
-<p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-text</span>
-  <span class="hljs-attr">label</span>=<span class="hljs-string">"Disabled Input"</span>
-  <span class="hljs-attr">disabled</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">input-text</span>&gt;</span></code></pre>
-</content-tooltip>
-
 <content-tooltip for="input-example-tooltip-6" width="350px">
 
 <p><span class="code-type">html</span></p>
@@ -1505,24 +1393,6 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
   <span class="hljs-attr">label</span>=<span class="hljs-string">"Email Address"</span>
   <span class="hljs-attr">type</span>=<span class="hljs-string">"email"</span>
   <span class="hljs-attr">error-message</span>=<span class="hljs-string">"Invalid Email"</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">input-text</span>&gt;</span></code></pre>
-</content-tooltip>
-
-<content-tooltip for="input-example-tooltip-7" width="300px">
-
-<p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-text</span>
-  <span class="hljs-attr">label</span>=<span class="hljs-string">"Input with Value"</span>
-  <span class="hljs-attr">value</span>=<span class="hljs-string">"Value"</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">input-text</span>&gt;</span></code></pre>
-</content-tooltip>
-
-<content-tooltip for="input-example-tooltip-8" width="275px">
-
-<p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-text</span>
-  <span class="hljs-attr">width</span>=<span class="hljs-string">"100%"</span>
-  <span class="hljs-attr">label</span>=<span class="hljs-string">"Full Width"</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">input-text</span>&gt;</span></code></pre>
 </content-tooltip>
 
@@ -1666,98 +1536,36 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
   </thead>
   <tbody>
     <tr>
-      <td><input-textarea></input-textarea></td>
-      <td>
-        <span id="textarea-tooltip-1">
-          Default Text area
-        </span>
-      </td>
-    </tr>
-    <tr>
-      <td><input-textarea resize="none"></input-textarea></td>
-      <td>
-        <span id="textarea-tooltip-2">
-          Text area without resize
-        </span>
-      </td>
-    </tr>
-    <tr>
       <td><input-textarea placeholder="Type in me"></input-textarea></td>
       <td>
-        <span id="textarea-tooltip-3">
+        <span id="textarea-tooltip-1">
           Default Text area with placeholder
         </span>
       </td>
     </tr>
     <tr>
       <td>
-        <input-textarea label="Label">-----BEGIN RSA PRIVATE KEY-----
-MIIJKQIBAAKCAgEApbbV5/5tQihBemiceFEbBv7olUAnzwpTLQExUnmEF45XqPJO
-xDnpNDqIYjkx/aHyc8OsBSyZWkNMLmoaMGDfZ7rPWEtUoXj8nK4PY4QcpYq9/Dtr
-zXhcHsrZA1Sq8VE/FxqV8NsoKb+rAL3ZqfPZ2A41PJ0OND+vPaUQ/+z0FOMUWr/+
-8uDrE0dZphVMNTrmrt/nbPLWh7IGLPxoy3Rrd5e+Nh660ndapjQU0XP71S6DVJ5B
-iqclwg8aJP68sDqvLwbzUae5j0pAzPq/NTiESarxQMeBxHeePLPcxPoWC7+HVBKp
-+fBBcogKeeGGa3XLO1cIJDmV4YeJj4VRgallkVzri4JAwSA2UArC5WfGmmBzKRE3
-DQOpwmgVzh0l4D4WxEC+Zgg181JacsahBmgxZxtMVFZ4yT+nW5TMHRo1lSTS...
------END RSA PRIVATE KEY-----</input-textarea>
+        <input-textarea label="Text Area" rows="6" placeholder="Type in me">
+It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair, we had everything before us, we had nothing before us, we were all going direct to Heaven, we were all going direct the other way—in short, the period was so far like the present period, that some of its noisiest authorities insisted on its being received, for good or for evil, in the superlative degree of comparison only.
+        </input-textarea>
       </td>
       <td>
-        <span id="textarea-tooltip-4">
+        <span id="textarea-tooltip-2">
           Text area with label and content
-        </span>
-      </td>
-    </tr>
-    <tr>
-      <td><input-textarea label="Disabled Text Area" disabled></input-textarea></td>
-      <td>
-        <span id="textarea-tooltip-5">
-          Text area with <code>disabled</code> attribute and label
         </span>
       </td>
     </tr>
   </tbody>
 </table>
 
-<content-tooltip for="textarea-tooltip-1" width="350px">
-
-<p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-textarea</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">input-textarea</span>&gt;</span></code></pre>
-</content-tooltip>
-
-<content-tooltip for="textarea-tooltip-2" width="250px">
-
-<p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-textarea</span>
-  <span class="hljs-attr">resize</span>=<span class="hljs-string">"none"</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">input-textarea</span>&gt;</span></code></pre>
-</content-tooltip>
-
-<content-tooltip for="textarea-tooltip-3" width="300px">
-
-<p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-textarea</span>
-  <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Type in me"</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">input-textarea</span>&gt;</span></code></pre>
-</content-tooltip>
-
-<content-tooltip for="textarea-tooltip-4" width="250px">
-
-<p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-textarea</span>
-  <span class="hljs-attr">label</span>=<span class="hljs-string">"Label"</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">input-textarea</span>&gt;</span></code></pre>
-</content-tooltip>
-
-<content-tooltip for="textarea-tooltip-5" width="300px">
-
-<p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-textarea</span>
-  <span class="hljs-attr">label</span>=<span class="hljs-string">"Disabled Text Area"</span>
-  <span class="hljs-attr">disabled</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">input-textarea</span>&gt;</span></code></pre>
-</content-tooltip>
-
-
+<h2 id="code">Code</h2>
+<h4 id="html">Html</h4>
+<pre><code class="language-html">  <span class="hljs-tag">&lt;<span class="hljs-name">input-textarea</span>
+    <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Placeholder"</span>
+    <span class="hljs-attr">rows</span>=<span class="hljs-string">"6"</span>
+    <span class="hljs-attr">label</span>=<span class="hljs-string">"Text Area"</span>&gt;</span>
+    <span class="hljs-comment">&lt;!-- Content Goes Here --&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">input-textarea</span>&gt;</span></code></pre>
 <h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>
 <table>
@@ -1884,14 +1692,6 @@ DQOpwmgVzh0l4D4WxEC+Zgg181JacsahBmgxZxtMVFZ4yT+nW5TMHRo1lSTS...
   </thead>
   <tbody>
     <tr>
-      <td><input-toggle id="toggle-example-1"></input-toggle></td>
-      <td>
-        <span id="toggle-example-tooltip-1">
-          Default toggle
-        </span>
-      </td>
-    </tr>
-    <tr>
       <td><input-toggle checked id="toggle-example-2"></input-toggle></td>
       <td>
         <span id="toggle-example-tooltip-2">
@@ -1907,24 +1707,8 @@ DQOpwmgVzh0l4D4WxEC+Zgg181JacsahBmgxZxtMVFZ4yT+nW5TMHRo1lSTS...
         </span>
       </td>
     </tr>
-    <tr>
-      <td><input-toggle id="toggle-example-4" label="Disabled" disabled></input-toggle></td>
-      <td>
-        <span id="toggle-example-tooltip-4">
-          Toggle with <code>disabled</code> attribute and label
-        </span>
-      </td>
-    </tr>
   </tbody>
 </table>
-
-<content-tooltip for="toggle-example-tooltip-1" width="300px">
-
-<p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-toggle</span>
-  <span class="hljs-attr">id</span>=<span class="hljs-string">"toggle-example-1"</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">input-toggle</span>&gt;</span></code></pre>
-</content-tooltip>
 
 <content-tooltip for="toggle-example-tooltip-2" width="300px">
 
@@ -1941,15 +1725,6 @@ DQOpwmgVzh0l4D4WxEC+Zgg181JacsahBmgxZxtMVFZ4yT+nW5TMHRo1lSTS...
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-toggle</span>
   <span class="hljs-attr">id</span>=<span class="hljs-string">"toggle-example-3"</span>
   <span class="hljs-attr">label</span>=<span class="hljs-string">"Label"</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">input-toggle</span>&gt;</span></code></pre>
-</content-tooltip>
-
-<content-tooltip for="toggle-example-tooltip-4" width="300px">
-
-<p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-toggle</span>
-  <span class="hljs-attr">id</span>=<span class="hljs-string">"toggle-example-4"</span>
-  <span class="hljs-attr">label</span>=<span class="hljs-string">"Disabled"</span> <span class="hljs-attr">disabled</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">input-toggle</span>&gt;</span></code></pre>
 </content-tooltip>
 
@@ -2037,15 +1812,11 @@ DQOpwmgVzh0l4D4WxEC+Zgg181JacsahBmgxZxtMVFZ4yT+nW5TMHRo1lSTS...
   </tbody>
 </table>
 
-<content-tooltip for="notification-badge-tooltip-1">
-
-<p><span class="code-type">html</span></p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">notification-badge</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">notification-badge</span>&gt;</span></code></pre>
-</content-tooltip>
-
-
 <h2 id="code">Code</h2>
 <p>To update the notification count, pass in the <code>count</code> property.</p>
+<h4 id="html">HTML</h4>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">notification-badge</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">notification-badge</span>&gt;</span></code></pre>
+<h4 id="js">JS</h4>
 <pre><code class="language-js">notificationBadge.reRender(<span class="hljs-function"><span class="hljs-params">props</span> =&gt;</span> ({
   ...props,
   <span class="hljs-attr">count</span>: <span class="hljs-string">`<span class="hljs-subst">${count}</span>`</span>
@@ -2077,7 +1848,7 @@ DQOpwmgVzh0l4D4WxEC+Zgg181JacsahBmgxZxtMVFZ4yT+nW5TMHRo1lSTS...
 <td align="left"><code>count</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">Updates the <code>count</code> property</td>
-<td align="left"></td>
+<td align="left"><code>0</code></td>
 </tr>
 <tr>
 <td align="left"><code>theme</code></td>
@@ -2136,42 +1907,23 @@ DQOpwmgVzh0l4D4WxEC+Zgg181JacsahBmgxZxtMVFZ4yT+nW5TMHRo1lSTS...
 <p><notification-center></notification-center></p>
 <h2 id="code">Code</h2>
 <p>The following code should be included once on the page:</p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">notification-center</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">notification-center</span>&gt;</span>
-
-</code></pre>
+<h4 id="html">HTML</h4>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">notification-center</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">notification-center</span>&gt;</span></code></pre>
+<hr>
 <p>To create a new notification:</p>
+<h4 id="js">JS</h4>
 <pre><code class="language-js"><span class="hljs-keyword">const</span> notification = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'notification-center'</span>)
 
 <span class="hljs-keyword">const</span> onClick = <span class="hljs-function">(<span class="hljs-params">id, fn</span>) =&gt;</span> <span class="hljs-built_in">document</span>
   .getElementById(id)
   .addEventListener(<span class="hljs-string">'click'</span>, fn)
 
-onClick(<span class="hljs-string">'notification-button-1'</span>, e =&gt; notification.create({
-  <span class="hljs-attr">message</span>: <span class="hljs-string">'Hello, World'</span>, <span class="hljs-attr">title</span>: <span class="hljs-string">'Greetings'</span>
-}))
-
-onClick(<span class="hljs-string">'notification-button-2'</span>, e =&gt; notification.create({
-  <span class="hljs-attr">type</span>: <span class="hljs-string">'success'</span>
-}))
-
-onClick(<span class="hljs-string">'notification-button-3'</span>, e =&gt; notification.create({
-  <span class="hljs-attr">type</span>: <span class="hljs-string">'warning'</span>
-}))
-
-onClick(<span class="hljs-string">'notification-button-4'</span>, e =&gt; notification.create({
-  <span class="hljs-attr">type</span>: <span class="hljs-string">'danger'</span>
-}))
-
-onClick(<span class="hljs-string">'notification-button-5'</span>, e =&gt; notification.create({
-  <span class="hljs-attr">type</span>: <span class="hljs-string">'info'</span>
-}))
-
-onClick(<span class="hljs-string">'notification-button-6'</span>, e =&gt; notification.create({
-  <span class="hljs-attr">message</span>: <span class="hljs-string">'Will self destruct in 3 seconds'</span>,
+onClick(<span class="hljs-string">'notification-button'</span>, e =&gt; notification.create({
+  <span class="hljs-attr">type</span>: <span class="hljs-string">'success'</span>,
   <span class="hljs-attr">title</span>: <span class="hljs-string">'Howdy'</span>,
+  <span class="hljs-attr">message</span>: <span class="hljs-string">'Will self destruct in 3 seconds'</span>,
   <span class="hljs-attr">duration</span>: <span class="hljs-number">3e3</span>
-}))
-</code></pre>
+}))</code></pre>
 <h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>
 <table>

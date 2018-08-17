@@ -1,8 +1,9 @@
 class InputButton extends Tonic { /* global Tonic */
   constructor (props) {
     super(props)
-    this.root.done = () => this.done()
+    this.root.loading = (state) => this.loading(state)
   }
+
   defaults () {
     return {
       value: 'Submit',
@@ -18,20 +19,17 @@ class InputButton extends Tonic { /* global Tonic */
     return `%style%`
   }
 
-  done () {
+  loading (state) {
     window.requestAnimationFrame(() => {
       const button = this.root.querySelector('button')
-      button.classList.remove('loading')
+      const method = state ? 'add' : 'remove'
+      if (button) button.classList[method]('loading')
     })
   }
 
   click () {
     if (!this.props.async) return
-
-    window.requestAnimationFrame(() => {
-      const button = this.root.querySelector('button')
-      button.classList.add('loading')
-    })
+    this.loading(true)
   }
 
   render () {

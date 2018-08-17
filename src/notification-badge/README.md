@@ -28,12 +28,16 @@ The component `NotificationBadge` creates a notification badge with a counter an
   </tbody>
 </table>
 
-%html%
-
 ## Code
 
 To update the notification count, pass in the `count` property.
 
+#### HTML
+```html
+<notification-badge></notification-badge>
+```
+
+#### JS
 ```js
 notificationBadge.reRender(props => ({
   ...props,
@@ -49,5 +53,5 @@ notificationBadge.reRender(props => ({
 | :--- | :--- | :--- | :--- |
 | `id` | *string* | Adds the `id` attribute | |
 | `name` | *string* | Adds the `name` attribute | |
-| `count` | *string* | Updates the `count` property | |
+| `count` | *string* | Updates the `count` property | `0` |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |

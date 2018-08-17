@@ -13,59 +13,39 @@ The component `InputTextarea` creates a text area.
   </thead>
   <tbody>
     <tr>
-      <td><input-textarea></input-textarea></td>
-      <td>
-        <span id="textarea-tooltip-1">
-          Default Text area
-        </span>
-      </td>
-    </tr>
-    <tr>
-      <td><input-textarea resize="none"></input-textarea></td>
-      <td>
-        <span id="textarea-tooltip-2">
-          Text area without resize
-        </span>
-      </td>
-    </tr>
-    <tr>
       <td><input-textarea placeholder="Type in me"></input-textarea></td>
       <td>
-        <span id="textarea-tooltip-3">
+        <span id="textarea-tooltip-1">
           Default Text area with placeholder
         </span>
       </td>
     </tr>
     <tr>
       <td>
-        <input-textarea label="Label">-----BEGIN RSA PRIVATE KEY-----
-MIIJKQIBAAKCAgEApbbV5/5tQihBemiceFEbBv7olUAnzwpTLQExUnmEF45XqPJO
-xDnpNDqIYjkx/aHyc8OsBSyZWkNMLmoaMGDfZ7rPWEtUoXj8nK4PY4QcpYq9/Dtr
-zXhcHsrZA1Sq8VE/FxqV8NsoKb+rAL3ZqfPZ2A41PJ0OND+vPaUQ/+z0FOMUWr/+
-8uDrE0dZphVMNTrmrt/nbPLWh7IGLPxoy3Rrd5e+Nh660ndapjQU0XP71S6DVJ5B
-iqclwg8aJP68sDqvLwbzUae5j0pAzPq/NTiESarxQMeBxHeePLPcxPoWC7+HVBKp
-+fBBcogKeeGGa3XLO1cIJDmV4YeJj4VRgallkVzri4JAwSA2UArC5WfGmmBzKRE3
-DQOpwmgVzh0l4D4WxEC+Zgg181JacsahBmgxZxtMVFZ4yT+nW5TMHRo1lSTS...
------END RSA PRIVATE KEY-----</input-textarea>
+        <input-textarea label="Text Area" rows="6" placeholder="Type in me">
+It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair, we had everything before us, we had nothing before us, we were all going direct to Heaven, we were all going direct the other way—in short, the period was so far like the present period, that some of its noisiest authorities insisted on its being received, for good or for evil, in the superlative degree of comparison only.
+        </input-textarea>
       </td>
       <td>
-        <span id="textarea-tooltip-4">
+        <span id="textarea-tooltip-2">
           Text area with label and content
-        </span>
-      </td>
-    </tr>
-    <tr>
-      <td><input-textarea label="Disabled Text Area" disabled></input-textarea></td>
-      <td>
-        <span id="textarea-tooltip-5">
-          Text area with <code>disabled</code> attribute and label
         </span>
       </td>
     </tr>
   </tbody>
 </table>
 
-%html%
+## Code
+
+#### Html
+```html
+  <input-textarea
+    placeholder="Placeholder"
+    rows="6"
+    label="Text Area">
+    <!-- Content Goes Here -->
+  </input-textarea>
+```
 
 ## Api
 

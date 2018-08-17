@@ -13,14 +13,6 @@ The component `InputText` creates an input, with or without a label.
   </thead>
   <tbody>
     <tr>
-      <td><input-text></input-text></td>
-      <td>
-        <span id="input-example-tooltip-1">
-          Default input (without label)
-        </span>
-      </td>
-    </tr>
-    <tr>
       <td>
         <input-text label="label" placeholder="Type something...">
         </input-text>
@@ -50,44 +42,6 @@ The component `InputText` creates an input, with or without a label.
       <td>
         <span id="input-example-tooltip-3">
           Input with label and icon (left)
-        </span>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <input-text
-          src="./sprite.svg#example"
-          position="right"
-          label="Input with Icon">
-        </input-text>
-      </td>
-      <td>
-        <span id="input-example-tooltip-4">
-          Input with label and icon (right)
-        </span>
-      </td>
-    </tr>
-    <tr>
-      <td><input-text label="Disabled Input" disabled></input-text></td>
-      <td>
-        <span id="input-example-tooltip-5">
-          Input with label and <code>disabled</code> attribute
-        </span>
-      </td>
-    </tr>
-    <tr>
-      <td><input-text label="Input with Value" value="Value"></input-text></td>
-      <td>
-        <span id="input-example-tooltip-7">
-          Input with label & value
-        </span>
-      </td>
-    </tr>
-    <tr>
-      <td><input-text width="100%" label="Full Width"></input-text></td>
-      <td>
-        <span id="input-example-tooltip-8">
-          Full width with label
         </span>
       </td>
     </tr>

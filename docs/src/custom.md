@@ -6,7 +6,7 @@ Building a component starts with creating a [Javascript Class][0]. The class
 should have at least one method named *render* which usually returns a string
 of HTML.
 
-```js
+  ```js
 class MyGreeting extends Tonic {
   //
   // The render function can return a string of HTML, it can include other

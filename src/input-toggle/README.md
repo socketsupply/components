@@ -13,14 +13,6 @@ The component `InputToggle` creates a toggle.
   </thead>
   <tbody>
     <tr>
-      <td><input-toggle id="toggle-example-1"></input-toggle></td>
-      <td>
-        <span id="toggle-example-tooltip-1">
-          Default toggle
-        </span>
-      </td>
-    </tr>
-    <tr>
       <td><input-toggle checked id="toggle-example-2"></input-toggle></td>
       <td>
         <span id="toggle-example-tooltip-2">
@@ -33,14 +25,6 @@ The component `InputToggle` creates a toggle.
       <td>
         <span id="toggle-example-tooltip-3">
           Toggle with label
-        </span>
-      </td>
-    </tr>
-    <tr>
-      <td><input-toggle id="toggle-example-4" label="Disabled" disabled></input-toggle></td>
-      <td>
-        <span id="toggle-example-tooltip-4">
-          Toggle with <code>disabled</code> attribute and label
         </span>
       </td>
     </tr>

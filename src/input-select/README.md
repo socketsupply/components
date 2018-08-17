@@ -1,6 +1,6 @@
 # InputSelect
 
-The component `InputSelect` creates an select input, with or without a label.
+The component `InputSelect` creates an select input.
 
 ## Demo
 
@@ -14,19 +14,7 @@ The component `InputSelect` creates an select input, with or without a label.
   <tbody>
     <tr>
       <td>
-        <input-select id="options-example-1">
-          <option value="option-a">Option A</option>
-          <option value="option-b">Option B</option>
-          <option value="option-c">Option C</option>
-        </input-select>
-      </td>
-      <td>
-        <span id="select-example-tooltip-1">Default select (using <code>change</code> event)</span>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <input-select id="options-example-2">
+        <input-select label="Type of Bird" id="options-example-1">
           <option value="none" selected disabled>Select One</option>
           <optgroup label="Aerial Birds">
             <option value="sparrow">Sparrow</option>
@@ -40,27 +28,23 @@ The component `InputSelect` creates an select input, with or without a label.
         </input-select>
       </td>
       <td>
-        <span id="select-example-tooltip-2">
-          Select with <code>optgroup</code>
-        </span>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <input-select label="label" id="options-example-3">
-          <option value="option-a">Option A</option>
-          <option value="option-b">Option B</option>
-          <option value="option-c">Option C</option>
-        </input-select>
-      </td>
-      <td>
-        <span id="select-example-tooltip-3">Select box with label</span>
+        <span id="select-example-tooltip-1">Default select with label (using <code>change</code> event)</span>
       </td>
     </tr>
   </tbody>
 </table>
 
-%html%
+## Code
+
+#### HTML
+
+```html
+<input-select>
+  <option value="a">Option A</option>
+  <option value="b">Option B</option>
+  <option value="c">Option C</option>
+</input-select>
+```
 
 ## Api
 
@@ -83,4 +67,7 @@ The component `InputSelect` creates an select input, with or without a label.
 
 | Method | Description |
 | :--- | :--- |
-| `change()` | Bind to the `change` event |
+| `change()` | The native `change` event on the select input. |
+| `option` | A `getter` that provides the currently selected option from the select input inside the component. |
+| `value` | A `getter` that provides the current value of the select input from inside of the component. |
+| `selectedIndex` | A `getter` that provides the selected index of the select input inside the component. |

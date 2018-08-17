@@ -1,4 +1,9 @@
 class InputSelect extends Tonic { /* global Tonic */
+  constructor (props) {
+    super(props)
+    this.root.loading = (state) => this.loading(state)
+  }
+
   defaults () {
     return {
       disabled: false,
@@ -10,6 +15,28 @@ class InputSelect extends Tonic { /* global Tonic */
 
   style () {
     return `%style%`
+  }
+
+  get value () {
+    return this.root.querySelector('select').value
+  }
+
+  get option () {
+    const node = this.root.querySelector('select')
+    return node.options[node.selectedIndex]
+  }
+
+  get selectedIndex () {
+    const node = this.root.querySelector('select')
+    return node.selectedIndex
+  }
+
+  loading (state) {
+    window.requestAnimationFrame(() => {
+      const select = this.root.querySelector('select')
+      const method = state ? 'add' : 'remove'
+      if (select) select.classList[method]('loading')
+    })
   }
 
   renderLabel () {

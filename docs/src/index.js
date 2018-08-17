@@ -1,7 +1,6 @@
 const scrollToY = require('scrolltoy')
 
 function ready () {
-  console.log('XXXXXX')
   const main = document.querySelector('main')
   const links = [].slice.call(document.querySelectorAll('nav ul li a'))
   const ranges = []

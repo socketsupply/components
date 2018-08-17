@@ -16,9 +16,12 @@ class InputText extends Tonic { /* global Tonic */
       radius: '3px',
       disabled: false,
       width: '250px',
-      position: 'right',
       errorMessage: 'Invalid'
     }
+  }
+
+  get value () {
+    return this.root.querySelector('input').value
   }
 
   setValid () {

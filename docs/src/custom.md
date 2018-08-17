@@ -209,24 +209,24 @@ pass complex objects like functions though your HTML. Keep that in your JS!
 </parent-component>
 ```
 
-Alternatively, you can call the `rerender(...)` method on the element directly.
+Alternatively, you can call the `reRender(...)` method on the element directly.
 This is a better way to pass data if you have larger data it wont need to first
 pass though the html.
 
 ```js
-document.getElementById('parent').rerender({ data: [1,2,3, ...9999] })
+document.getElementById('parent').reRender({ data: [1,2,3, ...9999] })
 ```
 
 ## State and Props
 
-`.rerender()` and `.setState()` can receive either an object or a function as an
+`.reRender()` and `.setState()` can receive either an object or a function as an
 argument. For example...
 
 ```js
 //
 // Update a component's properties
 //
-myComponent.rerender(props => ({
+myComponent.reRender(props => ({
   ...props,
   color: 'red'
 }))
@@ -236,17 +236,17 @@ myComponent.rerender(props => ({
 //
 // Reset a component's properties
 //
-myComponent.rerender({ color: 'red' })
+myComponent.reRender({ color: 'red' })
 ```
 
 ```js
 //
 // Rerender a component with its existing properties
 //
-myComponent.rerender()
+myComponent.reRender()
 ```
 
-The value received by `.rerender() should represent the properties of the
+The value received by `.reRender() should represent the properties of the
 component (those properties should generally be considered immutable and
 provided by the top-most parent component).
 
@@ -342,7 +342,7 @@ class AnotherThing extends Tonic {
 
     //
     // If you have lots of structure, but only a few
-    // changes, you could prerender your layout to create
+    // changes, you could preRender your layout to create
     // a reusable node and pass it to the render method.
     // This structure could also come from a <template>
     // tag which would also improve performance.
@@ -356,11 +356,11 @@ class AnotherThing extends Tonic {
   willConnect () {
     //
     // Set state on a component instance or on this instance,
-    // .rerender() will cause a downward cascade of re-rendering.
+    // .reRender() will cause a downward cascade of re-rendering.
     // Set props can also accept a function that will provide
     // the current props as an argument.
     //
-    this.rerender({ value: 'foo' })
+    this.reRender({ value: 'foo' })
   }
 
   connected () {
@@ -394,11 +394,11 @@ class AnotherThing extends Tonic {
 | Method | Description |
 | :--- | :--- |
 | `emit(String, Object)` | Emit a custom event on the root element of the component. A listener will receive a plain old javascript event object that contains the [`detail`][4] property. |
-| `rerender(Object | Function)` | Set the properties of a component instance. Can also take a function which will receive the current props as an argument. |
+| `reRender(Object | Function)` | Set the properties of a component instance. Can also take a function which will receive the current props as an argument. |
 | `getProps()` | Get the properties of a component instance. |
 | `setState(Object | Function)` | Set the state of a component instance. Can also take a function which will receive the current props as an argument. |
-| `style()` | Returns a string of css to be inlined with the component. This will be "scoped" so that it does not affect the rest of the page. It will also persist across rerenders to save on parsing costs. |
-| `render()` | Returns html to be parsed or a dom node that will overwrite. There is usually no need to call this directly, prefer `componentInstance.rerender({ ... })`. |
+| `style()` | Returns a string of css to be inlined with the component. This will be "scoped" so that it does not affect the rest of the page. It will also persist across re-renders to save on parsing costs. |
+| `render()` | Returns html to be parsed or a dom node that will overwrite. There is usually no need to call this directly, prefer `componentInstance.reRender({ ... })`. |
 | html\`...\` | Tidy up an html string (use as a [tagged template][2]). |
 
 ## "LIFECYCLE" INSTANCE METHODS
@@ -412,7 +412,7 @@ component (as well as a few others).
 | `willConnect()` | Called prior to the element being inserted into the DOM. Useful for updating configuration, state and preparing for the render. |
 | `connected()` | Called every time the element is inserted into the DOM. Useful for running setup code, such as fetching resources or rendering. Generally, you should try to delay work until this time. |
 | `disconnected()` | Called every time the element is removed from the DOM. Useful for running clean up code. |
-| `updated(oldProps)` | Called after rerender() is called. This method is not called on the initial render. |
+| `updated(oldProps)` | Called after reRender() is called. This method is not called on the initial render. |
 
 [0]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
 [00]:https://caniuse.com/#search=domcontentloaded

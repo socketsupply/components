@@ -9,7 +9,7 @@ class Tonic {
     const name = Tonic._splitName(this.constructor.name)
     this.root = node || document.createElement(name)
     this.root.disconnect = index => this._disconnect(index)
-    this.root.rerender = v => this.rerender(v)
+    this.root.reRender = v => this.reRender(v)
     this.root.setState = v => this.setState(v)
     this.root.getProps = () => this.getProps()
     this.root.getState = () => this.getState()
@@ -82,10 +82,10 @@ class Tonic {
     return this.state
   }
 
-  rerender (o = this.props) {
+  reRender (o = this.props) {
     const oldProps = JSON.parse(JSON.stringify(this.props))
     this.props = Tonic.sanitize(typeof o === 'function' ? o(this.props) : o)
-    if (!this.root) throw new Error('.rerender called on destroyed component, see guide.')
+    if (!this.root) throw new Error('.reRender called on destroyed component, see guide.')
     this._setContent(this.root, this.render())
     Tonic._constructTags(this.root)
     this.updated && this.updated(oldProps)
@@ -186,12 +186,12 @@ class ContentRoute extends Tonic { /* global Tonic */
         var value = orig.call(this, ...args)
         window.dispatchEvent(new window.Event(type.toLowerCase()))
         const nodes = document.getElementsByTagName('content-route')
-        for (const node of nodes) node.rerender()
+        for (const node of nodes) node.reRender()
         return value
       }
     }
 
-    window.addEventListener('popstate', e => this.rerender(p => p))
+    window.addEventListener('popstate', e => this.reRender(p => p))
 
     window.history.pushState = createEvent('pushState')
     window.history.replaceState = createEvent('replaceState')
@@ -1425,13 +1425,13 @@ class InputText extends Tonic { /* global Tonic */
   }
 
   setValid () {
-    this.rerender(props => Object.assign({}, props, {
+    this.reRender(props => Object.assign({}, props, {
       invalid: false
     }))
   }
 
   setInvalid (msg) {
-    this.rerender(props => Object.assign({}, props, {
+    this.reRender(props => Object.assign({}, props, {
       invalid: true,
       errorMessage: msg
     }))

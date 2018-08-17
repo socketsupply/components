@@ -35,7 +35,7 @@ The component `NotificationBadge` creates a notification badge with a counter an
 To update the notification count, pass in the `count` property.
 
 ```js
-notificationBadge.rerender(props => ({
+notificationBadge.reRender(props => ({
   ...props,
   count: `${count}`
 }))

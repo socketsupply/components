@@ -11,12 +11,12 @@ class ContentRoute extends Tonic { /* global Tonic */
         var value = orig.call(this, ...args)
         window.dispatchEvent(new window.Event(type.toLowerCase()))
         const nodes = document.getElementsByTagName('content-route')
-        for (const node of nodes) node.rerender()
+        for (const node of nodes) node.reRender()
         return value
       }
     }
 
-    window.addEventListener('popstate', e => this.rerender(p => p))
+    window.addEventListener('popstate', e => this.reRender(p => p))
 
     window.history.pushState = createEvent('pushState')
     window.history.replaceState = createEvent('replaceState')

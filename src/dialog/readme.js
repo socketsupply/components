@@ -4,7 +4,7 @@ class MyDialog extends Tonic.Dialog {
 
     const color = Math.random().toString(16).slice(2, 8)
 
-    this.rerender(props => ({
+    this.reRender(props => ({
       ...props,
       color,
       message: `Random Color #${color}`

@@ -1,4 +1,37 @@
 input-select
+  .wrapper
+    position relative
+    &:before
+      content ''
+      width 14px
+      height 14px
+      opacity 0
+      z-index 1
+
+  &.loading
+    pointer-events none
+    transition background 0.3s ease
+
+    select
+      color transparent
+      background-color var(--window)
+      border-color var(--border)
+
+    .wrapper:before
+      margin-top -8px
+      margin-left -8px
+      display block
+      position absolute
+      bottom 10px
+      left 50%
+      opacity 1
+      transform translateX(-50%)
+      border 2px solid var(--medium)
+      border-radius 50%
+      border-top-color transparent
+      animation spin 1s linear 0s infinite
+      transition opacity 0.3s ease
+
   select
     font 14px var(--monospace)
     padding 10px 20px 10px 10px
@@ -8,8 +41,8 @@ input-select
     border 1px solid var(--border)
     outline none
     -webkit-appearance none
-    -moz-appearance none
     appearance none
+    position relative
 
     &[disabled]
       background-color var(--background)
@@ -22,3 +55,9 @@ input-select
     letter-spacing 1px
     padding-bottom 10px
     display block
+
+  @keyframes spin
+    from
+      transform rotate(0deg)
+    to
+      transform rotate(360deg)

@@ -1114,8 +1114,6 @@ input-button button {
   border: 1px solid var(--primary);
   outline: none;
   transition: all 0.3s ease;
-  -webkit-appearance: none;
-  -moz-appearance: none;
   appearance: none;
 }
 input-button button[disabled],
@@ -1149,13 +1147,10 @@ input-button button.loading:before {
   top: 50%;
   left: 50%;
   opacity: 1;
-  -webkit-transform: translateX(-50%) translateY(-50%);
-  -ms-transform: translateX(-50%) translateY(-50%);
   transform: translateX(-50%) translateY(-50%);
   border: 2px solid #fff;
   border-radius: 50%;
   border-top-color: transparent;
-  -webkit-animation: spin 1s linear 0s infinite;
   animation: spin 1s linear 0s infinite;
   transition: opacity 0.3s ease;
 }
@@ -1167,49 +1162,33 @@ input-button button:before {
 }
 @-moz-keyframes spin {
   from {
-    -webkit-transform: rotate(0deg);
-    -ms-transform: rotate(0deg);
     transform: rotate(0deg);
   }
   to {
-    -webkit-transform: rotate(360deg);
-    -ms-transform: rotate(360deg);
     transform: rotate(360deg);
   }
 }
 @-webkit-keyframes spin {
   from {
-    -webkit-transform: rotate(0deg);
-    -ms-transform: rotate(0deg);
     transform: rotate(0deg);
   }
   to {
-    -webkit-transform: rotate(360deg);
-    -ms-transform: rotate(360deg);
     transform: rotate(360deg);
   }
 }
 @-o-keyframes spin {
   from {
-    -webkit-transform: rotate(0deg);
-    -ms-transform: rotate(0deg);
     transform: rotate(0deg);
   }
   to {
-    -webkit-transform: rotate(360deg);
-    -ms-transform: rotate(360deg);
     transform: rotate(360deg);
   }
 }
 @keyframes spin {
   from {
-    -webkit-transform: rotate(0deg);
-    -ms-transform: rotate(0deg);
     transform: rotate(0deg);
   }
   to {
-    -webkit-transform: rotate(360deg);
-    -ms-transform: rotate(360deg);
     transform: rotate(360deg);
   }
 }
@@ -1438,7 +1417,41 @@ class InputSelect extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `input-select select {
+    return `input-select .wrapper {
+  position: relative;
+}
+input-select .wrapper:before {
+  content: '';
+  width: 14px;
+  height: 14px;
+  opacity: 0;
+  z-index: 1;
+}
+input-select.loading {
+  pointer-events: none;
+  transition: background 0.3s ease;
+}
+input-select.loading select {
+  color: transparent;
+  background-color: var(--window);
+  border-color: var(--border);
+}
+input-select.loading .wrapper:before {
+  margin-top: -8px;
+  margin-left: -8px;
+  display: block;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  opacity: 1;
+  transform: translateX(-50%);
+  border: 2px solid var(--border);
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: spin 1s linear 0s infinite;
+  transition: opacity 0.3s ease;
+}
+input-select select {
   font: 14px var(--monospace);
   padding: 10px 20px 10px 10px;
   background-color: var(--window);
@@ -1447,8 +1460,8 @@ class InputSelect extends Tonic { /* global Tonic */
   border: 1px solid var(--border);
   outline: none;
   -webkit-appearance: none;
-  -moz-appearance: none;
   appearance: none;
+  position: relative;
 }
 input-select select[disabled] {
   background-color: var(--background);
@@ -1461,6 +1474,38 @@ input-select label {
   letter-spacing: 1px;
   padding-bottom: 10px;
   display: block;
+}
+@-moz-keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@-o-keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 `
   }
@@ -1532,7 +1577,7 @@ input-select label {
     const options = this.root.innerHTML
 
     return `
-      <div class="wrapper">
+      <div class="wrapper" style="width: ${width};">
         ${this.renderLabel()}
 
         <select

@@ -84,7 +84,7 @@ class InputSelect extends Tonic { /* global Tonic */
     const options = this.root.innerHTML
 
     return `
-      <div class="wrapper">
+      <div class="wrapper" style="width: ${width};">
         ${this.renderLabel()}
 
         <select

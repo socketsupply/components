@@ -71,3 +71,4 @@ The component `InputSelect` creates an select input.
 | `option` | A `getter` that provides the currently selected option from the select input inside the component. |
 | `value` | A `getter` that provides the current value of the select input from inside of the component. |
 | `selectedIndex` | A `getter` that provides the selected index of the select input inside the component. |
+| `loading(state)` | Adds loading to the current select box | |

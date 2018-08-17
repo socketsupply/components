@@ -29,7 +29,7 @@ const append = (s) => {
 
 function page (toc, sections) {
   return `
-    <html>
+    <!DOCTYPE html>
 
       ${read(__dirname, '..', 'docs', 'src', 'head.html')}
 

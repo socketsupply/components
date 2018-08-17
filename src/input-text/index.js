@@ -22,13 +22,13 @@ class InputText extends Tonic { /* global Tonic */
   }
 
   setValid () {
-    this.setProps(props => Object.assign({}, props, {
+    this.rerender(props => Object.assign({}, props, {
       invalid: false
     }))
   }
 
   setInvalid (msg) {
-    this.setProps(props => Object.assign({}, props, {
+    this.rerender(props => Object.assign({}, props, {
       invalid: true,
       errorMessage: msg
     }))

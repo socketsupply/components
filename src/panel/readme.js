@@ -16,7 +16,7 @@ class MyPanel extends Tonic.Panel {
     if (e.target.value === 'get') {
       const page = await this.getArticle('HTML')
 
-      this.setProps(props => ({
+      this.rerender(props => ({
         ...props,
         ...page
       }))

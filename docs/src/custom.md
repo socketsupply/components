@@ -199,20 +199,64 @@ Add components to your html, pass them arguments just like with regular html.
 </my-component>
 ```
 
-Native HTML only understands strings. If you want to pass non-string props, like
-some json, you need to first stringify it. The "data" attribute is special and
-will automatically be parsed into json for you. Don't forget single quotes!
+Native HTML only understands strings. If you want to pass non-string props (like
+some json) you need to stringify it. If you surround your property value with
+curly braces (`{...}`), the value will be parsed as JSON. But you should not
+pass complex objects like functions though your HTML. Keep that in your JS!
 
 ```html
-<parent-component id="parent" data='${JSON.stringify(data)}'>
+<parent-component id="parent" data={[1,2,3]}>
 </parent-component>
 ```
 
-Alternatively, you can call the `setProps(...)` method on the element directly.
+Alternatively, you can call the `rerender(...)` method on the element directly.
+This is a better way to pass data if you have larger data it wont need to first
+pass though the html.
 
 ```js
-document.getElementById('parent').setProps(data)
+document.getElementById('parent').rerender({ data: [1,2,3, ...9999] })
 ```
+
+## State and Props
+
+`.rerender()` and `.setState()` can receive either an object or a function as an
+argument. For example...
+
+```js
+//
+// Update a component's properties
+//
+myComponent.rerender(props => ({
+  ...props,
+  color: 'red'
+}))
+```
+
+```js
+//
+// Reset a component's properties
+//
+myComponent.rerender({ color: 'red' })
+```
+
+```js
+//
+// Rerender a component with its existing properties
+//
+myComponent.rerender()
+```
+
+The value received by `.rerender() should represent the properties of the
+component (those properties should generally be considered immutable and
+provided by the top-most parent component).
+
+`.setState()` receives a value that describes the state of the component, under
+the hood this is a plain old javascript object. It's values may be used by the
+component's render function.
+
+`.setState()` will not cause a re-render. The reasoning behind this is that
+`state` can be updated independently, as needed and rendering happens only when
+changes to the representation of the component are required.
 
 ## Composing components.
 
@@ -312,11 +356,11 @@ class AnotherThing extends Tonic {
   willConnect () {
     //
     // Set state on a component instance or on this instance,
-    // .setProps() will cause a downward cascade of re-rendering.
+    // .rerender() will cause a downward cascade of re-rendering.
     // Set props can also accept a function that will provide
     // the current props as an argument.
     //
-    this.setProps({ value: 'foo' })
+    this.rerender({ value: 'foo' })
   }
 
   connected () {
@@ -350,11 +394,11 @@ class AnotherThing extends Tonic {
 | Method | Description |
 | :--- | :--- |
 | `emit(String, Object)` | Emit a custom event on the root element of the component. A listener will receive a plain old javascript event object that contains the [`detail`][4] property. |
-| `setProps(Object)` | Set the properties of a component instance. Can also take a function which will receive the current props as an argument. |
+| `rerender(Object | Function)` | Set the properties of a component instance. Can also take a function which will receive the current props as an argument. |
 | `getProps()` | Get the properties of a component instance. |
-| `setState(Object)` | Set the state of a component instance. Can also take a function which will receive the current props as an argument. |
+| `setState(Object | Function)` | Set the state of a component instance. Can also take a function which will receive the current props as an argument. |
 | `style()` | Returns a string of css to be inlined with the component. This will be "scoped" so that it does not affect the rest of the page. It will also persist across rerenders to save on parsing costs. |
-| `render()` | Returns html to be parsed or a dom node that will overwrite. There is usually no need to call this directly, prefer `componentInstance.setProps({ ... })`. |
+| `render()` | Returns html to be parsed or a dom node that will overwrite. There is usually no need to call this directly, prefer `componentInstance.rerender({ ... })`. |
 | html\`...\` | Tidy up an html string (use as a [tagged template][2]). |
 
 ## "LIFECYCLE" INSTANCE METHODS
@@ -368,7 +412,7 @@ component (as well as a few others).
 | `willConnect()` | Called prior to the element being inserted into the DOM. Useful for updating configuration, state and preparing for the render. |
 | `connected()` | Called every time the element is inserted into the DOM. Useful for running setup code, such as fetching resources or rendering. Generally, you should try to delay work until this time. |
 | `disconnected()` | Called every time the element is removed from the DOM. Useful for running clean up code. |
-| `updated(oldProps)` | Called after setProps() is called. This method is not called on the initial render. |
+| `updated(oldProps)` | Called after rerender() is called. This method is not called on the initial render. |
 
 [0]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
 [00]:https://caniuse.com/#search=domcontentloaded

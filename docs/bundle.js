@@ -125,7 +125,7 @@ class Tonic {
     const name = Tonic._splitName(this.constructor.name)
     this.root = node || document.createElement(name)
     this.root.disconnect = index => this._disconnect(index)
-    this.root.setProps = v => this.setProps(v)
+    this.root.rerender = v => this.rerender(v)
     this.root.setState = v => this.setState(v)
     this.root.getProps = () => this.getProps()
     this.root.getState = () => this.getState()
@@ -198,10 +198,10 @@ class Tonic {
     return this.state
   }
 
-  setProps (o) {
+  rerender (o = this.props) {
     const oldProps = JSON.parse(JSON.stringify(this.props))
     this.props = Tonic.sanitize(typeof o === 'function' ? o(this.props) : o)
-    if (!this.root) throw new Error('.setProps called on destroyed component, see guide.')
+    if (!this.root) throw new Error('.rerender called on destroyed component, see guide.')
     this._setContent(this.root, this.render())
     Tonic._constructTags(this.root)
     this.updated && this.updated(oldProps)
@@ -302,14 +302,12 @@ class ContentRoute extends Tonic { /* global Tonic */
         var value = orig.call(this, ...args)
         window.dispatchEvent(new window.Event(type.toLowerCase()))
         const nodes = document.getElementsByTagName('content-route')
-        for (const node of nodes) {
-          node.setProps(p => p)
-        }
+        for (const node of nodes) node.rerender()
         return value
       }
     }
 
-    window.addEventListener('popstate', e => this.setProps(p => p))
+    window.addEventListener('popstate', e => this.rerender(p => p))
 
     window.history.pushState = createEvent('pushState')
     window.history.replaceState = createEvent('replaceState')
@@ -1543,13 +1541,13 @@ class InputText extends Tonic { /* global Tonic */
   }
 
   setValid () {
-    this.setProps(props => Object.assign({}, props, {
+    this.rerender(props => Object.assign({}, props, {
       invalid: false
     }))
   }
 
   setInvalid (msg) {
-    this.setProps(props => Object.assign({}, props, {
+    this.rerender(props => Object.assign({}, props, {
       invalid: true,
       errorMessage: msg
     }))
@@ -3084,7 +3082,7 @@ class MyDialog extends Tonic.Dialog {
 
     const color = Math.random().toString(16).slice(2, 8)
 
-    this.setProps(props => ({
+    this.rerender(props => ({
       ...props,
       color,
       message: `Random Color #${color}`
@@ -3157,7 +3155,7 @@ notificationCounter.addEventListener('click', (e) => {
     (count > 0) && count--
   }
 
-  notificationBadge.setProps(props => ({
+  notificationBadge.rerender(props => ({
     ...props,
     count: `${count}`
   }))
@@ -3277,7 +3275,7 @@ class MyPanel extends Tonic.Panel {
     if (e.target.value === 'get') {
       const page = await this.getArticle('HTML')
 
-      this.setProps(props => ({
+      this.rerender(props => ({
         ...props,
         ...page
       }))

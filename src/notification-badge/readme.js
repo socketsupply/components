@@ -12,7 +12,7 @@ notificationCounter.addEventListener('click', (e) => {
     (count > 0) && count--
   }
 
-  notificationBadge.setProps(props => ({
+  notificationBadge.rerender(props => ({
     ...props,
     count: `${count}`
   }))

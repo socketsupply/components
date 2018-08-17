@@ -535,7 +535,7 @@ your own dialog class which can be registered and then used as a tag.</p>
 
     <span class="hljs-keyword">const</span> color = <span class="hljs-built_in">Math</span>.random().toString(<span class="hljs-number">16</span>).slice(<span class="hljs-number">2</span>, <span class="hljs-number">8</span>)
 
-    <span class="hljs-keyword">this</span>.setProps(<span class="hljs-function"><span class="hljs-params">props</span> =&gt;</span> ({
+    <span class="hljs-keyword">this</span>.rerender(<span class="hljs-function"><span class="hljs-params">props</span> =&gt;</span> ({
       ...props,
       color,
       <span class="hljs-attr">message</span>: <span class="hljs-string">`Random Color #<span class="hljs-subst">${color}</span>`</span>
@@ -2040,7 +2040,7 @@ DQOpwmgVzh0l4D4WxEC+Zgg181JacsahBmgxZxtMVFZ4yT+nW5TMHRo1lSTS...
 
 <h2 id="code">Code</h2>
 <p>To update the notification count, pass in the <code>count</code> property.</p>
-<pre><code class="language-js">notificationBadge.setProps(<span class="hljs-function"><span class="hljs-params">props</span> =&gt;</span> ({
+<pre><code class="language-js">notificationBadge.rerender(<span class="hljs-function"><span class="hljs-params">props</span> =&gt;</span> ({
   ...props,
   <span class="hljs-attr">count</span>: <span class="hljs-string">`<span class="hljs-subst">${count}</span>`</span>
 }))</code></pre>
@@ -2560,7 +2560,7 @@ your own panel class which can be registered and then used as a tag.</p>
     <span class="hljs-keyword">if</span> (e.target.value === <span class="hljs-string">'get'</span>) {
       <span class="hljs-keyword">const</span> page = <span class="hljs-keyword">await</span> <span class="hljs-keyword">this</span>.getArticle(<span class="hljs-string">'HTML'</span>)
 
-      <span class="hljs-keyword">this</span>.setProps(<span class="hljs-function"><span class="hljs-params">props</span> =&gt;</span> ({
+      <span class="hljs-keyword">this</span>.rerender(<span class="hljs-function"><span class="hljs-params">props</span> =&gt;</span> ({
         ...props,
         ...page
       }))
@@ -3058,13 +3058,43 @@ interested in the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Even
 <p>Add components to your html, pass them arguments just like with regular html.</p>
 <pre><code class="language-js">&lt;my-component value=<span class="hljs-string">"7a"</span>&gt;
 <span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">my-component</span>&gt;</span></span></code></pre>
-<p>Native HTML only understands strings. If you want to pass non-string props, like
-some json, you need to first stringify it. The &quot;data&quot; attribute is special and
-will automatically be parsed into json for you. Don&#39;t forget single quotes!</p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">parent-component</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"parent"</span> <span class="hljs-attr">data</span>=<span class="hljs-string">'${JSON.stringify(data)}'</span>&gt;</span>
+<p>Native HTML only understands strings. If you want to pass non-string props (like
+some json) you need to stringify it. If you surround your property value with
+curly braces (<code>{...}</code>), the value will be parsed as JSON. But you should not
+pass complex objects like functions though your HTML. Keep that in your JS!</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">parent-component</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"parent"</span> <span class="hljs-attr">data</span>=<span class="hljs-string">{[1,2,3]}</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">parent-component</span>&gt;</span></code></pre>
-<p>Alternatively, you can call the <code>setProps(...)</code> method on the element directly.</p>
-<pre><code class="language-js"><span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'parent'</span>).setProps(data)</code></pre>
+<p>Alternatively, you can call the <code>rerender(...)</code> method on the element directly.
+This is a better way to pass data if you have larger data it wont need to first
+pass though the html.</p>
+<pre><code class="language-js"><span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'parent'</span>).rerender({ <span class="hljs-attr">data</span>: [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>, ..<span class="hljs-number">.9999</span>] })</code></pre>
+<h2 id="state-and-props">State and Props</h2>
+<p><code>.rerender()</code> and <code>.setState()</code> can receive either an object or a function as an
+argument. For example...</p>
+<pre><code class="language-js"><span class="hljs-comment">//</span>
+<span class="hljs-comment">// Update a component's properties</span>
+<span class="hljs-comment">//</span>
+myComponent.rerender(<span class="hljs-function"><span class="hljs-params">props</span> =&gt;</span> ({
+  ...props,
+  <span class="hljs-attr">color</span>: <span class="hljs-string">'red'</span>
+}))</code></pre>
+<pre><code class="language-js"><span class="hljs-comment">//</span>
+<span class="hljs-comment">// Reset a component's properties</span>
+<span class="hljs-comment">//</span>
+myComponent.rerender({ <span class="hljs-attr">color</span>: <span class="hljs-string">'red'</span> })</code></pre>
+<pre><code class="language-js"><span class="hljs-comment">//</span>
+<span class="hljs-comment">// Rerender a component with its existing properties</span>
+<span class="hljs-comment">//</span>
+myComponent.rerender()</code></pre>
+<p>The value received by `.rerender() should represent the properties of the
+component (those properties should generally be considered immutable and
+provided by the top-most parent component).</p>
+<p><code>.setState()</code> receives a value that describes the state of the component, under
+the hood this is a plain old javascript object. It&#39;s values may be used by the
+component&#39;s render function.</p>
+<p><code>.setState()</code> will not cause a re-render. The reasoning behind this is that
+<code>state</code> can be updated independently, as needed and rendering happens only when
+changes to the representation of the component are required.</p>
 <h2 id="composing-components-">Composing components.</h2>
 <p>You may want to move the children of a component inside some aditional layout
 when the render() function is executed. The <code>this.children</code> property is helpful
@@ -3143,11 +3173,11 @@ component&#39;s methods are private by default! Here&#39;s how to make them acce
   willConnect () {
     <span class="hljs-comment">//</span>
     <span class="hljs-comment">// Set state on a component instance or on this instance,</span>
-    <span class="hljs-comment">// .setProps() will cause a downward cascade of re-rendering.</span>
+    <span class="hljs-comment">// .rerender() will cause a downward cascade of re-rendering.</span>
     <span class="hljs-comment">// Set props can also accept a function that will provide</span>
     <span class="hljs-comment">// the current props as an argument.</span>
     <span class="hljs-comment">//</span>
-    <span class="hljs-keyword">this</span>.setProps({ <span class="hljs-attr">value</span>: <span class="hljs-string">'foo'</span> })
+    <span class="hljs-keyword">this</span>.rerender({ <span class="hljs-attr">value</span>: <span class="hljs-string">'foo'</span> })
   }
 
   connected () {
@@ -3201,16 +3231,16 @@ component&#39;s methods are private by default! Here&#39;s how to make them acce
 <td align="left">Emit a custom event on the root element of the component. A listener will receive a plain old javascript event object that contains the <a href="https://developer.mozilla.org/en-US/docs/Web/Guide/Events/Creating_and_triggering_events"><code>detail</code></a> property.</td>
 </tr>
 <tr>
-<td align="left"><code>setProps(Object)</code></td>
-<td align="left">Set the properties of a component instance. Can also take a function which will receive the current props as an argument.</td>
+<td align="left">`rerender(Object</td>
+<td align="left">Function)`</td>
 </tr>
 <tr>
 <td align="left"><code>getProps()</code></td>
 <td align="left">Get the properties of a component instance.</td>
 </tr>
 <tr>
-<td align="left"><code>setState(Object)</code></td>
-<td align="left">Set the state of a component instance. Can also take a function which will receive the current props as an argument.</td>
+<td align="left">`setState(Object</td>
+<td align="left">Function)`</td>
 </tr>
 <tr>
 <td align="left"><code>style()</code></td>
@@ -3218,7 +3248,7 @@ component&#39;s methods are private by default! Here&#39;s how to make them acce
 </tr>
 <tr>
 <td align="left"><code>render()</code></td>
-<td align="left">Returns html to be parsed or a dom node that will overwrite. There is usually no need to call this directly, prefer <code>componentInstance.setProps({ ... })</code>.</td>
+<td align="left">Returns html to be parsed or a dom node that will overwrite. There is usually no need to call this directly, prefer <code>componentInstance.rerender({ ... })</code>.</td>
 </tr>
 <tr>
 <td align="left">html`...`</td>
@@ -3253,7 +3283,7 @@ component (as well as a few others).</p>
 </tr>
 <tr>
 <td align="left"><code>updated(oldProps)</code></td>
-<td align="left">Called after setProps() is called. This method is not called on the initial render.</td>
+<td align="left">Called after rerender() is called. This method is not called on the initial render.</td>
 </tr>
 </tbody></table>
 

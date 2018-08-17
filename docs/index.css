@@ -154,12 +154,20 @@ h2 {
 h3 {
   font: 26px/30px var(--header);
   margin-top: 60px;
+  margin-bottom: 30px;
 }
 h4 {
   font: 14px/16px var(--subheader);
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 1.5px;
+  margin-top: 40px;
+}
+hr {
+  height: 2px;
+  margin: 20px 0px;
+  background-color: transparent;
+  border: 0;
 }
 a {
   color: inherit;
@@ -194,12 +202,14 @@ body .theme-picker svg use {
 body .theme-picker svg:hover {
   opacity: 1;
 }
-body ul {
+body > main ul {
   font: 15px/30px var(--body);
-  list-style: none;
+  list-style: disc;
   padding: 0;
+  padding-left: 40px;
+  margin: 30px 0;
 }
-body ul li {
+body > main ul li {
   margin: 10px 0;
 }
 body > nav {
@@ -218,6 +228,14 @@ body > nav {
   body > nav {
     display: none;
   }
+}
+body > nav ul {
+  list-style: none;
+  padding: 0;
+  margin-left: -10px;
+}
+body > nav li {
+  margin: 20px 0;
 }
 body > nav li a {
   font: 18px var(--header);
@@ -490,23 +508,6 @@ body #intro p.intro-copy {
   font: 30px var(--header);
   text-align: center;
   margin: 0 auto;
-}
-body #custom h3 {
-  margin-bottom: 30px;
-}
-body #custom h4 {
-  margin-top: 40px;
-}
-body #custom ul {
-  list-style: disc;
-  padding-left: 40px;
-  margin: 30px 0;
-}
-body #custom hr {
-  height: 2px;
-  margin: 20px 0px;
-  background-color: transparent;
-  border: 0;
 }
 body content-tooltip pre {
   margin: 0;

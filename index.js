@@ -9,7 +9,7 @@ class Tonic {
     const name = Tonic._splitName(this.constructor.name)
     this.root = node || document.createElement(name)
     this.root.disconnect = index => this._disconnect(index)
-    this.root.reRender = v => this.reRender(v)
+    this.root.rerender = v => this.rerender(v)
     this.root.setState = v => this.setState(v)
     this.root.getProps = () => this.getProps()
     this.root.getState = () => this.getState()
@@ -71,7 +71,7 @@ class Tonic {
   html ([s, ...strings], ...values) {
     const reducer = (a, b) => a.concat(b, strings.shift())
     const filter = s => s && (s !== true || s === 0)
-    return values.reduce(reducer, [s]).filter(filter).join('')
+    return Tonic.sanitize(values).reduce(reducer, [s]).filter(filter).join('')
   }
 
   setState (o) {
@@ -82,10 +82,10 @@ class Tonic {
     return this.state
   }
 
-  reRender (o = this.props) {
+  rerender (o = this.props) {
     const oldProps = JSON.parse(JSON.stringify(this.props))
     this.props = Tonic.sanitize(typeof o === 'function' ? o(this.props) : o)
-    if (!this.root) throw new Error('.reRender called on destroyed component, see guide.')
+    if (!this.root) throw new Error('.rerender called on destroyed component, see guide.')
     this._setContent(this.root, this.render())
     Tonic._constructTags(this.root)
     this.updated && this.updated(oldProps)

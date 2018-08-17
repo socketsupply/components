@@ -76,6 +76,7 @@ The component `InputSelect` creates an select input, with or without a label.
 | `width` | *string* | Width of the select box | `250px` |
 | `height` | *string* | Height of the select box | |
 | `radius` | *string* | Radius of the select box | `2px` |
+| `value` | *string* | The default value that will be selected | |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
 ### Instance Methods & Members

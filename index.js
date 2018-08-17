@@ -1352,6 +1352,13 @@ input-select label {
     return `<label>${this.props.label}</label>`
   }
 
+  connected () {
+    if (this.props.value) {
+      const option = this.root.querySelector(`option[value="${this.props.value}"]`)
+      if (option) option.setAttribute('selected', true)
+    }
+  }
+
   render () {
     const {
       id,

@@ -54,7 +54,7 @@ body.theme-dark {
 }
 .hljs,
 .hljs-subst {
-  color: #444;
+  color: var(--medium);
 }
 .hljs-comment {
   color: #aaa;
@@ -441,13 +441,37 @@ body > main > section:not(:first-of-type) {
 body > main footer {
   max-width: 800px;
   text-align: center;
-  padding: 0 50px 50px 50px;
+  padding: 20px 50px 50px 50px;
 }
-body > main footer a {
+body > main footer > div {
   border-bottom: 0;
+  display: inline-block;
+  vertical-align: middle;
+}
+body > main footer > div:first-of-type {
+  border-right: 1px solid var(--border);
+  padding-right: 40px;
+  margin-right: 40px;
+}
+body > main footer > div:not(:first-of-type) span,
+body > main footer > div:not(:first-of-type) svg {
+  display: inline-block;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+body > main footer > div:not(:first-of-type) svg {
+  width: 130px;
+  height: 50px;
+}
+body > main footer > div:hover span {
+  color: var(--primary);
+}
+body > main footer > div:hover svg use {
+  fill: var(--primary);
+  color: var(--primary);
 }
 body > main footer span {
-  color: var(--secondary);
+  color: var(--medium);
   font: 13px var(--subheader);
   font-weight: 600;
   text-transform: uppercase;
@@ -463,17 +487,10 @@ body > main footer svg {
   display: block;
 }
 body > main footer svg use {
-  fill: var(--secondary);
-  color: var(--secondary);
+  fill: var(--medium);
+  color: var(--medium);
   -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
-}
-body > main footer:hover span {
-  color: var(--primary);
-}
-body > main footer:hover svg use {
-  fill: var(--primary);
-  color: var(--primary);
 }
 body .invalidate-buttons {
   text-align: center;

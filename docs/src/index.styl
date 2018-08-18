@@ -292,13 +292,35 @@ body
     footer
       max-width 800px
       text-align center
-      padding 0 50px 50px 50px
+      padding 20px 50px 50px 50px
 
-      a
+      > div
         border-bottom 0
+        display inline-block
+        vertical-align middle
+        &:first-of-type
+          border-right 1px solid var(--border)
+          padding-right 40px
+          margin-right 40px
+        &:not(:first-of-type)
+          span, svg
+            display inline-block
+            margin-right 10px
+            vertical-align middle
+          svg
+            width 130px
+            height 50px
+
+        &:hover
+          span
+            color var(--primary)
+          svg
+            use
+              fill var(--primary)
+              color var(--primary)
 
       span
-        color var(--secondary)
+        color var(--medium)
         font 13px var(--subheader)
         font-weight 600
         text-transform uppercase
@@ -312,16 +334,9 @@ body
         margin 0 auto
         display block
         use
-          fill var(--secondary)
-          color var(--secondary)
+          fill var(--medium)
+          color var(--medium)
           transition all 0.2s ease-in-out
-      &:hover
-        span
-          color var(--primary)
-        svg
-          use
-            fill var(--primary)
-            color var(--primary)
 
   .invalidate-buttons
     text-align center

@@ -26,7 +26,7 @@ The component `ProgressBar` creates an updatable progress bar.
 
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
-| `width` | *string* | Changes the width of the progress bar | `300px` |
-| `height` | *string* | Changes the height of the progress bar | `15px` |
-| `color` | *string* | Changes the color of the progress bar | `--accent` |
+| `width` | *string* | Changes the width of the progress bar. | `300px` |
+| `height` | *string* | Changes the height of the progress bar. | `15px` |
+| `color` | *string* | Changes the color of the progress bar. | `--accent` |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |

@@ -38,14 +38,14 @@ The element that will be used to trigger the display of the tooltip must contain
 
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
-| `for` | *string* | Adds a `for` attribute <span class="req">required</span> |  |
-| `width` | *string* | Changes the `width` style |  |
-| `height` | *string* | Changes `height` style |  |
+| `for` | *string* | Adds a `for` attribute. <span class="req">required</span> |  |
+| `width` | *string* | Changes the `width` style. |  |
+| `height` | *string* | Changes `height` style. |  |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
 ### Instance Methods & Members
 
 | Method | Description |
 | :--- | :--- |
-| `show()` | Shows the tooltip |
-| `hide()` | Hides the tooltip |
+| `show()` | Shows the tooltip. |
+| `hide()` | Hides the tooltip. |

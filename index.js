@@ -2195,7 +2195,7 @@ notification-center .notification .close svg path {
 `
   }
 
-  create ({ message, title, duration, type } = {}) {
+  create ({ message, title, duration, type, dismiss } = {}) {
     const notification = document.createElement('div')
     notification.className = 'notification'
     const main = document.createElement('main')
@@ -2211,7 +2211,7 @@ notification-center .notification .close svg path {
     messageElement.className = 'message'
     messageElement.textContent = message || this.props.message
 
-    if (!duration) {
+    if (dismiss !== 'false') {
       const close = document.createElement('div')
       close.className = 'close'
       close.style.backgroundImage = `url("${this.props.closeIcon}")`
@@ -2472,7 +2472,7 @@ notification-inline .notification .close svg path {
     messageElement.className = 'message'
     messageElement.innerHTML = message || this.props.message
 
-    if (!duration && (dismiss !== 'false')) {
+    if (dismiss !== 'false') {
       const close = document.createElement('div')
       close.className = 'close'
       close.style.backgroundImage = `url("${this.props.closeIcon}")`

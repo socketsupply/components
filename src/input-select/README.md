@@ -4,33 +4,20 @@ The component `InputSelect` creates an select input.
 
 ## Demo
 
-<table class="example">
-  <thead>
-    <tr>
-      <th>Example</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>
-        <input-select label="Example Select" id="options-example-1">
-          <option value="a">Option A</option>
-          <option value="b">Option B</option>
-          <option value="c">Option C</option>
-        </input-select>
-      </td>
-      <td>
-        <span id="select-example-tooltip-1">Default select with label (using <code>change</code> event)</span>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="example">
+  <div class="header">Example</div>
+  <div class="content">
+    <input-select label="Select an Option" id="options-example-1">
+      <option value="a">Option A</option>
+      <option value="b">Option B</option>
+      <option value="c">Option C</option>
+    </input-select>
+  </div>
+</div>
 
 ## Code
 
 #### HTML
-
 ```html
 <input-select>
   <option value="a">Option A</option>
@@ -39,6 +26,7 @@ The component `InputSelect` creates an select input.
 </input-select>
 ```
 
+#### JS
 ```js
 %js%
 ```
@@ -65,7 +53,7 @@ The component `InputSelect` creates an select input.
 | Method | Description |
 | :--- | :--- |
 | `change()` | The native `change` event on the select input. |
-| `loading(state)` | Adds loading to the current select box | |
+| `loading(state)` | Adds loading to the current select box. | |
 
 ### Instance Members
 

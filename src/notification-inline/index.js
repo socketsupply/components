@@ -46,7 +46,7 @@ class NotificationInline extends Tonic { /* global Tonic */
     messageElement.className = 'message'
     messageElement.innerHTML = message || this.props.message
 
-    if (!duration && (dismiss !== 'false')) {
+    if (dismiss !== 'false') {
       const close = document.createElement('div')
       close.className = 'close'
       close.style.backgroundImage = `url("${this.props.closeIcon}")`

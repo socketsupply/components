@@ -1,5 +1,5 @@
 # Panel
-`Panel` is not a component, it is a base class. You can extend it to create
+A `Panel` is not a component, it is a base class. You can extend it to create
 your own panel class which can be registered and then used as a tag.
 
 ## Demo
@@ -52,17 +52,17 @@ your own panel class which can be registered and then used as a tag.
 
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
-| `id` | *string* | Adds the `id` attribute | |
-| `name` | *string* | Adds the `name` attribute | |
-| `position` | *string* | Changes the position of the panel | `right` |
-| `overlay` | *boolean* | Shows an overlay behind the panel, blocks page interaction | `false` |
-| `background-color` | *string* | Changes the background color of the overlay | `rgba(0,0,0,0.5)` |
+| `id` | *string* | Adds the `id` attribute. | |
+| `name` | *string* | Adds the `name` attribute. | |
+| `position` | *string* | Changes the position of the panel. | `right` |
+| `overlay` | *boolean* | Shows an overlay behind the panel, blocks page interaction. | `false` |
+| `background-color` | *string* | Changes the background color of the overlay. | `rgba(0,0,0,0.5)` |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
 ### Instance Methods & Members
 
 | Method | Description |
 | :--- | :--- |
-| `show()` | Shows the panel |
-| `hide()` | Hides the panel |
-| `click()` | Click event |
+| `show()` | Shows the panel. |
+| `hide()` | Hides the panel. |
+| `click()` | Click event. |

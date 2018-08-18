@@ -69,11 +69,11 @@ You can use any tag for the content — `section` is a nice one to use — and t
 
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
-| `id` | *string* | Adds the `id` attribute | |
+| `id` | *string* | Adds the `id` attribute. | |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
 ### Instance Methods & Members
 
 | Method | Description |
 | :--- | :--- |
-| `click()` | Click event |
+| `click()` | Click event. |

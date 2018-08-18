@@ -4,81 +4,39 @@ The component `InputCheckbox` is used to create a styled checkbox, with or witho
 
 ## Demo
 
-<table class="example">
-  <thead>
-    <tr>
-      <th>Example</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>
-        <input-checkbox id="checkbox-example-1"></input-checkbox>
-      </td>
-      <td>
-        <span id="checkbox-example-tooltip-1">Default Checkbox</span>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <input-checkbox
-          id="checkbox-example-2"
-          label="Label">
-        </input-checkbox>
-      </td>
-      <td>
-        <span id="checkbox-example-tooltip-2">Checkbox with Label</span>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <input-checkbox
-          id="checkbox-example-3"
-          label="Disabled"
-          disabled>
-        </input-checkbox>
-      </td>
-      <td>
-        <span id="checkbox-example-tooltip-3">
-          Checkbox with label and <code>disabled</code> attribute
-        </span>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <input-checkbox
-          id="checkbox-example-4"
-          label="Disabled and Checked"
-          disabled
-          checked>
-        </input-checkbox>
-      </td>
-      <td>
-        <span id="checkbox-example-tooltip-4">
-          Checkbox with label and <code>disabled</code> & <code>checked</code> attributes
-        </span>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <input-checkbox
-          id="checkbox-example-5"
-          size="25px"
-          icon-on="./sprite.svg#custom_on"
-          icon-off="./sprite.svg#custom_off">
-        </input-checkbox>
-      </td>
-      <td>
-        <span id="checkbox-example-tooltip-5">
-          Custom SVG Checkbox
-        </span>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="example">
+  <div class="header">Example</div>
+  <div class="content">
+    <input-checkbox
+      id="input-checkbox-example"
+      label="Checkbox with Label">
+    </input-checkbox>
+  </div>
+</div>
 
-%html%
+## Code
+
+#### HTML
+```html
+<input-checkbox
+  id="input-checkbox-example"
+  label="Checkbox with Label">
+</input-checkbox>
+```
+
+---
+
+To create a custom SVG checkbox, pass in the properties `icon-on` and `icon-off` to set  different icons for each checked state.
+
+#### HTML
+
+```html
+<input-checkbox
+  id="custom-checkbox-example"
+  icon-on="./sprite.svg#custom_on"
+  icon-off="./sprite.svg#custom_off">
+</input-checkbox>
+```
 
 ## Api
 
@@ -86,14 +44,14 @@ The component `InputCheckbox` is used to create a styled checkbox, with or witho
 
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
-| `id` | *string* | Adds `id` attribute <span class="req">required</span> |  |
-| `name` | *string* | Adds `name` attribute |  |
-| `disabled` | *boolean* | Adds `disabled` attribute | `false` |
-| `checked` | *boolean* | Adds `checked` attribute | `false` |
-| `size` | *string* | Changes the `width` and `height` of the icon | `18px` |
-| `icon-on` | *string* | Add a custom SVG icon `on` state |  |
-| `icon-off` | *string* | Add a custom SVG icon for the `off` state |  |
-| `color` | *string* | Changes the color of the icon | `--primary` |
+| `id` | *string* | Adds `id` attribute. <span class="req">required</span> |  |
+| `name` | *string* | Adds `name` attribute. |  |
+| `disabled` | *boolean* | Adds `disabled` attribute. | `false` |
+| `checked` | *boolean* | Adds `checked` attribute. | `false` |
+| `size` | *string* | Changes the `width` and `height` of the icon. | `18px` |
+| `icon-on` | *string* | Add a custom SVG icon `on` state. |  |
+| `icon-off` | *string* | Add a custom SVG icon for the `off` state. |  |
+| `color` | *string* | Changes the color of the icon. | `--primary` |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
 ### Static Methods & Members

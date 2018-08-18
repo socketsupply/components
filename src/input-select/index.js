@@ -2,9 +2,19 @@ class InputSelect extends Tonic { /* global Tonic */
   constructor (node) {
     super(node)
     this.root.loading = (state) => this.loading(state)
-    this.root.option = this.option
-    this.root.value = this.value
-    this.root.selectedIndex = this.selectedIndex
+
+    const that = this
+    Object.defineProperty(this.root, 'value', {
+      get () { return that.value }
+    })
+
+    Object.defineProperty(this.root, 'option', {
+      get () { return that.option }
+    })
+
+    Object.defineProperty(this.root, 'selectedIndex', {
+      get () { return that.selectedIndex }
+    })
   }
 
   defaults () {

@@ -7,9 +7,9 @@ The component `NotificationBadge` creates a notification badge with a counter an
   <div class="header">Example</div>
   <div class="content">
     <notification-badge></notification-badge>
-    <div class="notification-counter">
-      <span class="add-notification">Add</span>
-      <span class="subtract-notification">Subtract</span>
+    <div class="button-group">
+      <span id="add-notification">Add</span>
+      <span id="subtract-notification">Subtract</span>
     </div>
   </div>
 </div>

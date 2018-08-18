@@ -7,6 +7,10 @@ The component `ProgressBar` creates an updatable progress bar.
   <div class="header">Example</div>
   <div class="content">
     <progress-bar id="progress-bar-example"></progress-bar>
+    <div class="button-group">
+      <span id="start-progress">Start</span>
+      <span id="stop-progress">Stop</span>
+    </div>
   </div>
 </div>
 

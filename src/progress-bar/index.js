@@ -2,8 +2,12 @@ class ProgressBar extends Tonic { /* global Tonic */
   constructor (node) {
     super(node)
 
-    this.root.setProgress = (n) => this.setProgress(n)
-    this.root.value = this.value
+    this.root.setProgress = n => this.setProgress(n)
+
+    const that = this
+    Object.defineProperty(this.root, 'value', {
+      get () { return that.props.progress }
+    })
   }
 
   defaults () {
@@ -12,10 +16,6 @@ class ProgressBar extends Tonic { /* global Tonic */
       height: '15px',
       progress: 0
     }
-  }
-
-  get value () {
-    return this.props.progress
   }
 
   getPropertyValue (s) {

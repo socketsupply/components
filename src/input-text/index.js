@@ -3,7 +3,11 @@ class InputText extends Tonic { /* global Tonic */
     super(node)
     this.root.setInvalid = msg => this.setInvalid(msg)
     this.root.setValid = () => this.setValid()
-    this.root.value = this.value
+
+    const that = this
+    Object.defineProperty(this.root, 'value', {
+      get () { return that.value }
+    })
   }
 
   defaults () {

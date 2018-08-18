@@ -1428,9 +1428,19 @@ class InputSelect extends Tonic { /* global Tonic */
   constructor (node) {
     super(node)
     this.root.loading = (state) => this.loading(state)
-    this.root.option = this.option
-    this.root.value = this.value
-    this.root.selectedIndex = this.selectedIndex
+
+    const that = this
+    Object.defineProperty(this.root, 'value', {
+      get () { return that.value }
+    })
+
+    Object.defineProperty(this.root, 'option', {
+      get () { return that.option }
+    })
+
+    Object.defineProperty(this.root, 'selectedIndex', {
+      get () { return that.selectedIndex }
+    })
   }
 
   defaults () {
@@ -1631,7 +1641,11 @@ class InputText extends Tonic { /* global Tonic */
     super(node)
     this.root.setInvalid = msg => this.setInvalid(msg)
     this.root.setValid = () => this.setValid()
-    this.root.value = this.value
+
+    const that = this
+    Object.defineProperty(this.root, 'value', {
+      get () { return that.value }
+    })
   }
 
   defaults () {
@@ -3099,8 +3113,12 @@ class ProgressBar extends Tonic { /* global Tonic */
   constructor (node) {
     super(node)
 
-    this.root.setProgress = (n) => this.setProgress(n)
-    this.root.value = this.value
+    this.root.setProgress = n => this.setProgress(n)
+
+    const that = this
+    Object.defineProperty(this.root, 'value', {
+      get () { return that.props.progress }
+    })
   }
 
   defaults () {
@@ -3109,10 +3127,6 @@ class ProgressBar extends Tonic { /* global Tonic */
       height: '15px',
       progress: 0
     }
-  }
-
-  get value () {
-    return this.props.progress
   }
 
   getPropertyValue (s) {
@@ -3235,23 +3249,23 @@ document.addEventListener('DOMContentLoaded', e => {
     })
   })
 })
-const notificationCounter = document.querySelector('.notification-counter')
+const add = document.getElementById('add-notification')
+const subtract = document.getElementById('subtract-notification')
 const notificationBadge = document.querySelector('notification-badge')
 
 let count = 0
 
-notificationCounter.addEventListener('click', (e) => {
-  if (!e.target) return
-
-  if (e.target.classList.contains('add-notification')) {
-    count++
-  } else if (e.target.classList.contains('subtract-notification')) {
-    (count > 0) && count--
-  }
-
+add.addEventListener('click', (e) => {
   notificationBadge.reRender(props => ({
     ...props,
-    count: `${count}`
+    count: ++count
+  }))
+})
+
+subtract.addEventListener('click', e => {
+  notificationBadge.reRender(props => ({
+    ...props,
+    count: count > 0 ? count-- : count
   }))
 })
 const notification = document.querySelector('notification-center')
@@ -3333,11 +3347,15 @@ profile.addEventListener('error', e => console.log(e.detail))
 let percentage = 0
 let interval = null
 
-document.addEventListener('DOMContentLoaded', e => {
-  const progressBar = document.getElementById('progress-bar-example')
+const progressBar = document.getElementById('progress-bar-example')
 
+document.getElementById('start-progress').addEventListener('click', e => {
   interval = setInterval(() => {
     progressBar.setProgress(percentage++)
-    if (progressBar.value === 100) percentage = 0
+    if (progressBar.value >= 100) percentage = 0
   }, 128)
+})
+
+document.getElementById('stop-progress').addEventListener('click', e => {
+  clearInterval(interval)
 })

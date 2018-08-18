@@ -597,19 +597,19 @@ body content-dialog main {
 body content-tags [data-tab-group] {
   height: 40px;
 }
-body notification-badge {
+body notification-badge,
+body progress-bar {
   display: inline-block;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
 }
-body .notification-counter {
+body .button-group {
   display: inline-block;
   margin-left: 15px;
 }
-body .notification-counter span.add-notification,
-body .notification-counter span.subtract-notification {
+body .button-group span {
   display: inline-block;
   margin-left: 15px;
   border-bottom: 1px solid var(--border);
@@ -619,7 +619,6 @@ body .notification-counter span.subtract-notification {
           user-select: none;
   cursor: pointer;
 }
-body .notification-counter span.add-notification:hover,
-body .notification-counter span.subtract-notification:hover {
+body .button-group span:hover {
   border-bottom-color: var(--accent);
 }

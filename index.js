@@ -1292,9 +1292,19 @@ class InputSelect extends Tonic { /* global Tonic */
   constructor (node) {
     super(node)
     this.root.loading = (state) => this.loading(state)
-    this.root.option = this.option
-    this.root.value = this.value
-    this.root.selectedIndex = this.selectedIndex
+
+    const that = this
+    Object.defineProperty(this.root, 'value', {
+      get () { return that.value }
+    })
+
+    Object.defineProperty(this.root, 'option', {
+      get () { return that.option }
+    })
+
+    Object.defineProperty(this.root, 'selectedIndex', {
+      get () { return that.selectedIndex }
+    })
   }
 
   defaults () {
@@ -1495,7 +1505,11 @@ class InputText extends Tonic { /* global Tonic */
     super(node)
     this.root.setInvalid = msg => this.setInvalid(msg)
     this.root.setValid = () => this.setValid()
-    this.root.value = this.value
+
+    const that = this
+    Object.defineProperty(this.root, 'value', {
+      get () { return that.value }
+    })
   }
 
   defaults () {
@@ -2963,8 +2977,12 @@ class ProgressBar extends Tonic { /* global Tonic */
   constructor (node) {
     super(node)
 
-    this.root.setProgress = (n) => this.setProgress(n)
-    this.root.value = this.value
+    this.root.setProgress = n => this.setProgress(n)
+
+    const that = this
+    Object.defineProperty(this.root, 'value', {
+      get () { return that.props.progress }
+    })
   }
 
   defaults () {
@@ -2973,10 +2991,6 @@ class ProgressBar extends Tonic { /* global Tonic */
       height: '15px',
       progress: 0
     }
-  }
-
-  get value () {
-    return this.props.progress
   }
 
   getPropertyValue (s) {

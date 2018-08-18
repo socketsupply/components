@@ -440,20 +440,21 @@ body
     [data-tab-group]
       height 40px
 
-  notification-badge
+  notification-badge,
+  progress-bar
     display inline-block
     user-select none
 
-  .notification-counter
+  .button-group
     display inline-block
     margin-left 15px
 
-    span.add-notification,
-    span.subtract-notification
+    span
       display inline-block
       margin-left 15px
       border-bottom 1px solid var(--border)
       user-select none
       cursor pointer
+
       &:hover
         border-bottom-color var(--accent)

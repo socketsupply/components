@@ -1,19 +1,19 @@
-const notificationCounter = document.querySelector('.notification-counter')
+const add = document.getElementById('add-notification')
+const subtract = document.getElementById('subtract-notification')
 const notificationBadge = document.querySelector('notification-badge')
 
 let count = 0
 
-notificationCounter.addEventListener('click', (e) => {
-  if (!e.target) return
-
-  if (e.target.classList.contains('add-notification')) {
-    count++
-  } else if (e.target.classList.contains('subtract-notification')) {
-    (count > 0) && count--
-  }
-
+add.addEventListener('click', (e) => {
   notificationBadge.reRender(props => ({
     ...props,
-    count: `${count}`
+    count: ++count
+  }))
+})
+
+subtract.addEventListener('click', e => {
+  notificationBadge.reRender(props => ({
+    ...props,
+    count: count > 0 ? count-- : count
   }))
 })

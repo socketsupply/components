@@ -1,6 +1,6 @@
 class NotificationCenter extends Tonic { /* global Tonic */
-  constructor (props) {
-    super(props)
+  constructor (node) {
+    super(node)
 
     this.root.create = (o) => this.create(o)
     this.root.hide = () => this.hide()

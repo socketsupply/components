@@ -39,11 +39,6 @@
   
 
     <li>
-      <a href="#api" class="custom">API</a>
-    </li>
-  
-
-    <li>
       <a href="#composition" class="">Composition</a>
     </li>
   
@@ -72,6 +67,11 @@
       <a href="#styling" class="">Styling</a>
     </li>
   
+
+    <li>
+      <a href="#api" class="custom">API</a>
+    </li>
+  
           </ul>
 
         </nav>
@@ -95,7 +95,8 @@ a string of HTML.</p>
 }</code></pre>
 <p>How you name your class will determine the tag name of your component. For
 example, a class named <code>Greeting</code> will become <code>&lt;greeting&gt;&lt;/greeting&gt;</code>. Camel
-case tag names will be hyphenated.</p>
+cased class names will create hyphenated tag names, ie <code>MyGreeting</code> will become
+<code>&lt;my-greeting&gt;&lt;/my-greeting&gt;</code>.</p>
 <hr>
 <p>Next, you need to tell the browser about your new class and it will create a
 custom HTML tag for it. Your top most component should generally be added after
@@ -133,103 +134,10 @@ little simpler.</p>
     </section>
   
 
-    <section id="api">
-      <h1 id="apis">APIs</h1>
-<h2 id="static-methods">STATIC METHODS</h2>
-<table>
-<thead>
-<tr>
-<th align="left">Method</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>add(Class, Object)</code></td>
-<td align="left">Register a class as a new custom-tag and provide optional options for it.</td>
-</tr>
-<tr>
-<td align="left"><code>escape(String)</code></td>
-<td align="left">Escapes HTML characters from a string (based on <a href="https://github.com/mathiasbynens/he">he</a>).</td>
-</tr>
-<tr>
-<td align="left"><code>sanitize(Object)</code></td>
-<td align="left">Escapes all the strings found in an object literal.</td>
-</tr>
-<tr>
-<td align="left"><code>match(Node, Selector)</code></td>
-<td align="left">Match the given node against a selector or any matching parent of the given node. This is useful when trying to locate a node from the actual node that was interacted with.</td>
-</tr>
-</tbody></table>
-<h2 id="instance-methods">INSTANCE METHODS</h2>
-<table>
-<thead>
-<tr>
-<th align="left">Method</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>reRender(Object &#124; Function)</code></td>
-<td align="left">Set the properties of a component instance. Can also take a function which will receive the current props as an argument.</td>
-</tr>
-<tr>
-<td align="left"><code>getProps()</code></td>
-<td align="left">Get the properties of a component instance.</td>
-</tr>
-<tr>
-<td align="left"><code>setState(Object &#124; Function)</code></td>
-<td align="left">Set the state of a component instance. Can also take a function which will receive the current props as an argument.</td>
-</tr>
-<tr>
-<td align="left"><code>style()</code></td>
-<td align="left">Returns a string of css to be inlined with the component. This will be &quot;scoped&quot; so that it does not affect the rest of the page. It will also persist across re-renders to save on parsing costs.</td>
-</tr>
-<tr>
-<td align="left"><code>render()</code></td>
-<td align="left">Returns HTML to be parsed or a dom node that will overwrite. There is usually no need to call this directly, prefer <code>componentInstance.reRender({ ... })</code>.</td>
-</tr>
-<tr>
-<td align="left">html`...`</td>
-<td align="left">Tidy up an HTML string (use as a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals">tagged template</a>).</td>
-</tr>
-</tbody></table>
-<h2 id="lifecycle-instance-methods">&quot;LIFECYCLE&quot; INSTANCE METHODS</h2>
-<table>
-<thead>
-<tr>
-<th align="left">Method</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>constructor(props)</code></td>
-<td align="left">An instance of the element is created or upgraded. Useful for initializing state, setting up event listeners, or creating shadow dom. See the spec for restrictions on what you can do in the constructor. A constructor will receive an argument of <code>props</code> and must call <code>super(props)</code>.</td>
-</tr>
-<tr>
-<td align="left"><code>willConnect()</code></td>
-<td align="left">Called prior to the element being inserted into the DOM. Useful for updating configuration, state and preparing for the render.</td>
-</tr>
-<tr>
-<td align="left"><code>connected()</code></td>
-<td align="left">Called every time the element is inserted into the DOM. Useful for running setup code, such as fetching resources or rendering. Generally, you should try to delay work until this time.</td>
-</tr>
-<tr>
-<td align="left"><code>disconnected()</code></td>
-<td align="left">Called every time the element is removed from the DOM. Useful for running clean up code.</td>
-</tr>
-<tr>
-<td align="left"><code>updated(oldProps)</code></td>
-<td align="left">Called after reRender() is called. This method is not called on the initial render.</td>
-</tr>
-</tbody></table>
-
-    </section>
-  
-
     <section id="composition">
       <h1 id="composition">Composition</h1>
 <p>You may want to move the children of a component inside some aditional layout
-when the render() function is executed. The <code>this.children</code> property is helpful
+when the <code>render()</code> function is executed. The <code>this.children</code> property is helpful
 for this. This is not a &quot;special&quot; member of the <code>props</code> object like React
 (which is unintuitive), it&#39;s a member of the class instance.</p>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Parent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
@@ -358,16 +266,22 @@ interested in the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Even
 
     <section id="methods">
       <h1 id="methods">Methods</h1>
-<p>Sometimes you want to expose a method for other people to use. All your
-component&#39;s methods are private by default! Here&#39;s how to make them accessible.</p>
+<p>If you want to expose a method on your component for other people to use, you
+can do thate from the constructor. All your component&#39;s methods are private by
+default. Here&#39;s how to make them public.</p>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ExampleComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
-  <span class="hljs-keyword">constructor</span> (props) {
-    <span class="hljs-keyword">super</span>(props)
-    <span class="hljs-keyword">this</span>.root.exampleMethod = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-keyword">this</span>.exampleMethod()
+  <span class="hljs-keyword">constructor</span> (node) {
+    <span class="hljs-keyword">super</span>(node)
+
+    <span class="hljs-keyword">this</span>.root.exampleMethod = <span class="hljs-function">(<span class="hljs-params">n</span>) =&gt;</span> <span class="hljs-keyword">this</span>.exampleMethod(n)
   }
 
-  exampleMethod () {
-    <span class="hljs-comment">// ...</span>
+  exampleMethod (n) {
+    <span class="hljs-keyword">this</span>.value = n
+  }
+
+  get value () {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.value
   }
 }</code></pre>
 
@@ -381,8 +295,8 @@ layout to create a reusable node and pass it to the render method. This
 structure could also come from a <code>&lt;template&gt;</code> tag which could also improve
 performance.</p>
 <pre><code><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AnotherThing</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
-  <span class="hljs-keyword">constructor</span> (props) {
-    <span class="hljs-keyword">super</span>(props)
+  <span class="hljs-keyword">constructor</span> (node) {
+    <span class="hljs-keyword">super</span>(node)
     <span class="hljs-keyword">const</span> template = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">'template'</span>)
     template.appendChild(<span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">'span'</span>))  
 
@@ -482,6 +396,99 @@ the head.</p>
     <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div&gt;&lt;/div&gt;`</span>
   }
 }</code></pre>
+
+    </section>
+  
+
+    <section id="api">
+      <h1 id="apis">APIs</h1>
+<h2 id="static-methods">STATIC METHODS</h2>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>add(Class, Object)</code></td>
+<td align="left">Register a class as a new custom-tag and provide optional options for it.</td>
+</tr>
+<tr>
+<td align="left"><code>escape(String)</code></td>
+<td align="left">Escapes HTML characters from a string (based on <a href="https://github.com/mathiasbynens/he">he</a>).</td>
+</tr>
+<tr>
+<td align="left"><code>sanitize(Object)</code></td>
+<td align="left">Escapes all the strings found in an object literal.</td>
+</tr>
+<tr>
+<td align="left"><code>match(Node, Selector)</code></td>
+<td align="left">Match the given node against a selector or any matching parent of the given node. This is useful when trying to locate a node from the actual node that was interacted with.</td>
+</tr>
+</tbody></table>
+<h2 id="instance-methods">INSTANCE METHODS</h2>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>reRender(Object &#124; Function)</code></td>
+<td align="left">Set the properties of a component instance. Can also take a function which will receive the current props as an argument.</td>
+</tr>
+<tr>
+<td align="left"><code>getProps()</code></td>
+<td align="left">Get the properties of a component instance.</td>
+</tr>
+<tr>
+<td align="left"><code>setState(Object &#124; Function)</code></td>
+<td align="left">Set the state of a component instance. Can also take a function which will receive the current props as an argument.</td>
+</tr>
+<tr>
+<td align="left"><code>style()</code></td>
+<td align="left">Returns a string of css to be inlined with the component. This will be &quot;scoped&quot; so that it does not affect the rest of the page. It will also persist across re-renders to save on parsing costs.</td>
+</tr>
+<tr>
+<td align="left"><code>render()</code></td>
+<td align="left">Returns HTML to be parsed or a dom node that will overwrite. There is usually no need to call this directly, prefer <code>componentInstance.reRender({ ... })</code>.</td>
+</tr>
+<tr>
+<td align="left">html`...`</td>
+<td align="left">Tidy up an HTML string (use as a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals">tagged template</a>).</td>
+</tr>
+</tbody></table>
+<h2 id="lifecycle-instance-methods">&quot;LIFECYCLE&quot; INSTANCE METHODS</h2>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>constructor(props)</code></td>
+<td align="left">An instance of the element is created or upgraded. Useful for initializing state, setting up event listeners, or creating shadow dom. See the spec for restrictions on what you can do in the constructor. A constructor will receive an argument of <code>props</code> and must call <code>super(props)</code>.</td>
+</tr>
+<tr>
+<td align="left"><code>willConnect()</code></td>
+<td align="left">Called prior to the element being inserted into the DOM. Useful for updating configuration, state and preparing for the render.</td>
+</tr>
+<tr>
+<td align="left"><code>connected()</code></td>
+<td align="left">Called every time the element is inserted into the DOM. Useful for running setup code, such as fetching resources or rendering. Generally, you should try to delay work until this time.</td>
+</tr>
+<tr>
+<td align="left"><code>disconnected()</code></td>
+<td align="left">Called every time the element is removed from the DOM. Useful for running clean up code.</td>
+</tr>
+<tr>
+<td align="left"><code>updated(oldProps)</code></td>
+<td align="left">Called after reRender() is called. This method is not called on the initial render.</td>
+</tr>
+</tbody></table>
 
     </section>
   

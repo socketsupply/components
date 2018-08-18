@@ -33,7 +33,10 @@ function bundle (s) {
 }
 
 function createPage (data) {
-  data = data.sort((a, b) => a.title.localeCompare(b.title))
+  data = data.sort((a, b) => {
+    if (a.title === 'API' || b.title === 'API') return -1
+    return a.title.localeCompare(b.title)
+  })
 
   const i = data.findIndex(d => d.title === 'Intro')
   data.splice(0, 0, data.splice(i, 1)[0])

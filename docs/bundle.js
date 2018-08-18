@@ -798,8 +798,8 @@ content-tooltip .tooltip.bottom .tooltip-arrow {
 Tonic.add(ContentTooltip)
 
 class Dialog extends Tonic { /* global Tonic */
-  constructor (props) {
-    super(props)
+  constructor (node) {
+    super(node)
 
     this.root.show = () => this.show()
     this.root.hide = () => this.hide()
@@ -1075,8 +1075,8 @@ class IconContainer extends Tonic { /* global Tonic */
 Tonic.add(IconContainer)
 
 class InputButton extends Tonic { /* global Tonic */
-  constructor (props) {
-    super(props)
+  constructor (node) {
+    super(node)
     this.root.loading = (state) => this.loading(state)
   }
 
@@ -1405,8 +1405,8 @@ InputCheckbox.svg.iconOff = (color) => InputCheckbox.svg.toURL(`
 Tonic.add(InputCheckbox)
 
 class InputSelect extends Tonic { /* global Tonic */
-  constructor (props) {
-    super(props)
+  constructor (node) {
+    super(node)
     this.root.loading = (state) => this.loading(state)
     this.root.option = this.option
     this.root.value = this.value
@@ -2188,8 +2188,8 @@ notification-badge .notifications.new span:after {
 Tonic.add(NotificationBadge)
 
 class NotificationCenter extends Tonic { /* global Tonic */
-  constructor (props) {
-    super(props)
+  constructor (node) {
+    super(node)
 
     this.root.create = (o) => this.create(o)
     this.root.hide = () => this.hide()
@@ -2451,8 +2451,8 @@ NotificationCenter.svg.infoIcon = color => NotificationCenter.svg.toURL(`
 Tonic.add(NotificationCenter)
 
 class NotificationInline extends Tonic { /* global Tonic */
-  constructor (props) {
-    super(props)
+  constructor (node) {
+    super(node)
 
     this.root.create = (o) => this.create(o)
     this.root.hide = () => this.hide()
@@ -2724,8 +2724,8 @@ NotificationInline.svg.infoIcon = color => NotificationInline.svg.toURL(`
 Tonic.add(NotificationInline)
 
 class Panel extends Tonic { /* global Tonic */
-  constructor (props) {
-    super(props)
+  constructor (node) {
+    super(node)
 
     this.root.show = fn => this.show(fn)
     this.root.hide = fn => this.hide(fn)

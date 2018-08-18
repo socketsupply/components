@@ -1,6 +1,6 @@
 class Dialog extends Tonic { /* global Tonic */
-  constructor (props) {
-    super(props)
+  constructor (node) {
+    super(node)
 
     this.root.show = () => this.show()
     this.root.hide = () => this.hide()

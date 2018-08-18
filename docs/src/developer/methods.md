@@ -1,17 +1,23 @@
 # Methods
 
-Sometimes you want to expose a method for other people to use. All your
-component's methods are private by default! Here's how to make them accessible.
+If you want to expose a method on your component for other people to use, you
+can do thate from the constructor. All your component's methods are private by
+default. Here's how to make them public.
 
 ```js
 class ExampleComponent extends Tonic {
-  constructor (props) {
-    super(props)
-    this.root.exampleMethod = () => this.exampleMethod()
+  constructor (node) {
+    super(node)
+
+    this.root.exampleMethod = (n) => this.exampleMethod(n)
   }
 
-  exampleMethod () {
-    // ...
+  exampleMethod (n) {
+    this.value = n
+  }
+
+  get value () {
+    return this.value
   }
 }
 ```

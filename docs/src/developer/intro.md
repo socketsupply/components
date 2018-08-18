@@ -19,7 +19,8 @@ class MyGreeting extends Tonic {
 
 How you name your class will determine the tag name of your component. For
 example, a class named `Greeting` will become `<greeting></greeting>`. Camel
-case tag names will be hyphenated.
+cased class names will create hyphenated tag names, ie `MyGreeting` will become
+`<my-greeting></my-greeting>`.
 
 ---
 

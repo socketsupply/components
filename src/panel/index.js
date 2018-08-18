@@ -1,6 +1,6 @@
 class Panel extends Tonic { /* global Tonic */
-  constructor (props) {
-    super(props)
+  constructor (node) {
+    super(node)
 
     this.root.show = fn => this.show(fn)
     this.root.hide = fn => this.hide(fn)

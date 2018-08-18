@@ -1,6 +1,6 @@
 class InputSelect extends Tonic { /* global Tonic */
-  constructor (props) {
-    super(props)
+  constructor (node) {
+    super(node)
     this.root.loading = (state) => this.loading(state)
     this.root.option = this.option
     this.root.value = this.value

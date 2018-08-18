@@ -49,8 +49,8 @@ This object contains a `target` property, the exact element that was clicked.
 The `path` property is an array of elements containing the exact hierarchy.
 
 Some helpful native DOM APIs for testing properties of an element:
--   [`Element.matches()`][6] tests if an element matches a selector
--   [`Element.closest`][7] finds the closest ancestor from the element that
+-   [`Element.matches(String)`][6] tests if an element matches a selector
+-   [`Element.closest(String)`][7] finds the closest ancestor from the element that
 matches the given selector
 
 Tonic also provides a helper function which checks if the element matches the

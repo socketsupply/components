@@ -5,17 +5,17 @@ const marked = require('marked')
 const hl = require('highlight.js')
 
 marked.setOptions({
-  renderer: new marked.Renderer(),
   highlight: (code, lang = 'javascript', escaped) => {
     return hl.highlight(lang, code).value
   }
 })
 
 const componentsDir = path.join(__dirname, '..', 'src')
-const outputFile = path.join(__dirname, '..', 'docs', 'index.html')
-const dirs = fs.readdirSync(componentsDir)
+const docsDir = path.join(__dirname, '..', 'docs')
+const devsDir = path.join(docsDir, 'src', 'developer')
+const outputFile = path.join(docsDir, 'index.html')
 
-const read = (...args) => {
+function read (...args) {
   try {
     return fs.readFileSync(path.join(...args), 'utf8')
   } catch (e) {
@@ -23,15 +23,18 @@ const read = (...args) => {
   }
 }
 
-const append = (s) => {
-  fs.appendFileSync(path.join(__dirname, '..', 'docs', 'bundle.js'), s)
+function bundle (s) {
+  return fs.appendFileSync(path.join(docsDir, 'bundle.js'), s)
 }
 
-function page (toc, sections) {
+function createPage (data) {
+  const toc = data.map(data => data.link).join('\n')
+  const sections = data.map(data => data.section).join('\n')
+
   return `
     <!DOCTYPE html>
 
-      ${read(__dirname, '..', 'docs', 'src', 'head.html')}
+      ${read(docsDir, 'src', 'head.html')}
 
       <body>
         <div class="theme-picker">
@@ -46,20 +49,14 @@ function page (toc, sections) {
             </svg>
           </a>
 
-          ${toc}
+          <ul>
+            ${toc}
+          </ul>
 
         </nav>
         <main>
 
-          <section id="intro">
-            ${read(__dirname, '..', 'docs', 'src', 'intro.html')}
-          </section>
-
           ${sections}
-
-          <section id="custom">
-            ${marked(read(__dirname, '..', 'docs', 'src', 'custom.md'))}
-          </section>
 
           <footer>
             <a href="#">
@@ -76,64 +73,101 @@ function page (toc, sections) {
   `
 }
 
-let toc = ''
-let sections = []
+let data = []
 
-function write () {
-  let titles = []
-
-  append(read(__dirname, '..', 'index.js'))
-
-  function wrapLink (str, i) {
-    const selected = i === 0 ? 'selected' : ''
-
-    return `
-      <li>
-        <a href="#${str.toLowerCase()}" class="${selected}">${str}</a>
-      </li>
-    `
-  }
-
-  function wrapSection (str, title) {
-    return `<section id="${title.toLowerCase()}">${str}</section>`
-  }
-
-  for (const dir of dirs) {
-    let s = read(componentsDir, dir, 'README.md')
-
-    const html = read(componentsDir, dir, 'readme.html')
-    s = s.replace(/%html%/g, html)
-
-    const js = read(componentsDir, dir, 'readme.js')
-    append(js)
-    s = s.replace(/%js%/g, js)
-
-    if (s) {
-      const { 0: match } = /^#\s*(.*)[\n|\r]/.exec(s)
-      if (!match) continue
-
-      const title = match.slice(1).trim()
-      titles.push(title)
-      sections.push({ title, content: wrapSection(marked(s), title) })
-    }
-  }
-
-  titles = titles.sort((a, b) => a.localeCompare(b))
-
-  titles.unshift('Intro')
-  titles.push('Custom')
-  titles.push('APIs')
-  titles = titles.map(wrapLink)
-
-  toc = `<ul>${titles.join('')}</ul>`
+function wrapLink (str, group, selected) {
+  return `
+    <li data-group="${group}">
+      <a href="#${str.toLowerCase()}" class="${selected || ''}">${str}</a>
+    </li>
+  `
 }
 
-write()
+function wrapSection (str, title, group) {
+  return `
+    <section data-group="${group}" id="${title.toLowerCase()}">
+      ${str}
+    </section>
+  `
+}
 
-sections = sections
-  .sort((a, b) => a.title.localeCompare(b.title))
-  .map(section => section.content)
+function parseHeading (s) {
+  const { 0: match } = /^#\s*(.*)[\n|\r]/.exec(s)
+  if (!match) throw new Error('No heading found in doc')
 
-const html = page(toc, sections.join(''))
+  return match.slice(1).trim()
+}
 
-fs.writeFileSync(outputFile, html)
+function compile () {
+  const developerDocs = fs.readdirSync(devsDir)
+
+  for (const file of developerDocs) {
+    let s = read(path.join(devsDir, file))
+    if (!s) continue
+
+    const title = parseHeading(s)
+    data.push({
+      title,
+      link: wrapLink(title, 'custom'),
+      section: wrapSection(marked(s), title)
+    })
+  }
+
+  const componentDirs = fs.readdirSync(componentsDir)
+
+  for (const dir of componentDirs) {
+    let s = read(componentsDir, dir, 'README.md')
+    if (!s) continue
+
+    const demoHTML = read(componentsDir, dir, 'readme.html')
+    s = s.replace(/%html%/g, demoHTML)
+
+    const demoJS = read(componentsDir, dir, 'readme.js')
+    s = s.replace(/%js%/g, demoJS)
+
+    bundle(demoJS)
+
+    const title = parseHeading(s)
+    data.push({
+      title,
+      link: wrapLink(title, 'component'),
+      section: wrapSection(marked(s), title)
+    })
+  }
+
+  const intro = read(docsDir, 'src', 'intro.html')
+
+  data.unshift({
+    title: 'Intro',
+    link: wrapLink('Intro', 'component', 'selected'),
+    section: wrapSection(intro, 'Intro')
+  })
+}
+
+async function main () {
+  //
+  // Copy the build into the demo page bundle
+  //
+  bundle(read(__dirname, '..', 'index.js'))
+
+  //
+  // Bundle the demo code for each component and compile
+  // the markdown into an array of sections.
+  //
+  compile()
+
+  //
+  // Sort the sections.
+  //
+  data = data.sort((a, b) => {
+    if (a.title === 'Intro') return -1
+    return a.title.localeCompare(b.title)
+  })
+
+  //
+  // Template the sections and write to an html file.
+  //
+  fs.writeFileSync(outputFile, createPage(data))
+}
+
+main()

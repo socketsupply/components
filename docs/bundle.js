@@ -3210,7 +3210,7 @@ document.addEventListener('DOMContentLoaded', e => {
   select.addEventListener('change', ({ target }) => {
     notification.create({
       type: 'success',
-      message: `Selected option was "${target.value}".`,
+      message: `Selected option was "${select.value}".`,
       title: 'Selection',
       duration: 2000
     })

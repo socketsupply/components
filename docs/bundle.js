@@ -3270,16 +3270,14 @@ subtract.addEventListener('click', e => {
 })
 const notification = document.querySelector('notification-center')
 
-const onClick = (id, fn) => document
-  .getElementById(id)
-  .addEventListener('click', fn)
-
-onClick('notification-center-example', e => notification.create({
-  type: 'success',
-  title: 'Greetings',
-  message: 'Hello, World',
-  duration: 3e3
-}))
+document
+  .getElementById('notification-center-example')
+  .addEventListener('click', e => notification.create({
+    type: 'success',
+    title: 'Greetings',
+    message: 'Hello, World',
+    duration: 3e3
+  }))
 const notification1 = document.getElementById('notification-1')
 const notificationLink1 = document.getElementById('notification-link-1')
 

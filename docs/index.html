@@ -1553,16 +1553,14 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
 <h4 id="js">JS</h4>
 <pre><code class="language-js"><span class="hljs-keyword">const</span> notification = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'notification-center'</span>)
 
-<span class="hljs-keyword">const</span> onClick = <span class="hljs-function">(<span class="hljs-params">id, fn</span>) =&gt;</span> <span class="hljs-built_in">document</span>
-  .getElementById(id)
-  .addEventListener(<span class="hljs-string">'click'</span>, fn)
-
-onClick(<span class="hljs-string">'notification-center-example'</span>, e =&gt; notification.create({
-  <span class="hljs-attr">type</span>: <span class="hljs-string">'success'</span>,
-  <span class="hljs-attr">title</span>: <span class="hljs-string">'Greetings'</span>,
-  <span class="hljs-attr">message</span>: <span class="hljs-string">'Hello, World'</span>,
-  <span class="hljs-attr">duration</span>: <span class="hljs-number">3e3</span>
-}))
+<span class="hljs-built_in">document</span>
+  .getElementById(<span class="hljs-string">'notification-center-example'</span>)
+  .addEventListener(<span class="hljs-string">'click'</span>, e =&gt; notification.create({
+    <span class="hljs-attr">type</span>: <span class="hljs-string">'success'</span>,
+    <span class="hljs-attr">title</span>: <span class="hljs-string">'Greetings'</span>,
+    <span class="hljs-attr">message</span>: <span class="hljs-string">'Hello, World'</span>,
+    <span class="hljs-attr">duration</span>: <span class="hljs-number">3e3</span>
+  }))
 </code></pre>
 <h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>

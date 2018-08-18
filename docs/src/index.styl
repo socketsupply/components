@@ -105,7 +105,7 @@ body
 
   > nav
     width 300px
-    padding 60px
+    padding 50px
     position fixed
     top 0
     left 0
@@ -116,6 +116,26 @@ body
     @media (max-width: 850px)
       display none
 
+    .page-selection
+      margin-bottom 50px
+      padding 20px 0 0 0
+      font-size 13px
+      font-family var(--subheader)
+      text-transform uppercase
+      letter-spacing 1px
+
+      a
+        display inline-block
+        padding 0px 0px 5px 0px
+        border-bottom 1px solid transparent
+
+        &:first-of-type
+          margin-right 15px
+
+        &.current,
+        &:hover
+          border-bottom 1px solid var(--primary)
+
     ul
       list-style none
       padding 0
@@ -124,7 +144,7 @@ body
     li
       margin 20px 0
       a
-        font 18px var(--header)
+        font 17px var(--header)
         font-weight 400
         padding 5px 8px
         background-color transparent

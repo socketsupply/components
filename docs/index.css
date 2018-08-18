@@ -226,7 +226,7 @@ body > main ul li {
 }
 body > nav {
   width: 300px;
-  padding: 60px;
+  padding: 50px;
   position: fixed;
   top: 0;
   left: 0;
@@ -241,6 +241,26 @@ body > nav {
     display: none;
   }
 }
+body > nav .page-selection {
+  margin-bottom: 50px;
+  padding: 20px 0 0 0;
+  font-size: 13px;
+  font-family: var(--subheader);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+body > nav .page-selection a {
+  display: inline-block;
+  padding: 0px 0px 7px 0px;
+  border-bottom: 1px solid transparent;
+}
+body > nav .page-selection a:first-of-type {
+  margin-right: 15px;
+}
+body > nav .page-selection a.current,
+body > nav .page-selection a:hover {
+  border-bottom: 1px solid var(--primary);
+}
 body > nav ul {
   list-style: none;
   padding: 0;
@@ -250,7 +270,7 @@ body > nav li {
   margin: 20px 0;
 }
 body > nav li a {
-  font: 18px var(--header);
+  font: 17px var(--header);
   font-weight: 400;
   padding: 5px 8px;
   background-color: transparent;

@@ -91,8 +91,14 @@ The component `InputText` creates an input, with or without a label.
 | `radius` | *string* | Radius of the input | `3px` |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
-### Instance Methods & Members
+### Instance Methods
 
 | Method | Description |
 | :--- | :--- |
 | `invalidate()` | Invalidate the input. Takes `msg` |
+
+### Instance Members
+
+| Property | Description |
+| :--- | :--- |
+| `value` | Get the current value of the input |

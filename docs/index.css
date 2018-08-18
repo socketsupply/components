@@ -375,7 +375,7 @@ body > main pre code i {
 }
 body > main code {
   font-size: 14px;
-  padding: 3px 6px;
+  padding: 2px 6px 3px 6px;
   margin: 0 2px;
   white-space: nowrap;
   background-color: var(--background);

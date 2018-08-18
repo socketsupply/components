@@ -342,11 +342,7 @@ class AnotherThing extends Tonic {
 
     //
     // If you have lots of structure, but only a few
-<<<<<<< HEAD
-    // changes, you could preRender your layout to create
-=======
     // changes, you could pre-render your layout to create
->>>>>>> wip custom docs
     // a reusable node and pass it to the render method.
     // This structure could also come from a <template>
     // tag which would also improve performance.
@@ -398,21 +394,12 @@ class AnotherThing extends Tonic {
 | Method | Description |
 | :--- | :--- |
 | `emit(String, Object)` | Emit a custom event on the root element of the component. A listener will receive a plain old javascript event object that contains the [`detail`][4] property. |
-<<<<<<< HEAD
-| `reRender(Object | Function)` | Set the properties of a component instance. Can also take a function which will receive the current props as an argument. |
-| `getProps()` | Get the properties of a component instance. |
-| `setState(Object | Function)` | Set the state of a component instance. Can also take a function which will receive the current props as an argument. |
-| `style()` | Returns a string of css to be inlined with the component. This will be "scoped" so that it does not affect the rest of the page. It will also persist across re-renders to save on parsing costs. |
-| `render()` | Returns html to be parsed or a dom node that will overwrite. There is usually no need to call this directly, prefer `componentInstance.reRender({ ... })`. |
-| html\`...\` | Tidy up an html string (use as a [tagged template][2]). |
-=======
 | <code>reRender(Object &#124; Function)</code> | Set the properties of a component instance. Can also take a function which will receive the current props as an argument. |
 | `getProps()` | Get the properties of a component instance. |
 | <code>setState(Object &#124; Function)</code> | Set the state of a component instance. Can also take a function which will receive the current props as an argument. |
 | `style()` | Returns a string of css to be inlined with the component. This will be "scoped" so that it does not affect the rest of the page. It will also persist across re-renders to save on parsing costs. |
 | `render()` | Returns HTML to be parsed or a dom node that will overwrite. There is usually no need to call this directly, prefer `componentInstance.reRender({ ... })`. |
 | html\`...\` | Tidy up an HTML string (use as a [tagged template][2]). |
->>>>>>> wip custom docs
 
 ## "LIFECYCLE" INSTANCE METHODS
 

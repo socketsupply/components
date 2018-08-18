@@ -178,11 +178,11 @@
       <td>
         <a href="#" id="content-route-link-2">Back</a><a href="#" id="content-route-link-1">Set</a>
         <content-route path="/foo/:number">
-          Content for "/foo/:number".
+          <!-- Content for "/foo/:number"-->
         </content-route>
       </td>
       <td>
-        <span id="content-route-example-1">Conditional content based on url</span>
+        <span id="content-route-example-1">Conditional content based on url.</span>
       </td>
     </tr>
   </tbody>
@@ -1179,7 +1179,7 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
   select.addEventListener(<span class="hljs-string">'change'</span>, ({ target }) =&gt; {
     notification.create({
       <span class="hljs-attr">type</span>: <span class="hljs-string">'success'</span>,
-      <span class="hljs-attr">message</span>: <span class="hljs-string">`Selected option was "<span class="hljs-subst">${select.value}</span>".`</span>,
+      <span class="hljs-attr">message</span>: <span class="hljs-string">`Selected option was "<span class="hljs-subst">${target.value}</span>".`</span>,
       <span class="hljs-attr">title</span>: <span class="hljs-string">'Selection'</span>,
       <span class="hljs-attr">duration</span>: <span class="hljs-number">2000</span>
     })
@@ -1258,7 +1258,7 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
 <td align="left"><code>light</code></td>
 </tr>
 </tbody></table>
-<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
+<h3 id="instance-methods">Instance Methods</h3>
 <table>
 <thead>
 <tr>
@@ -1271,6 +1271,19 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
 <td align="left">The native <code>change</code> event on the select input.</td>
 </tr>
 <tr>
+<td align="left"><code>loading(state)</code></td>
+<td align="left">Adds loading to the current select box</td>
+</tr>
+</tbody></table>
+<h3 id="instance-members">Instance Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
 <td align="left"><code>option</code></td>
 <td align="left">A <code>getter</code> that provides the currently selected option from the select input inside the component.</td>
 </tr>
@@ -1281,10 +1294,6 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
 <tr>
 <td align="left"><code>selectedIndex</code></td>
 <td align="left">A <code>getter</code> that provides the selected index of the select input inside the component.</td>
-</tr>
-<tr>
-<td align="left"><code>loading(state)</code></td>
-<td align="left">Adds loading to the current select box</td>
 </tr>
 </tbody></table>
 </section><section id="inputtext"><h1 id="inputtext">InputText</h1>
@@ -1495,7 +1504,7 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
 <td align="left"><code>light</code></td>
 </tr>
 </tbody></table>
-<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
+<h3 id="instance-methods">Instance Methods</h3>
 <table>
 <thead>
 <tr>
@@ -1507,9 +1516,18 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
 <td align="left"><code>invalidate()</code></td>
 <td align="left">Invalidate the input. Takes <code>msg</code></td>
 </tr>
+</tbody></table>
+<h3 id="instance-members">Instance Members</h3>
+<table>
+<thead>
 <tr>
+<th align="left">Property</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
 <td align="left"><code>value</code></td>
-<td align="left">A <code>getter</code> that provides the current value of the input from inside of the component.</td>
+<td align="left">Get the current value of the input</td>
 </tr>
 </tbody></table>
 </section><section id="inputtextarea"><h1 id="inputtextarea">InputTextarea</h1>

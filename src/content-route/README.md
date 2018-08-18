@@ -63,4 +63,4 @@ attributes of the url as props.
 
 | Name | Description |
 | :--- | :--- |
-| `show` | *string* | Emitted when a content section receives the `show` class becaue it matches the current url. | |
+| `show` | Emitted when a content section receives the `show` class becaue it matches the current url. |

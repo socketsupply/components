@@ -1,6 +1,6 @@
-const button = document.getElementById('loading-button-example')
+const button = document.getElementById('input-button-example')
 button.addEventListener('click', e => {
   setTimeout(() => {
-    button.done()
+    button.loading(false)
   }, 3e3)
 })

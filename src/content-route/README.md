@@ -3,33 +3,27 @@ The `ContentRoute` component will render its children components if the browser'
 
 ## Demo
 
-<table class="example">
-  <thead>
-    <tr>
-      <th>Example</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>
-        <a href="#" id="content-route-link-2">Back</a><a href="#" id="content-route-link-1">Set</a>
-        <content-route path="/foo/:number">
-          <!-- Content for "/foo/:number"-->
-        </content-route>
-      </td>
-      <td>
-        <span id="content-route-example-1">Conditional content based on url.</span>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="example">
+  <div class="header">Example</div>
+  <div class="content">
+    <a href="#" id="content-route-link-2">Back</a><a href="#" id="content-route-link-1">Set</a>
+    <content-route path="/foo/:number">
+      Content for "/foo/:number".
+    </content-route>
+  </div>
+</div>
 
 ## Code
 
 #### HTML
 ```html
-%html%
+<content-route path="/foo/:number">
+  Content for "/foo/:number".
+</content-route>
+
+<content-route none>
+  404
+</content-route>
 ```
 
 #### JS

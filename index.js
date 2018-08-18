@@ -1007,7 +1007,8 @@ input-button button.active {
   background-color: var(--background);
   border-color: var(--background);
 }
-input-button button:not([disabled]):hover {
+input-button button:not([disabled]):hover,
+input-button button:not(.loading):hover {
   color: var(--window);
   background-color: var(--primary) !important;
   border-color: var(--primary) !important;
@@ -1018,11 +1019,12 @@ input-button button.loading {
   background: var(--medium);
   border-color: var(--medium);
   pointer-events: none;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
 }
 input-button button.loading:hover {
-  background: var(--medium);
-  border-color: var(--medium);
+  color: transparent;
+  background: var(--medium) !important;
+  border-color: var(--medium) !important;
 }
 input-button button.loading:before {
   margin-top: -8px;

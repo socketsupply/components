@@ -3,56 +3,19 @@ The component `IconContainer` is used to create an SVG icon with a custom size a
 
 ## Demo
 
-<table class="example">
-  <thead>
-    <tr>
-      <th>Example</th>
-      <th>Description &amp; Code</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>
-        <icon-container>
-        </icon-container>
-      </td>
-      <td>
-        <span id="icon-container-tooltip-1">Default Icon (25px)</span>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <icon-container color="#f06653">
-        </icon-container>
-      </td>
-      <td>
-        <span id="icon-container-tooltip-2">Icon with color (25px)</span>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <icon-container size="60px">
-        </icon-container>
-      </td>
-      <td>
-        <span id="icon-container-tooltip-3">Large Icon (60px)</span>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <icon-container
-          size="60px"
-          src="./sprite.svg#custom">
-        </icon-container>
-      </td>
-      <td>
-        <span id="icon-container-tooltip-4">Custom Icon (60px)</span>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="example">
+  <div class="header">Example</div>
+  <div class="content">
+    <icon-container size="40px"></icon-container>
+  </div>
+</div>
 
-%html%
+## Code
+
+#### HTML
+```html
+<icon-container size="40px"></icon-container>
+```
 
 ## Api
 

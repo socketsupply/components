@@ -1,41 +1,38 @@
 # Dialog
-`Dialog` is not a component, it is a base class. You can extend it to create
+A `Dialog` is not a component, it is a base class. You can extend it to create
 your own dialog class which can be registered and then used as a tag.
 
 ## Demo
 
-<table class="example">
-  <thead>
-    <tr>
-      <th>Example</th>
-      <th>Description &amp; Code</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>
-        <input-button
-          id="example-dialog-link">
-          Click To Open
-        </input-button>
-      </td>
-      <td>
-        <span id="content-dialog-tooltip-1">Default dialog box</span>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="example">
+  <div class="header">Example</div>
+  <div class="content">
+    <input-button
+      id="example-dialog-link">
+      Click To Open
+    </input-button>
+  </div>
+</div>
 
 %html%
+
+<style>
+  my-dialog header,
+  my-dialog main {
+    text-align: center;
+  }
+</style>
 
 ## Code
 
-```
-%js%
+#### HTML
+```html
+%html%
 ```
 
-```
-%html%
+#### JS
+```js
+%js%
 ```
 
 ## Api

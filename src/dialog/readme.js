@@ -1,26 +1,21 @@
 class MyDialog extends Tonic.Dialog {
   click (e) {
-    if (!e.target.value) return
-
-    const color = Math.random().toString(16).slice(2, 8)
+    if (!e.target.matches('#update')) return
 
     this.reRender(props => ({
       ...props,
-      color,
-      message: `Random Color #${color}`
+      message: `Date stamp ${Date.now()}`
     }))
   }
 
   render () {
     return `
-      <header>
-        Dialog
-      </header>
+      <header>Dialog</header>
       <main>
-        <p style="color: #${this.props.color};">${this.props.message}</p>
+        ${this.props.message}
       </main>
       <footer>
-        <input-button value="increment">Random Color</input-button>
+        <input-button id="update">Update</input-button>
       </footer>
     `
   }

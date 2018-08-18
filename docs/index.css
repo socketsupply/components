@@ -326,6 +326,23 @@ body > main span.req {
   display: block;
   float: right;
 }
+body > main div.example {
+  width: 100%;
+  border: 1px solid var(--border);
+}
+body > main div.example .header {
+  font: 13px/16px var(--subheader);
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 12px 10px 9px 10px;
+  background-color: var(--background);
+  border-bottom: 1px solid var(--border);
+}
+body > main div.example .content {
+  max-width: 450px;
+  padding: 15px;
+}
 body > main table {
   width: 100%;
   text-align: left;

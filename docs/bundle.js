@@ -1122,7 +1122,8 @@ input-button button.active {
   background-color: var(--background);
   border-color: var(--background);
 }
-input-button button:not([disabled]):hover {
+input-button button:not([disabled]):hover,
+input-button button:not(.loading):hover {
   color: var(--window);
   background-color: var(--primary) !important;
   border-color: var(--primary) !important;
@@ -1133,11 +1134,12 @@ input-button button.loading {
   background: var(--medium);
   border-color: var(--medium);
   pointer-events: none;
-  transition: background 0.3s ease;
+  transition: all 0.3s ease;
 }
 input-button button.loading:hover {
-  background: var(--medium);
-  border-color: var(--medium);
+  color: transparent;
+  background: var(--medium) !important;
+  border-color: var(--medium) !important;
 }
 input-button button.loading:before {
   margin-top: -8px;
@@ -3168,27 +3170,22 @@ link2.addEventListener('click', e => {
 })
 class MyDialog extends Tonic.Dialog {
   click (e) {
-    if (!e.target.value) return
-
-    const color = Math.random().toString(16).slice(2, 8)
+    if (!e.target.matches('#update')) return
 
     this.reRender(props => ({
       ...props,
-      color,
-      message: `Random Color #${color}`
+      message: `Date stamp ${Date.now()}`
     }))
   }
 
   render () {
     return `
-      <header>
-        Dialog
-      </header>
+      <header>Dialog</header>
       <main>
-        <p style="color: #${this.props.color};">${this.props.message}</p>
+        ${this.props.message}
       </main>
       <footer>
-        <input-button value="increment">Random Color</input-button>
+        <input-button id="update">Update</input-button>
       </footer>
     `
   }
@@ -3200,10 +3197,10 @@ const link = document.getElementById('example-dialog-link')
 const dialog = document.getElementById('example-dialog')
 
 link.addEventListener('click', e => dialog.show())
-const button = document.getElementById('loading-button-example')
+const button = document.getElementById('input-button-example')
 button.addEventListener('click', e => {
   setTimeout(() => {
-    button.done()
+    button.loading(false)
   }, 3e3)
 })
 document.addEventListener('DOMContentLoaded', e => {

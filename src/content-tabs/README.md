@@ -3,51 +3,37 @@ The component `ContentTabs` creates a menu that activates sections when clicked 
 
 ## Demo
 
-<table class="example">
-  <thead>
-    <tr>
-      <th>Example</th>
-      <th>Description &amp; Code</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>
-        <content-tabs group="profile" selected="two">
-          <span data-tab-name="one">One</span>
-          <span data-tab-name="two">Two</span>
-          <span data-tab-name="three">Three</span>
-        </content-tabs>
-        <section data-tab-group="profile" data-tab-name="one">
-          Content One
-        </section>
-        <section data-tab-group="profile" data-tab-name="two">
-          Content Two
-        </section>
-        <section data-tab-group="profile" data-tab-name="three">
-          Content Three
-        </section>
-      </td>
-      <td>
-        <span id="content-tabs-tooltip-1">Default Tab Menu</span>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="example">
+  <div class="header">Example</div>
+  <div class="content">
+    <content-tabs group="profile" selected="two">
+      <span data-tab-name="one">One</span>
+      <span data-tab-name="two">Two</span>
+      <span data-tab-name="three">Three</span>
+    </content-tabs>
+    <section data-tab-group="profile" data-tab-name="one">
+      Content One
+    </section>
+    <section data-tab-group="profile" data-tab-name="two">
+      Content Two
+    </section>
+    <section data-tab-group="profile" data-tab-name="three">
+      Content Three
+    </section>
+  </div>
+</div>
 
 %html%
 
 ## Code
 
-Tabs have two imporant concepts. The idea of a `group` and the idea of a `name`.
-Each tab in a tab group will have content that is associated by a `name`.
+Tabs have two important concepts. The idea of a `group` and the idea of a `name`. Each tab in a tab group will have content that is associated by a `name`.
 
-The structure inside the `content-tabs` component can be arbitrary, spans,
-links, links inside divs, they can all be different, it doesn't matter as long
-as you add the `data-tab-name` property to the thing that will be clicked.
+The structure inside the `content-tabs` component is arbitrary: spans, links, links inside divs, they can all be different. You just need to add the `data-tab-name` property to the clickable item.
 
-The default tab should be specified by the `selected` property.
+The default tab should be specified using the `selected` property.
 
+#### HTML
 ```html
 <content-tabs group="profile" selected="one">
   <span data-tab-name="one">One</span>
@@ -58,9 +44,11 @@ The default tab should be specified by the `selected` property.
 </content-tabs>
 ```
 
-You can use any tag for the content (`section` is a nice one to use), and the
-tag containing the content can be located anywhere in your document.
+---
 
+You can use any tag for the content — `section` is a nice one to use — and the tag containing the content can be located anywhere in your document.
+
+#### HTML
 ```html
 <section data-tab-group="profile" data-tab-name="one">
   Content One

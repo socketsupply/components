@@ -29,21 +29,24 @@ input-button
       background-color var(--background)
       border-color var(--background)
 
-    &:not([disabled]):hover
-      color var(--window)
-      background-color var(--primary) !important
-      border-color var(--primary) !important
-      cursor pointer
+    &:not([disabled]),
+    &:not(.loading)
+      &:hover
+        color var(--window)
+        background-color var(--primary) !important
+        border-color var(--primary) !important
+        cursor pointer
 
     &.loading
       color transparent
       background var(--medium)
       border-color var(--medium)
       pointer-events none
-      transition background 0.3s ease
+      transition all 0.3s ease
       &:hover
-        background var(--medium)
-        border-color var(--medium)
+        color transparent
+        background var(--medium) !important
+        border-color var(--medium) !important
 
       &:before
         margin-top -8px

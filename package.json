@@ -38,6 +38,7 @@
     "autoprefixer-stylus": "^0.14.0",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
+    "qs": "github:hxoht/qs",
     "scrolltoy": "github:voltraco/scrolltoy",
     "stylus": "^0.54.5",
     "tonic": "github:hxoht/tonic"

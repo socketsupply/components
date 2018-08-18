@@ -13,7 +13,7 @@
 </head>
 
 
-      <body>
+      <body data-page="api">
         <div class="theme-picker">
           <svg>
             <use xlink:href="./sprite.svg#theme">
@@ -27,14 +27,14 @@
           </a>
 
           <div class="page-selection">
-            <a href="./index.html" class="current">Components</a>
-            <a href="./developer.html">Developer</a>
+            <a name="components" href="./index.html">Components</a>
+            <a name="api" href="./api.html">API</a>
           </div>
 
           <ul>
             
     <li>
-      <a href="#intro" class="">Intro</a>
+      <a href="#intro" class="selected">Intro</a>
     </li>
   
 
@@ -69,7 +69,7 @@
   
 
     <li>
-      <a href="#api" class="custom">API</a>
+      <a href="#api" class="">API</a>
     </li>
   
           </ul>
@@ -292,31 +292,16 @@ default. Here&#39;s how to make them public.</p>
       <h1 id="performance">Performance</h1>
 <p>If you have lots of structure, but only a few changes, you could pre-render your
 layout to create a reusable node and pass it to the render method. This
-structure could also come from a <code>&lt;template&gt;</code> tag which could also improve
+structure could also come from a <code>&lt;template&gt;</code> tag which my also improve
 performance.</p>
 <pre><code><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AnotherThing</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   <span class="hljs-keyword">constructor</span> (node) {
     <span class="hljs-keyword">super</span>(node)
+
     <span class="hljs-keyword">const</span> template = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">'template'</span>)
     template.appendChild(<span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">'span'</span>))  
 
     <span class="hljs-keyword">this</span>.template = template.content
-  }
-
-  willConnect () {
-    <span class="hljs-comment">//</span>
-    <span class="hljs-comment">// Set state on a component instance or on this instance,</span>
-    <span class="hljs-comment">// .reRender() will cause a downward cascade of re-rendering.</span>
-    <span class="hljs-comment">// Set props can also accept a function that will provide</span>
-    <span class="hljs-comment">// the current props as an argument.</span>
-    <span class="hljs-comment">//</span>
-    <span class="hljs-keyword">this</span>.reRender({ <span class="hljs-attr">value</span>: <span class="hljs-string">'foo'</span> })
-  }
-
-  connected () {
-    <span class="hljs-comment">//</span>
-    <span class="hljs-comment">// Target and update a few nodes directly.</span>
-    <span class="hljs-comment">//</span>
   }
 
   <span class="hljs-comment">//</span>

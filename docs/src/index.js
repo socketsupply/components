@@ -1,12 +1,16 @@
 const scrollToY = require('scrolltoy')
+const { qs, qsa } = require('qs')
 
-function ready () {
-  const main = document.querySelector('main')
-  const links = [].slice.call(document.querySelectorAll('nav ul li a'))
+function setupNavigation () {
+  const mainLink = qs(`a[name="${document.body.dataset.page}"]`)
+  mainLink.classList.add('active')
+
+  const main = qs('main')
+  const links = qsa('nav ul li a')
   const ranges = []
   let current
 
-  links.map(function (link) {
+  links.map(link => {
     const id = link.getAttribute('href').slice(1)
     const section = document.getElementById(id)
     const { top } = section.getBoundingClientRect()
@@ -18,10 +22,10 @@ function ready () {
       link: link
     })
 
-    link.addEventListener('click', function (event) {
+    link.addEventListener('click', event => {
       event.preventDefault()
 
-      const prev = document.querySelector('a.selected')
+      const prev = qs('a.selected')
       if (prev) prev.className = ''
       link.className = 'selected'
       scrollToY(main, section.offsetTop, 500)
@@ -40,19 +44,22 @@ function ready () {
         if (range.id === current) return
 
         current = range.id
-        var prev = document.querySelector('a.selected')
+        var prev = qs('a.selected')
         if (prev) prev.className = ''
         range.link.className = 'selected'
       }
     })
   }
+  main.addEventListener('scroll', onscroll)
+}
 
-  const themePicker = document.querySelector('.theme-picker')
+function ready () {
+  setupNavigation()
+
+  const themePicker = qs('.theme-picker')
   themePicker.addEventListener('click', e => {
     document.body.classList.toggle('theme-dark')
   })
-
-  main.addEventListener('scroll', onscroll)
 }
 
 document.addEventListener('DOMContentLoaded', ready)

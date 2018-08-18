@@ -251,13 +251,13 @@ body > nav .page-selection {
 }
 body > nav .page-selection a {
   display: inline-block;
-  padding: 0px 0px 7px 0px;
+  padding: 0px 0px 5px 0px;
   border-bottom: 1px solid transparent;
 }
 body > nav .page-selection a:first-of-type {
   margin-right: 15px;
 }
-body > nav .page-selection a.current,
+body > nav .page-selection a.active,
 body > nav .page-selection a:hover {
   border-bottom: 1px solid var(--primary);
 }

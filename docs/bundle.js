@@ -1,13 +1,17 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 const scrollToY = require('scrolltoy')
+const { qs, qsa } = require('qs')
 
-function ready () {
-  const main = document.querySelector('main')
-  const links = [].slice.call(document.querySelectorAll('nav ul li a'))
+function setupNavigation () {
+  const mainLink = qs(`a[name="${document.body.dataset.page}"]`)
+  mainLink.classList.add('active')
+
+  const main = qs('main')
+  const links = qsa('nav ul li a')
   const ranges = []
   let current
 
-  links.map(function (link) {
+  links.map(link => {
     const id = link.getAttribute('href').slice(1)
     const section = document.getElementById(id)
     const { top } = section.getBoundingClientRect()
@@ -19,10 +23,10 @@ function ready () {
       link: link
     })
 
-    link.addEventListener('click', function (event) {
+    link.addEventListener('click', event => {
       event.preventDefault()
 
-      const prev = document.querySelector('a.selected')
+      const prev = qs('a.selected')
       if (prev) prev.className = ''
       link.className = 'selected'
       scrollToY(main, section.offsetTop, 500)
@@ -41,24 +45,33 @@ function ready () {
         if (range.id === current) return
 
         current = range.id
-        var prev = document.querySelector('a.selected')
+        var prev = qs('a.selected')
         if (prev) prev.className = ''
         range.link.className = 'selected'
       }
     })
   }
+  main.addEventListener('scroll', onscroll)
+}
 
-  const themePicker = document.querySelector('.theme-picker')
+function ready () {
+  setupNavigation()
+
+  const themePicker = qs('.theme-picker')
   themePicker.addEventListener('click', e => {
     document.body.classList.toggle('theme-dark')
   })
-
-  main.addEventListener('scroll', onscroll)
 }
 
 document.addEventListener('DOMContentLoaded', ready)
 
-},{"scrolltoy":2}],2:[function(require,module,exports){
+},{"qs":2,"scrolltoy":3}],2:[function(require,module,exports){
+const qs = (s, p) => (p || document).querySelector(s)
+const qsa = (s, p) => [...(p || document).querySelectorAll(s)]
+
+module.exports = { qs, qsa }
+
+},{}],3:[function(require,module,exports){
 var requestFrame = (function () {
   return window.requestAnimationFrame ||
     window.webkitRequestAnimationFrame ||

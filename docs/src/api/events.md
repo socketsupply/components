@@ -39,10 +39,10 @@ The convention of most frameworks is to attach individual event listeners,
 such as `onClick={myHandler()}` or `click=myHandler`. In the case where
 you have a table with 2000 rows, this would create 2000 individual listeners.
 
-With [event delegation][5], we can attach a **single event listener** and watch
-for interactions on the child elements of a component. With this approach, fewer
-listeners are created and we do not need to rebind them when the DOM is
-re-created.
+Tonic prefers the [event delegation][5] pattern. With event delegation, we
+attach a **single event listener** and watch for interactions on the child
+elements of a component. With this approach, fewer listeners are created and we
+do not need to rebind them when the DOM is re-created.
 
 Each event handler method will receive the plain old Javascript `event` object.
 This object contains a `target` property, the exact element that was clicked.

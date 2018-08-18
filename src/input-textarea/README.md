@@ -70,3 +70,9 @@ It was the best of times, it was the worst of times, it was the age of wisdom, i
 | `height` | *string* | Set height of text area | `100%` |
 | `radius` | *string* | Set radius of text area | `2px` |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
+
+### Instance Methods & Members
+
+| Method | Description |
+| :--- | :--- |
+| `value` | A `getter` that provides the current value of the text area from inside of the component. |

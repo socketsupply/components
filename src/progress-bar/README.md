@@ -28,8 +28,14 @@ The component `ProgressBar` creates an updatable progress bar.
 | `color` | *string* | Changes the color of the progress bar. | `--accent` |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
-### Instance Methods & Members
+### Instance Methods
 
 | Method | Description |
 | :--- | :--- |
 | `setProgress(number)` | Sets the progress (percentage). |
+
+### Instance Members
+
+| Method | Description |
+| :--- | :--- |
+| `value` | A `getter` that provides the current percentage value of the progress bar. |

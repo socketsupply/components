@@ -2964,13 +2964,19 @@ class ProgressBar extends Tonic { /* global Tonic */
     super(node)
 
     this.root.setProgress = (n) => this.setProgress(n)
+    this.root.value = this.value
   }
+
   defaults () {
     return {
       width: '300px',
       height: '15px',
       progress: 0
     }
+  }
+
+  get value () {
+    return this.props.progress
   }
 
   getPropertyValue (s) {
@@ -3002,14 +3008,10 @@ progress-bar .wrapper .progress {
   }
 
   updated () {
-    console.log('UPDATED PROPS', this.props)
-
-    if (this.props.progress) {
-      setTimeout(() => {
-        const progressBar = this.root.querySelector('.progress')
-        if (progressBar) progressBar.style.width = `${this.props.progress}%`
-      }, 1024)
-    }
+    window.requestAnimationFrame(() => {
+      const progressBar = this.root.querySelector('.progress')
+      if (progressBar) progressBar.style.width = `${this.props.progress}%`
+    })
   }
 
   render () {
@@ -3019,8 +3021,6 @@ progress-bar .wrapper .progress {
       theme,
       progress
     } = this.props
-
-    console.log('RENDER PROPS', this.props)
 
     if (theme) this.root.classList.add(`theme-${theme}`)
 

@@ -225,18 +225,18 @@ component. It also helps you organize that code.</p>
 <p>The convention of most frameworks is to attach individual event listeners,
 such as <code>onClick={myHandler()}</code> or <code>click=myHandler</code>. In the case where
 you have a table with 2000 rows, this would create 2000 individual listeners.</p>
-<p>With <a href="https://davidwalsh.name/event-delegate">event delegation</a>, we can attach a <strong>single event listener</strong> and watch
-for interactions on the child elements of a component. With this approach, fewer
-listeners are created and we do not need to rebind them when the DOM is
-re-created.</p>
+<p>Tonic prefers the <a href="https://davidwalsh.name/event-delegate">event delegation</a> pattern. With event delegation, we
+attach a <strong>single event listener</strong> and watch for interactions on the child
+elements of a component. With this approach, fewer listeners are created and we
+do not need to rebind them when the DOM is re-created.</p>
 <p>Each event handler method will receive the plain old Javascript <code>event</code> object.
 This object contains a <code>target</code> property, the exact element that was clicked.
 The <code>path</code> property is an array of elements containing the exact hierarchy.</p>
 <p>Some helpful native DOM APIs for testing properties of an element:</p>
 <ul>
 <li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/matches"><code>Element.matches(String)</code></a> tests if an element matches a selector</li>
-<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/closest"><code>Element.closest(String)</code></a> finds the closest ancestor from the element that
-matches the given selector</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/closest"><code>Element.closest(String)</code></a> finds the closest ancestor from the element
+that matches the given selector</li>
 </ul>
 <p>Tonic also provides a helper function which checks if the element matches the
 selector, and if not, tries to find the closest match.</p>

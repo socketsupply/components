@@ -1,4 +1,4 @@
-# Performance And Optimizations
+# Performance
 
 If you have lots of structure, but only a few changes, you could pre-render your
 layout to create a reusable node and pass it to the render method. This
@@ -39,4 +39,3 @@ class AnotherThing extends Tonic {
   }
 }
 ```
-

@@ -13,6 +13,17 @@ body
   margin 0
   background-color var(--window)
 
+  &[data-group="custom"]
+    [data-group="component"]
+      display none
+    [data-group="custom"]
+      display block
+
+  [data-group="custom"]
+    display none
+  [data-group="component"]
+    display block
+
 p
   font 16px/26px var(--body)
 

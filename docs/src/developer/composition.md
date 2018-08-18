@@ -1,4 +1,4 @@
-# Component Composition
+# Composition
 
 You may want to move the children of a component inside some aditional layout
 when the render() function is executed. The `this.children` property is helpful

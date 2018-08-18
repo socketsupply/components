@@ -9,10 +9,11 @@ function ready () {
   links.map(function (link) {
     const id = link.getAttribute('href').slice(1)
     const section = document.getElementById(id)
+    const { top } = section.getBoundingClientRect()
 
     ranges.push({
-      upper: section.offsetTop,
-      lower: section.offsetTop + section.offsetHeight,
+      upper: top,
+      lower: top + section.offsetHeight,
       id: id,
       link: link
     })

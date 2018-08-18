@@ -1,4 +1,4 @@
-# Component Styling
+# Styling
 
 Any styles returned from your component will be attached to a style element in
 the head.

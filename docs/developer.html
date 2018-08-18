@@ -1,0 +1,496 @@
+
+    <!DOCTYPE html>
+
+      <head>
+  <title>Tonic - Component Based Architecture</title>
+  <link href="https://fonts.googleapis.com/css?family=Caudex|Poppins:400,600|Space+Mono" rel="stylesheet">
+  <link href="index.css" rel="stylesheet">
+  <link rel="icon" type="image/png" href="./favicon.png">
+
+  <meta http-equiv="Content-Type" charset="utf-8" content="text/html">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1 user-scalable=no">
+  <meta name="description" content="Component Based Architecture">
+</head>
+
+
+      <body>
+        <div class="theme-picker">
+          <svg>
+            <use xlink:href="./sprite.svg#theme">
+          </svg>
+        </div>
+        <nav>
+          <a href="./index.html" class="logo">
+            <svg>
+              <use xlink:href="./sprite.svg#tonic_logo">
+            </svg>
+          </a>
+
+          <ul>
+            
+    <li>
+      <a href="#intro" class="">Intro</a>
+    </li>
+  
+
+    <li>
+      <a href="#api" class="custom">API</a>
+    </li>
+  
+
+    <li>
+      <a href="#composition" class="">Composition</a>
+    </li>
+  
+
+    <li>
+      <a href="#events" class="">Events</a>
+    </li>
+  
+
+    <li>
+      <a href="#methods" class="">Methods</a>
+    </li>
+  
+
+    <li>
+      <a href="#performance" class="">Performance</a>
+    </li>
+  
+
+    <li>
+      <a href="#state-and-properties" class="">State and Properties</a>
+    </li>
+  
+
+    <li>
+      <a href="#styling" class="">Styling</a>
+    </li>
+  
+          </ul>
+
+        </nav>
+        <main>
+
+          
+    <section id="intro">
+      <h1 id="intro">Intro</h1>
+<p>Building a component with Tonic starts with creating a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes">Javascript Class</a>.
+The class should have at least one method named <em>render</em> which usually returns
+a string of HTML.</p>
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyGreeting</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+  <span class="hljs-comment">//</span>
+  <span class="hljs-comment">// The render function can return a template-literal of HTML, it can include</span>
+  <span class="hljs-comment">// other components as well. It can also return a dom node, we'll talk about</span>
+  <span class="hljs-comment">// that later.</span>
+  <span class="hljs-comment">//</span>
+  render () {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div&gt;Hello, World.&lt;/div&gt;`</span>
+  }
+}</code></pre>
+<p>How you name your class will determine the tag name of your component. For
+example, a class named <code>Greeting</code> will become <code>&lt;greeting&gt;&lt;/greeting&gt;</code>. Camel
+case tag names will be hyphenated.</p>
+<hr>
+<p>Next, you need to tell the browser about your new class and it will create a
+custom HTML tag for it. Your top most component should generally be added after
+the <a href="https://caniuse.com/#search=domcontentloaded">DOM is ready</a>.</p>
+<pre><code class="language-js">Tonic.add(MyGreeting)</code></pre>
+<hr>
+<p>After adding your Javascript to your HTML, you can start to use your component
+tags. And remember, all custom tags require a closing tag.</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"index.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">my-greeting</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">my-greeting</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+<hr>
+<p>When the HTML is rendered by the browser, the result of your render function
+will be inserted into the component. As you can see — the potential complexity
+of your code will be hidden from the programmer using it, making their reality a
+little simpler.</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"index.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">my-greeting</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>Hello, World.<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">my-greeting</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+
+    </section>
+  
+
+    <section id="api">
+      <h1 id="apis">APIs</h1>
+<h2 id="static-methods">STATIC METHODS</h2>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>add(Class, Object)</code></td>
+<td align="left">Register a class as a new custom-tag and provide optional options for it.</td>
+</tr>
+<tr>
+<td align="left"><code>escape(String)</code></td>
+<td align="left">Escapes HTML characters from a string (based on <a href="https://github.com/mathiasbynens/he">he</a>).</td>
+</tr>
+<tr>
+<td align="left"><code>sanitize(Object)</code></td>
+<td align="left">Escapes all the strings found in an object literal.</td>
+</tr>
+<tr>
+<td align="left"><code>match(Node, Selector)</code></td>
+<td align="left">Match the given node against a selector or any matching parent of the given node. This is useful when trying to locate a node from the actual node that was interacted with.</td>
+</tr>
+</tbody></table>
+<h2 id="instance-methods">INSTANCE METHODS</h2>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>reRender(Object &#124; Function)</code></td>
+<td align="left">Set the properties of a component instance. Can also take a function which will receive the current props as an argument.</td>
+</tr>
+<tr>
+<td align="left"><code>getProps()</code></td>
+<td align="left">Get the properties of a component instance.</td>
+</tr>
+<tr>
+<td align="left"><code>setState(Object &#124; Function)</code></td>
+<td align="left">Set the state of a component instance. Can also take a function which will receive the current props as an argument.</td>
+</tr>
+<tr>
+<td align="left"><code>style()</code></td>
+<td align="left">Returns a string of css to be inlined with the component. This will be &quot;scoped&quot; so that it does not affect the rest of the page. It will also persist across re-renders to save on parsing costs.</td>
+</tr>
+<tr>
+<td align="left"><code>render()</code></td>
+<td align="left">Returns HTML to be parsed or a dom node that will overwrite. There is usually no need to call this directly, prefer <code>componentInstance.reRender({ ... })</code>.</td>
+</tr>
+<tr>
+<td align="left">html`...`</td>
+<td align="left">Tidy up an HTML string (use as a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals">tagged template</a>).</td>
+</tr>
+</tbody></table>
+<h2 id="lifecycle-instance-methods">&quot;LIFECYCLE&quot; INSTANCE METHODS</h2>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>constructor(props)</code></td>
+<td align="left">An instance of the element is created or upgraded. Useful for initializing state, setting up event listeners, or creating shadow dom. See the spec for restrictions on what you can do in the constructor. A constructor will receive an argument of <code>props</code> and must call <code>super(props)</code>.</td>
+</tr>
+<tr>
+<td align="left"><code>willConnect()</code></td>
+<td align="left">Called prior to the element being inserted into the DOM. Useful for updating configuration, state and preparing for the render.</td>
+</tr>
+<tr>
+<td align="left"><code>connected()</code></td>
+<td align="left">Called every time the element is inserted into the DOM. Useful for running setup code, such as fetching resources or rendering. Generally, you should try to delay work until this time.</td>
+</tr>
+<tr>
+<td align="left"><code>disconnected()</code></td>
+<td align="left">Called every time the element is removed from the DOM. Useful for running clean up code.</td>
+</tr>
+<tr>
+<td align="left"><code>updated(oldProps)</code></td>
+<td align="left">Called after reRender() is called. This method is not called on the initial render.</td>
+</tr>
+</tbody></table>
+
+    </section>
+  
+
+    <section id="composition">
+      <h1 id="composition">Composition</h1>
+<p>You may want to move the children of a component inside some aditional layout
+when the render() function is executed. The <code>this.children</code> property is helpful
+for this. This is not a &quot;special&quot; member of the <code>props</code> object like React
+(which is unintuitive), it&#39;s a member of the class instance.</p>
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Parent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+  render () {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`
+      &lt;div class="parent"&gt;
+        &lt;another-component&gt;
+          <span class="hljs-subst">${<span class="hljs-keyword">this</span>.children}</span>
+        &lt;/another-component&gt;
+      &lt;/div&gt;
+    `</span>
+  }
+}
+
+Tonic.add(Parent)
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Child</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+  render () {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`
+      &lt;div class="child"&gt;
+        <span class="hljs-subst">${<span class="hljs-keyword">this</span>.props.value}</span>
+      &lt;/div&gt;
+    `</span>
+  }
+}
+
+Tonic.add(Child)</code></pre>
+<h3 id="input-html">Input HTML</h3>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">child</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"hello world"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">child</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span></code></pre>
+<h3 id="output-html">Output HTML</h3>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"parent"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">another-component</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">child</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"child"</span>&gt;</span>hello world<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">child</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">another-component</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span></code></pre>
+
+    </section>
+  
+
+    <section id="events">
+      <h1 id="events">Events</h1>
+<p>Tonic helps you capture events that happen when someone interacts with your
+component. It also helps you organize that code.</p>
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Example</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+  <span class="hljs-comment">//</span>
+  <span class="hljs-comment">// You can listen to any DOM event that happens in your component</span>
+  <span class="hljs-comment">// by creating a method with the corresponding name. The method will</span>
+  <span class="hljs-comment">// receive the plain old Javascript event object.</span>
+  <span class="hljs-comment">//</span>
+  mouseover (e) {
+    <span class="hljs-comment">// ...</span>
+  }
+
+  change (e) {
+    <span class="hljs-comment">// ...</span>
+  }
+
+  click (e) {
+    <span class="hljs-comment">//</span>
+    <span class="hljs-comment">// You may want to check which element in the component was actually</span>
+    <span class="hljs-comment">// clicked. You can also check the `e.path` attribute to see what was</span>
+    <span class="hljs-comment">// clicked (helpful when handling clicks on top of SVGs).</span>
+    <span class="hljs-comment">//</span>
+    <span class="hljs-keyword">if</span> (!e.target.matches(<span class="hljs-string">'.parent'</span>)) <span class="hljs-keyword">return</span>
+
+    <span class="hljs-comment">// ...</span>
+  }
+
+  render () {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div&gt;&lt;/div&gt;`</span>
+  }
+}</code></pre>
+<p>The convention of most frameworks is to attach individual event listeners,
+such as <code>onClick={myHandler()}</code> or <code>click=myHandler</code>. In the case where
+you have a table with 2000 rows, this would create 2000 individual listeners.</p>
+<p>With <a href="https://davidwalsh.name/event-delegate">event delegation</a>, we can attach a <strong>single event listener</strong> and watch
+for interactions on the child elements of a component. With this approach, fewer
+listeners are created and we do not need to rebind them when the DOM is
+re-created.</p>
+<p>Each event handler method will receive the plain old Javascript <code>event</code> object.
+This object contains a <code>target</code> property, the exact element that was clicked.
+The <code>path</code> property is an array of elements containing the exact hierarchy.</p>
+<p>Some helpful native DOM APIs for testing properties of an element:</p>
+<ul>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/matches"><code>Element.matches(String)</code></a> tests if an element matches a selector</li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/closest"><code>Element.closest(String)</code></a> finds the closest ancestor from the element that
+matches the given selector</li>
+</ul>
+<p>Tonic also provides a helper function which checks if the element matches the
+selector, and if not, tries to find the closest match.</p>
+<pre><code class="language-js">Tonic.matches(el, <span class="hljs-string">'selector'</span>)</code></pre>
+<p>Here, when a particular element inside a child component is clicked, we
+intercept the click event and pass along some data to the parent component.</p>
+<h3 id="example">Example</h3>
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Child</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+  click (e) {
+    e.detail.bar = <span class="hljs-literal">true</span>
+  }
+  render () {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div class="foo"&gt;Click Me&lt;/div&gt;`</span>
+  }
+}
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Parent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+  click (e) {
+    <span class="hljs-keyword">if</span> (e.target.matches(<span class="hljs-string">'.foo'</span>)) {
+      <span class="hljs-built_in">console</span>.log(e.detail.bar)
+    }
+  }
+  render () {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;child&gt;&lt;/child&gt;`</span>
+  }
+}</code></pre>
+<p>The event object has a <a href="https://developer.mozilla.org/en-US/docs/Web/API/Event/stopPropagation"><code>Event.stopPropagation()</code></a> method that is useful for
+preventing an event from bubbling up to parent components. You may also be
+interested in the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault"><code>Event.preventDefault()</code></a> method.</p>
+
+    </section>
+  
+
+    <section id="methods">
+      <h1 id="methods">Methods</h1>
+<p>Sometimes you want to expose a method for other people to use. All your
+component&#39;s methods are private by default! Here&#39;s how to make them accessible.</p>
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ExampleComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+  <span class="hljs-keyword">constructor</span> (props) {
+    <span class="hljs-keyword">super</span>(props)
+    <span class="hljs-keyword">this</span>.root.exampleMethod = <span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> <span class="hljs-keyword">this</span>.exampleMethod()
+  }
+
+  exampleMethod () {
+    <span class="hljs-comment">// ...</span>
+  }
+}</code></pre>
+
+    </section>
+  
+
+    <section id="performance">
+      <h1 id="performance">Performance</h1>
+<p>If you have lots of structure, but only a few changes, you could pre-render your
+layout to create a reusable node and pass it to the render method. This
+structure could also come from a <code>&lt;template&gt;</code> tag which could also improve
+performance.</p>
+<pre><code><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">AnotherThing</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+  <span class="hljs-keyword">constructor</span> (props) {
+    <span class="hljs-keyword">super</span>(props)
+    <span class="hljs-keyword">const</span> template = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">'template'</span>)
+    template.appendChild(<span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">'span'</span>))  
+
+    <span class="hljs-keyword">this</span>.template = template.content
+  }
+
+  willConnect () {
+    <span class="hljs-comment">//</span>
+    <span class="hljs-comment">// Set state on a component instance or on this instance,</span>
+    <span class="hljs-comment">// .reRender() will cause a downward cascade of re-rendering.</span>
+    <span class="hljs-comment">// Set props can also accept a function that will provide</span>
+    <span class="hljs-comment">// the current props as an argument.</span>
+    <span class="hljs-comment">//</span>
+    <span class="hljs-keyword">this</span>.reRender({ <span class="hljs-attr">value</span>: <span class="hljs-string">'foo'</span> })
+  }
+
+  connected () {
+    <span class="hljs-comment">//</span>
+    <span class="hljs-comment">// Target and update a few nodes directly.</span>
+    <span class="hljs-comment">//</span>
+  }
+
+  <span class="hljs-comment">//</span>
+  <span class="hljs-comment">// Render will automatically deep-clone this node for you.</span>
+  <span class="hljs-comment">//</span>
+  render () {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.template
+  }
+}</code></pre>
+    </section>
+  
+
+    <section id="state-and-properties">
+      <h1 id="state-and-properties">State and Properties</h1>
+<h2 id="passing-data-to-your-components">Passing data to your components</h2>
+<p>Add components to your HTML, pass them arguments just like with regular HTML.</p>
+<pre><code class="language-js">&lt;my-component value=<span class="hljs-string">"7a"</span>&gt;<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">my-component</span>&gt;</span></span></code></pre>
+<p>Native HTML only understands strings. If you want to pass non-string props (like
+some json) you need to stringify it. If you surround your property value with
+curly braces <code>{...}</code>, the value will be parsed as JSON. But you should not
+pass complex objects like functions though your HTML. Keep that in your JS!</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">parent-component</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"parent"</span> <span class="hljs-attr">data</span>=<span class="hljs-string">{[1,2,3]}</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">parent-component</span>&gt;</span></code></pre>
+<p>Alternatively, you can call the <code>reRender(...)</code> method on the element directly.
+This is a better way to pass data if you have larger data it wont need to first
+pass though the HTML.</p>
+<pre><code class="language-js"><span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'parent'</span>).reRender({ <span class="hljs-attr">data</span>: [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>, ..<span class="hljs-number">.9999</span>] })</code></pre>
+<h2 id="managing-state-and-props">Managing state and props</h2>
+<p><code>.reRender()</code> and <code>.setState()</code> can receive either an object or a function as an
+argument. For example...</p>
+<pre><code class="language-js"><span class="hljs-comment">//</span>
+<span class="hljs-comment">// Update a component's properties</span>
+<span class="hljs-comment">//</span>
+myComponent.reRender(<span class="hljs-function"><span class="hljs-params">props</span> =&gt;</span> ({
+  ...props,
+  <span class="hljs-attr">color</span>: <span class="hljs-string">'red'</span>
+}))</code></pre>
+<pre><code class="language-js"><span class="hljs-comment">//</span>
+<span class="hljs-comment">// Reset a component's properties</span>
+<span class="hljs-comment">//</span>
+myComponent.reRender({ <span class="hljs-attr">color</span>: <span class="hljs-string">'red'</span> })</code></pre>
+<pre><code class="language-js"><span class="hljs-comment">//</span>
+<span class="hljs-comment">// Re-render a component with its existing properties</span>
+<span class="hljs-comment">//</span>
+myComponent.reRender()</code></pre>
+<p>The value received by <code>.reRender()</code> should represent the properties of the
+component (those properties should generally be considered immutable and
+provided by the top-most parent component).</p>
+<p><code>.setState()</code> receives a value that describes the state of the component, under
+the hood this is a plain old javascript object. It&#39;s values may be used by the
+component&#39;s render function.</p>
+<p><code>.setState()</code> will not cause a re-render. The reasoning behind this is that
+<code>state</code> can be updated independently, as needed and rendering happens only when
+changes to the representation of the component are required.</p>
+
+    </section>
+  
+
+    <section id="styling">
+      <h1 id="styling">Styling</h1>
+<p>Any styles returned from your component will be attached to a style element in
+the head.</p>
+<p>It is important to prefix your styles with the name of the component to ensure the proper scope. Otherwise, the styles may apply to other parts of the page where the component is used.</p>
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyGreeting</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+  style () {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`
+      my-greeting div {
+        display: inline-block;
+        border: 1px dotted #666;
+        height: 100px;
+        width: 100px;
+        line-height: 90px;
+      }
+    `</span>
+  }
+
+  render () {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div&gt;&lt;/div&gt;`</span>
+  }
+}</code></pre>
+
+    </section>
+  
+
+          <footer>
+            <a href="#">
+              <span>Made by</span>
+              <svg>
+                <use xlink:href="./sprite.svg#cl_logo">
+              </svg>
+            </a>
+          </footer>
+        </main>
+        <script src="bundle.js"></script>
+      </body>
+    </html>
+  

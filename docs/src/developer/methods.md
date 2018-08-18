@@ -1,4 +1,4 @@
-# Component Methods
+# Methods
 
 Sometimes you want to expose a method for other people to use. All your
 component's methods are private by default! Here's how to make them accessible.
@@ -15,4 +15,3 @@ class ExampleComponent extends Tonic {
   }
 }
 ```
-

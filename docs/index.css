@@ -127,6 +127,18 @@ body {
   margin: 0;
   background-color: var(--window);
 }
+body[data-group="custom"] [data-group="component"] {
+  display: none;
+}
+body[data-group="custom"] [data-group="custom"] {
+  display: block;
+}
+body [data-group="custom"] {
+  display: none;
+}
+body [data-group="component"] {
+  display: block;
+}
 p {
   font: 16px/26px var(--body);
 }

@@ -1,8 +1,8 @@
-# Building a Custom Component
+# Intro
 
-Building a component starts with creating a [Javascript Class][0]. The class
-should have at least one method named *render* which usually returns a string
-of HTML.
+Building a component with Tonic starts with creating a [Javascript Class][0].
+The class should have at least one method named *render* which usually returns
+a string of HTML.
 
 ```js
 class MyGreeting extends Tonic {

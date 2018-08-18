@@ -1405,6 +1405,9 @@ class InputSelect extends Tonic { /* global Tonic */
   constructor (props) {
     super(props)
     this.root.loading = (state) => this.loading(state)
+    this.root.option = this.option
+    this.root.value = this.value
+    this.root.selectedIndex = this.selectedIndex
   }
 
   defaults () {
@@ -1546,7 +1549,6 @@ input-select label {
 
   render () {
     const {
-      id,
       name,
       disabled,
       required,
@@ -1557,10 +1559,8 @@ input-select label {
       radius
     } = this.props
 
-    const idAttr = id ? `id="${id}"` : ''
     const nameAttr = name ? `name="${name}"` : ''
 
-    if (id) this.root.removeAttribute('id')
     if (theme) this.root.classList.add(`theme-${theme}`)
 
     this.root.style.width = width
@@ -1581,7 +1581,6 @@ input-select label {
         ${this.renderLabel()}
 
         <select
-          ${idAttr}
           ${nameAttr}
           ${disabled ? 'disabled' : ''}
           ${required ? 'required' : ''}
@@ -3208,6 +3207,19 @@ button.addEventListener('click', e => {
   setTimeout(() => {
     button.done()
   }, 3e3)
+})
+document.addEventListener('DOMContentLoaded', e => {
+  const select = document.getElementById('options-example-1')
+  const notification = document.getElementsByTagName('notification-center')[0]
+
+  select.addEventListener('change', ({ target }) => {
+    notification.create({
+      type: 'success',
+      message: `Selected option was "${select.value}".`,
+      title: 'Selection',
+      duration: 2000
+    })
+  })
 })
 const setInvalid = document.querySelector('input-button[value="set-invalid"]')
 const setValid = document.querySelector('input-button[value="set-valid"]')

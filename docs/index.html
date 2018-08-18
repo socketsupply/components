@@ -1179,17 +1179,10 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
   <tbody>
     <tr>
       <td>
-        <input-select label="Type of Bird" id="options-example-1">
-          <option value="none" selected disabled>Select One</option>
-          <optgroup label="Aerial Birds">
-            <option value="sparrow">Sparrow</option>
-            <option value="dove">Dove</option>
-            <option value="crow">Crow</option>
-          </optgroup>
-          <optgroup label="Water Birds">
-            <option value="duck">Duck</option>
-            <option value="swan">Swan</option>
-          </optgroup>
+        <input-select label="Example Select" id="options-example-1">
+          <option value="a">Option A</option>
+          <option value="b">Option B</option>
+          <option value="c">Option C</option>
         </input-select>
       </td>
       <td>
@@ -1206,6 +1199,20 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
   <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"b"</span>&gt;</span>Option B<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"c"</span>&gt;</span>Option C<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">input-select</span>&gt;</span></code></pre>
+<pre><code class="language-js"><span class="hljs-built_in">document</span>.addEventListener(<span class="hljs-string">'DOMContentLoaded'</span>, e =&gt; {
+  <span class="hljs-keyword">const</span> select = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'options-example-1'</span>)
+  <span class="hljs-keyword">const</span> notification = <span class="hljs-built_in">document</span>.getElementsByTagName(<span class="hljs-string">'notification-center'</span>)[<span class="hljs-number">0</span>]
+
+  select.addEventListener(<span class="hljs-string">'change'</span>, ({ target }) =&gt; {
+    notification.create({
+      <span class="hljs-attr">type</span>: <span class="hljs-string">'success'</span>,
+      <span class="hljs-attr">message</span>: <span class="hljs-string">`Selected option was "<span class="hljs-subst">${select.value}</span>".`</span>,
+      <span class="hljs-attr">title</span>: <span class="hljs-string">'Selection'</span>,
+      <span class="hljs-attr">duration</span>: <span class="hljs-number">2000</span>
+    })
+  })
+})
+</code></pre>
 <h2 id="api">Api</h2>
 <h3 id="properties">Properties</h3>
 <table>

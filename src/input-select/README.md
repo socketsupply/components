@@ -14,17 +14,10 @@ The component `InputSelect` creates an select input.
   <tbody>
     <tr>
       <td>
-        <input-select label="Type of Bird" id="options-example-1">
-          <option value="none" selected disabled>Select One</option>
-          <optgroup label="Aerial Birds">
-            <option value="sparrow">Sparrow</option>
-            <option value="dove">Dove</option>
-            <option value="crow">Crow</option>
-          </optgroup>
-          <optgroup label="Water Birds">
-            <option value="duck">Duck</option>
-            <option value="swan">Swan</option>
-          </optgroup>
+        <input-select label="Example Select" id="options-example-1">
+          <option value="a">Option A</option>
+          <option value="b">Option B</option>
+          <option value="c">Option C</option>
         </input-select>
       </td>
       <td>
@@ -44,6 +37,10 @@ The component `InputSelect` creates an select input.
   <option value="b">Option B</option>
   <option value="c">Option C</option>
 </input-select>
+```
+
+```js
+%js%
 ```
 
 ## Api

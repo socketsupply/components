@@ -2,6 +2,9 @@ class InputSelect extends Tonic { /* global Tonic */
   constructor (props) {
     super(props)
     this.root.loading = (state) => this.loading(state)
+    this.root.option = this.option
+    this.root.value = this.value
+    this.root.selectedIndex = this.selectedIndex
   }
 
   defaults () {
@@ -53,7 +56,6 @@ class InputSelect extends Tonic { /* global Tonic */
 
   render () {
     const {
-      id,
       name,
       disabled,
       required,
@@ -64,10 +66,8 @@ class InputSelect extends Tonic { /* global Tonic */
       radius
     } = this.props
 
-    const idAttr = id ? `id="${id}"` : ''
     const nameAttr = name ? `name="${name}"` : ''
 
-    if (id) this.root.removeAttribute('id')
     if (theme) this.root.classList.add(`theme-${theme}`)
 
     this.root.style.width = width
@@ -88,7 +88,6 @@ class InputSelect extends Tonic { /* global Tonic */
         ${this.renderLabel()}
 
         <select
-          ${idAttr}
           ${nameAttr}
           ${disabled ? 'disabled' : ''}
           ${required ? 'required' : ''}

@@ -3,22 +3,19 @@ The component `ProgressBar` creates an updatable progress bar.
 
 ## Demo
 
-<table class="example">
-  <thead>
-    <tr>
-      <th>Example</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><progress-bar></progress-bar></td>
-      <td>
-          Default Progress Bar
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="example">
+  <div class="header">Example</div>
+  <div class="content">
+    <progress-bar></progress-bar>
+  </div>
+</div>
+
+## Code
+
+#### HTML
+```html
+<progress-bar></progress-bar>
+```
 
 ## Api
 

@@ -1342,6 +1342,7 @@ input-select.loading .wrapper:before {
   transition: opacity 0.3s ease;
 }
 input-select select {
+  color: var(--primary);
   font: 14px var(--monospace);
   padding: 10px 20px 10px 10px;
   background-color: var(--window);
@@ -2823,7 +2824,10 @@ class ProfileImage extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `profile-image .wrapper {
+    return `profile-image {
+  display: inline-block;
+}
+profile-image .wrapper {
   position: relative;
   overflow: hidden;
 }

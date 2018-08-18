@@ -3,65 +3,25 @@ The component `ProfileImage` is used to create an SVG icon with a custom size an
 
 ## Demo
 
-<table class="example">
-  <thead>
-    <tr>
-      <th>Example</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><profile-image size="18px"></profile-image></td>
-      <td>
-        <span id="profile-image-tooltip-1">
-          Small Profile Image (18px)
-        </span>
-      </td>
-    </tr>
-    <tr>
-      <td><profile-image></profile-image></td>
-      <td>
-        <span id="profile-image-tooltip-2">
-          Default Profile Image (25px)
-        </span>
-      </td>
-    </tr>
-    <tr>
-      <td><profile-image size="75px" radius="100%"></profile-image></td>
-      <td>
-        <span id="profile-image-tooltip-3">
-          Profile Image with Radius (75px)
-        </span>
-      </td>
-    </tr>
-    <tr>
-      <td><profile-image size="150px"></profile-image></td>
-      <td>
-        <span id="profile-image-tooltip-4">
-          Large Profile Image (150px)
-        </span>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <profile-image
-          id="profile-image-example-editable"
-          size="150px"
-          editable>
-        </profile-image>
-      </td>
-      <td>
-        <span id="profile-image-tooltip-5">
-          Large Editable Profile Image (150px)
-        </span>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="example">
+  <div class="header">Example</div>
+  <div class="content">
+    <profile-image
+      id="profile-image-example-editable"
+      size="150px"
+      editable>
+    </profile-image>
+  </div>
+</div>
 
+## Code
+
+#### HTML
+```html
 %html%
+```
 
+#### JS
 ```js
 %js%
 ```

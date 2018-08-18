@@ -1478,6 +1478,7 @@ input-select.loading .wrapper:before {
   transition: opacity 0.3s ease;
 }
 input-select select {
+  color: var(--primary);
   font: 14px var(--monospace);
   padding: 10px 20px 10px 10px;
   background-color: var(--window);
@@ -2959,7 +2960,10 @@ class ProfileImage extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `profile-image .wrapper {
+    return `profile-image {
+  display: inline-block;
+}
+profile-image .wrapper {
   position: relative;
   overflow: hidden;
 }
@@ -3329,5 +3333,6 @@ const panel = document.getElementById('content-panel-example')
 
 panelLink.addEventListener('click', e => panel.show())
 const profile = document.getElementById('profile-image-example-editable')
+
 profile.addEventListener('changed', e => console.log(e.detail))
 profile.addEventListener('error', e => console.log(e.detail))

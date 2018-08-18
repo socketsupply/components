@@ -4,29 +4,15 @@ your own panel class which can be registered and then used as a tag.
 
 ## Demo
 
-<table class="example">
-  <thead>
-    <tr>
-      <th>Example</th>
-      <th>Description &amp; Code</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>
-        <input-button
-          id="content-panel-link-example">
-          Click to open
-        </input-button>
-      </td>
-      <td>
-        <span id="content-panel-tooltip-1">
-          Default Content Panel with overlay (right)
-        </span>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="example">
+  <div class="header">Example</div>
+  <div class="content">
+    <input-button
+      id="content-panel-link-example">
+      Click to open
+    </input-button>
+  </div>
+</div>
 
 %html%
 
@@ -38,12 +24,14 @@ your own panel class which can be registered and then used as a tag.
 
 ## Code
 
-```js
-%js%
-```
-
+#### HTML
 ```html
 %html%
+```
+
+#### JS
+```js
+%js%
 ```
 
 ## Api

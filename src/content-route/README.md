@@ -1,8 +1,5 @@
 # ContentRoute
-The `ContentRoute` component will render it's children components if the
-browser's current url matches its `path` property. This component will detect
-`pushstate`, `popstate` and `replacestate` events and rerender with the
-attributes of the url.
+The `ContentRoute` component will render its children components if the browser's current url matches its `path` property. This component will detect `pushstate`, `popstate` and `replacestate` events and re-render with the attributes of the url.
 
 ## Demo
 
@@ -30,10 +27,12 @@ attributes of the url.
 
 ## Code
 
+#### HTML
 ```html
 %html%
 ```
 
+#### JS
 ```js
 %js%
 ```
@@ -64,15 +63,3 @@ attributes of the url.
 | :--- | :--- | :--- | :--- |
 | `path` | *string* | A tokenized string to match against the current url, `/books/:book` for example. | |
 | `none` | *string* | If specified, and no matches have been made so far, this component will render. | |
-
-### Static Methods & Members
-
-| Method | Description |
-| :--- | :--- |
-| `methodName()` | Description |
-
-### Instance Methods & Members
-
-| Method | Description |
-| :--- | :--- |
-| `methodName()` | Description |

@@ -164,10 +164,7 @@
           </section>
 
           <section id="contentroute"><h1 id="contentroute">ContentRoute</h1>
-<p>The <code>ContentRoute</code> component will render it&#39;s children components if the
-browser&#39;s current url matches its <code>path</code> property. This component will detect
-<code>pushstate</code>, <code>popstate</code> and <code>replacestate</code> events and rerender with the
-attributes of the url.</p>
+<p>The <code>ContentRoute</code> component will render its children components if the browser&#39;s current url matches its <code>path</code> property. This component will detect <code>pushstate</code>, <code>popstate</code> and <code>replacestate</code> events and re-render with the attributes of the url.</p>
 <h2 id="demo">Demo</h2>
 <table class="example">
   <thead>
@@ -192,6 +189,7 @@ attributes of the url.</p>
 </table>
 
 <h2 id="code">Code</h2>
+<h4 id="html">HTML</h4>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">content-route</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"/foo/:number"</span>&gt;</span>
   Content for "/foo/:number".
 <span class="hljs-tag">&lt;/<span class="hljs-name">content-route</span>&gt;</span>
@@ -200,6 +198,7 @@ attributes of the url.</p>
   404
 <span class="hljs-tag">&lt;/<span class="hljs-name">content-route</span>&gt;</span>
 </code></pre>
+<h4 id="js">JS</h4>
 <pre><code class="language-js"><span class="hljs-keyword">const</span> link1 = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'content-route-link-1'</span>)
 <span class="hljs-keyword">const</span> link2 = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'content-route-link-2'</span>)
 
@@ -253,32 +252,6 @@ link2.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
 <td align="left"><em>string</em></td>
 <td align="left">If specified, and no matches have been made so far, this component will render.</td>
 <td align="left"></td>
-</tr>
-</tbody></table>
-<h3 id="static-methods-members">Static Methods &amp; Members</h3>
-<table>
-<thead>
-<tr>
-<th align="left">Method</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>methodName()</code></td>
-<td align="left">Description</td>
-</tr>
-</tbody></table>
-<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
-<table>
-<thead>
-<tr>
-<th align="left">Method</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>methodName()</code></td>
-<td align="left">Description</td>
 </tr>
 </tbody></table>
 </section><section id="contenttabs"><h1 id="contenttabs">ContentTabs</h1>
@@ -1534,6 +1507,10 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
 <td align="left"><code>invalidate()</code></td>
 <td align="left">Invalidate the input. Takes <code>msg</code></td>
 </tr>
+<tr>
+<td align="left"><code>value</code></td>
+<td align="left">A <code>getter</code> that provides the current value of the input from inside of the component.</td>
+</tr>
 </tbody></table>
 </section><section id="inputtextarea"><h1 id="inputtextarea">InputTextarea</h1>
 <p>The component <code>InputTextarea</code> creates a text area.</p>
@@ -1689,6 +1666,19 @@ It was the best of times, it was the worst of times, it was the age of wisdom, i
 <td align="left"><em>string</em></td>
 <td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
 <td align="left"><code>light</code></td>
+</tr>
+</tbody></table>
+<h3 id="instance-methods-members">Instance Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>value</code></td>
+<td align="left">A <code>getter</code> that provides the current value of the text area from inside of the component.</td>
 </tr>
 </tbody></table>
 </section><section id="inputtoggle"><h1 id="inputtoggle">InputToggle</h1>

@@ -347,13 +347,19 @@ class ContentRoute extends Tonic { /* global Tonic */
     this.template.innerHTML = this.root.innerHTML
   }
 
+  updated () {
+    if (!this.root.classList.contains('show')) return
+    const event = new window.Event('show')
+    this.root.dispatchEvent(event)
+  }
+
   render () {
     const none = this.root.hasAttribute('none')
 
     if (none) {
       if (ContentRoute.matches) return
       this.root.classList.add('show')
-      return this.template.content.cloneNode(true)
+      return this.template.content
     }
 
     const path = this.root.getAttribute('path')
@@ -369,7 +375,7 @@ class ContentRoute extends Tonic { /* global Tonic */
       })
 
       this.root.classList.add('show')
-      return this.template.content.cloneNode(true)
+      return this.template.content
     }
 
     return ''
@@ -3198,16 +3204,19 @@ progress-bar .wrapper .progress {
 
 Tonic.add(ProgressBar)
 
-  {
-  const button = document.getElementById('content-route-button')
-  const select = document.getElementById('content-route-select')
+  { const select = document.getElementById('content-route-select')
+const page2 = document.getElementById('page2')
 
-  button.addEventListener('click', e => {
-    e.preventDefault()
-    window.history.pushState({}, '', select.value)
-  })
-}
-class MyDialog extends Tonic.Dialog {
+select.addEventListener('change', e => {
+  window.history.pushState({}, '', select.value)
+})
+
+page2.addEventListener('show', e => {
+  const { number } = e.target.getProps()
+
+  document.getElementById('page2-number').textContent = number
+})
+ }{  }{  }{ class MyDialog extends Tonic.Dialog {
   click (e) {
     if (!e.target.matches('#update')) return
 
@@ -3236,13 +3245,13 @@ const link = document.getElementById('example-dialog-link')
 const dialog = document.getElementById('example-dialog')
 
 link.addEventListener('click', e => dialog.show())
-const button = document.getElementById('input-button-example')
+ }{  }{ const button = document.getElementById('input-button-example')
 button.addEventListener('click', e => {
   setTimeout(() => {
     button.loading(false)
   }, 3e3)
 })
-document.addEventListener('DOMContentLoaded', e => {
+ }{  }{ document.addEventListener('DOMContentLoaded', e => {
   const select = document.getElementById('options-example-1')
   const notification = document.getElementsByTagName('notification-center')[0]
 
@@ -3255,7 +3264,7 @@ document.addEventListener('DOMContentLoaded', e => {
     })
   })
 })
-const add = document.getElementById('add-notification')
+ }{  }{  }{  }{ const add = document.getElementById('add-notification')
 const subtract = document.getElementById('subtract-notification')
 const notificationBadge = document.querySelector('notification-badge')
 
@@ -3274,7 +3283,7 @@ subtract.addEventListener('click', e => {
     count: count > 0 ? count-- : count
   }))
 })
-const notification = document.querySelector('notification-center')
+ }{ const notification = document.querySelector('notification-center')
 
 document
   .getElementById('notification-center-example')
@@ -3284,7 +3293,7 @@ document
     message: 'Hello, World',
     duration: 3e3
   }))
-const notification1 = document.getElementById('notification-1')
+ }{ const notification1 = document.getElementById('notification-1')
 const notificationLink1 = document.getElementById('notification-link-1')
 
 notificationLink1.addEventListener('click', e => {
@@ -3294,7 +3303,7 @@ notificationLink1.addEventListener('click', e => {
     message: 'This is a warning, please be careful.'
   })
 })
-class MyPanel extends Tonic.Panel {
+ }{ class MyPanel extends Tonic.Panel {
   async getArticle (title) {
     try {
       const res = await fetch(`https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=${title}&origin=*`)
@@ -3344,11 +3353,11 @@ const panelLink = document.getElementById('content-panel-link-example')
 const panel = document.getElementById('content-panel-example')
 
 panelLink.addEventListener('click', e => panel.show())
-const profile = document.getElementById('profile-image-example-editable')
+ }{ const profile = document.getElementById('profile-image-example-editable')
 
 profile.addEventListener('changed', e => console.log(e.detail))
 profile.addEventListener('error', e => console.log(e.detail))
-let percentage = 0
+ }{ let percentage = 0
 let interval = null
 
 const progressBar = document.getElementById('progress-bar-example')
@@ -3363,3 +3372,4 @@ document.getElementById('start-progress').addEventListener('click', e => {
 document.getElementById('stop-progress').addEventListener('click', e => {
   clearInterval(interval)
 })
+ }

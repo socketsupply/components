@@ -197,13 +197,14 @@ attributes of the url as props.</p>
       <option value="/bar/100">/bar/100</option>
       <option value="/beepboop">/beepboop</option>
     </input-select>
-    <input-button id="content-route-button">Set Route</input-button>
-    <content-route path="/">
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    <content-route id="page1" path="/">
+  <i>Hello, World</i>
 </content-route>
-<content-route path="/bar/:number">
-  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+<content-route id="page2" path="/bar/:number">
+  <b>number</b> prop has the value <b id="page2-number"></b>.
 </content-route>
+
 <content-route none>
   404
 </content-route>
@@ -213,26 +214,31 @@ attributes of the url as props.</p>
 
 <h2 id="code">Code</h2>
 <h4 id="html">HTML</h4>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">content-route</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"/"</span>&gt;</span>
-  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">content-route</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"page1"</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"/"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">i</span>&gt;</span>Hello, World<span class="hljs-tag">&lt;/<span class="hljs-name">i</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">content-route</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">content-route</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"/bar/:number"</span>&gt;</span>
-  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+<span class="hljs-tag">&lt;<span class="hljs-name">content-route</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"page2"</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"/bar/:number"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">b</span>&gt;</span>number<span class="hljs-tag">&lt;/<span class="hljs-name">b</span>&gt;</span> prop has the value <span class="hljs-tag">&lt;<span class="hljs-name">b</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"page2-number"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">b</span>&gt;</span>.
 <span class="hljs-tag">&lt;/<span class="hljs-name">content-route</span>&gt;</span>
+
 <span class="hljs-tag">&lt;<span class="hljs-name">content-route</span> <span class="hljs-attr">none</span>&gt;</span>
   404
 <span class="hljs-tag">&lt;/<span class="hljs-name">content-route</span>&gt;</span>
 </code></pre>
 <h4 id="js">JS</h4>
-<pre><code class="language-js">{
-  <span class="hljs-keyword">const</span> button = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'content-route-button'</span>)
-  <span class="hljs-keyword">const</span> select = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'content-route-select'</span>)
+<pre><code class="language-js"><span class="hljs-keyword">const</span> select = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'content-route-select'</span>)
+<span class="hljs-keyword">const</span> page2 = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'page2'</span>)
 
-  button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
-    e.preventDefault()
-    <span class="hljs-built_in">window</span>.history.pushState({}, <span class="hljs-string">''</span>, select.value)
-  })
-}
+select.addEventListener(<span class="hljs-string">'change'</span>, e =&gt; {
+  <span class="hljs-built_in">window</span>.history.pushState({}, <span class="hljs-string">''</span>, select.value)
+})
+
+page2.addEventListener(<span class="hljs-string">'show'</span>, e =&gt; {
+  <span class="hljs-keyword">const</span> { number } = e.target.getProps()
+
+  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'page2-number'</span>).textContent = number
+})
 </code></pre>
 <style>
   content-route {
@@ -240,7 +246,7 @@ attributes of the url as props.</p>
   }
 
   content-route.show {
-    margin: 20px 0;
+    margin: 30px 0 20px;
     padding-top: 30px;
     border-top: 1px solid var(--border);
   }
@@ -268,6 +274,25 @@ attributes of the url as props.</p>
 <td align="left"><em>string</em></td>
 <td align="left">If specified, and no matches have been made so far, this component will render.</td>
 <td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>id</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">If specified, provides a way to reference the component instance and listen for events on it.</td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+<h3 id="events">Events</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Name</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>show</code></td>
+<td align="left"><em>string</em></td>
 </tr>
 </tbody></table>
 

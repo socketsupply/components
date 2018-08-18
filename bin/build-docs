@@ -155,7 +155,7 @@ async function compile () {
     const demoJS = read(componentsDir, dir, 'readme.js')
     s = s.replace(/%js%/g, demoJS)
 
-    bundle(demoJS)
+    bundle(`{ ${demoJS} }`)
 
     const title = parseHeading(s)
 

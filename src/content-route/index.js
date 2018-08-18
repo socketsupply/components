@@ -36,13 +36,19 @@ class ContentRoute extends Tonic { /* global Tonic */
     this.template.innerHTML = this.root.innerHTML
   }
 
+  updated () {
+    if (!this.root.classList.contains('show')) return
+    const event = new window.Event('show')
+    this.root.dispatchEvent(event)
+  }
+
   render () {
     const none = this.root.hasAttribute('none')
 
     if (none) {
       if (ContentRoute.matches) return
       this.root.classList.add('show')
-      return this.template.content.cloneNode(true)
+      return this.template.content
     }
 
     const path = this.root.getAttribute('path')
@@ -58,7 +64,7 @@ class ContentRoute extends Tonic { /* global Tonic */
       })
 
       this.root.classList.add('show')
-      return this.template.content.cloneNode(true)
+      return this.template.content
     }
 
     return ''

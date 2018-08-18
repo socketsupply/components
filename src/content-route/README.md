@@ -18,7 +18,6 @@ attributes of the url as props.
       <option value="/bar/100">/bar/100</option>
       <option value="/beepboop">/beepboop</option>
     </input-select>
-    <input-button id="content-route-button">Set Route</input-button>
     %html%
   </div>
 </div>
@@ -43,7 +42,7 @@ attributes of the url as props.
   }
 
   content-route.show {
-    margin: 20px 0;
+    margin: 30px 0 20px;
     padding-top: 30px;
     border-top: 1px solid var(--border);
   }
@@ -57,3 +56,11 @@ attributes of the url as props.
 | :--- | :--- | :--- | :--- |
 | `path` | *string* | A tokenized string to match against the current url, `/books/:book` for example. | |
 | `none` | *string* | If specified, and no matches have been made so far, this component will render. | |
+| `id` | *string* | If specified, provides a way to reference the component instance and listen for events on it. | |
+
+
+### Events
+
+| Name | Description |
+| :--- | :--- |
+| `show` | *string* | Emitted when a content section receives the `show` class becaue it matches the current url. | |

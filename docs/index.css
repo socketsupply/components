@@ -408,6 +408,7 @@ body > main td:last-of-type {
 }
 body > main pre {
   padding: 15px;
+  overflow: scroll;
   white-space: pre-line;
   border-radius: 3px;
   border: 1px solid var(--border);
@@ -417,7 +418,8 @@ body > main pre code {
   border: 0;
   padding: 0;
   line-height: 18px;
-  white-space: pre-wrap;
+  white-space: pre;
+  overflow: scroll;
 }
 body > main pre code i {
   color: #999;

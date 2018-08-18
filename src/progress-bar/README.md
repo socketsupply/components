@@ -6,7 +6,7 @@ The component `ProgressBar` creates an updatable progress bar.
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
-    <progress-bar></progress-bar>
+    <progress-bar id="progress-bar-example"></progress-bar>
   </div>
 </div>
 
@@ -14,7 +14,7 @@ The component `ProgressBar` creates an updatable progress bar.
 
 #### HTML
 ```html
-<progress-bar></progress-bar>
+<progress-bar id="progress-bar-example"></progress-bar>
 ```
 
 ## Api
@@ -27,3 +27,9 @@ The component `ProgressBar` creates an updatable progress bar.
 | `height` | *string* | Changes the height of the progress bar. | `15px` |
 | `color` | *string* | Changes the color of the progress bar. | `--accent` |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
+
+### Instance Methods & Members
+
+| Method | Description |
+| :--- | :--- |
+| `setProgress(number)` | Sets the progress (percentage). |

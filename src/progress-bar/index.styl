@@ -7,14 +7,6 @@ progress-bar
 
     .progress
       background-color var(--accent)
-      width 25%
+      width 0%
       height 100%
-      animation progress 8s infinite
-
-@keyframes progress {
-  from {
-    width 0%
-  } to {
-    width 100%
-  }
-}
+      transition width 0.2s ease

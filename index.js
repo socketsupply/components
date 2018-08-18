@@ -2960,10 +2960,16 @@ ProfileImage.svg.edit = () => ProfileImage.svg.toURL(`
 Tonic.add(ProfileImage)
 
 class ProgressBar extends Tonic { /* global Tonic */
+  constructor (node) {
+    super(node)
+
+    this.root.setProgress = (n) => this.setProgress(n)
+  }
   defaults () {
     return {
       width: '300px',
-      height: '15px'
+      height: '15px',
+      progress: 0
     }
   }
 
@@ -2982,51 +2988,39 @@ progress-bar .wrapper {
 }
 progress-bar .wrapper .progress {
   background-color: var(--accent);
-  width: 25%;
+  width: 0%;
   height: 100%;
-  animation: progress 8s infinite;
-}
-@-moz-keyframes progress {
-  from {
-    width: 0%;
-  }
-  to {
-    width: 100%;
-  }
-}
-@-webkit-keyframes progress {
-  from {
-    width: 0%;
-  }
-  to {
-    width: 100%;
-  }
-}
-@-o-keyframes progress {
-  from {
-    width: 0%;
-  }
-  to {
-    width: 100%;
-  }
-}
-@keyframes progress {
-  from {
-    width: 0%;
-  }
-  to {
-    width: 100%;
-  }
+  transition: width 0.2s ease;
 }
 `
+  }
+
+  setProgress (progress) {
+    this.reRender(props => Object.assign({}, props, {
+      progress
+    }))
+  }
+
+  updated () {
+    console.log('UPDATED PROPS', this.props)
+
+    if (this.props.progress) {
+      setTimeout(() => {
+        const progressBar = this.root.querySelector('.progress')
+        if (progressBar) progressBar.style.width = `${this.props.progress}%`
+      }, 1024)
+    }
   }
 
   render () {
     let {
       width,
       height,
-      theme
+      theme,
+      progress
     } = this.props
+
+    console.log('RENDER PROPS', this.props)
 
     if (theme) this.root.classList.add(`theme-${theme}`)
 
@@ -3037,7 +3031,7 @@ progress-bar .wrapper .progress {
 
     return `
       <div class="wrapper" style="${style}">
-        <div class="progress"></div>
+        <div class="progress" style="width: ${progress}%"></div>
       </div>
     `
   }

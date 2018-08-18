@@ -1,3 +1,4 @@
+console.time('load')
 const scrollToY = require('scrolltoy')
 const { qs, qsa } = require('qs')
 
@@ -54,10 +55,16 @@ function setupNavigation () {
 }
 
 function ready () {
+  console.timeEnd('load')
   setupNavigation()
 
-  const themePicker = qs('.theme-picker')
-  themePicker.addEventListener('click', e => {
+  const theme = window.localStorage.theme
+  if (theme) document.body.classList.add(theme)
+
+  qs('.theme-picker').addEventListener('click', e => {
+    const dark = document.body.classList.contains('theme-dark')
+    window.localStorage.theme = `theme-${dark ? 'light' : 'dark'}`
+
     document.body.classList.toggle('theme-dark')
   })
 }

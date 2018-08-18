@@ -1,12 +1,9 @@
-const link1 = document.getElementById('content-route-link-1')
-const link2 = document.getElementById('content-route-link-2')
+{
+  const button = document.getElementById('content-route-button')
+  const select = document.getElementById('content-route-select')
 
-link1.addEventListener('click', e => {
-  e.preventDefault()
-  window.history.pushState({}, 'Foo 100', '/foo/100')
-})
-
-link2.addEventListener('click', e => {
-  e.preventDefault()
-  window.history.back()
-})
+  button.addEventListener('click', e => {
+    e.preventDefault()
+    window.history.pushState({}, '', select.value)
+  })
+}

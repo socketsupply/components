@@ -177,12 +177,15 @@ class ContentRoute extends Tonic { /* global Tonic */
   constructor (node) {
     super(node)
 
+    const that = this
+
     if (ContentRoute.patched) return
     ContentRoute.patched = true
 
     const createEvent = function (type) {
       const orig = window.history[type]
       return function (...args) {
+        that.reset()
         var value = orig.call(this, ...args)
         window.dispatchEvent(new window.Event(type.toLowerCase()))
         const nodes = document.getElementsByTagName('content-route')
@@ -195,6 +198,12 @@ class ContentRoute extends Tonic { /* global Tonic */
 
     window.history.pushState = createEvent('pushState')
     window.history.replaceState = createEvent('replaceState')
+  }
+
+  reset () {
+    ContentRoute.matches = false
+    const contentTags = document.getElementsByTagName('content-route')
+    Array.from(contentTags).forEach(tag => tag.classList.remove('show'))
   }
 
   willConnect () {

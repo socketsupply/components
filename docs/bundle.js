@@ -313,12 +313,15 @@ class ContentRoute extends Tonic { /* global Tonic */
   constructor (node) {
     super(node)
 
+    const that = this
+
     if (ContentRoute.patched) return
     ContentRoute.patched = true
 
     const createEvent = function (type) {
       const orig = window.history[type]
       return function (...args) {
+        that.reset()
         var value = orig.call(this, ...args)
         window.dispatchEvent(new window.Event(type.toLowerCase()))
         const nodes = document.getElementsByTagName('content-route')
@@ -331,6 +334,12 @@ class ContentRoute extends Tonic { /* global Tonic */
 
     window.history.pushState = createEvent('pushState')
     window.history.replaceState = createEvent('replaceState')
+  }
+
+  reset () {
+    ContentRoute.matches = false
+    const contentTags = document.getElementsByTagName('content-route')
+    Array.from(contentTags).forEach(tag => tag.classList.remove('show'))
   }
 
   willConnect () {
@@ -3189,18 +3198,15 @@ progress-bar .wrapper .progress {
 
 Tonic.add(ProgressBar)
 
-  const link1 = document.getElementById('content-route-link-1')
-const link2 = document.getElementById('content-route-link-2')
+  {
+  const button = document.getElementById('content-route-button')
+  const select = document.getElementById('content-route-select')
 
-link1.addEventListener('click', e => {
-  e.preventDefault()
-  window.history.pushState({}, 'Foo 100', '/foo/100')
-})
-
-link2.addEventListener('click', e => {
-  e.preventDefault()
-  window.history.back()
-})
+  button.addEventListener('click', e => {
+    e.preventDefault()
+    window.history.pushState({}, '', select.value)
+  })
+}
 class MyDialog extends Tonic.Dialog {
   click (e) {
     if (!e.target.matches('#update')) return

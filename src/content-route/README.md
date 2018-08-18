@@ -1,51 +1,51 @@
 # ContentRoute
-The `ContentRoute` component will render its children components if the browser's current url matches its `path` property. This component will detect `pushstate`, `popstate` and `replacestate` events and re-render with the attributes of the url.
+The `ContentRoute` component will render its children components if the
+browser's current url matches its `path` property. This component will detect
+`pushstate`, `popstate` and `replacestate` events and re-render with the
+attributes of the url as props.
 
 ## Demo
 
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
-    <a href="#" id="content-route-link-2">Back</a><a href="#" id="content-route-link-1">Set</a>
-    <content-route path="/foo/:number">
-      Content for "/foo/:number".
-    </content-route>
+    <input-select
+      id="content-route-select"
+      value="/"
+      style="display: inline-block;"
+      label="Select a URL">
+      <option value="/">/</option>
+      <option value="/bar/100">/bar/100</option>
+      <option value="/beepboop">/beepboop</option>
+    </input-select>
+    <input-button id="content-route-button">Set Route</input-button>
+    %html%
   </div>
 </div>
 
 ## Code
 
 #### HTML
-```html
-<content-route path="/foo/:number">
-  Content for "/foo/:number".
-</content-route>
 
-<content-route none>
-  404
-</content-route>
+```html
+%html%
 ```
 
 #### JS
+
 ```js
 %js%
 ```
 
 <style>
   content-route {
-    margin-top: 16px;
-    border: 1px solid var(--border);
-    padding: 4px;
     display: block;
-    min-height: 32px;
-    color: var(--info);
   }
 
-  #content-route-link-1,
-  #content-route-link-2 {
-    font-size: 14px;
-    font-family: var(--subheader);
-    margin-right: 8px;
+  content-route.show {
+    margin: 20px 0;
+    padding-top: 30px;
+    border-top: 1px solid var(--border);
   }
 </style>
 

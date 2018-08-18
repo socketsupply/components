@@ -180,56 +180,69 @@
 
     <section id="contentroute">
       <h1 id="contentroute">ContentRoute</h1>
-<p>The <code>ContentRoute</code> component will render its children components if the browser&#39;s current url matches its <code>path</code> property. This component will detect <code>pushstate</code>, <code>popstate</code> and <code>replacestate</code> events and re-render with the attributes of the url.</p>
+<p>The <code>ContentRoute</code> component will render its children components if the
+browser&#39;s current url matches its <code>path</code> property. This component will detect
+<code>pushstate</code>, <code>popstate</code> and <code>replacestate</code> events and re-render with the
+attributes of the url as props.</p>
 <h2 id="demo">Demo</h2>
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
-    <a href="#" id="content-route-link-2">Back</a><a href="#" id="content-route-link-1">Set</a>
-    <content-route path="/foo/:number">
-      Content for "/foo/:number".
-    </content-route>
+    <input-select
+      id="content-route-select"
+      value="/"
+      style="display: inline-block;"
+      label="Select a URL">
+      <option value="/">/</option>
+      <option value="/bar/100">/bar/100</option>
+      <option value="/beepboop">/beepboop</option>
+    </input-select>
+    <input-button id="content-route-button">Set Route</input-button>
+    <content-route path="/">
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+</content-route>
+<content-route path="/bar/:number">
+  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+</content-route>
+<content-route none>
+  404
+</content-route>
+
   </div>
 </div>
 
 <h2 id="code">Code</h2>
 <h4 id="html">HTML</h4>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">content-route</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"/foo/:number"</span>&gt;</span>
-  Content for "/foo/:number".
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">content-route</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"/"</span>&gt;</span>
+  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 <span class="hljs-tag">&lt;/<span class="hljs-name">content-route</span>&gt;</span>
-
+<span class="hljs-tag">&lt;<span class="hljs-name">content-route</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"/bar/:number"</span>&gt;</span>
+  Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+<span class="hljs-tag">&lt;/<span class="hljs-name">content-route</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">content-route</span> <span class="hljs-attr">none</span>&gt;</span>
   404
-<span class="hljs-tag">&lt;/<span class="hljs-name">content-route</span>&gt;</span></code></pre>
+<span class="hljs-tag">&lt;/<span class="hljs-name">content-route</span>&gt;</span>
+</code></pre>
 <h4 id="js">JS</h4>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> link1 = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'content-route-link-1'</span>)
-<span class="hljs-keyword">const</span> link2 = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'content-route-link-2'</span>)
+<pre><code class="language-js">{
+  <span class="hljs-keyword">const</span> button = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'content-route-button'</span>)
+  <span class="hljs-keyword">const</span> select = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'content-route-select'</span>)
 
-link1.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
-  e.preventDefault()
-  <span class="hljs-built_in">window</span>.history.pushState({}, <span class="hljs-string">'Foo 100'</span>, <span class="hljs-string">'/foo/100'</span>)
-})
-
-link2.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
-  e.preventDefault()
-  <span class="hljs-built_in">window</span>.history.back()
-})
+  button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
+    e.preventDefault()
+    <span class="hljs-built_in">window</span>.history.pushState({}, <span class="hljs-string">''</span>, select.value)
+  })
+}
 </code></pre>
 <style>
   content-route {
-    margin-top: 16px;
-    border: 1px solid var(--border);
-    padding: 4px;
     display: block;
-    min-height: 32px;
-    color: var(--info);
   }
 
-  #content-route-link-1,
-  #content-route-link-2 {
-    font-size: 14px;
-    font-family: var(--subheader);
-    margin-right: 8px;
+  content-route.show {
+    margin: 20px 0;
+    padding-top: 30px;
+    border-top: 1px solid var(--border);
   }
 </style>
 

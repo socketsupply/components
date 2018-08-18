@@ -15,11 +15,11 @@ The `ContentRoute` component will render its children components if the browser'
       <td>
         <a href="#" id="content-route-link-2">Back</a><a href="#" id="content-route-link-1">Set</a>
         <content-route path="/foo/:number">
-          Content for "/foo/:number".
+          <!-- Content for "/foo/:number"-->
         </content-route>
       </td>
       <td>
-        <span id="content-route-example-1">Conditional content based on url</span>
+        <span id="content-route-example-1">Conditional content based on url.</span>
       </td>
     </tr>
   </tbody>

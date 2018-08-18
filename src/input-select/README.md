@@ -60,12 +60,17 @@ The component `InputSelect` creates an select input.
 | `value` | *string* | The default value that will be selected | |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
-### Instance Methods & Members
+### Instance Methods
 
 | Method | Description |
 | :--- | :--- |
 | `change()` | The native `change` event on the select input. |
+| `loading(state)` | Adds loading to the current select box | |
+
+### Instance Members
+
+| Property | Description |
+| :--- | :--- |
 | `option` | A `getter` that provides the currently selected option from the select input inside the component. |
 | `value` | A `getter` that provides the current value of the select input from inside of the component. |
 | `selectedIndex` | A `getter` that provides the selected index of the select input inside the component. |
-| `loading(state)` | Adds loading to the current select box | |

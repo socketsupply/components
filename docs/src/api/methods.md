@@ -1,4 +1,4 @@
-# Methods
+# 2. Methods
 
 If you want to expose a method on your component for other people to use, you
 can do thate from the constructor. All your component's methods are private by

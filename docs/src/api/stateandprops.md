@@ -1,34 +1,9 @@
-# State and Properties
-
-## Passing data to your components
-
-Add components to your HTML, pass them arguments just like with regular HTML.
-
-```js
-<my-component value="7a"></my-component>
-```
-
-Native HTML only understands strings. If you want to pass non-string props (like
-some json) you need to stringify it. If you surround your property value with
-curly braces `{...}`, the value will be parsed as JSON. But you should not
-pass complex objects like functions though your HTML. Keep that in your JS!
-
-```html
-<parent-component id="parent" data={[1,2,3]}></parent-component>
-```
-
-Alternatively, you can call the `reRender(...)` method on the element directly.
-This is a better way to pass data if you have larger data it wont need to first
-pass though the HTML.
-
-```js
-document.getElementById('parent').reRender({ data: [1,2,3, ...9999] })
-```
+# 4. State and Props
 
 ## Managing state and props
 
-`.reRender()` and `.setState()` can receive either an object or a function as an
-argument. For example...
+Tonic adds the `.reRender()` and `.setState()` methods to your components. They
+can receive either an object or a function as an argument. For example...
 
 ```js
 //
@@ -65,3 +40,30 @@ component's render function.
 `.setState()` will not cause a re-render. The reasoning behind this is that
 `state` can be updated independently, as needed and rendering happens only when
 changes to the representation of the component are required.
+
+## Passing data as properties
+
+Add components to your HTML, pass them arguments just like with regular HTML.
+
+```js
+<my-component value="7a"></my-component>
+```
+
+Native HTML only understands strings. If you want to pass non-string props (like
+some json) you need to stringify it. If you surround your property value with
+curly braces `{...}`, the value will be parsed as JSON. But you should not
+pass complex objects like functions though your HTML. Keep that in your JS!
+
+```html
+<parent-component id="parent" data={[1,2,3]}></parent-component>
+```
+
+Alternatively, you can call the `reRender(...)` method on the element directly.
+This is a better way to pass data if you have larger data it wont need to first
+pass though the HTML. This data should usually be progegated by either the
+parent component's state or props.
+
+```js
+document.getElementById('parent').reRender({ data: [1,2,3, ...9999] })
+```
+

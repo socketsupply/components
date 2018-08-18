@@ -9,15 +9,11 @@ class ExampleComponent extends Tonic {
   constructor (node) {
     super(node)
 
-    this.root.exampleMethod = (n) => this.exampleMethod(n)
+    this.root.exampleMethod = n => this.exampleMethod(n)
   }
 
   exampleMethod (n) {
-    this.value = n
-  }
-
-  get value () {
-    return this.value
+    this.root.innerHTML = `The number is ${n}`
   }
 }
 ```

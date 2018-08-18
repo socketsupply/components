@@ -174,15 +174,11 @@ default. Here&#39;s how to make them public.</p>
   <span class="hljs-keyword">constructor</span> (node) {
     <span class="hljs-keyword">super</span>(node)
 
-    <span class="hljs-keyword">this</span>.root.exampleMethod = <span class="hljs-function">(<span class="hljs-params">n</span>) =&gt;</span> <span class="hljs-keyword">this</span>.exampleMethod(n)
+    <span class="hljs-keyword">this</span>.root.exampleMethod = <span class="hljs-function"><span class="hljs-params">n</span> =&gt;</span> <span class="hljs-keyword">this</span>.exampleMethod(n)
   }
 
   exampleMethod (n) {
-    <span class="hljs-keyword">this</span>.value = n
-  }
-
-  get value () {
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.value
+    <span class="hljs-keyword">this</span>.root.innerHTML = <span class="hljs-string">`The number is <span class="hljs-subst">${n}</span>`</span>
   }
 }</code></pre>
 

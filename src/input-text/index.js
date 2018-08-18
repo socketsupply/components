@@ -3,6 +3,7 @@ class InputText extends Tonic { /* global Tonic */
     super(node)
     this.root.setInvalid = msg => this.setInvalid(msg)
     this.root.setValid = () => this.setValid()
+    this.root.value = this.value
   }
 
   defaults () {
@@ -70,7 +71,6 @@ class InputText extends Tonic { /* global Tonic */
 
   render () {
     const {
-      id,
       name,
       type,
       value,
@@ -88,7 +88,6 @@ class InputText extends Tonic { /* global Tonic */
       position
     } = this.props
 
-    const idAttr = id ? `id="${id}"` : ''
     const nameAttr = name ? `name="${name}"` : ''
     const patternAttr = pattern ? `pattern="${pattern}"` : ''
     const valueAttr = (value && value !== 'undefined') ? `value="${value}"` : ''
@@ -116,7 +115,6 @@ class InputText extends Tonic { /* global Tonic */
         ${this.renderIcon()}
 
         <input
-          ${idAttr}
           ${nameAttr}
           ${patternAttr}
           type="${type}"

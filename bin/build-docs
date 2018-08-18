@@ -3,6 +3,7 @@ const fs = require('fs')
 const path = require('path')
 const marked = require('marked')
 const hl = require('highlight.js')
+const fetch = require('node-fetch')
 
 marked.setOptions({
   highlight: (code, lang = 'javascript', escaped) => {
@@ -98,7 +99,7 @@ function parseHeading (s) {
   return match.slice(1).trim()
 }
 
-function compile () {
+async function compile () {
   const developerDocs = fs.readdirSync(devsDir)
 
   for (const file of developerDocs) {
@@ -128,9 +129,25 @@ function compile () {
     bundle(demoJS)
 
     const title = parseHeading(s)
+
     data.push({
       title,
       link: wrapLink(title, 'component'),
+      section: wrapSection(marked(s), title)
+    })
+  }
+
+  {
+    //
+    // Add the API as a section
+    //
+    const title = 'API'
+    const url = 'https://raw.githubusercontent.com/hxoht/tonic/master/API.md'
+    const s = await (await fetch(url)).text()
+
+    data.push({
+      title,
+      link: wrapLink(title, 'custom'),
       section: wrapSection(marked(s), title)
     })
   }
@@ -154,7 +171,7 @@ async function main () {
   // Bundle the demo code for each component and compile
   // the markdown into an array of sections.
   //
-  compile()
+  await compile()
 
   //
   // Sort the sections.

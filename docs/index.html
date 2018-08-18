@@ -34,6 +34,11 @@
   
 
     <li data-group="custom">
+      <a href="#api" class="">API</a>
+    </li>
+  
+
+    <li data-group="custom">
       <a href="#building a custom component" class="">Building a Custom Component</a>
     </li>
   
@@ -207,6 +212,99 @@
   <p>Note: When changing component properties in HTML, do not use camel case.
   <br>For example, use <code>background-color</code> instead of <code>backgroundColor</code>.</p>
 </div>
+
+    </section>
+  
+
+    <section data-group="undefined" id="api">
+      <h1 id="apis">APIs</h1>
+<h2 id="static-methods">STATIC METHODS</h2>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>add(Class, Object)</code></td>
+<td align="left">Register a class as a new custom-tag and provide optional options for it.</td>
+</tr>
+<tr>
+<td align="left"><code>escape(String)</code></td>
+<td align="left">Escapes HTML characters from a string (based on <a href="https://github.com/mathiasbynens/he">he</a>).</td>
+</tr>
+<tr>
+<td align="left"><code>sanitize(Object)</code></td>
+<td align="left">Escapes all the strings found in an object literal.</td>
+</tr>
+<tr>
+<td align="left"><code>match(Node, Selector)</code></td>
+<td align="left">Match the given node against a selector or any matching parent of the given node. This is useful when trying to locate a node from the actual node that was interacted with.</td>
+</tr>
+</tbody></table>
+<h2 id="instance-methods">INSTANCE METHODS</h2>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>reRender(Object &#124; Function)</code></td>
+<td align="left">Set the properties of a component instance. Can also take a function which will receive the current props as an argument.</td>
+</tr>
+<tr>
+<td align="left"><code>getProps()</code></td>
+<td align="left">Get the properties of a component instance.</td>
+</tr>
+<tr>
+<td align="left"><code>setState(Object &#124; Function)</code></td>
+<td align="left">Set the state of a component instance. Can also take a function which will receive the current props as an argument.</td>
+</tr>
+<tr>
+<td align="left"><code>style()</code></td>
+<td align="left">Returns a string of css to be inlined with the component. This will be &quot;scoped&quot; so that it does not affect the rest of the page. It will also persist across re-renders to save on parsing costs.</td>
+</tr>
+<tr>
+<td align="left"><code>render()</code></td>
+<td align="left">Returns HTML to be parsed or a dom node that will overwrite. There is usually no need to call this directly, prefer <code>componentInstance.reRender({ ... })</code>.</td>
+</tr>
+<tr>
+<td align="left">html`...`</td>
+<td align="left">Tidy up an HTML string (use as a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals">tagged template</a>).</td>
+</tr>
+</tbody></table>
+<h2 id="lifecycle-instance-methods">&quot;LIFECYCLE&quot; INSTANCE METHODS</h2>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>constructor(props)</code></td>
+<td align="left">An instance of the element is created or upgraded. Useful for initializing state, setting up event listeners, or creating shadow dom. See the spec for restrictions on what you can do in the constructor. A constructor will receive an argument of <code>props</code> and must call <code>super(props)</code>.</td>
+</tr>
+<tr>
+<td align="left"><code>willConnect()</code></td>
+<td align="left">Called prior to the element being inserted into the DOM. Useful for updating configuration, state and preparing for the render.</td>
+</tr>
+<tr>
+<td align="left"><code>connected()</code></td>
+<td align="left">Called every time the element is inserted into the DOM. Useful for running setup code, such as fetching resources or rendering. Generally, you should try to delay work until this time.</td>
+</tr>
+<tr>
+<td align="left"><code>disconnected()</code></td>
+<td align="left">Called every time the element is removed from the DOM. Useful for running clean up code.</td>
+</tr>
+<tr>
+<td align="left"><code>updated(oldProps)</code></td>
+<td align="left">Called after reRender() is called. This method is not called on the initial render.</td>
+</tr>
+</tbody></table>
 
     </section>
   

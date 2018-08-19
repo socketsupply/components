@@ -13,16 +13,12 @@ myComponent.reRender(props => ({
   ...props,
   color: 'red'
 }))
-```
 
-```js
 //
 // Reset a component's properties
 //
 myComponent.reRender({ color: 'red' })
-```
 
-```js
 //
 // Re-render a component with its existing properties
 //

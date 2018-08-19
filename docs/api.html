@@ -277,12 +277,14 @@ can receive either an object or a function as an argument. For example...</p>
 myComponent.reRender(<span class="hljs-function"><span class="hljs-params">props</span> =&gt;</span> ({
   ...props,
   <span class="hljs-attr">color</span>: <span class="hljs-string">'red'</span>
-}))</code></pre>
-<pre><code class="language-js"><span class="hljs-comment">//</span>
+}))
+
+<span class="hljs-comment">//</span>
 <span class="hljs-comment">// Reset a component's properties</span>
 <span class="hljs-comment">//</span>
-myComponent.reRender({ <span class="hljs-attr">color</span>: <span class="hljs-string">'red'</span> })</code></pre>
-<pre><code class="language-js"><span class="hljs-comment">//</span>
+myComponent.reRender({ <span class="hljs-attr">color</span>: <span class="hljs-string">'red'</span> })
+
+<span class="hljs-comment">//</span>
 <span class="hljs-comment">// Re-render a component with its existing properties</span>
 <span class="hljs-comment">//</span>
 myComponent.reRender()</code></pre>

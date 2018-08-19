@@ -292,9 +292,9 @@ myComponent.reRender()</code></pre>
 component (those properties should generally be considered immutable and
 provided by the top-most parent component).</p>
 <p><code>.setState()</code> receives a value that describes the state of the component, under
-the hood this is a plain old javascript object. It&#39;s values may be used by the
-component&#39;s render function. It should only contain primatives. State will only
-be persisted across re-renders for components that have an id.</p>
+the hood this is a plain old javascript object. Its values may be used by the
+component&#39;s render function. It should only contain primative values. State will
+only be persisted across re-renders for components that have an <code>id</code> property.</p>
 <p><code>.setState()</code> will not cause a re-render. The reasoning behind this is that
 <code>state</code> can be updated independently, as needed and rendering happens only when
 changes to the representation of the component are required.</p>

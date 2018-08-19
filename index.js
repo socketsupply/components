@@ -3,9 +3,9 @@
 // Warning. Do not edit. This is a generated file.
 //
 class Tonic {
-  constructor (node) {
+  constructor (node, state) {
     this.props = {}
-    this.state = {}
+    this.state = state || {}
     const name = Tonic._splitName(this.constructor.name)
     this.root = node || document.createElement(name)
     this.root.disconnect = index => this._disconnect(index)
@@ -44,10 +44,10 @@ class Tonic {
     Tonic._constructTags()
   }
 
-  static _constructTags (root) { /* eslint-disable no-new */
+  static _constructTags (root, states = {}) { /* eslint-disable no-new */
     for (const tagName of Tonic.tags) {
       for (const node of (root || document).getElementsByTagName(tagName)) {
-        if (!node.disconnect) new Tonic.registry[tagName](node)
+        if (!node.disconnect) new Tonic.registry[tagName](node, states[node.id])
       }
     }
   }
@@ -86,8 +86,7 @@ class Tonic {
     const oldProps = JSON.parse(JSON.stringify(this.props))
     this.props = Tonic.sanitize(typeof o === 'function' ? o(this.props) : o)
     if (!this.root) throw new Error('.reRender called on destroyed component, see guide.')
-    this._setContent(this.root, this.render())
-    Tonic._constructTags(this.root)
+    Tonic._constructTags(this.root, this._setContent(this.root, this.render()))
     this.updated && this.updated(oldProps)
   }
 
@@ -104,10 +103,12 @@ class Tonic {
   }
 
   _setContent (target, content = '') {
+    const states = {}
     for (const tagName of Tonic.tags) {
       for (const node of target.getElementsByTagName(tagName)) {
         const index = Tonic.refs.findIndex(ref => ref === node)
         if (index === -1) continue
+        states[node.id] = node.getState()
         node.disconnect(index)
       }
     }
@@ -119,6 +120,7 @@ class Tonic {
       target.appendChild(content.cloneNode(true))
     }
     this.root = target
+    return states
   }
 
   _connect () {

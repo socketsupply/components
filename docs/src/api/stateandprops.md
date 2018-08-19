@@ -35,7 +35,8 @@ provided by the top-most parent component).
 
 `.setState()` receives a value that describes the state of the component, under
 the hood this is a plain old javascript object. It's values may be used by the
-component's render function.
+component's render function. It should only contain primatives. State will only
+be persisted across re-renders for components that have an id.
 
 `.setState()` will not cause a re-render. The reasoning behind this is that
 `state` can be updated independently, as needed and rendering happens only when

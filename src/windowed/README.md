@@ -8,7 +8,8 @@ has been rendered.
 
 ## Demo
 
-In this demo we add 500000 items to an array and load them into the list.
+This demo generates the data after you click the overlay. Generating 500000
+rows of data can take a second or two.
 
 <style>
   body > main div.example .content.windowed-example {

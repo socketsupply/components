@@ -88,6 +88,8 @@ In this demo we add 500000 items to an array and load them into the list.
 | `theme` | *String* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 | `debug` | *Boolean* | Add alternating page colors. | `false` |
 
+### Instance Methods
+
 | Method | Description |
 | :--- | :--- |
 | `load(Array)` | Loads an array of data. |

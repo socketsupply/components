@@ -3,6 +3,7 @@ class Windowed extends Tonic { /* global Tonic */
     super(node)
 
     this.root.getRows = () => this.rows
+    this.root.load = (rows) => this.load(rows)
     this.root.rePaint = () => this.rePaint()
 
     const outer = this.root.querySelector('.tonic--windowed--outer')

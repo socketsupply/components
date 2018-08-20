@@ -2340,6 +2340,7 @@ has been rendered.</p>
   body > main div.example .content.windowed-example {
     max-width: initial;
     padding: 0;
+    position: relative;
   }
 
   my-windowed {
@@ -2377,11 +2378,37 @@ has been rendered.</p>
     flex-basis: 33.3%;
     padding: 0 4px;
   }
+
+  #click-to-load {
+    position: absolute;
+    display: flex;
+    left: 0;
+    right: 0;
+    background: white;
+    z-index: 1;
+    top: 0;
+    bottom: 0;
+    cursor: pointer;
+    opacity: 1;
+    transition: all 1.5s;
+  }
+
+  #click-to-load span {
+    margin: auto;
+  }
+
+  #click-to-load.hidden {
+    opacity: 0;
+    z-index: -1;
+  }
 </style>
 
 <div class="example">
   <div class="header">Example</div>
   <div class="content windowed-example">
+    <div id="click-to-load">
+      <span>Click to Load</span>
+    </div>
     <my-windowed row-height={30}>
     </my-windowed>
   </div>
@@ -2393,20 +2420,6 @@ has been rendered.</p>
 <span class="hljs-tag">&lt;/<span class="hljs-name">my-windowed</span>&gt;</span></code></pre>
 <h4>JS</h4>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyWindowed</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span>.<span class="hljs-title">Windowed</span> </span>{
-  connected () {
-    <span class="hljs-keyword">const</span> rows = []
-
-    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">500000</span>; i++) {
-      rows.push({
-        <span class="hljs-attr">title</span>: <span class="hljs-string">`Row #<span class="hljs-subst">${i}</span>`</span>,
-        <span class="hljs-attr">date</span>: <span class="hljs-built_in">String</span>(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>()),
-        <span class="hljs-attr">random</span>: <span class="hljs-built_in">Math</span>.random().toString(<span class="hljs-number">16</span>).slice(<span class="hljs-number">2</span>)
-      })
-    }
-
-    <span class="hljs-keyword">this</span>.load(rows)
-  }
-
   renderRow (row) {
     <span class="hljs-keyword">return</span> <span class="hljs-string">`
       &lt;div class="tr"&gt;
@@ -2429,6 +2442,29 @@ has been rendered.</p>
 }
 
 Tonic.add(MyWindowed)
+
+<span class="hljs-comment">//</span>
+<span class="hljs-comment">// This demo generates the data after you click the overlay.</span>
+<span class="hljs-comment">// Generating 500K rows of data can take a second or two.</span>
+<span class="hljs-comment">//</span>
+<span class="hljs-keyword">const</span> windowed = <span class="hljs-built_in">document</span>.getElementsByTagName(<span class="hljs-string">'my-windowed'</span>)[<span class="hljs-number">0</span>]
+<span class="hljs-keyword">const</span> overlay = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'click-to-load'</span>)
+
+overlay.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
+  <span class="hljs-keyword">const</span> rows = []
+
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">1</span>; i &lt; <span class="hljs-number">500000</span>; i++) {
+    rows.push({
+      <span class="hljs-attr">title</span>: <span class="hljs-string">`Row #<span class="hljs-subst">${i}</span>`</span>,
+      <span class="hljs-attr">date</span>: <span class="hljs-built_in">String</span>(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>()),
+      <span class="hljs-attr">random</span>: <span class="hljs-built_in">Math</span>.random().toString(<span class="hljs-number">16</span>).slice(<span class="hljs-number">2</span>)
+    })
+  }
+
+  overlay.textContent = <span class="hljs-string">''</span>
+  overlay.classList.add(<span class="hljs-string">'hidden'</span>)
+  windowed.load(rows)
+})
 </code></pre>
 <h2>Api</h2>
 <h3>Properties</h3>

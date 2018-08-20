@@ -14,6 +14,7 @@ In this demo we add 500000 items to an array and load them into the list.
   body > main div.example .content.windowed-example {
     max-width: initial;
     padding: 0;
+    position: relative;
   }
  
   my-windowed {
@@ -51,11 +52,37 @@ In this demo we add 500000 items to an array and load them into the list.
     flex-basis: 33.3%;
     padding: 0 4px;
   }
+
+  #click-to-load {
+    position: absolute;
+    display: flex;
+    left: 0;
+    right: 0;
+    background: white;
+    z-index: 1;
+    top: 0;
+    bottom: 0;
+    cursor: pointer;
+    opacity: 1;
+    transition: all 1.5s;
+  }
+
+  #click-to-load span {
+    margin: auto;
+  }
+
+  #click-to-load.hidden {
+    opacity: 0;
+    z-index: -1;
+  }
 </style>
 
 <div class="example">
   <div class="header">Example</div>
   <div class="content windowed-example">
+    <div id="click-to-load">
+      <span>Click to Load</span>
+    </div>
     <my-windowed row-height={30}>
     </my-windowed>
   </div>

@@ -3366,6 +3366,7 @@ class Windowed extends Tonic { /* global Tonic */
     super(node)
 
     this.root.getRows = () => this.rows
+    this.root.load = (rows) => this.load(rows)
     this.root.rePaint = () => this.rePaint()
 
     const outer = this.root.querySelector('.tonic--windowed--outer')
@@ -3755,20 +3756,6 @@ document.getElementById('stop-progress').addEventListener('click', e => {
   clearInterval(interval)
 })
  }{ class MyWindowed extends Tonic.Windowed {
-  connected () {
-    const rows = []
-
-    for (let i = 0; i < 500000; i++) {
-      rows.push({
-        title: `Row #${i}`,
-        date: String(new Date()),
-        random: Math.random().toString(16).slice(2)
-      })
-    }
-
-    this.load(rows)
-  }
-
   renderRow (row) {
     return `
       <div class="tr">
@@ -3791,4 +3778,27 @@ document.getElementById('stop-progress').addEventListener('click', e => {
 }
 
 Tonic.add(MyWindowed)
+
+//
+// This demo generates the data after you click the overlay.
+// Generating 500K rows of data can take a second or two.
+//
+const windowed = document.getElementsByTagName('my-windowed')[0]
+const overlay = document.getElementById('click-to-load')
+
+overlay.addEventListener('click', e => {
+  const rows = []
+
+  for (let i = 1; i < 500000; i++) {
+    rows.push({
+      title: `Row #${i}`,
+      date: String(new Date()),
+      random: Math.random().toString(16).slice(2)
+    })
+  }
+
+  overlay.textContent = ''
+  overlay.classList.add('hidden')
+  windowed.load(rows)
+})
  }

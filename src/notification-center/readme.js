@@ -5,6 +5,5 @@ document
   .addEventListener('click', e => notification.create({
     type: 'success',
     title: 'Greetings',
-    message: 'Hello, World',
-    duration: 3e3
+    message: 'Hello, World'
   }))

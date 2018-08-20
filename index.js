@@ -2140,6 +2140,11 @@ notification-center .wrapper {
   visibility: hidden;
   z-index: 102;
 }
+@media (max-width: 850px) {
+  notification-center .wrapper {
+    width: 90%;
+  }
+}
 notification-center .wrapper.show {
   visibility: visible;
 }

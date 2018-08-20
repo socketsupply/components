@@ -2276,6 +2276,11 @@ notification-center .wrapper {
   visibility: hidden;
   z-index: 102;
 }
+@media (max-width: 850px) {
+  notification-center .wrapper {
+    width: 90%;
+  }
+}
 notification-center .wrapper.show {
   visibility: visible;
 }
@@ -3296,8 +3301,7 @@ document
   .addEventListener('click', e => notification.create({
     type: 'success',
     title: 'Greetings',
-    message: 'Hello, World',
-    duration: 3e3
+    message: 'Hello, World'
   }))
  }{ const notification1 = document.getElementById('notification-1')
 const notificationLink1 = document.getElementById('notification-link-1')

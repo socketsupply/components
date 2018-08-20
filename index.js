@@ -3,9 +3,9 @@
 // Warning. Do not edit. This is a generated file.
 //
 class Tonic {
-  constructor (node) {
+  constructor (node, state) {
     this.props = {}
-    this.state = {}
+    this.state = state || {}
     const name = Tonic._splitName(this.constructor.name)
     this.root = node || document.createElement(name)
     this.root.disconnect = index => this._disconnect(index)
@@ -44,10 +44,10 @@ class Tonic {
     Tonic._constructTags()
   }
 
-  static _constructTags (root) { /* eslint-disable no-new */
+  static _constructTags (root, states = {}) { /* eslint-disable no-new */
     for (const tagName of Tonic.tags) {
       for (const node of (root || document).getElementsByTagName(tagName)) {
-        if (!node.disconnect) new Tonic.registry[tagName](node)
+        if (!node.disconnect) new Tonic.registry[tagName](node, states[node.id])
       }
     }
   }
@@ -86,8 +86,7 @@ class Tonic {
     const oldProps = JSON.parse(JSON.stringify(this.props))
     this.props = Tonic.sanitize(typeof o === 'function' ? o(this.props) : o)
     if (!this.root) throw new Error('.reRender called on destroyed component, see guide.')
-    this._setContent(this.root, this.render())
-    Tonic._constructTags(this.root)
+    Tonic._constructTags(this.root, this._setContent(this.root, this.render()))
     this.updated && this.updated(oldProps)
   }
 
@@ -104,10 +103,12 @@ class Tonic {
   }
 
   _setContent (target, content = '') {
+    const states = {}
     for (const tagName of Tonic.tags) {
       for (const node of target.getElementsByTagName(tagName)) {
         const index = Tonic.refs.findIndex(ref => ref === node)
         if (index === -1) continue
+        states[node.id] = node.getState()
         node.disconnect(index)
       }
     }
@@ -119,6 +120,7 @@ class Tonic {
       target.appendChild(content.cloneNode(true))
     }
     this.root = target
+    return states
   }
 
   _connect () {
@@ -3086,7 +3088,7 @@ class Windowed extends Tonic { /* global Tonic */
     this.root.getRows = () => this.rows
     this.root.rePaint = () => this.rePaint()
 
-    const outer = this.root.querySelector('.outer')
+    const outer = this.root.querySelector('.tonic--windowed--outer')
     outer.addEventListener('scroll', () => this.rePaint(), { passive: true })
   }
 
@@ -3095,8 +3097,21 @@ class Windowed extends Tonic { /* global Tonic */
       page: 100,
       rowsPerPage: 100,
       rowPadding: 50,
+      rowHeight: 30,
       debug: false
     }
+  }
+
+  style () {
+    return `.tonic--windowed--inner {
+  position: relative;
+}
+.tonic--windowed--outer {
+  width: 100%;
+  height: inherit;
+  overflow: auto;
+}
+`
   }
 
   async getRow (idx) {
@@ -3105,7 +3120,7 @@ class Windowed extends Tonic { /* global Tonic */
   }
 
   load (rows = []) {
-    const outer = this.root.querySelector('.outer')
+    const outer = this.root.querySelector('.tonic--windowed--outer')
     this.outerHeight = outer.offsetHeight
 
     this.loaded = true
@@ -3114,11 +3129,10 @@ class Windowed extends Tonic { /* global Tonic */
 
     this.pages = this.pages || {}
     this.pagesAvailable = this.pagesAvailable || []
-    this.rowHeight = this.getRowHeight(rows[0]) || 20
+    this.rowHeight = this.props.rowHeight
 
-    const inner = this.root.querySelector('.inner')
+    const inner = this.root.querySelector('.tonic--windowed--inner')
     inner.style.height = `${this.rowHeight * this.rows.length}px`
-    console.log(`INNER HEIGHT ${this.rowHeight}, ${this.rows.length}`)
     this.pageHeight = this.props.rowsPerPage * this.rowHeight
     this.padding = this.props.rowPadding * this.rowHeight
 
@@ -3126,7 +3140,7 @@ class Windowed extends Tonic { /* global Tonic */
   }
 
   setHeight (height, { render } = {}) {
-    const outer = this.root.querySelector('.outer')
+    const outer = this.root.querySelector('.tonic--windowed--outer')
     outer.style.height = height
     this.outerHeight = outer.offsetHeight
 
@@ -3156,7 +3170,7 @@ class Windowed extends Tonic { /* global Tonic */
 
   getAvailablePage (i) {
     const page = this.pagesAvailable.pop()
-    const inner = this.root.querySelector('.inner')
+    const inner = this.root.querySelector('.tonic--windowed--inner')
     inner.appendChild(page)
     return page
   }
@@ -3166,7 +3180,8 @@ class Windowed extends Tonic { /* global Tonic */
 
     Object.assign(page.style, {
       position: 'absolute',
-      minWidth: '100%'
+      minWidth: '100%',
+      className: 'tonic--windowed--page'
     })
 
     if (this.props.debug) {
@@ -3174,7 +3189,7 @@ class Windowed extends Tonic { /* global Tonic */
       page.style.backgroundColor = `hsla(${random}, 100%, 50%, 0.5)`
     }
 
-    const inner = this.root.querySelector('.inner')
+    const inner = this.root.querySelector('.tonic--windowed--inner')
     inner.appendChild(page)
     return page
   }
@@ -3182,7 +3197,7 @@ class Windowed extends Tonic { /* global Tonic */
   async rePaint ({ refresh, load } = {}) {
     if (refresh && load !== false) this.load(this.rows)
 
-    const outer = this.root.querySelector('.outer')
+    const outer = this.root.querySelector('.tonic--windowed--outer')
     const viewStart = outer.scrollTop
     const viewEnd = viewStart + this.outerHeight
 
@@ -3209,7 +3224,7 @@ class Windowed extends Tonic { /* global Tonic */
       pagesRendered[i] = true
     }
 
-    const inner = this.root.querySelector('.inner')
+    const inner = this.root.querySelector('.tonic--windowed--inner')
 
     for (const i of Object.keys(this.pages)) {
       if (pagesRendered[i]) continue
@@ -3228,17 +3243,6 @@ class Windowed extends Tonic { /* global Tonic */
     return `${(this.rows.length % this.props.rowsPerPage) * this.rowHeight}px`
   }
 
-  getRowHeight (row) {
-    // const div = document.createElement('div')
-    // div.innerHTML = this.renderRow(row)
-    // const el = div.firstElementChild
-    // const inner = this.root.querySelector('.inner')
-    // inner.appendChild(el)
-    // const height = div.offsetHeight
-    // inner.removeChild(el)
-    return 30
-  }
-
   async fillPage (i) {
     const page = this.pages[i]
     const frag = document.createDocumentFragment()
@@ -3249,9 +3253,10 @@ class Windowed extends Tonic { /* global Tonic */
       if (!data) continue
 
       const div = document.createElement('div')
-      div.innerHTML = this.renderRow(data)
+      div.innerHTML = this.renderRow(data, j)
       frag.appendChild(div.firstElementChild)
     }
+
     window.requestAnimationFrame(() => page.appendChild(frag))
   }
 
@@ -3260,7 +3265,7 @@ class Windowed extends Tonic { /* global Tonic */
     const start = i * this.props.rowsPerPage
     const limit = Math.min((i + 1) * this.props.rowsPerPage, this.rows.length)
 
-    const inner = this.root.querySelector('.inner')
+    const inner = this.root.querySelector('.tonic--windowed--inner')
 
     if (start > limit) {
       inner.removeChild(page)
@@ -3281,6 +3286,16 @@ class Windowed extends Tonic { /* global Tonic */
     while (page.children.length > limit - start) {
       page.removeChild(page.lastChild)
     }
+  }
+
+  wrap (render) {
+    return `
+      ${render()}
+      <div class="tonic--windowed--outer">
+        <div class="tonic--windowed--inner">
+        </div>
+      </div>
+    `
   }
 }
 

@@ -2199,32 +2199,39 @@ profile.addEventListener(<span class="hljs-string">'error'</span>, e =&gt; <span
 
     <section id="windowed">
       <h1 id="windowed">Windowed</h1>
-<p>A component used for large lists of data.</p>
-<h2 id="demo">Demo</h2>
-<div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <my-windowed debut="true">
-    </my-windoed>
-  </div>
-</div>
-
-
-
+<p>A base class used for creating a windowed component.</p>
+<p>If you need to render large data sets (hundreds of thousands of rows for
+example), you can use a technique known as <code>windowing</code>. This technique renders
+a subset of your data, while giving the user the impression that all the data
+has been rendered.</p>
+<h2>Demo</h2>
+<p>In this demo we add 500000 items to an array and load them into the list.</p>
 <style>
-  my-windowed .outer {
+  body > main div.example .content.windowed-example {
+    max-width: initial;
+    padding: 0;
+  }
+
+  my-windowed {
     height: 300px;
-    width: 400px;
-    overflow: auto;
   }
 
-  my-windowed .inner {
-    position: relative;
+  my-windowed .th {
+    background: var(--border);
   }
 
+  my-windowed .th,
   my-windowed .tr {
     height: 30px;
+    display: flex;
     overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+
+  my-windowed .tr:hover {
+    background: var(--accent);
+    color: white;
+    cursor: default;
   }
 
   my-windowed .td {
@@ -2235,9 +2242,118 @@ profile.addEventListener(<span class="hljs-string">'error'</span>, e =&gt; <span
     width: 100px;
     font-family: var(--monospace);
     font-size: 14px;
+    height: 30px;
+    line-height: 30px;
+    flex-basis: 33.3%;
+    padding: 0 4px;
+  }
+</style>
+
+<div class="example">
+  <div class="header">Example</div>
+  <div class="content windowed-example">
+    <my-windowed row-height={30}>
+    </my-windowed>
+  </div>
+</div>
+
+<h2>Code</h2>
+<h4>HTML</h4>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">my-windowed</span> <span class="hljs-attr">row-height</span>=<span class="hljs-string">{30}</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">my-windowed</span>&gt;</span></code></pre>
+<h4>JS</h4>
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyWindowed</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span>.<span class="hljs-title">Windowed</span> </span>{
+  connected () {
+    <span class="hljs-keyword">const</span> rows = []
+
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">0</span>; i &lt; <span class="hljs-number">500000</span>; i++) {
+      rows.push({
+        <span class="hljs-attr">title</span>: <span class="hljs-string">`Row #<span class="hljs-subst">${i}</span>`</span>,
+        <span class="hljs-attr">date</span>: <span class="hljs-built_in">String</span>(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>()),
+        <span class="hljs-attr">random</span>: <span class="hljs-built_in">Math</span>.random().toString(<span class="hljs-number">16</span>).slice(<span class="hljs-number">2</span>)
+      })
+    }
+
+    <span class="hljs-keyword">this</span>.load(rows)
   }
 
-</style>
+  renderRow (row) {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`
+      &lt;div class="tr"&gt;
+        &lt;div class="td"&gt;<span class="hljs-subst">${row.title}</span>&lt;/div&gt;
+        &lt;div class="td"&gt;<span class="hljs-subst">${row.date}</span>&lt;/div&gt;
+        &lt;div class="td"&gt;<span class="hljs-subst">${row.random}</span>&lt;/div&gt;
+      &lt;/div&gt;
+    `</span>
+  }
+
+  render () {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`
+      &lt;div class="th"&gt;
+        &lt;div class="td"&gt;Title&lt;/div&gt;
+        &lt;div class="td"&gt;Date&lt;/div&gt;
+        &lt;div class="td"&gt;Random&lt;/div&gt;
+      &lt;/div&gt;
+    `</span>
+  }
+}
+
+Tonic.add(MyWindowed)
+</code></pre>
+<h2>Api</h2>
+<h3>Properties</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>row-height</code></td>
+<td align="left"><em>Number</em></td>
+<td align="left">Sets the height of each row. <span class="req">required</soan></td>
+<td align="left"><code>30</code></td>
+</tr>
+<tr>
+<td align="left"><code>rows-page-page</code></td>
+<td align="left"><em>Number</em></td>
+<td align="left">The total number of rows per page to render.</td>
+<td align="left"><code>100</code></td>
+</tr>
+<tr>
+<td align="left"><code>height</code></td>
+<td align="left"><em>String</em></td>
+<td align="left">Sets the height of the outer container.</td>
+<td align="left"><code>inherit</code></td>
+</tr>
+<tr>
+<td align="left"><code>theme</code></td>
+<td align="left"><em>String</em></td>
+<td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
+<td align="left"><code>light</code></td>
+</tr>
+<tr>
+<td align="left"><code>debug</code></td>
+<td align="left"><em>Boolean</em></td>
+<td align="left">Add alternating page colors.</td>
+<td align="left"><code>false</code></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>load(Array)</code></td>
+<td align="left">Loads an array of data.</td>
+</tr>
+</tbody></table>
 
     </section>
   

@@ -304,7 +304,10 @@ only be persisted across re-renders for components that have an <code>id</code> 
 <code>state</code> can be updated independently, as needed and rendering happens only when
 changes to the representation of the component are required.</p>
 <h2>Passing data as properties</h2>
-<p>Add components to your HTML, pass them arguments just like with regular HTML.</p>
+<p>There is no templating language in Tonic. It&#39;s pure HTML. So the rules of HTML
+will be applied! A prop named <code>fooBar={30}</code> will become lowercased as per the
+HTML spec. If you want the property name to be camelcased when added to the
+prpps object, use <code>foo-bar={30}</code>, and you will get <code>this.props.fooBar</code>.</p>
 <pre><code class="language-js">&lt;my-component value=<span class="hljs-string">"7a"</span>&gt;<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">my-component</span>&gt;</span></span></code></pre>
 <p>Native HTML only understands strings. If you want to pass non-string props (like
 some json) you need to stringify it. If you surround your property value with

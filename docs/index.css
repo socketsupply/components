@@ -441,7 +441,6 @@ body > main pre {
 body > main pre code {
   border: 0;
   padding: 0;
-  line-height: 18px;
   white-space: pre;
   overflow: scroll;
 }

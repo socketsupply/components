@@ -2335,7 +2335,8 @@ example), you can use a technique known as <code>windowing</code>. This techniqu
 a subset of your data, while giving the user the impression that all the data
 has been rendered.</p>
 <h2>Demo</h2>
-<p>In this demo we add 500000 items to an array and load them into the list.</p>
+<p>This demo generates the data after you click the overlay. Generating 500000
+rows of data can take a second or two.</p>
 <style>
   body > main div.example .content.windowed-example {
     max-width: initial;
@@ -2444,8 +2445,8 @@ has been rendered.</p>
 Tonic.add(MyWindowed)
 
 <span class="hljs-comment">//</span>
-<span class="hljs-comment">// This demo generates the data after you click the overlay.</span>
-<span class="hljs-comment">// Generating 500K rows of data can take a second or two.</span>
+<span class="hljs-comment">// This demo generates the data after you click the overlay instead of</span>
+<span class="hljs-comment">// on page load since 500K rows of data can take a few seconds to create.</span>
 <span class="hljs-comment">//</span>
 <span class="hljs-keyword">const</span> windowed = <span class="hljs-built_in">document</span>.getElementsByTagName(<span class="hljs-string">'my-windowed'</span>)[<span class="hljs-number">0</span>]
 <span class="hljs-keyword">const</span> overlay = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'click-to-load'</span>)
@@ -2453,7 +2454,7 @@ Tonic.add(MyWindowed)
 overlay.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
   <span class="hljs-keyword">const</span> rows = []
 
-  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">1</span>; i &lt; <span class="hljs-number">500000</span>; i++) {
+  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">1</span>; i &lt; <span class="hljs-number">500001</span>; i++) {
     rows.push({
       <span class="hljs-attr">title</span>: <span class="hljs-string">`Row #<span class="hljs-subst">${i}</span>`</span>,
       <span class="hljs-attr">date</span>: <span class="hljs-built_in">String</span>(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>()),
@@ -2461,7 +2462,6 @@ overlay.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
     })
   }
 
-  overlay.textContent = <span class="hljs-string">''</span>
   overlay.classList.add(<span class="hljs-string">'hidden'</span>)
   windowed.load(rows)
 })

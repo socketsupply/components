@@ -32,7 +32,7 @@ const overlay = document.getElementById('click-to-load')
 overlay.addEventListener('click', e => {
   const rows = []
 
-  for (let i = 1; i < 500000; i++) {
+  for (let i = 1; i < 500001; i++) {
     rows.push({
       title: `Row #${i}`,
       date: String(new Date()),

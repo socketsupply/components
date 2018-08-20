@@ -4,8 +4,9 @@ const scrollToY = require('scrolltoy')
 const { qs, qsa } = require('qs')
 
 function setupNavigation () {
-  const mainLink = qs(`a[name="${document.body.dataset.page}"]`)
-  mainLink.classList.add('active')
+  qsa(`a[name="${document.body.dataset.page}"]`).forEach(el => {
+    el.classList.add('active')
+  })
 
   const main = qs('main')
   const links = qsa('nav ul li a')

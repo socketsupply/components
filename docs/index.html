@@ -114,6 +114,11 @@
   
 
     <li>
+      <a href="#popover" class="">Popover</a>
+    </li>
+  
+
+    <li>
       <a href="#profileimage" class="">ProfileImage</a>
     </li>
   
@@ -1992,6 +1997,136 @@ panelLink.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; pan
 <tr>
 <td align="left"><code>click()</code></td>
 <td align="left">Click event.</td>
+</tr>
+</tbody></table>
+
+    </section>
+  
+
+    <section id="popover">
+      <h1 id="popover">Popover</h1>
+<p>The <code>popover</code> component creates a popover activated by a click event. It is positioned in relation to the trigger.</p>
+<h2>Demo</h2>
+<popover id="popover-example" width="175px" for="popover-example-trigger">
+  <div>Item 1</div>
+  <div>Item 2</div>
+  <div>Item 3</div>
+</popover>
+
+
+<style>
+  #popover-example-trigger {
+    width: 50px;
+    height: 50px;
+    background-color: var(--background);
+    display: inline-block;
+    padding: 15px;
+    text-align: center;
+    border-radius: 7px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  #popover-example-trigger:hover {
+    background-color: var(--secondary);
+  }
+
+  .tonic--popover {
+    line-height: 25px;    
+  }
+</style>
+
+<div class="example">
+  <div class="header">Example</div>
+  <div class="content">
+    <div id="popover-example-trigger">+</div>
+  </div>
+</div>
+
+<h2>Code</h2>
+<h4>HTML</h4>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">popover</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"popover-example"</span> <span class="hljs-attr">width</span>=<span class="hljs-string">"175px"</span> <span class="hljs-attr">for</span>=<span class="hljs-string">"popover-example-trigger"</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>Item 1<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>Item 2<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>Item 3<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">popover</span>&gt;</span>
+</code></pre>
+<h4>JS</h4>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> popover = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'popover-example'</span>)
+popover.addEventListener(<span class="hljs-string">'show'</span>, event =&gt; {
+  <span class="hljs-built_in">document</span>.body.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
+    popover.hide()
+  }, { <span class="hljs-attr">once</span>: <span class="hljs-literal">true</span> })
+})
+</code></pre>
+<h2>Api</h2>
+<h3>Properties</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>for</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a <code>for</code> attribute. <span class="req">required</span></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>width</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Changes the <code>width</code> style.</td>
+<td align="left"><code>auto</code></td>
+</tr>
+<tr>
+<td align="left"><code>height</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Changes <code>height</code> style.</td>
+<td align="left"><code>auto</code></td>
+</tr>
+<tr>
+<td align="left"><code>padding</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Changes <code>padding</code> style.</td>
+<td align="left"><code>15px</code></td>
+</tr>
+<tr>
+<td align="left"><code>margin</code></td>
+<td align="left"><em>number</em></td>
+<td align="left">Changes <code>margin</code> style.</td>
+<td align="left"><code>10</code></td>
+</tr>
+<tr>
+<td align="left"><code>position</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Changes position of popover. Can be one of: <code>top</code>, <code>topleft</code>, <code>topright</code>, <code>bottom</code>, <code>bottomleft</code>, or <code>bottomright</code>.</td>
+<td align="left"><code>bottomleft</code></td>
+</tr>
+<tr>
+<td align="left"><code>theme</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
+<td align="left"><code>light</code></td>
+</tr>
+</tbody></table>
+<h3>Instance Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>show()</code></td>
+<td align="left">Shows the popover.</td>
+</tr>
+<tr>
+<td align="left"><code>hide()</code></td>
+<td align="left">Hides the popover.</td>
 </tr>
 </tbody></table>
 

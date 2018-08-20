@@ -3,9 +3,9 @@
 // Warning. Do not edit. This is a generated file.
 //
 class Tonic {
-  constructor (node, state) {
+  constructor (node) {
     this.props = {}
-    this.state = state || {}
+    this.state = {}
     const name = Tonic._splitName(this.constructor.name)
     this.root = node || document.createElement(name)
     this.root.disconnect = index => this._disconnect(index)
@@ -44,10 +44,10 @@ class Tonic {
     Tonic._constructTags()
   }
 
-  static _constructTags (root, states = {}) { /* eslint-disable no-new */
+  static _constructTags (root) { /* eslint-disable no-new */
     for (const tagName of Tonic.tags) {
       for (const node of (root || document).getElementsByTagName(tagName)) {
-        if (!node.disconnect) new Tonic.registry[tagName](node, states[node.id])
+        if (!node.disconnect) new Tonic.registry[tagName](node)
       }
     }
   }
@@ -86,7 +86,8 @@ class Tonic {
     const oldProps = JSON.parse(JSON.stringify(this.props))
     this.props = Tonic.sanitize(typeof o === 'function' ? o(this.props) : o)
     if (!this.root) throw new Error('.reRender called on destroyed component, see guide.')
-    Tonic._constructTags(this.root, this._setContent(this.root, this.render()))
+    this._setContent(this.root, this.render())
+    Tonic._constructTags(this.root)
     this.updated && this.updated(oldProps)
   }
 
@@ -103,12 +104,10 @@ class Tonic {
   }
 
   _setContent (target, content = '') {
-    const states = {}
     for (const tagName of Tonic.tags) {
       for (const node of target.getElementsByTagName(tagName)) {
         const index = Tonic.refs.findIndex(ref => ref === node)
         if (index === -1) continue
-        states[node.id] = node.getState()
         node.disconnect(index)
       }
     }
@@ -120,7 +119,6 @@ class Tonic {
       target.appendChild(content.cloneNode(true))
     }
     this.root = target
-    return states
   }
 
   _connect () {
@@ -683,13 +681,11 @@ content-tooltip .tooltip.bottom .tooltip-arrow {
     if (width) style.push(`width: ${width};`)
     if (height) style.push(`height: ${height};`)
 
-    const value = this.root.innerHTML.trim()
-
     return `
       <div
-        style="${style}"
+        style="${style.join('')}"
         class="tooltip">
-          ${value}
+          ${this.children.trim()}
         <span class="tooltip-arrow"></span>
       </div>
     `
@@ -2849,6 +2845,151 @@ Panel.svg.closeIcon = color => Panel.svg.toURL(`
 `)
 
 Tonic.Panel = Panel
+
+class Popover extends Tonic { /* global Tonic */
+  constructor (node) {
+    super(node)
+    const target = node.getAttribute('for')
+    const el = document.getElementById(target)
+
+    this.root.hide = () => this.hide()
+
+    el.addEventListener('click', e => this.show(el))
+  }
+
+  defaults (props) {
+    return {
+      width: 'auto',
+      height: 'auto',
+      padding: '15px',
+      margin: 10,
+      position: 'bottomleft'
+    }
+  }
+
+  style () {
+    return `popover .tonic--popover {
+  position: absolute;
+  top: 30px;
+  background: var(--window);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  visibility: hidden;
+  z-index: -1;
+  opacity: 0;
+  transform: scale(0.75);
+  transition: transform 0.1s ease-in-out, opacity 0s ease 0.1s, visibility 0s ease 0.1s, z-index 0s ease 0.1s;
+}
+popover .tonic--popover.show {
+  box-shadow: 0px 30px 90px -20px rgba(0,0,0,0.3);
+  transform: scale(1);
+  visibility: visible;
+  transition: transform 0.15s ease-in-out;
+  opacity: 1;
+  z-index: 1;
+}
+popover .tonic--popover--top {
+  transform-origin: bottom center;
+}
+popover .tonic--popover--topleft {
+  transform-origin: bottom left;
+}
+popover .tonic--popover--topright {
+  transform-origin: bottom right;
+}
+popover .tonic--popover--bottom {
+  transform-origin: top center;
+}
+popover .tonic--popover--bottomleft {
+  transform-origin: top left;
+}
+popover .tonic--popover--bottomright {
+  transform-origin: top right;
+}
+`
+  }
+
+  show (triggerNode) {
+    const popover = this.root.querySelector('.tonic--popover')
+    let scrollableArea = triggerNode.parentNode
+
+    while (true) {
+      if (!scrollableArea || scrollableArea.tagName === 'BODY') break
+      if (window.getComputedStyle(scrollableArea).overflow === 'scroll') break
+      scrollableArea = scrollableArea.parentNode
+    }
+
+    const margin = parseInt(this.props.margin, 10)
+    let { top, left } = triggerNode.getBoundingClientRect()
+    let pos = top + scrollableArea.scrollTop
+    left -= scrollableArea.offsetLeft
+
+    switch (this.props.position) {
+      case 'topleft':
+        pos -= popover.offsetHeight + margin
+        break
+      case 'topright':
+        pos -= popover.offsetHeight + margin
+        left += (triggerNode.offsetWidth - popover.offsetWidth)
+        break
+      case 'top':
+        pos -= popover.offsetHeight + margin
+        left += (triggerNode.offsetWidth / 2) - (popover.offsetWidth / 2)
+        break
+      case 'bottomleft':
+        pos += triggerNode.offsetHeight + margin
+        break
+      case 'bottomright':
+        pos += triggerNode.offsetHeight + margin
+        left += triggerNode.offsetWidth - popover.offsetWidth
+        break
+      case 'bottom':
+        pos += triggerNode.offsetHeight + margin
+        left += (triggerNode.offsetWidth / 2) - (popover.offsetWidth / 2)
+        break
+    }
+
+    popover.style.top = `${pos}px`
+    popover.style.left = `${left}px`
+
+    window.requestAnimationFrame(() => {
+      popover.className = `tonic--popover show tonic--popover--${this.props.position}`
+      const event = new window.Event('show')
+      this.root.dispatchEvent(event)
+    })
+  }
+
+  hide () {
+    const popover = this.root.querySelector('.tonic--popover')
+    if (popover) popover.classList.remove('show')
+  }
+
+  render () {
+    const {
+      theme,
+      width,
+      height,
+      padding
+    } = this.props
+
+    if (theme) this.root.classList.add(`theme-${theme}`)
+
+    const style = []
+    if (width) style.push(`width: ${width};`)
+    if (height) style.push(`height: ${height};`)
+    if (padding) style.push(`padding: ${padding};`)
+
+    return `
+      <div
+        style="${style.join('')}"
+        class="tonic--popover">
+          ${this.children.trim()}
+      </div>
+    `
+  }
+}
+
+Tonic.add(Popover)
 
 class ProfileImage extends Tonic { /* global Tonic */
   defaults () {

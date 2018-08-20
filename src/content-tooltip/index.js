@@ -88,13 +88,11 @@ class ContentTooltip extends Tonic { /* global Tonic */
     if (width) style.push(`width: ${width};`)
     if (height) style.push(`height: ${height};`)
 
-    const value = this.root.innerHTML.trim()
-
     return `
       <div
-        style="${style}"
+        style="${style.join('')}"
         class="tooltip">
-          ${value}
+          ${this.children.trim()}
         <span class="tooltip-arrow"></span>
       </div>
     `

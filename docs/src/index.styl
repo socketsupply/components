@@ -34,6 +34,9 @@ h1, h2, h3, h4, h5
 h1
   font 48px/56px var(--header)
   padding 60px 0 20px 0
+  @media (max-width: 850px)
+    font 36px/45px var(--header)
+    padding 20px 0 20px 0
 
 h2
   font 14px/16px var(--subheader)
@@ -99,6 +102,9 @@ body
       padding 0
       padding-left 40px
       margin 30px 0
+      @media (max-width: 850px)
+        padding-left 20px
+        margin 10px 0
 
       li
         margin 10px 0
@@ -117,12 +123,11 @@ body
       display none
 
     .page-selection
-      margin-bottom 50px
-      padding 20px 0 0 0
-      font-size 13px
-      font-family var(--subheader)
+      font 13px var(--subheader)
       text-transform uppercase
       letter-spacing 1px
+      padding 20px 0 0 0
+      margin-bottom 50px
 
       a
         display inline-block
@@ -175,6 +180,7 @@ body
     bottom 0
     overflow scroll
     @media (max-width: 850px)
+      position relative
       left 0
       padding 30px
 
@@ -196,6 +202,7 @@ body
       margin-bottom 150px
       @media (max-width: 850px)
         margin-top 0
+        margin-bottom 100px
 
     .tooltip
       padding 10px
@@ -226,6 +233,15 @@ body
       .content
         max-width 450px
         padding 15px
+      @media (max-width: 850px)
+        & ~ h2,
+        & ~ h3,
+        & ~ h4,
+        & ~ p,
+        & ~ code,
+        & ~ pre,
+        & ~ table
+          display none
 
     table
       width 100%
@@ -304,6 +320,12 @@ body
           border-right 1px solid var(--border)
           padding-right 40px
           margin-right 40px
+          @media (max-width: 850px)
+            border 0
+            padding-right 0
+            margin-right 0
+            margin-bottom 50px
+
         &:not(:first-of-type)
           span, svg
             display inline-block
@@ -344,7 +366,31 @@ body
     text-align center
     margin-top 10px
 
-  #intro
+  .mobile-nav
+    font 13px var(--subheader)
+    text-transform uppercase
+    letter-spacing 1px
+    margin-bottom 50px
+    padding 20px 0 0 0
+    display none
+    position absolute
+    top 30px
+    left 30px
+    @media (max-width: 850px)
+      display block
+
+    a
+      display inline-block
+      margin-right 17px
+      padding 0px 0px 5px 0px
+      border-bottom 1px solid var(--border)
+      &:first-of-type
+        margin-right 15px
+      &.active,
+      &:hover
+        border-bottom-color var(--primary)
+
+  section#intro
     padding-top 100px
 
     center
@@ -397,9 +443,13 @@ body
 
     .col
       width 50%
-      padding 10px 0px
+      padding 10px 0
       padding-right 30px
       display table-cell
+      @media (max-width: 850px)
+        width 100%
+        padding 0
+        display block
 
       li
         font-size 18px
@@ -418,6 +468,8 @@ body
       font 30px var(--header)
       text-align center
       margin 0 auto
+      @media (max-width: 850px)
+        font 26px var(--header)
 
   content-tooltip
     pre
@@ -460,3 +512,11 @@ body
 
       &:hover
         border-bottom-color var(--accent)
+
+  #progressbar
+    @media (max-width: 850px)
+      .button-group
+        margin-left -15px
+        margin-top 20px
+        text-align center
+        display block

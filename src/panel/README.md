@@ -4,6 +4,14 @@ your own panel class which can be registered and then used as a tag.
 
 ## Demo
 
+%html%
+
+<style>
+  my-panel h3 {
+    margin: 0;
+  }
+</style>
+
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
@@ -13,14 +21,6 @@ your own panel class which can be registered and then used as a tag.
     </input-button>
   </div>
 </div>
-
-%html%
-
-<style>
-  my-panel h3 {
-    margin: 0;
-  }
-</style>
 
 ## Code
 

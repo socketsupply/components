@@ -3,14 +3,14 @@ The component `NotificationCenter` creates a container for all notifications to 
 
 ## Demo
 
+<notification-center></notification-center>
+
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
     <input-button id="notification-center-example" value="notify-me">Notify Me</input-button>
   </div>
 </div>
-
-<notification-center></notification-center>
 
 ## Code
 

@@ -5,7 +5,16 @@ const marked = require('marked')
 const hl = require('highlight.js')
 const fetch = require('node-fetch')
 
+const renderer = new marked.Renderer()
+
+renderer.heading = (text, level) => {
+  const escapedText = text.toLowerCase().replace(/[^\w]+/g, '-')
+  if (level > 1) return `<h${level}>${text}</h${level}>\n`
+  return `<h${level} id="${escapedText}">${text}</h${level}>\n`
+}
+
 marked.setOptions({
+  renderer,
   highlight: (code, lang = 'javascript', escaped) => {
     return hl.highlight(lang, code).value
   }
@@ -72,6 +81,11 @@ function createPage (data, className) {
 
         </nav>
         <main>
+
+          <div class="mobile-nav">
+            <a href="/index.html">Components</a>
+            <a href="/api.html" class="active">API</a>
+          </div>
 
           ${sections}
 

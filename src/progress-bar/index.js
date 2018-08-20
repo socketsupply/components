@@ -12,7 +12,7 @@ class ProgressBar extends Tonic { /* global Tonic */
 
   defaults () {
     return {
-      width: '300px',
+      width: '280px',
       height: '15px',
       progress: 0
     }

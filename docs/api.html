@@ -77,6 +77,11 @@
         </nav>
         <main>
 
+          <div class="mobile-nav">
+            <a href="/index.html">Components</a>
+            <a href="/api.html" class="active">API</a>
+          </div>
+
           
     <section id="intro">
       <h1 id="intro">Intro</h1>
@@ -239,7 +244,7 @@ selector, and if not, tries to find the closest match.</p>
 <pre><code class="language-js">Tonic.matches(el, <span class="hljs-string">'selector'</span>)</code></pre>
 <p>Here, when a particular element inside a child component is clicked, we
 intercept the click event and pass along some data to the parent component.</p>
-<h3 id="example">Example</h3>
+<h3>Example</h3>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Child</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   click (e) {
     e.detail.bar = <span class="hljs-literal">true</span>
@@ -268,7 +273,7 @@ interested in the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Even
 
     <section id="4.-state-and-props">
       <h1 id="4-state-and-props">4. State and Props</h1>
-<h2 id="managing-state-and-props">Managing state and props</h2>
+<h2>Managing state and props</h2>
 <p>Tonic adds the <code>.reRender()</code> and <code>.setState()</code> methods to your components. They
 can receive either an object or a function as an argument. For example...</p>
 <pre><code class="language-js"><span class="hljs-comment">//</span>
@@ -298,7 +303,7 @@ only be persisted across re-renders for components that have an <code>id</code> 
 <p><code>.setState()</code> will not cause a re-render. The reasoning behind this is that
 <code>state</code> can be updated independently, as needed and rendering happens only when
 changes to the representation of the component are required.</p>
-<h2 id="passing-data-as-properties">Passing data as properties</h2>
+<h2>Passing data as properties</h2>
 <p>Add components to your HTML, pass them arguments just like with regular HTML.</p>
 <pre><code class="language-js">&lt;my-component value=<span class="hljs-string">"7a"</span>&gt;<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">my-component</span>&gt;</span></span></code></pre>
 <p>Native HTML only understands strings. If you want to pass non-string props (like
@@ -346,11 +351,11 @@ Tonic.add(Parent)
 }
 
 Tonic.add(Child)</code></pre>
-<h3 id="input-html">Input HTML</h3>
+<h3>Input HTML</h3>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">child</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"hello world"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">child</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span></code></pre>
-<h3 id="output-html">Output HTML</h3>
+<h3>Output HTML</h3>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"parent"</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">another-component</span>&gt;</span>
@@ -392,7 +397,7 @@ performance.</p>
 
     <section id="api">
       <h1 id="apis">APIs</h1>
-<h2 id="static-methods">STATIC METHODS</h2>
+<h2>STATIC METHODS</h2>
 <table>
 <thead>
 <tr>
@@ -417,7 +422,7 @@ performance.</p>
 <td align="left">Match the given node against a selector or any matching parent of the given node. This is useful when trying to locate a node from the actual node that was interacted with.</td>
 </tr>
 </tbody></table>
-<h2 id="instance-methods">INSTANCE METHODS</h2>
+<h2>INSTANCE METHODS</h2>
 <table>
 <thead>
 <tr>
@@ -450,7 +455,7 @@ performance.</p>
 <td align="left">Tidy up an HTML string (use as a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals">tagged template</a>).</td>
 </tr>
 </tbody></table>
-<h2 id="lifecycle-instance-methods">&quot;LIFECYCLE&quot; INSTANCE METHODS</h2>
+<h2>&quot;LIFECYCLE&quot; INSTANCE METHODS</h2>
 <table>
 <thead>
 <tr>

@@ -14,11 +14,14 @@ The component `NotificationInline` creates a notification badge that appears on 
   </div>
 </div>
 
-<notification-inline id="notification-1"></notification-inline>
+<div>
+  <notification-inline id="notification-1"></notification-inline>
+</div>
 
-<notification-inline dismiss="false" display="true" id="notification-2">
-  Displayed initially. Uses <b>html</b>.
-</notification-inline>
+<div>
+  <notification-inline dismiss="false" display="true" id="notification-2">Displayed initially. Uses <b>html</b>.
+  </notification-inline>
+</div>
 
 ## Code
 

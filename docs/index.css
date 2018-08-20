@@ -154,6 +154,12 @@ h1 {
   font: 48px/56px var(--header);
   padding: 60px 0 20px 0;
 }
+@media (max-width: 850px) {
+  h1 {
+    font: 36px/45px var(--header);
+    padding: 20px 0 20px 0;
+  }
+}
 h2 {
   font: 14px/16px var(--subheader);
   font-weight: 600;
@@ -221,6 +227,12 @@ body > main ul {
   padding-left: 40px;
   margin: 30px 0;
 }
+@media (max-width: 850px) {
+  body > main ul {
+    padding-left: 20px;
+    margin: 10px 0;
+  }
+}
 body > main ul li {
   margin: 10px 0;
 }
@@ -242,12 +254,11 @@ body > nav {
   }
 }
 body > nav .page-selection {
-  margin-bottom: 50px;
-  padding: 20px 0 0 0;
-  font-size: 13px;
-  font-family: var(--subheader);
+  font: 13px var(--subheader);
   text-transform: uppercase;
   letter-spacing: 1px;
+  padding: 20px 0 0 0;
+  margin-bottom: 50px;
 }
 body > nav .page-selection a {
   display: inline-block;
@@ -307,6 +318,7 @@ body > main {
 }
 @media (max-width: 850px) {
   body > main {
+    position: relative;
     left: 0;
     padding: 30px;
   }
@@ -339,6 +351,7 @@ body > main .hero {
 @media (max-width: 850px) {
   body > main .hero {
     margin-top: 0;
+    margin-bottom: 100px;
   }
 }
 body > main .tooltip {
@@ -374,6 +387,17 @@ body > main div.example .header {
 body > main div.example .content {
   max-width: 450px;
   padding: 15px;
+}
+@media (max-width: 850px) {
+  body > main div.example ~ h2,
+  body > main div.example ~ h3,
+  body > main div.example ~ h4,
+  body > main div.example ~ p,
+  body > main div.example ~ code,
+  body > main div.example ~ pre,
+  body > main div.example ~ table {
+    display: none;
+  }
 }
 body > main table {
   width: 100%;
@@ -455,6 +479,14 @@ body > main footer > div:first-of-type {
   padding-right: 40px;
   margin-right: 40px;
 }
+@media (max-width: 850px) {
+  body > main footer > div:first-of-type {
+    border: 0;
+    padding-right: 0;
+    margin-right: 0;
+    margin-bottom: 50px;
+  }
+}
 body > main footer > div:not(:first-of-type) span,
 body > main footer > div:not(:first-of-type) svg {
   display: inline-block;
@@ -498,24 +530,53 @@ body .invalidate-buttons {
   text-align: center;
   margin-top: 10px;
 }
-body #intro {
+body .mobile-nav {
+  font: 13px var(--subheader);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 50px;
+  padding: 20px 0 0 0;
+  display: none;
+  position: absolute;
+  top: 30px;
+  left: 30px;
+}
+@media (max-width: 850px) {
+  body .mobile-nav {
+    display: block;
+  }
+}
+body .mobile-nav a {
+  display: inline-block;
+  margin-right: 17px;
+  padding: 0px 0px 5px 0px;
+  border-bottom: 1px solid var(--border);
+}
+body .mobile-nav a:first-of-type {
+  margin-right: 15px;
+}
+body .mobile-nav a.active,
+body .mobile-nav a:hover {
+  border-bottom-color: var(--primary);
+}
+body section#intro {
   padding-top: 100px;
 }
-body #intro center {
+body section#intro center {
   color: var(--info);
   margin-top: 40px;
 }
-body #intro center img {
+body section#intro center img {
   vertical-align: middle;
 }
-body #intro center a {
+body section#intro center a {
   color: var(--info);
   font: 13px var(--subheader);
   text-transform: uppercase;
   letter-spacing: 1px;
   margin: 15px;
 }
-body #intro .status {
+body section#intro .status {
   width: 250px;
   font: 12px var(--subheader);
   text-transform: uppercase;
@@ -526,7 +587,7 @@ body #intro .status {
       justify-content: space-around;
   margin: 50px auto 0 auto;
 }
-body #intro .status:before {
+body section#intro .status:before {
   content: 'Project Status';
   color: var(--medium);
   text-align: center;
@@ -534,7 +595,7 @@ body #intro .status:before {
   padding: 4px 8px;
   display: inline-block;
 }
-body #intro .status:after {
+body section#intro .status:after {
   content: 'Experimental';
   color: #fff;
   letter-spacing: 1px;
@@ -542,40 +603,52 @@ body #intro .status:after {
   display: inline-block;
   background-color: var(--danger);
 }
-body #intro svg {
+body section#intro svg {
   width: 200px;
 }
-body #intro svg use {
+body section#intro svg use {
   fill: var(--primary);
   color: var(--primary);
 }
-body #intro p:not(.intro-copy) {
+body section#intro p:not(.intro-copy) {
   font-size: 17px;
   line-height: 28px;
 }
-body #intro .col {
+body section#intro .col {
   width: 50%;
-  padding: 10px 0px;
+  padding: 10px 0;
   padding-right: 30px;
   display: table-cell;
 }
-body #intro .col li {
+@media (max-width: 850px) {
+  body section#intro .col {
+    width: 100%;
+    padding: 0;
+    display: block;
+  }
+}
+body section#intro .col li {
   font-size: 18px;
 }
-body #intro input-button {
+body section#intro input-button {
   text-align: center;
   margin: 50px 0;
   display: block;
 }
-body #intro span.first-word {
+body section#intro span.first-word {
   color: var(--primary);
 }
-body #intro p.intro-copy {
+body section#intro p.intro-copy {
   color: var(--medium);
   max-width: 670px;
   font: 30px var(--header);
   text-align: center;
   margin: 0 auto;
+}
+@media (max-width: 850px) {
+  body section#intro p.intro-copy {
+    font: 26px var(--header);
+  }
 }
 body content-tooltip pre {
   margin: 0;
@@ -623,4 +696,12 @@ body .button-group span {
 }
 body .button-group span:hover {
   border-bottom-color: var(--accent);
+}
+@media (max-width: 850px) {
+  body #progressbar .button-group {
+    margin-left: -15px;
+    margin-top: 20px;
+    text-align: center;
+    display: block;
+  }
 }

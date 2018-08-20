@@ -4,6 +4,14 @@ The `ContentTooltip` component creates a dynamically positioned pop-up tooltip f
 
 ## Demo
 
+%html%
+
+<style>
+  #content-tooltip-example-1 {
+    cursor: default;
+  }
+</style>
+
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
@@ -12,14 +20,6 @@ The `ContentTooltip` component creates a dynamically positioned pop-up tooltip f
     </span>
   </div>
 </div>
-
-%html%
-
-<style>
-  #content-tooltip-example-1 {
-    cursor: default;
-  }
-</style>
 
 ## Code
 

@@ -4,6 +4,15 @@ your own dialog class which can be registered and then used as a tag.
 
 ## Demo
 
+%html%
+
+<style>
+  my-dialog header,
+  my-dialog main {
+    text-align: center;
+  }
+</style>
+
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
@@ -13,15 +22,6 @@ your own dialog class which can be registered and then used as a tag.
     </input-button>
   </div>
 </div>
-
-%html%
-
-<style>
-  my-dialog header,
-  my-dialog main {
-    text-align: center;
-  }
-</style>
 
 ## Code
 

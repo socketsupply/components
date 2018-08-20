@@ -1,8 +1,5 @@
 # ContentRoute
-The `ContentRoute` component will render its children components if the
-browser's current url matches its `path` property. This component will detect
-`pushstate`, `popstate` and `replacestate` events and re-render with the
-attributes of the url as props.
+The `ContentRoute` component will render its children components if the browser's current url matches its `path` property. This component will detect `pushstate`, `popstate` and `replacestate` events and re-render with the attributes of the url as props.
 
 ## Demo
 

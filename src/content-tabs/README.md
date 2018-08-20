@@ -3,6 +3,8 @@ The component `ContentTabs` creates a menu that activates sections when clicked 
 
 ## Demo
 
+%html%
+
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
@@ -22,8 +24,6 @@ The component `ContentTabs` creates a menu that activates sections when clicked 
     </section>
   </div>
 </div>
-
-%html%
 
 ## Code
 

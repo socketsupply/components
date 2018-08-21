@@ -1592,11 +1592,8 @@ input-select label {
   }
 
   loading (state) {
-    window.requestAnimationFrame(() => {
-      const select = this.root.querySelector('select')
-      const method = state ? 'add' : 'remove'
-      if (select) select.classList[method]('tonic--loading')
-    })
+    const method = state ? 'add' : 'remove'
+    this.root.classList[method]('tonic--loading')
   }
 
   renderLabel () {

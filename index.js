@@ -2702,7 +2702,7 @@ class Panel extends Tonic { /* global Tonic */
   z-index: 100;
   transition: transform 0.3s ease-in-out;
 }
-@media (max-width: 736px) {
+@media (max-width: 500px) {
   .tonic--panel .tonic--wrapper .tonic--panel {
     width: 100%;
   }
@@ -2742,6 +2742,7 @@ class Panel extends Tonic { /* global Tonic */
   right: 0;
   bottom: 0;
   transition: opacity 0.3s ease-in-out, visibility 0s ease 1s;
+  z-index: 1;
 }
 .tonic--panel .tonic--wrapper .tonic--close {
   width: 25px;

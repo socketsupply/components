@@ -2839,7 +2839,7 @@ class Panel extends Tonic { /* global Tonic */
   z-index: 100;
   transition: transform 0.3s ease-in-out;
 }
-@media (max-width: 850px) {
+@media (max-width: 736px) {
   .tonic--panel .tonic--wrapper .tonic--panel {
     width: 100%;
   }

@@ -54,7 +54,13 @@ To create a custom SVG checkbox, pass in the properties `icon-on` and `icon-off`
 | `color` | *string* | Changes the color of the icon. | `--primary` |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
-### Static Methods & Members
+### Instance Properties
+
+| Method | Description |
+| :--- | :--- |
+| `value` | A getter that returns `true` if the checkbox is checked or `false` if the checkbox is not checked. |
+
+### Static Methods
 
 | Method | Description |
 | :--- | :--- |

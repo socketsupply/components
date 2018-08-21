@@ -1307,6 +1307,19 @@ input-button button:before {
 Tonic.add(InputButton)
 
 class InputCheckbox extends Tonic { /* global Tonic */
+  constructor (node) {
+    super(node)
+
+    const that = this
+    Object.defineProperty(this.root, 'value', {
+      get () { return that.value }
+    })
+  }
+
+  get value () {
+    return this.props.checked
+  }
+
   getPropertyValue (s) {
     const computed = window.getComputedStyle(this.root)
     return computed.getPropertyValue(`--${s}`).trim()

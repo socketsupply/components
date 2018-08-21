@@ -140,9 +140,9 @@ module.exports = function scrollToY (el, Y, speed) {
 // Warning. Do not edit. This is a generated file.
 //
 class Tonic {
-  constructor (node, state) {
+  constructor (node) {
     this.props = {}
-    this.state = state || {}
+    this.state = {}
     const name = Tonic._splitName(this.constructor.name)
     this.root = node || document.createElement(name)
     this.root.disconnect = index => this._disconnect(index)
@@ -181,10 +181,10 @@ class Tonic {
     Tonic._constructTags()
   }
 
-  static _constructTags (root, states = {}) { /* eslint-disable no-new */
+  static _constructTags (root) { /* eslint-disable no-new */
     for (const tagName of Tonic.tags) {
       for (const node of (root || document).getElementsByTagName(tagName)) {
-        if (!node.disconnect) new Tonic.registry[tagName](node, states[node.id])
+        if (!node.disconnect) new Tonic.registry[tagName](node)
       }
     }
   }
@@ -223,7 +223,8 @@ class Tonic {
     const oldProps = JSON.parse(JSON.stringify(this.props))
     this.props = Tonic.sanitize(typeof o === 'function' ? o(this.props) : o)
     if (!this.root) throw new Error('.reRender called on destroyed component, see guide.')
-    Tonic._constructTags(this.root, this._setContent(this.root, this.render()))
+    this._setContent(this.root, this.render())
+    Tonic._constructTags(this.root)
     this.updated && this.updated(oldProps)
   }
 
@@ -240,12 +241,10 @@ class Tonic {
   }
 
   _setContent (target, content = '') {
-    const states = {}
     for (const tagName of Tonic.tags) {
       for (const node of target.getElementsByTagName(tagName)) {
         const index = Tonic.refs.findIndex(ref => ref === node)
         if (index === -1) continue
-        states[node.id] = node.getState()
         node.disconnect(index)
       }
     }
@@ -257,7 +256,6 @@ class Tonic {
       target.appendChild(content.cloneNode(true))
     }
     this.root = target
-    return states
   }
 
   _connect () {
@@ -1710,16 +1708,16 @@ class InputText extends Tonic { /* global Tonic */
     return `input-text .tonic--wrapper {
   position: relative;
 }
-input-text .tonic--wrapper.right icon-container {
+input-text .tonic--wrapper.tonic--right icon-container {
   right: 10px;
 }
-input-text .tonic--wrapper.right input {
+input-text .tonic--wrapper.tonic--right input {
   padding-right: 40px;
 }
-input-text .tonic--wrapper.left icon-container {
+input-text .tonic--wrapper.tonic--left icon-container {
   left: 10px;
 }
-input-text .tonic--wrapper.left input {
+input-text .tonic--wrapper.tonic--left input {
   padding-left: 40px;
 }
 input-text icon-container {

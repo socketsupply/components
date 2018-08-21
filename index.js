@@ -3,9 +3,9 @@
 // Warning. Do not edit. This is a generated file.
 //
 class Tonic {
-  constructor (node) {
+  constructor (node, state) {
     this.props = {}
-    this.state = {}
+    this.state = state || {}
     const name = Tonic._splitName(this.constructor.name)
     this.root = node || document.createElement(name)
     this.root.disconnect = index => this._disconnect(index)
@@ -44,10 +44,10 @@ class Tonic {
     Tonic._constructTags()
   }
 
-  static _constructTags (root) { /* eslint-disable no-new */
+  static _constructTags (root, states = {}) { /* eslint-disable no-new */
     for (const tagName of Tonic.tags) {
       for (const node of (root || document).getElementsByTagName(tagName)) {
-        if (!node.disconnect) new Tonic.registry[tagName](node)
+        if (!node.disconnect) new Tonic.registry[tagName](node, states[node.id])
       }
     }
   }
@@ -86,8 +86,7 @@ class Tonic {
     const oldProps = JSON.parse(JSON.stringify(this.props))
     this.props = Tonic.sanitize(typeof o === 'function' ? o(this.props) : o)
     if (!this.root) throw new Error('.reRender called on destroyed component, see guide.')
-    this._setContent(this.root, this.render())
-    Tonic._constructTags(this.root)
+    Tonic._constructTags(this.root, this._setContent(this.root, this.render()))
     this.updated && this.updated(oldProps)
   }
 
@@ -104,10 +103,12 @@ class Tonic {
   }
 
   _setContent (target, content = '') {
+    const states = {}
     for (const tagName of Tonic.tags) {
       for (const node of target.getElementsByTagName(tagName)) {
         const index = Tonic.refs.findIndex(ref => ref === node)
         if (index === -1) continue
+        states[node.id] = node.getState()
         node.disconnect(index)
       }
     }
@@ -119,6 +120,7 @@ class Tonic {
       target.appendChild(content.cloneNode(true))
     }
     this.root = target
+    return states
   }
 
   _connect () {
@@ -975,6 +977,11 @@ class InputButton extends Tonic { /* global Tonic */
   constructor (node) {
     super(node)
     this.root.loading = (state) => this.loading(state)
+
+    const that = this
+    Object.defineProperty(this.root, 'value', {
+      get () { return that.props.value }
+    })
   }
 
   defaults () {
@@ -1248,7 +1255,6 @@ input-checkbox label:nth-of-type(2) {
   render () {
     const {
       id,
-      name,
       disabled,
       checked,
       color,
@@ -1266,8 +1272,6 @@ input-checkbox label:nth-of-type(2) {
 
     let url = this.props[checked ? 'iconOn' : 'iconOff']
 
-    const nameAttr = name ? `name="${name}"` : ''
-
     //
     // the id attribute can be removed from the component
     // and added to the input inside the component.
@@ -1279,7 +1283,6 @@ input-checkbox label:nth-of-type(2) {
         <input
           type="checkbox"
           id="${id}"
-          ${nameAttr}
           ${disabled ? 'disabled' : ''}
           ${checked ? 'checked' : ''}/>
         <label
@@ -1473,7 +1476,6 @@ input-select label {
 
   render () {
     const {
-      name,
       disabled,
       required,
       width,
@@ -1482,8 +1484,6 @@ input-select label {
       theme,
       radius
     } = this.props
-
-    const nameAttr = name ? `name="${name}"` : ''
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
@@ -1505,7 +1505,6 @@ input-select label {
         ${this.renderLabel()}
 
         <select
-          ${nameAttr}
           ${disabled ? 'disabled' : ''}
           ${required ? 'required' : ''}
           style="${style}">
@@ -1695,7 +1694,6 @@ input-text .tonic--invalid span:after {
 
   render () {
     const {
-      name,
       type,
       value,
       placeholder,
@@ -1712,7 +1710,6 @@ input-text .tonic--invalid span:after {
       position
     } = this.props
 
-    const nameAttr = name ? `name="${name}"` : ''
     const patternAttr = pattern ? `pattern="${pattern}"` : ''
     const valueAttr = (value && value !== 'undefined') ? `value="${value}"` : ''
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
@@ -1740,7 +1737,6 @@ input-text .tonic--invalid span:after {
         ${this.renderIcon()}
 
         <input
-          ${nameAttr}
           ${patternAttr}
           type="${type}"
           ${valueAttr}
@@ -1762,6 +1758,15 @@ input-text .tonic--invalid span:after {
 Tonic.add(InputText)
 
 class InputTextarea extends Tonic { /* global Tonic */
+  constructor (node) {
+    super(node)
+
+    const that = this
+    Object.defineProperty(this.root, 'value', {
+      get () { return that.value }
+    })
+  }
+
   defaults () {
     return {
       placeholder: '',
@@ -1826,7 +1831,6 @@ input-textarea label {
   render () {
     const {
       id,
-      name,
       placeholder,
       spellcheck,
       disabled,
@@ -1845,7 +1849,6 @@ input-textarea label {
     } = this.props
 
     const idAttr = id ? `id="${id}"` : ''
-    const nameAttr = name ? `name="${name}"` : ''
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
 
@@ -1865,7 +1868,6 @@ input-textarea label {
         ${this.renderLabel()}
         <textarea
           ${idAttr}
-          ${nameAttr}
           ${placeholderAttr}
           ${spellcheckAttr}
           ${disabled ? 'disabled' : ''}
@@ -1885,6 +1887,15 @@ input-textarea label {
 Tonic.add(InputTextarea)
 
 class InputToggle extends Tonic { /* global Tonic */
+  constructor (node) {
+    super(node)
+
+    const that = this
+    Object.defineProperty(this.root, 'value', {
+      get () { return that.props.checked }
+    })
+  }
+
   defaults () {
     return {
       checked: false
@@ -2006,7 +2017,6 @@ input-toggle .tonic--switch input.tonic--toggle:checked + label:after {
   render () {
     const {
       id,
-      name,
       disabled,
       theme,
       checked
@@ -2020,8 +2030,6 @@ input-toggle .tonic--switch input.tonic--toggle:checked + label:after {
     //
     this.root.removeAttribute('id')
 
-    const nameAttr = name ? `name="${name}"` : ''
-
     return `
       <div class="tonic--wrapper">
         <div class="tonic--switch">
@@ -2029,7 +2037,6 @@ input-toggle .tonic--switch input.tonic--toggle:checked + label:after {
             type="checkbox"
             class="tonic--toggle"
             id="${id}"
-            ${nameAttr}
             ${disabled ? 'disabled' : ''}
             ${checked ? 'checked' : ''}>
           <label for="${id}"></label>

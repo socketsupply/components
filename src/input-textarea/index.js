@@ -1,4 +1,13 @@
 class InputTextarea extends Tonic { /* global Tonic */
+  constructor (node) {
+    super(node)
+
+    const that = this
+    Object.defineProperty(this.root, 'value', {
+      get () { return that.value }
+    })
+  }
+
   defaults () {
     return {
       placeholder: '',
@@ -32,7 +41,6 @@ class InputTextarea extends Tonic { /* global Tonic */
   render () {
     const {
       id,
-      name,
       placeholder,
       spellcheck,
       disabled,
@@ -51,7 +59,6 @@ class InputTextarea extends Tonic { /* global Tonic */
     } = this.props
 
     const idAttr = id ? `id="${id}"` : ''
-    const nameAttr = name ? `name="${name}"` : ''
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
 
@@ -71,7 +78,6 @@ class InputTextarea extends Tonic { /* global Tonic */
         ${this.renderLabel()}
         <textarea
           ${idAttr}
-          ${nameAttr}
           ${placeholderAttr}
           ${spellcheckAttr}
           ${disabled ? 'disabled' : ''}

@@ -54,7 +54,6 @@ class InputCheckbox extends Tonic { /* global Tonic */
   render () {
     const {
       id,
-      name,
       disabled,
       checked,
       color,
@@ -72,8 +71,6 @@ class InputCheckbox extends Tonic { /* global Tonic */
 
     let url = this.props[checked ? 'iconOn' : 'iconOff']
 
-    const nameAttr = name ? `name="${name}"` : ''
-
     //
     // the id attribute can be removed from the component
     // and added to the input inside the component.
@@ -85,7 +82,6 @@ class InputCheckbox extends Tonic { /* global Tonic */
         <input
           type="checkbox"
           id="${id}"
-          ${nameAttr}
           ${disabled ? 'disabled' : ''}
           ${checked ? 'checked' : ''}/>
         <label

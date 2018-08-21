@@ -1,4 +1,13 @@
 class InputToggle extends Tonic { /* global Tonic */
+  constructor (node) {
+    super(node)
+
+    const that = this
+    Object.defineProperty(this.root, 'value', {
+      get () { return that.props.checked }
+    })
+  }
+
   defaults () {
     return {
       checked: false
@@ -21,7 +30,6 @@ class InputToggle extends Tonic { /* global Tonic */
   render () {
     const {
       id,
-      name,
       disabled,
       theme,
       checked
@@ -35,8 +43,6 @@ class InputToggle extends Tonic { /* global Tonic */
     //
     this.root.removeAttribute('id')
 
-    const nameAttr = name ? `name="${name}"` : ''
-
     return `
       <div class="tonic--wrapper">
         <div class="tonic--switch">
@@ -44,7 +50,6 @@ class InputToggle extends Tonic { /* global Tonic */
             type="checkbox"
             class="tonic--toggle"
             id="${id}"
-            ${nameAttr}
             ${disabled ? 'disabled' : ''}
             ${checked ? 'checked' : ''}>
           <label for="${id}"></label>

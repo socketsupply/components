@@ -75,7 +75,6 @@ class InputText extends Tonic { /* global Tonic */
 
   render () {
     const {
-      name,
       type,
       value,
       placeholder,
@@ -92,7 +91,6 @@ class InputText extends Tonic { /* global Tonic */
       position
     } = this.props
 
-    const nameAttr = name ? `name="${name}"` : ''
     const patternAttr = pattern ? `pattern="${pattern}"` : ''
     const valueAttr = (value && value !== 'undefined') ? `value="${value}"` : ''
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
@@ -120,7 +118,6 @@ class InputText extends Tonic { /* global Tonic */
         ${this.renderIcon()}
 
         <input
-          ${nameAttr}
           ${patternAttr}
           type="${type}"
           ${valueAttr}

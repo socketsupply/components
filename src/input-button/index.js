@@ -2,6 +2,11 @@ class InputButton extends Tonic { /* global Tonic */
   constructor (node) {
     super(node)
     this.root.loading = (state) => this.loading(state)
+
+    const that = this
+    Object.defineProperty(this.root, 'value', {
+      get () { return that.props.value }
+    })
   }
 
   defaults () {

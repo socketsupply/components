@@ -66,7 +66,6 @@ class InputSelect extends Tonic { /* global Tonic */
 
   render () {
     const {
-      name,
       disabled,
       required,
       width,
@@ -75,8 +74,6 @@ class InputSelect extends Tonic { /* global Tonic */
       theme,
       radius
     } = this.props
-
-    const nameAttr = name ? `name="${name}"` : ''
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
@@ -98,7 +95,6 @@ class InputSelect extends Tonic { /* global Tonic */
         ${this.renderLabel()}
 
         <select
-          ${nameAttr}
           ${disabled ? 'disabled' : ''}
           ${required ? 'required' : ''}
           style="${style}">

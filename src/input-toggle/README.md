@@ -30,8 +30,14 @@ The component `InputToggle` creates a toggle.
 | `checked` | *boolean* | Turns the toggle "on". | `false` |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
-### Instance Methods & Members
+### Instance Methods
 
 | Method | Description |
 | :--- | :--- |
 | `change()` | Bind to `change` event. |
+
+### Instance Members
+
+| Method | Description |
+| :--- | :--- |
+| `value` | A `getter` that returns the current value of the textarea. |

@@ -98,8 +98,9 @@ class InputText extends Tonic { /* global Tonic */
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
     const ariaInvalidAttr = ariaInvalid ? `aria-invalid="${ariaInvalid}"` : ''
+    const positionAttr = position ? `tonic--${position}` : ''
 
-    if (theme) this.root.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     let style = []
 
@@ -114,7 +115,7 @@ class InputText extends Tonic { /* global Tonic */
     style = style.join('; ')
 
     return `
-      <div class="wrapper ${position}" style="${style}">
+      <div class="tonic--wrapper ${positionAttr}" style="${style}">
         ${this.renderLabel()}
         ${this.renderIcon()}
 
@@ -130,7 +131,7 @@ class InputText extends Tonic { /* global Tonic */
           ${required ? 'required' : ''}
           style="${style}"
         />
-        <div class="invalid">
+        <div class="tonic--invalid">
           <span>${this.props.errorMessage}</span>
         </div>
       </div>

@@ -55,7 +55,7 @@ class InputTextarea extends Tonic { /* global Tonic */
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
 
-    if (theme) this.root.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     let style = []
     if (width) style.push(`width: ${width}`)
@@ -67,7 +67,7 @@ class InputTextarea extends Tonic { /* global Tonic */
     if (this.props.value === 'undefined') this.props.value = ''
 
     return `
-      <div class="wrapper">
+      <div class="tonic--wrapper">
         ${this.renderLabel()}
         <textarea
           ${idAttr}

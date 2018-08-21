@@ -28,31 +28,32 @@ class NotificationCenter extends Tonic { /* global Tonic */
 
   create ({ message, title, duration, type, dismiss } = {}) {
     const notification = document.createElement('div')
-    notification.className = 'notification'
-    const main = document.createElement('main')
+    notification.className = 'tonic--notification'
+    const main = document.createElement('div')
+    main.className = 'tonic--main'
     if (type) {
-      notification.classList.add('alert')
+      notification.classList.add('tonic--alert')
     }
 
     const titleElement = document.createElement('div')
-    titleElement.className = 'title'
+    titleElement.className = 'tonic--title'
     titleElement.textContent = title || this.props.title
 
     const messageElement = document.createElement('div')
-    messageElement.className = 'message'
+    messageElement.className = 'tonic--message'
     messageElement.textContent = message || this.props.message
 
     if (dismiss !== 'false') {
       const close = document.createElement('div')
-      close.className = 'close'
+      close.className = 'tonic--close'
       close.style.backgroundImage = `url("${this.props.closeIcon}")`
       notification.appendChild(close)
-      notification.classList.add('close')
+      notification.classList.add('tonic--close')
     }
 
     if (type) {
       const alertIcon = document.createElement('div')
-      alertIcon.className = 'icon'
+      alertIcon.className = 'tonic--icon'
       notification.appendChild(alertIcon)
 
       switch (type) {
@@ -81,11 +82,11 @@ class NotificationCenter extends Tonic { /* global Tonic */
     notification.appendChild(main)
     main.appendChild(titleElement)
     main.appendChild(messageElement)
-    this.root.querySelector('.wrapper').appendChild(notification)
+    this.root.querySelector('.tonic--wrapper').appendChild(notification)
     this.show()
 
     setTimeout(() => {
-      notification.classList.add('show')
+      notification.classList.add('tonic--show')
     }, 64)
 
     if (duration) {
@@ -94,7 +95,7 @@ class NotificationCenter extends Tonic { /* global Tonic */
   }
 
   destroy (notification) {
-    notification.classList.remove('show')
+    notification.classList.remove('tonic--show')
     notification.addEventListener('transitionend', e => {
       notification.parentNode.removeChild(notification)
     })
@@ -102,19 +103,19 @@ class NotificationCenter extends Tonic { /* global Tonic */
 
   show () {
     const node = this.root.firstElementChild
-    node.classList.add('show')
+    node.classList.add('tonic--show')
   }
 
   hide () {
     const node = this.root.firstElementChild
-    node.classList.remove('show')
+    node.classList.remove('tonic--show')
   }
 
   click (e) {
-    const el = Tonic.match(e.target, '.close')
+    const el = Tonic.match(e.target, '.tonic--close')
     if (!el) return
 
-    const notification = el.closest('.notification')
+    const notification = el.closest('.tonic--notification')
     if (notification) this.destroy(notification)
   }
 
@@ -124,9 +125,11 @@ class NotificationCenter extends Tonic { /* global Tonic */
       position
     } = this.props
 
-    if (theme) this.root.classList.add(`theme-${theme}`)
+    const positionAttr = position ? `tonic--${position}` : ''
 
-    return `<div class="wrapper ${position}"></div>`
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+
+    return `<div class="tonic--wrapper ${positionAttr}"></div>`
   }
 }
 

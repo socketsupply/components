@@ -6,10 +6,10 @@ class Panel extends Tonic { /* global Tonic */
     this.root.hide = fn => this.hide(fn)
 
     this.root.addEventListener('click', e => {
-      const el = Tonic.match(e.target, '.close')
+      const el = Tonic.match(e.target, '.tonic--close')
       if (el) this.hide()
 
-      const overlay = Tonic.match(e.target, '.overlay')
+      const overlay = Tonic.match(e.target, '.tonic--overlay')
       if (overlay) this.hide()
     })
   }
@@ -34,13 +34,13 @@ class Panel extends Tonic { /* global Tonic */
 
   show (fn) {
     const node = this.root.firstChild
-    node.classList.add('show')
+    node.classList.add('tonic--show')
     fn && node.addEventListener('transitionend', fn, { once: true })
   }
 
   hide (fn) {
     const node = this.root.firstChild
-    node.classList.remove('show')
+    node.classList.remove('tonic--show')
     fn && node.addEventListener('transitionend', fn, { once: true })
   }
 
@@ -54,7 +54,7 @@ class Panel extends Tonic { /* global Tonic */
       backgroundColor
     } = this.props
 
-    this.root.classList.add('panel')
+    this.root.classList.add('tonic--panel')
 
     const wrapper = document.createElement('div')
     const template = document.createElement('template')
@@ -65,30 +65,31 @@ class Panel extends Tonic { /* global Tonic */
       ? (template.innerHTML = content)
       : [...content.children].forEach(el => template.appendChild(el))
 
-    if (theme) this.root.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
-    const isOpen = !!this.root.querySelector('.wrapper.show')
-    wrapper.className = isOpen ? 'wrapper show' : 'wrapper'
+    const isOpen = !!this.root.querySelector('.tonic--wrapper.tonic--show')
+    wrapper.className = isOpen ? 'tonic--wrapper tonic--show' : 'tonic--wrapper'
     wrapper.id = 'wrapper'
-    wrapper.classList.add(position)
+    const positionAttr = position ? `tonic--${position}` : ''
+    wrapper.classList.add(positionAttr)
 
     if (overlay) wrapper.setAttribute('overlay', true)
     if (name) wrapper.setAttribute('name', name)
 
     // create panel
     const panel = document.createElement('div')
-    panel.className = 'panel'
+    panel.className = 'tonic--panel'
 
     if (overlay !== 'false') {
       const overlayElement = document.createElement('div')
-      overlayElement.className = 'overlay'
+      overlayElement.className = 'tonic--overlay'
       overlayElement.setAttribute('style', `background-color: ${backgroundColor}`)
       wrapper.appendChild(overlayElement)
     }
 
     // create template
     const close = document.createElement('div')
-    close.className = 'close'
+    close.className = 'tonic--close'
 
     const iconColor = color || this.getPropertyValue('primary')
     const url = Panel.svg.closeIcon(iconColor)

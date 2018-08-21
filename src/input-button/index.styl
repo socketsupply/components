@@ -4,7 +4,7 @@ input-button
   &[width="100%"]
     display block
 
-  .wrapper
+  .tonic--wrapper
     margin 5px
 
   button
@@ -24,20 +24,20 @@ input-button
     appearance none
 
     &[disabled],
-    &.active
+    &.tonic--active
       color var(--medium)
       background-color var(--background)
       border-color var(--background)
 
     &:not([disabled]),
-    &:not(.loading)
+    &:not(.tonic--loading)
       &:hover
         color var(--window)
         background-color var(--primary) !important
         border-color var(--primary) !important
         cursor pointer
 
-    &.loading
+    &.tonic--loading
       color transparent
       background var(--medium)
       border-color var(--medium)

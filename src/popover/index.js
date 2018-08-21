@@ -67,7 +67,7 @@ class Popover extends Tonic { /* global Tonic */
     popover.style.left = `${left}px`
 
     window.requestAnimationFrame(() => {
-      popover.className = `tonic--popover show tonic--popover--${this.props.position}`
+      popover.className = `tonic--popover tonic--show tonic--popover--${this.props.position}`
       const event = new window.Event('show')
       this.root.dispatchEvent(event)
     })
@@ -75,7 +75,7 @@ class Popover extends Tonic { /* global Tonic */
 
   hide () {
     const popover = this.root.querySelector('.tonic--popover')
-    if (popover) popover.classList.remove('show')
+    if (popover) popover.classList.remove('tonic--show')
   }
 
   render () {
@@ -86,7 +86,7 @@ class Popover extends Tonic { /* global Tonic */
       padding
     } = this.props
 
-    if (theme) this.root.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     const style = []
     if (width) style.push(`width: ${width};`)

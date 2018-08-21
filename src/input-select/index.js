@@ -48,7 +48,7 @@ class InputSelect extends Tonic { /* global Tonic */
     window.requestAnimationFrame(() => {
       const select = this.root.querySelector('select')
       const method = state ? 'add' : 'remove'
-      if (select) select.classList[method]('loading')
+      if (select) select.classList[method]('tonic--loading')
     })
   }
 
@@ -78,7 +78,7 @@ class InputSelect extends Tonic { /* global Tonic */
 
     const nameAttr = name ? `name="${name}"` : ''
 
-    if (theme) this.root.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     this.root.style.width = width
 
@@ -94,7 +94,7 @@ class InputSelect extends Tonic { /* global Tonic */
     const options = this.root.innerHTML
 
     return `
-      <div class="wrapper" style="width: ${width};">
+      <div class="tonic--wrapper" style="width: ${width};">
         ${this.renderLabel()}
 
         <select

@@ -140,9 +140,9 @@ module.exports = function scrollToY (el, Y, speed) {
 // Warning. Do not edit. This is a generated file.
 //
 class Tonic {
-  constructor (node, state) {
+  constructor (node) {
     this.props = {}
-    this.state = state || {}
+    this.state = {}
     const name = Tonic._splitName(this.constructor.name)
     this.root = node || document.createElement(name)
     this.root.disconnect = index => this._disconnect(index)
@@ -181,10 +181,10 @@ class Tonic {
     Tonic._constructTags()
   }
 
-  static _constructTags (root, states = {}) { /* eslint-disable no-new */
+  static _constructTags (root) { /* eslint-disable no-new */
     for (const tagName of Tonic.tags) {
       for (const node of (root || document).getElementsByTagName(tagName)) {
-        if (!node.disconnect) new Tonic.registry[tagName](node, states[node.id])
+        if (!node.disconnect) new Tonic.registry[tagName](node)
       }
     }
   }
@@ -223,7 +223,8 @@ class Tonic {
     const oldProps = JSON.parse(JSON.stringify(this.props))
     this.props = Tonic.sanitize(typeof o === 'function' ? o(this.props) : o)
     if (!this.root) throw new Error('.reRender called on destroyed component, see guide.')
-    Tonic._constructTags(this.root, this._setContent(this.root, this.render()))
+    this._setContent(this.root, this.render())
+    Tonic._constructTags(this.root)
     this.updated && this.updated(oldProps)
   }
 
@@ -240,12 +241,10 @@ class Tonic {
   }
 
   _setContent (target, content = '') {
-    const states = {}
     for (const tagName of Tonic.tags) {
       for (const node of target.getElementsByTagName(tagName)) {
         const index = Tonic.refs.findIndex(ref => ref === node)
         if (index === -1) continue
-        states[node.id] = node.getState()
         node.disconnect(index)
       }
     }
@@ -257,7 +256,6 @@ class Tonic {
       target.appendChild(content.cloneNode(true))
     }
     this.root = target
-    return states
   }
 
   _connect () {
@@ -599,7 +597,7 @@ class ContentTabs extends Tonic { /* global Tonic */
   border-bottom: 1px solid transparent;
   margin-right: 8px;
 }
-[data-tab-name]:not([data-tab-group]).selected {
+[data-tab-name]:not([data-tab-group]).tonic--selected {
   color: var(--accent);
   border-bottom: 1px solid var(--accent);
 }
@@ -609,7 +607,7 @@ class ContentTabs extends Tonic { /* global Tonic */
   border-top: 1px solid var(--border);
   padding-top: 15px;
 }
-[data-tab-group].show {
+[data-tab-group].tonic--show {
   display: block;
 }
 `
@@ -620,7 +618,7 @@ class ContentTabs extends Tonic { /* global Tonic */
   }
 
   getCurrentContentNode (group) {
-    return this.qs(`[data-tab-group="${group}"].show`)
+    return this.qs(`[data-tab-group="${group}"].tonic--show`)
   }
 
   click (e) {
@@ -629,7 +627,7 @@ class ContentTabs extends Tonic { /* global Tonic */
 
     const group = this.props.group
     const currentContentNode = this.getCurrentContentNode(group)
-    if (currentContentNode) currentContentNode.classList.remove('show')
+    if (currentContentNode) currentContentNode.classList.remove('tonic--show')
 
     const name = e.target.dataset.tabName
     const target = this.qs(`[data-tab-group="${group}"][data-tab-name="${name}"]`)
@@ -639,11 +637,11 @@ class ContentTabs extends Tonic { /* global Tonic */
       return
     }
 
-    const currentContentLink = this.qs(`[data-tab-name].selected`)
-    if (currentContentLink) currentContentLink.classList.remove('selected')
+    const currentContentLink = this.qs(`[data-tab-name].tonic--selected`)
+    if (currentContentLink) currentContentLink.classList.remove('tonic--selected')
 
-    target.classList.add('show')
-    e.target.classList.add('selected')
+    target.classList.add('tonic--show')
+    e.target.classList.add('tonic--selected')
   }
 
   connected () {
@@ -651,11 +649,11 @@ class ContentTabs extends Tonic { /* global Tonic */
 
     if (name) {
       const targetLink = this.qs(`[data-tab-name=${name}]`, this.root)
-      targetLink.classList.add('selected')
+      targetLink.classList.add('tonic--selected')
     } else {
-      const currentLink = this.qs(`[data-tab-name].selected`, this.root)
+      const currentLink = this.qs(`[data-tab-name].tonic--selected`, this.root)
       if (!currentLink) {
-        console.warn(`Not found '[data.tab-name].selected'`)
+        console.warn(`Not found '[data.tab-name].tonic--selected'`)
         return
       }
       name = currentLink.dataset.tabName
@@ -665,12 +663,12 @@ class ContentTabs extends Tonic { /* global Tonic */
     if (!group) return
 
     const currentContentNode = this.getCurrentContentNode(group)
-    if (currentContentNode) currentContentNode.classList.remove('show')
+    if (currentContentNode) currentContentNode.classList.remove('tonic--show')
 
     const target = this.qs(`[data-tab-group="${group}"][data-tab-name="${name}"]`)
     if (!target) return
 
-    target.classList.add('show')
+    target.classList.add('tonic--show')
   }
 
   render () {
@@ -678,7 +676,7 @@ class ContentTabs extends Tonic { /* global Tonic */
       theme
     } = this.props
 
-    if (theme) this.root.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     return this.root.innerHTML
   }
@@ -714,7 +712,7 @@ class ContentTooltip extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `content-tooltip .tooltip {
+    return `content-tooltip .tonic--tooltip {
   position: absolute;
   top: 30px;
   background: var(--window);
@@ -725,13 +723,13 @@ class ContentTooltip extends Tonic { /* global Tonic */
   z-index: -1;
   opacity: 0;
 }
-content-tooltip .tooltip.show {
+content-tooltip .tonic--tooltip.tonic--show {
   box-shadow: 0px 30px 90px -20px rgba(0,0,0,0.3);
   visibility: visible;
   opacity: 1;
   z-index: 1;
 }
-content-tooltip .tooltip .tooltip-arrow {
+content-tooltip .tonic--tooltip .tonic--tooltip-arrow {
   width: 12px;
   height: 12px;
   position: absolute;
@@ -745,13 +743,13 @@ content-tooltip .tooltip .tooltip-arrow {
   transform: rotate(45deg);
   left: 50%;
 }
-content-tooltip .tooltip.top .tooltip-arrow {
+content-tooltip .tonic--tooltip.tonic--top .tonic--tooltip-arrow {
   margin-bottom: -6px;
   bottom: 100%;
   border-top-color: var(--border);
   border-left-color: var(--border);
 }
-content-tooltip .tooltip.bottom .tooltip-arrow {
+content-tooltip .tonic--tooltip.tonic--bottom .tonic--tooltip-arrow {
   margin-top: -6px;
   position: absolute;
   top: 100%;
@@ -764,8 +762,8 @@ content-tooltip .tooltip.bottom .tooltip-arrow {
   show (relativeNode) {
     clearTimeout(this.timer)
     this.timer = setTimeout(() => {
-      const tooltip = this.root.querySelector('.tooltip')
-      const arrow = this.root.querySelector('.tooltip-arrow')
+      const tooltip = this.root.querySelector('.tonic--tooltip')
+      const arrow = this.root.querySelector('.tonic--tooltip-arrow')
       let scrollableArea = relativeNode.parentNode
 
       while (true) {
@@ -783,12 +781,12 @@ content-tooltip .tooltip.bottom .tooltip-arrow {
       const offset = relativeNode.offsetHeight + (arrow.offsetHeight / 2)
 
       if (top < (window.innerHeight / 2)) {
-        tooltip.classList.remove('bottom')
-        tooltip.classList.add('top')
+        tooltip.classList.remove('tonic--bottom')
+        tooltip.classList.add('tonic--top')
         pos += offset
       } else {
-        tooltip.classList.remove('top')
-        tooltip.classList.add('bottom')
+        tooltip.classList.remove('tonic--top')
+        tooltip.classList.add('tonic--bottom')
         pos -= offset + tooltip.offsetHeight
       }
 
@@ -796,15 +794,15 @@ content-tooltip .tooltip.bottom .tooltip-arrow {
       tooltip.style.left = `${left}px`
 
       window.requestAnimationFrame(() => {
-        tooltip.classList.add('show')
+        tooltip.classList.add('tonic--show')
       })
     }, 256)
   }
 
   hide () {
     clearTimeout(this.timer)
-    const tooltip = this.root.querySelector('.tooltip')
-    tooltip.classList.remove('show')
+    const tooltip = this.root.querySelector('.tonic--tooltip')
+    tooltip.classList.remove('tonic--show')
   }
 
   render () {
@@ -814,7 +812,7 @@ content-tooltip .tooltip.bottom .tooltip-arrow {
       height
     } = this.props
 
-    if (theme) this.root.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     const style = []
     if (width) style.push(`width: ${width};`)
@@ -823,9 +821,9 @@ content-tooltip .tooltip.bottom .tooltip-arrow {
     return `
       <div
         style="${style.join('')}"
-        class="tooltip">
+        class="tonic--tooltip">
           ${this.children.trim()}
-        <span class="tooltip-arrow"></span>
+        <span class="tonic--tooltip-arrow"></span>
       </div>
     `
   }
@@ -842,10 +840,10 @@ class Dialog extends Tonic { /* global Tonic */
     this.root.event = name => this.event(name)
 
     this.root.addEventListener('click', e => {
-      const el = Tonic.match(e.target, '.close')
+      const el = Tonic.match(e.target, '.tonic--close')
       if (el) this.hide()
 
-      const overlay = e.target.matches('.overlay')
+      const overlay = e.target.matches('.tonic--overlay')
       if (overlay) this.hide()
     })
   }
@@ -866,10 +864,10 @@ class Dialog extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `.dialog * {
+    return `.tonic--dialog * {
   box-sizing: border-box;
 }
-.dialog > .wrapper {
+.tonic--dialog > .tonic--wrapper {
   position: fixed;
   top: 0;
   left: 0;
@@ -880,20 +878,20 @@ class Dialog extends Tonic { /* global Tonic */
   visibility: hidden;
   transition: visibility 0s ease 0.5s;
 }
-.dialog > .wrapper.show {
+.tonic--dialog > .tonic--wrapper.tonic--show {
   visibility: visible;
   transition: visibility 0s ease 0s;
 }
-.dialog > .wrapper.show .overlay {
+.tonic--dialog > .tonic--wrapper.tonic--show .tonic--overlay {
   opacity: 1;
 }
-.dialog > .wrapper.show .dialog {
+.tonic--dialog > .tonic--wrapper.tonic--show .tonic--dialog--content {
   opacity: 1;
   -webkit-transform: scale(1);
   -ms-transform: scale(1);
   transform: scale(1);
 }
-.dialog .overlay {
+.tonic--dialog .tonic--overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -902,7 +900,7 @@ class Dialog extends Tonic { /* global Tonic */
   opacity: 0;
   transition: opacity 0.3s ease-in-out;
 }
-.dialog .dialog {
+.tonic--dialog .tonic--dialog--content {
   min-width: 350px;
   min-height: 250px;
   height: auto;
@@ -921,7 +919,7 @@ class Dialog extends Tonic { /* global Tonic */
   z-index: 1;
   opacity: 0;
 }
-.dialog .dialog header {
+.tonic--dialog .tonic--dialog--content header {
   text-align: center;
   height: 70px;
   font: 14px var(--subheader);
@@ -933,12 +931,12 @@ class Dialog extends Tonic { /* global Tonic */
   right: 0;
   padding: 26px 65px 25px 65px;
 }
-.dialog .dialog main {
+.tonic--dialog .tonic--dialog--content main {
   width: auto;
   padding: 20px;
   margin: 0 auto;
 }
-.dialog .dialog .close {
+.tonic--dialog .tonic--dialog--content .tonic--close {
   width: 25px;
   height: 25px;
   position: absolute;
@@ -946,7 +944,7 @@ class Dialog extends Tonic { /* global Tonic */
   right: 25px;
   cursor: pointer;
 }
-.dialog .dialog footer {
+.tonic--dialog .tonic--dialog--content footer {
   position: absolute;
   bottom: 0;
   left: 0;
@@ -961,7 +959,7 @@ class Dialog extends Tonic { /* global Tonic */
 
   show (fn) {
     const node = this.root.firstElementChild
-    node.classList.add('show')
+    node.classList.add('tonic--show')
     fn && node.addEventListener('transitionend', fn, { once: true })
 
     this._escapeHandler = e => {
@@ -973,7 +971,7 @@ class Dialog extends Tonic { /* global Tonic */
 
   hide (fn) {
     const node = this.root.firstElementChild
-    node.classList.remove('show')
+    node.classList.remove('tonic--show')
     fn && node.addEventListener('transitionend', fn, { once: true })
     document.removeEventListener('keyup', this._escapeHandler)
   }
@@ -984,7 +982,7 @@ class Dialog extends Tonic { /* global Tonic */
     return {
       then (resolve) {
         const listener = event => {
-          const close = Tonic.match(event.target, '.close')
+          const close = Tonic.match(event.target, '.tonic--close')
           const value = Tonic.match(event.target, '[value]')
 
           if (close || value) {
@@ -1010,13 +1008,13 @@ class Dialog extends Tonic { /* global Tonic */
       backgroundColor
     } = this.props
 
-    this.root.classList.add('dialog')
+    this.root.classList.add('tonic--dialog')
 
     const template = document.createElement('template')
     const wrapper = document.createElement('div')
 
-    const isOpen = !!this.root.querySelector('.wrapper.show')
-    wrapper.className = isOpen ? 'wrapper show' : 'wrapper'
+    const isOpen = !!this.root.querySelector('.tonic--wrapper.tonic--show')
+    wrapper.className = isOpen ? 'tonic--wrapper tonic--show' : 'tonic--wrapper'
 
     const content = render()
 
@@ -1024,7 +1022,7 @@ class Dialog extends Tonic { /* global Tonic */
       ? (template.innerHTML = content)
       : [...content.children].forEach(el => template.appendChild(el))
 
-    if (theme) this.root.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     const style = []
     if (width) style.push(`width: ${width};`)
@@ -1032,17 +1030,17 @@ class Dialog extends Tonic { /* global Tonic */
 
     if (overlay !== 'false') {
       const overlayElement = document.createElement('div')
-      overlayElement.className = 'overlay'
+      overlayElement.className = 'tonic--overlay'
       overlayElement.setAttribute('style', `background-color: ${backgroundColor}`)
       wrapper.appendChild(overlayElement)
     }
 
     const dialog = document.createElement('div')
-    dialog.className = 'dialog'
+    dialog.className = 'tonic--dialog--content'
     dialog.setAttribute('style', style.join(''))
 
     const close = document.createElement('div')
-    close.className = 'close'
+    close.className = 'tonic--close'
 
     const iconColor = color || this.getPropertyValue('primary')
     const url = Dialog.svg.closeIcon(iconColor)
@@ -1090,7 +1088,7 @@ class IconContainer extends Tonic { /* global Tonic */
       src
     } = this.props
 
-    if (theme) this.root.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     if (color === 'undefined' || color === 'color') {
       color = this.defaults.color
@@ -1099,7 +1097,7 @@ class IconContainer extends Tonic { /* global Tonic */
     const style = `fill: ${color}; color: ${color};`
 
     return `
-      <div class="wrapper" style="width: ${size}; height: ${size};">
+      <div class="tonic--wrapper" style="width: ${size}; height: ${size};">
         <svg>
           <use xlink:href="${src}" style="${style}">
         </svg>
@@ -1134,7 +1132,7 @@ class InputButton extends Tonic { /* global Tonic */
 input-button[width="100%"] {
   display: block;
 }
-input-button .wrapper {
+input-button .tonic--wrapper {
   margin: 5px;
 }
 input-button button {
@@ -1154,31 +1152,31 @@ input-button button {
   appearance: none;
 }
 input-button button[disabled],
-input-button button.active {
+input-button button.tonic--active {
   color: var(--medium);
   background-color: var(--background);
   border-color: var(--background);
 }
 input-button button:not([disabled]):hover,
-input-button button:not(.loading):hover {
+input-button button:not(.tonic--loading):hover {
   color: var(--window);
   background-color: var(--primary) !important;
   border-color: var(--primary) !important;
   cursor: pointer;
 }
-input-button button.loading {
+input-button button.tonic--loading {
   color: transparent;
   background: var(--medium);
   border-color: var(--medium);
   pointer-events: none;
   transition: all 0.3s ease;
 }
-input-button button.loading:hover {
+input-button button.tonic--loading:hover {
   color: transparent;
   background: var(--medium) !important;
   border-color: var(--medium) !important;
 }
-input-button button.loading:before {
+input-button button.tonic--loading:before {
   margin-top: -8px;
   margin-left: -8px;
   display: inline-block;
@@ -1238,7 +1236,7 @@ input-button button:before {
     window.requestAnimationFrame(() => {
       const button = this.root.querySelector('button')
       const method = state ? 'add' : 'remove'
-      if (button) button.classList[method]('loading')
+      if (button) button.classList[method]('tonic--loading')
     })
   }
 
@@ -1264,7 +1262,7 @@ input-button button:before {
       textColor
     } = this.props
 
-    if (theme) this.root.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     const idAttr = id ? `id="${id}"` : ''
     const nameAttr = name ? `name="${name}"` : ''
@@ -1283,13 +1281,13 @@ input-button button:before {
     style = style.join('; ')
 
     let classes = []
-    if (active) classes.push(`active`)
+    if (active) classes.push(`tonic--active`)
     classes = classes.join(' ')
 
     const label = this.root.textContent || value
 
     return `
-      <div class="wrapper">
+      <div class="tonic--wrapper">
         <button
           ${idAttr}
           ${nameAttr}
@@ -1334,7 +1332,7 @@ class InputCheckbox extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `input-checkbox .wrapper {
+    return `input-checkbox .tonic--wrapper {
   display: inline-block;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -1366,7 +1364,7 @@ input-checkbox label:nth-of-type(2) {
     const state = this.props.checked = !this.props.checked
     const color = this.props.color || this.getPropertyValue('primary')
     const url = InputCheckbox.svg[state ? 'iconOn' : 'iconOff'](color)
-    this.root.querySelector('label.icon').style.backgroundImage = `url("${url}")`
+    this.root.querySelector('label.tonic--icon').style.backgroundImage = `url("${url}")`
   }
 
   connected () {
@@ -1397,7 +1395,7 @@ input-checkbox label:nth-of-type(2) {
       size
     } = this.props
 
-    if (theme) this.classList.add(`theme-${theme}`)
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
 
     if (!color) this.props.color = this.getPropertyValue('primary')
     if (!iconOn) this.props.iconOn = InputCheckbox.svg.iconOn(this.props.color)
@@ -1414,7 +1412,7 @@ input-checkbox label:nth-of-type(2) {
     this.root.removeAttribute('id')
 
     return `
-      <div class="wrapper">
+      <div class="tonic--wrapper">
         <input
           type="checkbox"
           id="${id}"
@@ -1423,7 +1421,7 @@ input-checkbox label:nth-of-type(2) {
           ${checked ? 'checked' : ''}/>
         <label
           for="${id}"
-          class="icon"
+          class="tonic--icon"
           style="
             width: ${size};
             height: ${size};
@@ -1482,26 +1480,26 @@ class InputSelect extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `input-select .wrapper {
+    return `input-select .tonic--wrapper {
   position: relative;
 }
-input-select .wrapper:before {
+input-select .tonic--wrapper:before {
   content: '';
   width: 14px;
   height: 14px;
   opacity: 0;
   z-index: 1;
 }
-input-select.loading {
+input-select.tonic--loading {
   pointer-events: none;
   transition: background 0.3s ease;
 }
-input-select.loading select {
+input-select.tonic--loading select {
   color: transparent;
   background-color: var(--window);
   border-color: var(--border);
 }
-input-select.loading .wrapper:before {
+input-select.tonic--loading .tonic--wrapper:before {
   margin-top: -8px;
   margin-left: -8px;
   display: block;
@@ -1594,7 +1592,7 @@ input-select label {
     window.requestAnimationFrame(() => {
       const select = this.root.querySelector('select')
       const method = state ? 'add' : 'remove'
-      if (select) select.classList[method]('loading')
+      if (select) select.classList[method]('tonic--loading')
     })
   }
 
@@ -1624,7 +1622,7 @@ input-select label {
 
     const nameAttr = name ? `name="${name}"` : ''
 
-    if (theme) this.root.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     this.root.style.width = width
 
@@ -1640,7 +1638,7 @@ input-select label {
     const options = this.root.innerHTML
 
     return `
-      <div class="wrapper" style="width: ${width};">
+      <div class="tonic--wrapper" style="width: ${width};">
         ${this.renderLabel()}
 
         <select
@@ -1710,19 +1708,19 @@ class InputText extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `input-text .wrapper {
+    return `input-text .tonic--wrapper {
   position: relative;
 }
-input-text .wrapper.right icon-container {
+input-text .tonic--wrapper.right icon-container {
   right: 10px;
 }
-input-text .wrapper.right input {
+input-text .tonic--wrapper.right input {
   padding-right: 40px;
 }
-input-text .wrapper.left icon-container {
+input-text .tonic--wrapper.left icon-container {
   left: 10px;
 }
-input-text .wrapper.left input {
+input-text .tonic--wrapper.left input {
   padding-left: 40px;
 }
 input-text icon-container {
@@ -1756,7 +1754,7 @@ input-text input:invalid {
 input-text input:invalid:focus {
   border-color: var(--error);
 }
-input-text input:invalid ~ .invalid {
+input-text input:invalid ~ .tonic--invalid {
   transform: translateY(0);
   visibility: visible;
   opacity: 1;
@@ -1768,7 +1766,7 @@ input-text input:focus {
 input-text input[disabled] {
   background-color: var(--background);
 }
-input-text .invalid {
+input-text .tonic--invalid {
   font-size: 14px;
   text-align: center;
   position: absolute;
@@ -1780,7 +1778,7 @@ input-text .invalid {
   visibility: hidden;
   opacity: 0;
 }
-input-text .invalid span {
+input-text .tonic--invalid span {
   color: #fff;
   padding: 2px 6px;
   background-color: var(--error);
@@ -1789,7 +1787,7 @@ input-text .invalid span {
   display: inline-block;
   margin: 0 auto;
 }
-input-text .invalid span:after {
+input-text .tonic--invalid span:after {
   content: '';
   width: 0;
   height: 0;
@@ -1857,8 +1855,9 @@ input-text .invalid span:after {
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
     const ariaInvalidAttr = ariaInvalid ? `aria-invalid="${ariaInvalid}"` : ''
+    const positionAttr = position ? `tonic--${position}` : ''
 
-    if (theme) this.root.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     let style = []
 
@@ -1873,7 +1872,7 @@ input-text .invalid span:after {
     style = style.join('; ')
 
     return `
-      <div class="wrapper ${position}" style="${style}">
+      <div class="tonic--wrapper ${positionAttr}" style="${style}">
         ${this.renderLabel()}
         ${this.renderIcon()}
 
@@ -1889,7 +1888,7 @@ input-text .invalid span:after {
           ${required ? 'required' : ''}
           style="${style}"
         />
-        <div class="invalid">
+        <div class="tonic--invalid">
           <span>${this.props.errorMessage}</span>
         </div>
       </div>
@@ -1987,7 +1986,7 @@ input-textarea label {
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
 
-    if (theme) this.root.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     let style = []
     if (width) style.push(`width: ${width}`)
@@ -1999,7 +1998,7 @@ input-textarea label {
     if (this.props.value === 'undefined') this.props.value = ''
 
     return `
-      <div class="wrapper">
+      <div class="tonic--wrapper">
         ${this.renderLabel()}
         <textarea
           ${idAttr}
@@ -2030,15 +2029,15 @@ class InputToggle extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `input-toggle .wrapper {
+    return `input-toggle .tonic--wrapper {
   height: 30px;
   width: 47px;
   position: relative;
 }
-input-toggle .wrapper > label {
+input-toggle .tonic--wrapper > label {
   color: var(--medium);
   font-weight: 500;
-  font: 12px/14px 'Poppins', sans-serif;
+  font: 12px/14px var(--subheader);
   text-transform: uppercase;
   letter-spacing: 1px;
   margin-left: 58px;
@@ -2046,23 +2045,23 @@ input-toggle .wrapper > label {
   display: block;
   user-select: none;
 }
-input-toggle .switch {
+input-toggle .tonic--switch {
   position: absolute;
   left: 0;
   top: 0;
 }
-input-toggle .switch label:before {
-  font: bold 12px 'Poppins', sans-serif;
+input-toggle .tonic--switch label:before {
+  font: bold 12px var(--subheader);
   text-transform: uppercase;
 }
-input-toggle .switch input.toggle {
+input-toggle .tonic--switch input.tonic--toggle {
   position: absolute;
   display: none;
   outline: none;
   user-select: none;
   z-index: 1;
 }
-input-toggle .switch input.toggle + label {
+input-toggle .tonic--switch input.tonic--toggle + label {
   width: 42px;
   height: 24px;
   padding: 2px;
@@ -2073,7 +2072,7 @@ input-toggle .switch input.toggle + label {
   transition: background 0.4s ease-in-out;
   cursor: default;
 }
-input-toggle .switch input.toggle + label:before {
+input-toggle .tonic--switch input.tonic--toggle + label:before {
   content: '';
   line-height: 29px;
   text-indent: 29px;
@@ -2090,7 +2089,7 @@ input-toggle .switch input.toggle + label:before {
   letter-spacing: 0.05em;
   background-color: var(--border);
 }
-input-toggle .switch input.toggle + label:after {
+input-toggle .tonic--switch input.tonic--toggle + label:after {
   content: '';
   width: 16px;
   position: absolute;
@@ -2103,29 +2102,29 @@ input-toggle .switch input.toggle + label:after {
   display: block;
   z-index: 2;
 }
-input-toggle .switch input.toggle:disabled {
+input-toggle .tonic--switch input.tonic--toggle:disabled {
   cursor: default;
   background-color: var(--background);
 }
-input-toggle .switch input.toggle:disabled + label {
+input-toggle .tonic--switch input.tonic--toggle:disabled + label {
   cursor: default;
   background-color: var(--background);
 }
-input-toggle .switch input.toggle:disabled + label:before {
+input-toggle .tonic--switch input.tonic--toggle:disabled + label:before {
   background-color: var(--background);
 }
-input-toggle .switch input.toggle:disabled + label:after {
+input-toggle .tonic--switch input.tonic--toggle:disabled + label:after {
   background-color: var(--window);
 }
-input-toggle .switch input.toggle:checked + label {
+input-toggle .tonic--switch input.tonic--toggle:checked + label {
   background-color: var(--accent);
 }
-input-toggle .switch input.toggle:checked + label:before {
+input-toggle .tonic--switch input.tonic--toggle:checked + label:before {
   content: ' ';
   background-color: var(--accent);
   color: var(--background);
 }
-input-toggle .switch input.toggle:checked + label:after {
+input-toggle .tonic--switch input.tonic--toggle:checked + label:after {
   margin-left: 18px;
   background-color: var(--background);
 }
@@ -2150,7 +2149,7 @@ input-toggle .switch input.toggle:checked + label:after {
       checked
     } = this.props
 
-    if (theme) this.root.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     //
     // the id attribute can be removed to the input
@@ -2161,11 +2160,11 @@ input-toggle .switch input.toggle:checked + label:after {
     const nameAttr = name ? `name="${name}"` : ''
 
     return `
-      <div class="wrapper">
-        <div class="switch">
+      <div class="tonic--wrapper">
+        <div class="tonic--switch">
           <input
             type="checkbox"
-            class="toggle"
+            class="tonic--toggle"
             id="${id}"
             ${nameAttr}
             ${disabled ? 'disabled' : ''}
@@ -2191,7 +2190,7 @@ class NotificationBadge extends Tonic { /* global Tonic */
     return `notification-badge * {
   box-sizing: border-box;
 }
-notification-badge .notifications {
+notification-badge .tonic--notifications {
   width: 40px;
   height: 40px;
   text-align: center;
@@ -2200,13 +2199,13 @@ notification-badge .notifications {
   background-color: var(--background);
   border-radius: 8px;
 }
-notification-badge .notifications span {
+notification-badge .tonic--notifications span {
   color: var(--primary);
   font: 15px var(--subheader);
   letter-spacing: 1px;
   text-align: center;
 }
-notification-badge .notifications span:after {
+notification-badge .tonic--notifications span:after {
   content: '';
   width: 8px;
   height: 8px;
@@ -2218,7 +2217,7 @@ notification-badge .notifications span:after {
   border: 2px solid var(--background);
   border-radius: 50%;
 }
-notification-badge .notifications.new span:after {
+notification-badge .tonic--notifications.tonic--new span:after {
   display: block;
 }
 `
@@ -2230,7 +2229,7 @@ notification-badge .notifications.new span:after {
       theme
     } = this.props
 
-    if (theme) this.root.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     //
     // the id attribute can be removed from the component
@@ -2240,10 +2239,10 @@ notification-badge .notifications.new span:after {
 
     const countAttr = (count > 99) ? '99' : count
 
-    const newAttr = (count > 0) ? 'new' : ''
+    const newAttr = (count > 0) ? 'tonic--new' : ''
 
     return `
-      <div class="notifications ${newAttr}">
+      <div class="tonic--notifications ${newAttr}">
         <span>${countAttr}</span>
       </div>
     `
@@ -2280,7 +2279,7 @@ class NotificationCenter extends Tonic { /* global Tonic */
     return `notification-center * {
   box-sizing: border-box;
 }
-notification-center .wrapper {
+notification-center .tonic--wrapper {
   user-select: none;
   position: fixed;
   top: 10px;
@@ -2291,29 +2290,29 @@ notification-center .wrapper {
   z-index: 102;
 }
 @media (max-width: 850px) {
-  notification-center .wrapper {
+  notification-center .tonic--wrapper {
     width: 90%;
   }
 }
-notification-center .wrapper.show {
+notification-center .tonic--wrapper.tonic--show {
   visibility: visible;
 }
-notification-center .wrapper.center {
+notification-center .tonic--wrapper.tonic--center {
   left: 50%;
   align-items: center;
   -webkit-transform: translateX(-50%);
   -ms-transform: translateX(-50%);
   transform: translateX(-50%);
 }
-notification-center .wrapper.left {
+notification-center .tonic--wrapper.tonic--left {
   align-items: flex-start;
   left: 10px;
 }
-notification-center .wrapper.right {
+notification-center .tonic--wrapper.tonic--right {
   align-items: flex-end;
   right: 10px;
 }
-notification-center .notification {
+notification-center .tonic--notification {
   width: auto;
   max-width: 600px;
   margin-top: 10px;
@@ -2328,30 +2327,30 @@ notification-center .notification {
   z-index: 1;
   opacity: 0;
 }
-notification-center .notification.show {
+notification-center .tonic--notification.tonic--show {
   opacity: 1;
   -webkit-transform: translateY(0);
   -ms-transform: translateY(0);
   transform: translateY(0);
   transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
 }
-notification-center .notification.close {
+notification-center .tonic--notification.tonic--close {
   padding-right: 50px;
 }
-notification-center .notification.alert {
+notification-center .tonic--notification.tonic--alert {
   padding-left: 35px;
 }
-notification-center .notification main {
+notification-center .tonic--notification .tonic--main {
   padding: 17px 15px 15px 15px;
 }
-notification-center .notification main .title {
+notification-center .tonic--notification .tonic--main .tonic--title {
   font: 14px/18px var(--subheader);
 }
-notification-center .notification main .message {
+notification-center .tonic--notification .tonic--main .tonic--message {
   font: 14px/18px var(--subheader);
   color: var(--medium);
 }
-notification-center .notification .icon {
+notification-center .tonic--notification .tonic--icon {
   width: 16px;
   height: 16px;
   position: absolute;
@@ -2362,7 +2361,7 @@ notification-center .notification .icon {
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
 }
-notification-center .notification .close {
+notification-center .tonic--notification .tonic--close {
   width: 20px;
   height: 20px;
   position: absolute;
@@ -2374,7 +2373,7 @@ notification-center .notification .close {
   cursor: pointer;
   background-size: cover;
 }
-notification-center .notification .close svg path {
+notification-center .tonic--notification .tonic--close svg path {
   fill: var(--primary);
   color: var(--primary);
 }
@@ -2383,31 +2382,32 @@ notification-center .notification .close svg path {
 
   create ({ message, title, duration, type, dismiss } = {}) {
     const notification = document.createElement('div')
-    notification.className = 'notification'
-    const main = document.createElement('main')
+    notification.className = 'tonic--notification'
+    const main = document.createElement('div')
+    main.className = 'tonic--main'
     if (type) {
-      notification.classList.add('alert')
+      notification.classList.add('tonic--alert')
     }
 
     const titleElement = document.createElement('div')
-    titleElement.className = 'title'
+    titleElement.className = 'tonic--title'
     titleElement.textContent = title || this.props.title
 
     const messageElement = document.createElement('div')
-    messageElement.className = 'message'
+    messageElement.className = 'tonic--message'
     messageElement.textContent = message || this.props.message
 
     if (dismiss !== 'false') {
       const close = document.createElement('div')
-      close.className = 'close'
+      close.className = 'tonic--close'
       close.style.backgroundImage = `url("${this.props.closeIcon}")`
       notification.appendChild(close)
-      notification.classList.add('close')
+      notification.classList.add('tonic--close')
     }
 
     if (type) {
       const alertIcon = document.createElement('div')
-      alertIcon.className = 'icon'
+      alertIcon.className = 'tonic--icon'
       notification.appendChild(alertIcon)
 
       switch (type) {
@@ -2436,11 +2436,11 @@ notification-center .notification .close svg path {
     notification.appendChild(main)
     main.appendChild(titleElement)
     main.appendChild(messageElement)
-    this.root.querySelector('.wrapper').appendChild(notification)
+    this.root.querySelector('.tonic--wrapper').appendChild(notification)
     this.show()
 
     setTimeout(() => {
-      notification.classList.add('show')
+      notification.classList.add('tonic--show')
     }, 64)
 
     if (duration) {
@@ -2449,7 +2449,7 @@ notification-center .notification .close svg path {
   }
 
   destroy (notification) {
-    notification.classList.remove('show')
+    notification.classList.remove('tonic--show')
     notification.addEventListener('transitionend', e => {
       notification.parentNode.removeChild(notification)
     })
@@ -2457,19 +2457,19 @@ notification-center .notification .close svg path {
 
   show () {
     const node = this.root.firstElementChild
-    node.classList.add('show')
+    node.classList.add('tonic--show')
   }
 
   hide () {
     const node = this.root.firstElementChild
-    node.classList.remove('show')
+    node.classList.remove('tonic--show')
   }
 
   click (e) {
-    const el = Tonic.match(e.target, '.close')
+    const el = Tonic.match(e.target, '.tonic--close')
     if (!el) return
 
-    const notification = el.closest('.notification')
+    const notification = el.closest('.tonic--notification')
     if (notification) this.destroy(notification)
   }
 
@@ -2479,9 +2479,11 @@ notification-center .notification .close svg path {
       position
     } = this.props
 
-    if (theme) this.root.classList.add(`theme-${theme}`)
+    const positionAttr = position ? `tonic--${position}` : ''
 
-    return `<div class="wrapper ${position}"></div>`
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+
+    return `<div class="tonic--wrapper ${positionAttr}"></div>`
   }
 }
 
@@ -2547,7 +2549,7 @@ class NotificationInline extends Tonic { /* global Tonic */
     return `notification-inline * {
   box-sizing: border-box;
 }
-notification-inline .wrapper {
+notification-inline .tonic--wrapper {
   user-select: none;
   display: flex;
   flex-wrap: wrap;
@@ -2556,10 +2558,10 @@ notification-inline .wrapper {
   visibility: hidden;
   border: 1px solid #f00;
 }
-notification-inline .wrapper.show {
+notification-inline .tonic--wrapper.tonic--show {
   visibility: visible;
 }
-notification-inline .notification {
+notification-inline .tonic--notification {
   margin: 10px 0;
   position: relative;
   background-color: var(--window);
@@ -2572,42 +2574,42 @@ notification-inline .notification {
   z-index: 1;
   opacity: 0;
 }
-notification-inline .notification.warning {
+notification-inline .tonic--notification.tonic--warning {
   border-color: var(--warning);
 }
-notification-inline .notification.danger {
+notification-inline .tonic--notification.tonic--danger {
   border-color: var(--danger);
 }
-notification-inline .notification.success {
+notification-inline .tonic--notification.tonic--success {
   border-color: var(--success);
 }
-notification-inline .notification.info {
+notification-inline .tonic--notification.tonic--info {
   border-color: var(--secondary);
 }
-notification-inline .notification.show {
+notification-inline .tonic--notification.tonic--show {
   opacity: 1;
   -webkit-transform: scale(1);
   -ms-transform: scale(1);
   transform: scale(1);
   transition: transform 0.3s ease-in-out;
 }
-notification-inline .notification.close {
+notification-inline .tonic--notification.tonic--close {
   padding-right: 50px;
 }
-notification-inline .notification.alert {
+notification-inline .tonic--notification.tonic--alert {
   padding-left: 35px;
 }
-notification-inline .notification main {
+notification-inline .tonic--notification main {
   padding: 17px 15px 15px 15px;
 }
-notification-inline .notification main .title {
+notification-inline .tonic--notification main .tonic--title {
   font: 14px/18px var(--subheader);
 }
-notification-inline .notification main .message {
+notification-inline .tonic--notification main .tonic--message {
   font: 14px/18px var(--subheader);
   color: var(--medium);
 }
-notification-inline .notification .icon {
+notification-inline .tonic--notification .tonic--icon {
   width: 16px;
   height: 16px;
   position: absolute;
@@ -2618,7 +2620,7 @@ notification-inline .notification .icon {
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
 }
-notification-inline .notification .close {
+notification-inline .tonic--notification .tonic--close {
   width: 20px;
   height: 20px;
   position: absolute;
@@ -2630,7 +2632,7 @@ notification-inline .notification .close {
   cursor: pointer;
   background-size: cover;
 }
-notification-inline .notification .close svg path {
+notification-inline .tonic--notification .tonic--close svg path {
   fill: var(--primary);
   color: var(--primary);
 }
@@ -2643,32 +2645,32 @@ notification-inline .notification .close svg path {
     while (this.root.firstChild) this.root.firstChild.remove()
 
     const notification = document.createElement('div')
-    notification.className = 'notification'
+    notification.className = 'tonic--notification'
     const main = document.createElement('main')
     if (type) {
-      notification.classList.add('alert')
-      notification.classList.add(type)
+      notification.classList.add('tonic--alert')
+      notification.classList.add(`tonic--${type}`)
     }
 
     const titleElement = document.createElement('div')
-    titleElement.className = 'title'
+    titleElement.className = 'tonic--title'
     titleElement.textContent = title || this.props.title
 
     const messageElement = document.createElement('div')
-    messageElement.className = 'message'
+    messageElement.className = 'tonic--message'
     messageElement.innerHTML = message || this.props.message
 
     if (dismiss !== 'false') {
       const close = document.createElement('div')
-      close.className = 'close'
+      close.className = 'tonic--close'
       close.style.backgroundImage = `url("${this.props.closeIcon}")`
       notification.appendChild(close)
-      notification.classList.add('close')
+      notification.classList.add('tonic--close')
     }
 
     if (type) {
       const alertIcon = document.createElement('div')
-      alertIcon.className = 'icon'
+      alertIcon.className = 'tonic--icon'
       notification.appendChild(alertIcon)
 
       switch (type) {
@@ -2703,7 +2705,7 @@ notification-inline .notification .close svg path {
     main.appendChild(titleElement)
     main.appendChild(messageElement)
     window.requestAnimationFrame(() => {
-      notification.classList.add('show')
+      notification.classList.add('tonic--show')
     })
 
     if (duration) {
@@ -2712,7 +2714,7 @@ notification-inline .notification .close svg path {
   }
 
   destroy (notification) {
-    notification.classList.remove('show')
+    notification.classList.remove('tonic--show')
     notification.addEventListener('transitionend', e => {
       notification.parentNode.removeChild(notification)
     })
@@ -2720,19 +2722,19 @@ notification-inline .notification .close svg path {
 
   show () {
     window.requestAnimationFrame(() => {
-      this.root.firstChild.classList.add('show')
+      this.root.firstChild.classList.add('tonic--show')
     })
   }
 
   hide () {
-    this.root.firstChild.classList.remove('show')
+    this.root.firstChild.classList.remove('tonic--show')
   }
 
   click (e) {
-    const el = Tonic.match(e.target, '.close')
+    const el = Tonic.match(e.target, '.tonic--close')
     if (!el) return
 
-    const notification = el.closest('.notification')
+    const notification = el.closest('.tonic--notification')
     if (notification) this.destroy(notification)
   }
 
@@ -2752,9 +2754,9 @@ notification-inline .notification .close svg path {
       theme
     } = this.props
 
-    if (theme) this.root.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
-    return `<div class="wrapper"></div>`
+    return `<div class="tonic--wrapper"></div>`
   }
 }
 
@@ -2801,10 +2803,10 @@ class Panel extends Tonic { /* global Tonic */
     this.root.hide = fn => this.hide(fn)
 
     this.root.addEventListener('click', e => {
-      const el = Tonic.match(e.target, '.close')
+      const el = Tonic.match(e.target, '.tonic--close')
       if (el) this.hide()
 
-      const overlay = Tonic.match(e.target, '.overlay')
+      const overlay = Tonic.match(e.target, '.tonic--overlay')
       if (overlay) this.hide()
     })
   }
@@ -2824,10 +2826,10 @@ class Panel extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `.panel * {
+    return `.tonic--panel * {
   box-sizing: border-box;
 }
-.panel .wrapper .panel {
+.tonic--panel .tonic--wrapper .tonic--panel {
   width: 500px;
   position: fixed;
   bottom: 0;
@@ -2838,37 +2840,37 @@ class Panel extends Tonic { /* global Tonic */
   transition: transform 0.3s ease-in-out;
 }
 @media (max-width: 850px) {
-  .panel .wrapper .panel {
+  .tonic--panel .tonic--wrapper .tonic--panel {
     width: 100%;
   }
 }
-.panel .wrapper.left .panel {
+.tonic--panel .tonic--wrapper.tonic--left .tonic--panel {
   left: 0;
   -webkit-transform: translateX(-500px);
   -ms-transform: translateX(-500px);
   transform: translateX(-500px);
   border-right: 1px solid var(--border);
 }
-.panel .wrapper.right .panel {
+.tonic--panel .tonic--wrapper.tonic--right .tonic--panel {
   right: 0;
   -webkit-transform: translateX(500px);
   -ms-transform: translateX(500px);
   transform: translateX(500px);
   border-left: 1px solid var(--border);
 }
-.panel .wrapper.show.right .panel,
-.panel .wrapper.show.left .panel {
+.tonic--panel .tonic--wrapper.tonic--show.tonic--right .tonic--panel,
+.tonic--panel .tonic--wrapper.tonic--show.tonic--left .tonic--panel {
   -webkit-transform: translateX(0);
   -ms-transform: translateX(0);
   transform: translateX(0);
 }
-.panel .wrapper.show.right[overlay="true"] .overlay,
-.panel .wrapper.show.left[overlay="true"] .overlay {
+.tonic--panel .tonic--wrapper.tonic--show.tonic--right[overlay="true"] .tonic--overlay,
+.tonic--panel .tonic--wrapper.tonic--show.tonic--left[overlay="true"] .tonic--overlay {
   opacity: 1;
   visibility: visible;
   transition: opacity 0.3s ease-in-out, visibility 0s ease 0s;
 }
-.panel .wrapper .overlay {
+.tonic--panel .tonic--wrapper .tonic--overlay {
   opacity: 0;
   visibility: hidden;
   position: fixed;
@@ -2878,7 +2880,7 @@ class Panel extends Tonic { /* global Tonic */
   bottom: 0;
   transition: opacity 0.3s ease-in-out, visibility 0s ease 1s;
 }
-.panel .wrapper .close {
+.tonic--panel .tonic--wrapper .tonic--close {
   width: 25px;
   height: 25px;
   position: absolute;
@@ -2886,45 +2888,18 @@ class Panel extends Tonic { /* global Tonic */
   right: 30px;
   cursor: pointer;
 }
-.panel .wrapper header {
-  padding: 20px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 90px;
-}
-.panel .wrapper main {
-  padding: 20px;
-  position: absolute;
-  top: 90px;
-  left: 0;
-  right: 0;
-  bottom: 70px;
-  overflow: scroll;
-}
-.panel .wrapper footer {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 70px;
-  padding: 10px;
-  text-align: center;
-  border-top: 1px solid var(--border);
-}
 `
   }
 
   show (fn) {
     const node = this.root.firstChild
-    node.classList.add('show')
+    node.classList.add('tonic--show')
     fn && node.addEventListener('transitionend', fn, { once: true })
   }
 
   hide (fn) {
     const node = this.root.firstChild
-    node.classList.remove('show')
+    node.classList.remove('tonic--show')
     fn && node.addEventListener('transitionend', fn, { once: true })
   }
 
@@ -2938,7 +2913,7 @@ class Panel extends Tonic { /* global Tonic */
       backgroundColor
     } = this.props
 
-    this.root.classList.add('panel')
+    this.root.classList.add('tonic--panel')
 
     const wrapper = document.createElement('div')
     const template = document.createElement('template')
@@ -2949,30 +2924,31 @@ class Panel extends Tonic { /* global Tonic */
       ? (template.innerHTML = content)
       : [...content.children].forEach(el => template.appendChild(el))
 
-    if (theme) this.root.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
-    const isOpen = !!this.root.querySelector('.wrapper.show')
-    wrapper.className = isOpen ? 'wrapper show' : 'wrapper'
+    const isOpen = !!this.root.querySelector('.tonic--wrapper.tonic--show')
+    wrapper.className = isOpen ? 'tonic--wrapper tonic--show' : 'tonic--wrapper'
     wrapper.id = 'wrapper'
-    wrapper.classList.add(position)
+    const positionAttr = position ? `tonic--${position}` : ''
+    wrapper.classList.add(positionAttr)
 
     if (overlay) wrapper.setAttribute('overlay', true)
     if (name) wrapper.setAttribute('name', name)
 
     // create panel
     const panel = document.createElement('div')
-    panel.className = 'panel'
+    panel.className = 'tonic--panel'
 
     if (overlay !== 'false') {
       const overlayElement = document.createElement('div')
-      overlayElement.className = 'overlay'
+      overlayElement.className = 'tonic--overlay'
       overlayElement.setAttribute('style', `background-color: ${backgroundColor}`)
       wrapper.appendChild(overlayElement)
     }
 
     // create template
     const close = document.createElement('div')
-    close.className = 'close'
+    close.className = 'tonic--close'
 
     const iconColor = color || this.getPropertyValue('primary')
     const url = Panel.svg.closeIcon(iconColor)
@@ -3032,7 +3008,7 @@ class Popover extends Tonic { /* global Tonic */
   transform: scale(0.75);
   transition: transform 0.1s ease-in-out, opacity 0s ease 0.1s, visibility 0s ease 0.1s, z-index 0s ease 0.1s;
 }
-popover .tonic--popover.show {
+popover .tonic--popover.tonic--show {
   box-shadow: 0px 30px 90px -20px rgba(0,0,0,0.3);
   transform: scale(1);
   visibility: visible;
@@ -3105,7 +3081,7 @@ popover .tonic--popover--bottomright {
     popover.style.left = `${left}px`
 
     window.requestAnimationFrame(() => {
-      popover.className = `tonic--popover show tonic--popover--${this.props.position}`
+      popover.className = `tonic--popover tonic--show tonic--popover--${this.props.position}`
       const event = new window.Event('show')
       this.root.dispatchEvent(event)
     })
@@ -3113,7 +3089,7 @@ popover .tonic--popover--bottomright {
 
   hide () {
     const popover = this.root.querySelector('.tonic--popover')
-    if (popover) popover.classList.remove('show')
+    if (popover) popover.classList.remove('tonic--show')
   }
 
   render () {
@@ -3124,7 +3100,7 @@ popover .tonic--popover--bottomright {
       padding
     } = this.props
 
-    if (theme) this.root.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     const style = []
     if (width) style.push(`width: ${width};`)
@@ -3162,11 +3138,11 @@ class ProfileImage extends Tonic { /* global Tonic */
     return `profile-image {
   display: inline-block;
 }
-profile-image .wrapper {
+profile-image .tonic--wrapper {
   position: relative;
   overflow: hidden;
 }
-profile-image .wrapper .image {
+profile-image .tonic--wrapper .tonic--image {
   position: absolute;
   top: 0;
   left: 0;
@@ -3176,7 +3152,7 @@ profile-image .wrapper .image {
   background-position: center center;
   background-repeat: no-repeat;
 }
-profile-image .wrapper .overlay {
+profile-image .tonic--wrapper .tonic--overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -3188,7 +3164,7 @@ profile-image .wrapper .overlay {
   opacity: 0;
   display: flex;
 }
-profile-image .wrapper .overlay div {
+profile-image .tonic--wrapper .tonic--overlay div {
   position: absolute;
   top: 0;
   bottom: 0;
@@ -3198,7 +3174,7 @@ profile-image .wrapper .overlay div {
   background-repeat: no-repeat;
   background-position: center center;
 }
-profile-image .wrapper.editable:hover .overlay {
+profile-image .tonic--wrapper.tonic--editable:hover .tonic--overlay {
   visibility: visible;
   opacity: 1;
   cursor: pointer;
@@ -3225,7 +3201,7 @@ profile-image .wrapper.editable:hover .overlay {
     this.getPictureData(data, (err, data) => {
       if (err) return this.emit('error', err)
 
-      const slot = this.root.querySelector('.image')
+      const slot = this.root.querySelector('.tonic--image')
       slot.style.backgroundImage = 'url("' + data + '")'
       this.emit('changed', data)
     })
@@ -3246,7 +3222,7 @@ profile-image .wrapper.editable:hover .overlay {
     const idAttr = id ? `id="${id}"` : ''
     const nameAttr = name ? `name="${name}"` : ''
 
-    if (theme) this.root.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     let style = []
 
@@ -3260,15 +3236,15 @@ profile-image .wrapper.editable:hover .overlay {
     style = style.join('; ')
 
     return `
-      <div class="wrapper ${editable ? 'editable' : ''}" style="${style}">
+      <div class="tonic--wrapper ${editable ? 'tonic--editable' : ''}" style="${style}">
         <div
-          class="image"
+          class="tonic--image"
           ${idAttr}
           ${nameAttr}
           style="background-image: url('${src}');">
         </div>
         <input type="file" style="display:none"/>
-        <div class="overlay">
+        <div class="tonic--overlay">
           <div style="background-image: url('${this.props.iconEdit}')"></div>
         </div>
       </div>
@@ -3323,11 +3299,11 @@ class ProgressBar extends Tonic { /* global Tonic */
     return `progress-bar {
   display: block;
 }
-progress-bar .wrapper {
+progress-bar .tonic--wrapper {
   background-color: var(--background);
   position: relative;
 }
-progress-bar .wrapper .progress {
+progress-bar .tonic--wrapper .tonic--progress {
   background-color: var(--accent);
   width: 0%;
   height: 100%;
@@ -3357,7 +3333,7 @@ progress-bar .wrapper .progress {
       progress
     } = this.props
 
-    if (theme) this.root.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     let style = []
     if (width) style.push(`width: ${width}`)
@@ -3365,8 +3341,8 @@ progress-bar .wrapper .progress {
     style = style.join('; ')
 
     return `
-      <div class="wrapper" style="${style}">
-        <div class="progress" style="width: ${progress}%"></div>
+      <div class="tonic--wrapper" style="${style}">
+        <div class="tonic--progress" style="width: ${progress}%"></div>
       </div>
     `
   }
@@ -3671,7 +3647,7 @@ add.addEventListener('click', (e) => {
 subtract.addEventListener('click', e => {
   notificationBadge.reRender(props => ({
     ...props,
-    count: count > 0 ? count-- : count
+    count: count > 0 ? --count : count
   }))
 })
  }{ const notification = document.querySelector('notification-center')

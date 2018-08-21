@@ -36,7 +36,7 @@ class ProfileImage extends Tonic { /* global Tonic */
     this.getPictureData(data, (err, data) => {
       if (err) return this.emit('error', err)
 
-      const slot = this.root.querySelector('.image')
+      const slot = this.root.querySelector('.tonic--image')
       slot.style.backgroundImage = 'url("' + data + '")'
       this.emit('changed', data)
     })
@@ -57,7 +57,7 @@ class ProfileImage extends Tonic { /* global Tonic */
     const idAttr = id ? `id="${id}"` : ''
     const nameAttr = name ? `name="${name}"` : ''
 
-    if (theme) this.root.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     let style = []
 
@@ -71,15 +71,15 @@ class ProfileImage extends Tonic { /* global Tonic */
     style = style.join('; ')
 
     return `
-      <div class="wrapper ${editable ? 'editable' : ''}" style="${style}">
+      <div class="tonic--wrapper ${editable ? 'tonic--editable' : ''}" style="${style}">
         <div
-          class="image"
+          class="tonic--image"
           ${idAttr}
           ${nameAttr}
           style="background-image: url('${src}');">
         </div>
         <input type="file" style="display:none"/>
-        <div class="overlay">
+        <div class="tonic--overlay">
           <div style="background-image: url('${this.props.iconEdit}')"></div>
         </div>
       </div>

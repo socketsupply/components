@@ -48,7 +48,7 @@ class ProgressBar extends Tonic { /* global Tonic */
       progress
     } = this.props
 
-    if (theme) this.root.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     let style = []
     if (width) style.push(`width: ${width}`)
@@ -56,8 +56,8 @@ class ProgressBar extends Tonic { /* global Tonic */
     style = style.join('; ')
 
     return `
-      <div class="wrapper" style="${style}">
-        <div class="progress" style="width: ${progress}%"></div>
+      <div class="tonic--wrapper" style="${style}">
+        <div class="tonic--progress" style="width: ${progress}%"></div>
       </div>
     `
   }

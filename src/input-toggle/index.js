@@ -27,7 +27,7 @@ class InputToggle extends Tonic { /* global Tonic */
       checked
     } = this.props
 
-    if (theme) this.root.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     //
     // the id attribute can be removed to the input
@@ -38,11 +38,11 @@ class InputToggle extends Tonic { /* global Tonic */
     const nameAttr = name ? `name="${name}"` : ''
 
     return `
-      <div class="wrapper">
-        <div class="switch">
+      <div class="tonic--wrapper">
+        <div class="tonic--switch">
           <input
             type="checkbox"
-            class="toggle"
+            class="tonic--toggle"
             id="${id}"
             ${nameAttr}
             ${disabled ? 'disabled' : ''}

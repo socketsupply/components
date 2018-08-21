@@ -19,7 +19,7 @@ class IconContainer extends Tonic { /* global Tonic */
       src
     } = this.props
 
-    if (theme) this.root.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     if (color === 'undefined' || color === 'color') {
       color = this.defaults.color
@@ -28,7 +28,7 @@ class IconContainer extends Tonic { /* global Tonic */
     const style = `fill: ${color}; color: ${color};`
 
     return `
-      <div class="wrapper" style="width: ${size}; height: ${size};">
+      <div class="tonic--wrapper" style="width: ${size}; height: ${size};">
         <svg>
           <use xlink:href="${src}" style="${style}">
         </svg>

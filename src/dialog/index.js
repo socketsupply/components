@@ -7,10 +7,10 @@ class Dialog extends Tonic { /* global Tonic */
     this.root.event = name => this.event(name)
 
     this.root.addEventListener('click', e => {
-      const el = Tonic.match(e.target, '.close')
+      const el = Tonic.match(e.target, '.tonic--close')
       if (el) this.hide()
 
-      const overlay = e.target.matches('.overlay')
+      const overlay = e.target.matches('.tonic--overlay')
       if (overlay) this.hide()
     })
   }
@@ -36,7 +36,7 @@ class Dialog extends Tonic { /* global Tonic */
 
   show (fn) {
     const node = this.root.firstElementChild
-    node.classList.add('show')
+    node.classList.add('tonic--show')
     fn && node.addEventListener('transitionend', fn, { once: true })
 
     this._escapeHandler = e => {
@@ -48,7 +48,7 @@ class Dialog extends Tonic { /* global Tonic */
 
   hide (fn) {
     const node = this.root.firstElementChild
-    node.classList.remove('show')
+    node.classList.remove('tonic--show')
     fn && node.addEventListener('transitionend', fn, { once: true })
     document.removeEventListener('keyup', this._escapeHandler)
   }
@@ -59,7 +59,7 @@ class Dialog extends Tonic { /* global Tonic */
     return {
       then (resolve) {
         const listener = event => {
-          const close = Tonic.match(event.target, '.close')
+          const close = Tonic.match(event.target, '.tonic--close')
           const value = Tonic.match(event.target, '[value]')
 
           if (close || value) {
@@ -85,13 +85,13 @@ class Dialog extends Tonic { /* global Tonic */
       backgroundColor
     } = this.props
 
-    this.root.classList.add('dialog')
+    this.root.classList.add('tonic--dialog')
 
     const template = document.createElement('template')
     const wrapper = document.createElement('div')
 
-    const isOpen = !!this.root.querySelector('.wrapper.show')
-    wrapper.className = isOpen ? 'wrapper show' : 'wrapper'
+    const isOpen = !!this.root.querySelector('.tonic--wrapper.tonic--show')
+    wrapper.className = isOpen ? 'tonic--wrapper tonic--show' : 'tonic--wrapper'
 
     const content = render()
 
@@ -99,7 +99,7 @@ class Dialog extends Tonic { /* global Tonic */
       ? (template.innerHTML = content)
       : [...content.children].forEach(el => template.appendChild(el))
 
-    if (theme) this.root.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     const style = []
     if (width) style.push(`width: ${width};`)
@@ -107,17 +107,17 @@ class Dialog extends Tonic { /* global Tonic */
 
     if (overlay !== 'false') {
       const overlayElement = document.createElement('div')
-      overlayElement.className = 'overlay'
+      overlayElement.className = 'tonic--overlay'
       overlayElement.setAttribute('style', `background-color: ${backgroundColor}`)
       wrapper.appendChild(overlayElement)
     }
 
     const dialog = document.createElement('div')
-    dialog.className = 'dialog'
+    dialog.className = 'tonic--dialog--content'
     dialog.setAttribute('style', style.join(''))
 
     const close = document.createElement('div')
-    close.className = 'close'
+    close.className = 'tonic--close'
 
     const iconColor = color || this.getPropertyValue('primary')
     const url = Dialog.svg.closeIcon(iconColor)

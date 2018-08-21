@@ -15,7 +15,7 @@ class NotificationBadge extends Tonic { /* global Tonic */
       theme
     } = this.props
 
-    if (theme) this.root.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     //
     // the id attribute can be removed from the component
@@ -25,10 +25,10 @@ class NotificationBadge extends Tonic { /* global Tonic */
 
     const countAttr = (count > 99) ? '99' : count
 
-    const newAttr = (count > 0) ? 'new' : ''
+    const newAttr = (count > 0) ? 'tonic--new' : ''
 
     return `
-      <div class="notifications ${newAttr}">
+      <div class="tonic--notifications ${newAttr}">
         <span>${countAttr}</span>
       </div>
     `

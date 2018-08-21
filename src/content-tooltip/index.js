@@ -32,8 +32,8 @@ class ContentTooltip extends Tonic { /* global Tonic */
   show (relativeNode) {
     clearTimeout(this.timer)
     this.timer = setTimeout(() => {
-      const tooltip = this.root.querySelector('.tooltip')
-      const arrow = this.root.querySelector('.tooltip-arrow')
+      const tooltip = this.root.querySelector('.tonic--tooltip')
+      const arrow = this.root.querySelector('.tonic--tooltip-arrow')
       let scrollableArea = relativeNode.parentNode
 
       while (true) {
@@ -51,12 +51,12 @@ class ContentTooltip extends Tonic { /* global Tonic */
       const offset = relativeNode.offsetHeight + (arrow.offsetHeight / 2)
 
       if (top < (window.innerHeight / 2)) {
-        tooltip.classList.remove('bottom')
-        tooltip.classList.add('top')
+        tooltip.classList.remove('tonic--bottom')
+        tooltip.classList.add('tonic--top')
         pos += offset
       } else {
-        tooltip.classList.remove('top')
-        tooltip.classList.add('bottom')
+        tooltip.classList.remove('tonic--top')
+        tooltip.classList.add('tonic--bottom')
         pos -= offset + tooltip.offsetHeight
       }
 
@@ -64,15 +64,15 @@ class ContentTooltip extends Tonic { /* global Tonic */
       tooltip.style.left = `${left}px`
 
       window.requestAnimationFrame(() => {
-        tooltip.classList.add('show')
+        tooltip.classList.add('tonic--show')
       })
     }, 256)
   }
 
   hide () {
     clearTimeout(this.timer)
-    const tooltip = this.root.querySelector('.tooltip')
-    tooltip.classList.remove('show')
+    const tooltip = this.root.querySelector('.tonic--tooltip')
+    tooltip.classList.remove('tonic--show')
   }
 
   render () {
@@ -82,7 +82,7 @@ class ContentTooltip extends Tonic { /* global Tonic */
       height
     } = this.props
 
-    if (theme) this.root.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     const style = []
     if (width) style.push(`width: ${width};`)
@@ -91,9 +91,9 @@ class ContentTooltip extends Tonic { /* global Tonic */
     return `
       <div
         style="${style.join('')}"
-        class="tooltip">
+        class="tonic--tooltip">
           ${this.children.trim()}
-        <span class="tooltip-arrow"></span>
+        <span class="tonic--tooltip-arrow"></span>
       </div>
     `
   }

@@ -12,7 +12,7 @@ class ContentTabs extends Tonic { /* global Tonic */
   }
 
   getCurrentContentNode (group) {
-    return this.qs(`[data-tab-group="${group}"].show`)
+    return this.qs(`[data-tab-group="${group}"].tonic--show`)
   }
 
   click (e) {
@@ -21,7 +21,7 @@ class ContentTabs extends Tonic { /* global Tonic */
 
     const group = this.props.group
     const currentContentNode = this.getCurrentContentNode(group)
-    if (currentContentNode) currentContentNode.classList.remove('show')
+    if (currentContentNode) currentContentNode.classList.remove('tonic--show')
 
     const name = e.target.dataset.tabName
     const target = this.qs(`[data-tab-group="${group}"][data-tab-name="${name}"]`)
@@ -31,11 +31,11 @@ class ContentTabs extends Tonic { /* global Tonic */
       return
     }
 
-    const currentContentLink = this.qs(`[data-tab-name].selected`)
-    if (currentContentLink) currentContentLink.classList.remove('selected')
+    const currentContentLink = this.qs(`[data-tab-name].tonic--selected`)
+    if (currentContentLink) currentContentLink.classList.remove('tonic--selected')
 
-    target.classList.add('show')
-    e.target.classList.add('selected')
+    target.classList.add('tonic--show')
+    e.target.classList.add('tonic--selected')
   }
 
   connected () {
@@ -43,11 +43,11 @@ class ContentTabs extends Tonic { /* global Tonic */
 
     if (name) {
       const targetLink = this.qs(`[data-tab-name=${name}]`, this.root)
-      targetLink.classList.add('selected')
+      targetLink.classList.add('tonic--selected')
     } else {
-      const currentLink = this.qs(`[data-tab-name].selected`, this.root)
+      const currentLink = this.qs(`[data-tab-name].tonic--selected`, this.root)
       if (!currentLink) {
-        console.warn(`Not found '[data.tab-name].selected'`)
+        console.warn(`Not found '[data.tab-name].tonic--selected'`)
         return
       }
       name = currentLink.dataset.tabName
@@ -57,12 +57,12 @@ class ContentTabs extends Tonic { /* global Tonic */
     if (!group) return
 
     const currentContentNode = this.getCurrentContentNode(group)
-    if (currentContentNode) currentContentNode.classList.remove('show')
+    if (currentContentNode) currentContentNode.classList.remove('tonic--show')
 
     const target = this.qs(`[data-tab-group="${group}"][data-tab-name="${name}"]`)
     if (!target) return
 
-    target.classList.add('show')
+    target.classList.add('tonic--show')
   }
 
   render () {
@@ -70,7 +70,7 @@ class ContentTabs extends Tonic { /* global Tonic */
       theme
     } = this.props
 
-    if (theme) this.root.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     return this.root.innerHTML
   }

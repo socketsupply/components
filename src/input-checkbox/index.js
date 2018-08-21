@@ -33,7 +33,7 @@ class InputCheckbox extends Tonic { /* global Tonic */
     const state = this.props.checked = !this.props.checked
     const color = this.props.color || this.getPropertyValue('primary')
     const url = InputCheckbox.svg[state ? 'iconOn' : 'iconOff'](color)
-    this.root.querySelector('label.icon').style.backgroundImage = `url("${url}")`
+    this.root.querySelector('label.tonic--icon').style.backgroundImage = `url("${url}")`
   }
 
   connected () {
@@ -64,7 +64,7 @@ class InputCheckbox extends Tonic { /* global Tonic */
       size
     } = this.props
 
-    if (theme) this.classList.add(`theme-${theme}`)
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
 
     if (!color) this.props.color = this.getPropertyValue('primary')
     if (!iconOn) this.props.iconOn = InputCheckbox.svg.iconOn(this.props.color)
@@ -81,7 +81,7 @@ class InputCheckbox extends Tonic { /* global Tonic */
     this.root.removeAttribute('id')
 
     return `
-      <div class="wrapper">
+      <div class="tonic--wrapper">
         <input
           type="checkbox"
           id="${id}"
@@ -90,7 +90,7 @@ class InputCheckbox extends Tonic { /* global Tonic */
           ${checked ? 'checked' : ''}/>
         <label
           for="${id}"
-          class="icon"
+          class="tonic--icon"
           style="
             width: ${size};
             height: ${size};

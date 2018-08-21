@@ -1,5 +1,5 @@
 input-toggle
-  .wrapper
+  .tonic--wrapper
     height 30px
     width 47px
     position relative
@@ -7,7 +7,7 @@ input-toggle
     > label
       color var(--medium)
       font-weight 500
-      font 12px/14px 'Poppins', sans-serif
+      font 12px/14px var(--subheader)
       text-transform uppercase
       letter-spacing 1px
       margin-left 58px
@@ -15,17 +15,17 @@ input-toggle
       display block
       user-select none
 
-  .switch
+  .tonic--switch
     position absolute
     left 0
     top 0
 
     label
       &:before
-        font bold 12px 'Poppins', sans-serif
+        font bold 12px var(--subheader)
         text-transform uppercase
 
-    input.toggle
+    input.tonic--toggle
       position absolute
       display none
       outline none

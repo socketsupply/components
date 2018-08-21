@@ -1,8 +1,8 @@
-.dialog
+.tonic--dialog
   *
     box-sizing border-box
 
-  > .wrapper
+  > .tonic--wrapper
     position fixed
     top 0
     left 0
@@ -12,18 +12,18 @@
     z-index 100
     visibility hidden
     transition visibility 0s ease 0.5s
-    &.show
+    &.tonic--show
       visibility visible
       transition visibility 0s ease 0s
-      .overlay
+      .tonic--overlay
         opacity 1
-      .dialog
+      .tonic--dialog--content
         opacity 1
         -webkit-transform scale(1)
         -ms-transform scale(1)
         transform scale(1)
 
-  .overlay
+  .tonic--overlay
     position absolute
     top 0
     left 0
@@ -32,7 +32,7 @@
     opacity 0
     transition opacity 0.3s ease-in-out
 
-  .dialog
+  .tonic--dialog--content
     min-width 350px
     min-height 250px
     height auto
@@ -68,7 +68,7 @@
       padding 20px
       margin 0 auto
 
-    .close
+    .tonic--close
       width 25px
       height 25px
       position absolute

@@ -2,7 +2,7 @@ notification-inline
   *
     box-sizing border-box
 
-  .wrapper
+  .tonic--wrapper
     user-select none
     display flex
     flex-wrap wrap
@@ -10,10 +10,10 @@ notification-inline
     transform translateX(-50%)
     visibility hidden
     border 1px solid red
-    &.show
+    &.tonic--show
       visibility visible
 
-  .notification
+  .tonic--notification
     margin 10px 0
     position relative
     background-color var(--window)
@@ -25,35 +25,35 @@ notification-inline
     border 1px solid var(--border)
     z-index 1
     opacity 0
-    &.warning
+    &.tonic--warning
       border-color var(--warning)
-    &.danger
+    &.tonic--danger
       border-color var(--danger)
-    &.success
+    &.tonic--success
       border-color var(--success)
-    &.info
+    &.tonic--info
       border-color var(--secondary)
 
-    &.show
+    &.tonic--show
       opacity 1
       -webkit-transform scale(1)
       -ms-transform scale(1)
       transform scale(1)
       transition transform 0.3s ease-in-out
-    &.close
+    &.tonic--close
       padding-right 50px
-    &.alert
+    &.tonic--alert
       padding-left 35px
 
     main
       padding 17px 15px 15px 15px
-      .title
+      .tonic--title
         font 14px/18px var(--subheader)
-      .message
+      .tonic--message
         font 14px/18px var(--subheader)
         color var(--medium)
 
-    .icon
+    .tonic--icon
       width 16px
       height 16px
       position absolute
@@ -64,7 +64,7 @@ notification-inline
       -ms-transform translateY(-50%)
       transform translateY(-50%)
 
-    .close
+    .tonic--close
       width 20px
       height 20px
       position absolute

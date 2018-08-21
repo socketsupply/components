@@ -23,7 +23,7 @@ class InputButton extends Tonic { /* global Tonic */
     window.requestAnimationFrame(() => {
       const button = this.root.querySelector('button')
       const method = state ? 'add' : 'remove'
-      if (button) button.classList[method]('loading')
+      if (button) button.classList[method]('tonic--loading')
     })
   }
 
@@ -49,7 +49,7 @@ class InputButton extends Tonic { /* global Tonic */
       textColor
     } = this.props
 
-    if (theme) this.root.classList.add(`theme-${theme}`)
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     const idAttr = id ? `id="${id}"` : ''
     const nameAttr = name ? `name="${name}"` : ''
@@ -68,13 +68,13 @@ class InputButton extends Tonic { /* global Tonic */
     style = style.join('; ')
 
     let classes = []
-    if (active) classes.push(`active`)
+    if (active) classes.push(`tonic--active`)
     classes = classes.join(' ')
 
     const label = this.root.textContent || value
 
     return `
-      <div class="wrapper">
+      <div class="tonic--wrapper">
         <button
           ${idAttr}
           ${nameAttr}

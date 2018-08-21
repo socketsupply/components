@@ -1,9 +1,9 @@
-.panel
+.tonic--panel
   *
     box-sizing border-box
 
-  .wrapper
-    .panel
+  .tonic--wrapper
+    .tonic--panel
       width 500px
       position fixed
       bottom 0
@@ -15,36 +15,36 @@
       @media (max-width: 850px)
         width 100%
 
-    &.left
-      .panel
+    &.tonic--left
+      .tonic--panel
         left 0
         -webkit-transform translateX(-500px)
         -ms-transform translateX(-500px)
         transform translateX(-500px)
         border-right 1px solid var(--border)
 
-    &.right
-      .panel
+    &.tonic--right
+      .tonic--panel
         right 0
         -webkit-transform translateX(500px)
         -ms-transform translateX(500px)
         transform translateX(500px)
         border-left 1px solid var(--border)
 
-    &.show.right,
-    &.show.left
-      .panel
+    &.tonic--show.tonic--right,
+    &.tonic--show.tonic--left
+      .tonic--panel
         -webkit-transform translateX(0)
         -ms-transform translateX(0)
         transform translateX(0)
 
       &[overlay="true"]
-        .overlay
+        .tonic--overlay
           opacity 1
           visibility visible
           transition opacity 0.3s ease-in-out, visibility 0s ease 0s
 
-    .overlay
+    .tonic--overlay
       opacity 0
       visibility hidden
       position fixed
@@ -54,37 +54,10 @@
       bottom 0
       transition opacity 0.3s ease-in-out, visibility 0s ease 1s
 
-    .close
+    .tonic--close
       width 25px
       height 25px
       position absolute
       top 30px
       right 30px
       cursor pointer
-
-    header
-      padding 20px
-      position absolute
-      top 0
-      left 0
-      right 0
-      height 90px
-
-    main
-      padding 20px
-      position absolute
-      top 90px
-      left 0
-      right 0
-      bottom 70px
-      overflow scroll
-
-    footer
-      position absolute
-      left 0
-      right 0
-      bottom 0
-      height 70px
-      padding 10px
-      text-align center
-      border-top 1px solid var(--border)

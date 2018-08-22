@@ -1850,9 +1850,9 @@ class NotificationCenter extends Tonic { /* global Tonic */
         visibility: 'hidden',
         zIndex: '102'
       },
-      '.tonic--wrapper @media (max-width: 850px)': {
-        width: '90%'
-      },
+      // '.tonic--wrapper @media (max-width: 850px)': {
+      //   width: '90%'
+      // },
       '.tonic--wrapper.tonic--show': {
         visibility: 'visible'
       },
@@ -2309,9 +2309,9 @@ class Panel extends Tonic { /* global Tonic */
         zIndex: '100',
         transition: 'transform 0.3s ease-in-out'
       },
-      '.tonic--wrapper .tonic--panel @media (max-width: 500px)': {
-        width: '100%'
-      },
+      // '.tonic--wrapper .tonic--panel @media (max-width: 500px)': {
+      //   width: '100%'
+      // },
       '.tonic--wrapper.tonic--left .tonic--panel': {
         left: '0',
         borderRight: '1px solid var(--border)',

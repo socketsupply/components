@@ -5,7 +5,7 @@ const stylus = require('stylus')
 const mkdirp = require('mkdirp')
 const argv = require('minimist')(process.argv.slice(2))
 const pkgComponents = require('../package.json')
-const pkgTonic = require('../node_modules/tonic/package.json')
+const pkgTonic = require('tonic/package.json')
 
 const toCSS = str => ({
   then (resolve) {

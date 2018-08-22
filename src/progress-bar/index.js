@@ -24,7 +24,30 @@ class ProgressBar extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `%style%`
+    const {
+      width,
+      height
+    } = this.props
+
+    return {
+      '': {
+        display: 'block'
+      },
+
+      '.tonic--wrapper': {
+        backgroundColor: 'var(--background)',
+        width,
+        height,
+        position: 'relative'
+      },
+
+      '.tonic--progress': {
+        backgroundColor: 'var(--accent)',
+        width: this.props.progress + '%',
+        height: '100%',
+        transition: 'width 0.2s ease'
+      }
+    }
   }
 
   setProgress (progress) {
@@ -41,23 +64,13 @@ class ProgressBar extends Tonic { /* global Tonic */
   }
 
   render () {
-    let {
-      width,
-      height,
-      theme,
-      progress
-    } = this.props
-
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
-
-    let style = []
-    if (width) style.push(`width: ${width}`)
-    if (height) style.push(`height: ${height}`)
-    style = style.join('; ')
+    if (this.props.theme) {
+      this.root.classList.add(`tonic--theme--${this.props.theme}`)
+    }
 
     return `
-      <div class="tonic--wrapper" style="${style}">
-        <div class="tonic--progress" style="width: ${progress}%"></div>
+      <div class="tonic--wrapper">
+        <div class="tonic--progress"></div>
       </div>
     `
   }

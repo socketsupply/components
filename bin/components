@@ -17,13 +17,16 @@ const componentsDir = path.join(__dirname, '..', 'src')
 
 const re = /%style%/
 
-async function js () {
+function ensurePath (filename) {
   try {
-    fs.statSync(argv.js)
+    fs.statSync(path.dirname(filename))
   } catch (err) {
-    mkdirp.sync(argv.js)
+    mkdirp.sync(path.dirname(filename))
   }
+}
 
+async function js () {
+  ensurePath(argv.js)
   const dirs = argv._.length ? argv._ : fs.readdirSync(componentsDir)
   const output = []
 
@@ -48,7 +51,7 @@ async function js () {
 
     if (argv.inline === false) {
       output.push(srctext.replace(re, ''))
-      fs.appendFileSync(path.join(argv.css, 'index.css'), `${css}\n`)
+      fs.appendFileSync(argv.css, `${css}\n`)
     } else {
       output.push(srctext.replace(re, () => css))
     }
@@ -65,12 +68,13 @@ ${output.join('\n')}
 
   const js = argv.bundle ? bundled : output.join('\n')
 
-  fs.writeFileSync(path.join(argv.js, 'index.js'), js)
+  fs.writeFileSync(argv.js, js)
 }
 
 function css () {
+  ensurePath(argv.css)
   const css = fs.readFileSync(path.join(__dirname, '..', 'index.css'), 'utf8')
-  fs.writeFileSync(path.join(argv.css, 'index.css'), css)
+  fs.writeFileSync(argv.css, css)
 }
 
 const help = `

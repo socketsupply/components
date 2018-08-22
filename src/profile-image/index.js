@@ -14,7 +14,61 @@ class ProfileImage extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `%style%`
+    return {
+      '': {
+        display: 'inline-block'
+      },
+      'input[type="file"]': {
+        display: 'none'
+      },
+      '.tonic--wrapper': {
+        width: this.props.size,
+        height: this.props.size,
+        border: this.props.border,
+        borderRadius: this.props.radius,
+        position: 'relative',
+        overflow: 'hidden'
+      },
+      '.tonic--image': {
+        position: 'absolute',
+        top: '0',
+        left: '0',
+        right: '0',
+        bottom: '0',
+        backgroundImage: `url('${this.props.src}')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center center',
+        backgroundRepeat: 'no-repeat'
+      },
+      '.tonic--overlay': {
+        position: 'absolute',
+        top: '0',
+        left: '0',
+        right: '0',
+        bottom: '0',
+        backgroundColor: 'rgba(0,0,0,0.5)',
+        transition: 'opacity 0.2s ease-in-out',
+        visibility: 'hidden',
+        opacity: '0',
+        display: 'flex'
+      },
+      '.tonic--icon': {
+        position: 'absolute',
+        top: '0',
+        left: '0',
+        right: '0',
+        bottom: '0',
+        backgroundImage: `url('${this.props.iconEdit}')`,
+        backgroundSize: '40px 40px',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center center'
+      },
+      '.tonic--editable:hover .tonic--overlay': {
+        visibility: 'visible',
+        opacity: '1',
+        cursor: 'pointer'
+      }
+    }
   }
 
   getPictureData (src, cb) {
@@ -46,10 +100,6 @@ class ProfileImage extends Tonic { /* global Tonic */
     let {
       id,
       name,
-      size,
-      src,
-      radius,
-      border,
       theme,
       editable
     } = this.props
@@ -59,28 +109,13 @@ class ProfileImage extends Tonic { /* global Tonic */
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
-    let style = []
-
-    if (size) {
-      style.push(`width: ${size}`)
-      style.push(`height: ${size}`)
-    }
-
-    if (border) style.push(`border: ${border}`)
-    if (radius) style.push(`border-radius: ${radius}`)
-    style = style.join('; ')
-
     return `
-      <div class="tonic--wrapper ${editable ? 'tonic--editable' : ''}" style="${style}">
-        <div
-          class="tonic--image"
-          ${idAttr}
-          ${nameAttr}
-          style="background-image: url('${src}');">
+      <div class="tonic--wrapper ${editable ? 'tonic--editable' : ''}">
+        <div class="tonic--image" ${idAttr} ${nameAttr}>
         </div>
-        <input type="file" style="display:none"/>
+        <input type="file"/>
         <div class="tonic--overlay">
-          <div style="background-image: url('${this.props.iconEdit}')"></div>
+          <div class="tonic--icon"></div>
         </div>
       </div>
     `

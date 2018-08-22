@@ -15,7 +15,107 @@ class InputToggle extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `%style%`
+    return {
+      '.tonic--wrapper': {
+        height: '30px',
+        width: '47px',
+        position: 'relative'
+      },
+      '.tonic--wrapper > label': {
+        color: 'var(--medium)',
+        fontWeight: '500',
+        font: '12px/14px var(--subheader)',
+        textTransform: 'uppercase',
+        letterSpacing: '1px',
+        marginLeft: '58px',
+        paddingTop: '9px',
+        display: 'block',
+        userSelect: 'none'
+      },
+      '.tonic--switch': {
+        position: 'absolute',
+        left: '0',
+        top: '0'
+      },
+      '.tonic--switch label:before': {
+        font: 'bold 12px var(--subheader)',
+        textTransform: 'uppercase'
+      },
+      'input.tonic--toggle': {
+        position: 'absolute',
+        display: 'none',
+        outline: 'none',
+        userSelect: 'none',
+        zIndex: '1'
+      },
+      'input.tonic--toggle + label': {
+        width: '42px',
+        height: '24px',
+        padding: '2px',
+        display: 'block',
+        position: 'relative',
+        backgroundColor: 'var(--border)',
+        borderRadius: '60px',
+        transition: 'background 0.4s ease-in-out',
+        cursor: 'default'
+      },
+      'input.tonic--toggle + label:before': {
+        content: '""',
+        lineHeight: '29px',
+        textIndent: '29px',
+        position: 'absolute',
+        top: '1px',
+        left: '1px',
+        right: '1px',
+        bottom: '1px',
+        display: 'block',
+        borderRadius: '60px',
+        transition: 'background 0.4s ease-in-out',
+        paddingTop: '1px',
+        fontSize: '0.65em',
+        letterSpacing: '0.05em',
+        backgroundColor: 'var(--border)'
+      },
+      'input.tonic--toggle + label:after': {
+        content: '""',
+        width: '16px',
+        position: 'absolute',
+        top: '4px',
+        left: '4px',
+        bottom: '4px',
+        backgroundColor: 'var(--window)',
+        borderRadius: '52px',
+        transition: 'background 0.4s ease-in-out, margin 0.4s ease-in-out',
+        display: 'block',
+        zIndex: '2'
+      },
+      'input.tonic--toggle:disabled': {
+        cursor: 'default',
+        backgroundColor: 'var(--background)'
+      },
+      'input.tonic--toggle:disabled + label': {
+        cursor: 'default',
+        backgroundColor: 'var(--background)'
+      },
+      'input.tonic--toggle:disabled + label:before': {
+        backgroundColor: 'var(--background)'
+      },
+      'input.tonic--toggle:disabled + label:after': {
+        backgroundColor: 'var(--window)'
+      },
+      'input.tonic--toggle:checked + label': {
+        backgroundColor: 'var(--accent)'
+      },
+      'input.tonic--toggle:checked + label:before': {
+        content: '""',
+        backgroundColor: 'var(--accent)',
+        color: 'var(--background)'
+      },
+      'input.tonic--toggle:checked + label:after': {
+        marginLeft: '18px',
+        backgroundColor: 'var(--background)'
+      }
+    }
   }
 
   change (e) {

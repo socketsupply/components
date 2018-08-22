@@ -483,11 +483,35 @@ body
       padding 5px
 
   content-dialog
-    header, main, footer
+    header
       text-align center
+      height 70px
+      font 14px var(--subheader)
+      text-transform uppercase
+      letter-spacing 1.5px
+      position absolute
+      top 0
+      left 0
+      right 0
+      padding 26px 65px 25px 65px
 
     main
+      width auto
+      text-align center
+      padding 20px
+      margin 0 auto
       height 100px
+
+    footer
+      height 75px
+      text-align center
+      position absolute
+      bottom 0
+      left 0
+      right 0
+      padding 12px
+      display flex
+      justify-content center
 
   content-tags
     [data-tab-group]

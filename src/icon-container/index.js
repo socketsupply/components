@@ -8,7 +8,12 @@ class IconContainer extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `%style%`
+    return {
+      'svg': {
+        width: '100%',
+        height: '100%'
+      }
+    }
   }
 
   render () {

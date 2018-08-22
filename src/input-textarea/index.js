@@ -22,7 +22,21 @@ class InputTextarea extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `%style%`
+    const {
+      width,
+      height,
+      radius,
+      resize
+    } = this.props
+
+    return {
+      'textarea': {
+        width,
+        height,
+        borderRadius: radius,
+        resize
+      }
+    }
   }
 
   get value () {
@@ -51,11 +65,7 @@ class InputTextarea extends Tonic { /* global Tonic */
       cols,
       minlength,
       maxlength,
-      width,
-      height,
-      theme,
-      radius,
-      resize
+      theme
     } = this.props
 
     const idAttr = id ? `id="${id}"` : ''
@@ -63,13 +73,6 @@ class InputTextarea extends Tonic { /* global Tonic */
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
-
-    let style = []
-    if (width) style.push(`width: ${width}`)
-    if (height) style.push(`height: ${height}`)
-    if (radius) style.push(`border-radius: ${radius}`)
-    if (resize) style.push(`resize: ${resize}`)
-    style = style.join('; ')
 
     if (this.props.value === 'undefined') this.props.value = ''
 
@@ -87,8 +90,7 @@ class InputTextarea extends Tonic { /* global Tonic */
           rows="${rows}"
           cols="${cols}"
           minlength="${minlength}"
-          maxlength="${maxlength}"
-          style="${style}">${this.props.value}</textarea>
+          maxlength="${maxlength}">${this.props.value}</textarea>
       </div>
     `
   }

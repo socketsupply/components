@@ -10,6 +10,16 @@
   <meta http-equiv="Content-Type" charset="utf-8" content="text/html">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1 user-scalable=no">
   <meta name="description" content="Component Based Architecture">
+
+  <!-- meta
+  http-equiv="Content-Security-Policy"
+  content="
+    default-src 'self';
+    font-src 'self';
+    img-src 'self' https:;
+    style-src 'self';
+    script-src 'self';
+    connect-src 'self'" -->
 </head>
 
 
@@ -141,25 +151,33 @@ little simpler.</p>
 
     <section id="1.-styling">
       <h1 id="1-styling">1. Styling</h1>
-<p>Your component&#39;s styles will be attached to a style element in the head of the
-document. You can use any <a href="https://github.com/MicheleBertoli/css-in-js">css-in-js</a> library, or something like <a href="https://postcss.org/">postcss</a>
-as long as it outputs CSS.</p>
-<p>Though it is our opinion is that components should ship with as little CSS as
-possible and try to inherit whenever possible from the document&#39;s stylesheets.</p>
-<p>It is important to prefix your styles with the name of the component to ensure
-the proper scope. Otherwise, the styles may apply to other parts of the page
-where the component is used.</p>
+<p>Components should ship with as little CSS as possible and try to inherit
+whenever possible from the document&#39;s stylesheets.</p>
+<p>Although you want to let the user&#39;s style-sheet to handle as much of the styling
+as possibke, sometimes your styles have more of a functional purpose than a
+visual one. In cases like this you should prefix the classes name so it doesn&#39;t
+collide with any class names that the user has defined. We use this convention...</p>
+<pre><code class="language-js">library--componentname--<span class="hljs-class"><span class="hljs-keyword">class</span></span></code></pre>
+<p>Your styles will be applied to the elements in your component that match the
+specified selectors after the <code>render</code> method is executed. The style function
+retuns an objct where each key is a selector and each value is an object of
+style rules.</p>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyGreeting</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   style () {
-    <span class="hljs-keyword">return</span> <span class="hljs-string">`
-      my-greeting div {
-        display: inline-block;
-        border: 1px dotted #666;
-        height: 100px;
-        width: 100px;
-        line-height: 90px;
+    <span class="hljs-keyword">return</span> {
+
+      <span class="hljs-string">'div'</span> {
+        <span class="hljs-attr">display</span>: <span class="hljs-string">'inline-block'</span>,
+        <span class="hljs-attr">border</span>: <span class="hljs-string">'1px dotted #666'</span>
+        height: <span class="hljs-string">'100px'</span>,
+        <span class="hljs-attr">width</span>: <span class="hljs-string">'100px'</span>,
+        line-height: <span class="hljs-string">'90px'</span>
+      },
+
+      <span class="hljs-string">`.tonic--mygreeting--error`</span>: {
+        <span class="hljs-attr">color</span>: <span class="hljs-string">'red'</span>
       }
-    `</span>
+    }
   }
 
   render () {
@@ -447,7 +465,7 @@ performance.</p>
 </tr>
 <tr>
 <td align="left"><code>style()</code></td>
-<td align="left">Returns a string of css to be inlined with the component. This will be &quot;scoped&quot; so that it does not affect the rest of the page. It will also persist across re-renders to save on parsing costs.</td>
+<td align="left">Returns an object literal where the keys are selectors and the values are css properties. This will be applied to the dom structure after the component is rendered.</td>
 </tr>
 <tr>
 <td align="left"><code>render()</code></td>

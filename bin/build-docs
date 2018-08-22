@@ -208,6 +208,7 @@ async function main () {
   //
   // Copy the build into the demo page bundle
   //
+  bundle(read(__dirname, '..', 'node_modules', 'tonic', 'index.js'))
   bundle(read(__dirname, '..', 'index.js'))
 
   //

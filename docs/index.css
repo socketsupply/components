@@ -660,13 +660,39 @@ body content-tooltip span.code-type {
   display: block;
   padding: 5px;
 }
-body content-dialog header,
-body content-dialog main,
-body content-dialog footer {
+body content-dialog header {
   text-align: center;
+  height: 70px;
+  font: 14px var(--subheader);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 26px 65px 25px 65px;
 }
 body content-dialog main {
+  width: auto;
+  text-align: center;
+  padding: 20px;
+  margin: 0 auto;
   height: 100px;
+}
+body content-dialog footer {
+  height: 75px;
+  text-align: center;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 12px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
 }
 body content-tags [data-tab-group] {
   height: 40px;

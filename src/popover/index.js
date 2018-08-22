@@ -20,7 +20,67 @@ class Popover extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `%style%`
+    const {
+      width,
+      height,
+      padding
+    } = this.props
+
+    return {
+      '.tonic--popover': {
+        position: 'absolute',
+        top: '30px',
+        width,
+        height,
+        padding,
+        background: 'var(--window)',
+        border: '1px solid var(--border)',
+        borderRadius: '2px',
+        visibility: 'hidden',
+        zIndex: -1,
+        opacity: 0,
+        transform: 'scale(0.75)',
+        transition: [
+          'transform 0.1s ease-in-out',
+          'opacity 0s ease 0.1s',
+          'visibility 0s ease 0.1s',
+          'z-index 0s ease 0.1s'
+        ].join(', ')
+      },
+
+      '.tonic--popover.tonic--show': {
+        boxShadow: '0px 30px 90px -20px rgba(0, 0, 0, 0.3)',
+        transform: 'scale(1)',
+        visibility: 'visible',
+        transition: 'transform 0.15s ease-in-out',
+        opacity: 1,
+        zIndex: 1
+      },
+
+      '.tonic--popover--top': {
+        transformOrigin: 'bottom center'
+      },
+
+      '.tonic--popover--topleft': {
+        transformOrigin: 'bottom left'
+      },
+
+      '.tonic--popover--topright': {
+        transformOrigin: 'bottom right'
+      },
+
+      '.tonic--popover--bottom': {
+        transformOrigin: 'top center'
+      },
+
+      '.tonic--popover--bottomleft': {
+        transformOrigin: 'top left'
+      },
+
+      '.tonic--popover--bottomright': {
+        transformOrigin: 'top right'
+      }
+    }
   }
 
   show (triggerNode) {
@@ -80,23 +140,13 @@ class Popover extends Tonic { /* global Tonic */
 
   render () {
     const {
-      theme,
-      width,
-      height,
-      padding
+      theme
     } = this.props
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
-    const style = []
-    if (width) style.push(`width: ${width};`)
-    if (height) style.push(`height: ${height};`)
-    if (padding) style.push(`padding: ${padding};`)
-
     return `
-      <div
-        style="${style.join('')}"
-        class="tonic--popover">
+      <div class="tonic--popover">
           ${this.children.trim()}
       </div>
     `

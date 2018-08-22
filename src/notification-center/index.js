@@ -37,9 +37,9 @@ class NotificationCenter extends Tonic { /* global Tonic */
         visibility: 'hidden',
         zIndex: '102'
       },
-      '.tonic--wrapper @media (max-width: 850px)': {
-        width: '90%'
-      },
+      // '.tonic--wrapper @media (max-width: 850px)': {
+      //   width: '90%'
+      // },
       '.tonic--wrapper.tonic--show': {
         visibility: 'visible'
       },

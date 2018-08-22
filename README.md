@@ -23,7 +23,7 @@ As an npm script in your `package.json` file...
 ```json
 {
   "scripts": {
-    "build": "components --js ./path/for/js --css ./path/fo/css"
+    "build": "components --js ./path/to/index.js --css ./path/to/index.css"
   }
 }
 ```
@@ -31,7 +31,7 @@ As an npm script in your `package.json` file...
 Using the `npx` script that ships with `npm`.
 
 ```bash
-npx hxoht/components --js ./path/for/js --css ./path/for/css
+npx hxoht/components --js ./path/to/index.js --css ./path/to/index.css
 ```
 
 You can build only a subset of components by supplying a list of tag-names
@@ -39,7 +39,7 @@ You can build only a subset of components by supplying a list of tag-names
 
 ```bash
 npx hxoht/components \
-  --js ./path/for/js --css ./path/for/css \
+  --js ./path/to/index.js --css ./path/to/index.css \
   content-dialog content-tabs profile-image
 ```
 
@@ -47,7 +47,7 @@ If you do not want to inline the CSS for each component, you can generate a
 single css file with all of it using the `--no-inline-css` option.
 
 ```bash
-components --js ./test/js --css ./test/css --no-inline
+components --js ./test/index.js --css ./test/index.css --no-inline
 ```
 
 # DEVELOPMENT

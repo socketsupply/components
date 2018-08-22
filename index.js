@@ -149,11 +149,11 @@ class Tonic {
     this.children = this.children || this.root.innerHTML
     this._setContent(this.root, this.render())
     Tonic._constructTags(this.root)
+    const style = this.style && this.style()
 
-    if (this.style && !Tonic.registry[this.root.tagName].styled) {
+    if (style && !Tonic.registry[this.root.tagName].styled) {
       Tonic.registry[this.root.tagName].styled = true
-      const textNode = document.createTextNode(this.style())
-      Tonic.styleNode.appendChild(textNode)
+      Tonic.styleNode.appendChild(document.createTextNode(style))
     }
 
     this.connected && this.connected()
@@ -175,34 +175,6 @@ Tonic.escapeMap = { '"': '&quot;', '&': '&amp;', '\'': '&#x27;', '<': '&lt;', '>
 if (typeof module === 'object') module.exports = Tonic
 
 window.Tonic = Tonic
-class ContentFolds extends Tonic { /* global Tonic */
-  defaults () {
-    return {}
-  }
-
-  qs (s, p) {
-    return (p || document).querySelector(s)
-  }
-
-  render () {
-    const {
-      id
-    } = this.props
-
-    const idAttr = id ? `id="${id}"` : ''
-
-    const folds = this.root.innerHTML
-
-    return `
-      <div class="wrapper" ${idAttr}>
-        ${folds}
-      </div>
-    `
-  }
-}
-
-Tonic.add(ContentFolds)
-
 class ContentRoute extends Tonic { /* global Tonic */
   constructor (node) {
     super(node)

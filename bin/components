@@ -44,7 +44,14 @@ async function js () {
       process.exit(1)
     }
 
-    output.push(fs.readFileSync(src, 'utf8').replace(re, () => css))
+    const srctext = fs.readFileSync(src, 'utf8')
+
+    if (argv.inline === false) {
+      output.push(srctext.replace(re, ''))
+      fs.appendFileSync(path.join(argv.css, 'index.css'), `${css}\n`)
+    } else {
+      output.push(srctext.replace(re, () => css))
+    }
   }
 
   const bundled = `
@@ -71,10 +78,10 @@ components v${pkgComponents.version} (tonic v${pkgTonic.version})
 
 Usage:
   components --help
-  components --js <path> [--wrap] --css <path> [component-name...]
+  components --js <path> [--wrap] --css <path> [--no-inline] [component-name...]
 
 Examples:
-  components --js ./js --css ./css
+  components --js ./js --css ./css --no-inline
   components --js ./js --bundle --css ./css
   components --js ./js --css ./css content-dialog input-button
 `
@@ -88,5 +95,5 @@ if (argv.h || argv.help) {
   process.exit(0)
 }
 
-if (argv.js) js()
 if (argv.css) css()
+if (argv.js) js()

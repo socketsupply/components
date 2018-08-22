@@ -15,8 +15,10 @@ npm install hxoht/components
 const Tonic = require('components') // Tonic is bundled in here and is the only export.
 ```
 
-If you want to produce build artifacts (like the base css), you can either
-create a build script, or use `npx`.
+This package can create build artifacts that you can use in your project. You
+can do this in a few different ways using the `components` command.
+
+As an npm script in your `package.json` file...
 
 ```json
 {
@@ -26,11 +28,13 @@ create a build script, or use `npx`.
 }
 ```
 
+Using the `npx` script that ships with `npm`.
+
 ```bash
 npx hxoht/components --js ./path/for/js --css ./path/for/css
 ```
 
-You can also build a subset of componenets by supplying a list of tag-names
+You can build only a subset of componenets by supplying a list of tag-names
 (separated by spaces).
 
 ```bash
@@ -38,6 +42,12 @@ npx hxoht/components \
   --js ./path/for/js --css ./path/for/css \
   content-dialog content-tabs profile-image
 ```
+
+If you do not want to inline the CSS for each component, you can generate a
+single css file with all of it using the `--no-inline-css` option.
+
+```bash
+components --js ./test/js --css ./test/css --no-inline
 
 # DEVELOPMENT
 

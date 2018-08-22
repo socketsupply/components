@@ -1,33 +1,30 @@
 #!/usr/bin/env node
 const fs = require('fs')
 const path = require('path')
-const stylus = require('stylus')
 const mkdirp = require('mkdirp')
 const argv = require('minimist')(process.argv.slice(2))
 const pkgComponents = require('../package.json')
 const pkgTonic = require('tonic/package.json')
 
-const toCSS = str => ({
-  then (resolve) {
-    stylus(str).render((err, css) => resolve({ err, css }))
-  }
-})
-
 const componentsDir = path.join(__dirname, '..', 'src')
 
-const re = /%style%/
-
-function ensurePath (filename) {
+async function bundle () {
+  const filename = argv._[0]
   try {
     fs.statSync(path.dirname(filename))
   } catch (err) {
     mkdirp.sync(path.dirname(filename))
   }
-}
 
-async function js () {
-  ensurePath(argv.js)
-  const dirs = argv._.length ? argv._ : fs.readdirSync(componentsDir)
+  const includes = argv.include && argv.include.split(' ')
+  const excludes = argv.exclude && argv.exclude.split(' ')
+
+  let dirs = fs.readdirSync(componentsDir).filter(dir => {
+    if (includes) return includes.includes(dir)
+    if (excludes) return !excludes.includes(dir)
+    return dir
+  })
+
   const output = []
 
   for (const dir of dirs) {
@@ -38,23 +35,8 @@ async function js () {
       process.exit(1)
     }
 
-    const styl = path.join(componentsDir, dir, 'index.styl')
     const src = path.join(componentsDir, dir, 'index.js')
-    const { err, css } = await toCSS(fs.readFileSync(styl, 'utf8'))
-
-    if (err) {
-      console.error(err.message)
-      process.exit(1)
-    }
-
-    const srctext = fs.readFileSync(src, 'utf8')
-
-    if (argv.inline === false) {
-      output.push(srctext.replace(re, ''))
-      fs.appendFileSync(argv.css, `${css}\n`)
-    } else {
-      output.push(srctext.replace(re, () => css))
-    }
+    output.push(fs.readFileSync(src, 'utf8'))
   }
 
   const bundled = `
@@ -62,19 +44,12 @@ async function js () {
 // Warning. Do not edit. This is a generated file.
 //
 ${fs.readFileSync(path.join('node_modules', 'tonic', 'index.js'), 'utf8')}
-window.Tonic = Tonic
 ${output.join('\n')}
-  `
+`
 
   const js = argv.bundle ? bundled : output.join('\n')
 
   fs.writeFileSync(argv.js, js)
-}
-
-function css () {
-  ensurePath(argv.css)
-  const css = fs.readFileSync(path.join(__dirname, '..', 'index.css'), 'utf8')
-  fs.writeFileSync(argv.css, css)
 }
 
 const help = `
@@ -82,12 +57,13 @@ components v${pkgComponents.version} (tonic v${pkgTonic.version})
 
 Usage:
   components --help
-  components --js <path> [--wrap] --css <path> [--no-inline] [component-name...]
+  components <FILE> [--exclude '...']
+  components <FILE> [--include '...']
 
 Examples:
-  components --js ./js --css ./css --no-inline
-  components --js ./js --bundle --css ./css
-  components --js ./js --css ./css content-dialog input-button
+  components ./index.js
+  components ./index.js --include 'content-dialog'
+  components ./index.js --exclude 'content-dialog input-button'
 `
 
 if (argv.v || argv.version) {
@@ -99,5 +75,4 @@ if (argv.h || argv.help) {
   process.exit(0)
 }
 
-if (argv.css) css()
-if (argv.js) js()
+bundle()

@@ -34,7 +34,7 @@ Using the `npx` script that ships with `npm`.
 npx hxoht/components --js ./path/for/js --css ./path/for/css
 ```
 
-You can build only a subset of componenets by supplying a list of tag-names
+You can build only a subset of components by supplying a list of tag-names
 (separated by spaces).
 
 ```bash
@@ -48,6 +48,7 @@ single css file with all of it using the `--no-inline-css` option.
 
 ```bash
 components --js ./test/js --css ./test/css --no-inline
+```
 
 # DEVELOPMENT
 

@@ -4,7 +4,35 @@ class ContentTabs extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `%style%`
+    return {
+      'content-tabs': {
+        display: 'block'
+      },
+
+      '[data-tab-name]:not([data-tab-group])': {
+        userSelect: 'none',
+        fontFamily: 'var(--subheader)',
+        fontSize: '14px',
+        borderBottom: '1px solid transparent',
+        marginRight: '8px'
+      },
+
+      '.tonic--selected': {
+        color: 'var(--accent)',
+        borderBottom: '1px solid var(--accent)'
+      },
+
+      '[data-tab-group]': {
+        marginTop: '15px',
+        display: 'none',
+        borderTop: '1px solid var(--border)',
+        paddingTop: '15px'
+      },
+
+      '.tonic--show': {
+        display: 'block'
+      }
+    }
   }
 
   qs (s, p) {

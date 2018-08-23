@@ -674,11 +674,9 @@ class ContentTabs extends Tonic { /* global Tonic */
   }
 
   render () {
-    let {
-      theme
-    } = this.props
-
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (this.props.theme) {
+      this.root.classList.add(`tonic--theme--${this.props.theme}`)
+    }
 
     return this.root.innerHTML
   }
@@ -807,22 +805,24 @@ content-tooltip .tonic--tooltip.tonic--bottom .tonic--tooltip-arrow {
     tooltip.classList.remove('tonic--show')
   }
 
-  render () {
+  connected () {
     const {
-      theme,
       width,
       height
     } = this.props
 
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    const tooltip = this.root.querySelector('.tonic--tooltip')
+    if (width) tooltip.style.width = width
+    if (height) tooltip.style.height = height
+  }
 
-    const style = []
-    if (width) style.push(`width: ${width};`)
-    if (height) style.push(`height: ${height};`)
+  render () {
+    if (this.props.theme) {
+      this.root.classList.add(`tonic--theme--${this.props.theme}`)
+    }
 
     return `
       <div
-        style="${style.join('')}"
         class="tonic--tooltip">
           ${this.children.trim()}
         <span class="tonic--tooltip-arrow"></span>
@@ -869,7 +869,7 @@ class Dialog extends Tonic { /* global Tonic */
     return `.tonic--dialog * {
   box-sizing: border-box;
 }
-.tonic--dialog > .tonic--wrapper {
+.tonic--dialog > .tonic--dialog--wrapper {
   position: fixed;
   top: 0;
   left: 0;
@@ -880,14 +880,14 @@ class Dialog extends Tonic { /* global Tonic */
   visibility: hidden;
   transition: visibility 0s ease 0.5s;
 }
-.tonic--dialog > .tonic--wrapper.tonic--show {
+.tonic--dialog > .tonic--dialog--wrapper.tonic--show {
   visibility: visible;
   transition: visibility 0s ease 0s;
 }
-.tonic--dialog > .tonic--wrapper.tonic--show .tonic--overlay {
+.tonic--dialog > .tonic--dialog--wrapper.tonic--show .tonic--overlay {
   opacity: 1;
 }
-.tonic--dialog > .tonic--wrapper.tonic--show .tonic--dialog--content {
+.tonic--dialog > .tonic--dialog--wrapper.tonic--show .tonic--dialog--content {
   opacity: 1;
   -webkit-transform: scale(1);
   -ms-transform: scale(1);
@@ -1015,8 +1015,8 @@ class Dialog extends Tonic { /* global Tonic */
     const template = document.createElement('template')
     const wrapper = document.createElement('div')
 
-    const isOpen = !!this.root.querySelector('.tonic--wrapper.tonic--show')
-    wrapper.className = isOpen ? 'tonic--wrapper tonic--show' : 'tonic--wrapper'
+    const isOpen = !!this.root.querySelector('.tonic--dialog--wrapper.tonic--show')
+    wrapper.className = isOpen ? 'tonic--dialog--wrapper tonic--show' : 'tonic--dialog--wrapper'
 
     const content = render()
 
@@ -1026,20 +1026,17 @@ class Dialog extends Tonic { /* global Tonic */
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
-    const style = []
-    if (width) style.push(`width: ${width};`)
-    if (height) style.push(`height: ${height};`)
-
     if (overlay !== 'false') {
       const overlayElement = document.createElement('div')
       overlayElement.className = 'tonic--overlay'
-      overlayElement.setAttribute('style', `background-color: ${backgroundColor}`)
+      overlayElement.style.backgroundColor = backgroundColor
       wrapper.appendChild(overlayElement)
     }
 
     const dialog = document.createElement('div')
     dialog.className = 'tonic--dialog--content'
-    dialog.setAttribute('style', style.join(''))
+    if (width) dialog.style.width = width
+    if (height) dialog.style.height = height
 
     const close = document.createElement('div')
     close.className = 'tonic--close'
@@ -1082,26 +1079,38 @@ class IconContainer extends Tonic { /* global Tonic */
 `
   }
 
-  render () {
+  connected () {
     let {
       color,
-      size,
+      size
+    } = this.props
+
+    // TODO this could be improved
+    if (color === 'undefined' || color === 'color') {
+      color = this.defaults.color
+    }
+
+    const wrapper = this.root.querySelector('.tonic--wrapper')
+    wrapper.style.width = size
+    wrapper.style.height = size
+
+    const use = this.root.querySelector('use')
+    use.style.fill = color
+    use.style.color = color
+  }
+
+  render () {
+    let {
       theme,
       src
     } = this.props
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
-    if (color === 'undefined' || color === 'color') {
-      color = this.defaults.color
-    }
-
-    const style = `fill: ${color}; color: ${color};`
-
     return `
-      <div class="tonic--wrapper" style="width: ${size}; height: ${size};">
+      <div class="tonic--wrapper">
         <svg>
-          <use xlink:href="${src}" style="${style}">
+          <use xlink:href="${src}">
         </svg>
       </div>
     `
@@ -1252,40 +1261,45 @@ input-button button:before {
     this.loading(true)
   }
 
+  connected () {
+    const {
+      width,
+      height,
+      radius,
+      fill,
+      textColor
+    } = this.props
+
+    const button = this.root.querySelector('button')
+
+    if (width) button.style.width = width
+    if (height) button.style.height = height
+    if (radius) button.style.borderRadius = radius
+
+    if (fill) {
+      button.style.backgroundColor = fill
+      button.style.borderColor = fill
+    }
+
+    if (textColor) button.style.color = textColor
+  }
+
   render () {
     const {
-      id,
       name,
       value,
       type,
       disabled,
       autofocus,
       active,
-      width,
-      height,
-      radius,
-      theme,
-      fill,
-      textColor
+      theme
     } = this.props
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
-    const idAttr = id ? `id="${id}"` : ''
     const nameAttr = name ? `name="${name}"` : ''
     const valueAttr = value ? `value="${value}"` : ''
     const typeAttr = type ? `type="${type}"` : ''
-
-    let style = []
-    if (width) style.push(`width: ${width}`)
-    if (height) style.push(`height: ${height}`)
-    if (radius) style.push(`border-radius: ${radius}`)
-    if (fill) {
-      style.push(`background-color: ${fill}`)
-      style.push(`border-color: ${fill}`)
-    }
-    if (textColor) style.push(`color: ${textColor}`)
-    style = style.join('; ')
 
     let classes = []
     if (active) classes.push(`tonic--active`)
@@ -1296,14 +1310,12 @@ input-button button:before {
     return `
       <div class="tonic--wrapper">
         <button
-          ${idAttr}
           ${nameAttr}
           ${valueAttr}
           ${typeAttr}
           ${disabled ? 'disabled' : ''}
           ${autofocus ? 'autofocus' : ''}
-          class="${classes}"
-          style="${style}">${label}</button>
+          class="${classes}">${label}</button>
       </div>
     `
   }
@@ -1375,7 +1387,25 @@ input-checkbox label:nth-of-type(2) {
   }
 
   connected () {
+    const {
+      color,
+      iconOn,
+      iconOff,
+      checked,
+      size
+    } = this.props
+
     this.label = this.root.querySelector('label')
+    const icon = this.root.querySelector('.tonic--icon')
+
+    if (!color) this.props.color = this.getPropertyValue('primary')
+    if (!iconOn) this.props.iconOn = InputCheckbox.svg.iconOn(this.props.color)
+    if (!iconOff) this.props.iconOff = InputCheckbox.svg.iconOff(this.props.color)
+
+    let url = this.props[checked ? 'iconOn' : 'iconOff']
+    icon.style.width = size
+    icon.style.height = size
+    icon.style.backgroundImage = `url('${url}')`
   }
 
   updated (oldProps) {
@@ -1394,20 +1424,10 @@ input-checkbox label:nth-of-type(2) {
       id,
       disabled,
       checked,
-      color,
-      theme,
-      iconOn,
-      iconOff,
-      size
+      theme
     } = this.props
 
     if (theme) this.classList.add(`tonic--theme--${theme}`)
-
-    if (!color) this.props.color = this.getPropertyValue('primary')
-    if (!iconOn) this.props.iconOn = InputCheckbox.svg.iconOn(this.props.color)
-    if (!iconOff) this.props.iconOff = InputCheckbox.svg.iconOff(this.props.color)
-
-    let url = this.props[checked ? 'iconOn' : 'iconOff']
 
     //
     // the id attribute can be removed from the component
@@ -1424,11 +1444,7 @@ input-checkbox label:nth-of-type(2) {
           ${checked ? 'checked' : ''}/>
         <label
           for="${id}"
-          class="tonic--icon"
-          style="
-            width: ${size};
-            height: ${size};
-            background-image: url('${url}');">
+          class="tonic--icon">
         </label>
         ${this.renderLabel()}
       </div>
@@ -1602,10 +1618,31 @@ input-select label {
   }
 
   connected () {
-    if (this.props.value) {
-      const option = this.root.querySelector(`option[value="${this.props.value}"]`)
+    const {
+      height,
+      width,
+      padding,
+      radius,
+      value,
+      iconArrow
+    } = this.props
+
+    if (value) {
+      const option = this.root.querySelector(`option[value="${value}"]`)
       if (option) option.setAttribute('selected', true)
     }
+
+    const wrapper = this.root.querySelector('.tonic--wrapper')
+    if (width) wrapper.style.width = width
+
+    const select = this.root.querySelector('select')
+
+    if (width) select.style.width = width
+    if (height) select.style.height = height
+    if (radius) select.style.borderRadius = radius
+    if (padding) select.style.padding = padding
+
+    select.style.backgroundImage = `url('${iconArrow}')`
   }
 
   render () {
@@ -1613,36 +1650,24 @@ input-select label {
       disabled,
       required,
       width,
-      height,
-      padding,
-      theme,
-      radius
+      theme
     } = this.props
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     this.root.style.width = width
 
-    let style = []
-    if (width) style.push(`width: ${width}`)
-    if (height) style.push(`height: ${height}`)
-    if (radius) style.push(`border-radius: ${radius}`)
-    if (padding) style.push(`padding: ${padding}`)
-
-    style.push(`background-image: url('${this.props.iconArrow}')`)
-    style = style.join('; ')
-
     const options = this.root.innerHTML
 
     return `
-      <div class="tonic--wrapper" style="width: ${width};">
+      <div class="tonic--wrapper">
         ${this.renderLabel()}
 
         <select
           ${disabled ? 'disabled' : ''}
-          ${required ? 'required' : ''}
-          style="${style}">
-            ${options}
+          ${required ? 'required' : ''}>
+          
+          ${options}
         </select>
       </div>
     `
@@ -1826,6 +1851,22 @@ input-text .tonic--invalid span:after {
     }, 32)
   }
 
+  connected () {
+    const {
+      width,
+      height,
+      radius,
+      padding
+    } = this.props
+
+    const input = this.root.querySelector('input')
+
+    if (width) input.style.width = width
+    if (height) input.style.height = height
+    if (radius) input.style.borderRadius = radius
+    if (padding) input.style.padding = padding
+  }
+
   render () {
     const {
       type,
@@ -1836,11 +1877,7 @@ input-text .tonic--invalid span:after {
       disabled,
       required,
       pattern,
-      width,
-      height,
-      padding,
       theme,
-      radius,
       position
     } = this.props
 
@@ -1853,20 +1890,8 @@ input-text .tonic--invalid span:after {
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
-    let style = []
-
-    if (width) {
-      this.root.style.width = width
-      style.push(`width: ${width}`)
-    }
-
-    if (height) style.push(`height: ${height}`)
-    if (radius) style.push(`border-radius: ${radius}`)
-    if (padding) style.push(`padding: ${padding}`)
-    style = style.join('; ')
-
     return `
-      <div class="tonic--wrapper ${positionAttr}" style="${style}">
+      <div class="tonic--wrapper ${positionAttr}">
         ${this.renderLabel()}
         ${this.renderIcon()}
 
@@ -1879,7 +1904,6 @@ input-text .tonic--invalid span:after {
           ${ariaInvalidAttr}
           ${disabled ? 'disabled' : ''}
           ${required ? 'required' : ''}
-          style="${style}"
         />
         <div class="tonic--invalid">
           <span>${this.props.errorMessage}</span>
@@ -1915,38 +1939,21 @@ class InputTextarea extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `input-textarea textarea {
-  color: var(--primary);
-  width: 100%;
-  font: 14px var(--monospace);
-  padding: 10px;
-  background-color: transparent;
-  border: 1px solid var(--border);
-  outline: none;
-  transition: all 0.2s ease-in-out;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-}
-input-textarea textarea:focus {
-  border: 1px solid var(--primary);
-}
-input-textarea textarea:invalid {
-  border-color: var(--danger);
-}
-input-textarea textarea[disabled] {
-  background-color: var(--background);
-}
-input-textarea label {
-  color: var(--medium);
-  font-weight: 500;
-  font: 12px/14px var(--subheader);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  padding-bottom: 10px;
-  display: block;
-}
-`
+    const {
+      width,
+      height,
+      radius,
+      resize
+    } = this.props
+
+    return {
+      'textarea': {
+        width,
+        height,
+        borderRadius: radius,
+        resize
+      }
+    }
   }
 
   get value () {
@@ -1964,7 +1971,6 @@ input-textarea label {
 
   render () {
     const {
-      id,
       placeholder,
       spellcheck,
       disabled,
@@ -1975,25 +1981,13 @@ input-textarea label {
       cols,
       minlength,
       maxlength,
-      width,
-      height,
-      theme,
-      radius,
-      resize
+      theme
     } = this.props
 
-    const idAttr = id ? `id="${id}"` : ''
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
-
-    let style = []
-    if (width) style.push(`width: ${width}`)
-    if (height) style.push(`height: ${height}`)
-    if (radius) style.push(`border-radius: ${radius}`)
-    if (resize) style.push(`resize: ${resize}`)
-    style = style.join('; ')
 
     if (this.props.value === 'undefined') this.props.value = ''
 
@@ -2001,7 +1995,6 @@ input-textarea label {
       <div class="tonic--wrapper">
         ${this.renderLabel()}
         <textarea
-          ${idAttr}
           ${placeholderAttr}
           ${spellcheckAttr}
           ${disabled ? 'disabled' : ''}
@@ -2011,8 +2004,7 @@ input-textarea label {
           rows="${rows}"
           cols="${cols}"
           minlength="${minlength}"
-          maxlength="${maxlength}"
-          style="${style}">${this.props.value}</textarea>
+          maxlength="${maxlength}">${this.props.value}</textarea>
       </div>
     `
   }
@@ -2037,12 +2029,12 @@ class InputToggle extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `input-toggle .tonic--wrapper {
+    return `input-toggle .tonic--toggle--wrapper {
   height: 30px;
   width: 47px;
   position: relative;
 }
-input-toggle .tonic--wrapper > label {
+input-toggle .tonic--toggle--wrapper > label {
   color: var(--medium);
   font-weight: 500;
   font: 12px/14px var(--subheader);
@@ -2165,7 +2157,7 @@ input-toggle .tonic--switch input.tonic--toggle:checked + label:after {
     this.root.removeAttribute('id')
 
     return `
-      <div class="tonic--wrapper">
+      <div class="tonic--toggle--wrapper">
         <div class="tonic--switch">
           <input
             type="checkbox"
@@ -2191,40 +2183,45 @@ class NotificationBadge extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `notification-badge * {
-  box-sizing: border-box;
-}
-notification-badge .tonic--notifications {
-  width: 40px;
-  height: 40px;
-  text-align: center;
-  padding: 10px;
-  position: relative;
-  background-color: var(--background);
-  border-radius: 8px;
-}
-notification-badge .tonic--notifications span {
-  color: var(--primary);
-  font: 15px var(--subheader);
-  letter-spacing: 1px;
-  text-align: center;
-}
-notification-badge .tonic--notifications span:after {
-  content: '';
-  width: 8px;
-  height: 8px;
-  display: none;
-  position: absolute;
-  top: 7px;
-  right: 6px;
-  background-color: var(--notification);
-  border: 2px solid var(--background);
-  border-radius: 50%;
-}
-notification-badge .tonic--notifications.tonic--new span:after {
-  display: block;
-}
-`
+    return {
+      '*': {
+        boxSizing: 'border-box'
+      },
+
+      '.tonic--notifications': {
+        width: '40px',
+        height: '40px',
+        textAlign: 'center',
+        padding: '10px',
+        position: 'relative',
+        backgroundColor: 'var(--background)',
+        borderRadius: '8px'
+      },
+
+      '.tonic--notifications .tonic--new span:after': {
+        display: 'block'
+      },
+
+      'span': {
+        color: 'var(--primary)',
+        font: '15px var(--subheader)',
+        letterSpacing: '1px',
+        textAlign: 'center'
+      },
+
+      'span:after': {
+        content: '',
+        width: '8px',
+        height: '8px',
+        display: 'none',
+        position: 'absolute',
+        top: '7px',
+        right: '6px',
+        backgroundColor: 'var(--notification)',
+        border: '2px solid var(--background)',
+        borderRadius: '50%'
+      }
+    }
   }
 
   render () {
@@ -2234,12 +2231,6 @@ notification-badge .tonic--notifications.tonic--new span:after {
     } = this.props
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
-
-    //
-    // the id attribute can be removed from the component
-    // and added to the input inside the component.
-    //
-    this.root.removeAttribute('id')
 
     const countAttr = (count > 99) ? '99' : count
 
@@ -3001,45 +2992,67 @@ class Popover extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `popover .tonic--popover {
-  position: absolute;
-  top: 30px;
-  background: var(--window);
-  border: 1px solid var(--border);
-  border-radius: 2px;
-  visibility: hidden;
-  z-index: -1;
-  opacity: 0;
-  transform: scale(0.75);
-  transition: transform 0.1s ease-in-out, opacity 0s ease 0.1s, visibility 0s ease 0.1s, z-index 0s ease 0.1s;
-}
-popover .tonic--popover.tonic--show {
-  box-shadow: 0px 30px 90px -20px rgba(0,0,0,0.3);
-  transform: scale(1);
-  visibility: visible;
-  transition: transform 0.15s ease-in-out;
-  opacity: 1;
-  z-index: 1;
-}
-popover .tonic--popover--top {
-  transform-origin: bottom center;
-}
-popover .tonic--popover--topleft {
-  transform-origin: bottom left;
-}
-popover .tonic--popover--topright {
-  transform-origin: bottom right;
-}
-popover .tonic--popover--bottom {
-  transform-origin: top center;
-}
-popover .tonic--popover--bottomleft {
-  transform-origin: top left;
-}
-popover .tonic--popover--bottomright {
-  transform-origin: top right;
-}
-`
+    const {
+      width,
+      height,
+      padding
+    } = this.props
+
+    return {
+      '.tonic--popover': {
+        position: 'absolute',
+        top: '30px',
+        width,
+        height,
+        padding,
+        background: 'var(--window)',
+        border: '1px solid var(--border)',
+        borderRadius: '2px',
+        visibility: 'hidden',
+        zIndex: -1,
+        opacity: 0,
+        transform: 'scale(0.75)',
+        transition: [
+          'transform 0.1s ease-in-out',
+          'opacity 0s ease 0.1s',
+          'visibility 0s ease 0.1s',
+          'z-index 0s ease 0.1s'
+        ].join(', ')
+      },
+
+      '.tonic--popover.tonic--show': {
+        boxShadow: '0px 30px 90px -20px rgba(0, 0, 0, 0.3)',
+        transform: 'scale(1)',
+        visibility: 'visible',
+        transition: 'transform 0.15s ease-in-out',
+        opacity: 1,
+        zIndex: 1
+      },
+
+      '.tonic--popover--top': {
+        transformOrigin: 'bottom center'
+      },
+
+      '.tonic--popover--topleft': {
+        transformOrigin: 'bottom left'
+      },
+
+      '.tonic--popover--topright': {
+        transformOrigin: 'bottom right'
+      },
+
+      '.tonic--popover--bottom': {
+        transformOrigin: 'top center'
+      },
+
+      '.tonic--popover--bottomleft': {
+        transformOrigin: 'top left'
+      },
+
+      '.tonic--popover--bottomright': {
+        transformOrigin: 'top right'
+      }
+    }
   }
 
   show (triggerNode) {
@@ -3099,23 +3112,13 @@ popover .tonic--popover--bottomright {
 
   render () {
     const {
-      theme,
-      width,
-      height,
-      padding
+      theme
     } = this.props
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
-    const style = []
-    if (width) style.push(`width: ${width};`)
-    if (height) style.push(`height: ${height};`)
-    if (padding) style.push(`padding: ${padding};`)
-
     return `
-      <div
-        style="${style.join('')}"
-        class="tonic--popover">
+      <div class="tonic--popover">
           ${this.children.trim()}
       </div>
     `
@@ -3301,20 +3304,30 @@ class ProgressBar extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `progress-bar {
-  display: block;
-}
-progress-bar .tonic--wrapper {
-  background-color: var(--background);
-  position: relative;
-}
-progress-bar .tonic--wrapper .tonic--progress {
-  background-color: var(--accent);
-  width: 0%;
-  height: 100%;
-  transition: width 0.2s ease;
-}
-`
+    const {
+      width,
+      height
+    } = this.props
+
+    return {
+      '': {
+        display: 'block'
+      },
+
+      '.tonic--wrapper': {
+        backgroundColor: 'var(--background)',
+        width,
+        height,
+        position: 'relative'
+      },
+
+      '.tonic--progress': {
+        backgroundColor: 'var(--accent)',
+        width: this.props.progress + '%',
+        height: '100%',
+        transition: 'width 0.2s ease'
+      }
+    }
   }
 
   setProgress (progress) {
@@ -3331,23 +3344,13 @@ progress-bar .tonic--wrapper .tonic--progress {
   }
 
   render () {
-    let {
-      width,
-      height,
-      theme,
-      progress
-    } = this.props
-
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
-
-    let style = []
-    if (width) style.push(`width: ${width}`)
-    if (height) style.push(`height: ${height}`)
-    style = style.join('; ')
+    if (this.props.theme) {
+      this.root.classList.add(`tonic--theme--${this.props.theme}`)
+    }
 
     return `
-      <div class="tonic--wrapper" style="${style}">
-        <div class="tonic--progress" style="width: ${progress}%"></div>
+      <div class="tonic--wrapper">
+        <div class="tonic--progress"></div>
       </div>
     `
   }
@@ -3378,15 +3381,17 @@ class Windowed extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `.tonic--windowed--inner {
-  position: relative;
-}
-.tonic--windowed--outer {
-  width: 100%;
-  height: inherit;
-  overflow: auto;
-}
-`
+    return {
+      '.tonic--windowed--inner': {
+        position: 'relative'
+      },
+
+      '.tonic--windowed--outer': {
+        width: '100%',
+        height: 'inherit',
+        overflow: 'auto'
+      }
+    }
   }
 
   async getRow (idx) {
@@ -3590,7 +3595,7 @@ page2.addEventListener('show', e => {
 })
  }{  }{  }{ class MyDialog extends Tonic.Dialog {
   click (e) {
-    if (!e.target.matches('#update')) return
+    if (!Tonic.match(e.target, '#update')) return
 
     this.reRender(props => ({
       ...props,

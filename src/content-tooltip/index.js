@@ -26,7 +26,11 @@ class ContentTooltip extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `%style%`
+    return `
+      content-tooltip .tonic--tooltip {
+        position: absolute;
+      }
+    `
   }
 
   show (relativeNode) {
@@ -75,22 +79,24 @@ class ContentTooltip extends Tonic { /* global Tonic */
     tooltip.classList.remove('tonic--show')
   }
 
-  render () {
+  connected () {
     const {
-      theme,
       width,
       height
     } = this.props
 
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    const tooltip = this.root.querySelector('.tonic--tooltip')
+    if (width) tooltip.style.width = width
+    if (height) tooltip.style.height = height
+  }
 
-    const style = []
-    if (width) style.push(`width: ${width};`)
-    if (height) style.push(`height: ${height};`)
+  render () {
+    if (this.props.theme) {
+      this.root.classList.add(`tonic--theme--${this.props.theme}`)
+    }
 
     return `
       <div
-        style="${style.join('')}"
         class="tonic--tooltip">
           ${this.children.trim()}
         <span class="tonic--tooltip-arrow"></span>

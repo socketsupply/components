@@ -1,6 +1,6 @@
 class MyDialog extends Tonic.Dialog {
   click (e) {
-    if (!e.target.matches('#update')) return
+    if (!Tonic.match(e.target, '#update')) return
 
     this.reRender(props => ({
       ...props,

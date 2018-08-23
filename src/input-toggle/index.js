@@ -44,7 +44,7 @@ class InputToggle extends Tonic { /* global Tonic */
     this.root.removeAttribute('id')
 
     return `
-      <div class="tonic--wrapper">
+      <div class="tonic--toggle--wrapper">
         <div class="tonic--switch">
           <input
             type="checkbox"

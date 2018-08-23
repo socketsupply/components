@@ -37,7 +37,25 @@ class InputCheckbox extends Tonic { /* global Tonic */
   }
 
   connected () {
+    const {
+      color,
+      iconOn,
+      iconOff,
+      checked,
+      size
+    } = this.props
+
     this.label = this.root.querySelector('label')
+    const icon = this.root.querySelector('.tonic--icon')
+
+    if (!color) this.props.color = this.getPropertyValue('primary')
+    if (!iconOn) this.props.iconOn = InputCheckbox.svg.iconOn(this.props.color)
+    if (!iconOff) this.props.iconOff = InputCheckbox.svg.iconOff(this.props.color)
+
+    let url = this.props[checked ? 'iconOn' : 'iconOff']
+    icon.style.width = size
+    icon.style.height = size
+    icon.style.backgroundImage = `url('${url}')`
   }
 
   updated (oldProps) {
@@ -56,20 +74,10 @@ class InputCheckbox extends Tonic { /* global Tonic */
       id,
       disabled,
       checked,
-      color,
-      theme,
-      iconOn,
-      iconOff,
-      size
+      theme
     } = this.props
 
     if (theme) this.classList.add(`tonic--theme--${theme}`)
-
-    if (!color) this.props.color = this.getPropertyValue('primary')
-    if (!iconOn) this.props.iconOn = InputCheckbox.svg.iconOn(this.props.color)
-    if (!iconOff) this.props.iconOff = InputCheckbox.svg.iconOff(this.props.color)
-
-    let url = this.props[checked ? 'iconOn' : 'iconOff']
 
     //
     // the id attribute can be removed from the component
@@ -86,11 +94,7 @@ class InputCheckbox extends Tonic { /* global Tonic */
           ${checked ? 'checked' : ''}/>
         <label
           for="${id}"
-          class="tonic--icon"
-          style="
-            width: ${size};
-            height: ${size};
-            background-image: url('${url}');">
+          class="tonic--icon">
         </label>
         ${this.renderLabel()}
       </div>

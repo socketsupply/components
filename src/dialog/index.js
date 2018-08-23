@@ -90,8 +90,8 @@ class Dialog extends Tonic { /* global Tonic */
     const template = document.createElement('template')
     const wrapper = document.createElement('div')
 
-    const isOpen = !!this.root.querySelector('.tonic--wrapper.tonic--show')
-    wrapper.className = isOpen ? 'tonic--wrapper tonic--show' : 'tonic--wrapper'
+    const isOpen = !!this.root.querySelector('.tonic--dialog--wrapper.tonic--show')
+    wrapper.className = isOpen ? 'tonic--dialog--wrapper tonic--show' : 'tonic--dialog--wrapper'
 
     const content = render()
 
@@ -101,20 +101,17 @@ class Dialog extends Tonic { /* global Tonic */
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
-    const style = []
-    if (width) style.push(`width: ${width};`)
-    if (height) style.push(`height: ${height};`)
-
     if (overlay !== 'false') {
       const overlayElement = document.createElement('div')
       overlayElement.className = 'tonic--overlay'
-      overlayElement.setAttribute('style', `background-color: ${backgroundColor}`)
+      overlayElement.style.backgroundColor = backgroundColor
       wrapper.appendChild(overlayElement)
     }
 
     const dialog = document.createElement('div')
     dialog.className = 'tonic--dialog--content'
-    dialog.setAttribute('style', style.join(''))
+    if (width) dialog.style.width = width
+    if (height) dialog.style.height = height
 
     const close = document.createElement('div')
     close.className = 'tonic--close'

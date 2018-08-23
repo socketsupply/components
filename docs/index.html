@@ -10,6 +10,16 @@
   <meta http-equiv="Content-Type" charset="utf-8" content="text/html">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1 user-scalable=no">
   <meta name="description" content="Component Based Architecture">
+
+  <!-- meta
+  http-equiv="Content-Security-Policy"
+  content="
+    default-src 'self';
+    font-src 'self';
+    img-src 'self' https:;
+    style-src 'self';
+    script-src 'self';
+    connect-src 'self'" -->
 </head>
 
 
@@ -526,7 +536,7 @@ your own dialog class which can be registered and then used as a tag.</p>
 <h4>JS</h4>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyDialog</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span>.<span class="hljs-title">Dialog</span> </span>{
   click (e) {
-    <span class="hljs-keyword">if</span> (!e.target.matches(<span class="hljs-string">'#update'</span>)) <span class="hljs-keyword">return</span>
+    <span class="hljs-keyword">if</span> (!Tonic.match(e.target, <span class="hljs-string">'#update'</span>)) <span class="hljs-keyword">return</span>
 
     <span class="hljs-keyword">this</span>.reRender(<span class="hljs-function"><span class="hljs-params">props</span> =&gt;</span> ({
       ...props,

@@ -25,10 +25,22 @@ class ContentRoute extends Tonic { /* global Tonic */
     window.history.replaceState = createEvent('replaceState')
   }
 
+  style () {
+    return `
+      content-route {
+        display: none;
+      }
+
+      content-route .tonic--show {
+        display: block;
+      }
+    `
+  }
+
   reset () {
     ContentRoute.matches = false
     const contentTags = document.getElementsByTagName('content-route')
-    Array.from(contentTags).forEach(tag => tag.classList.remove('show'))
+    Array.from(contentTags).forEach(tag => tag.classList.remove('tonic--show'))
   }
 
   willConnect () {
@@ -37,8 +49,8 @@ class ContentRoute extends Tonic { /* global Tonic */
   }
 
   updated () {
-    if (!this.root.classList.contains('show')) return
-    const event = new window.Event('show')
+    if (!this.root.classList.contains('tonic--show')) return
+    const event = new window.Event('tonic--show')
     this.root.dispatchEvent(event)
   }
 
@@ -47,7 +59,7 @@ class ContentRoute extends Tonic { /* global Tonic */
 
     if (none) {
       if (ContentRoute.matches) return
-      this.root.classList.add('show')
+      this.root.classList.add('tonic--show')
       return this.template.content
     }
 
@@ -63,7 +75,7 @@ class ContentRoute extends Tonic { /* global Tonic */
         this.props[keys[i].name] = m
       })
 
-      this.root.classList.add('show')
+      this.root.classList.add('tonic--show')
       return this.template.content
     }
 

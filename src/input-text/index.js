@@ -73,6 +73,22 @@ class InputText extends Tonic { /* global Tonic */
     }, 32)
   }
 
+  connected () {
+    const {
+      width,
+      height,
+      radius,
+      padding
+    } = this.props
+
+    const input = this.root.querySelector('input')
+
+    if (width) input.style.width = width
+    if (height) input.style.height = height
+    if (radius) input.style.borderRadius = radius
+    if (padding) input.style.padding = padding
+  }
+
   render () {
     const {
       type,
@@ -83,11 +99,7 @@ class InputText extends Tonic { /* global Tonic */
       disabled,
       required,
       pattern,
-      width,
-      height,
-      padding,
       theme,
-      radius,
       position
     } = this.props
 
@@ -100,20 +112,8 @@ class InputText extends Tonic { /* global Tonic */
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
-    let style = []
-
-    if (width) {
-      this.root.style.width = width
-      style.push(`width: ${width}`)
-    }
-
-    if (height) style.push(`height: ${height}`)
-    if (radius) style.push(`border-radius: ${radius}`)
-    if (padding) style.push(`padding: ${padding}`)
-    style = style.join('; ')
-
     return `
-      <div class="tonic--wrapper ${positionAttr}" style="${style}">
+      <div class="tonic--wrapper ${positionAttr}">
         ${this.renderLabel()}
         ${this.renderIcon()}
 
@@ -126,7 +126,6 @@ class InputText extends Tonic { /* global Tonic */
           ${ariaInvalidAttr}
           ${disabled ? 'disabled' : ''}
           ${required ? 'required' : ''}
-          style="${style}"
         />
         <div class="tonic--invalid">
           <span>${this.props.errorMessage}</span>

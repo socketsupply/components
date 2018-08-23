@@ -55,10 +55,31 @@ class InputSelect extends Tonic { /* global Tonic */
   }
 
   connected () {
-    if (this.props.value) {
-      const option = this.root.querySelector(`option[value="${this.props.value}"]`)
+    const {
+      height,
+      width,
+      padding,
+      radius,
+      value,
+      iconArrow
+    } = this.props
+
+    if (value) {
+      const option = this.root.querySelector(`option[value="${value}"]`)
       if (option) option.setAttribute('selected', true)
     }
+
+    const wrapper = this.root.querySelector('.tonic--wrapper')
+    if (width) wrapper.style.width = width
+
+    const select = this.root.querySelector('select')
+
+    if (width) select.style.width = width
+    if (height) select.style.height = height
+    if (radius) select.style.borderRadius = radius
+    if (padding) select.style.padding = padding
+
+    select.style.backgroundImage = `url('${iconArrow}')`
   }
 
   render () {
@@ -66,36 +87,24 @@ class InputSelect extends Tonic { /* global Tonic */
       disabled,
       required,
       width,
-      height,
-      padding,
-      theme,
-      radius
+      theme
     } = this.props
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     this.root.style.width = width
 
-    let style = []
-    if (width) style.push(`width: ${width}`)
-    if (height) style.push(`height: ${height}`)
-    if (radius) style.push(`border-radius: ${radius}`)
-    if (padding) style.push(`padding: ${padding}`)
-
-    style.push(`background-image: url('${this.props.iconArrow}')`)
-    style = style.join('; ')
-
     const options = this.root.innerHTML
 
     return `
-      <div class="tonic--wrapper" style="width: ${width};">
+      <div class="tonic--wrapper">
         ${this.renderLabel()}
 
         <select
           ${disabled ? 'disabled' : ''}
-          ${required ? 'required' : ''}
-          style="${style}">
-            ${options}
+          ${required ? 'required' : ''}>
+          
+          ${options}
         </select>
       </div>
     `

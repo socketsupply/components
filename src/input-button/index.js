@@ -37,40 +37,45 @@ class InputButton extends Tonic { /* global Tonic */
     this.loading(true)
   }
 
+  connected () {
+    const {
+      width,
+      height,
+      radius,
+      fill,
+      textColor
+    } = this.props
+
+    const button = this.root.querySelector('button')
+
+    if (width) button.style.width = width
+    if (height) button.style.height = height
+    if (radius) button.style.borderRadius = radius
+
+    if (fill) {
+      button.style.backgroundColor = fill
+      button.style.borderColor = fill
+    }
+
+    if (textColor) button.style.color = textColor
+  }
+
   render () {
     const {
-      id,
       name,
       value,
       type,
       disabled,
       autofocus,
       active,
-      width,
-      height,
-      radius,
-      theme,
-      fill,
-      textColor
+      theme
     } = this.props
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
-    const idAttr = id ? `id="${id}"` : ''
     const nameAttr = name ? `name="${name}"` : ''
     const valueAttr = value ? `value="${value}"` : ''
     const typeAttr = type ? `type="${type}"` : ''
-
-    let style = []
-    if (width) style.push(`width: ${width}`)
-    if (height) style.push(`height: ${height}`)
-    if (radius) style.push(`border-radius: ${radius}`)
-    if (fill) {
-      style.push(`background-color: ${fill}`)
-      style.push(`border-color: ${fill}`)
-    }
-    if (textColor) style.push(`color: ${textColor}`)
-    style = style.join('; ')
 
     let classes = []
     if (active) classes.push(`tonic--active`)
@@ -81,14 +86,12 @@ class InputButton extends Tonic { /* global Tonic */
     return `
       <div class="tonic--wrapper">
         <button
-          ${idAttr}
           ${nameAttr}
           ${valueAttr}
           ${typeAttr}
           ${disabled ? 'disabled' : ''}
           ${autofocus ? 'autofocus' : ''}
-          class="${classes}"
-          style="${style}">${label}</button>
+          class="${classes}">${label}</button>
       </div>
     `
   }

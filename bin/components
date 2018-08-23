@@ -1,21 +1,12 @@
 #!/usr/bin/env node
 const fs = require('fs')
 const path = require('path')
-const stylus = require('stylus')
 const mkdirp = require('mkdirp')
 const argv = require('minimist')(process.argv.slice(2))
 const pkgComponents = require('../package.json')
 const pkgTonic = require('tonic/package.json')
 
-const toCSS = str => ({
-  then (resolve) {
-    stylus(str).render((err, css) => resolve({ err, css }))
-  }
-})
-
 const componentsDir = path.join(__dirname, '..', 'src')
-
-const re = /%style%/
 
 function ensurePath (filename) {
   try {
@@ -38,23 +29,8 @@ async function js () {
       process.exit(1)
     }
 
-    const styl = path.join(componentsDir, dir, 'index.styl')
     const src = path.join(componentsDir, dir, 'index.js')
-    const { err, css } = await toCSS(fs.readFileSync(styl, 'utf8'))
-
-    if (err) {
-      console.error(err.message)
-      process.exit(1)
-    }
-
-    const srctext = fs.readFileSync(src, 'utf8')
-
-    if (argv.inline === false) {
-      output.push(srctext.replace(re, ''))
-      fs.appendFileSync(argv.css, `${css}\n`)
-    } else {
-      output.push(srctext.replace(re, () => css))
-    }
+    output.push(fs.readFileSync(src, 'utf8'))
   }
 
   const bundled = `

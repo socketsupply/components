@@ -202,10 +202,22 @@ class ContentRoute extends Tonic { /* global Tonic */
     window.history.replaceState = createEvent('replaceState')
   }
 
+  style () {
+    return `
+      content-route {
+        display: none;
+      }
+
+      content-route .tonic--show {
+        display: block;
+      }
+    `
+  }
+
   reset () {
     ContentRoute.matches = false
     const contentTags = document.getElementsByTagName('content-route')
-    Array.from(contentTags).forEach(tag => tag.classList.remove('show'))
+    Array.from(contentTags).forEach(tag => tag.classList.remove('tonic--show'))
   }
 
   willConnect () {
@@ -214,8 +226,8 @@ class ContentRoute extends Tonic { /* global Tonic */
   }
 
   updated () {
-    if (!this.root.classList.contains('show')) return
-    const event = new window.Event('show')
+    if (!this.root.classList.contains('tonic--show')) return
+    const event = new window.Event('tonic--show')
     this.root.dispatchEvent(event)
   }
 
@@ -224,7 +236,7 @@ class ContentRoute extends Tonic { /* global Tonic */
 
     if (none) {
       if (ContentRoute.matches) return
-      this.root.classList.add('show')
+      this.root.classList.add('tonic--show')
       return this.template.content
     }
 
@@ -240,7 +252,7 @@ class ContentRoute extends Tonic { /* global Tonic */
         this.props[keys[i].name] = m
       })
 
-      this.root.classList.add('show')
+      this.root.classList.add('tonic--show')
       return this.template.content
     }
 
@@ -452,30 +464,15 @@ class ContentTabs extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `content-tabs {
-  display: block;
-}
-[data-tab-name]:not([data-tab-group]) {
-  user-select: none;
-  font-family: var(--subheader);
-  font-size: 14px;
-  border-bottom: 1px solid transparent;
-  margin-right: 8px;
-}
-[data-tab-name]:not([data-tab-group]).tonic--selected {
-  color: var(--accent);
-  border-bottom: 1px solid var(--accent);
-}
-[data-tab-group] {
-  margin-top: 15px;
-  display: none;
-  border-top: 1px solid var(--border);
-  padding-top: 15px;
-}
-[data-tab-group].tonic--show {
-  display: block;
-}
-`
+    return `
+      [data-tab-group] {
+        display: none;
+      }
+
+      [data-tab-group] .tonic--show {
+        display: block;
+      }
+    `
   }
 
   qs (s, p) {
@@ -575,51 +572,11 @@ class ContentTooltip extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `content-tooltip .tonic--tooltip {
-  position: absolute;
-  top: 30px;
-  background: var(--window);
-  border: 1px solid var(--border);
-  border-radius: 2px;
-  transition: visibility 0.2s ease-in-out, opacity 0.2s ease-in-out, z-index 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-  visibility: hidden;
-  z-index: -1;
-  opacity: 0;
-}
-content-tooltip .tonic--tooltip.tonic--show {
-  box-shadow: 0px 30px 90px -20px rgba(0,0,0,0.3);
-  visibility: visible;
-  opacity: 1;
-  z-index: 1;
-}
-content-tooltip .tonic--tooltip .tonic--tooltip-arrow {
-  width: 12px;
-  height: 12px;
-  position: absolute;
-  z-index: -1;
-  background-color: var(--window);
-  border: 1px solid transparent;
-  border-radius: 2px;
-  pointer-events: none;
-  -webkit-transform: rotate(45deg);
-  -ms-transform: rotate(45deg);
-  transform: rotate(45deg);
-  left: 50%;
-}
-content-tooltip .tonic--tooltip.tonic--top .tonic--tooltip-arrow {
-  margin-bottom: -6px;
-  bottom: 100%;
-  border-top-color: var(--border);
-  border-left-color: var(--border);
-}
-content-tooltip .tonic--tooltip.tonic--bottom .tonic--tooltip-arrow {
-  margin-top: -6px;
-  position: absolute;
-  top: 100%;
-  border-bottom-color: var(--border);
-  border-right-color: var(--border);
-}
-`
+    return `
+      content-tooltip .tonic--tooltip {
+        position: absolute;
+      }
+    `
   }
 
   show (relativeNode) {
@@ -729,97 +686,7 @@ class Dialog extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `.tonic--dialog * {
-  box-sizing: border-box;
-}
-.tonic--dialog > .tonic--dialog--wrapper {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  z-index: 100;
-  visibility: hidden;
-  transition: visibility 0s ease 0.5s;
-}
-.tonic--dialog > .tonic--dialog--wrapper.tonic--show {
-  visibility: visible;
-  transition: visibility 0s ease 0s;
-}
-.tonic--dialog > .tonic--dialog--wrapper.tonic--show .tonic--overlay {
-  opacity: 1;
-}
-.tonic--dialog > .tonic--dialog--wrapper.tonic--show .tonic--dialog--content {
-  opacity: 1;
-  -webkit-transform: scale(1);
-  -ms-transform: scale(1);
-  transform: scale(1);
-}
-.tonic--dialog .tonic--overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  opacity: 0;
-  transition: opacity 0.3s ease-in-out;
-}
-.tonic--dialog .tonic--dialog--content {
-  min-width: 350px;
-  min-height: 250px;
-  height: auto;
-  width: auto;
-  padding-top: 70px;
-  padding-bottom: 75px;
-  margin: auto;
-  position: relative;
-  background-color: var(--window);
-  box-shadow: 0px 30px 90px -20px rgba(0,0,0,0.3), 0 0 1px #a2a9b1;
-  border-radius: 4px;
-  -webkit-transform: scale(0.8);
-  -ms-transform: scale(0.8);
-  transform: scale(0.8);
-  transition: all 0.3s ease-in-out;
-  z-index: 1;
-  opacity: 0;
-}
-.tonic--dialog .tonic--dialog--content header {
-  text-align: center;
-  height: 70px;
-  font: 14px var(--subheader);
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  padding: 26px 65px 25px 65px;
-}
-.tonic--dialog .tonic--dialog--content main {
-  width: auto;
-  padding: 20px;
-  margin: 0 auto;
-}
-.tonic--dialog .tonic--dialog--content .tonic--close {
-  width: 25px;
-  height: 25px;
-  position: absolute;
-  top: 25px;
-  right: 25px;
-  cursor: pointer;
-}
-.tonic--dialog .tonic--dialog--content footer {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 75px;
-  padding: 12px;
-  display: flex;
-  justify-content: center;
-}
-`
+    return `%style%`
   }
 
   show (fn) {
@@ -935,11 +802,7 @@ class IconContainer extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `icon-container svg {
-  width: 100%;
-  height: 100%;
-}
-`
+    return `%style%`
   }
 
   connected () {
@@ -1005,110 +868,7 @@ class InputButton extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `input-button {
-  display: inline-block;
-}
-input-button[width="100%"] {
-  display: block;
-}
-input-button .tonic--wrapper {
-  margin: 5px;
-}
-input-button button {
-  color: var(--primary);
-  width: auto;
-  min-height: 40px;
-  font: 12px var(--subheader);
-  font-weight: 400;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  padding: 8px 8px 5px 8px;
-  position: relative;
-  background-color: transparent;
-  border: 1px solid var(--primary);
-  outline: none;
-  transition: all 0.3s ease;
-  appearance: none;
-}
-input-button button[disabled],
-input-button button.tonic--active {
-  color: var(--medium);
-  background-color: var(--background);
-  border-color: var(--background);
-}
-input-button button:not([disabled]):hover,
-input-button button:not(.tonic--loading):hover {
-  color: var(--window);
-  background-color: var(--primary) !important;
-  border-color: var(--primary) !important;
-  cursor: pointer;
-}
-input-button button.tonic--loading {
-  color: transparent;
-  background: var(--medium);
-  border-color: var(--medium);
-  pointer-events: none;
-  transition: all 0.3s ease;
-}
-input-button button.tonic--loading:hover {
-  color: transparent;
-  background: var(--medium) !important;
-  border-color: var(--medium) !important;
-}
-input-button button.tonic--loading:before {
-  margin-top: -8px;
-  margin-left: -8px;
-  display: inline-block;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  opacity: 1;
-  transform: translateX(-50%) translateY(-50%);
-  border: 2px solid #fff;
-  border-radius: 50%;
-  border-top-color: transparent;
-  animation: spin 1s linear 0s infinite;
-  transition: opacity 0.3s ease;
-}
-input-button button:before {
-  content: '';
-  width: 14px;
-  height: 14px;
-  opacity: 0;
-}
-@-moz-keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-@-webkit-keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-@-o-keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-`
+    return `%style%`
   }
 
   loading (state) {
@@ -1214,32 +974,7 @@ class InputCheckbox extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `input-checkbox .tonic--wrapper {
-  display: inline-block;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  user-select: none;
-}
-input-checkbox input[type="checkbox"] {
-  display: none;
-}
-input-checkbox input[type="checkbox"][disabled] + label {
-  opacity: 0.35;
-}
-input-checkbox label {
-  color: var(--primary);
-  font: 12px var(--subheader);
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  display: inline-block;
-  vertical-align: middle;
-}
-input-checkbox label:nth-of-type(2) {
-  padding-top: 2px;
-  margin-left: 10px;
-}
-`
+    return `%style%`
   }
 
   change (e) {
@@ -1362,98 +1097,7 @@ class InputSelect extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `input-select .tonic--wrapper {
-  position: relative;
-}
-input-select .tonic--wrapper:before {
-  content: '';
-  width: 14px;
-  height: 14px;
-  opacity: 0;
-  z-index: 1;
-}
-input-select.tonic--loading {
-  pointer-events: none;
-  transition: background 0.3s ease;
-}
-input-select.tonic--loading select {
-  color: transparent;
-  background-color: var(--window);
-  border-color: var(--border);
-}
-input-select.tonic--loading .tonic--wrapper:before {
-  margin-top: -8px;
-  margin-left: -8px;
-  display: block;
-  position: absolute;
-  bottom: 10px;
-  left: 50%;
-  opacity: 1;
-  transform: translateX(-50%);
-  border: 2px solid var(--medium);
-  border-radius: 50%;
-  border-top-color: transparent;
-  animation: spin 1s linear 0s infinite;
-  transition: opacity 0.3s ease;
-}
-input-select select {
-  color: var(--primary);
-  font: 14px var(--monospace);
-  padding: 10px 20px 10px 10px;
-  background-color: var(--window);
-  background-repeat: no-repeat;
-  background-position: center right;
-  border: 1px solid var(--border);
-  outline: none;
-  -webkit-appearance: none;
-  appearance: none;
-  position: relative;
-}
-input-select select[disabled] {
-  background-color: var(--background);
-}
-input-select label {
-  color: var(--medium);
-  font: 12px/14px var(--subheader);
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  padding-bottom: 10px;
-  display: block;
-}
-@-moz-keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-@-webkit-keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-@-o-keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-`
+    return `%style%`
   }
 
   get value () {
@@ -1592,99 +1236,7 @@ class InputText extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `input-text .tonic--wrapper {
-  position: relative;
-}
-input-text .tonic--wrapper.tonic--right icon-container {
-  right: 10px;
-}
-input-text .tonic--wrapper.tonic--right input {
-  padding-right: 40px;
-}
-input-text .tonic--wrapper.tonic--left icon-container {
-  left: 10px;
-}
-input-text .tonic--wrapper.tonic--left input {
-  padding-left: 40px;
-}
-input-text icon-container {
-  position: absolute;
-  bottom: 7px;
-}
-input-text label {
-  color: var(--medium);
-  font-weight: 500;
-  font: 12px/14px var(--subheader);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  padding-bottom: 10px;
-  display: block;
-}
-input-text input {
-  color: var(--primary);
-  font: 14px var(--monospace);
-  padding: 10px;
-  background-color: transparent;
-  border: 1px solid var(--border);
-  transition: border 0.2s ease-in-out;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  outline: none;
-}
-input-text input:invalid {
-  border-color: var(--error);
-}
-input-text input:invalid:focus {
-  border-color: var(--error);
-}
-input-text input:invalid ~ .tonic--invalid {
-  transform: translateY(0);
-  visibility: visible;
-  opacity: 1;
-  transition: opacity 0.2s ease, transform 0.2s ease, visibility 1s ease 0s;
-}
-input-text input:focus {
-  border-color: var(--primary);
-}
-input-text input[disabled] {
-  background-color: var(--background);
-}
-input-text .tonic--invalid {
-  font-size: 14px;
-  text-align: center;
-  position: absolute;
-  bottom: 50px;
-  left: 0;
-  right: 0;
-  transform: translateY(-10px);
-  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s ease 1s;
-  visibility: hidden;
-  opacity: 0;
-}
-input-text .tonic--invalid span {
-  color: #fff;
-  padding: 2px 6px;
-  background-color: var(--error);
-  border-radius: 2px;
-  position: relative;
-  display: inline-block;
-  margin: 0 auto;
-}
-input-text .tonic--invalid span:after {
-  content: '';
-  width: 0;
-  height: 0;
-  display: block;
-  position: absolute;
-  bottom: -6px;
-  left: 50%;
-  transform: translateX(-50%);
-  border-left: 6px solid transparent;
-  border-right: 6px solid transparent;
-  border-top: 6px solid var(--error);
-}
-`
+    return `%style%`
   }
 
   renderLabel () {
@@ -1892,106 +1444,7 @@ class InputToggle extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `input-toggle .tonic--toggle--wrapper {
-  height: 30px;
-  width: 47px;
-  position: relative;
-}
-input-toggle .tonic--toggle--wrapper > label {
-  color: var(--medium);
-  font-weight: 500;
-  font: 12px/14px var(--subheader);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-left: 58px;
-  padding-top: 9px;
-  display: block;
-  user-select: none;
-}
-input-toggle .tonic--switch {
-  position: absolute;
-  left: 0;
-  top: 0;
-}
-input-toggle .tonic--switch label:before {
-  font: bold 12px var(--subheader);
-  text-transform: uppercase;
-}
-input-toggle .tonic--switch input.tonic--toggle {
-  position: absolute;
-  display: none;
-  outline: none;
-  user-select: none;
-  z-index: 1;
-}
-input-toggle .tonic--switch input.tonic--toggle + label {
-  width: 42px;
-  height: 24px;
-  padding: 2px;
-  display: block;
-  position: relative;
-  background-color: var(--border);
-  border-radius: 60px;
-  transition: background 0.4s ease-in-out;
-  cursor: default;
-}
-input-toggle .tonic--switch input.tonic--toggle + label:before {
-  content: '';
-  line-height: 29px;
-  text-indent: 29px;
-  position: absolute;
-  top: 1px;
-  left: 1px;
-  right: 1px;
-  bottom: 1px;
-  display: block;
-  border-radius: 60px;
-  transition: background 0.4s ease-in-out;
-  padding-top: 1px;
-  font-size: 0.65em;
-  letter-spacing: 0.05em;
-  background-color: var(--border);
-}
-input-toggle .tonic--switch input.tonic--toggle + label:after {
-  content: '';
-  width: 16px;
-  position: absolute;
-  top: 4px;
-  left: 4px;
-  bottom: 4px;
-  background-color: var(--window);
-  border-radius: 52px;
-  transition: background 0.4s ease-in-out, margin 0.4s ease-in-out;
-  display: block;
-  z-index: 2;
-}
-input-toggle .tonic--switch input.tonic--toggle:disabled {
-  cursor: default;
-  background-color: var(--background);
-}
-input-toggle .tonic--switch input.tonic--toggle:disabled + label {
-  cursor: default;
-  background-color: var(--background);
-}
-input-toggle .tonic--switch input.tonic--toggle:disabled + label:before {
-  background-color: var(--background);
-}
-input-toggle .tonic--switch input.tonic--toggle:disabled + label:after {
-  background-color: var(--window);
-}
-input-toggle .tonic--switch input.tonic--toggle:checked + label {
-  background-color: var(--accent);
-}
-input-toggle .tonic--switch input.tonic--toggle:checked + label:before {
-  content: ' ';
-  background-color: var(--accent);
-  color: var(--background);
-}
-input-toggle .tonic--switch input.tonic--toggle:checked + label:after {
-  margin-left: 18px;
-  background-color: var(--background);
-}
-`
+    return `%style%`
   }
 
   change (e) {
@@ -2134,108 +1587,7 @@ class NotificationCenter extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `notification-center * {
-  box-sizing: border-box;
-}
-notification-center .tonic--wrapper {
-  user-select: none;
-  position: fixed;
-  top: 10px;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  visibility: hidden;
-  z-index: 102;
-}
-@media (max-width: 850px) {
-  notification-center .tonic--wrapper {
-    width: 90%;
-  }
-}
-notification-center .tonic--wrapper.tonic--show {
-  visibility: visible;
-}
-notification-center .tonic--wrapper.tonic--center {
-  left: 50%;
-  align-items: center;
-  -webkit-transform: translateX(-50%);
-  -ms-transform: translateX(-50%);
-  transform: translateX(-50%);
-}
-notification-center .tonic--wrapper.tonic--left {
-  align-items: flex-start;
-  left: 10px;
-}
-notification-center .tonic--wrapper.tonic--right {
-  align-items: flex-end;
-  right: 10px;
-}
-notification-center .tonic--notification {
-  width: auto;
-  max-width: 600px;
-  margin-top: 10px;
-  position: relative;
-  background-color: var(--window);
-  box-shadow: 0px 10px 40px -20px rgba(0,0,0,0.4), 0 0 1px #a2a9b1;
-  border-radius: 3px;
-  -webkit-transform: translateY(-100px);
-  -ms-transform: translateY(-100px);
-  transform: translateY(-100px);
-  transition: opacity 0.2s ease, transform 0s ease 1s;
-  z-index: 1;
-  opacity: 0;
-}
-notification-center .tonic--notification.tonic--show {
-  opacity: 1;
-  -webkit-transform: translateY(0);
-  -ms-transform: translateY(0);
-  transform: translateY(0);
-  transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-}
-notification-center .tonic--notification.tonic--close {
-  padding-right: 50px;
-}
-notification-center .tonic--notification.tonic--alert {
-  padding-left: 35px;
-}
-notification-center .tonic--notification .tonic--main {
-  padding: 17px 15px 15px 15px;
-}
-notification-center .tonic--notification .tonic--main .tonic--title {
-  font: 14px/18px var(--subheader);
-}
-notification-center .tonic--notification .tonic--main .tonic--message {
-  font: 14px/18px var(--subheader);
-  color: var(--medium);
-}
-notification-center .tonic--notification .tonic--icon {
-  width: 16px;
-  height: 16px;
-  position: absolute;
-  left: 20px;
-  top: 50%;
-  background-size: cover;
-  -webkit-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-}
-notification-center .tonic--notification .tonic--close {
-  width: 20px;
-  height: 20px;
-  position: absolute;
-  right: 20px;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-  cursor: pointer;
-  background-size: cover;
-}
-notification-center .tonic--notification .tonic--close svg path {
-  fill: var(--primary);
-  color: var(--primary);
-}
-`
+    return `%style%`
   }
 
   create ({ message, title, duration, type, dismiss } = {}) {
@@ -2404,97 +1756,7 @@ class NotificationInline extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `notification-inline * {
-  box-sizing: border-box;
-}
-notification-inline .tonic--wrapper {
-  user-select: none;
-  display: flex;
-  flex-wrap: wrap;
-  flex-direction: column;
-  transform: translateX(-50%);
-  visibility: hidden;
-  border: 1px solid #f00;
-}
-notification-inline .tonic--wrapper.tonic--show {
-  visibility: visible;
-}
-notification-inline .tonic--notification {
-  margin: 10px 0;
-  position: relative;
-  background-color: var(--window);
-  border-radius: 3px;
-  -webkit-transform: scale(0.95);
-  -ms-transform: scale(0.95);
-  transform: scale(0.95);
-  transition: opacity 0.2s ease-in-out, transform 0.3s ease-in-out;
-  border: 1px solid var(--border);
-  z-index: 1;
-  opacity: 0;
-}
-notification-inline .tonic--notification.tonic--warning {
-  border-color: var(--warning);
-}
-notification-inline .tonic--notification.tonic--danger {
-  border-color: var(--danger);
-}
-notification-inline .tonic--notification.tonic--success {
-  border-color: var(--success);
-}
-notification-inline .tonic--notification.tonic--info {
-  border-color: var(--secondary);
-}
-notification-inline .tonic--notification.tonic--show {
-  opacity: 1;
-  -webkit-transform: scale(1);
-  -ms-transform: scale(1);
-  transform: scale(1);
-  transition: transform 0.3s ease-in-out;
-}
-notification-inline .tonic--notification.tonic--close {
-  padding-right: 50px;
-}
-notification-inline .tonic--notification.tonic--alert {
-  padding-left: 35px;
-}
-notification-inline .tonic--notification main {
-  padding: 17px 15px 15px 15px;
-}
-notification-inline .tonic--notification main .tonic--title {
-  font: 14px/18px var(--subheader);
-}
-notification-inline .tonic--notification main .tonic--message {
-  font: 14px/18px var(--subheader);
-  color: var(--medium);
-}
-notification-inline .tonic--notification .tonic--icon {
-  width: 16px;
-  height: 16px;
-  position: absolute;
-  left: 20px;
-  top: 50%;
-  background-size: cover;
-  -webkit-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-}
-notification-inline .tonic--notification .tonic--close {
-  width: 20px;
-  height: 20px;
-  position: absolute;
-  right: 20px;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-  -ms-transform: translateY(-50%);
-  transform: translateY(-50%);
-  cursor: pointer;
-  background-size: cover;
-}
-notification-inline .tonic--notification .tonic--close svg path {
-  fill: var(--primary);
-  color: var(--primary);
-}
-`
+    return `%style%`
   }
 
   create ({ message, title, duration, type, dismiss } = {}) {
@@ -2684,70 +1946,7 @@ class Panel extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `.tonic--panel * {
-  box-sizing: border-box;
-}
-.tonic--panel .tonic--wrapper .tonic--panel {
-  width: 500px;
-  position: fixed;
-  bottom: 0;
-  top: 0;
-  background-color: var(--window);
-  box-shadow: 0px 0px 28px 0 rgba(0,0,0,0.05);
-  z-index: 100;
-  transition: transform 0.3s ease-in-out;
-}
-@media (max-width: 500px) {
-  .tonic--panel .tonic--wrapper .tonic--panel {
-    width: 100%;
-  }
-}
-.tonic--panel .tonic--wrapper.tonic--left .tonic--panel {
-  left: 0;
-  -webkit-transform: translateX(-500px);
-  -ms-transform: translateX(-500px);
-  transform: translateX(-500px);
-  border-right: 1px solid var(--border);
-}
-.tonic--panel .tonic--wrapper.tonic--right .tonic--panel {
-  right: 0;
-  -webkit-transform: translateX(500px);
-  -ms-transform: translateX(500px);
-  transform: translateX(500px);
-  border-left: 1px solid var(--border);
-}
-.tonic--panel .tonic--wrapper.tonic--show.tonic--right .tonic--panel,
-.tonic--panel .tonic--wrapper.tonic--show.tonic--left .tonic--panel {
-  -webkit-transform: translateX(0);
-  -ms-transform: translateX(0);
-  transform: translateX(0);
-}
-.tonic--panel .tonic--wrapper.tonic--show.tonic--right[overlay="true"] .tonic--overlay,
-.tonic--panel .tonic--wrapper.tonic--show.tonic--left[overlay="true"] .tonic--overlay {
-  opacity: 1;
-  visibility: visible;
-  transition: opacity 0.3s ease-in-out, visibility 0s ease 0s;
-}
-.tonic--panel .tonic--wrapper .tonic--overlay {
-  opacity: 0;
-  visibility: hidden;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  transition: opacity 0.3s ease-in-out, visibility 0s ease 1s;
-  z-index: 1;
-}
-.tonic--panel .tonic--wrapper .tonic--close {
-  width: 25px;
-  height: 25px;
-  position: absolute;
-  top: 30px;
-  right: 30px;
-  cursor: pointer;
-}
-`
+    return `%style%`
   }
 
   show (fn) {
@@ -3006,51 +2205,7 @@ class ProfileImage extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `profile-image {
-  display: inline-block;
-}
-profile-image .tonic--wrapper {
-  position: relative;
-  overflow: hidden;
-}
-profile-image .tonic--wrapper .tonic--image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-}
-profile-image .tonic--wrapper .tonic--overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0,0,0,0.5);
-  transition: opacity 0.2s ease-in-out;
-  visibility: hidden;
-  opacity: 0;
-  display: flex;
-}
-profile-image .tonic--wrapper .tonic--overlay div {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  background-size: 40px 40px;
-  background-repeat: no-repeat;
-  background-position: center center;
-}
-profile-image .tonic--wrapper.tonic--editable:hover .tonic--overlay {
-  visibility: visible;
-  opacity: 1;
-  cursor: pointer;
-}
-`
+    return `%style%`
   }
 
   getPictureData (src, cb) {

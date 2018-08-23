@@ -21,7 +21,90 @@ class InputButton extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `%style%`
+    return `
+      input-button {
+        display: inline-block;
+      }
+
+      input-button .tonic--input-button--wrapper {
+        margin: 5px;
+      }
+
+      input-button button {
+        color: var(--primary);
+        width: auto;
+        min-height: 40px;
+        font: 12px var(--subheader);
+        padding: 8px 8px 5px 8px;
+        position: relative;
+        background-color: transparent;
+        border: 1px solid var(--primary);
+        outline: none;
+        transition: all 0.3s ease;
+        appearance: none;
+      }
+
+      input-button button[disabled],
+      input-button button.tonic--active {
+        color: var(--medium);
+        background-color: var(--background);
+        border-color: var(--background);
+      }
+
+      input-button button:not([disabled]):hover,
+      input-button button:not(.tonic--loading):hover {
+        color: var(--window);
+        background-color: var(--primary) !important;
+        border-color: var(--primary) !important;
+        cursor: pointer;
+      }
+
+      input-button button.tonic--loading {
+        color: transparent;
+        background: var(--medium);
+        border-color: var(--medium);
+        transition: all 0.3s ease;
+        pointer-events: none;
+      }
+
+      input-button button.tonic--loading:hover {
+        color: transparent;
+        background: var(--medium) !important;
+        border-color: var(--medium) !important;
+      }
+
+      input-button button.tonic--loading:before {
+        margin-top: -8px;
+        margin-left: -8px;
+        display: inline-block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        opacity: 1;
+        transform: translateX(-50%) translateY(-50%);
+        border: 2px solid white;
+        border-radius: 50%;
+        border-top-color: transparent;
+        animation: spin 1s linear 0s infinite;
+        transition: opacity 0.3s ease;
+      }
+
+      input-button button:before {
+        content: '';
+        width: 14px;
+        height: 14px;
+        opacity: 0;
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    `
   }
 
   loading (state) {
@@ -84,7 +167,7 @@ class InputButton extends Tonic { /* global Tonic */
     const label = this.root.textContent || value
 
     return `
-      <div class="tonic--wrapper">
+      <div class="tonic--input-button--wrapper">
         <button
           ${nameAttr}
           ${valueAttr}

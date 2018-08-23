@@ -21,17 +21,17 @@ class Windowed extends Tonic { /* global Tonic */
   }
 
   style () {
-    return {
-      '.tonic--windowed--inner': {
-        position: 'relative'
-      },
-
-      '.tonic--windowed--outer': {
-        width: '100%',
-        height: 'inherit',
-        overflow: 'auto'
+    return `
+      windowed .tonic--windowed--inner {
+        position: relative;
       }
-    }
+
+      windowed .tonic--windowed--outer {
+        width: 100%;
+        height: inherit;
+        overflow: auto;
+      }
+    `
   }
 
   async getRow (idx) {

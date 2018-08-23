@@ -6,45 +6,45 @@ class NotificationBadge extends Tonic { /* global Tonic */
   }
 
   style () {
-    return {
-      '*': {
-        boxSizing: 'border-box'
-      },
-
-      '.tonic--notifications': {
-        width: '40px',
-        height: '40px',
-        textAlign: 'center',
-        padding: '10px',
-        position: 'relative',
-        backgroundColor: 'var(--background)',
-        borderRadius: '8px'
-      },
-
-      '.tonic--notifications .tonic--new span:after': {
-        display: 'block'
-      },
-
-      'span': {
-        color: 'var(--primary)',
-        font: '15px var(--subheader)',
-        letterSpacing: '1px',
-        textAlign: 'center'
-      },
-
-      'span:after': {
-        content: '',
-        width: '8px',
-        height: '8px',
-        display: 'none',
-        position: 'absolute',
-        top: '7px',
-        right: '6px',
-        backgroundColor: 'var(--notification)',
-        border: '2px solid var(--background)',
-        borderRadius: '50%'
+    return `
+      notification-badge * {
+        boxSizing: border-box;
       }
-    }
+
+      notification-badge .tonic--notifications {
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        padding: 10px;
+        position: relative;
+        background-color: var(--background);
+        border-radius: 8px;
+      }
+
+      notification-badge .tonic--notifications .tonic--new span:after {
+        display: block;
+      }
+
+      notification-badge span {
+        color: var(--primary);
+        font: 15px var(--subheader);
+        letter-spacing: 1px;
+        text-align: center;
+      }
+
+      notification-badge span:after {
+        content: '';
+        width: 8px;
+        height: 8px;
+        display: none;
+        position: absolute;
+        top: 7px;
+        right: 6px;
+        background-color: var(--notification);
+        border: 2px solid var(--background);
+        border-radius: 50%;
+      }
+    `
   }
 
   render () {

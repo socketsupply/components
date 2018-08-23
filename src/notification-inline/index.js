@@ -22,7 +22,7 @@ class NotificationInline extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `%style%`
+    return ``
   }
 
   create ({ message, title, duration, type, dismiss } = {}) {

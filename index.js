@@ -686,7 +686,70 @@ class Dialog extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `%style%`
+    return `
+      .tonic--dialog .tonic--dialog--wrapper {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        z-index: 100;
+        visibility: hidden;
+        transition: visibility 0s ease 0.5s;
+      }
+
+      .tonic--dialog .tonic--dialog--wrapper.tonic--show {
+        visibility: visible;
+        transition: visibility 0s ease 0s;
+      }
+
+      .tonic--dialog .tonic--dialog--wrapper.tonic--show .tonic--overlay {
+        opacity: 1;
+      }
+
+      .tonic--dialog .tonic--dialog--wrapper.tonic--show .tonic--dialog--content {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        -ms-transform: scale(1);
+        transform: scale(1);
+      }
+
+      .tonic--dialog .tonic--overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+      }
+
+      .tonic--dialog .tonic--dialog--content {
+        min-width: 350px;
+        min-height: 250px;
+        height: auto;
+        width: auto;
+        margin: auto;
+        position: relative;
+        background-color: var(--window);
+        z-index: 1;
+        opacity: 0;
+        -webkit-transform: scale(0.8);
+        -ms-transform: scale(0.8);
+        transform: scale(0.8);
+        transition: all 0.3s ease-in-out;
+      }
+
+      .tonic--dialog .tonic--dialog--content .tonic--close {
+        width: 25px;
+        height: 25px;
+        position: absolute;
+        top: 25px;
+        right: 25px;
+        cursor: pointer;
+      }
+    `
   }
 
   show (fn) {
@@ -802,7 +865,12 @@ class IconContainer extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `%style%`
+    return `
+      icon-container svg {
+        width: 100%;
+        height: 100%;
+      }
+    `
   }
 
   connected () {
@@ -868,7 +936,90 @@ class InputButton extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `%style%`
+    return `
+      input-button {
+        display: inline-block;
+      }
+
+      input-button .tonic--input-button--wrapper {
+        margin: 5px;
+      }
+
+      input-button button {
+        color: var(--primary);
+        width: auto;
+        min-height: 40px;
+        font: 12px var(--subheader);
+        padding: 8px 8px 5px 8px;
+        position: relative;
+        background-color: transparent;
+        border: 1px solid var(--primary);
+        outline: none;
+        transition: all 0.3s ease;
+        appearance: none;
+      }
+
+      input-button button[disabled],
+      input-button button.tonic--active {
+        color: var(--medium);
+        background-color: var(--background);
+        border-color: var(--background);
+      }
+
+      input-button button:not([disabled]):hover,
+      input-button button:not(.tonic--loading):hover {
+        color: var(--window);
+        background-color: var(--primary) !important;
+        border-color: var(--primary) !important;
+        cursor: pointer;
+      }
+
+      input-button button.tonic--loading {
+        color: transparent;
+        background: var(--medium);
+        border-color: var(--medium);
+        transition: all 0.3s ease;
+        pointer-events: none;
+      }
+
+      input-button button.tonic--loading:hover {
+        color: transparent;
+        background: var(--medium) !important;
+        border-color: var(--medium) !important;
+      }
+
+      input-button button.tonic--loading:before {
+        margin-top: -8px;
+        margin-left: -8px;
+        display: inline-block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        opacity: 1;
+        transform: translateX(-50%) translateY(-50%);
+        border: 2px solid white;
+        border-radius: 50%;
+        border-top-color: transparent;
+        animation: spin 1s linear 0s infinite;
+        transition: opacity 0.3s ease;
+      }
+
+      input-button button:before {
+        content: '';
+        width: 14px;
+        height: 14px;
+        opacity: 0;
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    `
   }
 
   loading (state) {
@@ -931,7 +1082,7 @@ class InputButton extends Tonic { /* global Tonic */
     const label = this.root.textContent || value
 
     return `
-      <div class="tonic--wrapper">
+      <div class="tonic--input-button--wrapper">
         <button
           ${nameAttr}
           ${valueAttr}
@@ -974,7 +1125,37 @@ class InputCheckbox extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `%style%`
+    return `
+      input-checkbox .tonic--input-checkbox--wrapper {
+        display: inline-block;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      input-checkbox input[type="checkbox"] {
+        display: none;
+      }
+
+      input-checkbox input[type="checkbox"][disabled] + label {
+        opacity: 0.35;
+      }
+
+      input-checkbox label {
+        color: var(--primary);
+        font: 12px var(--subheader);
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      input-checkbox label:nth-of-type(2) {
+        padding-top: 2px;
+        margin-left: 10px;
+      }
+    `
   }
 
   change (e) {
@@ -1034,7 +1215,7 @@ class InputCheckbox extends Tonic { /* global Tonic */
     this.root.removeAttribute('id')
 
     return `
-      <div class="tonic--wrapper">
+      <div class="tonic--input-checkbox--wrapper">
         <input
           type="checkbox"
           id="${id}"
@@ -1097,7 +1278,83 @@ class InputSelect extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `%style%`
+    return `
+      input-select .tonic--wrapper {
+        position: relative;
+      }
+
+      input-select .tonic--wrapper:before {
+        content: '';
+        width: 14px;
+        height: 14px;
+        opacity: 0;
+        z-index: 1;
+      }
+
+      input-select.tonic--loading {
+        pointer-events: none;
+        transition: background 0.3s ease;
+      }
+
+      input-select.tonic--loading select {
+        color: transparent;
+        background-color: var(--window);
+        border-color: var(--border);
+      }
+
+      input-select.tonic--loading .tonic--wrapper:before {
+        margin-top: -8px;
+        margin-left: -8px;
+        display: block;
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        opacity: 1;
+        transform: translateX(-50%);
+        border: 2px solid var(--medium);
+        border-radius: 50%;
+        border-top-color: transparent;
+        animation: spin 1s linear 0s infinite;
+        transition: opacity 0.3s ease;
+      }
+
+      input-select select {
+        color: var(--primary);
+        font: 14px var(--monospace);
+        padding: 10px 20px 10px 10px;
+        background-color: var(--window);
+        background-repeat: no-repeat;
+        background-position: center right;
+        border: 1px solid var(--border);
+        outline: none;
+        -webkit-appearance: none;
+        appearance: none;
+        position: relative;
+      }
+
+      input-select select[disabled] {
+        background-color: var(--background);
+      }
+
+      input-select label {
+        color: var(--medium);
+        font: 12px/14px var(--subheader);
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding-bottom: 10px;
+        display: block;
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    `
   }
 
   get value () {
@@ -1173,7 +1430,7 @@ class InputSelect extends Tonic { /* global Tonic */
         <select
           ${disabled ? 'disabled' : ''}
           ${required ? 'required' : ''}>
-          
+
           ${options}
         </select>
       </div>
@@ -1236,7 +1493,115 @@ class InputText extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `%style%`
+    return `
+      input-text .tonic--wrapper {
+        position: relative;
+      }
+
+      input-text .tonic--right icon-container {
+        right: 10px;
+      }
+
+      input-text .tonic--right input {
+        padding-right: 40px;
+      }
+
+      input-text .tonic--left icon-container {
+        left: 10px;
+      }
+
+      input-text .tonic--left input {
+        padding-left: 40px;
+      }
+
+      input-text icon-container {
+        position: absolute;
+        bottom: 7px;
+      }
+
+      input-text label {
+        color: var(--medium);
+        font-weight: 500;
+        font: 12px/14px var(--subheader);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding-bottom: 10px;
+        display: block;
+      }
+
+      input-text input {
+        color: var(--primary);
+        font: 14px var(--monospace);
+        padding: 10px;
+        background-color: transparent;
+        border: 1px solid var(--border);
+        transition: border 0.2s ease-in-out;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        outline: none;
+      }
+
+      input-text input:invalid {
+        border-color: var(--error);
+      }
+
+      input-text input:invalid:focus {
+        border-color: var(--error);
+      }
+
+      input-text input:invalid ~ .tonic--invalid {
+        transform: translateY(0);
+        visibility: visible;
+        opacity: 1;
+        transition: opacity 0.2s ease, transform 0.2s ease, visibility 1s ease 0s;
+      }
+
+      input-text input:focus {
+        border-color: var(--primary);
+      }
+
+      input-text input[disabled] {
+        background-color: var(--background);
+      }
+
+      .tonic--invalid {
+        font-size: 14px;
+        text-align: center;
+        position: absolute;
+        bottom: 50px;
+        left: 0;
+        right: 0;
+        transform: translateY(-10px);
+        transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s ease 1s;
+        visibility: hidden;
+        opacity: 0;
+      }
+
+      .tonic--invalid span {
+        color: white;
+        padding: 2px 6px;
+        background-color: var(--error);
+        border-radius: 2px;
+        position: relative;
+        display: inline-block;
+        margin: 0 auto;
+      }
+
+      .tonic--invalid span:after {
+        content: '';
+        width: 0;
+        height: 0;
+        display: block;
+        position: absolute;
+        bottom: -6px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-top: 6px solid var(--error);
+      }
+    `
   }
 
   renderLabel () {
@@ -1354,21 +1719,43 @@ class InputTextarea extends Tonic { /* global Tonic */
   }
 
   style () {
-    const {
-      width,
-      height,
-      radius,
-      resize
-    } = this.props
-
-    return {
-      'textarea': {
-        width,
-        height,
-        borderRadius: radius,
-        resize
+    return `
+      input-textarea textarea {
+        color: var(--primary);
+        width: 100%;
+        font: 14px var(--monospace);
+        padding: 10px;
+        background-color: transparent;
+        border: 1px solid var(--border);
+        outline: none;
+        transition: all 0.2s ease-in-out;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
       }
-    }
+
+      input-textarea textarea:focus {
+        border: 1px solid var(--primary);
+      }
+
+      input-textarea textarea:invalid {
+        border-color: var(--danger);
+      }
+
+      input-textarea textarea[disabled] {
+        background-color: var(--background);
+      }
+
+      label {
+        color: var(--medium);
+        font-weight: 500;
+        font: 12px/14px var(--subheader);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding-bottom: 10px;
+        display: block;
+      }
+    `
   }
 
   get value () {
@@ -1444,7 +1831,7 @@ class InputToggle extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `%style%`
+    return ``
   }
 
   change (e) {
@@ -1499,45 +1886,45 @@ class NotificationBadge extends Tonic { /* global Tonic */
   }
 
   style () {
-    return {
-      '*': {
-        boxSizing: 'border-box'
-      },
-
-      '.tonic--notifications': {
-        width: '40px',
-        height: '40px',
-        textAlign: 'center',
-        padding: '10px',
-        position: 'relative',
-        backgroundColor: 'var(--background)',
-        borderRadius: '8px'
-      },
-
-      '.tonic--notifications .tonic--new span:after': {
-        display: 'block'
-      },
-
-      'span': {
-        color: 'var(--primary)',
-        font: '15px var(--subheader)',
-        letterSpacing: '1px',
-        textAlign: 'center'
-      },
-
-      'span:after': {
-        content: '',
-        width: '8px',
-        height: '8px',
-        display: 'none',
-        position: 'absolute',
-        top: '7px',
-        right: '6px',
-        backgroundColor: 'var(--notification)',
-        border: '2px solid var(--background)',
-        borderRadius: '50%'
+    return `
+      notification-badge * {
+        boxSizing: border-box;
       }
-    }
+
+      notification-badge .tonic--notifications {
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        padding: 10px;
+        position: relative;
+        background-color: var(--background);
+        border-radius: 8px;
+      }
+
+      notification-badge .tonic--notifications .tonic--new span:after {
+        display: block;
+      }
+
+      notification-badge span {
+        color: var(--primary);
+        font: 15px var(--subheader);
+        letter-spacing: 1px;
+        text-align: center;
+      }
+
+      notification-badge span:after {
+        content: '';
+        width: 8px;
+        height: 8px;
+        display: none;
+        position: absolute;
+        top: 7px;
+        right: 6px;
+        background-color: var(--notification);
+        border: 2px solid var(--background);
+        border-radius: 50%;
+      }
+    `
   }
 
   render () {
@@ -1587,7 +1974,123 @@ class NotificationCenter extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `%style%`
+    return `
+      notification-center * {
+        box-sizing: border-box;
+      }
+
+      notification-center .tonic--wrapper {
+        user-select: none;
+        position: fixed;
+        top: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        visibility: hidden;
+        z-index: 102;
+      }
+
+      @media (max-width: 850px) notification-center .tonic--wrapper {
+        width: 90%;
+      }
+
+      notification-center .tonic--wrapper.tonic--show {
+        visibility: visible;
+      }
+
+      notification-center .tonic--wrapper.tonic--center {
+        left: 50%;
+        align-items: center;
+        -webkit-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        transform: translateX(-50%);
+      }
+
+      notification-center .tonic--wrapper.tonic--left {
+        align-items: flex-start;
+        left: 10px;
+      }
+
+      notification-center .tonic--wrapper.tonic--right {
+        align-items: flex-end;
+        right: 10px;
+      }
+
+      notification-center .tonic--notification {
+        width: auto;
+        max-width: 600px;
+        margin-top: 10px;
+        position: relative;
+        background-color: var(--window);
+        box-shadow: 0px 10px 40px -20px rgba(0,0,0,0.4), 0 0 1px #a2a9b1;
+        border-radius: 3px;
+        -webkit-transform: translateY(-100px);
+        -ms-transform: translateY(-100px);
+        transform: translateY(-100px);
+        transition: opacity 0.2s ease, transform 0s ease 1s;
+        z-index: 1;
+        opacity: 0;
+      }
+
+      notification-center .tonic--notification.tonic--show {
+        opacity: 1;
+        -webkit-transform: translateY(0);
+        -ms-transform: translateY(0);
+        transform: translateY(0);
+        transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+      }
+
+      notification-center .tonic--notification.tonic--close {
+        padding-right: 50px;
+      }
+
+      notification-center .tonic--notification.tonic--alert {
+        padding-left: 35px;
+      }
+
+      notification-center .tonic--main {
+        padding: 17px 15px 15px 15px;
+      }
+
+      notification-center .tonic--title {
+        font: 14px/18px var(--subheader);
+      }
+
+      notification-center .tonic--message {
+        font: 14px/18px var(--subheader);
+        color: var(--medium);
+      }
+
+      notification-center .tonic--notification .tonic--icon {
+        width: 16px;
+        height: 16px;
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        background-size: cover;
+        -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+      }
+
+      notification-center .tonic--notification .tonic--close {
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+        cursor: pointer;
+        background-size: cover;
+      }
+
+      notification-center .tonic--notification .tonic--close svg path {
+        fill: var(--primary);
+        color: var(--primary);
+      }
+    `
   }
 
   create ({ message, title, duration, type, dismiss } = {}) {
@@ -1756,7 +2259,7 @@ class NotificationInline extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `%style%`
+    return ``
   }
 
   create ({ message, title, duration, type, dismiss } = {}) {
@@ -1946,7 +2449,7 @@ class Panel extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `%style%`
+    return ``
   }
 
   show (fn) {
@@ -2054,67 +2557,58 @@ class Popover extends Tonic { /* global Tonic */
   }
 
   style () {
-    const {
-      width,
-      height,
-      padding
-    } = this.props
-
-    return {
-      '.tonic--popover': {
-        position: 'absolute',
-        top: '30px',
-        width,
-        height,
-        padding,
-        background: 'var(--window)',
-        border: '1px solid var(--border)',
-        borderRadius: '2px',
-        visibility: 'hidden',
-        zIndex: -1,
-        opacity: 0,
-        transform: 'scale(0.75)',
-        transition: [
-          'transform 0.1s ease-in-out',
-          'opacity 0s ease 0.1s',
-          'visibility 0s ease 0.1s',
-          'z-index 0s ease 0.1s'
-        ].join(', ')
-      },
-
-      '.tonic--popover.tonic--show': {
-        boxShadow: '0px 30px 90px -20px rgba(0, 0, 0, 0.3)',
-        transform: 'scale(1)',
-        visibility: 'visible',
-        transition: 'transform 0.15s ease-in-out',
-        opacity: 1,
-        zIndex: 1
-      },
-
-      '.tonic--popover--top': {
-        transformOrigin: 'bottom center'
-      },
-
-      '.tonic--popover--topleft': {
-        transformOrigin: 'bottom left'
-      },
-
-      '.tonic--popover--topright': {
-        transformOrigin: 'bottom right'
-      },
-
-      '.tonic--popover--bottom': {
-        transformOrigin: 'top center'
-      },
-
-      '.tonic--popover--bottomleft': {
-        transformOrigin: 'top left'
-      },
-
-      '.tonic--popover--bottomright': {
-        transformOrigin: 'top right'
+    return `
+      popover .tonic--popover {
+        position: absolute;
+        top: 30px;
+        background: var(--window);
+        border: 1px solid var(--border);
+        border-radius: 2px;
+        visibility: hidden;
+        z-index: -1;
+        opacity: 0;
+        -webkit-transform: scale(0.75);
+        ms-transform: scale(0.75);
+        transform: scale(0.75);
+        transition: transform 0.1s ease-in-out, opacity 0s ease 0.1s, visibility 0s ease 0.1s, z-index 0s ease 0.1s;
       }
-    }
+
+      popover .tonic--popover.tonic--show {
+        box-shadow: 0px 30px 90px -20px rgba(0, 0, 0, 0.3);
+        -webkit-transform: scale(1);
+        -ms-transform: scale(1);
+        transform: scale(1);
+        visibility: visible;
+        transition: transform 0.15s ease-in-out;
+        opacity: 1;
+        z-index: 1;
+      }
+
+      popover .tonic--popover--top {
+        transform-origin: bottom center;
+      }
+
+      popover .tonic--popover--topleft {
+        transform-origin: bottom left;
+      }
+
+      popover .tonic--popover--topright {
+        transform-origin: bottom right;
+      }
+
+      popover .tonic--popover--bottom {
+        transform-origin: top center;
+      }
+
+      popover .tonic--popover--bottomleft {
+        transform-origin: top left;
+      }
+
+      popover .tonic--popover--bottomright {
+        transform-origin: top right;
+      }
+
+    `
   }
 
   show (triggerNode) {
@@ -2205,7 +2699,7 @@ class ProfileImage extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `%style%`
+    return ``
   }
 
   getPictureData (src, cb) {
@@ -2322,30 +2816,7 @@ class ProgressBar extends Tonic { /* global Tonic */
   }
 
   style () {
-    const {
-      width,
-      height
-    } = this.props
-
-    return {
-      '': {
-        display: 'block'
-      },
-
-      '.tonic--wrapper': {
-        backgroundColor: 'var(--background)',
-        width,
-        height,
-        position: 'relative'
-      },
-
-      '.tonic--progress': {
-        backgroundColor: 'var(--accent)',
-        width: this.props.progress + '%',
-        height: '100%',
-        transition: 'width 0.2s ease'
-      }
-    }
+    return ``
   }
 
   setProgress (progress) {
@@ -2399,17 +2870,7 @@ class Windowed extends Tonic { /* global Tonic */
   }
 
   style () {
-    return {
-      '.tonic--windowed--inner': {
-        position: 'relative'
-      },
-
-      '.tonic--windowed--outer': {
-        width: '100%',
-        height: 'inherit',
-        overflow: 'auto'
-      }
-    }
+    return ``
   }
 
   async getRow (idx) {

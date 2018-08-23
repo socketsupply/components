@@ -24,30 +24,23 @@ class ProgressBar extends Tonic { /* global Tonic */
   }
 
   style () {
-    const {
-      width,
-      height
-    } = this.props
-
-    return {
-      '': {
-        display: 'block'
-      },
-
-      '.tonic--wrapper': {
-        backgroundColor: 'var(--background)',
-        width,
-        height,
-        position: 'relative'
-      },
-
-      '.tonic--progress': {
-        backgroundColor: 'var(--accent)',
-        width: this.props.progress + '%',
-        height: '100%',
-        transition: 'width 0.2s ease'
+    return `
+      progress-bar {
+        display: block;
       }
-    }
+
+      progress-bar .wrapper {
+        background-color: var(--background);
+        position: relative;
+      }
+
+      progress-bar .wrapper .progress {
+        background-color: var(--accent);
+        width: 0%;
+        height: 100%;
+        transition: width 0.2s ease;
+      }
+    `
   }
 
   setProgress (progress) {

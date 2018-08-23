@@ -14,7 +14,7 @@ class ProfileImage extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `%style%`
+    return ``
   }
 
   getPictureData (src, cb) {

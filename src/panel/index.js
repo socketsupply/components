@@ -29,7 +29,7 @@ class Panel extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `%style%`
+    return ``
   }
 
   show (fn) {

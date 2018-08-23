@@ -26,7 +26,37 @@ class InputCheckbox extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `%style%`
+    return `
+      input-checkbox .tonic--input-checkbox--wrapper {
+        display: inline-block;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      input-checkbox input[type="checkbox"] {
+        display: none;
+      }
+
+      input-checkbox input[type="checkbox"][disabled] + label {
+        opacity: 0.35;
+      }
+
+      input-checkbox label {
+        color: var(--primary);
+        font: 12px var(--subheader);
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      input-checkbox label:nth-of-type(2) {
+        padding-top: 2px;
+        margin-left: 10px;
+      }
+    `
   }
 
   change (e) {
@@ -86,7 +116,7 @@ class InputCheckbox extends Tonic { /* global Tonic */
     this.root.removeAttribute('id')
 
     return `
-      <div class="tonic--wrapper">
+      <div class="tonic--input-checkbox--wrapper">
         <input
           type="checkbox"
           id="${id}"

@@ -27,7 +27,83 @@ class InputSelect extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `%style%`
+    return `
+      input-select .tonic--wrapper {
+        position: relative;
+      }
+
+      input-select .tonic--wrapper:before {
+        content: '';
+        width: 14px;
+        height: 14px;
+        opacity: 0;
+        z-index: 1;
+      }
+
+      input-select.tonic--loading {
+        pointer-events: none;
+        transition: background 0.3s ease;
+      }
+
+      input-select.tonic--loading select {
+        color: transparent;
+        background-color: var(--window);
+        border-color: var(--border);
+      }
+
+      input-select.tonic--loading .tonic--wrapper:before {
+        margin-top: -8px;
+        margin-left: -8px;
+        display: block;
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        opacity: 1;
+        transform: translateX(-50%);
+        border: 2px solid var(--medium);
+        border-radius: 50%;
+        border-top-color: transparent;
+        animation: spin 1s linear 0s infinite;
+        transition: opacity 0.3s ease;
+      }
+
+      input-select select {
+        color: var(--primary);
+        font: 14px var(--monospace);
+        padding: 10px 20px 10px 10px;
+        background-color: var(--window);
+        background-repeat: no-repeat;
+        background-position: center right;
+        border: 1px solid var(--border);
+        outline: none;
+        -webkit-appearance: none;
+        appearance: none;
+        position: relative;
+      }
+
+      input-select select[disabled] {
+        background-color: var(--background);
+      }
+
+      input-select label {
+        color: var(--medium);
+        font: 12px/14px var(--subheader);
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding-bottom: 10px;
+        display: block;
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    `
   }
 
   get value () {
@@ -103,7 +179,7 @@ class InputSelect extends Tonic { /* global Tonic */
         <select
           ${disabled ? 'disabled' : ''}
           ${required ? 'required' : ''}>
-          
+
           ${options}
         </select>
       </div>

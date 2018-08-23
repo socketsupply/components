@@ -31,7 +31,70 @@ class Dialog extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `%style%`
+    return `
+      .tonic--dialog .tonic--dialog--wrapper {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        z-index: 100;
+        visibility: hidden;
+        transition: visibility 0s ease 0.5s;
+      }
+
+      .tonic--dialog .tonic--dialog--wrapper.tonic--show {
+        visibility: visible;
+        transition: visibility 0s ease 0s;
+      }
+
+      .tonic--dialog .tonic--dialog--wrapper.tonic--show .tonic--overlay {
+        opacity: 1;
+      }
+
+      .tonic--dialog .tonic--dialog--wrapper.tonic--show .tonic--dialog--content {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        -ms-transform: scale(1);
+        transform: scale(1);
+      }
+
+      .tonic--dialog .tonic--overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+      }
+
+      .tonic--dialog .tonic--dialog--content {
+        min-width: 350px;
+        min-height: 250px;
+        height: auto;
+        width: auto;
+        margin: auto;
+        position: relative;
+        background-color: var(--window);
+        z-index: 1;
+        opacity: 0;
+        -webkit-transform: scale(0.8);
+        -ms-transform: scale(0.8);
+        transform: scale(0.8);
+        transition: all 0.3s ease-in-out;
+      }
+
+      .tonic--dialog .tonic--dialog--content .tonic--close {
+        width: 25px;
+        height: 25px;
+        position: absolute;
+        top: 25px;
+        right: 25px;
+        cursor: pointer;
+      }
+    `
   }
 
   show (fn) {

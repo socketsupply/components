@@ -15,7 +15,7 @@ class InputToggle extends Tonic { /* global Tonic */
   }
 
   style () {
-    return `%style%`
+    return ``
   }
 
   change (e) {

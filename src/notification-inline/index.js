@@ -22,7 +22,110 @@ class NotificationInline extends Tonic { /* global Tonic */
   }
 
   style () {
-    return ``
+    return `
+      notification-inline .tonic--wrapper {
+        user-select: none;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        transform: translateX(-50%);
+        visibility: hidden;
+        border: 1px solid var(--border);
+      }
+
+      notification-inline .tonic--wrapper.tonic--show {
+        visibility: visible;
+      }
+
+      notification-inline .tonic--notification {
+        margin: 10px 0;
+        position: relative;
+        background-color: var(--window);
+        border-radius: 3px;
+        -webkit-transform: scale(0.95);
+        -ms-transform: scale(0.95);
+        transform: scale(0.95);
+        transition: opacity 0.2s ease-in-out, transform 0.3s ease-in-out;
+        border: 1px solid var(--border);
+        z-index: 1;
+        opacity: 0;
+      }
+
+      notification-inline .tonic--warning {
+        border-color: var(--warning);
+      }
+
+      notification-inline .tonic--danger {
+        border-color: var(--danger);
+      }
+
+      notification-inline .tonic--success {
+        border-color: var(--success);
+      }
+
+      notification-inline .tonic--info {
+        border-color: var(--secondary);
+      }
+
+      notification-inline .tonic--notification.tonic--show {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        -ms-transform: scale(1);
+        transform: scale(1);
+        transition: transform 0.3s ease-in-out;
+      }
+
+      notification-inline .tonic--notification.tonic--close {
+        padding-right: 50px;
+      }
+
+      notification-inline .tonic--notification.tonic--alert {
+        padding-left: 35px;
+      }
+
+      notification-inline main {
+        padding: 17px 15px 15px 15px;
+      }
+
+      notification-inline .tonic--title {
+        font: 14px/18px var(--subheader);
+      }
+
+      notification-inline .tonic--message {
+        font: 14px/18px var(--subheader);
+        color: var(--medium);
+      }
+
+      notification-inline .tonic--notification .tonic--icon {
+        width: 16px;
+        height: 16px;
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        background-size: cover;
+        -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+      }
+
+      notification-inline .tonic--notification .tonic--close {
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+        cursor: pointer;
+        background-size: cover;
+      }
+
+      notification-inline .tonic--notification .tonic--close svg path {
+        fill: var(--primary);
+        color: var(--primary);
+      }
+    `
   }
 
   create ({ message, title, duration, type, dismiss } = {}) {

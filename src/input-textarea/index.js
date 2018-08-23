@@ -49,7 +49,7 @@ class InputTextarea extends Tonic { /* global Tonic */
         background-color: var(--background);
       }
 
-      label {
+      input-textarea label {
         color: var(--medium);
         font-weight: 500;
         font: 12px/14px var(--subheader);

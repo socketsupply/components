@@ -712,6 +712,53 @@ class ContentTooltip extends Tonic { /* global Tonic */
     return `
       content-tooltip .tonic--tooltip {
         position: absolute;
+        background: var(--window);
+        visibility: hidden;
+        z-index: -1;
+        opacity: 0;
+        border: 1px solid var(--border);
+        border-radius: 2px;
+        transition: visibility 0.2s ease-in-out, opacity 0.2s ease-in-out, z-index 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+      }
+
+      content-tooltip .tonic--tooltip.tonic--show {
+        visibility: visible;
+        opacity: 1;
+        z-index: 1;
+        box-shadow: 0px 30px 90px -20px rgba(0, 0, 0, 0.3);
+      }
+
+      content-tooltip .tonic--tooltip .tonic--tooltip-arrow {
+        width: 12px;
+        height: 12px;
+        position: absolute;
+        z-index: -1
+        background-color: var(--window);
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+        left: 50%;
+      }
+
+      content-tooltip .tonic--tooltip .tonic--tooltip-arrow {
+        border: 1px solid transparent
+        border-radius: 2px
+        pointer-events: none
+      }
+
+      content-tooltip .tonic--top .tonic--tooltip-arrow {
+        margin-bottom: -6px;
+        bottom: 100%;
+        border-top-color: var(--border);
+        border-left-color: var(--border);
+      }
+
+      content-tooltip .tonic--bottom .tonic--tooltip-arrow {
+        margin-top: -6px;
+        position: absolute;
+        top: 100%;
+        border-bottom-color: var(--border);
+        border-right-color: var(--border);
       }
     `
   }
@@ -779,9 +826,8 @@ class ContentTooltip extends Tonic { /* global Tonic */
     }
 
     return `
-      <div
-        class="tonic--tooltip">
-          ${this.children.trim()}
+      <div class="tonic--tooltip">
+        ${this.children.trim()}
         <span class="tonic--tooltip-arrow"></span>
       </div>
     `
@@ -1087,13 +1133,16 @@ class InputButton extends Tonic { /* global Tonic */
         width: auto;
         min-height: 40px;
         font: 12px var(--subheader);
+        font-weight: 400;
+        text-transform: uppercase;
+        letter-spacing: 1px;
         padding: 8px 8px 5px 8px;
         position: relative;
         background-color: transparent;
         border: 1px solid var(--primary);
-        outline: none;
         transition: all 0.3s ease;
         appearance: none;
+        outline: none;
       }
 
       input-button button[disabled],
@@ -1883,7 +1932,7 @@ class InputTextarea extends Tonic { /* global Tonic */
         background-color: var(--background);
       }
 
-      label {
+      input-textarea label {
         color: var(--medium);
         font-weight: 500;
         font: 12px/14px var(--subheader);
@@ -1968,7 +2017,122 @@ class InputToggle extends Tonic { /* global Tonic */
   }
 
   style () {
-    return ``
+    return `
+      input-toggle .tonic--toggle--wrapper {
+        height: 30px;
+        width: 47px;
+        position: relative;
+      }
+
+      input-toggle .tonic--toggle--wrapper > label {
+        color: var(--medium);
+        font-weight: 500;
+        font: 12px/14px var(--subheader);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-left: 58px;
+        padding-top: 9px;
+        display: block;
+        user-select: none;
+      }
+
+      input-toggle .tonic--switch {
+        position: absolute;
+        left: 0;
+        top: 0;
+      }
+
+      input-toggle .tonic--switch label:before {
+        font: bold 12px var(--subheader);
+        text-transform: uppercase;
+      }
+
+      input-toggle input.tonic--toggle {
+        position: absolute;
+        display: none;
+        outline: none;
+        user-select: none;
+        z-index: 1;
+      }
+
+      input-toggle input.tonic--toggle + label {
+        width: 42px;
+        height: 24px;
+        padding: 2px;
+        display: block;
+        position: relative;
+        background-color: var(--border);
+        border-radius: 60px;
+        transition: background 0.4s ease-in-out;
+        cursor: default;
+      }
+
+      input-toggle input.tonic--toggle + label:before {
+        content: '';
+        line-height: 29px;
+        text-indent: 29px;
+        position: absolute;
+        top: 1px;
+        left: 1px;
+        right: 1px;
+        bottom: 1px;
+        display: block;
+        border-radius: 60px;
+        transition: background 0.4s ease-in-out;
+        padding-top: 1px;
+        font-size: 0.65em;
+        letter-spacing: 0.05em;
+        background-color: var(--border);
+      }
+
+      input-toggle input.tonic--toggle + label:after {
+        content: '';
+        width: 16px;
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        bottom: 4px;
+        background-color: var(--window);
+        border-radius: 52px;
+        transition: background 0.4s ease-in-out, margin 0.4s ease-in-out;
+        display: block;
+        z-index: 2;
+      }
+
+      input-toggle input.tonic--toggle:disabled {
+        cursor: default;
+        background-color: var(--background);
+      }
+
+      input-toggle input.tonic--toggle:disabled + label {
+        cursor: default;
+        background-color: var(--background);
+      }
+
+      input-toggle input.tonic--toggle:disabled + label:before {
+        background-color: var(--background);
+      }
+
+      input-toggle input.tonic--toggle:disabled + label:after {
+        background-color: var(--window);
+      }
+
+      input-toggle input.tonic--toggle:checked + label
+        background-color: var(--accent);
+      }
+
+      input-toggle input.tonic--toggle:checked + label:before
+        content: '';
+        background-color: var(--accent);
+        color: var(--background);
+      }
+
+      input-toggle input.tonic--toggle:checked + label:after
+        margin-left: 18px;
+        background-color: var(--background);
+      }
+
+    `
   }
 
   change (e) {
@@ -2396,7 +2560,110 @@ class NotificationInline extends Tonic { /* global Tonic */
   }
 
   style () {
-    return ``
+    return `
+      notification-inline .tonic--wrapper {
+        user-select: none;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        transform: translateX(-50%);
+        visibility: hidden;
+        border: 1px solid var(--border);
+      }
+
+      notification-inline .tonic--wrapper.tonic--show {
+        visibility: visible;
+      }
+
+      notification-inline .tonic--notification {
+        margin: 10px 0;
+        position: relative;
+        background-color: var(--window);
+        border-radius: 3px;
+        -webkit-transform: scale(0.95);
+        -ms-transform: scale(0.95);
+        transform: scale(0.95);
+        transition: opacity 0.2s ease-in-out, transform 0.3s ease-in-out;
+        border: 1px solid var(--border);
+        z-index: 1;
+        opacity: 0;
+      }
+
+      notification-inline .tonic--warning {
+        border-color: var(--warning);
+      }
+
+      notification-inline .tonic--danger {
+        border-color: var(--danger);
+      }
+
+      notification-inline .tonic--success {
+        border-color: var(--success);
+      }
+
+      notification-inline .tonic--info {
+        border-color: var(--secondary);
+      }
+
+      notification-inline .tonic--notification.tonic--show {
+        opacity: 1;
+        -webkit-transform: scale(1);
+        -ms-transform: scale(1);
+        transform: scale(1);
+        transition: transform 0.3s ease-in-out;
+      }
+
+      notification-inline .tonic--notification.tonic--close {
+        padding-right: 50px;
+      }
+
+      notification-inline .tonic--notification.tonic--alert {
+        padding-left: 35px;
+      }
+
+      notification-inline main {
+        padding: 17px 15px 15px 15px;
+      }
+
+      notification-inline .tonic--title {
+        font: 14px/18px var(--subheader);
+      }
+
+      notification-inline .tonic--message {
+        font: 14px/18px var(--subheader);
+        color: var(--medium);
+      }
+
+      notification-inline .tonic--notification .tonic--icon {
+        width: 16px;
+        height: 16px;
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        background-size: cover;
+        -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+      }
+
+      notification-inline .tonic--notification .tonic--close {
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+        cursor: pointer;
+        background-size: cover;
+      }
+
+      notification-inline .tonic--notification .tonic--close svg path {
+        fill: var(--primary);
+        color: var(--primary);
+      }
+    `
   }
 
   create ({ message, title, duration, type, dismiss } = {}) {
@@ -2586,7 +2853,72 @@ class Panel extends Tonic { /* global Tonic */
   }
 
   style () {
-    return ``
+    return `
+      .tonic--panel .tonic--panel--inner {
+        width: 500px;
+        position: fixed;
+        bottom: 0;
+        top: 0;
+        background-color: var(--window);
+        box-shadow: 0px 0px 28px 0 rgba(0,0,0,0.05);
+        z-index: 100;
+        transition: transform 0.3s ease-in-out;
+      }
+
+      @media (max-width: 500px) .tonic--panel .tonic--panel--inner {
+        width: 100%;
+      }
+
+      .tonic--panel.tonic--left .tonic--panel {
+        left: 0;
+        -webkit-transform: translateX(-500px);
+        -ms-transform: translateX(-500px);
+        transform: translateX(-500px);
+        border-right: 1px solid var(--border);
+      }
+
+      .tonic--panel .tonic--right .tonic--panel--inner {
+        right: 0;
+        -webkit-transform: translateX(500px);
+        -ms-transform: translateX(500px);
+        transform: translateX(500px);
+        border-left: 1px solid var(--border);
+      }
+
+      .tonic--panel .tonic--show.tonic--right .tonic--panel--inner,
+      .tonic--panel .tonic--show.tonic--left .tonic--panel--inner {
+        -webkit-transform: translateX(0);
+        -ms-transform: translateX(0);
+        transform: translateX(0);
+      }
+
+      .tonic--panel .tonic--show[overlay="true"] .tonic--overlay {
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 0.3s ease-in-out, visibility 0s ease 0s;
+      }
+
+      .tonic--panel .tonic--overlay {
+        opacity: 0;
+        visibility: hidden;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        transition: opacity 0.3s ease-in-out, visibility 0s ease 1s;
+        z-index: 1;
+      }
+
+      .tonic--panel .tonic--close {
+        width: 25px;
+        height: 25px;
+        position: absolute;
+        top: 30px;
+        right: 30px;
+        cursor: pointer;
+      }
+    `
   }
 
   show (fn) {
@@ -2635,7 +2967,7 @@ class Panel extends Tonic { /* global Tonic */
 
     // create panel
     const panel = document.createElement('div')
-    panel.className = 'tonic--panel'
+    panel.className = 'tonic--panel--inner'
 
     if (overlay !== 'false') {
       const overlayElement = document.createElement('div')
@@ -2953,7 +3285,23 @@ class ProgressBar extends Tonic { /* global Tonic */
   }
 
   style () {
-    return ``
+    return `
+      progress-bar {
+        display: block;
+      }
+
+      progress-bar .wrapper {
+        background-color: var(--background);
+        position: relative;
+      }
+
+      progress-bar .wrapper .progress {
+        background-color: var(--accent);
+        width: 0%;
+        height: 100%;
+        transition: width 0.2s ease;
+      }
+    `
   }
 
   setProgress (progress) {
@@ -3007,7 +3355,17 @@ class Windowed extends Tonic { /* global Tonic */
   }
 
   style () {
-    return ``
+    return `
+      windowed .tonic--windowed--inner {
+        position: relative;
+      }
+
+      windowed .tonic--windowed--outer {
+        width: 100%;
+        height: inherit;
+        overflow: auto;
+      }
+    `
   }
 
   async getRow (idx) {

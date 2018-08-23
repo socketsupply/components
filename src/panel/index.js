@@ -29,7 +29,72 @@ class Panel extends Tonic { /* global Tonic */
   }
 
   style () {
-    return ``
+    return `
+      .tonic--panel .tonic--panel--inner {
+        width: 500px;
+        position: fixed;
+        bottom: 0;
+        top: 0;
+        background-color: var(--window);
+        box-shadow: 0px 0px 28px 0 rgba(0,0,0,0.05);
+        z-index: 100;
+        transition: transform 0.3s ease-in-out;
+      }
+
+      @media (max-width: 500px) .tonic--panel .tonic--panel--inner {
+        width: 100%;
+      }
+
+      .tonic--panel.tonic--left .tonic--panel {
+        left: 0;
+        -webkit-transform: translateX(-500px);
+        -ms-transform: translateX(-500px);
+        transform: translateX(-500px);
+        border-right: 1px solid var(--border);
+      }
+
+      .tonic--panel .tonic--right .tonic--panel--inner {
+        right: 0;
+        -webkit-transform: translateX(500px);
+        -ms-transform: translateX(500px);
+        transform: translateX(500px);
+        border-left: 1px solid var(--border);
+      }
+
+      .tonic--panel .tonic--show.tonic--right .tonic--panel--inner,
+      .tonic--panel .tonic--show.tonic--left .tonic--panel--inner {
+        -webkit-transform: translateX(0);
+        -ms-transform: translateX(0);
+        transform: translateX(0);
+      }
+
+      .tonic--panel .tonic--show[overlay="true"] .tonic--overlay {
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 0.3s ease-in-out, visibility 0s ease 0s;
+      }
+
+      .tonic--panel .tonic--overlay {
+        opacity: 0;
+        visibility: hidden;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        transition: opacity 0.3s ease-in-out, visibility 0s ease 1s;
+        z-index: 1;
+      }
+
+      .tonic--panel .tonic--close {
+        width: 25px;
+        height: 25px;
+        position: absolute;
+        top: 30px;
+        right: 30px;
+        cursor: pointer;
+      }
+    `
   }
 
   show (fn) {
@@ -78,7 +143,7 @@ class Panel extends Tonic { /* global Tonic */
 
     // create panel
     const panel = document.createElement('div')
-    panel.className = 'tonic--panel'
+    panel.className = 'tonic--panel--inner'
 
     if (overlay !== 'false') {
       const overlayElement = document.createElement('div')

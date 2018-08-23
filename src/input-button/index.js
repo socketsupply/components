@@ -35,13 +35,16 @@ class InputButton extends Tonic { /* global Tonic */
         width: auto;
         min-height: 40px;
         font: 12px var(--subheader);
+        font-weight: 400;
+        text-transform: uppercase;
+        letter-spacing: 1px;
         padding: 8px 8px 5px 8px;
         position: relative;
         background-color: transparent;
         border: 1px solid var(--primary);
-        outline: none;
         transition: all 0.3s ease;
         appearance: none;
+        outline: none;
       }
 
       input-button button[disabled],

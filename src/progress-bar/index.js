@@ -26,7 +26,10 @@ class ProgressBar extends Tonic { /* global Tonic */
   style () {
     return `
       progress-bar {
-        display: block;
+        display: inline-block;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
       }
 
       progress-bar .tonic--wrapper {

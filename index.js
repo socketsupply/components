@@ -3204,10 +3204,10 @@ class ProgressBar extends Tonic { /* global Tonic */
       }
 
       progress-bar .tonic--wrapper {
-        background-color: var(--background);
-        position: relative;
         width: ${this.props.width};
         height: ${this.props.height};
+        position: relative;
+        background-color: var(--background);
       }
 
       progress-bar .tonic--wrapper .tonic--progress {

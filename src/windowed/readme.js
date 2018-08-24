@@ -16,6 +16,7 @@ class MyWindowed extends Tonic.Windowed {
         <div class="td">Date</div>
         <div class="td">Random</div>
       </div>
+      ${super.render()}
     `
   }
 }

@@ -3592,9 +3592,8 @@ class Windowed extends Tonic { /* global Tonic */
     }
   }
 
-  wrap (render) {
+  render () {
     return `
-      ${render()}
       <div class="tonic--windowed--outer">
         <div class="tonic--windowed--inner">
         </div>
@@ -3796,6 +3795,7 @@ document.getElementById('stop-progress').addEventListener('click', e => {
         <div class="td">Date</div>
         <div class="td">Random</div>
       </div>
+      ${super.render()}
     `
   }
 }

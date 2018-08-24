@@ -208,9 +208,8 @@ class Windowed extends Tonic { /* global Tonic */
     }
   }
 
-  wrap (render) {
+  render () {
     return `
-      ${render()}
       <div class="tonic--windowed--outer">
         <div class="tonic--windowed--inner">
         </div>

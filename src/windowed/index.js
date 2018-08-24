@@ -20,13 +20,13 @@ class Windowed extends Tonic { /* global Tonic */
     }
   }
 
-  style () {
+  styles () {
     return {
-      '.tonic--windowed--inner': {
+      inner: {
         position: 'relative'
       },
 
-      '.tonic--windowed--outer': {
+      outer: {
         width: '100%',
         height: 'inherit',
         overflow: 'auto'
@@ -208,11 +208,10 @@ class Windowed extends Tonic { /* global Tonic */
     }
   }
 
-  wrap (render) {
+  render () {
     return `
-      ${render()}
-      <div class="tonic--windowed--outer">
-        <div class="tonic--windowed--inner">
+      <div class="tonic--windowed--outer" styles="outer">
+        <div class="tonic--windowed--inner" styles="inner">
         </div>
       </div>
     `

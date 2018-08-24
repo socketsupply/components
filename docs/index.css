@@ -33,6 +33,106 @@ body.theme-dark {
   --success: #85b274;
   --warn: #f9a967;
 }
+content-route {
+  marign-top: 20px;
+  padding-top: 20px;
+}
+#content-route-select {
+  display: inline-block;
+}
+content-tabs {
+  display: block;
+}
+[data-tab-name]:not([data-tab-group]) {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  font-family: var(--subheader);
+  font-size: 14px;
+  border-bottom: 1px solid transparent;
+  margin-right: 8px;
+}
+[data-tab-name]:not([data-tab-group]).tonic--selected {
+  color: var(--accent);
+  border-bottom: 1px solid var(--accent);
+}
+[data-tab-group] {
+  margin-top: 15px;
+  border-top: 1px solid var(--border);
+  padding-top: 15px;
+}
+[data-tab-group].tonic--show {
+  display: block;
+}
+.tonic--dialog .tonic--dialog--content {
+  padding-top: 70px;
+  padding-bottom: 75px;
+  -webkit-box-shadow: 0px 30px 90px -20px rgba(0,0,0,0.3), 0 0 1px #a2a9b1;
+          box-shadow: 0px 30px 90px -20px rgba(0,0,0,0.3), 0 0 1px #a2a9b1;
+  border-radius: 4px;
+}
+.tonic--dialog header {
+  text-align: center;
+  height: 70px;
+  font: 14px var(--subheader);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 26px 65px 25px 65px;
+}
+.tonic--dialog main {
+  width: auto;
+  padding: 20px;
+  margin: 0 auto;
+}
+.tonic--dialog footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 75px;
+  padding: 12px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+my-panel h3 {
+  margin: 0;
+}
+my-panel header {
+  padding: 20px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 90px;
+}
+my-panel main {
+  padding: 20px;
+  position: absolute;
+  top: 90px;
+  left: 0;
+  right: 0;
+  bottom: 70px;
+  overflow: scroll;
+}
+my-panel footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 70px;
+  padding: 10px;
+  text-align: center;
+  border-top: 1px solid var(--border);
+}
 * {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -697,8 +797,7 @@ body content-dialog footer {
 body content-tags [data-tab-group] {
   height: 40px;
 }
-body notification-badge,
-body progress-bar {
+body notification-badge {
   display: inline-block;
   -webkit-user-select: none;
      -moz-user-select: none;

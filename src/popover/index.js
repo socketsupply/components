@@ -19,66 +19,77 @@ class Popover extends Tonic { /* global Tonic */
     }
   }
 
-  style () {
+  stylesheet () {
+    return `
+      popover .tonic--popover {
+        position: absolute;
+        top: 30px;
+        background: var(--window);
+        border: 1px solid var(--border);
+        border-radius: 2px;
+        visibility: hidden;
+        z-index: -1;
+        opacity: 0;
+        -webkit-transform: scale(0.75);
+        ms-transform: scale(0.75);
+        transform: scale(0.75);
+        transition: transform 0.1s ease-in-out, opacity 0s ease 0.1s, visibility 0s ease 0.1s, z-index 0s ease 0.1s;
+      }
+
+      popover .tonic--popover.tonic--show {
+        box-shadow: 0px 30px 90px -20px rgba(0, 0, 0, 0.3);
+        -webkit-transform: scale(1);
+        -ms-transform: scale(1);
+        transform: scale(1);
+        visibility: visible;
+        transition: transform 0.15s ease-in-out;
+        opacity: 1;
+        z-index: 1;
+      }
+
+      popover .tonic--popover--top {
+        transform-origin: bottom center;
+      }
+
+      popover .tonic--popover--topleft {
+        transform-origin: bottom left;
+      }
+
+      popover .tonic--popover--topright {
+        transform-origin: bottom right;
+      }
+
+      popover .tonic--popover--bottom {
+        transform-origin: top center;
+      }
+
+      popover .tonic--popover--bottomleft {
+        transform-origin: top left;
+      }
+
+      popover .tonic--popover--bottomright {
+        transform-origin: top right;
+      }
+
+    `
+  }
+
+  styles () {
     const {
       width,
       height,
-      padding
+      padding,
+      margin,
+      position
     } = this.props
 
     return {
-      '.tonic--popover': {
-        position: 'absolute',
-        top: '30px',
+      popover: {
         width,
         height,
         padding,
-        background: 'var(--window)',
-        border: '1px solid var(--border)',
-        borderRadius: '2px',
-        visibility: 'hidden',
-        zIndex: -1,
-        opacity: 0,
-        transform: 'scale(0.75)',
-        transition: [
-          'transform 0.1s ease-in-out',
-          'opacity 0s ease 0.1s',
-          'visibility 0s ease 0.1s',
-          'z-index 0s ease 0.1s'
-        ].join(', ')
-      },
-
-      '.tonic--popover.tonic--show': {
-        boxShadow: '0px 30px 90px -20px rgba(0, 0, 0, 0.3)',
-        transform: 'scale(1)',
-        visibility: 'visible',
-        transition: 'transform 0.15s ease-in-out',
-        opacity: 1,
-        zIndex: 1
-      },
-
-      '.tonic--popover--top': {
-        transformOrigin: 'bottom center'
-      },
-
-      '.tonic--popover--topleft': {
-        transformOrigin: 'bottom left'
-      },
-
-      '.tonic--popover--topright': {
-        transformOrigin: 'bottom right'
-      },
-
-      '.tonic--popover--bottom': {
-        transformOrigin: 'top center'
-      },
-
-      '.tonic--popover--bottomleft': {
-        transformOrigin: 'top left'
-      },
-
-      '.tonic--popover--bottomright': {
-        transformOrigin: 'top right'
+        margin,
+        position
       }
     }
   }
@@ -146,7 +157,7 @@ class Popover extends Tonic { /* global Tonic */
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     return `
-      <div class="tonic--popover">
+      <div class="tonic--popover" styles="popover">
           ${this.children.trim()}
       </div>
     `

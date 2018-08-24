@@ -25,6 +25,7 @@ class InputCheckbox extends Tonic { /* global Tonic */
     }
   }
 
+<<<<<<< HEAD
   style () {
     const {
       color,
@@ -71,6 +72,40 @@ class InputCheckbox extends Tonic { /* global Tonic */
         marginLeft: '10px'
       }
     }
+=======
+  stylesheet () {
+    return `
+      input-checkbox .tonic--input-checkbox--wrapper {
+        display: inline-block;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      input-checkbox input[type="checkbox"] {
+        display: none;
+      }
+
+      input-checkbox input[type="checkbox"][disabled] + label {
+        opacity: 0.35;
+      }
+
+      input-checkbox label {
+        color: var(--primary);
+        font: 12px var(--subheader);
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        display: inline-block;
+        vertical-align: middle;
+      }
+
+      input-checkbox label:nth-of-type(2) {
+        padding-top: 2px;
+        margin-left: 10px;
+      }
+    `
+>>>>>>> refacor-styles
   }
 
   change (e) {
@@ -81,7 +116,25 @@ class InputCheckbox extends Tonic { /* global Tonic */
   }
 
   connected () {
+    const {
+      color,
+      iconOn,
+      iconOff,
+      checked,
+      size
+    } = this.props
+
     this.label = this.root.querySelector('label')
+    const icon = this.root.querySelector('.tonic--icon')
+
+    if (!color) this.props.color = this.getPropertyValue('primary')
+    if (!iconOn) this.props.iconOn = InputCheckbox.svg.iconOn(this.props.color)
+    if (!iconOff) this.props.iconOff = InputCheckbox.svg.iconOff(this.props.color)
+
+    let url = this.props[checked ? 'iconOn' : 'iconOff']
+    icon.style.width = size
+    icon.style.height = size
+    icon.style.backgroundImage = `url('${url}')`
   }
 
   updated (oldProps) {
@@ -112,13 +165,20 @@ class InputCheckbox extends Tonic { /* global Tonic */
     this.root.removeAttribute('id')
 
     return `
-      <div class="tonic--wrapper">
+      <div class="tonic--input-checkbox--wrapper">
         <input
           type="checkbox"
           id="${id}"
           ${disabled ? 'disabled' : ''}
           ${checked ? 'checked' : ''}/>
+<<<<<<< HEAD
         <label for="${id}" class="tonic--icon"></label>
+=======
+        <label
+          for="${id}"
+          class="tonic--icon">
+        </label>
+>>>>>>> refacor-styles
         ${this.renderLabel()}
       </div>
     `

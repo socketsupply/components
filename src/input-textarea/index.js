@@ -21,22 +21,44 @@ class InputTextarea extends Tonic { /* global Tonic */
     }
   }
 
-  style () {
-    const {
-      width,
-      height,
-      radius,
-      resize
-    } = this.props
-
-    return {
-      'textarea': {
-        width,
-        height,
-        borderRadius: radius,
-        resize
+  stylesheet () {
+    return `
+      input-textarea textarea {
+        color: var(--primary);
+        width: 100%;
+        font: 14px var(--monospace);
+        padding: 10px;
+        background-color: transparent;
+        border: 1px solid var(--border);
+        outline: none;
+        transition: all 0.2s ease-in-out;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
       }
-    }
+
+      input-textarea textarea:focus {
+        border: 1px solid var(--primary);
+      }
+
+      input-textarea textarea:invalid {
+        border-color: var(--danger);
+      }
+
+      input-textarea textarea[disabled] {
+        background-color: var(--background);
+      }
+
+      input-textarea label {
+        color: var(--medium);
+        font-weight: 500;
+        font: 12px/14px var(--subheader);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding-bottom: 10px;
+        display: block;
+      }
+    `
   }
 
   get value () {

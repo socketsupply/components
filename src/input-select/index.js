@@ -27,6 +27,7 @@ class InputSelect extends Tonic { /* global Tonic */
     }
   }
 
+<<<<<<< HEAD
   style () {
     return {
       '.tonic--wrapper': {
@@ -96,6 +97,86 @@ class InputSelect extends Tonic { /* global Tonic */
         display: 'block'
       }
     }
+=======
+  stylesheet () {
+    return `
+      input-select .tonic--wrapper {
+        position: relative;
+      }
+
+      input-select .tonic--wrapper:before {
+        content: '';
+        width: 14px;
+        height: 14px;
+        opacity: 0;
+        z-index: 1;
+      }
+
+      input-select.tonic--loading {
+        pointer-events: none;
+        transition: background 0.3s ease;
+      }
+
+      input-select.tonic--loading select {
+        color: transparent;
+        background-color: var(--window);
+        border-color: var(--border);
+      }
+
+      input-select.tonic--loading .tonic--wrapper:before {
+        margin-top: -8px;
+        margin-left: -8px;
+        display: block;
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        opacity: 1;
+        transform: translateX(-50%);
+        border: 2px solid var(--medium);
+        border-radius: 50%;
+        border-top-color: transparent;
+        animation: spin 1s linear 0s infinite;
+        transition: opacity 0.3s ease;
+      }
+
+      input-select select {
+        color: var(--primary);
+        font: 14px var(--monospace);
+        padding: 10px 20px 10px 10px;
+        background-color: var(--window);
+        background-repeat: no-repeat;
+        background-position: center right;
+        border: 1px solid var(--border);
+        outline: none;
+        -webkit-appearance: none;
+        appearance: none;
+        position: relative;
+      }
+
+      input-select select[disabled] {
+        background-color: var(--background);
+      }
+
+      input-select label {
+        color: var(--medium);
+        font: 12px/14px var(--subheader);
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding-bottom: 10px;
+        display: block;
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    `
+>>>>>>> refacor-styles
   }
 
   get value () {
@@ -123,21 +204,51 @@ class InputSelect extends Tonic { /* global Tonic */
   }
 
   connected () {
-    if (this.props.value) {
-      const option = this.root.querySelector(`option[value="${this.props.value}"]`)
+    const {
+      height,
+      width,
+      padding,
+      radius,
+      value,
+      iconArrow
+    } = this.props
+
+    if (value) {
+      const option = this.root.querySelector(`option[value="${value}"]`)
       if (option) option.setAttribute('selected', true)
     }
+
+    const wrapper = this.root.querySelector('.tonic--wrapper')
+    if (width) wrapper.style.width = width
+
+    const select = this.root.querySelector('select')
+
+    if (width) select.style.width = width
+    if (height) select.style.height = height
+    if (radius) select.style.borderRadius = radius
+    if (padding) select.style.padding = padding
+
+    select.style.backgroundImage = `url('${iconArrow}')`
   }
 
   render () {
     const {
       disabled,
       required,
+<<<<<<< HEAD
+=======
+      width,
+>>>>>>> refacor-styles
       theme
     } = this.props
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
+<<<<<<< HEAD
+=======
+    this.root.style.width = width
+
+>>>>>>> refacor-styles
     const options = this.root.innerHTML
 
     return `
@@ -146,6 +257,10 @@ class InputSelect extends Tonic { /* global Tonic */
         <select
           ${disabled ? 'disabled' : ''}
           ${required ? 'required' : ''}>
+<<<<<<< HEAD
+=======
+
+>>>>>>> refacor-styles
           ${options}
         </select>
       </div>

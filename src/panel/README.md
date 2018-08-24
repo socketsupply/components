@@ -6,7 +6,7 @@ your own panel class which can be registered and then used as a tag.
 
 %html%
 
-<style>
+<style nonce="%nonce%">
   my-panel h3 {
     margin: 0;
   }

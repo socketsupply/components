@@ -13,6 +13,7 @@ class ProfileImage extends Tonic { /* global Tonic */
     return computed.getPropertyValue(`--${s}`).trim()
   }
 
+<<<<<<< HEAD
   style () {
     return {
       '': {
@@ -67,6 +68,86 @@ class ProfileImage extends Tonic { /* global Tonic */
         visibility: 'visible',
         opacity: '1',
         cursor: 'pointer'
+=======
+  stylesheet () {
+    return `
+      profile-image {
+        display: inline-block;
+      }
+
+      profile-image .tonic--wrapper {
+        position: relative;
+        overflow: hidden;
+      }
+
+      profile-image .tonic--image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+      }
+
+      profile-image .tonic--overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0,0,0,0.5);
+        transition: opacity 0.2s ease-in-out;
+        visibility: hidden;
+        opacity: 0;
+        display: flex;
+      }
+
+      profile-image .tonic--overlay div {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        background-size: 40px 40px;
+        background-repeat: no-repeat;
+        background-position: center center;
+      }
+
+      profile-image .tonic--wrapper.tonic--editable:hover .tonic--overlay {
+        visibility: visible;
+        opacity: 1;
+        cursor: pointer;
+      }
+    `
+  }
+
+  styles () {
+    const {
+      iconEdit,
+      src,
+      size,
+      border,
+      radius
+    } = this.props
+
+    return {
+      icon: {
+        backgroundImage: `url('${iconEdit}')`
+      },
+      background: {
+        backgroundImage: `url('${src}')`
+      },
+      hidden: {
+        display: 'none'
+      },
+      wrapper: {
+        width: size,
+        height: size,
+        border: border,
+        borderRadius: radius
+>>>>>>> refacor-styles
       }
     }
   }
@@ -98,24 +179,39 @@ class ProfileImage extends Tonic { /* global Tonic */
 
   render () {
     let {
-      id,
       name,
       theme,
       editable
     } = this.props
 
-    const idAttr = id ? `id="${id}"` : ''
     const nameAttr = name ? `name="${name}"` : ''
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     return `
+<<<<<<< HEAD
       <div class="tonic--wrapper ${editable ? 'tonic--editable' : ''}">
         <div class="tonic--image" ${idAttr} ${nameAttr}>
         </div>
         <input type="file"/>
         <div class="tonic--overlay">
           <div class="tonic--icon"></div>
+=======
+      <div
+        class="tonic--wrapper ${editable ? 'tonic--editable' : ''}"
+        styles="wrapper">
+
+        <div
+          class="tonic--image"
+          ${nameAttr}
+          styles="background">
+        </div>
+
+        <input type="file" styles="hidden"/>
+
+        <div class="tonic--overlay">
+          <div styles="icon"></div>
+>>>>>>> refacor-styles
         </div>
       </div>
     `

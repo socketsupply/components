@@ -6,7 +6,7 @@ The `ContentTooltip` component creates a dynamically positioned pop-up tooltip f
 
 %html%
 
-<style>
+<style nonce="%nonce%">
   #content-tooltip-example-1 {
     cursor: default;
   }

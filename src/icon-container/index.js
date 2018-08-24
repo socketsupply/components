@@ -7,6 +7,7 @@ class IconContainer extends Tonic { /* global Tonic */
     }
   }
 
+<<<<<<< HEAD
   style () {
     return {
       'svg': {
@@ -14,28 +15,49 @@ class IconContainer extends Tonic { /* global Tonic */
         height: '100%'
       }
     }
+=======
+  stylesheet () {
+    return `
+      icon-container svg {
+        width: 100%;
+        height: 100%;
+      }
+    `
+>>>>>>> refacor-styles
+  }
+
+  connected () {
+    let {
+      color,
+      size
+    } = this.props
+
+    // TODO this could be improved
+    if (color === 'undefined' || color === 'color') {
+      color = this.defaults.color
+    }
+
+    const wrapper = this.root.querySelector('.tonic--wrapper')
+    wrapper.style.width = size
+    wrapper.style.height = size
+
+    const use = this.root.querySelector('use')
+    use.style.fill = color
+    use.style.color = color
   }
 
   render () {
     let {
-      color,
-      size,
       theme,
       src
     } = this.props
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
-    if (color === 'undefined' || color === 'color') {
-      color = this.defaults.color
-    }
-
-    const style = `fill: ${color}; color: ${color};`
-
     return `
-      <div class="tonic--wrapper" style="width: ${size}; height: ${size};">
+      <div class="tonic--wrapper">
         <svg>
-          <use xlink:href="${src}" style="${style}">
+          <use xlink:href="${src}">
         </svg>
       </div>
     `

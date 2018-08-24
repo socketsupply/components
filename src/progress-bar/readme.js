@@ -4,6 +4,7 @@ let interval = null
 const progressBar = document.getElementById('progress-bar-example')
 
 document.getElementById('start-progress').addEventListener('click', e => {
+  clearInterval(interval)
   interval = setInterval(() => {
     progressBar.setProgress(percentage++)
     if (progressBar.value >= 100) percentage = 0

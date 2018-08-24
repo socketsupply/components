@@ -42,6 +42,7 @@ class InputText extends Tonic { /* global Tonic */
     }))
   }
 
+<<<<<<< HEAD
   style () {
     return {
       '.tonic--wrapper': {
@@ -151,6 +152,118 @@ class InputText extends Tonic { /* global Tonic */
         borderTopColor: 'var(--error)'
       }
     }
+=======
+  stylesheet () {
+    return `
+      input-text .tonic--wrapper {
+        position: relative;
+      }
+
+      input-text .tonic--right icon-container {
+        right: 10px;
+      }
+
+      input-text .tonic--right input {
+        padding-right: 40px;
+      }
+
+      input-text .tonic--left icon-container {
+        left: 10px;
+      }
+
+      input-text .tonic--left input {
+        padding-left: 40px;
+      }
+
+      input-text icon-container {
+        position: absolute;
+        bottom: 7px;
+      }
+
+      input-text label {
+        color: var(--medium);
+        font-weight: 500;
+        font: 12px/14px var(--subheader);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding-bottom: 10px;
+        display: block;
+      }
+
+      input-text input {
+        color: var(--primary);
+        font: 14px var(--monospace);
+        padding: 10px;
+        background-color: transparent;
+        border: 1px solid var(--border);
+        transition: border 0.2s ease-in-out;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        outline: none;
+      }
+
+      input-text input:invalid {
+        border-color: var(--error);
+      }
+
+      input-text input:invalid:focus {
+        border-color: var(--error);
+      }
+
+      input-text input:invalid ~ .tonic--invalid {
+        transform: translateY(0);
+        visibility: visible;
+        opacity: 1;
+        transition: opacity 0.2s ease, transform 0.2s ease, visibility 1s ease 0s;
+      }
+
+      input-text input:focus {
+        border-color: var(--primary);
+      }
+
+      input-text input[disabled] {
+        background-color: var(--background);
+      }
+
+      .tonic--invalid {
+        font-size: 14px;
+        text-align: center;
+        position: absolute;
+        bottom: 50px;
+        left: 0;
+        right: 0;
+        transform: translateY(-10px);
+        transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s ease 1s;
+        visibility: hidden;
+        opacity: 0;
+      }
+
+      .tonic--invalid span {
+        color: white;
+        padding: 2px 6px;
+        background-color: var(--error);
+        border-radius: 2px;
+        position: relative;
+        display: inline-block;
+        margin: 0 auto;
+      }
+
+      .tonic--invalid span:after {
+        content: '';
+        width: 0;
+        height: 0;
+        display: block;
+        position: absolute;
+        bottom: -6px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-top: 6px solid var(--error);
+      }
+    `
+>>>>>>> refacor-styles
   }
 
   renderLabel () {
@@ -178,6 +291,22 @@ class InputText extends Tonic { /* global Tonic */
         input.setCustomValidity('')
       }
     }, 32)
+  }
+
+  connected () {
+    const {
+      width,
+      height,
+      radius,
+      padding
+    } = this.props
+
+    const input = this.root.querySelector('input')
+
+    if (width) input.style.width = width
+    if (height) input.style.height = height
+    if (radius) input.style.borderRadius = radius
+    if (padding) input.style.padding = padding
   }
 
   render () {
@@ -216,7 +345,12 @@ class InputText extends Tonic { /* global Tonic */
           ${spellcheckAttr}
           ${ariaInvalidAttr}
           ${disabled ? 'disabled' : ''}
+<<<<<<< HEAD
           ${required ? 'required' : ''}/>
+=======
+          ${required ? 'required' : ''}
+        />
+>>>>>>> refacor-styles
         <div class="tonic--invalid">
           <span>${this.props.errorMessage}</span>
         </div>

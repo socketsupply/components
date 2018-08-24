@@ -9,7 +9,6 @@ The `ContentRoute` component will render its children components if the browser'
     <input-select
       id="content-route-select"
       value="/"
-      style="display: inline-block;"
       label="Select a URL">
       <option value="/">/</option>
       <option value="/bar/100">/bar/100</option>
@@ -33,14 +32,11 @@ The `ContentRoute` component will render its children components if the browser'
 %js%
 ```
 
-<style>
-  content-route {
+<style nonce="%nonce%">
+  content-route.tonic--show {
     display: block;
-  }
-
-  content-route.show {
-    margin: 30px 0 20px;
-    padding-top: 30px;
+    margin: 20px 0 6px;
+    padding-top: 20px;
     border-top: 1px solid var(--border);
   }
 </style>

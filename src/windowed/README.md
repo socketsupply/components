@@ -11,7 +11,7 @@ has been rendered.
 This demo generates the data after you click the overlay. Generating 500000
 rows of data can take a second or two.
 
-<style>
+<style nonce="%nonce%">
   body > main div.example .content.windowed-example {
     max-width: initial;
     padding: 0;
@@ -59,7 +59,7 @@ rows of data can take a second or two.
     display: flex;
     left: 0;
     right: 0;
-    background: white;
+    background: var(--window);
     z-index: 1;
     top: 0;
     bottom: 0;

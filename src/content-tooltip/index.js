@@ -25,6 +25,7 @@ class ContentTooltip extends Tonic { /* global Tonic */
     }
   }
 
+<<<<<<< HEAD
   style () {
     return {
       '.tonic--tooltip': {
@@ -72,6 +73,61 @@ class ContentTooltip extends Tonic { /* global Tonic */
         borderRightColor: 'var(--border)'
       }
     }
+=======
+  stylesheet () {
+    return `
+      content-tooltip .tonic--tooltip {
+        position: absolute;
+        background: var(--window);
+        visibility: hidden;
+        z-index: -1;
+        opacity: 0;
+        border: 1px solid var(--border);
+        border-radius: 2px;
+        transition: visibility 0.2s ease-in-out, opacity 0.2s ease-in-out, z-index 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+      }
+
+      content-tooltip .tonic--tooltip.tonic--show {
+        visibility: visible;
+        opacity: 1;
+        z-index: 1;
+        box-shadow: 0px 30px 90px -20px rgba(0, 0, 0, 0.3);
+      }
+
+      content-tooltip .tonic--tooltip .tonic--tooltip-arrow {
+        width: 12px;
+        height: 12px;
+        position: absolute;
+        z-index: -1
+        background-color: var(--window);
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+        left: 50%;
+      }
+
+      content-tooltip .tonic--tooltip .tonic--tooltip-arrow {
+        border: 1px solid transparent
+        border-radius: 2px
+        pointer-events: none
+      }
+
+      content-tooltip .tonic--top .tonic--tooltip-arrow {
+        margin-bottom: -6px;
+        bottom: 100%;
+        border-top-color: var(--border);
+        border-left-color: var(--border);
+      }
+
+      content-tooltip .tonic--bottom .tonic--tooltip-arrow {
+        margin-top: -6px;
+        position: absolute;
+        top: 100%;
+        border-bottom-color: var(--border);
+        border-right-color: var(--border);
+      }
+    `
+>>>>>>> refacor-styles
   }
 
   show (relativeNode) {
@@ -120,24 +176,25 @@ class ContentTooltip extends Tonic { /* global Tonic */
     tooltip.classList.remove('tonic--show')
   }
 
-  render () {
+  connected () {
     const {
-      theme,
       width,
       height
     } = this.props
 
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    const tooltip = this.root.querySelector('.tonic--tooltip')
+    if (width) tooltip.style.width = width
+    if (height) tooltip.style.height = height
+  }
 
-    const style = []
-    if (width) style.push(`width: ${width};`)
-    if (height) style.push(`height: ${height};`)
+  render () {
+    if (this.props.theme) {
+      this.root.classList.add(`tonic--theme--${this.props.theme}`)
+    }
 
     return `
-      <div
-        style="${style.join('')}"
-        class="tonic--tooltip">
-          ${this.children.trim()}
+      <div class="tonic--tooltip">
+        ${this.children.trim()}
         <span class="tonic--tooltip-arrow"></span>
       </div>
     `

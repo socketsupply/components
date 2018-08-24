@@ -18,36 +18,40 @@ class ProgressBar extends Tonic { /* global Tonic */
     }
   }
 
+  stylesheet () {
+    return `
+      progress-bar {
+        display: inline-block;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      progress-bar .tonic--wrapper {
+        position: relative;
+        background-color: var(--background);
+      }
+
+      progress-bar .tonic--wrapper .tonic--progress {
+        background-color: var(--accent);
+        width: 0%;
+        height: 100%;
+      }
+    `
+  }
+
+  styles () {
+    return {
+      wrapper: {
+        width: this.props.width,
+        height: this.props.height
+      }
+    }
+  }
+
   getPropertyValue (s) {
     const computed = window.getComputedStyle(this.root)
     return computed.getPropertyValue(`--${s}`).trim()
-  }
-
-  style () {
-    const {
-      width,
-      height
-    } = this.props
-
-    return {
-      '': {
-        display: 'block'
-      },
-
-      '.tonic--wrapper': {
-        backgroundColor: 'var(--background)',
-        width,
-        height,
-        position: 'relative'
-      },
-
-      '.tonic--progress': {
-        backgroundColor: 'var(--accent)',
-        width: this.props.progress + '%',
-        height: '100%',
-        transition: 'width 0.2s ease'
-      }
-    }
   }
 
   setProgress (progress) {
@@ -58,7 +62,7 @@ class ProgressBar extends Tonic { /* global Tonic */
 
   updated () {
     window.requestAnimationFrame(() => {
-      const progressBar = this.root.querySelector('.progress')
+      const progressBar = this.root.querySelector('.tonic--progress')
       if (progressBar) progressBar.style.width = `${this.props.progress}%`
     })
   }
@@ -69,7 +73,7 @@ class ProgressBar extends Tonic { /* global Tonic */
     }
 
     return `
-      <div class="tonic--wrapper">
+      <div class="tonic--wrapper" styles="wrapper">
         <div class="tonic--progress"></div>
       </div>
     `

@@ -22,6 +22,7 @@ class NotificationCenter extends Tonic { /* global Tonic */
     }
   }
 
+<<<<<<< HEAD
   style () {
     return {
       '*': {
@@ -124,6 +125,126 @@ class NotificationCenter extends Tonic { /* global Tonic */
         color: 'var(--primary)'
       }
     }
+=======
+  stylesheet () {
+    return `
+      notification-center * {
+        box-sizing: border-box;
+      }
+
+      notification-center .tonic--wrapper {
+        user-select: none;
+        position: fixed;
+        top: 10px;
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: column;
+        visibility: hidden;
+        z-index: 102;
+      }
+
+      @media (max-width: 850px) notification-center .tonic--wrapper {
+        width: 90%;
+      }
+
+      notification-center .tonic--wrapper.tonic--show {
+        visibility: visible;
+      }
+
+      notification-center .tonic--wrapper.tonic--center {
+        left: 50%;
+        align-items: center;
+        -webkit-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        transform: translateX(-50%);
+      }
+
+      notification-center .tonic--wrapper.tonic--left {
+        align-items: flex-start;
+        left: 10px;
+      }
+
+      notification-center .tonic--wrapper.tonic--right {
+        align-items: flex-end;
+        right: 10px;
+      }
+
+      notification-center .tonic--notification {
+        width: auto;
+        max-width: 600px;
+        margin-top: 10px;
+        position: relative;
+        background-color: var(--window);
+        box-shadow: 0px 10px 40px -20px rgba(0,0,0,0.4), 0 0 1px #a2a9b1;
+        border-radius: 3px;
+        -webkit-transform: translateY(-100px);
+        -ms-transform: translateY(-100px);
+        transform: translateY(-100px);
+        transition: opacity 0.2s ease, transform 0s ease 1s;
+        z-index: 1;
+        opacity: 0;
+      }
+
+      notification-center .tonic--notification.tonic--show {
+        opacity: 1;
+        -webkit-transform: translateY(0);
+        -ms-transform: translateY(0);
+        transform: translateY(0);
+        transition: transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28);
+      }
+
+      notification-center .tonic--notification.tonic--close {
+        padding-right: 50px;
+      }
+
+      notification-center .tonic--notification.tonic--alert {
+        padding-left: 35px;
+      }
+
+      notification-center .tonic--main {
+        padding: 17px 15px 15px 15px;
+      }
+
+      notification-center .tonic--title {
+        font: 14px/18px var(--subheader);
+      }
+
+      notification-center .tonic--message {
+        font: 14px/18px var(--subheader);
+        color: var(--medium);
+      }
+
+      notification-center .tonic--notification .tonic--icon {
+        width: 16px;
+        height: 16px;
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        background-size: cover;
+        -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+      }
+
+      notification-center .tonic--notification .tonic--close {
+        width: 20px;
+        height: 20px;
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        -webkit-transform: translateY(-50%);
+        -ms-transform: translateY(-50%);
+        transform: translateY(-50%);
+        cursor: pointer;
+        background-size: cover;
+      }
+
+      notification-center .tonic--notification .tonic--close svg path {
+        fill: var(--primary);
+        color: var(--primary);
+      }
+    `
+>>>>>>> refacor-styles
   }
 
   create ({ message, title, duration, type, dismiss } = {}) {

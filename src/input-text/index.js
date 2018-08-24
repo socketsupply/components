@@ -181,7 +181,7 @@ class InputText extends Tonic { /* global Tonic */
     }, 32)
   }
 
-  connected () {
+  styles () {
     const {
       width,
       height,
@@ -189,12 +189,17 @@ class InputText extends Tonic { /* global Tonic */
       padding
     } = this.props
 
-    const input = this.root.querySelector('input')
-
-    if (width) input.style.width = width
-    if (height) input.style.height = height
-    if (radius) input.style.borderRadius = radius
-    if (padding) input.style.padding = padding
+    return {
+      wrapper: {
+        width
+      },
+      input: {
+        width,
+        height,
+        borderRadius: radius,
+        padding
+      }
+    }
   }
 
   render () {
@@ -221,11 +226,12 @@ class InputText extends Tonic { /* global Tonic */
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     return `
-      <div class="tonic--wrapper ${positionAttr}">
+      <div class="tonic--wrapper ${positionAttr}" styles="wrapper">
         ${this.renderLabel()}
         ${this.renderIcon()}
 
         <input
+          styles="input"
           ${patternAttr}
           type="${type}"
           ${valueAttr}

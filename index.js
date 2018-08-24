@@ -1032,14 +1032,14 @@ class InputButton extends Tonic { /* global Tonic */
 
       input-button button:not([disabled]):hover,
       input-button button:not(.tonic--loading):hover {
-        color: var(--window);
+        color: var(--window) !important;
         background-color: var(--primary) !important;
         border-color: var(--primary) !important;
         cursor: pointer;
       }
 
       input-button button.tonic--loading {
-        color: transparent;
+        color: transparent !important;
         background: var(--medium);
         border-color: var(--medium);
         transition: all 0.3s ease;
@@ -1047,7 +1047,7 @@ class InputButton extends Tonic { /* global Tonic */
       }
 
       input-button button.tonic--loading:hover {
-        color: transparent;
+        color: transparent !important;
         background: var(--medium) !important;
         border-color: var(--medium) !important;
       }
@@ -1099,7 +1099,7 @@ class InputButton extends Tonic { /* global Tonic */
     this.loading(true)
   }
 
-  connected () {
+  styles () {
     const {
       width,
       height,
@@ -1108,18 +1108,16 @@ class InputButton extends Tonic { /* global Tonic */
       textColor
     } = this.props
 
-    const button = this.root.querySelector('button')
-
-    if (width) button.style.width = width
-    if (height) button.style.height = height
-    if (radius) button.style.borderRadius = radius
-
-    if (fill) {
-      button.style.backgroundColor = fill
-      button.style.borderColor = fill
+    return {
+      button: {
+        width,
+        height,
+        color: textColor,
+        backgroundColor: fill,
+        borderRadius: radius,
+        borderColor: fill
+      }
     }
-
-    if (textColor) button.style.color = textColor
   }
 
   render () {
@@ -1148,6 +1146,7 @@ class InputButton extends Tonic { /* global Tonic */
     return `
       <div class="tonic--input-button--wrapper">
         <button
+          styles="button"
           ${nameAttr}
           ${valueAttr}
           ${typeAttr}
@@ -1694,7 +1693,7 @@ class InputText extends Tonic { /* global Tonic */
     }, 32)
   }
 
-  connected () {
+  styles () {
     const {
       width,
       height,
@@ -1702,12 +1701,17 @@ class InputText extends Tonic { /* global Tonic */
       padding
     } = this.props
 
-    const input = this.root.querySelector('input')
-
-    if (width) input.style.width = width
-    if (height) input.style.height = height
-    if (radius) input.style.borderRadius = radius
-    if (padding) input.style.padding = padding
+    return {
+      wrapper: {
+        width
+      },
+      input: {
+        width,
+        height,
+        borderRadius: radius,
+        padding
+      }
+    }
   }
 
   render () {
@@ -1734,11 +1738,12 @@ class InputText extends Tonic { /* global Tonic */
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     return `
-      <div class="tonic--wrapper ${positionAttr}">
+      <div class="tonic--wrapper ${positionAttr}" styles="wrapper">
         ${this.renderLabel()}
         ${this.renderIcon()}
 
         <input
+          styles="input"
           ${patternAttr}
           type="${type}"
           ${valueAttr}

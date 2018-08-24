@@ -41,9 +41,9 @@ changes to the representation of the component are required.
 ## Passing data as properties
 
 There is no templating language in Tonic. It's pure HTML. So the rules of HTML
-will be applied! A prop named `fooBar={30}` will become lowercased as per the
+will be applied! A prop named `fooBar='30'` will become lowercased as per the
 HTML spec. If you want the property name to be camelcased when added to the
-prpps object, use `foo-bar={30}`, and you will get `this.props.fooBar`.
+prpps object, use `foo-bar='30'`, and you will get `this.props.fooBar`.
 
 ```js
 <my-component value="7a"></my-component>

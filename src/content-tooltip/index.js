@@ -25,55 +25,6 @@ class ContentTooltip extends Tonic { /* global Tonic */
     }
   }
 
-<<<<<<< HEAD
-  style () {
-    return {
-      '.tonic--tooltip': {
-        position: 'absolute',
-        top: '30px',
-        background: 'var(--window)',
-        border: '1px solid var(--border)',
-        borderRadius: '2px',
-        transition: 'visibility 0.2s ease-in-out, opacity 0.2s ease-in-out, z-index 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
-        visibility: 'hidden',
-        zIndex: '-1',
-        opacity: '0'
-      },
-      '.tonic--tooltip.tonic--show': {
-        boxShadow: '0px 30px 90px -20px rgba(0, 0, 0, 0.3)',
-        visibility: 'visible',
-        opacity: '1',
-        zIndex: '1'
-      },
-      '.tonic--tooltip-arrow': {
-        width: '12px',
-        height: '12px',
-        position: 'absolute',
-        zIndex: '-1',
-        backgroundColor: 'var(--window)',
-        border: '1px solid transparent',
-        borderRadius: '2px',
-        pointerEvents: 'none',
-        '-webkit-transform': 'rotate(45deg)',
-        '-ms-transform': 'rotate(45deg)',
-        transform: 'rotate(45deg)',
-        left: '50%'
-      },
-      '.tonic--top .tonic--tooltip-arrow': {
-        marginBottom: '-6px',
-        bottom: '100%',
-        borderTopColor: 'var(--border)',
-        borderLeftColor: 'var(--border)'
-      },
-      '.tonic--bottom .tonic--tooltip-arrow': {
-        marginTop: '-6px',
-        position: 'absolute',
-        top: '100%',
-        borderBottomColor: 'var(--border)',
-        borderRightColor: 'var(--border)'
-      }
-    }
-=======
   stylesheet () {
     return `
       content-tooltip .tonic--tooltip {
@@ -127,7 +78,6 @@ class ContentTooltip extends Tonic { /* global Tonic */
         border-right-color: var(--border);
       }
     `
->>>>>>> refacor-styles
   }
 
   show (relativeNode) {

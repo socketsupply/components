@@ -13,62 +13,6 @@ class ProfileImage extends Tonic { /* global Tonic */
     return computed.getPropertyValue(`--${s}`).trim()
   }
 
-<<<<<<< HEAD
-  style () {
-    return {
-      '': {
-        display: 'inline-block'
-      },
-      'input[type="file"]': {
-        display: 'none'
-      },
-      '.tonic--wrapper': {
-        width: this.props.size,
-        height: this.props.size,
-        border: this.props.border,
-        borderRadius: this.props.radius,
-        position: 'relative',
-        overflow: 'hidden'
-      },
-      '.tonic--image': {
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        right: '0',
-        bottom: '0',
-        backgroundImage: `url('${this.props.src}')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center center',
-        backgroundRepeat: 'no-repeat'
-      },
-      '.tonic--overlay': {
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        right: '0',
-        bottom: '0',
-        backgroundColor: 'rgba(0,0,0,0.5)',
-        transition: 'opacity 0.2s ease-in-out',
-        visibility: 'hidden',
-        opacity: '0',
-        display: 'flex'
-      },
-      '.tonic--icon': {
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        right: '0',
-        bottom: '0',
-        backgroundImage: `url('${this.props.iconEdit}')`,
-        backgroundSize: '40px 40px',
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center center'
-      },
-      '.tonic--editable:hover .tonic--overlay': {
-        visibility: 'visible',
-        opacity: '1',
-        cursor: 'pointer'
-=======
   stylesheet () {
     return `
       profile-image {
@@ -147,7 +91,6 @@ class ProfileImage extends Tonic { /* global Tonic */
         height: size,
         border: border,
         borderRadius: radius
->>>>>>> refacor-styles
       }
     }
   }
@@ -169,11 +112,18 @@ class ProfileImage extends Tonic { /* global Tonic */
     const data = fileInput.files[0]
 
     this.getPictureData(data, (err, data) => {
-      if (err) return this.emit('error', err)
+      if (err) {
+        const event = new window.Event('error')
+        event.message = err.message
+        this.root.dispatchEvent(event)
+        return
+      }
 
       const slot = this.root.querySelector('.tonic--image')
       slot.style.backgroundImage = 'url("' + data + '")'
-      this.emit('changed', data)
+      const event = new window.Event('changed')
+      event.data = data
+      this.root.dispatchEvent(event)
     })
   }
 
@@ -189,14 +139,6 @@ class ProfileImage extends Tonic { /* global Tonic */
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     return `
-<<<<<<< HEAD
-      <div class="tonic--wrapper ${editable ? 'tonic--editable' : ''}">
-        <div class="tonic--image" ${idAttr} ${nameAttr}>
-        </div>
-        <input type="file"/>
-        <div class="tonic--overlay">
-          <div class="tonic--icon"></div>
-=======
       <div
         class="tonic--wrapper ${editable ? 'tonic--editable' : ''}"
         styles="wrapper">
@@ -211,7 +153,6 @@ class ProfileImage extends Tonic { /* global Tonic */
 
         <div class="tonic--overlay">
           <div styles="icon"></div>
->>>>>>> refacor-styles
         </div>
       </div>
     `

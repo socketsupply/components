@@ -17,8 +17,8 @@
       default-src 'self';
       font-src 'self' https:;
       img-src 'self' https: data:;
-      style-src 'self' 'nonce-2cd3de03' https:;
-      script-src 'self' 'nonce-2cd3de03';
+      style-src 'self' 'nonce-3b84e20a' https:;
+      script-src 'self' 'nonce-3b84e20a';
       connect-src 'self' https:;
     "
   >
@@ -263,7 +263,7 @@ page2.addEventListener(<span class="hljs-string">'show'</span>, e =&gt; {
   <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'page2-number'</span>).textContent = number
 })
 </code></pre>
-<style nonce="2cd3de03">
+<style nonce="3b84e20a">
   content-route.tonic--show {
     display: block;
     margin: 20px 0 6px;
@@ -419,7 +419,7 @@ page2.addEventListener(<span class="hljs-string">'show'</span>, e =&gt; {
 </content-tooltip>
 
 
-<style nonce="2cd3de03">
+<style nonce="3b84e20a">
   #content-tooltip-example-1 {
     cursor: default;
   }
@@ -509,7 +509,7 @@ your own dialog class which can be registered and then used as a tag.</p>
 </my-dialog>
 
 
-<style nonce="2cd3de03">
+<style nonce="3b84e20a">
   my-dialog header,
   my-dialog main {
     text-align: center;
@@ -1889,7 +1889,7 @@ your own panel class which can be registered and then used as a tag.</p>
   id="content-panel-example"
   overlay="true">
 </my-panel></p>
-<style nonce="2cd3de03">
+<style nonce="3b84e20a">
   my-panel h3 {
     margin: 0;
   }
@@ -2078,7 +2078,7 @@ panelLink.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; pan
 </popover>
 
 
-<style nonce="2cd3de03">
+<style nonce="3b84e20a">
   #popover-example-trigger {
     width: 50px;
     height: 50px;
@@ -2223,8 +2223,8 @@ popover.addEventListener(<span class="hljs-string">'show'</span>, event =&gt; {
 <h4>JS</h4>
 <pre><code class="language-js"><span class="hljs-keyword">const</span> profile = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'profile-image-example-editable'</span>)
 
-profile.addEventListener(<span class="hljs-string">'changed'</span>, e =&gt; <span class="hljs-built_in">console</span>.log(e.detail))
-profile.addEventListener(<span class="hljs-string">'error'</span>, e =&gt; <span class="hljs-built_in">console</span>.log(e.detail))
+profile.addEventListener(<span class="hljs-string">'changed'</span>, e =&gt; <span class="hljs-built_in">console</span>.log(e.data))
+profile.addEventListener(<span class="hljs-string">'error'</span>, e =&gt; <span class="hljs-built_in">console</span>.log(e.message))
 </code></pre>
 <h2>Api</h2>
 <h3>Properties</h3>
@@ -2401,7 +2401,7 @@ has been rendered.</p>
 <h2>Demo</h2>
 <p>This demo generates the data after you click the overlay. Generating 500000
 rows of data can take a second or two.</p>
-<style nonce="2cd3de03">
+<style nonce="3b84e20a">
   body > main div.example .content.windowed-example {
     max-width: initial;
     padding: 0;
@@ -2605,7 +2605,7 @@ overlay.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
             </div>
           </footer>
         </main>
-        <script nonce="2cd3de03" crossorigin="anonymous" src="bundle.js"></script>
+        <script nonce="3b84e20a" crossorigin="anonymous" src="bundle.js"></script>
       </body>
     </html>
   

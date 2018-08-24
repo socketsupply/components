@@ -25,54 +25,6 @@ class InputCheckbox extends Tonic { /* global Tonic */
     }
   }
 
-<<<<<<< HEAD
-  style () {
-    const {
-      color,
-      iconOn,
-      checked,
-      iconOff
-    } = this.props
-
-    if (!color) this.props.color = this.getPropertyValue('primary')
-    if (!iconOn) this.props.iconOn = InputCheckbox.svg.iconOn(this.props.color)
-    if (!iconOff) this.props.iconOff = InputCheckbox.svg.iconOff(this.props.color)
-
-    let url = this.props[checked ? 'iconOn' : 'iconOff']
-
-    return {
-      '.tonic--wrapper': {
-        display: 'inline-block',
-        '-webkit-user-select': 'none',
-        '-moz-user-select': 'none',
-        userSelect: 'none'
-      },
-      'input[type="checkbox"]': {
-        display: 'none'
-      },
-      'input[type="checkbox"][disabled] + label': {
-        opacity: '0.35'
-      },
-      'label': {
-        display: 'inline-block',
-        verticalAlign: 'middle'
-      },
-      'label:nth-of-type(1)': {
-        width: this.props.size,
-        height: this.props.size,
-        backgroundImage: `url('${url}')`
-      },
-      'label:nth-of-type(2)': {
-        color: 'var(--primary)',
-        font: '12px var(--subheader)',
-        fontWeight: '500',
-        textTransform: 'uppercase',
-        letterSpacing: '1px',
-        paddingTop: '2px',
-        marginLeft: '10px'
-      }
-    }
-=======
   stylesheet () {
     return `
       input-checkbox .tonic--input-checkbox--wrapper {
@@ -105,7 +57,6 @@ class InputCheckbox extends Tonic { /* global Tonic */
         margin-left: 10px;
       }
     `
->>>>>>> refacor-styles
   }
 
   change (e) {
@@ -171,14 +122,10 @@ class InputCheckbox extends Tonic { /* global Tonic */
           id="${id}"
           ${disabled ? 'disabled' : ''}
           ${checked ? 'checked' : ''}/>
-<<<<<<< HEAD
-        <label for="${id}" class="tonic--icon"></label>
-=======
         <label
           for="${id}"
           class="tonic--icon">
         </label>
->>>>>>> refacor-styles
         ${this.renderLabel()}
       </div>
     `

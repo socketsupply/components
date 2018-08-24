@@ -28,70 +28,6 @@ class Panel extends Tonic { /* global Tonic */
     }
   }
 
-<<<<<<< HEAD
-  style () {
-    return {
-      '*': {
-        boxSizing: 'border-box'
-      },
-      '.tonic--wrapper .tonic--panel': {
-        width: '500px',
-        position: 'fixed',
-        bottom: '0',
-        top: '0',
-        backgroundColor: 'var(--window)',
-        boxShadow: '0px 0px 28px 0 rgba(0,0,0,0.05)',
-        zIndex: '100',
-        transition: 'transform 0.3s ease-in-out'
-      },
-      // '.tonic--wrapper .tonic--panel @media (max-width: 500px)': {
-      //   width: '100%'
-      // },
-      '.tonic--wrapper.tonic--left .tonic--panel': {
-        left: '0',
-        borderRight: '1px solid var(--border)',
-        '-webkit-transform': 'translateX(-500px)',
-        '-ms-transform': 'translateX(-500px)',
-        'transform': 'translateX(-500px)'
-      },
-      '.tonic--wrapper.tonic--right .tonic--panel': {
-        right: '0',
-        borderLeft: '1px solid var(--border)',
-        '-webkit-transform': 'translateX(500px)',
-        '-ms-transform': 'translateX(500px)',
-        transform: 'translateX(500px)'
-      },
-      '.tonic--show .tonic--panel': {
-        '-webkit-transform': 'translateX(0)',
-        '-ms-transform': 'translateX(0)',
-        transform: 'translateX(0)'
-      },
-      '.tonic--show[overlay="true"] .tonic--overlay': {
-        opacity: '1',
-        visibility: 'visible',
-        transition: 'opacity 0.3s ease-in-out, visibility 0s ease 0s'
-      },
-      '.tonic--overlay': {
-        opacity: '0',
-        visibility: 'hidden',
-        position: 'fixed',
-        top: '0',
-        left: '0',
-        right: '0',
-        bottom: '0',
-        transition: 'opacity 0.3s ease-in-out, visibility 0s ease 1s',
-        zIndex: '1'
-      },
-      '.tonic--close': {
-        width: '25px',
-        height: '25px',
-        position: 'absolute',
-        top: '30px',
-        right: '30px',
-        cursor: 'pointer'
-      }
-    }
-=======
   stylesheet () {
     return `
       .tonic--panel .tonic--panel--inner {
@@ -159,7 +95,6 @@ class Panel extends Tonic { /* global Tonic */
         cursor: pointer;
       }
     `
->>>>>>> refacor-styles
   }
 
   show (fn) {

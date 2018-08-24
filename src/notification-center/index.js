@@ -22,110 +22,6 @@ class NotificationCenter extends Tonic { /* global Tonic */
     }
   }
 
-<<<<<<< HEAD
-  style () {
-    return {
-      '*': {
-        boxSizing: 'border-box'
-      },
-      '.tonic--wrapper': {
-        userSelect: 'none',
-        position: 'fixed',
-        top: '10px',
-        display: 'flex',
-        flexWrap: 'wrap',
-        flexDirection: 'column',
-        visibility: 'hidden',
-        zIndex: '102'
-      },
-      // '.tonic--wrapper @media (max-width: 850px)': {
-      //   width: '90%'
-      // },
-      '.tonic--wrapper.tonic--show': {
-        visibility: 'visible'
-      },
-      '.tonic--wrapper.tonic--center': {
-        left: '50%',
-        alignItems: 'center',
-        '-webkit-transform': 'translateX(-50%)',
-        '-ms-transform': 'translateX(-50%)',
-        transform: 'translateX(-50%)'
-      },
-      '.tonic--wrapper.tonic--left': {
-        alignItems: 'flex-start',
-        left: '10px'
-      },
-      '.tonic--wrapper.tonic--right': {
-        alignItems: 'flex-end',
-        right: '10px'
-      },
-      '.tonic--notification': {
-        width: 'auto',
-        maxWidth: '600px',
-        marginTop: '10px',
-        position: 'relative',
-        backgroundColor: 'var(--window)',
-        boxShadow: '0px 10px 40px -20px rgba(0,0,0,0.4), 0 0 1px #a2a9b1',
-        borderRadius: '3px',
-        '-webkit-transform': 'translateY(-100px)',
-        '-ms-transform': 'translateY(-100px)',
-        transform: 'translateY(-100px)',
-        transition: 'opacity 0.2s ease, transform 0s ease 1s',
-        zIndex: '1',
-        opacity: '0'
-      },
-      '.tonic--notification.tonic--show': {
-        opacity: '1',
-        '-webkit-transform': 'translateY(0)',
-        '-ms-transform': 'translateY(0)',
-        transform: 'translateY(0)',
-        transition: 'transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28)'
-      },
-      '.tonic--notification.tonic--close': {
-        paddingRight: '50px'
-      },
-      '.tonic--notification.tonic--alert': {
-        paddingLeft: '35px'
-      },
-      '.tonic--main': {
-        padding: '17px 15px 15px 15px'
-      },
-      '.tonic--title': {
-        font: '14px/18px var(--subheader)'
-      },
-      '.tonic--message': {
-        font: '14px/18px var(--subheader)',
-        color: 'var(--medium)'
-      },
-      '.tonic--icon': {
-        width: '16px',
-        height: '16px',
-        position: 'absolute',
-        left: '20px',
-        top: '50%',
-        backgroundSize: 'cover',
-        '-webkit-transform': 'translateY(-50%)',
-        '-ms-transform': 'translateY(-50%)',
-        transform: 'translateY(-50%)'
-      },
-      '.tonic--close': {
-        width: '20px',
-        height: '20px',
-        position: 'absolute',
-        right: '20px',
-        top: '50%',
-        '-webkit-transform': 'translateY(-50%)',
-        '-ms-transform': 'translateY(-50%)',
-        transform: 'translateY(-50%)',
-        cursor: 'pointer',
-        backgroundSize: 'cover'
-      },
-      '.tonic--close svg path': {
-        fill: 'var(--primary)',
-        color: 'var(--primary)'
-      }
-    }
-=======
   stylesheet () {
     return `
       notification-center * {
@@ -244,7 +140,6 @@ class NotificationCenter extends Tonic { /* global Tonic */
         color: var(--primary);
       }
     `
->>>>>>> refacor-styles
   }
 
   create ({ message, title, duration, type, dismiss } = {}) {

@@ -27,77 +27,6 @@ class InputSelect extends Tonic { /* global Tonic */
     }
   }
 
-<<<<<<< HEAD
-  style () {
-    return {
-      '.tonic--wrapper': {
-        position: 'relative',
-        width: this.props.width
-      },
-      '.tonic--wrapper:before': {
-        content: '""',
-        width: '14px',
-        height: '14px',
-        opacity: '0',
-        zIndex: '1'
-      },
-      '.tonic--loading': {
-        pointerEvents: 'none',
-        transition: 'background 0.3s ease'
-      },
-      '.tonic--loading select': {
-        color: 'transparent',
-        backgroundColor: 'var(--window)',
-        borderColor: 'var(--border)'
-      },
-      '.tonic--loading .tonic--wrapper:before': {
-        marginTop: '-8px',
-        marginLeft: '-8px',
-        display: 'block',
-        position: 'absolute',
-        bottom: '10px',
-        left: '50%',
-        opacity: '1',
-        '-webkit-transform': 'translateX(-50%)',
-        '-ms-transform': 'translateX(-50%)',
-        transform: 'translateX(-50%)',
-        border: '2px solid var(--medium)',
-        borderRadius: '50%',
-        borderTopColor: 'transparent',
-        animation: 'spin 1s linear 0s infinite',
-        transition: 'opacity 0.3s ease'
-      },
-      'select': {
-        color: 'var(--primary)',
-        width: this.props.width,
-        height: this.props.height,
-        font: '14px var(--monospace)',
-        padding: this.props.padding,
-        backgroundImage: `url('${this.props.iconArrow}')`,
-        backgroundColor: 'var(--window)',
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center right',
-        border: '1px solid var(--border)',
-        borderRadius: this.props.radius,
-        outline: 'none',
-        '-webkit-appearance': 'none',
-        appearance: 'none',
-        position: 'relative'
-      },
-      'select[disabled]': {
-        backgroundColor: 'var(--background)'
-      },
-      'label': {
-        color: 'var(--medium)',
-        font: '12px/14px var(--subheader)',
-        fontWeight: '500',
-        textTransform: 'uppercase',
-        letterSpacing: '1px',
-        paddingBottom: '10px',
-        display: 'block'
-      }
-    }
-=======
   stylesheet () {
     return `
       input-select .tonic--wrapper {
@@ -176,7 +105,6 @@ class InputSelect extends Tonic { /* global Tonic */
         }
       }
     `
->>>>>>> refacor-styles
   }
 
   get value () {
@@ -235,20 +163,14 @@ class InputSelect extends Tonic { /* global Tonic */
     const {
       disabled,
       required,
-<<<<<<< HEAD
-=======
       width,
->>>>>>> refacor-styles
       theme
     } = this.props
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
-<<<<<<< HEAD
-=======
     this.root.style.width = width
 
->>>>>>> refacor-styles
     const options = this.root.innerHTML
 
     return `
@@ -257,10 +179,6 @@ class InputSelect extends Tonic { /* global Tonic */
         <select
           ${disabled ? 'disabled' : ''}
           ${required ? 'required' : ''}>
-<<<<<<< HEAD
-=======
-
->>>>>>> refacor-styles
           ${options}
         </select>
       </div>

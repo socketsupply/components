@@ -30,74 +30,6 @@ class Dialog extends Tonic { /* global Tonic */
     }
   }
 
-<<<<<<< HEAD
-  style () {
-    return {
-      '.tonic--dialog *': {
-        boxSizing: 'border-box'
-      },
-      '.tonic--wrapper': {
-        position: 'fixed',
-        top: '0',
-        left: '0',
-        right: '0',
-        bottom: '0',
-        display: 'flex',
-        zIndex: '100',
-        visibility: 'hidden',
-        transition: 'visibility 0s ease 0.5s'
-      },
-      '.tonic--show': {
-        visibility: 'visible',
-        transition: 'visibility 0s ease 0s'
-      },
-      '.tonic--show .tonic--overlay': {
-        opacity: '1'
-      },
-      '.tonic--show .tonic--dialog--content': {
-        opacity: '1',
-        '-webkit-transform': 'scale(1)',
-        '-ms-transform': 'scale(1)',
-        transform: 'scale(1)'
-      },
-      '.tonic--overlay': {
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        right: '0',
-        bottom: '0',
-        opacity: '0',
-        transition: 'opacity 0.3s ease-in-out'
-      },
-      '.tonic--dialog--content': {
-        minWidth: '350px',
-        minHeight: '250px',
-        height: 'auto',
-        width: 'auto',
-        paddingTop: '70px',
-        paddingBottom: '75px',
-        margin: 'auto',
-        position: 'relative',
-        backgroundColor: 'var(--window)',
-        boxShadow: '0px 30px 90px -20px rgba(0,0,0,0.3), 0 0 1px #a2a9b1',
-        borderRadius: '4px',
-        '-webkit-transform': 'scale(0.8)',
-        '-ms-transform': 'scale(0.8)',
-        transform: 'scale(0.8)',
-        transition: 'all 0.3s ease-in-out',
-        zIndex: '1',
-        opacity: '0'
-      },
-      '.tonic--close': {
-        width: '25px',
-        height: '25px',
-        position: 'absolute',
-        top: '25px',
-        right: '25px',
-        cursor: 'pointer'
-      }
-    }
-=======
   stylesheet () {
     return `
       .tonic--dialog .tonic--dialog--wrapper {
@@ -163,7 +95,6 @@ class Dialog extends Tonic { /* global Tonic */
         cursor: pointer;
       }
     `
->>>>>>> refacor-styles
   }
 
   show (fn) {

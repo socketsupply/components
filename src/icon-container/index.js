@@ -7,15 +7,6 @@ class IconContainer extends Tonic { /* global Tonic */
     }
   }
 
-<<<<<<< HEAD
-  style () {
-    return {
-      'svg': {
-        width: '100%',
-        height: '100%'
-      }
-    }
-=======
   stylesheet () {
     return `
       icon-container svg {
@@ -23,7 +14,6 @@ class IconContainer extends Tonic { /* global Tonic */
         height: 100%;
       }
     `
->>>>>>> refacor-styles
   }
 
   connected () {

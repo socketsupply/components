@@ -133,6 +133,195 @@ module.exports = function scrollToY (el, Y, speed) {
 }
 
 },{}]},{},[1]);
+
+//
+// Warning. Do not edit. This is a generated file.
+//
+class Tonic {
+  constructor (node, state) {
+    this.props = {}
+    this.state = state || {}
+    const name = Tonic._splitName(this.constructor.name)
+    this.root = node || document.createElement(name)
+    this.root.disconnect = index => this._disconnect(index)
+    this.root.reRender = v => this.reRender(v)
+    this.root.setState = v => this.setState(v)
+    this.root.getProps = () => this.getProps()
+    this.root.getState = () => this.getState()
+    this._bindEventListeners()
+    if (this.wrap) {
+      const render = this.render
+      this.render = () => this.wrap(render.bind(this))
+    }
+    this._connect()
+    Tonic.refs.push(this.root)
+  }
+
+  static match (el, s) {
+    if (!el.matches) el = el.parentElement
+    return el.matches(s) ? el : el.closest(s)
+  }
+
+  static add (c) {
+    c.prototype._props = Object.getOwnPropertyNames(c.prototype)
+    if (!c.name || c.name.length === 1) throw Error('Mangling detected, see guide. https://github.com/hxoht/tonic/blob/master/HELP.md.')
+
+    const name = Tonic._splitName(c.name)
+    Tonic.registry[name.toUpperCase()] = Tonic[c.name] = c
+    Tonic.tags = Object.keys(Tonic.registry)
+    if (c.registered) throw new Error(`Already registered ${c.name}`)
+    c.registered = true
+
+    if (!Tonic.styleNode) {
+      const styleTag = document.createElement('style')
+      styleTag.setAttribute('nonce', Tonic.nonce)
+      Tonic.styleNode = document.head.appendChild(styleTag)
+    }
+
+    Tonic._constructTags()
+  }
+
+  static _constructTags (root, states = {}) { /* eslint-disable no-new */
+    for (const tagName of Tonic.tags) {
+      for (const node of (root || document).getElementsByTagName(tagName)) {
+        if (!node.disconnect) new Tonic.registry[tagName](node, states[node.id])
+      }
+    }
+  }
+
+  static sanitize (o) {
+    for (const [k, v] of Object.entries(o)) {
+      if (typeof v === 'object') o[k] = Tonic.sanitize(v)
+      if (typeof v === 'string') o[k] = Tonic.escape(v)
+    }
+    return o
+  }
+
+  static escape (s) {
+    return s.replace(Tonic.escapeRe, ch => Tonic.escapeMap[ch])
+  }
+
+  static _splitName (s) {
+    return s.match(/[A-Z][a-z]*/g).join('-')
+  }
+
+  html ([s, ...strings], ...values) {
+    const reducer = (a, b) => a.concat(b, strings.shift())
+    const filter = s => s && (s !== true || s === 0)
+    return values.reduce(reducer, [s]).filter(filter).join('')
+  }
+
+  setState (o) {
+    this.state = typeof o === 'function' ? o(this.state) : o
+  }
+
+  getState () {
+    return this.state
+  }
+
+  reRender (o = this.props) {
+    const oldProps = JSON.parse(JSON.stringify(this.props))
+    this.props = Tonic.sanitize(typeof o === 'function' ? o(this.props) : o)
+    if (!this.root) throw new Error('.reRender called on destroyed component, see guide.')
+    Tonic._constructTags(this.root, this._setContent(this.root, this.render()))
+    this.updated && this.updated(oldProps)
+  }
+
+  getProps () {
+    return this.props
+  }
+
+  _bindEventListeners () {
+    const hp = Object.getOwnPropertyNames(window.HTMLElement.prototype)
+    for (const p of this._props) {
+      if (hp.indexOf('on' + p) === -1) continue
+      this.root.addEventListener(p, e => this[p](e))
+    }
+  }
+
+  _setContent (target, content = '') {
+    const states = {}
+    for (const tagName of Tonic.tags) {
+      for (const node of target.getElementsByTagName(tagName)) {
+        const index = Tonic.refs.findIndex(ref => ref === node)
+        if (index === -1) continue
+        states[node.id] = node.getState()
+        node.disconnect(index)
+      }
+    }
+
+    if (typeof content === 'string') {
+      target.innerHTML = content.trim()
+
+      if (this.styles) {
+        const styles = this.styles()
+        Array.from(target.querySelectorAll('[styles]')).forEach(el =>
+          el.getAttribute('styles').split(/\s+/).forEach(s =>
+            Object.assign(el.style, styles[s.trim()])))
+      }
+    } else {
+      while (target.firstChild) target.removeChild(target.firstChild)
+      target.appendChild(content.cloneNode(true))
+    }
+    this.root = target
+    return states
+  }
+
+  _connect () {
+    for (let { name, value } of this.root.attributes) {
+      name = name.replace(/-(.)/g, (_, m) => m.toUpperCase())
+      const p = this.props[name] = value === 'undefined' ? undefined : (value || name)
+
+      const m = p && p[0] === '{' && /{(.+)}/.exec(p)
+      if (m && m[1]) {
+        try {
+          this.props[name] = JSON.parse(m[1])
+        } catch (err) {
+          this.props[name] = m[1]
+          console.error(`Parse error (${name}), ${err.message}`)
+        }
+      }
+    }
+
+    this.props = Tonic.sanitize(this.props)
+
+    for (const [k, v] of Object.entries(this.defaults ? this.defaults() : {})) {
+      if (!this.props[k]) this.props[k] = v
+    }
+
+    this.willConnect && this.willConnect()
+    this.children = this.children || this.root.innerHTML
+    this._setContent(this.root, this.render())
+    Tonic._constructTags(this.root)
+    const style = this.stylesheet && this.stylesheet()
+
+    if (style && !Tonic.registry[this.root.tagName].styled) {
+      Tonic.registry[this.root.tagName].styled = true
+      Tonic.styleNode.appendChild(document.createTextNode(style))
+    }
+
+    this.connected && this.connected()
+  }
+
+  _disconnect (index) {
+    this.disconnected && this.disconnected()
+    delete this.root
+    Tonic.refs.splice(index, 1)
+  }
+}
+
+Tonic.tags = []
+Tonic.refs = []
+Tonic.registry = {}
+Tonic.escapeRe = /["&'<>`]/g
+Tonic.escapeMap = { '"': '&quot;', '&': '&amp;', '\'': '&#x27;', '<': '&lt;', '>': '&gt;', '`': '&#x60;' }
+
+if (typeof module === 'object') module.exports = Tonic
+
+
+Tonic.nonce = '3b84e20a'
+window.Tonic = Tonic
+    
 class ContentRoute extends Tonic { /* global Tonic */
   constructor (node) {
     super(node)
@@ -529,55 +718,6 @@ class ContentTooltip extends Tonic { /* global Tonic */
     }
   }
 
-<<<<<<< HEAD
-  style () {
-    return {
-      '.tonic--tooltip': {
-        position: 'absolute',
-        top: '30px',
-        background: 'var(--window)',
-        border: '1px solid var(--border)',
-        borderRadius: '2px',
-        transition: 'visibility 0.2s ease-in-out, opacity 0.2s ease-in-out, z-index 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
-        visibility: 'hidden',
-        zIndex: '-1',
-        opacity: '0'
-      },
-      '.tonic--tooltip.tonic--show': {
-        boxShadow: '0px 30px 90px -20px rgba(0, 0, 0, 0.3)',
-        visibility: 'visible',
-        opacity: '1',
-        zIndex: '1'
-      },
-      '.tonic--tooltip-arrow': {
-        width: '12px',
-        height: '12px',
-        position: 'absolute',
-        zIndex: '-1',
-        backgroundColor: 'var(--window)',
-        border: '1px solid transparent',
-        borderRadius: '2px',
-        pointerEvents: 'none',
-        '-webkit-transform': 'rotate(45deg)',
-        '-ms-transform': 'rotate(45deg)',
-        transform: 'rotate(45deg)',
-        left: '50%'
-      },
-      '.tonic--top .tonic--tooltip-arrow': {
-        marginBottom: '-6px',
-        bottom: '100%',
-        borderTopColor: 'var(--border)',
-        borderLeftColor: 'var(--border)'
-      },
-      '.tonic--bottom .tonic--tooltip-arrow': {
-        marginTop: '-6px',
-        position: 'absolute',
-        top: '100%',
-        borderBottomColor: 'var(--border)',
-        borderRightColor: 'var(--border)'
-      }
-    }
-=======
   stylesheet () {
     return `
       content-tooltip .tonic--tooltip {
@@ -631,7 +771,6 @@ class ContentTooltip extends Tonic { /* global Tonic */
         border-right-color: var(--border);
       }
     `
->>>>>>> refacor-styles
   }
 
   show (relativeNode) {
@@ -739,74 +878,6 @@ class Dialog extends Tonic { /* global Tonic */
     }
   }
 
-<<<<<<< HEAD
-  style () {
-    return {
-      '.tonic--dialog *': {
-        boxSizing: 'border-box'
-      },
-      '.tonic--wrapper': {
-        position: 'fixed',
-        top: '0',
-        left: '0',
-        right: '0',
-        bottom: '0',
-        display: 'flex',
-        zIndex: '100',
-        visibility: 'hidden',
-        transition: 'visibility 0s ease 0.5s'
-      },
-      '.tonic--show': {
-        visibility: 'visible',
-        transition: 'visibility 0s ease 0s'
-      },
-      '.tonic--show .tonic--overlay': {
-        opacity: '1'
-      },
-      '.tonic--show .tonic--dialog--content': {
-        opacity: '1',
-        '-webkit-transform': 'scale(1)',
-        '-ms-transform': 'scale(1)',
-        transform: 'scale(1)'
-      },
-      '.tonic--overlay': {
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        right: '0',
-        bottom: '0',
-        opacity: '0',
-        transition: 'opacity 0.3s ease-in-out'
-      },
-      '.tonic--dialog--content': {
-        minWidth: '350px',
-        minHeight: '250px',
-        height: 'auto',
-        width: 'auto',
-        paddingTop: '70px',
-        paddingBottom: '75px',
-        margin: 'auto',
-        position: 'relative',
-        backgroundColor: 'var(--window)',
-        boxShadow: '0px 30px 90px -20px rgba(0,0,0,0.3), 0 0 1px #a2a9b1',
-        borderRadius: '4px',
-        '-webkit-transform': 'scale(0.8)',
-        '-ms-transform': 'scale(0.8)',
-        transform: 'scale(0.8)',
-        transition: 'all 0.3s ease-in-out',
-        zIndex: '1',
-        opacity: '0'
-      },
-      '.tonic--close': {
-        width: '25px',
-        height: '25px',
-        position: 'absolute',
-        top: '25px',
-        right: '25px',
-        cursor: 'pointer'
-      }
-    }
-=======
   stylesheet () {
     return `
       .tonic--dialog .tonic--dialog--wrapper {
@@ -872,7 +943,6 @@ class Dialog extends Tonic { /* global Tonic */
         cursor: pointer;
       }
     `
->>>>>>> refacor-styles
   }
 
   show (fn) {
@@ -987,15 +1057,6 @@ class IconContainer extends Tonic { /* global Tonic */
     }
   }
 
-<<<<<<< HEAD
-  style () {
-    return {
-      'svg': {
-        width: '100%',
-        height: '100%'
-      }
-    }
-=======
   stylesheet () {
     return `
       icon-container svg {
@@ -1003,7 +1064,6 @@ class IconContainer extends Tonic { /* global Tonic */
         height: 100%;
       }
     `
->>>>>>> refacor-styles
   }
 
   connected () {
@@ -1071,87 +1131,6 @@ class InputButton extends Tonic { /* global Tonic */
     }
   }
 
-<<<<<<< HEAD
-  style () {
-    // if (this.props.width === 100%) {
-    // TODO display block (on component)
-    // }
-
-    return {
-      '': {
-        display: 'inline-block'
-      },
-      '.tonic--wrapper': {
-        margin: '5px'
-      },
-      'button': {
-        color: this.props.textColor,
-        width: this.props.width,
-        height: this.props.height,
-        minHeight: '40px',
-        font: '12px var(--subheader)',
-        fontWeight: '400',
-        textTransform: 'uppercase',
-        letterSpacing: '1px',
-        padding: '8px 8px 5px 8px',
-        position: 'relative',
-        borderWidth: '1px',
-        borderStyle: 'solid',
-        borderColor: this.props.borderColor,
-        borderRadius: this.props.radius,
-        backgroundColor: this.props.backgroundColor,
-        outline: 'none',
-        transition: 'all 0.3s ease',
-        appearance: 'none'
-      },
-      'button:before': {
-        content: '""',
-        width: '14px',
-        height: '14px',
-        opacity: '0'
-      },
-      'button[disabled], button.tonic--active': {
-        color: 'var(--medium)',
-        backgroundColor: 'var(--background)',
-        borderColor: 'var(--background)'
-      },
-      'button:not([disabled]):hover, button:not(.tonic--loading):hover': {
-        color: 'var(--window)',
-        backgroundColor: 'var(--primary) !important',
-        borderColor: 'var(--primary) !important',
-        cursor: 'pointer'
-      },
-      'button.tonic--loading': {
-        color: 'transparent',
-        background: 'var(--medium)',
-        borderColor: 'var(--medium)',
-        pointerEvents: 'none',
-        transition: 'all 0.3s ease'
-      },
-      'button.tonic--loading:hover': {
-        color: 'transparent',
-        background: 'var(--medium) !important',
-        borderColor: 'var(--medium) !important'
-      },
-      'button.tonic--loading:before': {
-        marginTop: '-8px',
-        marginLeft: '-8px',
-        display: 'inline-block',
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        opacity: '1',
-        '-webkit-transform': 'translateX(-50%) translateY(-50%)',
-        '-ms-transform': 'translateX(-50%) translateY(-50%)',
-        transform: 'translateX(-50%) translateY(-50%)',
-        border: '2px solid white',
-        borderRadius: '50%',
-        borderTopColor: 'transparent',
-        animation: 'spin 1s linear 0s infinite',
-        transition: 'opacity 0.3s ease'
-      }
-    }
-=======
   stylesheet () {
     return `
       input-button {
@@ -1240,7 +1219,6 @@ class InputButton extends Tonic { /* global Tonic */
         }
       }
     `
->>>>>>> refacor-styles
   }
 
   loading (state) {
@@ -1310,13 +1288,7 @@ class InputButton extends Tonic { /* global Tonic */
           ${typeAttr}
           ${disabled ? 'disabled' : ''}
           ${autofocus ? 'autofocus' : ''}
-<<<<<<< HEAD
-          class="${classes}">
-          ${label}
-        </button>
-=======
           class="${classes}">${label}</button>
->>>>>>> refacor-styles
       </div>
     `
   }
@@ -1351,54 +1323,6 @@ class InputCheckbox extends Tonic { /* global Tonic */
     }
   }
 
-<<<<<<< HEAD
-  style () {
-    const {
-      color,
-      iconOn,
-      checked,
-      iconOff
-    } = this.props
-
-    if (!color) this.props.color = this.getPropertyValue('primary')
-    if (!iconOn) this.props.iconOn = InputCheckbox.svg.iconOn(this.props.color)
-    if (!iconOff) this.props.iconOff = InputCheckbox.svg.iconOff(this.props.color)
-
-    let url = this.props[checked ? 'iconOn' : 'iconOff']
-
-    return {
-      '.tonic--wrapper': {
-        display: 'inline-block',
-        '-webkit-user-select': 'none',
-        '-moz-user-select': 'none',
-        userSelect: 'none'
-      },
-      'input[type="checkbox"]': {
-        display: 'none'
-      },
-      'input[type="checkbox"][disabled] + label': {
-        opacity: '0.35'
-      },
-      'label': {
-        display: 'inline-block',
-        verticalAlign: 'middle'
-      },
-      'label:nth-of-type(1)': {
-        width: this.props.size,
-        height: this.props.size,
-        backgroundImage: `url('${url}')`
-      },
-      'label:nth-of-type(2)': {
-        color: 'var(--primary)',
-        font: '12px var(--subheader)',
-        fontWeight: '500',
-        textTransform: 'uppercase',
-        letterSpacing: '1px',
-        paddingTop: '2px',
-        marginLeft: '10px'
-      }
-    }
-=======
   stylesheet () {
     return `
       input-checkbox .tonic--input-checkbox--wrapper {
@@ -1431,7 +1355,6 @@ class InputCheckbox extends Tonic { /* global Tonic */
         margin-left: 10px;
       }
     `
->>>>>>> refacor-styles
   }
 
   change (e) {
@@ -1497,14 +1420,10 @@ class InputCheckbox extends Tonic { /* global Tonic */
           id="${id}"
           ${disabled ? 'disabled' : ''}
           ${checked ? 'checked' : ''}/>
-<<<<<<< HEAD
-        <label for="${id}" class="tonic--icon"></label>
-=======
         <label
           for="${id}"
           class="tonic--icon">
         </label>
->>>>>>> refacor-styles
         ${this.renderLabel()}
       </div>
     `
@@ -1558,77 +1477,6 @@ class InputSelect extends Tonic { /* global Tonic */
     }
   }
 
-<<<<<<< HEAD
-  style () {
-    return {
-      '.tonic--wrapper': {
-        position: 'relative',
-        width: this.props.width
-      },
-      '.tonic--wrapper:before': {
-        content: '""',
-        width: '14px',
-        height: '14px',
-        opacity: '0',
-        zIndex: '1'
-      },
-      '.tonic--loading': {
-        pointerEvents: 'none',
-        transition: 'background 0.3s ease'
-      },
-      '.tonic--loading select': {
-        color: 'transparent',
-        backgroundColor: 'var(--window)',
-        borderColor: 'var(--border)'
-      },
-      '.tonic--loading .tonic--wrapper:before': {
-        marginTop: '-8px',
-        marginLeft: '-8px',
-        display: 'block',
-        position: 'absolute',
-        bottom: '10px',
-        left: '50%',
-        opacity: '1',
-        '-webkit-transform': 'translateX(-50%)',
-        '-ms-transform': 'translateX(-50%)',
-        transform: 'translateX(-50%)',
-        border: '2px solid var(--medium)',
-        borderRadius: '50%',
-        borderTopColor: 'transparent',
-        animation: 'spin 1s linear 0s infinite',
-        transition: 'opacity 0.3s ease'
-      },
-      'select': {
-        color: 'var(--primary)',
-        width: this.props.width,
-        height: this.props.height,
-        font: '14px var(--monospace)',
-        padding: this.props.padding,
-        backgroundImage: `url('${this.props.iconArrow}')`,
-        backgroundColor: 'var(--window)',
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center right',
-        border: '1px solid var(--border)',
-        borderRadius: this.props.radius,
-        outline: 'none',
-        '-webkit-appearance': 'none',
-        appearance: 'none',
-        position: 'relative'
-      },
-      'select[disabled]': {
-        backgroundColor: 'var(--background)'
-      },
-      'label': {
-        color: 'var(--medium)',
-        font: '12px/14px var(--subheader)',
-        fontWeight: '500',
-        textTransform: 'uppercase',
-        letterSpacing: '1px',
-        paddingBottom: '10px',
-        display: 'block'
-      }
-    }
-=======
   stylesheet () {
     return `
       input-select .tonic--wrapper {
@@ -1707,7 +1555,6 @@ class InputSelect extends Tonic { /* global Tonic */
         }
       }
     `
->>>>>>> refacor-styles
   }
 
   get value () {
@@ -1766,20 +1613,14 @@ class InputSelect extends Tonic { /* global Tonic */
     const {
       disabled,
       required,
-<<<<<<< HEAD
-=======
       width,
->>>>>>> refacor-styles
       theme
     } = this.props
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
-<<<<<<< HEAD
-=======
     this.root.style.width = width
 
->>>>>>> refacor-styles
     const options = this.root.innerHTML
 
     return `
@@ -1788,10 +1629,6 @@ class InputSelect extends Tonic { /* global Tonic */
         <select
           ${disabled ? 'disabled' : ''}
           ${required ? 'required' : ''}>
-<<<<<<< HEAD
-=======
-
->>>>>>> refacor-styles
           ${options}
         </select>
       </div>
@@ -1853,117 +1690,6 @@ class InputText extends Tonic { /* global Tonic */
     }))
   }
 
-<<<<<<< HEAD
-  style () {
-    return {
-      '.tonic--wrapper': {
-        position: 'relative',
-        width: this.props.width,
-        height: this.props.height,
-        padding: this.props.padding,
-        borderRadius: this.props.radius
-      },
-      '.tonic--wrapper.tonic--right icon-container': {
-        right: '10px'
-      },
-      '.tonic--wrapper.tonic--right input': {
-        paddingRight: '40px'
-      },
-      '.tonic--wrapper.tonic--left icon-container': {
-        left: '10px'
-      },
-      '.tonic--wrapper.tonic--left input': {
-        paddingLeft: '40px'
-      },
-      'icon-container': {
-        position: 'absolute',
-        bottom: '7px'
-      },
-      'label': {
-        color: 'var(--medium)',
-        fontWeight: '500',
-        font: '12px/14px var(--subheader)',
-        textTransform: 'uppercase',
-        letterSpacing: '1px',
-        paddingBottom: '10px',
-        display: 'block'
-      },
-      '.tonic--wrapper input': {
-        color: 'var(--primary)',
-        font: '14px var(--monospace)',
-        width: this.props.width,
-        height: this.props.height,
-        padding: '10px',
-        backgroundColor: 'transparent',
-        border: '1px solid var(--border)',
-        borderRadius: this.props.radius,
-        transition: 'border 0.2s ease-in-out',
-        '-webkit-appearance': 'none',
-        '-moz-appearance': 'none',
-        appearance: 'none',
-        outline: 'none'
-      },
-      '.tonic--wrapper input:focus': {
-        borderColor: 'var(--primary)'
-      },
-      '.tonic--wrapper input[disabled]': {
-        backgroundColor: 'var(--background)'
-      },
-      '.tonic--wrapper input:invalid': {
-        borderColor: 'var(--error)'
-      },
-      '.tonic--wrapper input:invalid:focus': {
-        borderColor: 'var(--error)'
-      },
-      '.tonic--wrapper input:invalid ~ .tonic--invalid': {
-        transition: 'opacity 0.2s ease, transform 0.2s ease, visibility 1s ease 0s',
-        '-webkit-transform': 'translateY(0)',
-        '-ms-transform': 'translateY(0)',
-        transform: 'translateY(0)',
-        visibility: 'visible',
-        opacity: '1'
-      },
-      '.tonic--invalid': {
-        fontSize: '14px',
-        textAlign: 'center',
-        position: 'absolute',
-        bottom: '50px',
-        left: '0',
-        right: '0',
-        '-webkit-transform': 'translateY(-10px)',
-        '-ms-transform': 'translateY(-10px)',
-        transform: 'translateY(-10px)',
-        transition: 'opacity 0.2s ease, transform 0.2s ease, visibility 0s ease 1s',
-        visibility: 'hidden',
-        opacity: '0'
-      },
-      '.tonic--invalid span': {
-        color: 'white',
-        padding: '2px 6px',
-        margin: '0 auto',
-        position: 'relative',
-        display: 'inline-block',
-        backgroundColor: 'var(--error)',
-        borderRadius: '2px'
-      },
-      '.tonic--invalid span:after': {
-        content: '""',
-        width: '0',
-        height: '0',
-        display: 'block',
-        position: 'absolute',
-        bottom: '-6px',
-        left: '50%',
-        '-webkit-transform': 'translateX(-50%)',
-        '-ms-transform': 'translateX(-50%)',
-        transform: 'translateX(-50%)',
-        borderWidth: '6px',
-        borderStyle: 'solid',
-        borderColor: 'transparent',
-        borderTopColor: 'var(--error)'
-      }
-    }
-=======
   stylesheet () {
     return `
       input-text .tonic--wrapper {
@@ -2074,7 +1800,6 @@ class InputText extends Tonic { /* global Tonic */
         border-top: 6px solid var(--error);
       }
     `
->>>>>>> refacor-styles
   }
 
   renderLabel () {
@@ -2156,12 +1881,8 @@ class InputText extends Tonic { /* global Tonic */
           ${spellcheckAttr}
           ${ariaInvalidAttr}
           ${disabled ? 'disabled' : ''}
-<<<<<<< HEAD
-          ${required ? 'required' : ''}/>
-=======
           ${required ? 'required' : ''}
         />
->>>>>>> refacor-styles
         <div class="tonic--invalid">
           <span>${this.props.errorMessage}</span>
         </div>
@@ -2307,110 +2028,6 @@ class InputToggle extends Tonic { /* global Tonic */
     }
   }
 
-<<<<<<< HEAD
-  style () {
-    return {
-      '.tonic--wrapper': {
-        height: '30px',
-        width: '47px',
-        position: 'relative'
-      },
-      '.tonic--wrapper > label': {
-        color: 'var(--medium)',
-        fontWeight: '500',
-        font: '12px/14px var(--subheader)',
-        textTransform: 'uppercase',
-        letterSpacing: '1px',
-        marginLeft: '58px',
-        paddingTop: '9px',
-        display: 'block',
-        userSelect: 'none'
-      },
-      '.tonic--switch': {
-        position: 'absolute',
-        left: '0',
-        top: '0'
-      },
-      '.tonic--switch label:before': {
-        font: 'bold 12px var(--subheader)',
-        textTransform: 'uppercase'
-      },
-      'input.tonic--toggle': {
-        position: 'absolute',
-        display: 'none',
-        outline: 'none',
-        userSelect: 'none',
-        zIndex: '1'
-      },
-      'input.tonic--toggle + label': {
-        width: '42px',
-        height: '24px',
-        padding: '2px',
-        display: 'block',
-        position: 'relative',
-        backgroundColor: 'var(--border)',
-        borderRadius: '60px',
-        transition: 'background 0.4s ease-in-out',
-        cursor: 'default'
-      },
-      'input.tonic--toggle + label:before': {
-        content: '""',
-        lineHeight: '29px',
-        textIndent: '29px',
-        position: 'absolute',
-        top: '1px',
-        left: '1px',
-        right: '1px',
-        bottom: '1px',
-        display: 'block',
-        borderRadius: '60px',
-        transition: 'background 0.4s ease-in-out',
-        paddingTop: '1px',
-        fontSize: '0.65em',
-        letterSpacing: '0.05em',
-        backgroundColor: 'var(--border)'
-      },
-      'input.tonic--toggle + label:after': {
-        content: '""',
-        width: '16px',
-        position: 'absolute',
-        top: '4px',
-        left: '4px',
-        bottom: '4px',
-        backgroundColor: 'var(--window)',
-        borderRadius: '52px',
-        transition: 'background 0.4s ease-in-out, margin 0.4s ease-in-out',
-        display: 'block',
-        zIndex: '2'
-      },
-      'input.tonic--toggle:disabled': {
-        cursor: 'default',
-        backgroundColor: 'var(--background)'
-      },
-      'input.tonic--toggle:disabled + label': {
-        cursor: 'default',
-        backgroundColor: 'var(--background)'
-      },
-      'input.tonic--toggle:disabled + label:before': {
-        backgroundColor: 'var(--background)'
-      },
-      'input.tonic--toggle:disabled + label:after': {
-        backgroundColor: 'var(--window)'
-      },
-      'input.tonic--toggle:checked + label': {
-        backgroundColor: 'var(--accent)'
-      },
-      'input.tonic--toggle:checked + label:before': {
-        content: '""',
-        backgroundColor: 'var(--accent)',
-        color: 'var(--background)'
-      },
-      'input.tonic--toggle:checked + label:after': {
-        marginLeft: '18px',
-        backgroundColor: 'var(--background)'
-      }
-    }
-=======
   stylesheet () {
     return `
       input-toggle .tonic--toggle--wrapper {
@@ -2527,7 +2144,6 @@ class InputToggle extends Tonic { /* global Tonic */
         background-color: var(--background);
       }
     `
->>>>>>> refacor-styles
   }
 
   change (e) {
@@ -2669,110 +2285,6 @@ class NotificationCenter extends Tonic { /* global Tonic */
     }
   }
 
-<<<<<<< HEAD
-  style () {
-    return {
-      '*': {
-        boxSizing: 'border-box'
-      },
-      '.tonic--wrapper': {
-        userSelect: 'none',
-        position: 'fixed',
-        top: '10px',
-        display: 'flex',
-        flexWrap: 'wrap',
-        flexDirection: 'column',
-        visibility: 'hidden',
-        zIndex: '102'
-      },
-      // '.tonic--wrapper @media (max-width: 850px)': {
-      //   width: '90%'
-      // },
-      '.tonic--wrapper.tonic--show': {
-        visibility: 'visible'
-      },
-      '.tonic--wrapper.tonic--center': {
-        left: '50%',
-        alignItems: 'center',
-        '-webkit-transform': 'translateX(-50%)',
-        '-ms-transform': 'translateX(-50%)',
-        transform: 'translateX(-50%)'
-      },
-      '.tonic--wrapper.tonic--left': {
-        alignItems: 'flex-start',
-        left: '10px'
-      },
-      '.tonic--wrapper.tonic--right': {
-        alignItems: 'flex-end',
-        right: '10px'
-      },
-      '.tonic--notification': {
-        width: 'auto',
-        maxWidth: '600px',
-        marginTop: '10px',
-        position: 'relative',
-        backgroundColor: 'var(--window)',
-        boxShadow: '0px 10px 40px -20px rgba(0,0,0,0.4), 0 0 1px #a2a9b1',
-        borderRadius: '3px',
-        '-webkit-transform': 'translateY(-100px)',
-        '-ms-transform': 'translateY(-100px)',
-        transform: 'translateY(-100px)',
-        transition: 'opacity 0.2s ease, transform 0s ease 1s',
-        zIndex: '1',
-        opacity: '0'
-      },
-      '.tonic--notification.tonic--show': {
-        opacity: '1',
-        '-webkit-transform': 'translateY(0)',
-        '-ms-transform': 'translateY(0)',
-        transform: 'translateY(0)',
-        transition: 'transform 0.3s cubic-bezier(0.18, 0.89, 0.32, 1.28)'
-      },
-      '.tonic--notification.tonic--close': {
-        paddingRight: '50px'
-      },
-      '.tonic--notification.tonic--alert': {
-        paddingLeft: '35px'
-      },
-      '.tonic--main': {
-        padding: '17px 15px 15px 15px'
-      },
-      '.tonic--title': {
-        font: '14px/18px var(--subheader)'
-      },
-      '.tonic--message': {
-        font: '14px/18px var(--subheader)',
-        color: 'var(--medium)'
-      },
-      '.tonic--icon': {
-        width: '16px',
-        height: '16px',
-        position: 'absolute',
-        left: '20px',
-        top: '50%',
-        backgroundSize: 'cover',
-        '-webkit-transform': 'translateY(-50%)',
-        '-ms-transform': 'translateY(-50%)',
-        transform: 'translateY(-50%)'
-      },
-      '.tonic--close': {
-        width: '20px',
-        height: '20px',
-        position: 'absolute',
-        right: '20px',
-        top: '50%',
-        '-webkit-transform': 'translateY(-50%)',
-        '-ms-transform': 'translateY(-50%)',
-        transform: 'translateY(-50%)',
-        cursor: 'pointer',
-        backgroundSize: 'cover'
-      },
-      '.tonic--close svg path': {
-        fill: 'var(--primary)',
-        color: 'var(--primary)'
-      }
-    }
-=======
   stylesheet () {
     return `
       notification-center * {
@@ -2891,7 +2403,6 @@ class NotificationCenter extends Tonic { /* global Tonic */
         color: var(--primary);
       }
     `
->>>>>>> refacor-styles
   }
 
   create ({ message, title, duration, type, dismiss } = {}) {
@@ -3352,70 +2863,6 @@ class Panel extends Tonic { /* global Tonic */
     }
   }
 
-<<<<<<< HEAD
-  style () {
-    return {
-      '*': {
-        boxSizing: 'border-box'
-      },
-      '.tonic--wrapper .tonic--panel': {
-        width: '500px',
-        position: 'fixed',
-        bottom: '0',
-        top: '0',
-        backgroundColor: 'var(--window)',
-        boxShadow: '0px 0px 28px 0 rgba(0,0,0,0.05)',
-        zIndex: '100',
-        transition: 'transform 0.3s ease-in-out'
-      },
-      // '.tonic--wrapper .tonic--panel @media (max-width: 500px)': {
-      //   width: '100%'
-      // },
-      '.tonic--wrapper.tonic--left .tonic--panel': {
-        left: '0',
-        borderRight: '1px solid var(--border)',
-        '-webkit-transform': 'translateX(-500px)',
-        '-ms-transform': 'translateX(-500px)',
-        'transform': 'translateX(-500px)'
-      },
-      '.tonic--wrapper.tonic--right .tonic--panel': {
-        right: '0',
-        borderLeft: '1px solid var(--border)',
-        '-webkit-transform': 'translateX(500px)',
-        '-ms-transform': 'translateX(500px)',
-        transform: 'translateX(500px)'
-      },
-      '.tonic--show .tonic--panel': {
-        '-webkit-transform': 'translateX(0)',
-        '-ms-transform': 'translateX(0)',
-        transform: 'translateX(0)'
-      },
-      '.tonic--show[overlay="true"] .tonic--overlay': {
-        opacity: '1',
-        visibility: 'visible',
-        transition: 'opacity 0.3s ease-in-out, visibility 0s ease 0s'
-      },
-      '.tonic--overlay': {
-        opacity: '0',
-        visibility: 'hidden',
-        position: 'fixed',
-        top: '0',
-        left: '0',
-        right: '0',
-        bottom: '0',
-        transition: 'opacity 0.3s ease-in-out, visibility 0s ease 1s',
-        zIndex: '1'
-      },
-      '.tonic--close': {
-        width: '25px',
-        height: '25px',
-        position: 'absolute',
-        top: '30px',
-        right: '30px',
-        cursor: 'pointer'
-      }
-    }
-=======
   stylesheet () {
     return `
       .tonic--panel .tonic--panel--inner {
@@ -3483,7 +2930,6 @@ class Panel extends Tonic { /* global Tonic */
         cursor: pointer;
       }
     `
->>>>>>> refacor-styles
   }
 
   show (fn) {
@@ -3752,62 +3198,6 @@ class ProfileImage extends Tonic { /* global Tonic */
     return computed.getPropertyValue(`--${s}`).trim()
   }
 
-<<<<<<< HEAD
-  style () {
-    return {
-      '': {
-        display: 'inline-block'
-      },
-      'input[type="file"]': {
-        display: 'none'
-      },
-      '.tonic--wrapper': {
-        width: this.props.size,
-        height: this.props.size,
-        border: this.props.border,
-        borderRadius: this.props.radius,
-        position: 'relative',
-        overflow: 'hidden'
-      },
-      '.tonic--image': {
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        right: '0',
-        bottom: '0',
-        backgroundImage: `url('${this.props.src}')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center center',
-        backgroundRepeat: 'no-repeat'
-      },
-      '.tonic--overlay': {
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        right: '0',
-        bottom: '0',
-        backgroundColor: 'rgba(0,0,0,0.5)',
-        transition: 'opacity 0.2s ease-in-out',
-        visibility: 'hidden',
-        opacity: '0',
-        display: 'flex'
-      },
-      '.tonic--icon': {
-        position: 'absolute',
-        top: '0',
-        left: '0',
-        right: '0',
-        bottom: '0',
-        backgroundImage: `url('${this.props.iconEdit}')`,
-        backgroundSize: '40px 40px',
-        backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center center'
-      },
-      '.tonic--editable:hover .tonic--overlay': {
-        visibility: 'visible',
-        opacity: '1',
-        cursor: 'pointer'
-=======
   stylesheet () {
     return `
       profile-image {
@@ -3886,7 +3276,6 @@ class ProfileImage extends Tonic { /* global Tonic */
         height: size,
         border: border,
         borderRadius: radius
->>>>>>> refacor-styles
       }
     }
   }
@@ -3908,11 +3297,18 @@ class ProfileImage extends Tonic { /* global Tonic */
     const data = fileInput.files[0]
 
     this.getPictureData(data, (err, data) => {
-      if (err) return this.emit('error', err)
+      if (err) {
+        const event = new window.Event('error')
+        event.message = err.message
+        this.root.dispatchEvent(event)
+        return
+      }
 
       const slot = this.root.querySelector('.tonic--image')
       slot.style.backgroundImage = 'url("' + data + '")'
-      this.emit('changed', data)
+      const event = new window.Event('changed')
+      event.data = data
+      this.root.dispatchEvent(event)
     })
   }
 
@@ -3928,14 +3324,6 @@ class ProfileImage extends Tonic { /* global Tonic */
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     return `
-<<<<<<< HEAD
-      <div class="tonic--wrapper ${editable ? 'tonic--editable' : ''}">
-        <div class="tonic--image" ${idAttr} ${nameAttr}>
-        </div>
-        <input type="file"/>
-        <div class="tonic--overlay">
-          <div class="tonic--icon"></div>
-=======
       <div
         class="tonic--wrapper ${editable ? 'tonic--editable' : ''}"
         styles="wrapper">
@@ -3950,7 +3338,6 @@ class ProfileImage extends Tonic { /* global Tonic */
 
         <div class="tonic--overlay">
           <div styles="icon"></div>
->>>>>>> refacor-styles
         </div>
       </div>
     `
@@ -4281,6 +3668,7 @@ class Windowed extends Tonic { /* global Tonic */
 
 Tonic.Windowed = Windowed
 
+  
 
   //
   // ./src/content-route/readme.js
@@ -4514,8 +3902,8 @@ popover.addEventListener('show', event => {
   if (document.body.dataset.page === 'components') {
   const profile = document.getElementById('profile-image-example-editable')
 
-profile.addEventListener('changed', e => console.log(e.detail))
-profile.addEventListener('error', e => console.log(e.detail))
+profile.addEventListener('changed', e => console.log(e.data))
+profile.addEventListener('error', e => console.log(e.message))
 
   }
   

@@ -6,6 +6,7 @@ const hl = require('highlight.js')
 const fetch = require('node-fetch')
 
 const renderer = new marked.Renderer()
+const NONCE = Math.random().toString(16).slice(2, 10)
 
 renderer.heading = (text, level) => {
   const escapedText = text.toLowerCase().replace(/[^\w]+/g, '-')
@@ -55,7 +56,7 @@ function createPage (data, className) {
   return `
     <!DOCTYPE html>
 
-      ${read(docsDir, 'src', 'head.html')}
+      ${read(docsDir, 'src', 'head.html').replace(/%nonce%/g, NONCE)}
 
       <body data-page="${className}">
         <div class="theme-picker">
@@ -87,7 +88,7 @@ function createPage (data, className) {
             <a name="api" href="./api.html">API</a>
           </div>
 
-          ${sections}
+          ${sections.replace(/%nonce%/g, NONCE)}
 
           <footer>
             <div>
@@ -104,7 +105,7 @@ function createPage (data, className) {
             </div>
           </footer>
         </main>
-        <script src="bundle.js"></script>
+        <script nonce="${NONCE}" src="bundle.js"></script>
       </body>
     </html>
   `
@@ -167,9 +168,21 @@ async function compile () {
     s = s.replace(/%html%/g, demoHTML)
 
     const demoJS = read(componentsDir, dir, 'readme.js')
-    s = s.replace(/%js%/g, demoJS)
+    if (demoJS) {
+      s = s.replace(/%js%/g, demoJS)
 
-    bundle(`{ ${demoJS} }`)
+      const relativeDir = componentsDir.replace(process.cwd(), '')
+
+      bundle(`
+
+  //
+  // .${path.join(relativeDir, dir, 'readme.js')}
+  //
+  if (document.body.dataset.page === 'components') {
+  ${demoJS}
+  }
+  `)
+    }
 
     const title = parseHeading(s)
 
@@ -208,7 +221,13 @@ async function main () {
   //
   // Copy the build into the demo page bundle
   //
-  bundle(read(__dirname, '..', 'index.js'))
+  const source = read(__dirname, '..', 'index.js')
+    .replace(/window\.Tonic = Tonic/, `
+Tonic.nonce = '${NONCE}'
+window.Tonic = Tonic
+    `)
+
+  bundle(source)
 
   //
   // Bundle the demo code for each component and compile

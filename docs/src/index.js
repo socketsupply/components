@@ -1,4 +1,3 @@
-console.time('load')
 const scrollToY = require('scrolltoy')
 const { qs, qsa } = require('qs')
 
@@ -41,7 +40,7 @@ function setupNavigation () {
 
     pos = pos + 100
 
-    ranges.map(function (range) {
+    ranges.map(range => {
       if (pos >= range.upper && pos <= range.lower) {
         if (range.id === current) return
 
@@ -56,7 +55,6 @@ function setupNavigation () {
 }
 
 function ready () {
-  console.timeEnd('load')
   setupNavigation()
 
   const theme = window.localStorage.theme

@@ -6,7 +6,7 @@ The `popover` component creates a popover activated by a click event. It is posi
 
 %html%
 
-<style>
+<style nonce="%nonce%">
   #popover-example-trigger {
     width: 50px;
     height: 50px;

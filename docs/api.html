@@ -11,15 +11,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1 user-scalable=no">
   <meta name="description" content="Component Based Architecture">
 
-  <!-- meta
-  http-equiv="Content-Security-Policy"
-  content="
-    default-src 'self';
-    font-src 'self';
-    img-src 'self' https:;
-    style-src 'self';
-    script-src 'self';
-    connect-src 'self'" -->
+  <meta
+    http-equiv="Content-Security-Policy"
+    content="
+      default-src 'self';
+      font-src 'self' https:;
+      img-src 'self' https: data:;
+      style-src 'self' 'nonce-b4c50972' https:;
+      script-src 'self' 'nonce-b4c50972';
+      connect-src 'self'">
 </head>
 
 
@@ -546,7 +546,7 @@ performance.</p>
             </div>
           </footer>
         </main>
-        <script src="bundle.js"></script>
+        <script nonce="b4c50972" src="bundle.js"></script>
       </body>
     </html>
   

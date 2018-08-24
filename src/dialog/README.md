@@ -6,7 +6,7 @@ your own dialog class which can be registered and then used as a tag.
 
 %html%
 
-<style>
+<style nonce="%nonce%">
   my-dialog header,
   my-dialog main {
     text-align: center;

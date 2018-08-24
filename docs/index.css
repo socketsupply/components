@@ -37,6 +37,9 @@ content-route {
   marign-top: 20px;
   padding-top: 20px;
 }
+#content-route-select {
+  display: inline-block;
+}
 content-tabs {
   display: block;
 }

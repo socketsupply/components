@@ -11,15 +11,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1 user-scalable=no">
   <meta name="description" content="Component Based Architecture">
 
-  <!-- meta
-  http-equiv="Content-Security-Policy"
-  content="
-    default-src 'self';
-    font-src 'self';
-    img-src 'self' https:;
-    style-src 'self';
-    script-src 'self';
-    connect-src 'self'" -->
+  <meta
+    http-equiv="Content-Security-Policy"
+    content="
+      default-src 'self';
+      font-src 'self' https:;
+      img-src 'self' https: data:;
+      style-src 'self' 'nonce-b4c50972' https:;
+      script-src 'self' 'nonce-b4c50972';
+      connect-src 'self'">
 </head>
 
 
@@ -213,7 +213,6 @@
     <input-select
       id="content-route-select"
       value="/"
-      style="display: inline-block;"
       label="Select a URL">
       <option value="/">/</option>
       <option value="/bar/100">/bar/100</option>
@@ -262,7 +261,7 @@ page2.addEventListener(<span class="hljs-string">'show'</span>, e =&gt; {
   <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'page2-number'</span>).textContent = number
 })
 </code></pre>
-<style>
+<style nonce="b4c50972">
   content-route.tonic--show {
     display: block;
     margin: 20px 0 6px;
@@ -418,7 +417,7 @@ page2.addEventListener(<span class="hljs-string">'show'</span>, e =&gt; {
 </content-tooltip>
 
 
-<style>
+<style nonce="b4c50972">
   #content-tooltip-example-1 {
     cursor: default;
   }
@@ -508,7 +507,7 @@ your own dialog class which can be registered and then used as a tag.</p>
 </my-dialog>
 
 
-<style>
+<style nonce="b4c50972">
   my-dialog header,
   my-dialog main {
     text-align: center;
@@ -1888,7 +1887,7 @@ your own panel class which can be registered and then used as a tag.</p>
   id="content-panel-example"
   overlay="true">
 </my-panel></p>
-<style>
+<style nonce="b4c50972">
   my-panel h3 {
     margin: 0;
   }
@@ -2077,7 +2076,7 @@ panelLink.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; pan
 </popover>
 
 
-<style>
+<style nonce="b4c50972">
   #popover-example-trigger {
     width: 50px;
     height: 50px;
@@ -2400,7 +2399,7 @@ has been rendered.</p>
 <h2>Demo</h2>
 <p>This demo generates the data after you click the overlay. Generating 500000
 rows of data can take a second or two.</p>
-<style>
+<style nonce="b4c50972">
   body > main div.example .content.windowed-example {
     max-width: initial;
     padding: 0;
@@ -2604,7 +2603,7 @@ overlay.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
             </div>
           </footer>
         </main>
-        <script src="bundle.js"></script>
+        <script nonce="b4c50972" src="bundle.js"></script>
       </body>
     </html>
   

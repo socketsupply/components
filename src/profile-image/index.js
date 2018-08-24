@@ -67,6 +67,34 @@ class ProfileImage extends Tonic { /* global Tonic */
     `
   }
 
+  styles () {
+    const {
+      iconEdit,
+      src,
+      size,
+      border,
+      radius
+    } = this.props
+
+    return {
+      icon: {
+        backgroundImage: `url('${iconEdit}')`
+      },
+      background: {
+        backgroundImage: `url('${src}')`
+      },
+      hidden: {
+        display: 'none'
+      },
+      wrapper: {
+        width: size,
+        height: size,
+        border: border,
+        borderRadius: radius
+      }
+    }
+  }
+
   getPictureData (src, cb) {
     const reader = new window.FileReader()
     reader.onerror = err => cb(err)
@@ -94,43 +122,30 @@ class ProfileImage extends Tonic { /* global Tonic */
 
   render () {
     let {
-      id,
       name,
-      size,
-      src,
-      radius,
-      border,
       theme,
       editable
     } = this.props
 
-    const idAttr = id ? `id="${id}"` : ''
     const nameAttr = name ? `name="${name}"` : ''
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
-    let style = []
-
-    if (size) {
-      style.push(`width: ${size}`)
-      style.push(`height: ${size}`)
-    }
-
-    if (border) style.push(`border: ${border}`)
-    if (radius) style.push(`border-radius: ${radius}`)
-    style = style.join('; ')
-
     return `
-      <div class="tonic--wrapper ${editable ? 'tonic--editable' : ''}" style="${style}">
+      <div
+        class="tonic--wrapper ${editable ? 'tonic--editable' : ''}"
+        styles="wrapper">
+
         <div
           class="tonic--image"
-          ${idAttr}
           ${nameAttr}
-          style="background-image: url('${src}');">
+          styles="background">
         </div>
-        <input type="file" style="display:none"/>
+
+        <input type="file" styles="hidden"/>
+
         <div class="tonic--overlay">
-          <div style="background-image: url('${this.props.iconEdit}')"></div>
+          <div styles="icon"></div>
         </div>
       </div>
     `

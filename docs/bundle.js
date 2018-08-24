@@ -1,5 +1,4 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-console.time('load')
 const scrollToY = require('scrolltoy')
 const { qs, qsa } = require('qs')
 
@@ -42,7 +41,7 @@ function setupNavigation () {
 
     pos = pos + 100
 
-    ranges.map(function (range) {
+    ranges.map(range => {
       if (pos >= range.upper && pos <= range.lower) {
         if (range.id === current) return
 
@@ -57,7 +56,6 @@ function setupNavigation () {
 }
 
 function ready () {
-  console.timeEnd('load')
   setupNavigation()
 
   const theme = window.localStorage.theme
@@ -320,7 +318,10 @@ Tonic.escapeMap = { '"': '&quot;', '&': '&amp;', '\'': '&#x27;', '<': '&lt;', '>
 
 if (typeof module === 'object') module.exports = Tonic
 
+
+Tonic.nonce = 'b4c50972'
 window.Tonic = Tonic
+    
 class ContentRoute extends Tonic { /* global Tonic */
   constructor (node) {
     super(node)
@@ -2981,7 +2982,7 @@ class Panel extends Tonic { /* global Tonic */
     if (overlay !== 'false') {
       const overlayElement = document.createElement('div')
       overlayElement.className = 'tonic--overlay'
-      overlayElement.setAttribute('style', `background-color: ${backgroundColor}`)
+      overlayElement.style.backgroundColor = backgroundColor
       wrapper.appendChild(overlayElement)
     }
 
@@ -3230,6 +3231,34 @@ class ProfileImage extends Tonic { /* global Tonic */
     `
   }
 
+  styles () {
+    const {
+      iconEdit,
+      src,
+      size,
+      border,
+      radius
+    } = this.props
+
+    return {
+      icon: {
+        backgroundImage: `url('${iconEdit}')`
+      },
+      background: {
+        backgroundImage: `url('${src}')`
+      },
+      hidden: {
+        display: 'none'
+      },
+      wrapper: {
+        width: size,
+        height: size,
+        border: border,
+        borderRadius: radius
+      }
+    }
+  }
+
   getPictureData (src, cb) {
     const reader = new window.FileReader()
     reader.onerror = err => cb(err)
@@ -3257,43 +3286,30 @@ class ProfileImage extends Tonic { /* global Tonic */
 
   render () {
     let {
-      id,
       name,
-      size,
-      src,
-      radius,
-      border,
       theme,
       editable
     } = this.props
 
-    const idAttr = id ? `id="${id}"` : ''
     const nameAttr = name ? `name="${name}"` : ''
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
-    let style = []
-
-    if (size) {
-      style.push(`width: ${size}`)
-      style.push(`height: ${size}`)
-    }
-
-    if (border) style.push(`border: ${border}`)
-    if (radius) style.push(`border-radius: ${radius}`)
-    style = style.join('; ')
-
     return `
-      <div class="tonic--wrapper ${editable ? 'tonic--editable' : ''}" style="${style}">
+      <div
+        class="tonic--wrapper ${editable ? 'tonic--editable' : ''}"
+        styles="wrapper">
+
         <div
           class="tonic--image"
-          ${idAttr}
           ${nameAttr}
-          style="background-image: url('${src}');">
+          styles="background">
         </div>
-        <input type="file" style="display:none"/>
+
+        <input type="file" styles="hidden"/>
+
         <div class="tonic--overlay">
-          <div style="background-image: url('${this.props.iconEdit}')"></div>
+          <div styles="icon"></div>
         </div>
       </div>
     `
@@ -3624,7 +3640,13 @@ class Windowed extends Tonic { /* global Tonic */
 
 Tonic.Windowed = Windowed
 
-  { const select = document.getElementById('content-route-select')
+  
+
+  //
+  // ./src/content-route/readme.js
+  //
+  if (document.body.dataset.page === 'components') {
+  const select = document.getElementById('content-route-select')
 const page2 = document.getElementById('page2')
 
 select.addEventListener('change', e => {
@@ -3636,7 +3658,15 @@ page2.addEventListener('show', e => {
 
   document.getElementById('page2-number').textContent = number
 })
- }{  }{  }{ class MyDialog extends Tonic.Dialog {
+
+  }
+  
+
+  //
+  // ./src/dialog/readme.js
+  //
+  if (document.body.dataset.page === 'components') {
+  class MyDialog extends Tonic.Dialog {
   click (e) {
     if (!Tonic.match(e.target, '#update')) return
 
@@ -3665,13 +3695,29 @@ const link = document.getElementById('example-dialog-link')
 const dialog = document.getElementById('example-dialog')
 
 link.addEventListener('click', e => dialog.show())
- }{  }{ const button = document.getElementById('input-button-example')
+
+  }
+  
+
+  //
+  // ./src/input-button/readme.js
+  //
+  if (document.body.dataset.page === 'components') {
+  const button = document.getElementById('input-button-example')
 button.addEventListener('click', e => {
   setTimeout(() => {
     button.loading(false)
   }, 3e3)
 })
- }{  }{ document.addEventListener('DOMContentLoaded', e => {
+
+  }
+  
+
+  //
+  // ./src/input-select/readme.js
+  //
+  if (document.body.dataset.page === 'components') {
+  document.addEventListener('DOMContentLoaded', e => {
   const select = document.getElementById('options-example-1')
   const notification = document.getElementsByTagName('notification-center')[0]
 
@@ -3684,7 +3730,15 @@ button.addEventListener('click', e => {
     })
   })
 })
- }{  }{  }{  }{ const add = document.getElementById('add-notification')
+
+  }
+  
+
+  //
+  // ./src/notification-badge/readme.js
+  //
+  if (document.body.dataset.page === 'components') {
+  const add = document.getElementById('add-notification')
 const subtract = document.getElementById('subtract-notification')
 const notificationBadge = document.querySelector('notification-badge')
 
@@ -3703,7 +3757,15 @@ subtract.addEventListener('click', e => {
     count: count > 0 ? --count : count
   }))
 })
- }{ const notification = document.querySelector('notification-center')
+
+  }
+  
+
+  //
+  // ./src/notification-center/readme.js
+  //
+  if (document.body.dataset.page === 'components') {
+  const notification = document.querySelector('notification-center')
 
 document
   .getElementById('notification-center-example')
@@ -3712,7 +3774,15 @@ document
     title: 'Greetings',
     message: 'Hello, World'
   }))
- }{ const notification1 = document.getElementById('notification-1')
+
+  }
+  
+
+  //
+  // ./src/notification-inline/readme.js
+  //
+  if (document.body.dataset.page === 'components') {
+  const notification1 = document.getElementById('notification-1')
 const notificationLink1 = document.getElementById('notification-link-1')
 
 notificationLink1.addEventListener('click', e => {
@@ -3722,7 +3792,15 @@ notificationLink1.addEventListener('click', e => {
     message: 'This is a warning, please be careful.'
   })
 })
- }{ class MyPanel extends Tonic.Panel {
+
+  }
+  
+
+  //
+  // ./src/panel/readme.js
+  //
+  if (document.body.dataset.page === 'components') {
+  class MyPanel extends Tonic.Panel {
   async getArticle (title) {
     try {
       const res = await fetch(`https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=${title}&origin=*`)
@@ -3772,17 +3850,41 @@ const panelLink = document.getElementById('content-panel-link-example')
 const panel = document.getElementById('content-panel-example')
 
 panelLink.addEventListener('click', e => panel.show())
- }{ const popover = document.getElementById('popover-example')
+
+  }
+  
+
+  //
+  // ./src/popover/readme.js
+  //
+  if (document.body.dataset.page === 'components') {
+  const popover = document.getElementById('popover-example')
 popover.addEventListener('show', event => {
   document.body.addEventListener('click', e => {
     popover.hide()
   }, { once: true })
 })
- }{ const profile = document.getElementById('profile-image-example-editable')
+
+  }
+  
+
+  //
+  // ./src/profile-image/readme.js
+  //
+  if (document.body.dataset.page === 'components') {
+  const profile = document.getElementById('profile-image-example-editable')
 
 profile.addEventListener('changed', e => console.log(e.detail))
 profile.addEventListener('error', e => console.log(e.detail))
- }{ let percentage = 0
+
+  }
+  
+
+  //
+  // ./src/progress-bar/readme.js
+  //
+  if (document.body.dataset.page === 'components') {
+  let percentage = 0
 let interval = null
 
 const progressBar = document.getElementById('progress-bar-example')
@@ -3798,7 +3900,15 @@ document.getElementById('start-progress').addEventListener('click', e => {
 document.getElementById('stop-progress').addEventListener('click', e => {
   clearInterval(interval)
 })
- }{ class MyWindowed extends Tonic.Windowed {
+
+  }
+  
+
+  //
+  // ./src/windowed/readme.js
+  //
+  if (document.body.dataset.page === 'components') {
+  class MyWindowed extends Tonic.Windowed {
   renderRow (row) {
     return `
       <div class="tr">
@@ -3844,4 +3954,6 @@ overlay.addEventListener('click', e => {
   overlay.classList.add('hidden')
   windowed.load(rows)
 })
- }
+
+  }
+  

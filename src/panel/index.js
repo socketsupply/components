@@ -148,7 +148,7 @@ class Panel extends Tonic { /* global Tonic */
     if (overlay !== 'false') {
       const overlayElement = document.createElement('div')
       overlayElement.className = 'tonic--overlay'
-      overlayElement.setAttribute('style', `background-color: ${backgroundColor}`)
+      overlayElement.style.backgroundColor = backgroundColor
       wrapper.appendChild(overlayElement)
     }
 

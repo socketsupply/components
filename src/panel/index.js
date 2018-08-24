@@ -28,7 +28,7 @@ class Panel extends Tonic { /* global Tonic */
     }
   }
 
-  style () {
+  stylesheet () {
     return `
       .tonic--panel .tonic--panel--inner {
         width: 500px;

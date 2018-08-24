@@ -21,7 +21,7 @@ class InputTextarea extends Tonic { /* global Tonic */
     }
   }
 
-  style () {
+  stylesheet () {
     return `
       input-textarea textarea {
         color: var(--primary);

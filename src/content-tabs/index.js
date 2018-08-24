@@ -3,7 +3,7 @@ class ContentTabs extends Tonic { /* global Tonic */
     return {}
   }
 
-  style () {
+  stylesheet () {
     return `
       [data-tab-group] {
         display: none;

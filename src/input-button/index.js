@@ -20,7 +20,7 @@ class InputButton extends Tonic { /* global Tonic */
     }
   }
 
-  style () {
+  stylesheet () {
     return `
       input-button {
         display: inline-block;

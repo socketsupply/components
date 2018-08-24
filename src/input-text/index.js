@@ -42,7 +42,7 @@ class InputText extends Tonic { /* global Tonic */
     }))
   }
 
-  style () {
+  stylesheet () {
     return `
       input-text .tonic--wrapper {
         position: relative;

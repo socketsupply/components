@@ -5,7 +5,7 @@ class NotificationBadge extends Tonic { /* global Tonic */
     }
   }
 
-  style () {
+  stylesheet () {
     return `
       notification-badge * {
         boxSizing: border-box;

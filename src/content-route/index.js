@@ -25,7 +25,7 @@ class ContentRoute extends Tonic { /* global Tonic */
     window.history.replaceState = createEvent('replaceState')
   }
 
-  style () {
+  stylesheet () {
     return `
       content-route {
         display: none;

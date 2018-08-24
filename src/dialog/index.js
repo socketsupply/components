@@ -30,7 +30,7 @@ class Dialog extends Tonic { /* global Tonic */
     }
   }
 
-  style () {
+  stylesheet () {
     return `
       .tonic--dialog .tonic--dialog--wrapper {
         position: fixed;

@@ -38,7 +38,9 @@ class Tonic {
     c.registered = true
 
     if (!Tonic.styleNode) {
-      Tonic.styleNode = document.head.appendChild(document.createElement('style'))
+      const styleTag = document.createElement('style')
+      styleTag.setAttribute('nonce', Tonic.nonce)
+      Tonic.styleNode = document.head.appendChild(styleTag)
     }
 
     Tonic._constructTags()
@@ -115,6 +117,13 @@ class Tonic {
 
     if (typeof content === 'string') {
       target.innerHTML = content.trim()
+
+      if (this.styles) {
+        const styles = this.styles()
+        Array.from(target.querySelectorAll('[styles]')).forEach(el =>
+          el.getAttribute('styles').split(/\s+/).forEach(s =>
+            Object.assign(el.style, styles[s.trim()])))
+      }
     } else {
       while (target.firstChild) target.removeChild(target.firstChild)
       target.appendChild(content.cloneNode(true))
@@ -149,7 +158,7 @@ class Tonic {
     this.children = this.children || this.root.innerHTML
     this._setContent(this.root, this.render())
     Tonic._constructTags(this.root)
-    const style = this.style && this.style()
+    const style = this.stylesheet && this.stylesheet()
 
     if (style && !Tonic.registry[this.root.tagName].styled) {
       Tonic.registry[this.root.tagName].styled = true
@@ -202,7 +211,7 @@ class ContentRoute extends Tonic { /* global Tonic */
     window.history.replaceState = createEvent('replaceState')
   }
 
-  style () {
+  stylesheet () {
     return `
       content-route {
         display: none;
@@ -463,7 +472,7 @@ class ContentTabs extends Tonic { /* global Tonic */
     return {}
   }
 
-  style () {
+  stylesheet () {
     return `
       [data-tab-group] {
         display: none;
@@ -571,7 +580,7 @@ class ContentTooltip extends Tonic { /* global Tonic */
     }
   }
 
-  style () {
+  stylesheet () {
     return `
       content-tooltip .tonic--tooltip {
         position: absolute;
@@ -731,7 +740,7 @@ class Dialog extends Tonic { /* global Tonic */
     }
   }
 
-  style () {
+  stylesheet () {
     return `
       .tonic--dialog .tonic--dialog--wrapper {
         position: fixed;
@@ -910,7 +919,7 @@ class IconContainer extends Tonic { /* global Tonic */
     }
   }
 
-  style () {
+  stylesheet () {
     return `
       icon-container svg {
         width: 100%;
@@ -981,7 +990,7 @@ class InputButton extends Tonic { /* global Tonic */
     }
   }
 
-  style () {
+  stylesheet () {
     return `
       input-button {
         display: inline-block;
@@ -1173,7 +1182,7 @@ class InputCheckbox extends Tonic { /* global Tonic */
     }
   }
 
-  style () {
+  stylesheet () {
     return `
       input-checkbox .tonic--input-checkbox--wrapper {
         display: inline-block;
@@ -1326,7 +1335,7 @@ class InputSelect extends Tonic { /* global Tonic */
     }
   }
 
-  style () {
+  stylesheet () {
     return `
       input-select .tonic--wrapper {
         position: relative;
@@ -1541,7 +1550,7 @@ class InputText extends Tonic { /* global Tonic */
     }))
   }
 
-  style () {
+  stylesheet () {
     return `
       input-text .tonic--wrapper {
         position: relative;
@@ -1767,7 +1776,7 @@ class InputTextarea extends Tonic { /* global Tonic */
     }
   }
 
-  style () {
+  stylesheet () {
     return `
       input-textarea textarea {
         color: var(--primary);
@@ -1879,7 +1888,7 @@ class InputToggle extends Tonic { /* global Tonic */
     }
   }
 
-  style () {
+  stylesheet () {
     return `
       input-toggle .tonic--toggle--wrapper {
         height: 30px;
@@ -2003,8 +2012,14 @@ class InputToggle extends Tonic { /* global Tonic */
   }
 
   renderLabel () {
-    if (!this.props.label) return ''
-    return `<label for="${this.props.id}">${this.props.label}</label>`
+    const {
+      id,
+      label
+    } = this.props
+
+    if (!label) return ''
+
+    return `<label for="tonic--toggle--${id}">${label}</label>`
   }
 
   render () {
@@ -2017,22 +2032,16 @@ class InputToggle extends Tonic { /* global Tonic */
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
-    //
-    // the id attribute can be removed to the input
-    // and added to the input inside the component.
-    //
-    this.root.removeAttribute('id')
-
     return `
       <div class="tonic--toggle--wrapper">
         <div class="tonic--switch">
           <input
             type="checkbox"
             class="tonic--toggle"
-            id="${id}"
+            id="tonic--toggle--${id}"
             ${disabled ? 'disabled' : ''}
             ${checked ? 'checked' : ''}>
-          <label for="${id}"></label>
+          <label for="tonic--toggle--${id}"></label>
         </div>
         ${this.renderLabel()}
       </div>
@@ -2049,7 +2058,7 @@ class NotificationBadge extends Tonic { /* global Tonic */
     }
   }
 
-  style () {
+  stylesheet () {
     return `
       notification-badge * {
         boxSizing: border-box;
@@ -2137,7 +2146,7 @@ class NotificationCenter extends Tonic { /* global Tonic */
     }
   }
 
-  style () {
+  stylesheet () {
     return `
       notification-center * {
         box-sizing: border-box;
@@ -2422,7 +2431,7 @@ class NotificationInline extends Tonic { /* global Tonic */
     }
   }
 
-  style () {
+  stylesheet () {
     return `
       notification-inline .tonic--wrapper {
         user-select: none;
@@ -2715,7 +2724,7 @@ class Panel extends Tonic { /* global Tonic */
     }
   }
 
-  style () {
+  stylesheet () {
     return `
       .tonic--panel .tonic--panel--inner {
         width: 500px;
@@ -2888,7 +2897,7 @@ class Popover extends Tonic { /* global Tonic */
     }
   }
 
-  style () {
+  stylesheet () {
     return `
       popover .tonic--popover {
         position: absolute;
@@ -3030,7 +3039,7 @@ class ProfileImage extends Tonic { /* global Tonic */
     return computed.getPropertyValue(`--${s}`).trim()
   }
 
-  style () {
+  stylesheet () {
     return `
       profile-image {
         display: inline-block;
@@ -3192,20 +3201,16 @@ class ProgressBar extends Tonic { /* global Tonic */
     }
   }
 
-  getPropertyValue (s) {
-    const computed = window.getComputedStyle(this.root)
-    return computed.getPropertyValue(`--${s}`).trim()
-  }
-
-  style () {
+  stylesheet () {
     return `
       progress-bar {
-        display: block;
+        display: inline-block;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
       }
 
       progress-bar .tonic--wrapper {
-        width: ${this.props.width};
-        height: ${this.props.height};
         position: relative;
         background-color: var(--background);
       }
@@ -3214,9 +3219,22 @@ class ProgressBar extends Tonic { /* global Tonic */
         background-color: var(--accent);
         width: 0%;
         height: 100%;
-        transition: width 0.2s ease;
       }
     `
+  }
+
+  styles () {
+    return {
+      wrapper: {
+        width: this.props.width,
+        height: this.props.height
+      }
+    }
+  }
+
+  getPropertyValue (s) {
+    const computed = window.getComputedStyle(this.root)
+    return computed.getPropertyValue(`--${s}`).trim()
   }
 
   setProgress (progress) {
@@ -3238,7 +3256,7 @@ class ProgressBar extends Tonic { /* global Tonic */
     }
 
     return `
-      <div class="tonic--wrapper">
+      <div class="tonic--wrapper" styles="wrapper">
         <div class="tonic--progress"></div>
       </div>
     `
@@ -3269,18 +3287,18 @@ class Windowed extends Tonic { /* global Tonic */
     }
   }
 
-  style () {
-    return `
-      .tonic--windowed--inner {
-        position: relative;
-      }
+  styles () {
+    return {
+      inner: {
+        position: 'relative'
+      },
 
-      .tonic--windowed--outer {
-        width: 100%;
-        height: inherit;
-        overflow: auto;
+      outer: {
+        width: '100%',
+        height: 'inherit',
+        overflow: 'auto'
       }
-    `
+    }
   }
 
   async getRow (idx) {
@@ -3459,8 +3477,8 @@ class Windowed extends Tonic { /* global Tonic */
 
   render () {
     return `
-      <div class="tonic--windowed--outer">
-        <div class="tonic--windowed--inner">
+      <div class="tonic--windowed--outer" styles="outer">
+        <div class="tonic--windowed--inner" styles="inner">
         </div>
       </div>
     `

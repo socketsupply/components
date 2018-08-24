@@ -26,7 +26,7 @@ class InputSelect extends Tonic { /* global Tonic */
     }
   }
 
-  style () {
+  stylesheet () {
     return `
       input-select .tonic--wrapper {
         position: relative;

@@ -19,7 +19,7 @@ class Popover extends Tonic { /* global Tonic */
     }
   }
 
-  style () {
+  stylesheet () {
     return `
       popover .tonic--popover {
         position: absolute;

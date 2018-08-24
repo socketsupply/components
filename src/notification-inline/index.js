@@ -21,7 +21,7 @@ class NotificationInline extends Tonic { /* global Tonic */
     }
   }
 
-  style () {
+  stylesheet () {
     return `
       notification-inline .tonic--wrapper {
         user-select: none;

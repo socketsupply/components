@@ -25,7 +25,7 @@ class ContentTooltip extends Tonic { /* global Tonic */
     }
   }
 
-  style () {
+  stylesheet () {
     return `
       content-tooltip .tonic--tooltip {
         position: absolute;

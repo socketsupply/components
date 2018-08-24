@@ -7,7 +7,7 @@ class IconContainer extends Tonic { /* global Tonic */
     }
   }
 
-  style () {
+  stylesheet () {
     return `
       icon-container svg {
         width: 100%;

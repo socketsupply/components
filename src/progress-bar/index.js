@@ -18,7 +18,7 @@ class ProgressBar extends Tonic { /* global Tonic */
     }
   }
 
-  style () {
+  stylesheet () {
     return `
       progress-bar {
         display: inline-block;
@@ -36,7 +36,6 @@ class ProgressBar extends Tonic { /* global Tonic */
         background-color: var(--accent);
         width: 0%;
         height: 100%;
-        transition: width 0.2s ease;
       }
     `
   }
@@ -44,8 +43,8 @@ class ProgressBar extends Tonic { /* global Tonic */
   styles () {
     return {
       wrapper: {
-        width: `${this.props.width}px`,
-        height: `${this.props.height}px`
+        width: this.props.width,
+        height: this.props.height
       }
     }
   }

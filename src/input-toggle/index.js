@@ -14,7 +14,7 @@ class InputToggle extends Tonic { /* global Tonic */
     }
   }
 
-  style () {
+  stylesheet () {
     return `
       input-toggle .tonic--toggle--wrapper {
         height: 30px;
@@ -138,8 +138,14 @@ class InputToggle extends Tonic { /* global Tonic */
   }
 
   renderLabel () {
-    if (!this.props.label) return ''
-    return `<label for="${this.props.id}">${this.props.label}</label>`
+    const {
+      id,
+      label
+    } = this.props
+
+    if (!label) return ''
+
+    return `<label for="tonic--toggle--${id}">${label}</label>`
   }
 
   render () {
@@ -152,22 +158,16 @@ class InputToggle extends Tonic { /* global Tonic */
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
-    //
-    // the id attribute can be removed to the input
-    // and added to the input inside the component.
-    //
-    this.root.removeAttribute('id')
-
     return `
       <div class="tonic--toggle--wrapper">
         <div class="tonic--switch">
           <input
             type="checkbox"
             class="tonic--toggle"
-            id="${id}"
+            id="tonic--toggle--${id}"
             ${disabled ? 'disabled' : ''}
             ${checked ? 'checked' : ''}>
-          <label for="${id}"></label>
+          <label for="tonic--toggle--${id}"></label>
         </div>
         ${this.renderLabel()}
       </div>

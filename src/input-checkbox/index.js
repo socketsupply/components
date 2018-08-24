@@ -25,7 +25,7 @@ class InputCheckbox extends Tonic { /* global Tonic */
     }
   }
 
-  style () {
+  stylesheet () {
     return `
       input-checkbox .tonic--input-checkbox--wrapper {
         display: inline-block;

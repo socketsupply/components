@@ -13,7 +13,7 @@ class ProfileImage extends Tonic { /* global Tonic */
     return computed.getPropertyValue(`--${s}`).trim()
   }
 
-  style () {
+  stylesheet () {
     return `
       profile-image {
         display: inline-block;

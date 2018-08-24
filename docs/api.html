@@ -462,8 +462,12 @@ performance.</p>
 <td align="left">Set the state of a component instance. Can also take a function which will receive the current props as an argument.</td>
 </tr>
 <tr>
-<td align="left"><code>style()</code></td>
-<td align="left">Returns a string of css to be inlined with the component. This will be &quot;scoped&quot; so that it does not affect the rest of the page. It will also persist across re-renders to save on parsing costs.</td>
+<td align="left"><code>stylesheet()</code></td>
+<td align="left">Returns a string of css to be lazily added to a <code>style</code> tag in the head.</td>
+</tr>
+<tr>
+<td align="left"><code>styles()</code></td>
+<td align="left">Returns an object that represents inline-styles. Styles are applied by adding a keys from the object to the <code>styles</code> attribute of an html tag in the render function, for example <code>styles=&quot;key1 key2&quot;</code>. Each object&#39;s key-value pair are added to the element&#39;s style object.</td>
 </tr>
 <tr>
 <td align="left"><code>render()</code></td>

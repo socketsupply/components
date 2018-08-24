@@ -22,7 +22,7 @@ class NotificationCenter extends Tonic { /* global Tonic */
     }
   }
 
-  style () {
+  stylesheet () {
     return `
       notification-center * {
         box-sizing: border-box;

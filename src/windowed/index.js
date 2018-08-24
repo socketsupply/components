@@ -20,18 +20,18 @@ class Windowed extends Tonic { /* global Tonic */
     }
   }
 
-  style () {
-    return `
-      .tonic--windowed--inner {
-        position: relative;
-      }
+  styles () {
+    return {
+      inner: {
+        position: 'relative'
+      },
 
-      .tonic--windowed--outer {
-        width: 100%;
-        height: inherit;
-        overflow: auto;
+      outer: {
+        width: '100%',
+        height: 'inherit',
+        overflow: 'auto'
       }
-    `
+    }
   }
 
   async getRow (idx) {
@@ -210,8 +210,8 @@ class Windowed extends Tonic { /* global Tonic */
 
   render () {
     return `
-      <div class="tonic--windowed--outer">
-        <div class="tonic--windowed--inner">
+      <div class="tonic--windowed--outer" styles="outer">
+        <div class="tonic--windowed--inner" styles="inner">
         </div>
       </div>
     `

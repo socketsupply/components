@@ -4,7 +4,7 @@ Components should ship with as little CSS as possible and try to inherit
 whenever possible from the document's stylesheets.
 
 Although you want to let the user's style-sheet to handle as much of the styling
-as possibke, sometimes your styles have more of a functional purpose than a
+as possible, sometimes your styles have more of a functional purpose than a
 visual one. In cases like this you should prefix the classes name so it doesn't
 collide with any class names that the user has defined. We use this convention...
 
@@ -12,14 +12,14 @@ collide with any class names that the user has defined. We use this convention..
 library--componentname--class
 ```
 
-The css returned from the `style()` function will be attached to a style element
-in the head of your document. So you can use any css-in-js library you want.
-Also, since the result is plain-old-css, it's easy to inspect and override from
+The css returned from the `stylesheet()` function will be attached to a style
+element in the head of your document. So you can use any css-in-js library you
+want. Since the result is plain-old-css, it's easy to inspect and override from
 another stylesheet.
 
 ```js
 class MyGreeting extends Tonic {
-  style () {
+  stylesheet () {
     return `
 
       my-greeting div {
@@ -38,4 +38,31 @@ class MyGreeting extends Tonic {
     return `<div></div>`
   }
 }
+```
+
+Sometimes you don't want to use inline-styles for your component. Tonic supports
+that too. Inline styles will be added after the `render()` method is called.
+
+```js
+class MyGreeting extends Tonic {
+  styles () {
+    return {
+      fontStyle: {
+        color: this.props.fg,
+        fontSize: '30px'
+      },
+      background: {
+        backgroundColor: this.props.bg
+      }
+    }
+  }
+
+  render () {
+    return `<div styles="fontStyle background">${this.children}</div>`
+  }
+}
+```
+
+```xml
+<my-greeting fg="white" bg="red">Hello, World</my-greeting>
 ```

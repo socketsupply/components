@@ -59,7 +59,7 @@ rows of data can take a second or two.
     display: flex;
     left: 0;
     right: 0;
-    background: white;
+    background: var(--window);
     z-index: 1;
     top: 0;
     bottom: 0;

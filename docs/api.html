@@ -158,26 +158,26 @@ as possibke, sometimes your styles have more of a functional purpose than a
 visual one. In cases like this you should prefix the classes name so it doesn&#39;t
 collide with any class names that the user has defined. We use this convention...</p>
 <pre><code class="language-js">library--componentname--<span class="hljs-class"><span class="hljs-keyword">class</span></span></code></pre>
-<p>Your styles will be applied to the elements in your component that match the
-specified selectors after the <code>render</code> method is executed. The style function
-retuns an objct where each key is a selector and each value is an object of
-style rules.</p>
+<p>The css returned from the <code>style()</code> function will be attached to a style element
+in the head of your document. So you can use any css-in-js library you want.
+Also, since the result is plain-old-css, it&#39;s easy to inspect and override from
+another stylesheet.</p>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyGreeting</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   style () {
-    <span class="hljs-keyword">return</span> {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`
 
-      <span class="hljs-string">'div'</span> {
-        <span class="hljs-attr">display</span>: <span class="hljs-string">'inline-block'</span>,
-        <span class="hljs-attr">border</span>: <span class="hljs-string">'1px dotted #666'</span>
-        height: <span class="hljs-string">'100px'</span>,
-        <span class="hljs-attr">width</span>: <span class="hljs-string">'100px'</span>,
-        line-height: <span class="hljs-string">'90px'</span>
-      },
-
-      <span class="hljs-string">`.tonic--mygreeting--error`</span>: {
-        <span class="hljs-attr">color</span>: <span class="hljs-string">'red'</span>
+      my-greeting div {
+        display: inline-block;
+        border: 1px dotted #666;
+        height: <span class="hljs-subst">${<span class="hljs-keyword">this</span>.props.height}</span>px;
+        width: <span class="hljs-subst">${<span class="hljs-keyword">this</span>.props.width}</span>px;
+        line-height: 90px;
       }
-    }
+
+      my-greeting .tonic--show {
+        display: flex;
+      }
+    `</span>
   }
 
   render () {

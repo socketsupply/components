@@ -25,8 +25,6 @@ class MyGreeting extends Tonic {
       my-greeting div {
         display: inline-block;
         border: 1px dotted #666;
-        height: ${this.props.height}px;
-        width: ${this.props.width}px;
         line-height: 90px;
       }
 

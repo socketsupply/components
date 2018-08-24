@@ -18,11 +18,6 @@ class ProgressBar extends Tonic { /* global Tonic */
     }
   }
 
-  getPropertyValue (s) {
-    const computed = window.getComputedStyle(this.root)
-    return computed.getPropertyValue(`--${s}`).trim()
-  }
-
   style () {
     return `
       progress-bar {
@@ -33,8 +28,6 @@ class ProgressBar extends Tonic { /* global Tonic */
       }
 
       progress-bar .tonic--wrapper {
-        width: ${this.props.width};
-        height: ${this.props.height};
         position: relative;
         background-color: var(--background);
       }
@@ -46,6 +39,20 @@ class ProgressBar extends Tonic { /* global Tonic */
         transition: width 0.2s ease;
       }
     `
+  }
+
+  styles () {
+    return {
+      wrapper: {
+        width: `${this.props.width}px`,
+        height: `${this.props.height}px`
+      }
+    }
+  }
+
+  getPropertyValue (s) {
+    const computed = window.getComputedStyle(this.root)
+    return computed.getPropertyValue(`--${s}`).trim()
   }
 
   setProgress (progress) {
@@ -67,7 +74,7 @@ class ProgressBar extends Tonic { /* global Tonic */
     }
 
     return `
-      <div class="tonic--wrapper">
+      <div class="tonic--wrapper" styles="wrapper">
         <div class="tonic--progress"></div>
       </div>
     `

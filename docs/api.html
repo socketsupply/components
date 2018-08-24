@@ -17,9 +17,11 @@
       default-src 'self';
       font-src 'self' https:;
       img-src 'self' https: data:;
-      style-src 'self' 'nonce-b4c50972' https:;
-      script-src 'self' 'nonce-b4c50972';
-      connect-src 'self'">
+      style-src 'self' 'nonce-ad7e5251' https:;
+      script-src 'self' 'nonce-ad7e5251';
+      connect-src 'self' https:;
+    "
+  >
 </head>
 
 
@@ -75,6 +77,11 @@
 
     <li>
       <a href="#6.-performance" class="">6. Performance</a>
+    </li>
+  
+
+    <li>
+      <a href="#7.-csp" class="">7. CSP</a>
     </li>
   
 
@@ -434,6 +441,30 @@ performance.</p>
     </section>
   
 
+    <section id="7.-csp">
+      <h1 id="7-csp">7. CSP</h1>
+<p><code>CSP</code> stands for <code>Content Security Policy</code>. It&#39;s important to add one of these
+to your app or website. <a href="https://developers.google.com/web/fundamentals/security/csp/">This</a> is a good introduction to <code>CSP</code>s if you&#39;re not
+already familiar with how they work.</p>
+<p>This is an example policy, it&#39;s quite libral, in a real app you would want these
+rules to be more specific.</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">meta</span>
+  <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">"Content-Security-Policy"</span>
+  <span class="hljs-attr">content</span>=<span class="hljs-string">"
+    default-src 'self';
+    font-src 'self' https:;
+    img-src 'self' https: data:;
+    style-src 'self' 'nonce-123' https:;
+    script-src 'self' 'nonce-123';
+    connect-src 'self' https:;"</span>&gt;</span></code></pre>
+<p>In order to allow <code>Tonic</code> to execute properly when using a CSP, you might need
+to set the <code>Tonic.nonce</code> property. For example, given the above policy you would
+add the following to your javascript...</p>
+<pre><code class="language-js">Tonic.nonce = <span class="hljs-string">'123'</span></code></pre>
+
+    </section>
+  
+
     <section id="api">
       <h1 id="apis">APIs</h1>
 <h2>STATIC METHODS</h2>
@@ -546,7 +577,7 @@ performance.</p>
             </div>
           </footer>
         </main>
-        <script nonce="b4c50972" src="bundle.js"></script>
+        <script nonce="ad7e5251" crossorigin="anonymous" src="bundle.js"></script>
       </body>
     </html>
   

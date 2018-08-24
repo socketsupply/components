@@ -105,7 +105,7 @@ function createPage (data, className) {
             </div>
           </footer>
         </main>
-        <script nonce="${NONCE}" src="bundle.js"></script>
+        <script nonce="${NONCE}" crossorigin="anonymous" src="bundle.js"></script>
       </body>
     </html>
   `

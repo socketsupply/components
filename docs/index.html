@@ -17,9 +17,11 @@
       default-src 'self';
       font-src 'self' https:;
       img-src 'self' https: data:;
-      style-src 'self' 'nonce-b4c50972' https:;
-      script-src 'self' 'nonce-b4c50972';
-      connect-src 'self'">
+      style-src 'self' 'nonce-ad7e5251' https:;
+      script-src 'self' 'nonce-ad7e5251';
+      connect-src 'self' https:;
+    "
+  >
 </head>
 
 
@@ -261,7 +263,7 @@ page2.addEventListener(<span class="hljs-string">'show'</span>, e =&gt; {
   <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'page2-number'</span>).textContent = number
 })
 </code></pre>
-<style nonce="b4c50972">
+<style nonce="ad7e5251">
   content-route.tonic--show {
     display: block;
     margin: 20px 0 6px;
@@ -417,7 +419,7 @@ page2.addEventListener(<span class="hljs-string">'show'</span>, e =&gt; {
 </content-tooltip>
 
 
-<style nonce="b4c50972">
+<style nonce="ad7e5251">
   #content-tooltip-example-1 {
     cursor: default;
   }
@@ -507,7 +509,7 @@ your own dialog class which can be registered and then used as a tag.</p>
 </my-dialog>
 
 
-<style nonce="b4c50972">
+<style nonce="ad7e5251">
   my-dialog header,
   my-dialog main {
     text-align: center;
@@ -1887,7 +1889,7 @@ your own panel class which can be registered and then used as a tag.</p>
   id="content-panel-example"
   overlay="true">
 </my-panel></p>
-<style nonce="b4c50972">
+<style nonce="ad7e5251">
   my-panel h3 {
     margin: 0;
   }
@@ -2076,7 +2078,7 @@ panelLink.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; pan
 </popover>
 
 
-<style nonce="b4c50972">
+<style nonce="ad7e5251">
   #popover-example-trigger {
     width: 50px;
     height: 50px;
@@ -2399,7 +2401,7 @@ has been rendered.</p>
 <h2>Demo</h2>
 <p>This demo generates the data after you click the overlay. Generating 500000
 rows of data can take a second or two.</p>
-<style nonce="b4c50972">
+<style nonce="ad7e5251">
   body > main div.example .content.windowed-example {
     max-width: initial;
     padding: 0;
@@ -2603,7 +2605,7 @@ overlay.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
             </div>
           </footer>
         </main>
-        <script nonce="b4c50972" src="bundle.js"></script>
+        <script nonce="ad7e5251" crossorigin="anonymous" src="bundle.js"></script>
       </body>
     </html>
   

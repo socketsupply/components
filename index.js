@@ -3031,7 +3031,57 @@ class ProfileImage extends Tonic { /* global Tonic */
   }
 
   style () {
-    return ``
+    return `
+      profile-image {
+        display: inline-block;
+      }
+
+      profile-image .tonic--wrapper {
+        position: relative;
+        overflow: hidden;
+      }
+
+      profile-image .tonic--image {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+      }
+
+      profile-image .tonic--overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0,0,0,0.5);
+        transition: opacity 0.2s ease-in-out;
+        visibility: hidden;
+        opacity: 0;
+        display: flex;
+      }
+
+      profile-image .tonic--overlay div {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        background-size: 40px 40px;
+        background-repeat: no-repeat;
+        background-position: center center;
+      }
+
+      profile-image .tonic--wrapper.tonic--editable:hover .tonic--overlay {
+        visibility: visible;
+        opacity: 1;
+        cursor: pointer;
+      }
+    `
   }
 
   getPictureData (src, cb) {

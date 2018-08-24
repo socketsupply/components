@@ -263,13 +263,10 @@ page2.addEventListener(<span class="hljs-string">'show'</span>, e =&gt; {
 })
 </code></pre>
 <style>
-  content-route {
+  content-route.tonic--show {
     display: block;
-  }
-
-  content-route.show {
-    margin: 30px 0 20px;
-    padding-top: 30px;
+    margin: 20px 0 6px;
+    padding-top: 20px;
     border-top: 1px solid var(--border);
   }
 </style>
@@ -1891,6 +1888,42 @@ your own panel class which can be registered and then used as a tag.</p>
   id="content-panel-example"
   overlay="true">
 </my-panel></p>
+<style>
+  my-panel h3 {
+    margin: 0;
+  }
+
+  my-panel header {
+    padding: 20px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 90px;
+  }
+
+  my-panel main {
+    padding: 20px;
+    position: absolute;
+    top: 90px;
+    left: 0;
+    right: 0;
+    bottom: 70px;
+    overflow: scroll;
+  }
+
+  my-panel footer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 70px;
+    padding: 10px;
+    text-align: center;
+    border-top: 1px solid var(--border);
+  }
+</style>
+
 <div class="example">
   <div class="header">Example</div>
   <div class="content">

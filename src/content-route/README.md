@@ -34,13 +34,10 @@ The `ContentRoute` component will render its children components if the browser'
 ```
 
 <style>
-  content-route {
+  content-route.tonic--show {
     display: block;
-  }
-
-  content-route.show {
-    margin: 30px 0 20px;
-    padding-top: 30px;
+    margin: 20px 0 6px;
+    padding-top: 20px;
     border-top: 1px solid var(--border);
   }
 </style>

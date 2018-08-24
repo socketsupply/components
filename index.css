@@ -33,6 +33,10 @@ body.theme-dark {
   --success: #85b274;
   --warn: #f9a967;
 }
+content-route {
+  marign-top: 20px;
+  padding-top: 20px;
+}
 content-tabs {
   display: block;
 }
@@ -96,52 +100,35 @@ content-tabs {
       -ms-flex-pack: center;
           justify-content: center;
 }
-profile-image {
-  display: inline-block;
+my-panel h3 {
+  margin: 0;
 }
-profile-image .tonic--wrapper {
-  position: relative;
-  overflow: hidden;
-}
-profile-image .tonic--image {
+my-panel header {
+  padding: 20px;
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  bottom: 0;
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
+  height: 90px;
 }
-profile-image .tonic--overlay {
+my-panel main {
+  padding: 20px;
   position: absolute;
-  top: 0;
+  top: 90px;
+  left: 0;
+  right: 0;
+  bottom: 70px;
+  overflow: scroll;
+}
+my-panel footer {
+  position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0,0,0,0.5);
-  -webkit-transition: opacity 0.2s ease-in-out;
-  transition: opacity 0.2s ease-in-out;
-  visibility: hidden;
-  opacity: 0;
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-}
-profile-image .tonic--overlay div {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  background-size: 40px 40px;
-  background-repeat: no-repeat;
-  background-position: center center;
-}
-profile-image .tonic--wrapper.tonic--editable:hover .tonic--overlay {
-  visibility: visible;
-  opacity: 1;
-  cursor: pointer;
+  height: 70px;
+  padding: 10px;
+  text-align: center;
+  border-top: 1px solid var(--border);
 }
 * {
   -webkit-box-sizing: border-box;

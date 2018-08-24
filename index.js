@@ -1884,7 +1884,7 @@ class InputToggle extends Tonic { /* global Tonic */
 
   defaults () {
     return {
-      checked: true
+      checked: false
     }
   }
 

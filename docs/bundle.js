@@ -319,7 +319,7 @@ Tonic.escapeMap = { '"': '&quot;', '&': '&amp;', '\'': '&#x27;', '<': '&lt;', '>
 if (typeof module === 'object') module.exports = Tonic
 
 
-Tonic.nonce = 'a3e96494'
+Tonic.nonce = '8ee18a90'
 window.Tonic = Tonic
     
 class ContentRoute extends Tonic { /* global Tonic */
@@ -2022,7 +2022,7 @@ class InputToggle extends Tonic { /* global Tonic */
 
   defaults () {
     return {
-      checked: true
+      checked: false
     }
   }
 

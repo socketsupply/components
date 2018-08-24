@@ -17,8 +17,8 @@
       default-src 'self';
       font-src 'self' https:;
       img-src 'self' https: data:;
-      style-src 'self' 'nonce-a3e96494' https:;
-      script-src 'self' 'nonce-a3e96494';
+      style-src 'self' 'nonce-8ee18a90' https:;
+      script-src 'self' 'nonce-8ee18a90';
       connect-src 'self' https:;
     "
   >
@@ -159,14 +159,13 @@ little simpler.</p>
     <section id="1.-styling">
       <h1 id="1-styling">1. Styling</h1>
 <p>Components should ship with as little CSS as possible and try to inherit
-whenever possible from the document&#39;s stylesheets.</p>
-<p>Any classes you add should be prefixed so that they don&#39;t collide with any class
-names which already exist in the document&#39;s stylesheet. We use this convention...</p>
-<pre><code class="language-js">library--component-name--<span class="hljs-class"><span class="hljs-keyword">class</span>-<span class="hljs-title">name</span></span></code></pre>
-<p>The text returned from the <code>stylesheet()</code> function will be attached to a style
-element in the head of the document. So you can use any <code>css-in-js</code> library you
-want. Since the result is plain-old-css, it&#39;s easy to inspect and override from
-another stylesheet.</p>
+whenever possible from the document&#39;s stylesheets. Tonic supports two approaches
+to styling components.</p>
+<h3>Approach 1. Dynamic Stylesheets</h3>
+<p>The value returned from the <code>stylesheet()</code> function will be attached to a style
+element in the head of the document if and when the component is used (lazily).
+Since the value is css, you can use any <code>css-in-js</code> library you want and it will
+be easy to inspect and override from another stylesheet.</p>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyGreeting</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   stylesheet () {
     <span class="hljs-keyword">return</span> <span class="hljs-string">`
@@ -187,9 +186,15 @@ another stylesheet.</p>
     <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div&gt;&lt;/div&gt;`</span>
   }
 }</code></pre>
-<p>Sometimes you don&#39;t want to create classes at all. Sometimes you want to use
-inline-styles for your component. Tonic supports that too. Inline styles are
-added after the <code>render()</code> method is called.</p>
+<p>Any classes you add should be prefixed so that they don&#39;t collide with any class
+names which already exist in the document&#39;s stylesheet. We use this convention...</p>
+<pre><code class="language-js">library--component-name--<span class="hljs-class"><span class="hljs-keyword">class</span>-<span class="hljs-title">name</span></span></code></pre>
+<h3>Approach 2. Inline styles</h3>
+<p>Sometimes you want to use inline-styles. If your component has a <code>styles()</code>
+method that returns an object and the <code>styles=&quot;...&quot;</code> attribute is found on an
+html tag, Tonic will try to apply the matching style properties when the
+<code>render()</code> method is called. Note that the styles are applied through Javascript
+in a CSP-friendly way.</p>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyGreeting</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   styles () {
     <span class="hljs-keyword">return</span> {
@@ -578,7 +583,7 @@ add the following to your javascript...</p>
             </div>
           </footer>
         </main>
-        <script nonce="a3e96494" crossorigin="anonymous" src="bundle.js"></script>
+        <script nonce="8ee18a90" crossorigin="anonymous" src="bundle.js"></script>
       </body>
     </html>
   

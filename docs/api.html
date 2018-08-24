@@ -360,15 +360,25 @@ will be applied! A prop named <code>fooBar={30}</code> will become lowercased as
 HTML spec. If you want the property name to be camelcased when added to the
 prpps object, use <code>foo-bar={30}</code>, and you will get <code>this.props.fooBar</code>.</p>
 <pre><code class="language-js">&lt;my-component value=<span class="hljs-string">"7a"</span>&gt;<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">my-component</span>&gt;</span></span></code></pre>
-<p>Native HTML only understands strings. If you want to pass non-string props (like
-some json) you need to stringify it. If you surround your property value with
-curly braces <code>{...}</code>, the value will be parsed as JSON. But you should not
-pass complex objects like functions though your HTML. Keep that in your JS!</p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">parent-component</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"parent"</span> <span class="hljs-attr">data</span>=<span class="hljs-string">{[1,2,3]}</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">parent-component</span>&gt;</span></code></pre>
-<p>Alternatively, you can call the <code>reRender(...)</code> method on the element directly.
-This is a better way to pass data if you have larger data it wont need to first
-pass though the HTML. This data should usually be progegated by either the
-parent component&#39;s state or props.</p>
+<p>Native HTML only understands strings. So if you want to pass a non string object
+to the a child component, you can use <code>this.prop(data)</code>.</p>
+<pre><code class="language-html">const data
+class FooBar extends Tonic {
+  render () {
+
+    const data = [
+      { foo: 'hello, world' }
+    ]
+
+    return `
+      <span class="hljs-tag">&lt;<span class="hljs-name">child-component</span>
+        <span class="hljs-attr">id</span>=<span class="hljs-string">"parent"</span>
+        <span class="hljs-attr">data</span>=<span class="hljs-string">${this.prop(data)}</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">child-component</span>&gt;</span>
+    `
+  }
+}</code></pre>
+<p>Alternatively, you can call the <code>reRender(...)</code> method on the element directly.</p>
 <pre><code class="language-js"><span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'parent'</span>).reRender({ <span class="hljs-attr">data</span>: [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>, ..<span class="hljs-number">.9999</span>] })</code></pre>
 
     </section>

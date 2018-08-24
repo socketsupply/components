@@ -84,7 +84,7 @@ rows of data can take a second or two.
     <div id="click-to-load">
       <span>Click to Load</span>
     </div>
-    <my-windowed row-height={30}>
+    <my-windowed row-height='30'>
     </my-windowed>
   </div>
 </div>

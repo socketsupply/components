@@ -49,19 +49,29 @@ prpps object, use `foo-bar={30}`, and you will get `this.props.fooBar`.
 <my-component value="7a"></my-component>
 ```
 
-Native HTML only understands strings. If you want to pass non-string props (like
-some json) you need to stringify it. If you surround your property value with
-curly braces `{...}`, the value will be parsed as JSON. But you should not
-pass complex objects like functions though your HTML. Keep that in your JS!
+Native HTML only understands strings. So if you want to pass a non string object
+to the a child component, you can use `this.prop(data)`.
 
 ```html
-<parent-component id="parent" data={[1,2,3]}></parent-component>
+const data
+class FooBar extends Tonic {
+  render () {
+
+    const data = [
+      { foo: 'hello, world' }
+    ]
+
+    return `
+      <child-component
+        id="parent"
+        data=${this.prop(data)}>
+      </child-component>
+    `
+  }
+}
 ```
 
 Alternatively, you can call the `reRender(...)` method on the element directly.
-This is a better way to pass data if you have larger data it wont need to first
-pass though the HTML. This data should usually be progegated by either the
-parent component's state or props.
 
 ```js
 document.getElementById('parent').reRender({ data: [1,2,3, ...9999] })

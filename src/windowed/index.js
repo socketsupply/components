@@ -49,7 +49,7 @@ class Windowed extends Tonic { /* global Tonic */
 
     this.pages = this.pages || {}
     this.pagesAvailable = this.pagesAvailable || []
-    this.rowHeight = this.props.rowHeight
+    this.rowHeight = parseInt(this.props.rowHeight, 10)
 
     const inner = this.root.querySelector('.tonic--windowed--inner')
     inner.style.height = `${this.rowHeight * this.rows.length}px`

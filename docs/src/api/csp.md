@@ -27,4 +27,7 @@ add the following to your javascript...
 Tonic.nonce = '123'
 ```
 
+Note that `123` is a placeholder, this should be an actual [nonce][1].
+
 [0]:https://developers.google.com/web/fundamentals/security/csp/
+[1]:https://en.wikipedia.org/wiki/Cryptographic_nonce

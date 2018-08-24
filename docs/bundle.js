@@ -319,7 +319,7 @@ Tonic.escapeMap = { '"': '&quot;', '&': '&amp;', '\'': '&#x27;', '<': '&lt;', '>
 if (typeof module === 'object') module.exports = Tonic
 
 
-Tonic.nonce = 'ad7e5251'
+Tonic.nonce = '7cb12e2f'
 window.Tonic = Tonic
     
 class ContentRoute extends Tonic { /* global Tonic */

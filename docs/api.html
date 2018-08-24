@@ -153,17 +153,15 @@ little simpler.</p>
       <h1 id="1-styling">1. Styling</h1>
 <p>Components should ship with as little CSS as possible and try to inherit
 whenever possible from the document&#39;s stylesheets.</p>
-<p>Although you want to let the user&#39;s style-sheet to handle as much of the styling
-as possibke, sometimes your styles have more of a functional purpose than a
-visual one. In cases like this you should prefix the classes name so it doesn&#39;t
-collide with any class names that the user has defined. We use this convention...</p>
-<pre><code class="language-js">library--componentname--<span class="hljs-class"><span class="hljs-keyword">class</span></span></code></pre>
-<p>The css returned from the <code>style()</code> function will be attached to a style element
-in the head of your document. So you can use any css-in-js library you want.
-Also, since the result is plain-old-css, it&#39;s easy to inspect and override from
+<p>Any classes you add should be prefixed so that they don&#39;t collide with any class
+names which already exist in the document&#39;s stylesheet. We use this convention...</p>
+<pre><code class="language-js">library--component-name--<span class="hljs-class"><span class="hljs-keyword">class</span>-<span class="hljs-title">name</span></span></code></pre>
+<p>The text returned from the <code>stylesheet()</code> function will be attached to a style
+element in the head of the document. So you can use any <code>css-in-js</code> library you
+want. Since the result is plain-old-css, it&#39;s easy to inspect and override from
 another stylesheet.</p>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyGreeting</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
-  style () {
+  stylesheet () {
     <span class="hljs-keyword">return</span> <span class="hljs-string">`
 
       my-greeting div {
@@ -172,7 +170,7 @@ another stylesheet.</p>
         line-height: 90px;
       }
 
-      my-greeting .tonic--show {
+      my-greeting .tonic--my-greeting--show {
         display: flex;
       }
     `</span>
@@ -182,6 +180,27 @@ another stylesheet.</p>
     <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div&gt;&lt;/div&gt;`</span>
   }
 }</code></pre>
+<p>Sometimes you don&#39;t want to create classes at all. Sometimes you want to use
+inline-styles for your component. Tonic supports that too. Inline styles are
+added after the <code>render()</code> method is called.</p>
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyGreeting</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+  styles () {
+    <span class="hljs-keyword">return</span> {
+      <span class="hljs-attr">fontStyle</span>: {
+        <span class="hljs-attr">color</span>: <span class="hljs-keyword">this</span>.props.fg,
+        <span class="hljs-attr">fontSize</span>: <span class="hljs-string">'30px'</span>
+      },
+      <span class="hljs-attr">background</span>: {
+        <span class="hljs-attr">backgroundColor</span>: <span class="hljs-keyword">this</span>.props.bg
+      }
+    }
+  }
+
+  render () {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div styles="fontStyle background"&gt;<span class="hljs-subst">${<span class="hljs-keyword">this</span>.children}</span>&lt;/div&gt;`</span>
+  }
+}</code></pre>
+<pre><code class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">my-greeting</span> <span class="hljs-attr">fg</span>=<span class="hljs-string">"white"</span> <span class="hljs-attr">bg</span>=<span class="hljs-string">"red"</span>&gt;</span>Hello, World<span class="hljs-tag">&lt;/<span class="hljs-name">my-greeting</span>&gt;</span></code></pre>
 
     </section>
   

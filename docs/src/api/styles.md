@@ -3,17 +3,15 @@
 Components should ship with as little CSS as possible and try to inherit
 whenever possible from the document's stylesheets.
 
-Although you want to let the user's style-sheet to handle as much of the styling
-as possible, sometimes your styles have more of a functional purpose than a
-visual one. In cases like this you should prefix the classes name so it doesn't
-collide with any class names that the user has defined. We use this convention...
+Any classes you add should be prefixed so that they don't collide with any class
+names which already exist in the document's stylesheet. We use this convention...
 
 ```js
-library--componentname--class
+library--component-name--class-name
 ```
 
-The css returned from the `stylesheet()` function will be attached to a style
-element in the head of your document. So you can use any css-in-js library you
+The text returned from the `stylesheet()` function will be attached to a style
+element in the head of the document. So you can use any `css-in-js` library you
 want. Since the result is plain-old-css, it's easy to inspect and override from
 another stylesheet.
 
@@ -28,7 +26,7 @@ class MyGreeting extends Tonic {
         line-height: 90px;
       }
 
-      my-greeting .tonic--show {
+      my-greeting .tonic--my-greeting--show {
         display: flex;
       }
     `
@@ -40,8 +38,9 @@ class MyGreeting extends Tonic {
 }
 ```
 
-Sometimes you don't want to use inline-styles for your component. Tonic supports
-that too. Inline styles will be added after the `render()` method is called.
+Sometimes you don't want to create classes at all. Sometimes you want to use
+inline-styles for your component. Tonic supports that too. Inline styles are
+added after the `render()` method is called.
 
 ```js
 class MyGreeting extends Tonic {
@@ -52,7 +51,8 @@ class MyGreeting extends Tonic {
         fontSize: '30px'
       },
       background: {
-        backgroundColor: this.props.bg
+        backgroundColor: this.props.bg,
+        padding: '10px'
       }
     }
   }

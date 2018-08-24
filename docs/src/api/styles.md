@@ -12,28 +12,28 @@ collide with any class names that the user has defined. We use this convention..
 library--componentname--class
 ```
 
-Your styles will be applied to the elements in your component that match the
-specified selectors after the `render` method is executed. The style function
-retuns an objct where each key is a selector and each value is an object of
-style rules.
+The css returned from the `style()` function will be attached to a style element
+in the head of your document. So you can use any css-in-js library you want.
+Also, since the result is plain-old-css, it's easy to inspect and override from
+another stylesheet.
 
 ```js
 class MyGreeting extends Tonic {
   style () {
-    return {
+    return `
 
-      'div' {
-        display: 'inline-block',
-        border: '1px dotted #666'
-        height: '100px',
-        width: '100px',
-        line-height: '90px'
-      },
-
-      `.tonic--mygreeting--error`: {
-        color: 'red'
+      my-greeting div {
+        display: inline-block;
+        border: 1px dotted #666;
+        height: ${this.props.height}px;
+        width: ${this.props.width}px;
+        line-height: 90px;
       }
-    }
+
+      my-greeting .tonic--show {
+        display: flex;
+      }
+    `
   }
 
   render () {

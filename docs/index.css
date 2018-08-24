@@ -130,6 +130,13 @@ my-panel footer {
   text-align: center;
   border-top: 1px solid var(--border);
 }
+progress-bar {
+  display: inline-block;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
 * {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -768,8 +775,7 @@ body content-dialog main {
 body content-tags [data-tab-group] {
   height: 40px;
 }
-body notification-badge,
-body progress-bar {
+body notification-badge {
   display: inline-block;
   -webkit-user-select: none;
      -moz-user-select: none;

@@ -604,7 +604,7 @@ class ContentTooltip extends Tonic { /* global Tonic */
         width: 12px;
         height: 12px;
         position: absolute;
-        z-index: -1
+        z-index: -1;
         background-color: var(--window);
         -webkit-transform: rotate(45deg);
         -ms-transform: rotate(45deg);
@@ -613,9 +613,9 @@ class ContentTooltip extends Tonic { /* global Tonic */
       }
 
       content-tooltip .tonic--tooltip .tonic--tooltip-arrow {
-        border: 1px solid transparent
-        border-radius: 2px
-        pointer-events: none
+        border: 1px solid transparent;
+        border-radius: 2px;
+        pointer-events: none;
       }
 
       content-tooltip .tonic--top .tonic--tooltip-arrow {
@@ -681,15 +681,18 @@ class ContentTooltip extends Tonic { /* global Tonic */
     tooltip.classList.remove('tonic--show')
   }
 
-  connected () {
+  styles () {
     const {
       width,
       height
     } = this.props
 
-    const tooltip = this.root.querySelector('.tonic--tooltip')
-    if (width) tooltip.style.width = width
-    if (height) tooltip.style.height = height
+    return {
+      tooltip: {
+        width,
+        height
+      }
+    }
   }
 
   render () {
@@ -698,7 +701,7 @@ class ContentTooltip extends Tonic { /* global Tonic */
     }
 
     return `
-      <div class="tonic--tooltip">
+      <div class="tonic--tooltip" styles="tooltip">
         ${this.children.trim()}
         <span class="tonic--tooltip-arrow"></span>
       </div>
@@ -1228,7 +1231,7 @@ class InputCheckbox extends Tonic { /* global Tonic */
     this.root.querySelector('label.tonic--icon').style.backgroundImage = `url("${url}")`
   }
 
-  connected () {
+  styles () {
     const {
       color,
       iconOn,
@@ -1237,17 +1240,19 @@ class InputCheckbox extends Tonic { /* global Tonic */
       size
     } = this.props
 
-    this.label = this.root.querySelector('label')
-    const icon = this.root.querySelector('.tonic--icon')
-
     if (!color) this.props.color = this.getPropertyValue('primary')
     if (!iconOn) this.props.iconOn = InputCheckbox.svg.iconOn(this.props.color)
     if (!iconOff) this.props.iconOff = InputCheckbox.svg.iconOff(this.props.color)
 
     let url = this.props[checked ? 'iconOn' : 'iconOff']
-    icon.style.width = size
-    icon.style.height = size
-    icon.style.backgroundImage = `url('${url}')`
+
+    return {
+      icon: {
+        width: size,
+        height: size,
+        backgroundImage: `url('${url}')`
+      }
+    }
   }
 
   updated (oldProps) {
@@ -1258,7 +1263,13 @@ class InputCheckbox extends Tonic { /* global Tonic */
 
   renderLabel () {
     if (!this.props.label) return ''
-    return `<label for="${this.props.id}">${this.props.label}</label>`
+
+    const {
+      id,
+      label
+    } = this.props
+
+    return `<label styles="label" for="tonic--checkbox--${id}">${label}</label>`
   }
 
   render () {
@@ -1271,21 +1282,16 @@ class InputCheckbox extends Tonic { /* global Tonic */
 
     if (theme) this.classList.add(`tonic--theme--${theme}`)
 
-    //
-    // the id attribute can be removed from the component
-    // and added to the input inside the component.
-    //
-    this.root.removeAttribute('id')
-
     return `
       <div class="tonic--input-checkbox--wrapper">
         <input
           type="checkbox"
-          id="${id}"
+          id="tonic--checkbox--${id}"
           ${disabled ? 'disabled' : ''}
           ${checked ? 'checked' : ''}/>
         <label
-          for="${id}"
+          for="tonic--checkbox--${id}"
+          styles="icon"
           class="tonic--icon">
         </label>
         ${this.renderLabel()}

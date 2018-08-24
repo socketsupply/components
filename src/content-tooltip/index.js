@@ -49,7 +49,7 @@ class ContentTooltip extends Tonic { /* global Tonic */
         width: 12px;
         height: 12px;
         position: absolute;
-        z-index: -1
+        z-index: -1;
         background-color: var(--window);
         -webkit-transform: rotate(45deg);
         -ms-transform: rotate(45deg);
@@ -58,9 +58,9 @@ class ContentTooltip extends Tonic { /* global Tonic */
       }
 
       content-tooltip .tonic--tooltip .tonic--tooltip-arrow {
-        border: 1px solid transparent
-        border-radius: 2px
-        pointer-events: none
+        border: 1px solid transparent;
+        border-radius: 2px;
+        pointer-events: none;
       }
 
       content-tooltip .tonic--top .tonic--tooltip-arrow {
@@ -126,15 +126,18 @@ class ContentTooltip extends Tonic { /* global Tonic */
     tooltip.classList.remove('tonic--show')
   }
 
-  connected () {
+  styles () {
     const {
       width,
       height
     } = this.props
 
-    const tooltip = this.root.querySelector('.tonic--tooltip')
-    if (width) tooltip.style.width = width
-    if (height) tooltip.style.height = height
+    return {
+      tooltip: {
+        width,
+        height
+      }
+    }
   }
 
   render () {
@@ -143,7 +146,7 @@ class ContentTooltip extends Tonic { /* global Tonic */
     }
 
     return `
-      <div class="tonic--tooltip">
+      <div class="tonic--tooltip" styles="tooltip">
         ${this.children.trim()}
         <span class="tonic--tooltip-arrow"></span>
       </div>

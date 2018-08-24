@@ -8,7 +8,7 @@ class NotificationBadge extends Tonic { /* global Tonic */
   stylesheet () {
     return `
       notification-badge * {
-        boxSizing: border-box;
+        box-sizing: border-box;
       }
 
       notification-badge .tonic--notifications {
@@ -19,17 +19,6 @@ class NotificationBadge extends Tonic { /* global Tonic */
         position: relative;
         background-color: var(--background);
         border-radius: 8px;
-      }
-
-      notification-badge .tonic--notifications .tonic--new span:after {
-        display: block;
-      }
-
-      notification-badge span {
-        color: var(--primary);
-        font: 15px var(--subheader);
-        letter-spacing: 1px;
-        text-align: center;
       }
 
       notification-badge span:after {
@@ -43,6 +32,17 @@ class NotificationBadge extends Tonic { /* global Tonic */
         background-color: var(--notification);
         border: 2px solid var(--background);
         border-radius: 50%;
+      }
+
+      notification-badge .tonic--notifications.tonic--new span:after {
+        display: block;
+      }
+
+      notification-badge span {
+        color: var(--primary);
+        font: 15px var(--subheader);
+        letter-spacing: 1px;
+        text-align: center;
       }
     `
   }

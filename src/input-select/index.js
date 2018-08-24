@@ -131,32 +131,36 @@ class InputSelect extends Tonic { /* global Tonic */
     return `<label>${this.props.label}</label>`
   }
 
-  connected () {
+  styles () {
     const {
       height,
       width,
       padding,
       radius,
-      value,
       iconArrow
     } = this.props
+
+    return {
+      wrapper: {
+        width
+      },
+      select: {
+        width,
+        height,
+        borderRadius: radius,
+        padding,
+        backgroundImage: `url('${iconArrow}')`
+      }
+    }
+  }
+
+  connected () {
+    const value = this.props.value
 
     if (value) {
       const option = this.root.querySelector(`option[value="${value}"]`)
       if (option) option.setAttribute('selected', true)
     }
-
-    const wrapper = this.root.querySelector('.tonic--wrapper')
-    if (width) wrapper.style.width = width
-
-    const select = this.root.querySelector('select')
-
-    if (width) select.style.width = width
-    if (height) select.style.height = height
-    if (radius) select.style.borderRadius = radius
-    if (padding) select.style.padding = padding
-
-    select.style.backgroundImage = `url('${iconArrow}')`
   }
 
   render () {
@@ -174,9 +178,10 @@ class InputSelect extends Tonic { /* global Tonic */
     const options = this.root.innerHTML
 
     return `
-      <div class="tonic--wrapper">
+      <div class="tonic--wrapper" styles="wrapper">
         ${this.renderLabel()}
         <select
+          styles="select"
           ${disabled ? 'disabled' : ''}
           ${required ? 'required' : ''}>
           ${options}

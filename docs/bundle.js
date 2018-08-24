@@ -319,7 +319,7 @@ Tonic.escapeMap = { '"': '&quot;', '&': '&amp;', '\'': '&#x27;', '<': '&lt;', '>
 if (typeof module === 'object') module.exports = Tonic
 
 
-Tonic.nonce = '7cb12e2f'
+Tonic.nonce = 'a3e96494'
 window.Tonic = Tonic
     
 class ContentRoute extends Tonic { /* global Tonic */
@@ -2022,7 +2022,7 @@ class InputToggle extends Tonic { /* global Tonic */
 
   defaults () {
     return {
-      checked: false
+      checked: true
     }
   }
 
@@ -2057,7 +2057,7 @@ class InputToggle extends Tonic { /* global Tonic */
         text-transform: uppercase;
       }
 
-      input-toggle input.tonic--toggle {
+      input-toggle .tonic--toggle {
         position: absolute;
         display: none;
         outline: none;
@@ -2065,7 +2065,7 @@ class InputToggle extends Tonic { /* global Tonic */
         z-index: 1;
       }
 
-      input-toggle input.tonic--toggle + label {
+      input-toggle .tonic--toggle + label {
         width: 42px;
         height: 24px;
         padding: 2px;
@@ -2077,7 +2077,7 @@ class InputToggle extends Tonic { /* global Tonic */
         cursor: default;
       }
 
-      input-toggle input.tonic--toggle + label:before {
+      input-toggle .tonic--toggle + label:before {
         content: '';
         line-height: 29px;
         text-indent: 29px;
@@ -2095,7 +2095,7 @@ class InputToggle extends Tonic { /* global Tonic */
         background-color: var(--border);
       }
 
-      input-toggle input.tonic--toggle + label:after {
+      input-toggle .tonic--toggle + label:after {
         content: '';
         width: 16px;
         position: absolute;
@@ -2109,39 +2109,38 @@ class InputToggle extends Tonic { /* global Tonic */
         z-index: 2;
       }
 
-      input-toggle input.tonic--toggle:disabled {
+      input-toggle .tonic--toggle:disabled {
         cursor: default;
         background-color: var(--background);
       }
 
-      input-toggle input.tonic--toggle:disabled + label {
+      input-toggle .tonic--toggle:disabled + label {
         cursor: default;
         background-color: var(--background);
       }
 
-      input-toggle input.tonic--toggle:disabled + label:before {
+      input-toggle .tonic--toggle:disabled + label:before {
+        content: '';
         background-color: var(--background);
       }
 
-      input-toggle input.tonic--toggle:disabled + label:after {
+      input-toggle .tonic--toggle:disabled + label:after {
         background-color: var(--window);
       }
 
-      input-toggle input.tonic--toggle:checked + label
+      input-toggle .tonic--toggle:checked + label {
         background-color: var(--accent);
       }
 
-      input-toggle input.tonic--toggle:checked + label:before
-        content: '';
+      input-toggle .tonic--toggle:checked + label:before {
         background-color: var(--accent);
         color: var(--background);
       }
 
-      input-toggle input.tonic--toggle:checked + label:after
+      input-toggle .tonic--toggle:checked + label:after {
         margin-left: 18px;
         background-color: var(--background);
       }
-
     `
   }
 
@@ -3090,6 +3089,26 @@ class Popover extends Tonic { /* global Tonic */
     `
   }
 
+  styles () {
+    const {
+      width,
+      height,
+      padding,
+      margin,
+      position
+    } = this.props
+
+    return {
+      popover: {
+        width,
+        height,
+        padding,
+        margin,
+        position
+      }
+    }
+  }
+
   show (triggerNode) {
     const popover = this.root.querySelector('.tonic--popover')
     let scrollableArea = triggerNode.parentNode
@@ -3153,7 +3172,7 @@ class Popover extends Tonic { /* global Tonic */
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     return `
-      <div class="tonic--popover">
+      <div class="tonic--popover" styles="popover">
           ${this.children.trim()}
       </div>
     `

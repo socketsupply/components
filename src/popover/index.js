@@ -74,6 +74,26 @@ class Popover extends Tonic { /* global Tonic */
     `
   }
 
+  styles () {
+    const {
+      width,
+      height,
+      padding,
+      margin,
+      position
+    } = this.props
+
+    return {
+      popover: {
+        width,
+        height,
+        padding,
+        margin,
+        position
+      }
+    }
+  }
+
   show (triggerNode) {
     const popover = this.root.querySelector('.tonic--popover')
     let scrollableArea = triggerNode.parentNode
@@ -137,7 +157,7 @@ class Popover extends Tonic { /* global Tonic */
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     return `
-      <div class="tonic--popover">
+      <div class="tonic--popover" styles="popover">
           ${this.children.trim()}
       </div>
     `

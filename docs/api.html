@@ -17,8 +17,8 @@
       default-src 'self';
       font-src 'self' https:;
       img-src 'self' https: data:;
-      style-src 'self' 'nonce-7cb12e2f' https:;
-      script-src 'self' 'nonce-7cb12e2f';
+      style-src 'self' 'nonce-a3e96494' https:;
+      script-src 'self' 'nonce-a3e96494';
       connect-src 'self' https:;
     "
   >
@@ -461,7 +461,7 @@ rules to be more specific.</p>
 to set the <code>Tonic.nonce</code> property. For example, given the above policy you would
 add the following to your javascript...</p>
 <pre><code class="language-js">Tonic.nonce = <span class="hljs-string">'123'</span></code></pre>
-<p>Also, <code>123</code> is an example, this should be an actual <a href="https://en.wikipedia.org/wiki/Cryptographic_nonce">nonce</a>.</p>
+<p>Note that <code>123</code> is a placeholder, this should be an actual <a href="https://en.wikipedia.org/wiki/Cryptographic_nonce">nonce</a>.</p>
 
     </section>
   
@@ -578,7 +578,7 @@ add the following to your javascript...</p>
             </div>
           </footer>
         </main>
-        <script nonce="7cb12e2f" crossorigin="anonymous" src="bundle.js"></script>
+        <script nonce="a3e96494" crossorigin="anonymous" src="bundle.js"></script>
       </body>
     </html>
   

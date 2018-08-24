@@ -3269,11 +3269,11 @@ class Windowed extends Tonic { /* global Tonic */
 
   style () {
     return `
-      windowed .tonic--windowed--inner {
+      .tonic--windowed--inner {
         position: relative;
       }
 
-      windowed .tonic--windowed--outer {
+      .tonic--windowed--outer {
         width: 100%;
         height: inherit;
         overflow: auto;

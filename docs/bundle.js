@@ -319,7 +319,7 @@ Tonic.escapeMap = { '"': '&quot;', '&': '&amp;', '\'': '&#x27;', '<': '&lt;', '>
 if (typeof module === 'object') module.exports = Tonic
 
 
-Tonic.nonce = '3b84e20a'
+Tonic.nonce = '51116309'
 window.Tonic = Tonic
     
 class ContentRoute extends Tonic { /* global Tonic */
@@ -1066,7 +1066,7 @@ class IconContainer extends Tonic { /* global Tonic */
     `
   }
 
-  connected () {
+  styles () {
     let {
       color,
       size
@@ -1077,13 +1077,16 @@ class IconContainer extends Tonic { /* global Tonic */
       color = this.defaults.color
     }
 
-    const wrapper = this.root.querySelector('.tonic--wrapper')
-    wrapper.style.width = size
-    wrapper.style.height = size
-
-    const use = this.root.querySelector('use')
-    use.style.fill = color
-    use.style.color = color
+    return {
+      wrapper: {
+        width: size,
+        height: size
+      },
+      use: {
+        fill: color,
+        color
+      }
+    }
   }
 
   render () {
@@ -1095,9 +1098,9 @@ class IconContainer extends Tonic { /* global Tonic */
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     return `
-      <div class="tonic--wrapper">
+      <div class="tonic--wrapper" styles="wrapper">
         <svg>
-          <use xlink:href="${src}">
+          <use xlink:href="${src}" styles="use">
         </svg>
       </div>
     `

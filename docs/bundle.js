@@ -1,6 +1,11 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 const scrollToY = require('scrolltoy')
 const { qs, qsa } = require('qs')
+const Tonic = require('tonic')
+const nonce = require('./nonce')
+
+const components = require('../..')
+const readme = require('./readme')
 
 function setupNavigation () {
   qsa(`a[name="${document.body.dataset.page}"]`).forEach(el => {
@@ -67,262 +72,345 @@ function ready () {
 
     document.body.classList.toggle('theme-dark')
   })
+
+  components(Tonic, nonce)
+  readme(Tonic)
 }
 
 document.addEventListener('DOMContentLoaded', ready)
 
-},{"qs":2,"scrolltoy":3}],2:[function(require,module,exports){
-const qs = (s, p) => (p || document).querySelector(s)
-const qsa = (s, p) => [...(p || document).querySelectorAll(s)]
+},{"../..":4,"./nonce":2,"./readme":3,"qs":5,"scrolltoy":6,"tonic":7}],2:[function(require,module,exports){
 
-module.exports = { qs, qsa }
-
+    module.exports = 'U29tZSBzdXBlciBzZWNyZXQ='
+  
 },{}],3:[function(require,module,exports){
-var requestFrame = (function () {
-  return window.requestAnimationFrame ||
-    window.webkitRequestAnimationFrame ||
-    window.mozRequestAnimationFrame ||
-    function requestAnimationFallback (callback) {
-      window.setTimeout(callback, 1000 / 60)
-    }
-})()
 
-function ease (pos) {
-  return ((pos /= 0.5) < 1)
-    ? (0.5 * Math.pow(pos, 5))
-    : (0.5 * (Math.pow((pos - 2), 5) + 2))
-}
+    module.exports = Tonic => {
+      
+        //
+        // ./src/content-route/readme.js
+        //
+        if (document.body.dataset.page === 'components') {
+          const select = document.getElementById('content-route-select')
+const page2 = document.getElementById('page2')
 
-module.exports = function scrollToY (el, Y, speed) {
-  var isWindow = !!el.alert
-  var scrollY = isWindow ? el.scrollY : el.scrollTop
-  var pos = Math.abs(scrollY - Y)
-  var time = Math.max(0.1, Math.min(pos / speed, 0.8))
+select.addEventListener('change', e => {
+  window.history.pushState({}, '', select.value)
+})
 
-  let currentTime = 0
+page2.addEventListener('show', e => {
+  const { number } = e.target.getProps()
 
-  function setY () {
-    module.exports.scrolling = true
-    currentTime += 1 / 60
+  document.getElementById('page2-number').textContent = number
+})
 
-    var p = currentTime / time
-    var t = ease(p)
-
-    if (p < 1) {
-      var y = scrollY + ((Y - scrollY) * t)
-      requestFrame(setY)
-
-      if (isWindow) {
-        el.scrollTo(0, y)
-      } else {
-        el.scrollTop = y
-      }
-
-      return
-    }
-
-    if (isWindow) {
-      el.scrollTo(0, Y)
-    } else {
-      el.scrollTop = Y
-    }
-
-    module.exports.scrolling = false
-  }
-  setY()
-}
-
-},{}]},{},[1]);
-
-//
-// Warning. Do not edit. This is a generated file.
-//
-class Tonic {
-  constructor (node, state) {
-    this.props = {}
-    this.state = state || {}
-    const name = Tonic._splitName(this.constructor.name)
-    this.root = node || document.createElement(name)
-    this.root.disconnect = index => this._disconnect(index)
-    this.root.reRender = v => this.reRender(v)
-    this.root.setState = v => this.setState(v)
-    this.root.getProps = () => this.getProps()
-    this.root.getState = () => this.getState()
-    this._bindEventListeners()
-    if (this.wrap) {
-      const render = this.render
-      this.render = () => this.wrap(render.bind(this))
-    }
-    this._connect()
-    Tonic.refs.push(this.root)
-  }
-
-  static match (el, s) {
-    if (!el.matches) el = el.parentElement
-    return el.matches(s) ? el : el.closest(s)
-  }
-
-  static add (c) {
-    c.prototype._props = Object.getOwnPropertyNames(c.prototype)
-    if (!c.name || c.name.length === 1) throw Error('Mangling detected, see guide. https://github.com/hxoht/tonic/blob/master/HELP.md.')
-
-    const name = Tonic._splitName(c.name)
-    Tonic.registry[name.toUpperCase()] = Tonic[c.name] = c
-    Tonic.tags = Object.keys(Tonic.registry)
-    if (c.registered) throw new Error(`Already registered ${c.name}`)
-    c.registered = true
-
-    if (!Tonic.styleNode) {
-      const styleTag = document.createElement('style')
-      styleTag.setAttribute('nonce', Tonic.nonce)
-      Tonic.styleNode = document.head.appendChild(styleTag)
-    }
-
-    Tonic._constructTags()
-  }
-
-  static _constructTags (root, states = {}) { /* eslint-disable no-new */
-    for (const tagName of Tonic.tags) {
-      for (const node of (root || document).getElementsByTagName(tagName)) {
-        if (!node.disconnect) new Tonic.registry[tagName](node, states[node.id])
-      }
-    }
-  }
-
-  static sanitize (o) {
-    for (const [k, v] of Object.entries(o)) {
-      if (typeof v === 'object') o[k] = Tonic.sanitize(v)
-      if (typeof v === 'string') o[k] = Tonic.escape(v)
-    }
-    return o
-  }
-
-  static escape (s) {
-    return s.replace(Tonic.escapeRe, ch => Tonic.escapeMap[ch])
-  }
-
-  static _splitName (s) {
-    return s.match(/[A-Z][a-z]*/g).join('-')
-  }
-
-  html ([s, ...strings], ...values) {
-    const reducer = (a, b) => a.concat(b, strings.shift())
-    const filter = s => s && (s !== true || s === 0)
-    return values.reduce(reducer, [s]).filter(filter).join('')
-  }
-
-  setState (o) {
-    this.state = typeof o === 'function' ? o(this.state) : o
-  }
-
-  getState () {
-    return this.state
-  }
-
-  reRender (o = this.props) {
-    const oldProps = JSON.parse(JSON.stringify(this.props))
-    this.props = Tonic.sanitize(typeof o === 'function' ? o(this.props) : o)
-    if (!this.root) throw new Error('.reRender called on destroyed component, see guide.')
-    Tonic._constructTags(this.root, this._setContent(this.root, this.render()))
-    this.updated && this.updated(oldProps)
-  }
-
-  getProps () {
-    return this.props
-  }
-
-  _bindEventListeners () {
-    const hp = Object.getOwnPropertyNames(window.HTMLElement.prototype)
-    for (const p of this._props) {
-      if (hp.indexOf('on' + p) === -1) continue
-      this.root.addEventListener(p, e => this[p](e))
-    }
-  }
-
-  _setContent (target, content = '') {
-    const states = {}
-    for (const tagName of Tonic.tags) {
-      for (const node of target.getElementsByTagName(tagName)) {
-        const index = Tonic.refs.findIndex(ref => ref === node)
-        if (index === -1) continue
-        states[node.id] = node.getState()
-        node.disconnect(index)
-      }
-    }
-
-    if (typeof content === 'string') {
-      target.innerHTML = content.trim()
-
-      if (this.styles) {
-        const styles = this.styles()
-        Array.from(target.querySelectorAll('[styles]')).forEach(el =>
-          el.getAttribute('styles').split(/\s+/).forEach(s =>
-            Object.assign(el.style, styles[s.trim()])))
-      }
-    } else {
-      while (target.firstChild) target.removeChild(target.firstChild)
-      target.appendChild(content.cloneNode(true))
-    }
-    this.root = target
-    return states
-  }
-
-  _connect () {
-    for (let { name, value } of this.root.attributes) {
-      name = name.replace(/-(.)/g, (_, m) => m.toUpperCase())
-      const p = this.props[name] = value === 'undefined' ? undefined : (value || name)
-
-      const m = p && p[0] === '{' && /{(.+)}/.exec(p)
-      if (m && m[1]) {
-        try {
-          this.props[name] = JSON.parse(m[1])
-        } catch (err) {
-          this.props[name] = m[1]
-          console.error(`Parse error (${name}), ${err.message}`)
         }
-      }
-    }
+      
 
-    this.props = Tonic.sanitize(this.props)
+        //
+        // ./src/dialog/readme.js
+        //
+        if (document.body.dataset.page === 'components') {
+          class MyDialog extends Tonic.Dialog {
+  click (e) {
+    if (!Tonic.match(e.target, '#update')) return
 
-    for (const [k, v] of Object.entries(this.defaults ? this.defaults() : {})) {
-      if (!this.props[k]) this.props[k] = v
-    }
-
-    this.willConnect && this.willConnect()
-    this.children = this.children || this.root.innerHTML
-    this._setContent(this.root, this.render())
-    Tonic._constructTags(this.root)
-    const style = this.stylesheet && this.stylesheet()
-
-    if (style && !Tonic.registry[this.root.tagName].styled) {
-      Tonic.registry[this.root.tagName].styled = true
-      Tonic.styleNode.appendChild(document.createTextNode(style))
-    }
-
-    this.connected && this.connected()
+    this.reRender(props => ({
+      ...props,
+      message: `Date stamp ${Date.now()}`
+    }))
   }
 
-  _disconnect (index) {
-    this.disconnected && this.disconnected()
-    delete this.root
-    Tonic.refs.splice(index, 1)
+  render () {
+    return `
+      <header>Dialog</header>
+      <main>
+        ${this.props.message}
+      </main>
+      <footer>
+        <input-button id="update">Update</input-button>
+      </footer>
+    `
   }
 }
 
-Tonic.tags = []
-Tonic.refs = []
-Tonic.registry = {}
-Tonic.escapeRe = /["&'<>`]/g
-Tonic.escapeMap = { '"': '&quot;', '&': '&amp;', '\'': '&#x27;', '<': '&lt;', '>': '&gt;', '`': '&#x60;' }
+Tonic.add(MyDialog)
 
-if (typeof module === 'object') module.exports = Tonic
+const link = document.getElementById('example-dialog-link')
+const dialog = document.getElementById('example-dialog')
 
+link.addEventListener('click', e => dialog.show())
 
-Tonic.nonce = 'e57dd97e'
-window.Tonic = Tonic
-    
-class ContentRoute extends Tonic { /* global Tonic */
+        }
+      
+
+        //
+        // ./src/input-button/readme.js
+        //
+        if (document.body.dataset.page === 'components') {
+          const button = document.getElementById('input-button-example')
+button.addEventListener('click', e => {
+  setTimeout(() => {
+    button.loading(false)
+  }, 3e3)
+})
+
+        }
+      
+
+        //
+        // ./src/input-select/readme.js
+        //
+        if (document.body.dataset.page === 'components') {
+          const select = document.getElementById('options-example-1')
+const notification = document.getElementsByTagName('notification-center')[0]
+
+select.addEventListener('change', ({ target }) => {
+  notification.create({
+    type: 'success',
+    message: `Selected option was "${select.value}".`,
+    title: 'Selection',
+    duration: 2000
+  })
+})
+
+        }
+      
+
+        //
+        // ./src/notification-badge/readme.js
+        //
+        if (document.body.dataset.page === 'components') {
+          const add = document.getElementById('add-notification')
+const subtract = document.getElementById('subtract-notification')
+const notificationBadge = document.querySelector('notification-badge')
+
+let count = 0
+
+add.addEventListener('click', (e) => {
+  notificationBadge.reRender(props => ({
+    ...props,
+    count: ++count
+  }))
+})
+
+subtract.addEventListener('click', e => {
+  notificationBadge.reRender(props => ({
+    ...props,
+    count: count > 0 ? --count : count
+  }))
+})
+
+        }
+      
+
+        //
+        // ./src/notification-center/readme.js
+        //
+        if (document.body.dataset.page === 'components') {
+          const notification = document.querySelector('notification-center')
+
+document
+  .getElementById('notification-center-example')
+  .addEventListener('click', e => notification.create({
+    type: 'success',
+    title: 'Greetings',
+    message: 'Hello, World'
+  }))
+
+        }
+      
+
+        //
+        // ./src/notification-inline/readme.js
+        //
+        if (document.body.dataset.page === 'components') {
+          const notification1 = document.getElementById('notification-1')
+const notificationLink1 = document.getElementById('notification-link-1')
+
+notificationLink1.addEventListener('click', e => {
+  notification1.create({
+    type: 'warning',
+    title: 'Warning',
+    message: 'This is a warning, please be careful.'
+  })
+})
+
+        }
+      
+
+        //
+        // ./src/panel/readme.js
+        //
+        if (document.body.dataset.page === 'components') {
+          class MyPanel extends Tonic.Panel {
+  async getArticle (title) {
+    try {
+      const res = await fetch(`https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=${title}&origin=*`)
+      return Object.values((await res.json()).query.pages)[0]
+    } catch (err) {
+      return { title: 'Error', extract: err.message }
+    }
+  }
+
+  async click (e) {
+    if (e.target.value === 'close') {
+      return this.hide()
+    }
+
+    if (e.target.value === 'get') {
+      const page = await this.getArticle('HTML')
+
+      this.reRender(props => ({
+        ...props,
+        ...page
+      }))
+    }
+  }
+
+  render () {
+    return `
+      <header></header>
+      <main>
+        <h3>${this.props.title || 'Hello'}
+        <p>${this.props.extract || 'Click "get" to fetch the content from Wikipedia.'}</p>
+      </main>
+      <footer>
+        <input-button value="close">Close</input-button>
+        <input-button value="get" async="true">Get</input-button>
+      </footer>
+    `
+  }
+}
+
+Tonic.add(MyPanel)
+
+//
+// For this example, a button element will trigger the
+// `.show()` method on the panel when it is clicked.
+//
+const panelLink = document.getElementById('content-panel-link-example')
+const panel = document.getElementById('content-panel-example')
+
+panelLink.addEventListener('click', e => panel.show())
+
+        }
+      
+
+        //
+        // ./src/popover/readme.js
+        //
+        if (document.body.dataset.page === 'components') {
+          const popover = document.getElementById('popover-example')
+popover.addEventListener('show', event => {
+  document.body.addEventListener('click', e => {
+    popover.hide()
+  }, { once: true })
+})
+
+        }
+      
+
+        //
+        // ./src/profile-image/readme.js
+        //
+        if (document.body.dataset.page === 'components') {
+          const profile = document.getElementById('profile-image-example-editable')
+
+profile.addEventListener('changed', e => console.log(e.data))
+profile.addEventListener('error', e => console.log(e.message))
+
+        }
+      
+
+        //
+        // ./src/progress-bar/readme.js
+        //
+        if (document.body.dataset.page === 'components') {
+          let percentage = 0
+let interval = null
+
+const progressBar = document.getElementById('progress-bar-example')
+
+document.getElementById('start-progress').addEventListener('click', e => {
+  clearInterval(interval)
+  interval = setInterval(() => {
+    progressBar.setProgress(percentage++)
+    if (progressBar.value >= 100) percentage = 0
+  }, 128)
+})
+
+document.getElementById('stop-progress').addEventListener('click', e => {
+  clearInterval(interval)
+})
+
+        }
+      
+
+        //
+        // ./src/windowed/readme.js
+        //
+        if (document.body.dataset.page === 'components') {
+          class MyWindowed extends Tonic.Windowed {
+  renderRow (row) {
+    return `
+      <div class="tr">
+        <div class="td">${row.title}</div>
+        <div class="td">${row.date}</div>
+        <div class="td">${row.random}</div>
+      </div>
+    `
+  }
+
+  render () {
+    return `
+      <div class="th">
+        <div class="td">Title</div>
+        <div class="td">Date</div>
+        <div class="td">Random</div>
+      </div>
+      ${super.render()}
+    `
+  }
+}
+
+Tonic.add(MyWindowed)
+
+//
+// This demo generates the data after you click the overlay instead of
+// on page load since 500K rows of data can take a few seconds to create.
+//
+const windowed = document.getElementsByTagName('my-windowed')[0]
+const overlay = document.getElementById('click-to-load')
+
+overlay.addEventListener('click', e => {
+  const rows = []
+
+  for (let i = 1; i < 500001; i++) {
+    rows.push({
+      title: `Row #${i}`,
+      date: String(new Date()),
+      random: Math.random().toString(16).slice(2)
+    })
+  }
+
+  overlay.classList.add('hidden')
+  windowed.load(rows)
+})
+
+        }
+      
+    }
+  
+},{}],4:[function(require,module,exports){
+
+//
+// Warning: Do not edit. To regenerate, run 'npm run build'.
+//
+module.exports = (Tonic, nonce) => {
+  Tonic.nonce = nonce
+
+  class ContentRoute extends Tonic { /* global Tonic */
   constructor (node) {
     super(node)
 
@@ -3687,320 +3775,248 @@ class Windowed extends Tonic { /* global Tonic */
 
 Tonic.Windowed = Windowed
 
-  
+}
+},{}],5:[function(require,module,exports){
+const qs = (s, p) => (p || document).querySelector(s)
+const qsa = (s, p) => [...(p || document).querySelectorAll(s)]
 
-  //
-  // ./src/content-route/readme.js
-  //
-  if (document.body.dataset.page === 'components') {
-  const select = document.getElementById('content-route-select')
-const page2 = document.getElementById('page2')
+module.exports = { qs, qsa }
 
-select.addEventListener('change', e => {
-  window.history.pushState({}, '', select.value)
-})
+},{}],6:[function(require,module,exports){
+var requestFrame = (function () {
+  return window.requestAnimationFrame ||
+    window.webkitRequestAnimationFrame ||
+    window.mozRequestAnimationFrame ||
+    function requestAnimationFallback (callback) {
+      window.setTimeout(callback, 1000 / 60)
+    }
+})()
 
-page2.addEventListener('show', e => {
-  const { number } = e.target.getProps()
-
-  document.getElementById('page2-number').textContent = number
-})
-
-  }
-  
-
-  //
-  // ./src/dialog/readme.js
-  //
-  if (document.body.dataset.page === 'components') {
-  class MyDialog extends Tonic.Dialog {
-  click (e) {
-    if (!Tonic.match(e.target, '#update')) return
-
-    this.reRender(props => ({
-      ...props,
-      message: `Date stamp ${Date.now()}`
-    }))
-  }
-
-  render () {
-    return `
-      <header>Dialog</header>
-      <main>
-        ${this.props.message}
-      </main>
-      <footer>
-        <input-button id="update">Update</input-button>
-      </footer>
-    `
-  }
+function ease (pos) {
+  return ((pos /= 0.5) < 1)
+    ? (0.5 * Math.pow(pos, 5))
+    : (0.5 * (Math.pow((pos - 2), 5) + 2))
 }
 
-Tonic.add(MyDialog)
+module.exports = function scrollToY (el, Y, speed) {
+  var isWindow = !!el.alert
+  var scrollY = isWindow ? el.scrollY : el.scrollTop
+  var pos = Math.abs(scrollY - Y)
+  var time = Math.max(0.1, Math.min(pos / speed, 0.8))
 
-const link = document.getElementById('example-dialog-link')
-const dialog = document.getElementById('example-dialog')
+  let currentTime = 0
 
-link.addEventListener('click', e => dialog.show())
+  function setY () {
+    module.exports.scrolling = true
+    currentTime += 1 / 60
 
+    var p = currentTime / time
+    var t = ease(p)
+
+    if (p < 1) {
+      var y = scrollY + ((Y - scrollY) * t)
+      requestFrame(setY)
+
+      if (isWindow) {
+        el.scrollTo(0, y)
+      } else {
+        el.scrollTop = y
+      }
+
+      return
+    }
+
+    if (isWindow) {
+      el.scrollTo(0, Y)
+    } else {
+      el.scrollTop = Y
+    }
+
+    module.exports.scrolling = false
   }
-  
+  setY()
+}
 
-  //
-  // ./src/input-button/readme.js
-  //
-  if (document.body.dataset.page === 'components') {
-  const button = document.getElementById('input-button-example')
-button.addEventListener('click', e => {
-  setTimeout(() => {
-    button.loading(false)
-  }, 3e3)
-})
-
+},{}],7:[function(require,module,exports){
+class Tonic {
+  constructor (node, state) {
+    this.props = {}
+    this.state = state || {}
+    const name = Tonic._splitName(this.constructor.name)
+    this.root = node || document.createElement(name)
+    this.root.disconnect = index => this._disconnect(index)
+    this.root.reRender = v => this.reRender(v)
+    this.root.setState = v => this.setState(v)
+    this.root.getProps = () => this.getProps()
+    this.root.getState = () => this.getState()
+    this._bindEventListeners()
+    if (this.wrap) {
+      const render = this.render
+      this.render = () => this.wrap(render.bind(this))
+    }
+    this._connect()
+    Tonic.refs.push(this.root)
   }
-  
 
-  //
-  // ./src/input-select/readme.js
-  //
-  if (document.body.dataset.page === 'components') {
-  document.addEventListener('DOMContentLoaded', e => {
-  const select = document.getElementById('options-example-1')
-  const notification = document.getElementsByTagName('notification-center')[0]
-
-  select.addEventListener('change', ({ target }) => {
-    notification.create({
-      type: 'success',
-      message: `Selected option was "${select.value}".`,
-      title: 'Selection',
-      duration: 2000
-    })
-  })
-})
-
+  static match (el, s) {
+    if (!el.matches) el = el.parentElement
+    return el.matches(s) ? el : el.closest(s)
   }
-  
 
-  //
-  // ./src/notification-badge/readme.js
-  //
-  if (document.body.dataset.page === 'components') {
-  const add = document.getElementById('add-notification')
-const subtract = document.getElementById('subtract-notification')
-const notificationBadge = document.querySelector('notification-badge')
+  static add (c) {
+    c.prototype._props = Object.getOwnPropertyNames(c.prototype)
+    if (!c.name || c.name.length === 1) throw Error('Mangling detected, see guide. https://github.com/hxoht/tonic/blob/master/HELP.md.')
 
-let count = 0
+    const name = Tonic._splitName(c.name)
+    Tonic.registry[name.toUpperCase()] = Tonic[c.name] = c
+    Tonic.tags = Object.keys(Tonic.registry)
+    if (c.registered) throw new Error(`Already registered ${c.name}`)
+    c.registered = true
 
-add.addEventListener('click', (e) => {
-  notificationBadge.reRender(props => ({
-    ...props,
-    count: ++count
-  }))
-})
+    if (!Tonic.styleNode) {
+      const styleTag = document.createElement('style')
+      styleTag.setAttribute('nonce', Tonic.nonce)
+      Tonic.styleNode = document.head.appendChild(styleTag)
+    }
 
-subtract.addEventListener('click', e => {
-  notificationBadge.reRender(props => ({
-    ...props,
-    count: count > 0 ? --count : count
-  }))
-})
-
+    Tonic._constructTags()
   }
-  
 
-  //
-  // ./src/notification-center/readme.js
-  //
-  if (document.body.dataset.page === 'components') {
-  const notification = document.querySelector('notification-center')
-
-document
-  .getElementById('notification-center-example')
-  .addEventListener('click', e => notification.create({
-    type: 'success',
-    title: 'Greetings',
-    message: 'Hello, World'
-  }))
-
-  }
-  
-
-  //
-  // ./src/notification-inline/readme.js
-  //
-  if (document.body.dataset.page === 'components') {
-  const notification1 = document.getElementById('notification-1')
-const notificationLink1 = document.getElementById('notification-link-1')
-
-notificationLink1.addEventListener('click', e => {
-  notification1.create({
-    type: 'warning',
-    title: 'Warning',
-    message: 'This is a warning, please be careful.'
-  })
-})
-
-  }
-  
-
-  //
-  // ./src/panel/readme.js
-  //
-  if (document.body.dataset.page === 'components') {
-  class MyPanel extends Tonic.Panel {
-  async getArticle (title) {
-    try {
-      const res = await fetch(`https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=${title}&origin=*`)
-      return Object.values((await res.json()).query.pages)[0]
-    } catch (err) {
-      return { title: 'Error', extract: err.message }
+  static _constructTags (root, states = {}) { /* eslint-disable no-new */
+    for (const tagName of Tonic.tags) {
+      for (const node of (root || document).getElementsByTagName(tagName)) {
+        if (!node.disconnect) new Tonic.registry[tagName](node, states[node.id])
+      }
     }
   }
 
-  async click (e) {
-    if (e.target.value === 'close') {
-      return this.hide()
+  static sanitize (o) {
+    for (const [k, v] of Object.entries(o)) {
+      if (typeof v === 'object') o[k] = Tonic.sanitize(v)
+      if (typeof v === 'string') o[k] = Tonic.escape(v)
     }
+    return o
+  }
 
-    if (e.target.value === 'get') {
-      const page = await this.getArticle('HTML')
+  static escape (s) {
+    return s.replace(Tonic.escapeRe, ch => Tonic.escapeMap[ch])
+  }
 
-      this.reRender(props => ({
-        ...props,
-        ...page
-      }))
+  static _splitName (s) {
+    return s.match(/[A-Z][a-z]*/g).join('-')
+  }
+
+  html ([s, ...strings], ...values) {
+    const reducer = (a, b) => a.concat(b, strings.shift())
+    const filter = s => s && (s !== true || s === 0)
+    return values.reduce(reducer, [s]).filter(filter).join('')
+  }
+
+  setState (o) {
+    this.state = typeof o === 'function' ? o(this.state) : o
+  }
+
+  getState () {
+    return this.state
+  }
+
+  reRender (o = this.props) {
+    const oldProps = JSON.parse(JSON.stringify(this.props))
+    this.props = Tonic.sanitize(typeof o === 'function' ? o(this.props) : o)
+    if (!this.root) throw new Error('.reRender called on destroyed component, see guide.')
+    Tonic._constructTags(this.root, this._setContent(this.root, this.render()))
+    this.updated && this.updated(oldProps)
+  }
+
+  getProps () {
+    return this.props
+  }
+
+  _bindEventListeners () {
+    const hp = Object.getOwnPropertyNames(window.HTMLElement.prototype)
+    for (const p of this._props) {
+      if (hp.indexOf('on' + p) === -1) continue
+      this.root.addEventListener(p, e => this[p](e))
     }
   }
 
-  render () {
-    return `
-      <header></header>
-      <main>
-        <h3>${this.props.title || 'Hello'}
-        <p>${this.props.extract || 'Click "get" to fetch the content from Wikipedia.'}</p>
-      </main>
-      <footer>
-        <input-button value="close">Close</input-button>
-        <input-button value="get" async="true">Get</input-button>
-      </footer>
-    `
+  _setContent (target, content = '') {
+    const states = {}
+    for (const tagName of Tonic.tags) {
+      for (const node of target.getElementsByTagName(tagName)) {
+        const index = Tonic.refs.findIndex(ref => ref === node)
+        if (index === -1) continue
+        states[node.id] = node.getState()
+        node.disconnect(index)
+      }
+    }
+
+    if (typeof content === 'string') {
+      target.innerHTML = content.trim()
+
+      if (this.styles) {
+        const styles = this.styles()
+        Array.from(target.querySelectorAll('[styles]')).forEach(el =>
+          el.getAttribute('styles').split(/\s+/).forEach(s =>
+            Object.assign(el.style, styles[s.trim()])))
+      }
+    } else {
+      while (target.firstChild) target.removeChild(target.firstChild)
+      target.appendChild(content.cloneNode(true))
+    }
+    this.root = target
+    return states
+  }
+
+  _connect () {
+    for (let { name, value } of this.root.attributes) {
+      name = name.replace(/-(.)/g, (_, m) => m.toUpperCase())
+      const p = this.props[name] = value === 'undefined' ? undefined : (value || name)
+
+      const m = p && p[0] === '{' && /{(.+)}/.exec(p)
+      if (m && m[1]) {
+        try {
+          this.props[name] = JSON.parse(m[1])
+        } catch (err) {
+          this.props[name] = m[1]
+          console.error(`Parse error (${name}), ${err.message}`)
+        }
+      }
+    }
+
+    this.props = Tonic.sanitize(this.props)
+
+    for (const [k, v] of Object.entries(this.defaults ? this.defaults() : {})) {
+      if (!this.props[k]) this.props[k] = v
+    }
+
+    this.willConnect && this.willConnect()
+    this.children = this.children || this.root.innerHTML
+    this._setContent(this.root, this.render())
+    Tonic._constructTags(this.root)
+    const style = this.stylesheet && this.stylesheet()
+
+    if (style && !Tonic.registry[this.root.tagName].styled) {
+      Tonic.registry[this.root.tagName].styled = true
+      Tonic.styleNode.appendChild(document.createTextNode(style))
+    }
+
+    this.connected && this.connected()
+  }
+
+  _disconnect (index) {
+    this.disconnected && this.disconnected()
+    delete this.root
+    Tonic.refs.splice(index, 1)
   }
 }
 
-Tonic.add(MyPanel)
+Tonic.tags = []
+Tonic.refs = []
+Tonic.registry = {}
+Tonic.escapeRe = /["&'<>`]/g
+Tonic.escapeMap = { '"': '&quot;', '&': '&amp;', '\'': '&#x27;', '<': '&lt;', '>': '&gt;', '`': '&#x60;' }
 
-//
-// For this example, a button element will trigger the
-// `.show()` method on the panel when it is clicked.
-//
-const panelLink = document.getElementById('content-panel-link-example')
-const panel = document.getElementById('content-panel-example')
+if (typeof module === 'object') module.exports = Tonic
 
-panelLink.addEventListener('click', e => panel.show())
-
-  }
-  
-
-  //
-  // ./src/popover/readme.js
-  //
-  if (document.body.dataset.page === 'components') {
-  const popover = document.getElementById('popover-example')
-popover.addEventListener('show', event => {
-  document.body.addEventListener('click', e => {
-    popover.hide()
-  }, { once: true })
-})
-
-  }
-  
-
-  //
-  // ./src/profile-image/readme.js
-  //
-  if (document.body.dataset.page === 'components') {
-  const profile = document.getElementById('profile-image-example-editable')
-
-profile.addEventListener('changed', e => console.log(e.data))
-profile.addEventListener('error', e => console.log(e.message))
-
-  }
-  
-
-  //
-  // ./src/progress-bar/readme.js
-  //
-  if (document.body.dataset.page === 'components') {
-  let percentage = 0
-let interval = null
-
-const progressBar = document.getElementById('progress-bar-example')
-
-document.getElementById('start-progress').addEventListener('click', e => {
-  clearInterval(interval)
-  interval = setInterval(() => {
-    progressBar.setProgress(percentage++)
-    if (progressBar.value >= 100) percentage = 0
-  }, 128)
-})
-
-document.getElementById('stop-progress').addEventListener('click', e => {
-  clearInterval(interval)
-})
-
-  }
-  
-
-  //
-  // ./src/windowed/readme.js
-  //
-  if (document.body.dataset.page === 'components') {
-  class MyWindowed extends Tonic.Windowed {
-  renderRow (row) {
-    return `
-      <div class="tr">
-        <div class="td">${row.title}</div>
-        <div class="td">${row.date}</div>
-        <div class="td">${row.random}</div>
-      </div>
-    `
-  }
-
-  render () {
-    return `
-      <div class="th">
-        <div class="td">Title</div>
-        <div class="td">Date</div>
-        <div class="td">Random</div>
-      </div>
-      ${super.render()}
-    `
-  }
-}
-
-Tonic.add(MyWindowed)
-
-//
-// This demo generates the data after you click the overlay instead of
-// on page load since 500K rows of data can take a few seconds to create.
-//
-const windowed = document.getElementsByTagName('my-windowed')[0]
-const overlay = document.getElementById('click-to-load')
-
-overlay.addEventListener('click', e => {
-  const rows = []
-
-  for (let i = 1; i < 500001; i++) {
-    rows.push({
-      title: `Row #${i}`,
-      date: String(new Date()),
-      random: Math.random().toString(16).slice(2)
-    })
-  }
-
-  overlay.classList.add('hidden')
-  windowed.load(rows)
-})
-
-  }
-  
+},{}]},{},[1]);

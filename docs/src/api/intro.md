@@ -17,6 +17,8 @@ class MyGreeting extends Tonic {
 }
 ```
 
+---
+
 How you name your class will determine the tag name of your component. For
 example, a class named `Greeting` will become `<greeting></greeting>`. Camel
 cased class names will create hyphenated tag names, ie `MyGreeting` will become
@@ -51,10 +53,8 @@ tags. And remember, all custom tags require a closing tag.
 
 ---
 
-When the HTML is rendered by the browser, the result of your render function
-will be inserted into the component. As you can see — the potential complexity
-of your code will be hidden from the programmer using it, making their reality a
-little simpler.
+When the component is rendered by the browser, the result of your render
+function will be inserted into the component tag.
 
 ```html
 <html>
@@ -69,6 +69,12 @@ little simpler.
   </body>
 </html>
 ```
+
+---
+
+The potential for components is that the complexity of a solution can be
+hidden for the programmer who uses it. They can then focus more on the value
+it produces and the prarameters they need to pass it.
 
 
 [0]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes

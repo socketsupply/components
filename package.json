@@ -9,9 +9,9 @@
   "scripts": {
     "test": "npm run test:browser",
     "dev": "./bin/server",
-    "build": "npm run build:styl && ./bin/components --bundle --js ./index.js --css ./index.css && npm run build:docs",
+    "build": "npm run build:styl && ./bin/components ./index.js && npm run build:docs",
     "build:styl": "stylus -u autoprefixer-stylus ./index.styl -o ./index.css",
-    "build:docs": "npm run build:docs:js && ./bin/build-docs && npm run build:docs:styl",
+    "build:docs": "./bin/build-docs && npm run build:docs:js && npm run build:docs:styl",
     "build:docs:js": "browserify ./docs/src/index.js > ./docs/bundle.js",
     "build:docs:styl": "stylus -u autoprefixer-stylus ./docs/src/index.styl -o ./docs"
   },

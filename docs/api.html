@@ -17,8 +17,8 @@
       default-src 'self';
       font-src 'self' https:;
       img-src 'self' https: data:;
-      style-src 'self' 'nonce-e57dd97e' https:;
-      script-src 'self' 'nonce-e57dd97e';
+      style-src 'self' 'nonce-U29tZSBzdXBlciBzZWNyZXQ=' https:;
+      script-src 'self' 'nonce-U29tZSBzdXBlciBzZWNyZXQ=';
       connect-src 'self' https:;
     "
   >
@@ -115,6 +115,7 @@ a string of HTML.</p>
     <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div&gt;Hello, World.&lt;/div&gt;`</span>
   }
 }</code></pre>
+<hr>
 <p>How you name your class will determine the tag name of your component. For
 example, a class named <code>Greeting</code> will become <code>&lt;greeting&gt;&lt;/greeting&gt;</code>. Camel
 cased class names will create hyphenated tag names, ie <code>MyGreeting</code> will become
@@ -137,10 +138,8 @@ tags. And remember, all custom tags require a closing tag.</p>
   <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
 <hr>
-<p>When the HTML is rendered by the browser, the result of your render function
-will be inserted into the component. As you can see — the potential complexity
-of your code will be hidden from the programmer using it, making their reality a
-little simpler.</p>
+<p>When the component is rendered by the browser, the result of your render
+function will be inserted into the component tag.</p>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"index.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
@@ -152,6 +151,10 @@ little simpler.</p>
     <span class="hljs-tag">&lt;/<span class="hljs-name">my-greeting</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+<hr>
+<p>The potential for components is that the complexity of a solution can be
+hidden for the programmer who uses it. They can then focus more on the value
+it produces and the prarameters they need to pass it.</p>
 
     </section>
   
@@ -583,7 +586,7 @@ add the following to your javascript...</p>
             </div>
           </footer>
         </main>
-        <script nonce="e57dd97e" crossorigin="anonymous" src="bundle.js"></script>
+        <script nonce="U29tZSBzdXBlciBzZWNyZXQ=" crossorigin="anonymous" src="bundle.js"></script>
       </body>
     </html>
   

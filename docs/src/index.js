@@ -1,5 +1,10 @@
 const scrollToY = require('scrolltoy')
 const { qs, qsa } = require('qs')
+const Tonic = require('tonic')
+const nonce = require('./nonce')
+
+const components = require('../..')
+const readme = require('./readme')
 
 function setupNavigation () {
   qsa(`a[name="${document.body.dataset.page}"]`).forEach(el => {
@@ -66,6 +71,9 @@ function ready () {
 
     document.body.classList.toggle('theme-dark')
   })
+
+  components(Tonic, nonce)
+  readme(Tonic)
 }
 
 document.addEventListener('DOMContentLoaded', ready)

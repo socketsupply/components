@@ -12,42 +12,33 @@ npm install hxoht/components
 ```
 
 ```js
-const Tonic = require('components') // Tonic is bundled in here and is the only export.
+const Tonic = require('tonic')
+const components = require('components')(Tonic)
 ```
 
-This package can create build artifacts that you can use in your project. You
-can do this in a few different ways using the `components` command.
+### PARTIAL BUILDS
 
-As an npm script in your `package.json` file...
-
-```json
-{
-  "scripts": {
-    "build": "components --js ./path/to/index.js --css ./path/to/index.css"
-  }
-}
-```
-
-Using the `npx` script that ships with `npm`.
+You can exclude components by supplying the `--exclude` argument followed
+by a list of tag-names (separated by spaces and surrounded by quotes).
 
 ```bash
-npx hxoht/components --js ./path/to/index.js --css ./path/to/index.css
+npx hxoht/components ./path/to/output.js \
+  --exclude 'content-dialog content-tabs profile-image'
 ```
 
-You can build only a subset of components by supplying a list of tag-names
-(separated by spaces).
+Or you can include components by supplying the `--include` argument followed
+by a list of tag-names (separated by spaces and surrounded by quotes).
 
 ```bash
-npx hxoht/components \
-  --js ./path/to/index.js --css ./path/to/index.css \
-  content-dialog content-tabs profile-image
+npx hxoht/components ./path/to/output.js \
+  --include 'content-dialog content-tabs profile-image'
 ```
 
-If you do not want to inline the CSS for each component, you can generate a
-single css file with all of it using the `--no-inline-css` option.
+### BOOTSTRAP STYLES
+You can generate a CSS file that includes the optional base styles.
 
 ```bash
-components --js ./test/index.js --css ./test/index.css --no-inline
+npm hxoht/components --css ./test/output.css
 ```
 
 # DEVELOPMENT

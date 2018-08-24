@@ -17,8 +17,8 @@
       default-src 'self';
       font-src 'self' https:;
       img-src 'self' https: data:;
-      style-src 'self' 'nonce-e57dd97e' https:;
-      script-src 'self' 'nonce-e57dd97e';
+      style-src 'self' 'nonce-U29tZSBzdXBlciBzZWNyZXQ=' https:;
+      script-src 'self' 'nonce-U29tZSBzdXBlciBzZWNyZXQ=';
       connect-src 'self' https:;
     "
   >
@@ -263,7 +263,7 @@ page2.addEventListener(<span class="hljs-string">'show'</span>, e =&gt; {
   <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'page2-number'</span>).textContent = number
 })
 </code></pre>
-<style nonce="e57dd97e">
+<style nonce="U29tZSBzdXBlciBzZWNyZXQ=">
   content-route.tonic--show {
     display: block;
     margin: 20px 0 6px;
@@ -419,7 +419,7 @@ page2.addEventListener(<span class="hljs-string">'show'</span>, e =&gt; {
 </content-tooltip>
 
 
-<style nonce="e57dd97e">
+<style nonce="U29tZSBzdXBlciBzZWNyZXQ=">
   #content-tooltip-example-1 {
     cursor: default;
   }
@@ -509,7 +509,7 @@ your own dialog class which can be registered and then used as a tag.</p>
 </my-dialog>
 
 
-<style nonce="e57dd97e">
+<style nonce="U29tZSBzdXBlciBzZWNyZXQ=">
   my-dialog header,
   my-dialog main {
     text-align: center;
@@ -996,17 +996,15 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
   <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"c"</span>&gt;</span>Option C<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">input-select</span>&gt;</span></code></pre>
 <h4>JS</h4>
-<pre><code class="language-js"><span class="hljs-built_in">document</span>.addEventListener(<span class="hljs-string">'DOMContentLoaded'</span>, e =&gt; {
-  <span class="hljs-keyword">const</span> select = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'options-example-1'</span>)
-  <span class="hljs-keyword">const</span> notification = <span class="hljs-built_in">document</span>.getElementsByTagName(<span class="hljs-string">'notification-center'</span>)[<span class="hljs-number">0</span>]
+<pre><code class="language-js"><span class="hljs-keyword">const</span> select = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'options-example-1'</span>)
+<span class="hljs-keyword">const</span> notification = <span class="hljs-built_in">document</span>.getElementsByTagName(<span class="hljs-string">'notification-center'</span>)[<span class="hljs-number">0</span>]
 
-  select.addEventListener(<span class="hljs-string">'change'</span>, ({ target }) =&gt; {
-    notification.create({
-      <span class="hljs-attr">type</span>: <span class="hljs-string">'success'</span>,
-      <span class="hljs-attr">message</span>: <span class="hljs-string">`Selected option was "<span class="hljs-subst">${select.value}</span>".`</span>,
-      <span class="hljs-attr">title</span>: <span class="hljs-string">'Selection'</span>,
-      <span class="hljs-attr">duration</span>: <span class="hljs-number">2000</span>
-    })
+select.addEventListener(<span class="hljs-string">'change'</span>, ({ target }) =&gt; {
+  notification.create({
+    <span class="hljs-attr">type</span>: <span class="hljs-string">'success'</span>,
+    <span class="hljs-attr">message</span>: <span class="hljs-string">`Selected option was "<span class="hljs-subst">${select.value}</span>".`</span>,
+    <span class="hljs-attr">title</span>: <span class="hljs-string">'Selection'</span>,
+    <span class="hljs-attr">duration</span>: <span class="hljs-number">2000</span>
   })
 })
 </code></pre>
@@ -1889,7 +1887,7 @@ your own panel class which can be registered and then used as a tag.</p>
   id="content-panel-example"
   overlay="true">
 </my-panel></p>
-<style nonce="e57dd97e">
+<style nonce="U29tZSBzdXBlciBzZWNyZXQ=">
   my-panel h3 {
     margin: 0;
   }
@@ -2078,7 +2076,7 @@ panelLink.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; pan
 </popover>
 
 
-<style nonce="e57dd97e">
+<style nonce="U29tZSBzdXBlciBzZWNyZXQ=">
   #popover-example-trigger {
     width: 50px;
     height: 50px;
@@ -2401,7 +2399,7 @@ has been rendered.</p>
 <h2>Demo</h2>
 <p>This demo generates the data after you click the overlay. Generating 500000
 rows of data can take a second or two.</p>
-<style nonce="e57dd97e">
+<style nonce="U29tZSBzdXBlciBzZWNyZXQ=">
   body > main div.example .content.windowed-example {
     max-width: initial;
     padding: 0;
@@ -2605,7 +2603,7 @@ overlay.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
             </div>
           </footer>
         </main>
-        <script nonce="e57dd97e" crossorigin="anonymous" src="bundle.js"></script>
+        <script nonce="U29tZSBzdXBlciBzZWNyZXQ=" crossorigin="anonymous" src="bundle.js"></script>
       </body>
     </html>
   

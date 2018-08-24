@@ -16,9 +16,19 @@ function ensurePath (filename) {
   }
 }
 
+const filename = argv._[0]
+
 async function js () {
-  ensurePath(argv.js)
-  const dirs = argv._.length ? argv._ : fs.readdirSync(componentsDir)
+  ensurePath(filename)
+  const includes = argv.include && argv.include.split(' ')
+  const excludes = argv.exclude && argv.exclude.split(' ')
+
+  const dirs = fs.readdirSync(componentsDir).filter(dir => {
+    if (includes) return includes.includes(dir)
+    if (excludes) return !excludes.includes(dir)
+    return dir
+  })
+
   const output = []
 
   for (const dir of dirs) {
@@ -33,18 +43,17 @@ async function js () {
     output.push(fs.readFileSync(src, 'utf8'))
   }
 
-  const bundled = `
+  const js = `
 //
-// Warning. Do not edit. This is a generated file.
+// Warning: Do not edit. To regenerate, run 'npm run build'.
 //
-${fs.readFileSync(path.join('node_modules', 'tonic', 'index.js'), 'utf8')}
-window.Tonic = Tonic
-${output.join('\n')}
-  `
+module.exports = (Tonic, nonce) => {
+  Tonic.nonce = nonce
 
-  const js = argv.bundle ? bundled : output.join('\n')
+  ${output.join('\n')}
+}`
 
-  fs.writeFileSync(argv.js, js)
+  fs.writeFileSync(filename, js)
 }
 
 function css () {
@@ -55,13 +64,16 @@ function css () {
 
 const help = `
 components v${pkgComponents.version} (tonic v${pkgTonic.version})
+
 Usage:
   components --help
-  components --js <path> [--wrap] --css <path> [--no-inline] [component-name...]
+  components <path> [--css <path>] [--exclude '...']
+  components <path> [--css <path>] [--include '...']
+
 Examples:
-  components --js ./js --css ./css --no-inline
-  components --js ./js --bundle --css ./css
-  components --js ./js --css ./css content-dialog input-button
+  components ./index.js
+  components ./index.js --css ./index.css
+  components ./index.js --css ./index.css --exclude content-panel windowed
 `
 
 if (argv.v || argv.version) {
@@ -74,4 +86,4 @@ if (argv.h || argv.help) {
 }
 
 if (argv.css) css()
-if (argv.js) js()
+if (filename) js()

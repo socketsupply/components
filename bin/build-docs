@@ -6,7 +6,6 @@ const hl = require('highlight.js')
 const fetch = require('node-fetch')
 
 const renderer = new marked.Renderer()
-const NONCE = Math.random().toString(16).slice(2, 10)
 
 renderer.heading = (text, level) => {
   const escapedText = text.toLowerCase().replace(/[^\w]+/g, '-')
@@ -14,11 +13,13 @@ renderer.heading = (text, level) => {
   return `<h${level} id="${escapedText}">${text}</h${level}>\n`
 }
 
+const highlight = (code, lang = 'javascript', escaped) => {
+  return hl.highlight(lang, code).value
+}
+
 marked.setOptions({
   renderer,
-  highlight: (code, lang = 'javascript', escaped) => {
-    return hl.highlight(lang, code).value
-  }
+  highlight
 })
 
 const componentsDir = path.join(__dirname, '..', 'src')
@@ -37,11 +38,18 @@ function read (...args) {
   }
 }
 
-function bundle (s) {
-  return fs.appendFileSync(path.join(docsDir, 'bundle.js'), s)
+function createNonceFile () {
+  const buf = Buffer.from('Some super secret', 'ascii')
+  const nonce = buf.toString('base64')
+
+  fs.writeFileSync(path.join(docsDir, 'src', 'nonce.js'), `
+    module.exports = '${nonce}'
+  `)
+
+  return nonce
 }
 
-function createPage (data, className) {
+function createPage (nonce, data, className) {
   data = data.sort((a, b) => {
     if (a.title === 'API' || b.title === 'API') return -1
     return a.title.localeCompare(b.title)
@@ -56,7 +64,7 @@ function createPage (data, className) {
   return `
     <!DOCTYPE html>
 
-      ${read(docsDir, 'src', 'head.html').replace(/%nonce%/g, NONCE)}
+      ${read(docsDir, 'src', 'head.html').replace(/%nonce%/g, nonce)}
 
       <body data-page="${className}">
         <div class="theme-picker">
@@ -88,7 +96,7 @@ function createPage (data, className) {
             <a name="api" href="./api.html">API</a>
           </div>
 
-          ${sections.replace(/%nonce%/g, NONCE)}
+          ${sections.replace(/%nonce%/g, nonce)}
 
           <footer>
             <div>
@@ -105,7 +113,7 @@ function createPage (data, className) {
             </div>
           </footer>
         </main>
-        <script nonce="${NONCE}" crossorigin="anonymous" src="bundle.js"></script>
+        <script nonce="${nonce}" crossorigin="anonymous" src="bundle.js"></script>
       </body>
     </html>
   `
@@ -113,6 +121,7 @@ function createPage (data, className) {
 
 let componentDocs = []
 let apiDocs = []
+let readmeJS = []
 
 function wrapLink (title) {
   const id = title.replace(/\s/g, '-').toLowerCase()
@@ -173,15 +182,14 @@ async function compile () {
 
       const relativeDir = componentsDir.replace(process.cwd(), '')
 
-      bundle(`
-
-  //
-  // .${path.join(relativeDir, dir, 'readme.js')}
-  //
-  if (document.body.dataset.page === 'components') {
-  ${demoJS}
-  }
-  `)
+      readmeJS.push(`
+        //
+        // .${path.join(relativeDir, dir, 'readme.js')}
+        //
+        if (document.body.dataset.page === 'components') {
+          ${demoJS}
+        }
+      `)
     }
 
     const title = parseHeading(s)
@@ -215,20 +223,17 @@ async function compile () {
     link: wrapLink('Intro'),
     section: wrapSection(intro, 'Intro')
   })
+
+  readmeJS = `
+    module.exports = Tonic => {
+      ${readmeJS.join('\n')}
+    }
+  `
+
+  fs.writeFileSync(path.join(docsDir, 'src', 'readme.js'), readmeJS)
 }
 
 async function main () {
-  //
-  // Copy the build into the demo page bundle
-  //
-  const source = read(__dirname, '..', 'index.js')
-    .replace(/window\.Tonic = Tonic/, `
-Tonic.nonce = '${NONCE}'
-window.Tonic = Tonic
-    `)
-
-  bundle(source)
-
   //
   // Bundle the demo code for each component and compile
   // the markdown into an array of sections.
@@ -236,10 +241,17 @@ window.Tonic = Tonic
   await compile()
 
   //
+  // Create a file that exports a nonce so it can be required by other js
+  // files in the docs, but also return the nonce itself so we can use it
+  // in the html.
+  //
+  const nonce = createNonceFile()
+
+  //
   // Template the sections and write to html files.
   //
-  write(docsDir, 'index.html', createPage(componentDocs, 'components'))
-  write(docsDir, 'api.html', createPage(apiDocs, 'api'))
+  write(docsDir, 'index.html', createPage(nonce, componentDocs, 'components'))
+  write(docsDir, 'api.html', createPage(nonce, apiDocs, 'api'))
 }
 
 main()

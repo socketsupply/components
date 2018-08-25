@@ -81,7 +81,7 @@ function createPage (nonce, data, className) {
 
           <div class="page-selection">
             <a name="components" href="./index.html">Components</a>
-            <a name="api" href="./api.html">API</a>
+            <a name="docs" href="./docs.html">Docs</a>
           </div>
 
           <ul>
@@ -93,7 +93,7 @@ function createPage (nonce, data, className) {
 
           <div class="mobile-nav">
             <a name="components" href="./index.html">Components</a>
-            <a name="api" href="./api.html">API</a>
+            <a name="docs" href="./docs.html">Docs</a>
           </div>
 
           ${sections.replace(/%nonce%/g, nonce)}
@@ -120,7 +120,7 @@ function createPage (nonce, data, className) {
 }
 
 let componentDocs = []
-let apiDocs = []
+let developerDocs = []
 let readmeJS = []
 
 function wrapLink (title) {
@@ -152,15 +152,15 @@ function parseHeading (s) {
 }
 
 async function compile () {
-  const apiDir = path.join(docsDir, 'src', 'api')
-  const customFiles = fs.readdirSync(apiDir)
+  const developerDir = path.join(docsDir, 'src', 'docs')
+  const customFiles = fs.readdirSync(developerDir)
 
   for (const file of customFiles) {
-    let s = read(apiDir, file)
+    let s = read(developerDir, file)
     if (!s) continue
 
     const title = parseHeading(s)
-    apiDocs.push({
+    developerDocs.push({
       title,
       link: wrapLink(title),
       section: wrapSection(marked(s), title)
@@ -209,7 +209,7 @@ async function compile () {
     const url = 'https://raw.githubusercontent.com/hxoht/tonic/master/API.md'
     const s = await (await fetch(url)).text()
 
-    apiDocs.push({
+    developerDocs.push({
       title,
       link: wrapLink(title, 'custom'),
       section: wrapSection(marked(s), title, 'custom')
@@ -251,7 +251,7 @@ async function main () {
   // Template the sections and write to html files.
   //
   write(docsDir, 'index.html', createPage(nonce, componentDocs, 'components'))
-  write(docsDir, 'api.html', createPage(nonce, apiDocs, 'api'))
+  write(docsDir, 'docs.html', createPage(nonce, developerDocs, 'docs'))
 }
 
 main()

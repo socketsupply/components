@@ -50,10 +50,9 @@ prpps object, use `foo-bar='30'`, and you will get `this.props.fooBar`.
 ```
 
 Native HTML only understands strings. So if you want to pass non-string values
-to a child component, you can use `this.html`.
+to a child component, you can use `this.html` instead of a plain template string.
 
 ```html
-const data
 class MyComponent extends Tonic {
   render () {
 
@@ -66,14 +65,15 @@ class MyComponent extends Tonic {
         id="y"
         data=${data}
         number=${42.42}
-        fn=${() => 'hello, world'}>
+        foo=${() => 'hello, world'}>
       </child>
     `
   }
 }
 ```
 
-Alternatively, you can call the `reRender(...)` method on the element directly.
+When needed, it is also possible to call the `reRender(...)` method on an
+element directly.
 
 ```js
 document.getElementById('parent').reRender({ data: [1,2,3, ...9999] })

@@ -356,14 +356,13 @@ only be persisted across re-renders for components that have an <code>id</code> 
 changes to the representation of the component are required.</p>
 <h2>Passing data as properties</h2>
 <p>There is no templating language in Tonic. It&#39;s pure HTML. So the rules of HTML
-will be applied! A prop named <code>fooBar=&#39;30&#39;</code> will become lowercased as per the
-HTML spec. If you want the property name to be camelcased when added to the
-prpps object, use <code>foo-bar=&#39;30&#39;</code>, and you will get <code>this.props.fooBar</code>.</p>
-<pre><code class="language-js">&lt;my-component value=<span class="hljs-string">"7a"</span>&gt;<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">my-component</span>&gt;</span></span></code></pre>
+will be applied. A prop named <code>fooBar=&#39;30&#39;</code> will become lowercased (as per the
+HTML spec). If you want the property name to be camelcased when added to the
+props object, use <code>foo-bar=&#39;30&#39;</code>, and you will get <code>this.props.fooBar</code>.</p>
 <p>Native HTML only understands strings. So if you want to pass non-string values
-to a child component, you can use <code>this.html</code>.</p>
-<pre><code class="language-html">const data
-class MyComponent extends Tonic {
+to a child component, you can use <code>this.html</code> and your values will be forwarded
+properly.</p>
+<pre><code class="language-html">class MyComponent extends Tonic {
   render () {
 
     const data = [
@@ -375,12 +374,13 @@ class MyComponent extends Tonic {
         <span class="hljs-attr">id</span>=<span class="hljs-string">"y"</span>
         <span class="hljs-attr">data</span>=<span class="hljs-string">${data}</span>
         <span class="hljs-attr">number</span>=<span class="hljs-string">${42.42}</span>
-        <span class="hljs-attr">fn</span>=<span class="hljs-string">${()</span> =&gt;</span> 'hello, world'}&gt;
+        <span class="hljs-attr">foo</span>=<span class="hljs-string">${()</span> =&gt;</span> 'hello, world'}&gt;
       <span class="hljs-tag">&lt;/<span class="hljs-name">child</span>&gt;</span>
     `
   }
 }</code></pre>
-<p>Alternatively, you can call the <code>reRender(...)</code> method on the element directly.</p>
+<p>When needed, it is also possible to call the <code>reRender(...)</code> method on an
+element directly.</p>
 <pre><code class="language-js"><span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'parent'</span>).reRender({ <span class="hljs-attr">data</span>: [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>, ..<span class="hljs-number">.9999</span>] })</code></pre>
 
     </section>

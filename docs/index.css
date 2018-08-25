@@ -242,6 +242,9 @@ body [data-group="custom"] {
 body [data-group="component"] {
   display: block;
 }
+body[data-page="components"] .hero {
+  margin-top: 100px;
+}
 p {
   font: 16px/26px var(--body);
 }
@@ -449,12 +452,11 @@ body > main a:hover {
   border-bottom-color: var(--accent);
 }
 body > main .hero {
-  margin-top: 125px;
+  margin-top: 0;
   margin-bottom: 150px;
 }
 @media (max-width: 850px) {
   body > main .hero {
-    margin-top: 0;
     margin-bottom: 100px;
   }
 }
@@ -663,7 +665,16 @@ body .mobile-nav a:hover {
   border-bottom-color: var(--primary);
 }
 body section#intro {
-  padding-top: 100px;
+  padding-top: 30px;
+}
+body section#intro .tonic-icon svg {
+  width: 115px;
+  margin: 0 auto 60px auto;
+  display: block;
+}
+body section#intro .tonic-icon svg use {
+  fill: var(--primary);
+  color: var(--primary);
 }
 body section#intro center {
   color: var(--info);
@@ -706,10 +717,10 @@ body section#intro .status:after {
   display: inline-block;
   background-color: var(--danger);
 }
-body section#intro svg {
+body section#intro .logo svg {
   width: 200px;
 }
-body section#intro svg use {
+body section#intro .logo svg use {
   fill: var(--primary);
   color: var(--primary);
 }

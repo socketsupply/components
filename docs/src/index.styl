@@ -25,6 +25,10 @@ body
   [data-group="component"]
     display block
 
+  &[data-page="components"]
+    .hero
+      margin-top 100px
+
 p
   font 16px/26px var(--body)
 
@@ -200,10 +204,9 @@ body
         border-bottom-color var(--accent)
 
     .hero
-      margin-top 125px
+      margin-top 0
       margin-bottom 150px
       @media (max-width: 850px)
-        margin-top 0
         margin-bottom 100px
 
     .tooltip
@@ -392,7 +395,16 @@ body
         border-bottom-color var(--primary)
 
   section#intro
-    padding-top 100px
+    padding-top 30px
+
+    .tonic-icon
+      svg
+        width 115px
+        margin 0 auto 60px auto
+        display block
+        use
+          fill var(--primary)
+          color var(--primary)
 
     center
       color var(--info)
@@ -432,7 +444,7 @@ body
         display inline-block
         background-color var(--danger)
 
-    svg
+    .logo svg
       width 200px
       use
         fill var(--primary)

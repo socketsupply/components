@@ -1,19 +1,34 @@
 # 2. Methods
 
-If you want to expose a method on your component for other people to use, you
-can do thate from the constructor. All your component's methods are private by
-default. Here's how to make them public.
+A method is a function of a component. It can help to organize the internal
+logic of a component.
+
+All component methods are private by default. No one else can access them. But
+in some cases you want to provide public access to a method.
+
+The [constructor][0] is a special method that is called once each time an
+instance of your component is created. Here you can add a method to the root
+element of your component that calls a method from the component.
 
 ```js
-class ExampleComponent extends Tonic {
+class MyComponent extends Tonic {
   constructor (node) {
     super(node)
 
-    this.root.exampleMethod = n => this.exampleMethod(n)
+    this.root.myMethod = n => this.myMethod(n)
   }
 
-  exampleMethod (n) {
+  myMethod (n) {
     this.root.innerHTML = `The number is ${n}`
   }
 }
 ```
+
+Once the component has been created, the `exampleMethod` method can be called
+on it.
+
+```js
+document.getElementById('foo').myMethod(42)
+```
+
+[0]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes

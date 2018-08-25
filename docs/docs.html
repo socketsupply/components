@@ -69,7 +69,7 @@
   
 
     <li>
-      <a href="#1.-styling" class="">1. Styling</a>
+      <a href="#1.-properties" class="">1. Properties</a>
     </li>
   
 
@@ -79,27 +79,32 @@
   
 
     <li>
-      <a href="#3.-events" class="">3. Events</a>
+      <a href="#3.-styling" class="">3. Styling</a>
     </li>
   
 
     <li>
-      <a href="#4.-state-and-props" class="">4. State and Props</a>
+      <a href="#4.-events" class="">4. Events</a>
     </li>
   
 
     <li>
-      <a href="#5.-composition" class="">5. Composition</a>
+      <a href="#5.-state" class="">5. State</a>
     </li>
   
 
     <li>
-      <a href="#6.-performance" class="">6. Performance</a>
+      <a href="#6.-composition" class="">6. Composition</a>
     </li>
   
 
     <li>
-      <a href="#7.-csp" class="">7. CSP</a>
+      <a href="#7.-performance" class="">7. Performance</a>
+    </li>
+  
+
+    <li>
+      <a href="#8.-csp" class="">8. CSP</a>
     </li>
   
 
@@ -120,7 +125,7 @@
           
     <section id="intro">
       <h1 id="intro">Intro</h1>
-<p>Building a component with Tonic starts with creating a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes">Javascript Class</a>.
+<p>Building a component with Tonic starts by creating a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes">Javascript Class</a>.
 The class should have at least one method named <em>render</em> which usually returns
 a string of HTML.</p>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyGreeting</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
@@ -134,18 +139,19 @@ a string of HTML.</p>
   }
 }</code></pre>
 <hr>
-<p>How you name your class will determine the tag name of your component. For
-example, a class named <code>Greeting</code> will become <code>&lt;greeting&gt;&lt;/greeting&gt;</code>. Camel
-cased class names will create hyphenated tag names, ie <code>MyGreeting</code> will become
+<p>The name of your class will determine the html tag name for your component. A
+class named <code>Greeting</code> will become <code>&lt;greeting&gt;&lt;/greeting&gt;</code>. Camel cased class
+names will create hyphenated tag names, ie <code>MyGreeting</code> will become
 <code>&lt;my-greeting&gt;&lt;/my-greeting&gt;</code>.</p>
 <hr>
 <p>Next, you need to tell the browser about your new class and it will create a
 custom HTML tag for it. Your top most component should generally be added after
-the <a href="https://caniuse.com/#search=domcontentloaded">DOM is ready</a>.</p>
+the <a href="https://caniuse.com/#search=domcontentloaded">DOM is ready</a>. Now any time the component&#39;s tag appears in your html, an
+instance of your class will be created.</p>
 <pre><code class="language-js">Tonic.add(MyGreeting)</code></pre>
 <hr>
-<p>After adding your Javascript to your HTML, you can start to use your component
-tags. And remember, all custom tags require a closing tag.</p>
+<p>After adding your Javascript to your HTML, you can start to use your component.
+And remember, all custom tags require a closing tag.</p>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"index.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
@@ -172,13 +178,118 @@ function will be inserted into the component tag.</p>
 <hr>
 <p>The potential for components is that the complexity of a solution can be
 hidden for the programmer who uses it. They can then focus more on the value
-it produces and the prarameters they need to pass it.</p>
+it produces and the properties they want to pass it.</p>
 
     </section>
   
 
-    <section id="1.-styling">
-      <h1 id="1-styling">1. Styling</h1>
+    <section id="1.-properties">
+      <h1 id="1-properties">1. Properties</h1>
+<p>Properties can be used by a component to help it decide how it should appear or
+how it should behave. In this case, <code>message</code> is our property and <code>Hello, World</code>
+is our porperty value.</p>
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyApp</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+  render () {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`
+      &lt;my-greeting message='Hello, World'&gt;&lt;/my-greeting&gt;
+    `</span>
+  }
+}</code></pre>
+<hr>
+<p>Properties added to a component appear on the <code>this.props</code> object.</p>
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyGreeting</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+  render () {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`
+      &lt;h1&gt;<span class="hljs-subst">${<span class="hljs-keyword">this</span>.props.message}</span>&lt;/h1&gt;
+    `</span>
+  }
+}</code></pre>
+<hr>
+<p>There is no templating language in Tonic. It&#39;s just HTML &mdash; a limitation
+of HTML is that it only understands string values. So if we want to pass more
+complex property values to a component, Tonic can help. Notice the string we
+would normally return is prefixed with <code>this.html</code>. This just helps Tonic to
+understand your html better.</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> data = [
+  { <span class="hljs-attr">greeting</span>: <span class="hljs-string">'hello, world'</span> }
+]
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyApp</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+  render () {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.html<span class="hljs-string">`
+      &lt;my-component title=<span class="hljs-subst">${data}</span>&gt;&lt;/my-component&gt;
+    `</span>
+  }
+}</code></pre>
+<hr>
+<p>Now <code>this.props</code> has a reference to the <code>data</code> object.</p>
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+  render () {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`
+      &lt;h1&gt;<span class="hljs-subst">${<span class="hljs-keyword">this</span>.props.data[<span class="hljs-number">0</span>].greeting}</span>&lt;/h1&gt;
+    `</span>
+  }
+}</code></pre>
+<blockquote>
+<p><b>A note about property names</b>. A prop named <code>fooBar=&#39;30&#39;</code> will become lowercased
+(as per the HTML spec). If you want the property name to be camelcased when
+added to the props object, use <code>foo-bar=&#39;30&#39;</code> to get <code>this.props.fooBar</code>.</p>
+</blockquote>
+<h3>Updating properties</h3>
+<p>If you want to manually update a component, you should think of your document&#39;s
+hierarchy and where in it the update should take place. It&#39;s better to update a
+component higher up in the hierarchy and let the data cascade downward to child
+components.</p>
+<hr>
+<p>To manually update a component you can use the <code>.reRener()</code> method. This method
+receives either an object or a function. For example...</p>
+<pre><code class="language-js"><span class="hljs-comment">// Update a component's properties</span>
+<span class="hljs-keyword">this</span>.reRender(<span class="hljs-function"><span class="hljs-params">props</span> =&gt;</span> ({
+  ...props,
+  <span class="hljs-attr">color</span>: <span class="hljs-string">'red'</span>
+}))
+
+<span class="hljs-comment">// Reset a component's properties</span>
+<span class="hljs-keyword">this</span>.reRender({ <span class="hljs-attr">color</span>: <span class="hljs-string">'red'</span> })
+
+<span class="hljs-comment">// Re-render a component with its existing properties</span>
+<span class="hljs-keyword">this</span>.reRender()</code></pre>
+<hr>
+<p>The <code>.reRender()</code> method can also be called directly on a component.</p>
+<pre><code class="language-js"><span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'parent'</span>).reRender({ <span class="hljs-attr">data</span>: [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>, ..<span class="hljs-number">.9999</span>] })</code></pre>
+
+    </section>
+  
+
+    <section id="2.-methods">
+      <h1 id="2-methods">2. Methods</h1>
+<p>A method is a function of a component. It can help to organize the internal
+logic of a component.</p>
+<p>All component methods are private by default. No one else can access them. But
+in some cases you want to provide public access to a method.</p>
+<p>The <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes">constructor</a> is a special method that is called once each time an
+instance of your component is created. Here you can add a method to the root
+element of your component that calls a method from the component.</p>
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+  <span class="hljs-keyword">constructor</span> (node) {
+    <span class="hljs-keyword">super</span>(node)
+
+    <span class="hljs-keyword">this</span>.root.myMethod = <span class="hljs-function"><span class="hljs-params">n</span> =&gt;</span> <span class="hljs-keyword">this</span>.myMethod(n)
+  }
+
+  myMethod (n) {
+    <span class="hljs-keyword">this</span>.root.innerHTML = <span class="hljs-string">`The number is <span class="hljs-subst">${n}</span>`</span>
+  }
+}</code></pre>
+<p>Once the component has been created, the <code>exampleMethod</code> method can be called
+on it.</p>
+<pre><code class="language-js"><span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'foo'</span>).myMethod(<span class="hljs-number">42</span>)</code></pre>
+
+    </section>
+  
+
+    <section id="3.-styling">
+      <h1 id="3-styling">3. Styling</h1>
 <p>Components should ship with as little CSS as possible and try to inherit
 whenever possible from the document&#39;s stylesheets. Tonic supports two approaches
 to styling components.</p>
@@ -239,28 +350,8 @@ in a CSP-friendly way.</p>
     </section>
   
 
-    <section id="2.-methods">
-      <h1 id="2-methods">2. Methods</h1>
-<p>If you want to expose a method on your component for other people to use, you
-can do thate from the constructor. All your component&#39;s methods are private by
-default. Here&#39;s how to make them public.</p>
-<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ExampleComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
-  <span class="hljs-keyword">constructor</span> (node) {
-    <span class="hljs-keyword">super</span>(node)
-
-    <span class="hljs-keyword">this</span>.root.exampleMethod = <span class="hljs-function"><span class="hljs-params">n</span> =&gt;</span> <span class="hljs-keyword">this</span>.exampleMethod(n)
-  }
-
-  exampleMethod (n) {
-    <span class="hljs-keyword">this</span>.root.innerHTML = <span class="hljs-string">`The number is <span class="hljs-subst">${n}</span>`</span>
-  }
-}</code></pre>
-
-    </section>
-  
-
-    <section id="3.-events">
-      <h1 id="3-events">3. Events</h1>
+    <section id="4.-events">
+      <h1 id="4-events">4. Events</h1>
 <p>Tonic helps you capture events that happen when someone interacts with your
 component. It also helps you organize that code.</p>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Example</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
@@ -340,72 +431,30 @@ interested in the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Even
     </section>
   
 
-    <section id="4.-state-and-props">
-      <h1 id="4-state-and-props">4. State and Props</h1>
-<h2>Managing state and props</h2>
-<p>Tonic adds the <code>.reRender()</code> and <code>.setState()</code> methods to your components. They
-can receive either an object or a function as an argument. For example...</p>
-<pre><code class="language-js"><span class="hljs-comment">//</span>
-<span class="hljs-comment">// Update a component's properties</span>
-<span class="hljs-comment">//</span>
-myComponent.reRender(<span class="hljs-function"><span class="hljs-params">props</span> =&gt;</span> ({
-  ...props,
+    <section id="5.-state">
+      <h1 id="5-state">5. State</h1>
+<p>Props are received by the parent and should never be changed by the component
+that receives them. A component can however change its <code>state</code>. Each instance of
+a component has state object, <code>this.state</code>. This is just a plain-old javascript
+object. <code>this.setState()</code> can receive a value or a function.</p>
+<pre><code class="language-js"><span class="hljs-comment">// Update a component's state</span>
+<span class="hljs-keyword">this</span>.setState(<span class="hljs-function"><span class="hljs-params">state</span> =&gt;</span> ({
+  ...state,
   <span class="hljs-attr">color</span>: <span class="hljs-string">'red'</span>
 }))
 
-<span class="hljs-comment">//</span>
-<span class="hljs-comment">// Reset a component's properties</span>
-<span class="hljs-comment">//</span>
-myComponent.reRender({ <span class="hljs-attr">color</span>: <span class="hljs-string">'red'</span> })
-
-<span class="hljs-comment">//</span>
-<span class="hljs-comment">// Re-render a component with its existing properties</span>
-<span class="hljs-comment">//</span>
-myComponent.reRender()</code></pre>
-<p>The value received by <code>.reRender()</code> should represent the properties of the
-component (those properties should generally be considered immutable and
-provided by the top-most parent component).</p>
-<p><code>.setState()</code> receives a value that describes the state of the component, under
-the hood this is a plain old javascript object. Its values may be used by the
-component&#39;s render function. It should only contain primative values. State will
-only be persisted across re-renders for components that have an <code>id</code> property.</p>
-<p><code>.setState()</code> will not cause a re-render. The reasoning behind this is that
-<code>state</code> can be updated independently, as needed and rendering happens only when
-changes to the representation of the component are required.</p>
-<h2>Passing data as properties</h2>
-<p>There is no templating language in Tonic. It&#39;s pure HTML. So the rules of HTML
-will be applied. A prop named <code>fooBar=&#39;30&#39;</code> will become lowercased (as per the
-HTML spec). If you want the property name to be camelcased when added to the
-props object, use <code>foo-bar=&#39;30&#39;</code>, and you will get <code>this.props.fooBar</code>.</p>
-<p>Native HTML only understands strings. So if you want to pass non-string values
-to a child component, you can use <code>this.html</code> and your values will be forwarded
-properly.</p>
-<pre><code class="language-html">class MyComponent extends Tonic {
-  render () {
-
-    const data = [
-      { foo: 'hello, world' }
-    ]
-
-    return this.html`
-      <span class="hljs-tag">&lt;<span class="hljs-name">child</span>
-        <span class="hljs-attr">id</span>=<span class="hljs-string">"y"</span>
-        <span class="hljs-attr">data</span>=<span class="hljs-string">${data}</span>
-        <span class="hljs-attr">number</span>=<span class="hljs-string">${42.42}</span>
-        <span class="hljs-attr">foo</span>=<span class="hljs-string">${()</span> =&gt;</span> 'hello, world'}&gt;
-      <span class="hljs-tag">&lt;/<span class="hljs-name">child</span>&gt;</span>
-    `
-  }
-}</code></pre>
-<p>When needed, it is also possible to call the <code>reRender(...)</code> method on an
-element directly.</p>
-<pre><code class="language-js"><span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'parent'</span>).reRender({ <span class="hljs-attr">data</span>: [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>, ..<span class="hljs-number">.9999</span>] })</code></pre>
+<span class="hljs-comment">// Reset a component's state</span>
+<span class="hljs-keyword">this</span>.setState({ <span class="hljs-attr">color</span>: <span class="hljs-string">'red'</span> })</code></pre>
+<hr>
+<p><code>.setState()</code> will not cause a component to re-render. The reasoning behind this
+is that the <code>state</code> can be updated independently, as needed &mdash; rendering
+happens only when changes to the representation of the component are required.</p>
 
     </section>
   
 
-    <section id="5.-composition">
-      <h1 id="5-composition">5. Composition</h1>
+    <section id="6.-composition">
+      <h1 id="6-composition">6. Composition</h1>
 <p>You may want to move the children of a component inside some aditional layout
 when the <code>render()</code> function is executed. The <code>this.children</code> property is helpful
 for this. This is not a &quot;special&quot; member of the <code>props</code> object like React
@@ -453,8 +502,8 @@ Tonic.add(Child)</code></pre>
     </section>
   
 
-    <section id="6.-performance">
-      <h1 id="6-performance">6. Performance</h1>
+    <section id="7.-performance">
+      <h1 id="7-performance">7. Performance</h1>
 <p>If you have lots of structure, but only a few changes, you could pre-render your
 layout to create a reusable node and pass it to the render method. This
 structure could also come from a <code>&lt;template&gt;</code> tag which my also improve
@@ -479,8 +528,8 @@ performance.</p>
     </section>
   
 
-    <section id="7.-csp">
-      <h1 id="7-csp">7. CSP</h1>
+    <section id="8.-csp">
+      <h1 id="8-csp">8. CSP</h1>
 <p><code>CSP</code> stands for <code>Content Security Policy</code>. It&#39;s important to add one of these
 to your app or website if you do anything beyond pure html. <a href="https://developers.google.com/web/fundamentals/security/csp/">This</a> is a good
 introduction to <code>CSP</code>s if you&#39;re not already familiar with how they work.</p>

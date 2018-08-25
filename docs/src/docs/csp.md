@@ -1,4 +1,4 @@
-# 7. CSP
+# 8. CSP
 
 `CSP` stands for `Content Security Policy`. It's important to add one of these
 to your app or website if you do anything beyond pure html. [This][0] is a good

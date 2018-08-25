@@ -1,6 +1,6 @@
 # Intro
 
-Building a component with Tonic starts with creating a [Javascript Class][0].
+Building a component with Tonic starts by creating a [Javascript Class][0].
 The class should have at least one method named *render* which usually returns
 a string of HTML.
 
@@ -19,16 +19,17 @@ class MyGreeting extends Tonic {
 
 ---
 
-How you name your class will determine the tag name of your component. For
-example, a class named `Greeting` will become `<greeting></greeting>`. Camel
-cased class names will create hyphenated tag names, ie `MyGreeting` will become
+The name of your class will determine the html tag name for your component. A
+class named `Greeting` will become `<greeting></greeting>`. Camel cased class
+names will create hyphenated tag names, ie `MyGreeting` will become
 `<my-greeting></my-greeting>`.
 
 ---
 
 Next, you need to tell the browser about your new class and it will create a
 custom HTML tag for it. Your top most component should generally be added after
-the [DOM is ready][2].
+the [DOM is ready][2]. Now any time the component's tag appears in your html, an
+instance of your class will be created.
 
 ```js
 Tonic.add(MyGreeting)
@@ -36,8 +37,8 @@ Tonic.add(MyGreeting)
 
 ---
 
-After adding your Javascript to your HTML, you can start to use your component
-tags. And remember, all custom tags require a closing tag.
+After adding your Javascript to your HTML, you can start to use your component.
+And remember, all custom tags require a closing tag.
 
 ```html
 <html>
@@ -74,7 +75,7 @@ function will be inserted into the component tag.
 
 The potential for components is that the complexity of a solution can be
 hidden for the programmer who uses it. They can then focus more on the value
-it produces and the prarameters they need to pass it.
+it produces and the properties they want to pass it.
 
 
 [0]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes

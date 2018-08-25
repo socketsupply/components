@@ -49,23 +49,25 @@ prpps object, use `foo-bar='30'`, and you will get `this.props.fooBar`.
 <my-component value="7a"></my-component>
 ```
 
-Native HTML only understands strings. So if you want to pass a non string object
-to the a child component, you can use `this.prop(data)`.
+Native HTML only understands strings. So if you want to pass non-string values
+to a child component, you can use `this.html`.
 
 ```html
 const data
-class FooBar extends Tonic {
+class MyComponent extends Tonic {
   render () {
 
     const data = [
       { foo: 'hello, world' }
     ]
 
-    return `
-      <child-component
-        id="parent"
-        data=${this.prop(data)}>
-      </child-component>
+    return this.html`
+      <child
+        id="y"
+        data=${data}
+        number=${42.42}
+        fn=${() => 'hello, world'}>
+      </child>
     `
   }
 }

@@ -178,6 +178,25 @@ select.addEventListener('change', ({ target }) => {
       
 
         //
+        // ./src/input-text/readme.js
+        //
+        if (document.body.dataset.page === 'components') {
+          const input = document.getElementById('input-example')
+const span = document.getElementById('input-state')
+
+const listener = e => {
+  const state = input.getState()
+  span.textContent = `Value: "${state.value || 'Empty'}", Focus: ${state.focus}`
+}
+
+input.addEventListener('input', listener)
+input.addEventListener('blur', listener)
+input.addEventListener('focus', listener)
+
+        }
+      
+
+        //
         // ./src/notification-badge/readme.js
         //
         if (document.body.dataset.page === 'components') {
@@ -1922,6 +1941,25 @@ class InputText extends Tonic { /* global Tonic */
     `
   }
 
+  setFocus () {
+    if (!this.getState().focus) return
+    this.root.querySelector('input').focus()
+  }
+
+  setupEvents () {
+    const input = this.root.querySelector('input')
+    const set = (event, k, v) => {
+      this.setState(state => Object.assign({}, state, { [k]: v }))
+      this.root.dispatchEvent(new window.Event(event))
+    }
+
+    input.addEventListener('focus', e => set('focus', 'focus', true))
+    input.addEventListener('blur', e => set('blur', 'focus', false))
+    input.addEventListener('input', e => set('input', 'value', e.target.value))
+
+    this.setFocus()
+  }
+
   updated () {
     const input = this.root.querySelector('input')
     setTimeout(() => {
@@ -1931,6 +1969,12 @@ class InputText extends Tonic { /* global Tonic */
         input.setCustomValidity('')
       }
     }, 32)
+
+    this.setupEvents()
+  }
+
+  connected () {
+    this.setupEvents()
   }
 
   styles () {
@@ -1957,7 +2001,6 @@ class InputText extends Tonic { /* global Tonic */
   render () {
     const {
       type,
-      value,
       placeholder,
       spellcheck,
       ariaInvalid,
@@ -1969,13 +2012,15 @@ class InputText extends Tonic { /* global Tonic */
     } = this.props
 
     const patternAttr = pattern ? `pattern="${pattern}"` : ''
-    const valueAttr = (value && value !== 'undefined') ? `value="${value}"` : ''
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
     const ariaInvalidAttr = ariaInvalid ? `aria-invalid="${ariaInvalid}"` : ''
     const positionAttr = position ? `tonic--${position}` : ''
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+
+    const value = this.props.value || this.state.value
+    const valueAttr = value && value !== 'undefined' ? `value="${value}"` : ''
 
     return `
       <div class="tonic--wrapper ${positionAttr}" styles="wrapper">
@@ -1984,6 +2029,7 @@ class InputText extends Tonic { /* global Tonic */
 
         <input
           styles="input"
+          ${valueAttr}
           ${patternAttr}
           type="${type}"
           ${valueAttr}

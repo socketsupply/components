@@ -119,6 +119,10 @@ content-tooltip .tonic--tooltip {
       -ms-flex-pack: center;
           justify-content: center;
 }
+#input-state {
+  display: inline-block;
+  padding-top: 15px;
+}
 my-panel h3 {
   margin: 0;
 }

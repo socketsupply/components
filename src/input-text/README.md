@@ -11,16 +11,19 @@ The component `InputText` creates an input that can be invalidated.
       label="Email Address"
       type="email"
       width="280px"
+      id="input-example"
       placeholder="Enter a valid email address"
       spellcheck="false"
       error-message="Invalid Email">
     </input-text>
+    <span id="input-state"><span>
   </div>
 </div>
 
 ## Code
 
 #### HTML
+
 ```html
 <input-text
   label="Email Address"

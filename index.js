@@ -1545,6 +1545,8 @@ class InputText extends Tonic { /* global Tonic */
     })
 
     const state = this.getState()
+    if (!state.focus) return
+
     input.focus()
 
     try {

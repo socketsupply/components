@@ -1517,33 +1517,6 @@ class InputText extends Tonic { /* global Tonic */
     `
   }
 
-  setFocus () {
-    const state = this.getState()
-
-    if (!state.pos || !state.focus || !this.root) {
-      return
-    }
-
-    const input = this.root.querySelector('input')
-
-    try {
-      let range
-
-      if (input.createTextRange) {
-        range = input.createTextRange()
-        range.move('character', state.pos)
-        range.select()
-      } else {
-        input.focus()
-        if (input.selectionStart !== undefined) {
-          input.setSelectionRange(state.pos, state.pos)
-        }
-      }
-    } catch (_) {}
-
-    input.focus()
-  }
-
   setupEvents () {
     const input = this.root.querySelector('input')
 
@@ -1571,7 +1544,14 @@ class InputText extends Tonic { /* global Tonic */
       relay('input')
     })
 
-    this.setFocus()
+    const state = this.getState()
+    input.focus()
+
+    try {
+      input.setSelectionRange(state.pos, state.pos)
+    } catch (err) {
+      console.warn(err)
+    }
   }
 
   updated () {

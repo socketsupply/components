@@ -329,7 +329,8 @@ class ContentTabs extends Tonic { /* global Tonic */
       return
     }
 
-    const currentContentLink = this.qs(`[data-tab-name].tonic--selected`)
+    const parent = e.target.closest('content-tabs')
+    const currentContentLink = this.qs(`[data-tab-name].tonic--selected`, parent)
     if (currentContentLink) currentContentLink.classList.remove('tonic--selected')
 
     target.classList.add('tonic--show')

@@ -191,7 +191,7 @@ class InputText extends Tonic { /* global Tonic */
       relay('blur')
     })
 
-    input.addEventListener('input', e => {
+    input.addEventListener('keyup', e => {
       set('value', e.target.value)
       set('pos', e.target.selectionStart)
       relay('input')

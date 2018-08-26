@@ -378,8 +378,8 @@ class ContentTabs extends Tonic { /* global Tonic */
 Tonic.add(ContentTabs)
 
 class ContentTooltip extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
+  constructor ({ node }) {
+    super({ node })
     const target = node.getAttribute('for')
     const el = document.getElementById(target)
     let timer = null
@@ -1518,20 +1518,58 @@ class InputText extends Tonic { /* global Tonic */
   }
 
   setFocus () {
-    if (!this.getState().focus) return
-    this.root && this.root.querySelector('input').focus()
+    const state = this.getState()
+
+    if (!state.pos || !state.focus || !this.root) {
+      return
+    }
+
+    const input = this.root.querySelector('input')
+
+    try {
+      let range
+
+      if (input.createTextRange) {
+        range = input.createTextRange()
+        range.move('character', state.pos)
+        range.select()
+      } else {
+        input.focus()
+        if (input.selectionStart !== undefined) {
+          input.setSelectionRange(state.pos, state.pos)
+        }
+      }
+    } catch (_) {}
+
+    input.focus()
   }
 
   setupEvents () {
     const input = this.root.querySelector('input')
-    const set = (event, k, v) => {
+
+    const set = (k, v, event) => {
       this.setState(state => Object.assign({}, state, { [k]: v }))
-      this.root.dispatchEvent(new window.Event(event))
     }
 
-    input.addEventListener('focus', e => set('focus', 'focus', true))
-    input.addEventListener('blur', e => set('blur', 'focus', false))
-    input.addEventListener('input', e => set('input', 'value', e.target.value))
+    const relay = name => {
+      this.root && this.root.dispatchEvent(new window.Event(name))
+    }
+
+    input.addEventListener('focus', e => {
+      set('focus', true)
+      relay('focus')
+    })
+
+    input.addEventListener('blur', e => {
+      set('focus', false)
+      relay('blur')
+    })
+
+    input.addEventListener('input', e => {
+      set('value', e.target.value)
+      set('pos', e.target.selectionStart)
+      relay('input')
+    })
 
     this.setFocus()
   }
@@ -2764,8 +2802,8 @@ Panel.svg.closeIcon = color => Panel.svg.toURL(`
 Tonic.Panel = Panel
 
 class Popover extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
+  constructor ({ node }) {
+    super({ node })
     const target = node.getAttribute('for')
     const el = document.getElementById(target)
 

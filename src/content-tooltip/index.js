@@ -1,6 +1,6 @@
 class ContentTooltip extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
+  constructor ({ node }) {
+    super({ node })
     const target = node.getAttribute('for')
     const el = document.getElementById(target)
     let timer = null

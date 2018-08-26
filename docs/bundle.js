@@ -1943,7 +1943,7 @@ class InputText extends Tonic { /* global Tonic */
 
   setFocus () {
     if (!this.getState().focus) return
-    this.root.querySelector('input').focus()
+    this.root && this.root.querySelector('input').focus()
   }
 
   setupEvents () {
@@ -3904,7 +3904,7 @@ module.exports = function scrollToY (el, Y, speed) {
 
 },{}],7:[function(require,module,exports){
 class Tonic {
-  constructor (node, state) {
+  constructor ({ node, state } = {}) {
     this.props = {}
     this.state = state || {}
     const name = Tonic._splitName(this.constructor.name)
@@ -3955,7 +3955,7 @@ class Tonic {
   static _constructTags (root, states = {}) { /* eslint-disable no-new */
     for (const tagName of Tonic.tags) {
       for (const node of (root || document).getElementsByTagName(tagName)) {
-        if (!node.disconnect) new Tonic.registry[tagName](node, states[node.id])
+        if (!node.disconnect) new Tonic.registry[tagName]({ node, state: states[node.id] })
       }
     }
   }
@@ -3977,9 +3977,14 @@ class Tonic {
   }
 
   html ([s, ...strings], ...values) {
-    const reducer = (a, b) => a.concat(b, strings.shift())
+    const reduce = (a, b) => a.concat(b, strings.shift())
     const filter = s => s && (s !== true || s === 0)
-    return values.reduce(reducer, [s]).filter(filter).join('')
+    const ref = v => {
+      if (typeof v === 'object' || typeof v === 'function') return this._prop(v)
+      if (typeof v === 'number') return `${v}__float`
+      return v
+    }
+    return values.map(ref).reduce(reduce, [s]).filter(filter).join('')
   }
 
   setState (o) {
@@ -4038,7 +4043,7 @@ class Tonic {
     return states
   }
 
-  prop (o) {
+  _prop (o) {
     const id = this.root._id
     const p = `__${id}__${Tonic._createId()}__`
     if (!Tonic._data[id]) Tonic._data[id] = {}
@@ -4055,6 +4060,8 @@ class Tonic {
         const { 1: root } = p.split('__')
         this.props[name] = Tonic._data[root][p]
         continue
+      } else if (/\d+__float/.test(p)) {
+        this.props[name] = parseFloat(p, 10)
       }
     }
 

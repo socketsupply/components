@@ -1519,7 +1519,7 @@ class InputText extends Tonic { /* global Tonic */
 
   setFocus () {
     if (!this.getState().focus) return
-    this.root.querySelector('input').focus()
+    this.root && this.root.querySelector('input').focus()
   }
 
   setupEvents () {

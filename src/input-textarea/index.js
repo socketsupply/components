@@ -31,7 +31,7 @@ class InputTextarea extends Tonic { /* global Tonic */
         background-color: transparent;
         border: 1px solid var(--border);
         outline: none;
-        transition: all 0.2s ease-in-out;
+        transition: border 0.2s ease-in-out;
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;

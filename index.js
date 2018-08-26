@@ -314,14 +314,16 @@ class ContentTabs extends Tonic { /* global Tonic */
   }
 
   click (e) {
+    const tab = Tonic.match(e.target, '[data-tab-name]:not([data-tab-group])')
+    if (!tab) return
+
     e.preventDefault()
-    if (!Tonic.match(e.target, '[data-tab-name]:not([data-tab-group])')) return
 
     const group = this.props.group
     const currentContentNode = this.getCurrentContentNode(group)
     if (currentContentNode) currentContentNode.classList.remove('tonic--show')
 
-    const name = e.target.dataset.tabName
+    const name = tab.dataset.tabName
     const target = this.qs(`[data-tab-group="${group}"][data-tab-name="${name}"]`)
 
     if (!target) {
@@ -329,12 +331,12 @@ class ContentTabs extends Tonic { /* global Tonic */
       return
     }
 
-    const parent = e.target.closest('content-tabs')
+    const parent = tab.closest('content-tabs')
     const currentContentLink = this.qs(`[data-tab-name].tonic--selected`, parent)
     if (currentContentLink) currentContentLink.classList.remove('tonic--selected')
 
     target.classList.add('tonic--show')
-    e.target.classList.add('tonic--selected')
+    tab.classList.add('tonic--selected')
   }
 
   connected () {

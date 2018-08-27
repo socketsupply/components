@@ -3414,6 +3414,18 @@ class Popover extends Tonic { /* global Tonic */
 Tonic.add(Popover)
 
 class ProfileImage extends Tonic { /* global Tonic */
+  constructor (args) {
+    super(args)
+
+    const that = this
+    Object.defineProperty(this.root, 'value', {
+      get () {
+        const state = that.getState()
+        return state.data || that.props.src
+      }
+    })
+  }
+
   defaults () {
     return {
       size: '50px',
@@ -3535,6 +3547,11 @@ class ProfileImage extends Tonic { /* global Tonic */
       }
 
       const slot = this.root.querySelector('.tonic--image')
+
+      this.setState(state => Object.assign({}, state, {
+        data
+      }))
+
       slot.style.backgroundImage = 'url("' + data + '")'
       const event = new window.Event('change')
       event.data = data

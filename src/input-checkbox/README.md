@@ -14,12 +14,16 @@ The component `InputCheckbox` is used to create a styled checkbox, with or witho
   </div>
 </div>
 
+
+### Custom Checkbox
+
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
     <input-checkbox
-      id="custom-checkbox-example1"
-      size="100px"
+      id="custom-checkbox-example"
+      size="40px"
+      color="red"
       icon-on="./sprite.svg#custom_on"
       icon-off="./sprite.svg#custom_off">
     </input-checkbox>
@@ -45,6 +49,8 @@ To create a custom SVG checkbox, pass in the properties `icon-on` and `icon-off`
 ```html
 <input-checkbox
   id="custom-checkbox-example"
+  size="40px"
+  color="red"
   icon-on="./sprite.svg#custom_on"
   icon-off="./sprite.svg#custom_off">
 </input-checkbox>

@@ -45,14 +45,13 @@
 
       <body data-page="components">
         <div class="theme-picker">
-          <svg>
-            <use xlink:href="./sprite.svg#theme">
-          </svg>
+          <icon-container src="./sprite.svg#theme" size="25px">
+          </icon-container>
         </div>
         <nav>
           <a href="./index.html" class="logo">
             <svg>
-              <use xlink:href="./sprite.svg#tonic_logo">
+              <use xlink:href="./logo-sprite.svg#tonic_logo">
             </svg>
           </a>
 
@@ -177,12 +176,12 @@
       <div class="hero">
   <div class="logo">
     <svg>
-      <use xlink:href="./sprite.svg#tonic_logo">
+      <use xlink:href="./logo-sprite.svg#tonic_logo">
     </svg>
   </div>
   <div class="tonic-icon">
     <svg>
-      <use xlink:href="./sprite.svg#tonic_icon">
+      <use xlink:href="./logo-sprite.svg#tonic_icon">
     </svg>
   </div>
   <p class="intro-copy"><span class="first-word">Tonic</span> is a minimalist component class inspired by React &amp; Web Components.</p>
@@ -890,12 +889,15 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
   </div>
 </div>
 
+
+<h3>Custom Checkbox</h3>
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
     <input-checkbox
-      id="custom-checkbox-example1"
-      size="100px"
+      id="custom-checkbox-example"
+      size="40px"
+      color="red"
       icon-on="./sprite.svg#custom_on"
       icon-off="./sprite.svg#custom_off">
     </input-checkbox>
@@ -913,6 +915,8 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
 <h4>HTML</h4>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">input-checkbox</span>
   <span class="hljs-attr">id</span>=<span class="hljs-string">"custom-checkbox-example"</span>
+  <span class="hljs-attr">size</span>=<span class="hljs-string">"40px"</span>
+  <span class="hljs-attr">color</span>=<span class="hljs-string">"red"</span>
   <span class="hljs-attr">icon-on</span>=<span class="hljs-string">"./sprite.svg#custom_on"</span>
   <span class="hljs-attr">icon-off</span>=<span class="hljs-string">"./sprite.svg#custom_off"</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">input-checkbox</span>&gt;</span></code></pre>
@@ -2633,13 +2637,13 @@ overlay.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
             <div>
               <span>Made by</span>
               <svg>
-                <use xlink:href="./sprite.svg#cl_logo">
+                <use xlink:href="./logo-sprite.svg#cl_logo">
               </svg>
             </div>
             <div>
               <span>Supported by</span>
               <svg>
-                <use xlink:href="./sprite.svg#mp_logo">
+                <use xlink:href="./logo-sprite.svg#mp_logo">
               </svg>
             </div>
           </footer>

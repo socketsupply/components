@@ -9,7 +9,11 @@ class IconContainer extends Tonic { /* global Tonic */
 
   stylesheet () {
     return `
-      icon-container svg {
+      icon-container {
+        display: inline-block;
+      }
+
+      icon-container .tonic--icon {
         width: 100%;
         height: 100%;
       }
@@ -19,7 +23,8 @@ class IconContainer extends Tonic { /* global Tonic */
   styles () {
     let {
       color,
-      size
+      size,
+      src
     } = this.props
 
     // TODO this could be improved
@@ -32,26 +37,24 @@ class IconContainer extends Tonic { /* global Tonic */
         width: size,
         height: size
       },
-      use: {
-        fill: color,
-        color
+      icon: {
+        '-webkit-mask-image': `url('${src}')`,
+        maskImage: `url('${src}')`,
+        backgroundColor: color
       }
     }
   }
 
   render () {
     let {
-      theme,
-      src
+      theme
     } = this.props
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     return `
       <div class="tonic--wrapper" styles="wrapper">
-        <svg>
-          <use xlink:href="${src}" styles="use">
-        </svg>
+        <div class="tonic--icon" styles="icon"></div>
       </div>
     `
   }

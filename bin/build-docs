@@ -68,14 +68,13 @@ function createPage (nonce, data, className) {
 
       <body data-page="${className}">
         <div class="theme-picker">
-          <svg>
-            <use xlink:href="./sprite.svg#theme">
-          </svg>
+          <icon-container src="./sprite.svg#theme" size="20px">
+          </icon-container>
         </div>
         <nav>
           <a href="./index.html" class="logo">
             <svg>
-              <use xlink:href="./sprite.svg#tonic_logo">
+              <use xlink:href="./logo-sprite.svg#tonic_logo">
             </svg>
           </a>
 
@@ -102,13 +101,13 @@ function createPage (nonce, data, className) {
             <div>
               <span>Made by</span>
               <svg>
-                <use xlink:href="./sprite.svg#cl_logo">
+                <use xlink:href="./logo-sprite.svg#cl_logo">
               </svg>
             </div>
             <div>
               <span>Supported by</span>
               <svg>
-                <use xlink:href="./sprite.svg#mp_logo">
+                <use xlink:href="./logo-sprite.svg#mp_logo">
               </svg>
             </div>
           </footer>

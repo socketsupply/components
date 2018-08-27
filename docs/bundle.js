@@ -1172,7 +1172,10 @@ class IconContainer extends Tonic { /* global Tonic */
 
   stylesheet () {
     return `
-      icon-container svg {
+      icon-container {
+        display: inline-block;
+      }
+      icon-container .tonic--icon {
         width: 100%;
         height: 100%;
       }
@@ -1182,7 +1185,8 @@ class IconContainer extends Tonic { /* global Tonic */
   styles () {
     let {
       color,
-      size
+      size,
+      src
     } = this.props
 
     // TODO this could be improved
@@ -1195,26 +1199,24 @@ class IconContainer extends Tonic { /* global Tonic */
         width: size,
         height: size
       },
-      use: {
-        fill: color,
-        color
+      icon: {
+        '-webkit-mask-image': `url('${src}')`,
+        maskImage: `url('${src}')`,
+        backgroundColor: color
       }
     }
   }
 
   render () {
     let {
-      theme,
-      src
+      theme
     } = this.props
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     return `
       <div class="tonic--wrapper" styles="wrapper">
-        <svg>
-          <use xlink:href="${src}" styles="use">
-        </svg>
+        <div class="tonic--icon" styles="icon"></div>
       </div>
     `
   }
@@ -1426,7 +1428,7 @@ class InputCheckbox extends Tonic { /* global Tonic */
   }
 
   getPropertyValue (s) {
-    const computed = window.getComputedStyle(this.root)
+    const computed = window.getComputedStyle(document.body)
     return computed.getPropertyValue(`--${s}`).trim()
   }
 
@@ -1492,19 +1494,23 @@ class InputCheckbox extends Tonic { /* global Tonic */
 
     let url = ''
 
+    const label = this.root.querySelector('label.tonic--icon')
+    const color = this.props.color || this.getPropertyValue('primary')
+
     if (this.props.iconOn && this.props.iconOff) {
       url = this.props[state.checked ? 'iconOn' : 'iconOff']
     } else {
-      const color = this.props.color || this.getPropertyValue('primary')
-      url = InputCheckbox.svg[state.checked ? 'iconOn' : 'iconOff'](color)
+      url = InputCheckbox.svg[state.checked ? 'iconOn' : 'iconOff']()
     }
 
-    const label = this.root.querySelector('label.tonic--icon')
-    label.style.backgroundImage = `url("${url}"), url('#${Date.now()}')`
+    label.style['-webkit-mask-image'] =
+      label.style.maskImage = `url("${url}"), url('#${Date.now()}')`
+
+    label.backgroundColor = color
   }
 
   styles () {
-    const {
+    let {
       color,
       iconOn,
       iconOff,
@@ -1512,17 +1518,19 @@ class InputCheckbox extends Tonic { /* global Tonic */
       size
     } = this.props
 
-    if (!color) this.props.color = this.getPropertyValue('primary')
-    if (!iconOn) this.props.iconOn = InputCheckbox.svg.iconOn(this.props.color)
-    if (!iconOff) this.props.iconOff = InputCheckbox.svg.iconOff(this.props.color)
+    if (!color) color = this.getPropertyValue('primary')
+    if (!iconOn) iconOn = InputCheckbox.svg.iconOn()
+    if (!iconOff) iconOff = InputCheckbox.svg.iconOff()
 
-    let url = this.props[checked ? 'iconOn' : 'iconOff']
+    let url = checked ? iconOn : iconOff
 
     return {
       icon: {
         width: size,
         height: size,
-        backgroundImage: `url('${url}')`
+        '-webkit-mask-image': `url('${url}')`,
+        maskImage: `url('${url}')`,
+        backgroundColor: color
       }
     }
   }
@@ -1580,16 +1588,16 @@ class InputCheckbox extends Tonic { /* global Tonic */
 InputCheckbox.svg = {}
 InputCheckbox.svg.toURL = s => `data:image/svg+xml;base64,${window.btoa(s)}`
 
-InputCheckbox.svg.iconOn = (color) => InputCheckbox.svg.toURL(`
+InputCheckbox.svg.iconOn = () => InputCheckbox.svg.toURL(`
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path fill="${color}" d="M79.7,1H21.3C10.4,1,1.5,9.9,1.5,20.8v58.4C1.5,90.1,10.4,99,21.3,99h58.4c10.9,0,19.8-8.9,19.8-19.8V20.8C99.5,9.9,90.6,1,79.7,1z M93.3,79.3c0,7.5-6.1,13.6-13.6,13.6H21.3c-7.5,0-13.6-6.1-13.6-13.6V20.9c0-7.5,6.1-13.6,13.6-13.6V7.2h58.4c7.5,0,13.6,6.1,13.6,13.6V79.3z"/>
-    <polygon fill="${color}" points="44,61.7 23.4,41.1 17.5,47 44,73.5 85.1,32.4 79.2,26.5 "/>
+    <path d="M79.7,1H21.3C10.4,1,1.5,9.9,1.5,20.8v58.4C1.5,90.1,10.4,99,21.3,99h58.4c10.9,0,19.8-8.9,19.8-19.8V20.8C99.5,9.9,90.6,1,79.7,1z M93.3,79.3c0,7.5-6.1,13.6-13.6,13.6H21.3c-7.5,0-13.6-6.1-13.6-13.6V20.9c0-7.5,6.1-13.6,13.6-13.6V7.2h58.4c7.5,0,13.6,6.1,13.6,13.6V79.3z"/>
+    <polygon points="44,61.7 23.4,41.1 17.5,47 44,73.5 85.1,32.4 79.2,26.5 "/>
   </svg>
 `)
 
-InputCheckbox.svg.iconOff = (color) => InputCheckbox.svg.toURL(`
+InputCheckbox.svg.iconOff = () => InputCheckbox.svg.toURL(`
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path fill="${color}" d="M79.7,99H21.3C10.4,99,1.5,90.1,1.5,79.2V20.8C1.5,9.9,10.4,1,21.3,1h58.4c10.9,0,19.8,8.9,19.8,19.8v58.4C99.5,90.1,90.6,99,79.7,99z M21.3,7.3c-7.5,0-13.6,6.1-13.6,13.6v58.4c0,7.5,6.1,13.6,13.6,13.6h58.4c7.5,0,13.6-6.1,13.6-13.6V20.8c0-7.5-6.1-13.6-13.6-13.6H21.3V7.3z"/>
+    <path d="M79.7,99H21.3C10.4,99,1.5,90.1,1.5,79.2V20.8C1.5,9.9,10.4,1,21.3,1h58.4c10.9,0,19.8,8.9,19.8,19.8v58.4C99.5,90.1,90.6,99,79.7,99z M21.3,7.3c-7.5,0-13.6,6.1-13.6,13.6v58.4c0,7.5,6.1,13.6,13.6,13.6h58.4c7.5,0,13.6-6.1,13.6-13.6V20.8c0-7.5-6.1-13.6-13.6-13.6H21.3V7.3z"/>
   </svg>
 `)
 

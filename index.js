@@ -751,6 +751,7 @@ class IconContainer extends Tonic { /* global Tonic */
       icon-container {
         display: inline-block;
       }
+
       icon-container .tonic--icon {
         width: 100%;
         height: 100%;

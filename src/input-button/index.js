@@ -177,8 +177,8 @@ class InputButton extends Tonic { /* global Tonic */
           ${nameAttr}
           ${valueAttr}
           ${typeAttr}
-          ${disabled ? 'disabled' : ''}
-          ${autofocus ? 'autofocus' : ''}
+          ${disabled}
+          ${autofocus}
           class="${classes}">${label}</button>
       </div>
     `

@@ -980,8 +980,8 @@ class InputButton extends Tonic { /* global Tonic */
           ${nameAttr}
           ${valueAttr}
           ${typeAttr}
-          ${disabled ? 'disabled' : ''}
-          ${autofocus ? 'autofocus' : ''}
+          ${disabled}
+          ${autofocus}
           class="${classes}">${label}</button>
       </div>
     `
@@ -1149,8 +1149,8 @@ class InputCheckbox extends Tonic { /* global Tonic */
         <input
           type="checkbox"
           id="tonic--checkbox--${id}"
-          ${disabled ? 'disabled' : ''}
-          ${checked ? 'checked' : ''}/>
+          ${disabled}
+          ${checked}/>
         <label
           for="tonic--checkbox--${id}"
           styles="icon"
@@ -1364,8 +1364,8 @@ class InputSelect extends Tonic { /* global Tonic */
         ${this.renderLabel()}
         <select
           styles="select"
-          ${disabled ? 'disabled' : ''}
-          ${required ? 'required' : ''}>
+          ${disabled}
+          ${required}>
           ${options}
         </select>
       </div>
@@ -1670,8 +1670,8 @@ class InputText extends Tonic { /* global Tonic */
           ${placeholderAttr}
           ${spellcheckAttr}
           ${ariaInvalidAttr}
-          ${disabled ? 'disabled' : ''}
-          ${required ? 'required' : ''}
+          ${disabled}
+          ${required}
         />
         <div class="tonic--invalid">
           <span>${this.props.errorMessage}</span>
@@ -1803,10 +1803,10 @@ class InputTextarea extends Tonic { /* global Tonic */
         <textarea
           ${placeholderAttr}
           ${spellcheckAttr}
-          ${disabled ? 'disabled' : ''}
-          ${required ? 'required' : ''}
-          ${readonly ? 'readonly' : ''}
-          ${autofocus ? 'autofocus' : ''}
+          ${disabled}
+          ${required}
+          ${readonly}
+          ${autofocus}
           rows="${rows}"
           cols="${cols}"
           minlength="${minlength}"
@@ -1984,8 +1984,8 @@ class InputToggle extends Tonic { /* global Tonic */
             type="checkbox"
             class="tonic--toggle"
             id="tonic--toggle--${id}"
-            ${disabled ? 'disabled' : ''}
-            ${checked ? 'checked' : ''}>
+            ${disabled}
+            ${checked}>
           <label for="tonic--toggle--${id}"></label>
         </div>
         ${this.renderLabel()}

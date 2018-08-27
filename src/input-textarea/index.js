@@ -118,10 +118,10 @@ class InputTextarea extends Tonic { /* global Tonic */
         <textarea
           ${placeholderAttr}
           ${spellcheckAttr}
-          ${disabled ? 'disabled' : ''}
-          ${required ? 'required' : ''}
-          ${readonly ? 'readonly' : ''}
-          ${autofocus ? 'autofocus' : ''}
+          ${disabled}
+          ${required}
+          ${readonly}
+          ${autofocus}
           rows="${rows}"
           cols="${cols}"
           minlength="${minlength}"

@@ -285,8 +285,8 @@ class InputText extends Tonic { /* global Tonic */
           ${placeholderAttr}
           ${spellcheckAttr}
           ${ariaInvalidAttr}
-          ${disabled ? 'disabled' : ''}
-          ${required ? 'required' : ''}
+          ${disabled}
+          ${required}
         />
         <div class="tonic--invalid">
           <span>${this.props.errorMessage}</span>

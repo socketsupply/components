@@ -182,8 +182,8 @@ class InputSelect extends Tonic { /* global Tonic */
         ${this.renderLabel()}
         <select
           styles="select"
-          ${disabled ? 'disabled' : ''}
-          ${required ? 'required' : ''}>
+          ${disabled}
+          ${required}>
           ${options}
         </select>
       </div>

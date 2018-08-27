@@ -164,8 +164,8 @@ class InputToggle extends Tonic { /* global Tonic */
             type="checkbox"
             class="tonic--toggle"
             id="tonic--toggle--${id}"
-            ${disabled ? 'disabled' : ''}
-            ${checked ? 'checked' : ''}>
+            ${disabled}
+            ${checked}>
           <label for="tonic--toggle--${id}"></label>
         </div>
         ${this.renderLabel()}

@@ -157,8 +157,8 @@ class InputCheckbox extends Tonic { /* global Tonic */
         <input
           type="checkbox"
           id="tonic--checkbox--${id}"
-          ${disabled ? 'disabled' : ''}
-          ${checked ? 'checked' : ''}/>
+          ${disabled}
+          ${checked}/>
         <label
           for="tonic--checkbox--${id}"
           styles="icon"

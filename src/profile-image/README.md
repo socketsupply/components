@@ -44,5 +44,5 @@ The component `ProfileImage` is used to create an SVG icon with a custom size an
 ### Events
 | Name | Description |
 | :--- | :--- |
-| `changed` | Emitted when the `src` changes. |
+| `change` | Emitted when the `src` changes. |
 | `error` | Emitted when there was a problem reading the provided input. |

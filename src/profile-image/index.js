@@ -121,7 +121,7 @@ class ProfileImage extends Tonic { /* global Tonic */
 
       const slot = this.root.querySelector('.tonic--image')
       slot.style.backgroundImage = 'url("' + data + '")'
-      const event = new window.Event('changed')
+      const event = new window.Event('change')
       event.data = data
       this.root.dispatchEvent(event)
     })

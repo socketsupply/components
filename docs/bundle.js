@@ -336,7 +336,7 @@ popover.addEventListener('show', event => {
         if (document.body.dataset.page === 'components') {
           const profile = document.getElementById('profile-image-example-editable')
 
-profile.addEventListener('changed', e => console.log(e.data))
+profile.addEventListener('change', e => console.log(e.data))
 profile.addEventListener('error', e => console.log(e.message))
 
         }
@@ -3536,7 +3536,7 @@ class ProfileImage extends Tonic { /* global Tonic */
 
       const slot = this.root.querySelector('.tonic--image')
       slot.style.backgroundImage = 'url("' + data + '")'
-      const event = new window.Event('changed')
+      const event = new window.Event('change')
       event.data = data
       this.root.dispatchEvent(event)
     })

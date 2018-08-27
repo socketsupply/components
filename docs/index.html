@@ -2266,7 +2266,7 @@ popover.addEventListener(<span class="hljs-string">'show'</span>, event =&gt; {
 <h4>JS</h4>
 <pre><code class="language-js"><span class="hljs-keyword">const</span> profile = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'profile-image-example-editable'</span>)
 
-profile.addEventListener(<span class="hljs-string">'changed'</span>, e =&gt; <span class="hljs-built_in">console</span>.log(e.data))
+profile.addEventListener(<span class="hljs-string">'change'</span>, e =&gt; <span class="hljs-built_in">console</span>.log(e.data))
 profile.addEventListener(<span class="hljs-string">'error'</span>, e =&gt; <span class="hljs-built_in">console</span>.log(e.message))
 </code></pre>
 <h2>Api</h2>
@@ -2338,7 +2338,7 @@ profile.addEventListener(<span class="hljs-string">'error'</span>, e =&gt; <span
 </tr>
 </thead>
 <tbody><tr>
-<td align="left"><code>changed</code></td>
+<td align="left"><code>change</code></td>
 <td align="left">Emitted when the <code>src</code> changes.</td>
 </tr>
 <tr>

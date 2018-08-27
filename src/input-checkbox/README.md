@@ -14,6 +14,18 @@ The component `InputCheckbox` is used to create a styled checkbox, with or witho
   </div>
 </div>
 
+<div class="example">
+  <div class="header">Example</div>
+  <div class="content">
+    <input-checkbox
+      id="custom-checkbox-example1"
+      size="100px"
+      icon-on="./sprite.svg#custom_on"
+      icon-off="./sprite.svg#custom_off">
+    </input-checkbox>
+  </div>
+</div>
+
 ## Code
 
 #### HTML

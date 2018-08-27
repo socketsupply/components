@@ -34,7 +34,7 @@
     content="
       default-src 'self';
       font-src 'self' https:;
-      img-src 'self' https: data:;
+      img-src 'self' http: https: data:;
       style-src 'self' 'nonce-U29tZSBzdXBlciBzZWNyZXQ=' https:;
       script-src 'self' 'nonce-U29tZSBzdXBlciBzZWNyZXQ=';
       connect-src 'self' https:;
@@ -886,6 +886,18 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
     <input-checkbox
       id="input-checkbox-example"
       label="Checkbox with Label">
+    </input-checkbox>
+  </div>
+</div>
+
+<div class="example">
+  <div class="header">Example</div>
+  <div class="content">
+    <input-checkbox
+      id="custom-checkbox-example1"
+      size="100px"
+      icon-on="./sprite.svg#custom_on"
+      icon-off="./sprite.svg#custom_off">
     </input-checkbox>
   </div>
 </div>

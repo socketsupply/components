@@ -9,7 +9,7 @@ class InputCheckbox extends Tonic { /* global Tonic */
   }
 
   get value () {
-    return this.props.checked
+    return this.state.checked
   }
 
   getPropertyValue (s) {
@@ -52,6 +52,17 @@ class InputCheckbox extends Tonic { /* global Tonic */
         vertical-align: middle;
       }
 
+      input-checkbox .tonic--icon {
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+        background-size: contain;
+      }
+
+      input-checkbox .tonic--icon svg {
+        fill :blue;
+      }
+
       input-checkbox label:nth-of-type(2) {
         padding-top: 2px;
         margin-left: 10px;
@@ -60,10 +71,23 @@ class InputCheckbox extends Tonic { /* global Tonic */
   }
 
   change (e) {
-    const state = this.props.checked = !this.props.checked
-    const color = this.props.color || this.getPropertyValue('primary')
-    const url = InputCheckbox.svg[state ? 'iconOn' : 'iconOff'](color)
-    this.root.querySelector('label.tonic--icon').style.backgroundImage = `url("${url}")`
+    this.setState(state => Object.assign({}, state, {
+      checked: !state.checked
+    }))
+
+    const state = this.getState()
+
+    let url = ''
+
+    if (this.props.iconOn && this.props.iconOff) {
+      url = this.props[state.checked ? 'iconOn' : 'iconOff']
+    } else {
+      const color = this.props.color || this.getPropertyValue('primary')
+      url = InputCheckbox.svg[state.checked ? 'iconOn' : 'iconOff'](color)
+    }
+
+    const label = this.root.querySelector('label.tonic--icon')
+    label.style.backgroundImage = `url("${url}"), url('#${Date.now()}')`
   }
 
   styles () {
@@ -111,9 +135,14 @@ class InputCheckbox extends Tonic { /* global Tonic */
     const {
       id,
       disabled,
-      checked,
       theme
     } = this.props
+
+    let checked = this.props.checked
+
+    if (this.state.checked !== 'undefined') {
+      checked = this.state.checked
+    }
 
     if (theme) this.classList.add(`tonic--theme--${theme}`)
 

@@ -122,6 +122,8 @@ class ProfileImage extends Tonic { /* global Tonic */
   change (e) {
     const fileInput = this.root.getElementsByTagName('input')[0]
     const data = fileInput.files[0]
+    if (e.data) return
+    e.stopPropagation()
 
     this.getPictureData(data, (err, data) => {
       if (err) {
@@ -133,12 +135,10 @@ class ProfileImage extends Tonic { /* global Tonic */
 
       const slot = this.root.querySelector('.tonic--image')
 
-      this.setState(state => Object.assign({}, state, {
-        data
-      }))
+      this.setState(state => Object.assign({}, state, { data }))
 
       slot.style.backgroundImage = 'url("' + data + '")'
-      const event = new window.Event('change')
+      const event = new window.Event('change', { bubbles: true })
       event.data = data
       this.root.dispatchEvent(event)
     })

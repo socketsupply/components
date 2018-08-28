@@ -15,12 +15,13 @@ class InputText extends Tonic { /* global Tonic */
       type: 'text',
       value: '',
       placeholder: '',
+      width: '250px',
+      color: 'var(--primary)',
       spellcheck: false,
       ariaInvalid: false,
       invalid: false,
       radius: '3px',
       disabled: false,
-      width: '250px',
       errorMessage: 'Invalid'
     }
   }

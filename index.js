@@ -1132,9 +1132,9 @@ class InputCheckbox extends Tonic { /* global Tonic */
       theme
     } = this.props
 
-    let checked = this.props.checked
+    let checked = this.props.checked === 'true'
 
-    if (this.state.checked !== 'undefined') {
+    if (this.state.checked === 'true') {
       checked = this.state.checked
     }
 

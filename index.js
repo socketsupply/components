@@ -1095,7 +1095,7 @@ class InputCheckbox extends Tonic { /* global Tonic */
     if (!iconOn) iconOn = InputCheckbox.svg.iconOn()
     if (!iconOff) iconOff = InputCheckbox.svg.iconOff()
 
-    let url = checked ? iconOn : iconOff
+    let url = checked === 'true' ? iconOn : iconOff
 
     return {
       icon: {
@@ -1134,9 +1134,11 @@ class InputCheckbox extends Tonic { /* global Tonic */
 
     let checked = this.props.checked === 'true'
 
-    if (this.state.checked === 'true') {
+    if (this.state.checked !== 'undefined') {
       checked = this.state.checked
     }
+
+    checked = checked ? 'checked' : ''
 
     if (theme) this.classList.add(`tonic--theme--${theme}`)
 

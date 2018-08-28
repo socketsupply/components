@@ -488,6 +488,10 @@ class ContentTooltip extends Tonic { /* global Tonic */
       window.requestAnimationFrame(() => {
         tooltip.classList.add('tonic--show')
       })
+
+      window.addEventListener('mousewheel', e => {
+        this.hide()
+      }, { once: true })
     }, 256)
   }
 

@@ -31,7 +31,7 @@ class ContentRoute extends Tonic { /* global Tonic */
         display: none;
       }
 
-      content-route .tonic--show {
+      content-route.tonic--show {
         display: block;
       }
     `

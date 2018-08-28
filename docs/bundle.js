@@ -1824,12 +1824,13 @@ class InputText extends Tonic { /* global Tonic */
       type: 'text',
       value: '',
       placeholder: '',
+      width: '250px',
+      color: 'var(--primary)',
       spellcheck: false,
       ariaInvalid: false,
       invalid: false,
       radius: '3px',
       disabled: false,
-      width: '250px',
       errorMessage: 'Invalid'
     }
   }
@@ -3540,7 +3541,16 @@ class ProfileImage extends Tonic { /* global Tonic */
     if (e.data) return
     e.stopPropagation()
 
+    const {
+      size,
+      type,
+      path,
+      lastModifiedDate
+    } = data
+
     this.getPictureData(data, (err, data) => {
+      if (!this.root) return
+
       if (err) {
         const event = new window.Event('error')
         event.message = err.message
@@ -3548,13 +3558,19 @@ class ProfileImage extends Tonic { /* global Tonic */
         return
       }
 
-      const slot = this.root.querySelector('.tonic--image')
+      const slot = this.root && this.root.querySelector('.tonic--image')
 
-      this.setState(state => Object.assign({}, state, { data }))
+      this.setState(state => Object.assign({}, state, {
+        size,
+        path,
+        mime: type,
+        mtime: lastModifiedDate,
+        data
+      }))
 
       slot.style.backgroundImage = 'url("' + data + '")'
       const event = new window.Event('change', { bubbles: true })
-      event.data = data
+      event.data = true // prevent recursion
       this.root.dispatchEvent(event)
     })
   }

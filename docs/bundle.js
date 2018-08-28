@@ -831,7 +831,7 @@ class ContentTooltip extends Tonic { /* global Tonic */
   stylesheet () {
     return `
       content-tooltip .tonic--tooltip {
-        position: absolute;
+        position: fixed;
         background: var(--window);
         visibility: hidden;
         z-index: -1;
@@ -883,38 +883,30 @@ class ContentTooltip extends Tonic { /* global Tonic */
     `
   }
 
-  show (relativeNode) {
+  show (triggerNode) {
     clearTimeout(this.timer)
     this.timer = setTimeout(() => {
       const tooltip = this.root.querySelector('.tonic--tooltip')
       const arrow = this.root.querySelector('.tonic--tooltip-arrow')
-      let scrollableArea = relativeNode.parentNode
 
-      while (true) {
-        if (!scrollableArea || scrollableArea.tagName === 'BODY') break
-        if (window.getComputedStyle(scrollableArea).overflow === 'scroll') break
-        scrollableArea = scrollableArea.parentNode
-      }
+      let { top, left } = triggerNode.getBoundingClientRect()
 
-      let { top, left } = relativeNode.getBoundingClientRect()
-      let pos = top + scrollableArea.scrollTop
+      left += triggerNode.offsetWidth / 2
+      left -= tooltip.offsetWidth / 2
 
-      left -= scrollableArea.offsetLeft + (tooltip.offsetWidth / 2)
-      left += relativeNode.offsetWidth / 2
-
-      const offset = relativeNode.offsetHeight + (arrow.offsetHeight / 2)
+      const offset = triggerNode.offsetHeight + (arrow.offsetHeight / 2)
 
       if (top < (window.innerHeight / 2)) {
         tooltip.classList.remove('tonic--bottom')
         tooltip.classList.add('tonic--top')
-        pos += offset
+        top += offset
       } else {
         tooltip.classList.remove('tonic--top')
         tooltip.classList.add('tonic--bottom')
-        pos -= offset + tooltip.offsetHeight
+        top -= offset + tooltip.offsetHeight
       }
 
-      tooltip.style.top = `${pos}px`
+      tooltip.style.top = `${top}px`
       tooltip.style.left = `${left}px`
 
       window.requestAnimationFrame(() => {

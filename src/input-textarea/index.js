@@ -107,6 +107,10 @@ class InputTextarea extends Tonic { /* global Tonic */
 
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
+    const rowsAttr = rows ? `rows="${rows}"` : ''
+    const colsAttr = cols ? `cols="${cols}"` : ''
+    const minAttr = minlength ? `minlength="${minlength}"` : ''
+    const maxAttr = maxlength ? `maxlength="${maxlength}"` : ''
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
@@ -116,16 +120,18 @@ class InputTextarea extends Tonic { /* global Tonic */
       <div class="tonic--wrapper">
         ${this.renderLabel()}
         <textarea
+          styles="textarea"
           ${placeholderAttr}
           ${spellcheckAttr}
           ${disabled}
           ${required}
           ${readonly}
           ${autofocus}
-          rows="${rows}"
-          cols="${cols}"
-          minlength="${minlength}"
-          maxlength="${maxlength}">${this.props.value}</textarea>
+          ${rowsAttr}
+          ${colsAttr}
+          ${minAttr}
+          ${maxAttr}>${this.props.value}
+        </textarea>
       </div>
     `
   }

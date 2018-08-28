@@ -427,7 +427,7 @@ overlay.addEventListener('click', e => {
 // Warning: Do not edit. To regenerate, run 'npm run build'.
 //
 module.exports = (Tonic, nonce) => {
-  Tonic.nonce = nonce
+  if (nonce) Tonic.nonce = nonce
 
   class ContentRoute extends Tonic { /* global Tonic */
   constructor (node) {
@@ -4040,7 +4040,7 @@ class Tonic {
 
     if (!Tonic.styleNode) {
       const styleTag = document.createElement('style')
-      styleTag.setAttribute('nonce', Tonic.nonce)
+      Tonic.nonce && styleTag.setAttribute('nonce', Tonic.nonce)
       Tonic.styleNode = document.head.appendChild(styleTag)
     }
 

@@ -9,7 +9,7 @@ class ContentTabs extends Tonic { /* global Tonic */
         display: none;
       }
 
-      [data-tab-group] .tonic--show {
+      .tonic--show[data-tab-group] {
         display: block;
       }
     `

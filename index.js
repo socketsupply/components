@@ -1922,8 +1922,7 @@ class InputTextarea extends Tonic { /* global Tonic */
           ${rowsAttr}
           ${colsAttr}
           ${minAttr}
-          ${maxAttr}>${this.props.value}
-        </textarea>
+          ${maxAttr}>${this.props.value}</textarea>
       </div>
     `
   }

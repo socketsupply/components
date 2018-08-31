@@ -208,6 +208,11 @@ class Windowed extends Tonic { /* global Tonic */
     }
   }
 
+  connected () {
+    if (!this.props.data || !this.props.data.length) return
+    this.load(this.props.data)
+  }
+
   render () {
     return `
       <div class="tonic--windowed--outer" styles="outer">

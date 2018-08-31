@@ -115,6 +115,7 @@ class InputButton extends Tonic { /* global Tonic */
 
   loading (state) {
     window.requestAnimationFrame(() => {
+      if (!this.root) return
       const button = this.root.querySelector('button')
       const method = state ? 'add' : 'remove'
       if (button) button.classList[method]('tonic--loading')

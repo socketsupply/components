@@ -28,13 +28,15 @@
   <meta name="twitter:site", content="@conductorlab">
   <meta name="twitter:image", content="https://hxoht.github.io/components/tonic_preview.png">
 
+  <!-- TODO: An issue with chartjs requires 'unsafe-inline' for now. -->
+
   <meta
     http-equiv="Content-Security-Policy"
     content="
       default-src 'self';
       font-src 'self' https:;
       img-src 'self' http: https: data:;
-      style-src 'self' 'nonce-U29tZSBzdXBlciBzZWNyZXQ=' https:;
+      style-src 'self' 'unsafe-inline' https:;
       script-src 'self' 'nonce-U29tZSBzdXBlciBzZWNyZXQ=';
       connect-src 'self' https:;
     "
@@ -63,6 +65,11 @@
             
     <li>
       <a href="#intro" class="selected">Intro</a>
+    </li>
+  
+
+    <li>
+      <a href="#chartdata" class="">ChartData</a>
     </li>
   
 
@@ -226,6 +233,94 @@
     </ul>
   </div>
 </div>
+
+    </section>
+  
+
+    <section id="chartdata">
+      <h1 id="chartdata">ChartData</h1>
+<p>An example component that uses <a href="https://www.chartjs.org/">chart.js</a> <code>2.7.2</code>.</p>
+<p><chart-data
+  type="horizontalBar"
+  width="300px"
+  height="150px"
+  tooltip="false"
+  src="/chartdata.json">
+</chart-data></p>
+<h2>Code</h2>
+<h4>HTML</h4>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">chart-data</span>
+  <span class="hljs-attr">type</span>=<span class="hljs-string">"horizontalBar"</span>
+  <span class="hljs-attr">width</span>=<span class="hljs-string">"300"</span>
+  <span class="hljs-attr">height</span>=<span class="hljs-string">"150px"</span>
+  <span class="hljs-attr">tooltip</span>=<span class="hljs-string">"false"</span>
+  <span class="hljs-attr">src</span>=<span class="hljs-string">"/chartdata.json"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">chart-data</span>&gt;</span></code></pre>
+<h4>JS</h4>
+<pre><code class="language-js">{
+  <span class="hljs-string">"labels"</span>: [<span class="hljs-string">"Foo"</span>, <span class="hljs-string">"Bar"</span>, <span class="hljs-string">"Bazz"</span>],
+  <span class="hljs-string">"datasets"</span>: [
+    {
+      <span class="hljs-string">"backgroundColor"</span>: [<span class="hljs-string">"#c3c3c3"</span>, <span class="hljs-string">"#f06653"</span>, <span class="hljs-string">"#8f8f8f"</span>],
+      <span class="hljs-string">"data"</span>: [<span class="hljs-number">478</span>, <span class="hljs-number">267</span>, <span class="hljs-number">34</span>]
+    }
+  ]
+}</code></pre>
+<h2>Api</h2>
+<h3>Properties</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>title</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">The title of the chart.</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>type</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">The type of the bar chart.</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>tooltip</code></td>
+<td align="left"><em>bool</em></td>
+<td align="left">Show or don&#39;t show the tooltip.</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>width</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Width of the chart (include the unit, <code>%</code>, <code>px</code> etc).</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>height</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Height of the chart (include the unit, <code>%</code>, <code>px</code>, etc).</td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+<h3>Instance Methods &amp; Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>draw(Object, Object)</code></td>
+<td align="left">Draws (or re-draws) the chart. The first parameter is the data and the second is options.</td>
+</tr>
+</tbody></table>
 
     </section>
   

@@ -1,0 +1,10 @@
+{
+  "labels": ["Foo", "Bar", "Bazz"],
+  "datasets": [
+    {
+      "label": "Quxx (millions)",
+      "backgroundColor": ["#c3c3c3", "#f06653","#8f8f8f"],
+      "data": [278,467,34]
+    }
+  ]
+}

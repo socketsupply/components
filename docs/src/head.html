@@ -25,13 +25,15 @@
   <meta name="twitter:site", content="@conductorlab">
   <meta name="twitter:image", content="https://hxoht.github.io/components/tonic_preview.png">
 
+  <!-- TODO: An issue with chartjs requires 'unsafe-inline' for now. -->
+
   <meta
     http-equiv="Content-Security-Policy"
     content="
       default-src 'self';
       font-src 'self' https:;
       img-src 'self' http: https: data:;
-      style-src 'self' 'nonce-%nonce%' https:;
+      style-src 'self' 'unsafe-inline' https:;
       script-src 'self' 'nonce-%nonce%';
       connect-src 'self' https:;
     "

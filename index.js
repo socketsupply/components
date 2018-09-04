@@ -1908,21 +1908,23 @@ class InputTextarea extends Tonic { /* global Tonic */
 
     if (this.props.value === 'undefined') this.props.value = ''
 
+    const attributes = `
+      ${placeholderAttr}
+      ${spellcheckAttr}
+      ${disabled}
+      ${required}
+      ${readonly}
+      ${autofocus}
+      ${rowsAttr}
+      ${colsAttr}
+      ${minAttr}
+      ${maxAttr}
+    `
+
     return `
       <div class="tonic--wrapper">
         ${this.renderLabel()}
-        <textarea
-          styles="textarea"
-          ${placeholderAttr}
-          ${spellcheckAttr}
-          ${disabled}
-          ${required}
-          ${readonly}
-          ${autofocus}
-          ${rowsAttr}
-          ${colsAttr}
-          ${minAttr}
-          ${maxAttr}>${this.props.value}</textarea>
+        <textarea styles="textarea"${attributes}>${this.props.value}</textarea>
       </div>
     `
   }

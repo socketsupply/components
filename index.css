@@ -2,7 +2,7 @@ body {
   --body: 'Georgia', serif;
   --header: 'Caudex', serif;
   --subheader: 'Poppins', sans-serif;
-  --monospace: 'Space-Mono', monospace;
+  --monospace: 'IBM Plex Mono', monospace;
 }
 body {
   --window: #fff;

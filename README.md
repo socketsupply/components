@@ -4,8 +4,7 @@
 A collection of components built with [Tonic](https://github.com/hxoht/tonic).
 
 # USAGE
-You can install the components package with npm and it will bundle `Tonic` into
-a single file.
+You can install the components package with npm and it will bundle `Tonic` into a single file.
 
 ```bash
 npm install hxoht/components
@@ -47,4 +46,3 @@ npm hxoht/components --css ./test/output.css
 npm install
 npm run build && npm run dev
 ```
-

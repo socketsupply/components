@@ -4156,7 +4156,7 @@ class Tonic {
 
     if (!Tonic.styleNode) {
       const styleTag = document.createElement('style')
-      styleTag.setAttribute('nonce', Tonic.nonce)
+      Tonic.nonce && styleTag.setAttribute('nonce', Tonic.nonce)
       Tonic.styleNode = document.head.appendChild(styleTag)
     }
 

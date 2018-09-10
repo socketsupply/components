@@ -9,7 +9,7 @@ The component `ProfileImage` is used to create an SVG icon with a custom size an
     <profile-image
       id="profile-image-example-editable"
       size="150px"
-      editable>
+      editable="true">
     </profile-image>
   </div>
 </div>

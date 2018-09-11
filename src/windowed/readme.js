@@ -1,7 +1,15 @@
 class MyWindowed extends Tonic.Windowed {
+  async click (e) {
+    const row = Tonic.match(e.target, '[data-id]')
+
+    if (row) {
+      console.log(await this.getRow(+row.dataset.id))
+    }
+  }
+
   renderRow (row) {
     return `
-      <div class="tr">
+      <div class="tr" data-id="${row.id}">
         <div class="td">${row.title}</div>
         <div class="td">${row.date}</div>
         <div class="td">${row.random}</div>
@@ -35,6 +43,7 @@ overlay.addEventListener('click', e => {
 
   for (let i = 1; i < 500001; i++) {
     rows.push({
+      id: i - 1,
       title: `Row #${i}`,
       date: String(new Date()),
       random: Math.random().toString(16).slice(2)

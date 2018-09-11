@@ -121,4 +121,5 @@ rows of data can take a second or two.
 | Method | Description |
 | :--- | :--- |
 | `load(Array)` | Loads an array of data. |
+| `getRow(Number)` | Get a row of data (returns an awaitable promise). |
 

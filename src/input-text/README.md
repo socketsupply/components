@@ -10,6 +10,7 @@ The component `InputText` creates an input that can be invalidated.
     <input-text
       label="Email Address"
       type="email"
+      name="email"
       width="280px"
       id="input-example"
       placeholder="Enter a valid email address"
@@ -28,6 +29,7 @@ The component `InputText` creates an input that can be invalidated.
 <input-text
   label="Email Address"
   type="email"
+  name="email"
   width="280px"
   placeholder="Enter a valid email address"
   spellcheck="false"

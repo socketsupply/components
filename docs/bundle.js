@@ -1518,6 +1518,7 @@ class InputButton extends Tonic { /* global Tonic */
         <button
           styles="button"
           async="${async}"
+          alt="${label}"
           ${nameAttr}
           ${valueAttr}
           ${typeAttr}
@@ -2187,9 +2188,11 @@ class InputText extends Tonic { /* global Tonic */
       required,
       pattern,
       theme,
-      position
+      position,
+      name
     } = this.props
 
+    const nameAttr = name ? `name="${name}"` : ''
     const patternAttr = pattern ? `pattern="${pattern}"` : ''
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
@@ -2208,9 +2211,9 @@ class InputText extends Tonic { /* global Tonic */
 
         <input
           styles="input"
-          ${valueAttr}
-          ${patternAttr}
           type="${type}"
+          ${nameAttr}
+          ${patternAttr}
           ${valueAttr}
           ${placeholderAttr}
           ${spellcheckAttr}

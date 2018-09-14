@@ -7,7 +7,7 @@ A collection of components built with [Tonic](https://github.com/hxoht/tonic).
 You can install the components package with npm and it will bundle `Tonic` into a single file.
 
 ```bash
-npm install hxoht/components
+npm install @conductorlab/tonic @conductorlab/components
 ```
 
 ```js

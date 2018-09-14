@@ -1,6 +1,6 @@
 {
-  "name": "components",
-  "version": "2.1.0",
+  "name": "@conductorlab/components",
+  "version": "2.1.1",
   "description": "",
   "bin": "bin/components",
   "directories": {
@@ -35,12 +35,12 @@
     "tape-run": "^4.0.0"
   },
   "dependencies": {
+    "@conductorlab/tonic": "^7.2.1",
     "autoprefixer-stylus": "^0.14.0",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
     "qs": "github:hxoht/qs",
     "scrolltoy": "github:voltraco/scrolltoy",
-    "stylus": "^0.54.5",
-    "tonic": "github:hxoht/tonic"
+    "stylus": "^0.54.5"
   }
 }

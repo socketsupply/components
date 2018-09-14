@@ -178,6 +178,7 @@ class InputButton extends Tonic { /* global Tonic */
         <button
           styles="button"
           async="${async}"
+          alt="${label}"
           ${nameAttr}
           ${valueAttr}
           ${typeAttr}

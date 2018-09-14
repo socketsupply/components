@@ -2398,7 +2398,6 @@ class InputToggle extends Tonic { /* global Tonic */
     return `
       input-toggle .tonic--toggle--wrapper {
         height: 30px;
-        width: 47px;
         position: relative;
       }
 
@@ -2409,7 +2408,7 @@ class InputToggle extends Tonic { /* global Tonic */
         text-transform: uppercase;
         letter-spacing: 1px;
         margin-left: 58px;
-        padding-top: 9px;
+        padding-top: 6px;
         display: block;
         user-select: none;
       }

@@ -2536,11 +2536,18 @@ class InputToggle extends Tonic { /* global Tonic */
     const {
       id,
       disabled,
-      theme,
-      checked
+      theme
     } = this.props
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+
+    let checked = this.props.checked === 'true'
+
+    if (this.state.checked !== 'undefined') {
+      checked = this.state.checked
+    }
+
+    checked = checked ? 'checked' : ''
 
     return `
       <div class="tonic--toggle--wrapper">
@@ -2550,7 +2557,7 @@ class InputToggle extends Tonic { /* global Tonic */
             class="tonic--toggle"
             id="tonic--toggle--${id}"
             ${disabled}
-            checked="${checked}">
+            ${checked}/>
           <label for="tonic--toggle--${id}"></label>
         </div>
         ${this.renderLabel()}

@@ -14,6 +14,7 @@ class InputButton extends Tonic { /* global Tonic */
       value: 'Submit',
       disabled: false,
       autofocus: false,
+      async: false,
       height: '40px',
       width: '150px',
       radius: '2px',
@@ -123,7 +124,7 @@ class InputButton extends Tonic { /* global Tonic */
   }
 
   click () {
-    if (this.props.async === 'false') return
+    if (!this.props.async) return
     this.loading(true)
   }
 
@@ -156,7 +157,8 @@ class InputButton extends Tonic { /* global Tonic */
       disabled,
       autofocus,
       active,
-      theme
+      theme,
+      async
     } = this.props
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
@@ -175,6 +177,7 @@ class InputButton extends Tonic { /* global Tonic */
       <div class="tonic--input-button--wrapper">
         <button
           styles="button"
+          async="${async}"
           ${nameAttr}
           ${valueAttr}
           ${typeAttr}

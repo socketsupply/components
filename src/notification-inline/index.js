@@ -136,6 +136,7 @@ class NotificationInline extends Tonic { /* global Tonic */
     const notification = document.createElement('div')
     notification.className = 'tonic--notification'
     const main = document.createElement('main')
+
     if (type) {
       notification.classList.add('tonic--alert')
       notification.classList.add(`tonic--${type}`)

@@ -232,7 +232,7 @@ understand your html better.</p>
 }</code></pre>
 <blockquote>
 <p><b>A note about property names</b>. A prop named <code>fooBar=&#39;30&#39;</code> will become lowercased
-(as per the HTML spec). If you want the property name to be camelcased when
+(as per the HTML spec). If you want the property name to be camel cased when
 added to the props object, use <code>foo-bar=&#39;30&#39;</code> to get <code>this.props.fooBar</code>.</p>
 </blockquote>
 <h3>Updating properties</h3>
@@ -241,7 +241,7 @@ hierarchy and where in it the update should take place. It&#39;s better to updat
 component higher up in the hierarchy and let the data cascade downward to child
 components.</p>
 <hr>
-<p>To manually update a component you can use the <code>.reRener()</code> method. This method
+<p>To manually update a component you can use the <code>.reRender()</code> method. This method
 receives either an object or a function. For example...</p>
 <pre><code class="language-js"><span class="hljs-comment">// Update a component's properties</span>
 <span class="hljs-keyword">this</span>.reRender(<span class="hljs-function"><span class="hljs-params">props</span> =&gt;</span> ({

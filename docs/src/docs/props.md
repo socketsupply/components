@@ -65,7 +65,7 @@ class MyComponent extends Tonic {
 ```
 
 > <b>A note about property names</b>. A prop named `fooBar='30'` will become lowercased
-> (as per the HTML spec). If you want the property name to be camelcased when
+> (as per the HTML spec). If you want the property name to be camel cased when
 > added to the props object, use `foo-bar='30'` to get `this.props.fooBar`.
 
 
@@ -78,7 +78,7 @@ components.
 
 ---
 
-To manually update a component you can use the `.reRener()` method. This method
+To manually update a component you can use the `.reRender()` method. This method
 receives either an object or a function. For example...
 
 ```js
@@ -102,4 +102,3 @@ The `.reRender()` method can also be called directly on a component.
 ```js
 document.getElementById('parent').reRender({ data: [1,2,3, ...9999] })
 ```
-

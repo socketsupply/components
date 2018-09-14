@@ -65,8 +65,7 @@ class InputTextarea extends Tonic { /* global Tonic */
     const {
       width,
       radius,
-      resize,
-      name
+      resize
     } = this.props
 
     return {

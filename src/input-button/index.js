@@ -123,7 +123,7 @@ class InputButton extends Tonic { /* global Tonic */
   }
 
   click () {
-    if (!this.props.async) return
+    if (this.props.async === 'false') return
     this.loading(true)
   }
 

@@ -2397,8 +2397,6 @@ class InputToggle extends Tonic { /* global Tonic */
   get value () {
     const state = this.getState()
 
-    console.log(state)
-
     if (typeof state.checked !== 'undefined') {
       return state.checked
     }
@@ -2527,8 +2525,6 @@ class InputToggle extends Tonic { /* global Tonic */
     this.setState(state => Object.assign({}, state, {
       checked: e.target.checked
     }))
-
-    console.log(this.state)
   }
 
   renderLabel () {

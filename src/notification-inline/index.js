@@ -144,11 +144,11 @@ class NotificationInline extends Tonic { /* global Tonic */
 
     const titleElement = document.createElement('div')
     titleElement.className = 'tonic--title'
-    titleElement.textContent = title || this.props.title
+    titleElement.textContent = title || this.props.title || ''
 
     const messageElement = document.createElement('div')
     messageElement.className = 'tonic--message'
-    messageElement.innerHTML = message || this.props.message
+    messageElement.innerHTML = message || this.props.message || ''
 
     if (dismiss !== 'false') {
       const close = document.createElement('div')

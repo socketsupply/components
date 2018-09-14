@@ -116,11 +116,12 @@ class InputText extends Tonic { /* global Tonic */
         background-color: var(--background);
       }
 
-      .tonic--invalid {
+      input-text .tonic--invalid {
         font-size: 14px;
         text-align: center;
+        margin-bottom: -13px;
         position: absolute;
-        bottom: 50px;
+        bottom: 100%;
         left: 0;
         right: 0;
         transform: translateY(-10px);
@@ -129,7 +130,7 @@ class InputText extends Tonic { /* global Tonic */
         opacity: 0;
       }
 
-      .tonic--invalid span {
+      input-text .tonic--invalid span {
         color: white;
         padding: 2px 6px;
         background-color: var(--error);
@@ -139,7 +140,7 @@ class InputText extends Tonic { /* global Tonic */
         margin: 0 auto;
       }
 
-      .tonic--invalid span:after {
+      input-text .tonic--invalid span:after {
         content: '';
         width: 0;
         height: 0;
@@ -287,8 +288,7 @@ class InputText extends Tonic { /* global Tonic */
           ${spellcheckAttr}
           ${ariaInvalidAttr}
           ${disabled}
-          ${required}
-        />
+          ${required}/>
         <div class="tonic--invalid">
           <span>${this.props.errorMessage}</span>
         </div>

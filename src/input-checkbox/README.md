@@ -24,6 +24,7 @@ The component `InputCheckbox` is used to create a styled checkbox, with or witho
       id="custom-checkbox-example"
       size="40px"
       color="red"
+      checked="false"
       icon-on="./sprite.svg#custom_on"
       icon-off="./sprite.svg#custom_off">
     </input-checkbox>

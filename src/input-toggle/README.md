@@ -7,7 +7,7 @@ The component `InputToggle` creates a toggle.
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
-    <input-toggle id="toggle-example" label="Change"></input-toggle>
+    <input-toggle id="toggle-example" checked="true" label="Change"></input-toggle>
   </div>
 </div>
 

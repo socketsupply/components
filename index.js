@@ -1040,8 +1040,12 @@ class InputButton extends Tonic { /* global Tonic */
   }
 
   click () {
-    if (!this.props.async) return
-    this.loading(true)
+    const disabled = this.props.disabled === 'true'
+    const async = this.props.async
+
+    if (async && !disabled) {
+      this.loading(true)
+    }
   }
 
   styles () {

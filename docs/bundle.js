@@ -1404,6 +1404,10 @@ class InputButton extends Tonic { /* global Tonic */
         border-color: var(--background);
       }
 
+      input-button button[disabled] {
+        pointer-events: none;
+      }
+
       input-button button:not([disabled]):hover,
       input-button button:not(.tonic--loading):hover {
         color: var(--window) !important;

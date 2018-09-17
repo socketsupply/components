@@ -1350,7 +1350,7 @@ class InputButton extends Tonic { /* global Tonic */
     })
 
     Object.defineProperty(this.root, 'disabled', {
-      get () { return that.props.disabled }
+      get () { return that.props.disabled === 'true' }
     })
   }
 

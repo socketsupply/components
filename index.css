@@ -7,6 +7,7 @@ body {
 body {
   --window: #fff;
   --primary: #36393d;
+  --disabled: #98a1af;
   --secondary: #e8e8e4;
   --medium: #999da0;
   --accent: #f06653;
@@ -22,6 +23,7 @@ body {
 body.theme-dark {
   --window: #2d2f31;
   --primary: #fff;
+  --disabled: #aaa;
   --secondary: #c3c3c3;
   --medium: #999da0;
   --accent: #f06653;

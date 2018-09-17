@@ -4,8 +4,13 @@ class InputButton extends Tonic { /* global Tonic */
     this.root.loading = (state) => this.loading(state)
 
     const that = this
+
     Object.defineProperty(this.root, 'value', {
       get () { return that.props.value }
+    })
+
+    Object.defineProperty(this.root, 'disabled', {
+      get () { return that.props.disabled }
     })
   }
 
@@ -19,6 +24,7 @@ class InputButton extends Tonic { /* global Tonic */
       width: '150px',
       radius: '2px',
       textColor: 'var(--primary)',
+      textColorDisabled: 'var(--disabled)',
       backgroundColor: 'transparent',
       borderColor: 'var(--primary)'
     }
@@ -134,14 +140,16 @@ class InputButton extends Tonic { /* global Tonic */
       height,
       radius,
       fill,
-      textColor
+      disabled,
+      textColor,
+      textColorDisabled
     } = this.props
 
     return {
       button: {
         width,
         height,
-        color: textColor,
+        color: disabled ? textColorDisabled : textColor,
         backgroundColor: fill,
         borderRadius: radius,
         borderColor: fill

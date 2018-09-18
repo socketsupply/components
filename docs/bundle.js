@@ -3932,6 +3932,26 @@ class Windowed extends Tonic { /* global Tonic */
     return this.rows
   }
 
+  push (o) {
+    this.rows = this.rows || []
+    this.rows.push(o)
+  }
+
+  unshift (o) {
+    this.rows = this.rows || []
+    this.rows.unshift(o)
+  }
+
+  pop () {
+    this.rows = this.rows || []
+    this.rows.pop()
+  }
+
+  shift () {
+    this.rows = this.rows || []
+    this.rows.shift()
+  }
+
   async getRow (idx) {
     const el = this.rows[idx]
     return typeof el === 'function' ? el() : el

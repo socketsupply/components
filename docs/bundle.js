@@ -1952,7 +1952,8 @@ class InputText extends Tonic { /* global Tonic */
 
     const that = this
     Object.defineProperty(this.root, 'value', {
-      get () { return that.value }
+      get () { return that.value },
+      set (value) { that.value = value }
     })
   }
 
@@ -1974,6 +1975,10 @@ class InputText extends Tonic { /* global Tonic */
 
   get value () {
     return this.root.querySelector('input').value
+  }
+
+  set value (value) {
+    this.root.querySelector('input').value = value
   }
 
   setValid () {

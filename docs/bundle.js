@@ -2255,8 +2255,10 @@ class InputTextarea extends Tonic { /* global Tonic */
     super(node)
 
     const that = this
+
     Object.defineProperty(this.root, 'value', {
-      get () { return that.value }
+      get () { return that.value },
+      set (value) { that.value = value }
     })
   }
 
@@ -2331,6 +2333,10 @@ class InputTextarea extends Tonic { /* global Tonic */
 
   get value () {
     return this.root.querySelector('textarea').value
+  }
+
+  set value (value) {
+    this.root.querySelector('textarea').value = value
   }
 
   renderLabel () {

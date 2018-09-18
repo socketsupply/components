@@ -34,6 +34,10 @@ class Windowed extends Tonic { /* global Tonic */
     }
   }
 
+  getRows () {
+    return this.rows
+  }
+
   async getRow (idx) {
     const el = this.rows[idx]
     return typeof el === 'function' ? el() : el

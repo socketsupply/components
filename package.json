@@ -1,6 +1,6 @@
 {
   "name": "@conductorlab/components",
-  "version": "2.1.18",
+  "version": "2.1.19",
   "description": "",
   "bin": "bin/components",
   "directories": {

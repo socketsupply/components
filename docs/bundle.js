@@ -3902,6 +3902,11 @@ class Windowed extends Tonic { /* global Tonic */
 
     const outer = this.root.querySelector('.tonic--windowed--outer')
     outer.addEventListener('scroll', () => this.rePaint(), { passive: true })
+
+    const that = this
+    Object.defineProperty(this.root, 'length', {
+      get () { return that.rows.length }
+    })
   }
 
   defaults () {
@@ -3950,6 +3955,21 @@ class Windowed extends Tonic { /* global Tonic */
   shift () {
     this.rows = this.rows || []
     this.rows.shift()
+  }
+
+  find (fn) {
+    if (!this.rows) return -1
+    return this.rows.find(fn)
+  }
+
+  findIndex (fn) {
+    if (!this.rows) return -1
+    return this.rows.findIndex(fn)
+  }
+
+  splice (...args) {
+    if (!this.rows) return null
+    return this.rows.splice(...args)
   }
 
   async getRow (idx) {

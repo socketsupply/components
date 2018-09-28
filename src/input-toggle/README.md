@@ -40,4 +40,4 @@ The component `InputToggle` creates a toggle.
 
 | Method | Description |
 | :--- | :--- |
-| `value` | A `getter` that returns the current value of the textarea. |
+| `value` | A `getter` that returns the current value (state) of the toggle. |

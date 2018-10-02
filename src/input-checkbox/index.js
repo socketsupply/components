@@ -4,12 +4,21 @@ class InputCheckbox extends Tonic { /* global Tonic */
 
     const that = this
     Object.defineProperty(this.root, 'value', {
-      get () { return that.value }
+      get () { return that.value },
+      set (value) { that.value = value }
     })
   }
 
   get value () {
     return this.state.checked
+  }
+
+  set value (checked) {
+    this.reRender(props => Object.assign(props, {
+      checked
+    }))
+
+    this.state.checked = checked
   }
 
   getPropertyValue (s) {

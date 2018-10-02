@@ -200,7 +200,7 @@ async function compile () {
     })
   }
 
-  {
+  /* {
     //
     // Add the API as a section
     //
@@ -213,7 +213,7 @@ async function compile () {
       link: wrapLink(title, 'custom'),
       section: wrapSection(marked(s), title, 'custom')
     })
-  }
+  }*/
 
   const intro = read(docsDir, 'src', 'intro.html')
 

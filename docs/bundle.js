@@ -1556,12 +1556,21 @@ class InputCheckbox extends Tonic { /* global Tonic */
 
     const that = this
     Object.defineProperty(this.root, 'value', {
-      get () { return that.value }
+      get () { return that.value },
+      set (value) { that.value = value }
     })
   }
 
   get value () {
     return this.state.checked
+  }
+
+  set value (checked) {
+    this.reRender(props => Object.assign(props, {
+      checked
+    }))
+
+    this.state.checked = checked
   }
 
   getPropertyValue (s) {
@@ -2413,7 +2422,8 @@ class InputToggle extends Tonic { /* global Tonic */
 
     const that = this
     Object.defineProperty(this.root, 'value', {
-      get () { return that.value }
+      get () { return that.value },
+      set (value) { that.value = value }
     })
   }
 
@@ -2431,6 +2441,14 @@ class InputToggle extends Tonic { /* global Tonic */
     }
 
     return this.props.checked
+  }
+
+  set value (checked) {
+    this.state.checked = checked
+
+    this.reRender(props => Object.assign(props, {
+      checked
+    }))
   }
 
   stylesheet () {
@@ -2576,12 +2594,15 @@ class InputToggle extends Tonic { /* global Tonic */
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
-    let checked = this.props.checked === 'true'
+    let checked
 
     if (typeof this.state.checked !== 'undefined') {
       checked = this.state.checked
+    } else {
+      checked = this.props.checked === 'true'
     }
 
+    this.state.checked = checked
     checked = checked ? 'checked' : ''
 
     return `

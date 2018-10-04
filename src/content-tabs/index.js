@@ -47,10 +47,14 @@ class ContentTabs extends Tonic { /* global Tonic */
 
     target.classList.add('tonic--show')
     tab.classList.add('tonic--selected')
+
+    this.setState(state => Object.assign(state, {
+      selected: name
+    }))
   }
 
   connected () {
-    let name = this.root.getAttribute('selected')
+    let name = this.state.selected || this.root.getAttribute('selected')
 
     if (name) {
       const targetLink = this.qs(`[data-tab-name=${name}]`, this.root)

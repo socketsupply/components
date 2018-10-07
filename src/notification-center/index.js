@@ -147,6 +147,7 @@ class NotificationCenter extends Tonic { /* global Tonic */
     notification.className = 'tonic--notification'
     const main = document.createElement('div')
     main.className = 'tonic--main'
+
     if (type) {
       notification.classList.add('tonic--alert')
     }
@@ -202,17 +203,23 @@ class NotificationCenter extends Tonic { /* global Tonic */
     this.show()
 
     setTimeout(() => {
+      if (!notification) return
       notification.classList.add('tonic--show')
     }, 64)
 
     if (duration) {
-      setTimeout(() => this.destroy(notification), duration)
+      setTimeout(() => {
+        if (!notification) return
+        this.destroy(notification)
+      }, duration)
     }
   }
 
   destroy (notification) {
     notification.classList.remove('tonic--show')
     notification.addEventListener('transitionend', e => {
+      if (!notification) return
+
       notification.parentNode.removeChild(notification)
     })
   }

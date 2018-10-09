@@ -118,6 +118,8 @@ class ContentTooltip extends Tonic { /* global Tonic */
 
   hide () {
     clearTimeout(this.timer)
+    if (!this.root) return
+
     const tooltip = this.root.querySelector('.tonic--tooltip')
     tooltip.classList.remove('tonic--show')
   }

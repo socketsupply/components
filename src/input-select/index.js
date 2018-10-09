@@ -122,6 +122,7 @@ class InputSelect extends Tonic { /* global Tonic */
   }
 
   loading (state) {
+    if (!this.root) return
     const method = state ? 'add' : 'remove'
     this.root.classList[method]('tonic--loading')
   }

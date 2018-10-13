@@ -609,6 +609,8 @@ class ContentTooltip extends Tonic { /* global Tonic */
 
   hide () {
     clearTimeout(this.timer)
+    if (!this.root) return
+
     const tooltip = this.root.querySelector('.tonic--tooltip')
     tooltip.classList.remove('tonic--show')
   }
@@ -1078,7 +1080,6 @@ class InputButton extends Tonic { /* global Tonic */
 
   render () {
     const {
-      name,
       value,
       type,
       disabled,
@@ -1090,7 +1091,6 @@ class InputButton extends Tonic { /* global Tonic */
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
-    const nameAttr = name ? `name="${name}"` : ''
     const disabledAttr = disabled ? `disabled="true"` : ''
     const valueAttr = value ? `value="${value}"` : ''
     const typeAttr = type ? `type="${type}"` : ''
@@ -1107,7 +1107,6 @@ class InputButton extends Tonic { /* global Tonic */
           styles="button"
           async="${async}"
           alt="${label}"
-          ${nameAttr}
           ${valueAttr}
           ${typeAttr}
           ${disabledAttr}
@@ -1445,6 +1444,7 @@ class InputSelect extends Tonic { /* global Tonic */
   }
 
   loading (state) {
+    if (!this.root) return
     const method = state ? 'add' : 'remove'
     this.root.classList[method]('tonic--loading')
   }
@@ -1791,11 +1791,9 @@ class InputText extends Tonic { /* global Tonic */
       pattern,
       theme,
       position,
-      name,
       id
     } = this.props
 
-    const nameAttr = name ? `name="${name}"` : ''
     const idAttr = id ? `id="${id}"` : ''
     const patternAttr = pattern ? `pattern="${pattern}"` : ''
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
@@ -1816,7 +1814,6 @@ class InputText extends Tonic { /* global Tonic */
         <input
           styles="input"
           type="${type}"
-          ${nameAttr}
           ${idAttr}
           ${patternAttr}
           ${valueAttr}
@@ -1935,7 +1932,6 @@ class InputTextarea extends Tonic { /* global Tonic */
 
   render () {
     const {
-      name,
       placeholder,
       spellcheck,
       disabled,
@@ -1949,7 +1945,6 @@ class InputTextarea extends Tonic { /* global Tonic */
       theme
     } = this.props
 
-    const nameAttr = name ? `name="${name}"` : ''
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
     const rowsAttr = rows ? `rows="${rows}"` : ''
@@ -1962,7 +1957,6 @@ class InputTextarea extends Tonic { /* global Tonic */
     if (this.props.value === 'undefined') this.props.value = ''
 
     const attributes = `
-      ${nameAttr}
       ${placeholderAttr}
       ${spellcheckAttr}
       ${disabled}
@@ -2414,6 +2408,7 @@ class NotificationCenter extends Tonic { /* global Tonic */
     notification.className = 'tonic--notification'
     const main = document.createElement('div')
     main.className = 'tonic--main'
+
     if (type) {
       notification.classList.add('tonic--alert')
     }
@@ -2469,17 +2464,23 @@ class NotificationCenter extends Tonic { /* global Tonic */
     this.show()
 
     setTimeout(() => {
+      if (!notification) return
       notification.classList.add('tonic--show')
     }, 64)
 
     if (duration) {
-      setTimeout(() => this.destroy(notification), duration)
+      setTimeout(() => {
+        if (!notification) return
+        this.destroy(notification)
+      }, duration)
     }
   }
 
   destroy (notification) {
     notification.classList.remove('tonic--show')
     notification.addEventListener('transitionend', e => {
+      if (!notification) return
+
       notification.parentNode.removeChild(notification)
     })
   }
@@ -3351,12 +3352,9 @@ class ProfileImage extends Tonic { /* global Tonic */
 
   render () {
     let {
-      name,
       theme,
       editable
     } = this.props
-
-    const nameAttr = name ? `name="${name}"` : ''
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
@@ -3367,7 +3365,6 @@ class ProfileImage extends Tonic { /* global Tonic */
 
         <div
           class="tonic--image"
-          ${nameAttr}
           styles="background">
         </div>
 

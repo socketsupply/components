@@ -1,6 +1,6 @@
 const scrollToY = require('scrolltoy')
 const { qs, qsa } = require('qs')
-const Tonic = require('tonic')
+const Tonic = require('@conductorlab/tonic')
 const nonce = require('./nonce')
 
 const components = require('../..')

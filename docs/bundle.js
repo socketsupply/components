@@ -1,7 +1,7 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 const scrollToY = require('scrolltoy')
 const { qs, qsa } = require('qs')
-const Tonic = require('tonic')
+const Tonic = require('@conductorlab/tonic')
 const nonce = require('./nonce')
 
 const components = require('../..')
@@ -79,7 +79,7 @@ function ready () {
 
 document.addEventListener('DOMContentLoaded', ready)
 
-},{"../..":4,"./nonce":2,"./readme":3,"qs":5,"scrolltoy":6,"tonic":7}],2:[function(require,module,exports){
+},{"../..":4,"./nonce":2,"./readme":3,"@conductorlab/tonic":5,"qs":6,"scrolltoy":7}],2:[function(require,module,exports){
 
     module.exports = 'U29tZSBzdXBlciBzZWNyZXQ='
   
@@ -1043,6 +1043,8 @@ class ContentTooltip extends Tonic { /* global Tonic */
 
   hide () {
     clearTimeout(this.timer)
+    if (!this.root) return
+
     const tooltip = this.root.querySelector('.tonic--tooltip')
     tooltip.classList.remove('tonic--show')
   }
@@ -1512,7 +1514,6 @@ class InputButton extends Tonic { /* global Tonic */
 
   render () {
     const {
-      name,
       value,
       type,
       disabled,
@@ -1524,7 +1525,6 @@ class InputButton extends Tonic { /* global Tonic */
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
-    const nameAttr = name ? `name="${name}"` : ''
     const disabledAttr = disabled ? `disabled="true"` : ''
     const valueAttr = value ? `value="${value}"` : ''
     const typeAttr = type ? `type="${type}"` : ''
@@ -1541,7 +1541,6 @@ class InputButton extends Tonic { /* global Tonic */
           styles="button"
           async="${async}"
           alt="${label}"
-          ${nameAttr}
           ${valueAttr}
           ${typeAttr}
           ${disabledAttr}
@@ -1879,6 +1878,7 @@ class InputSelect extends Tonic { /* global Tonic */
   }
 
   loading (state) {
+    if (!this.root) return
     const method = state ? 'add' : 'remove'
     this.root.classList[method]('tonic--loading')
   }
@@ -2225,11 +2225,9 @@ class InputText extends Tonic { /* global Tonic */
       pattern,
       theme,
       position,
-      name,
       id
     } = this.props
 
-    const nameAttr = name ? `name="${name}"` : ''
     const idAttr = id ? `id="${id}"` : ''
     const patternAttr = pattern ? `pattern="${pattern}"` : ''
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
@@ -2250,7 +2248,6 @@ class InputText extends Tonic { /* global Tonic */
         <input
           styles="input"
           type="${type}"
-          ${nameAttr}
           ${idAttr}
           ${patternAttr}
           ${valueAttr}
@@ -2369,7 +2366,6 @@ class InputTextarea extends Tonic { /* global Tonic */
 
   render () {
     const {
-      name,
       placeholder,
       spellcheck,
       disabled,
@@ -2383,7 +2379,6 @@ class InputTextarea extends Tonic { /* global Tonic */
       theme
     } = this.props
 
-    const nameAttr = name ? `name="${name}"` : ''
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
     const rowsAttr = rows ? `rows="${rows}"` : ''
@@ -2396,7 +2391,6 @@ class InputTextarea extends Tonic { /* global Tonic */
     if (this.props.value === 'undefined') this.props.value = ''
 
     const attributes = `
-      ${nameAttr}
       ${placeholderAttr}
       ${spellcheckAttr}
       ${disabled}
@@ -2848,6 +2842,7 @@ class NotificationCenter extends Tonic { /* global Tonic */
     notification.className = 'tonic--notification'
     const main = document.createElement('div')
     main.className = 'tonic--main'
+
     if (type) {
       notification.classList.add('tonic--alert')
     }
@@ -2903,17 +2898,23 @@ class NotificationCenter extends Tonic { /* global Tonic */
     this.show()
 
     setTimeout(() => {
+      if (!notification) return
       notification.classList.add('tonic--show')
     }, 64)
 
     if (duration) {
-      setTimeout(() => this.destroy(notification), duration)
+      setTimeout(() => {
+        if (!notification) return
+        this.destroy(notification)
+      }, duration)
     }
   }
 
   destroy (notification) {
     notification.classList.remove('tonic--show')
     notification.addEventListener('transitionend', e => {
+      if (!notification) return
+
       notification.parentNode.removeChild(notification)
     })
   }
@@ -3785,12 +3786,9 @@ class ProfileImage extends Tonic { /* global Tonic */
 
   render () {
     let {
-      name,
       theme,
       editable
     } = this.props
-
-    const nameAttr = name ? `name="${name}"` : ''
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
@@ -3801,7 +3799,6 @@ class ProfileImage extends Tonic { /* global Tonic */
 
         <div
           class="tonic--image"
-          ${nameAttr}
           styles="background">
         </div>
 
@@ -4192,67 +4189,6 @@ Tonic.Windowed = Windowed
 }
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],5:[function(require,module,exports){
-const qs = (s, p) => (p || document).querySelector(s)
-const qsa = (s, p) => [...(p || document).querySelectorAll(s)]
-
-module.exports = { qs, qsa }
-
-},{}],6:[function(require,module,exports){
-var requestFrame = (function () {
-  return window.requestAnimationFrame ||
-    window.webkitRequestAnimationFrame ||
-    window.mozRequestAnimationFrame ||
-    function requestAnimationFallback (callback) {
-      window.setTimeout(callback, 1000 / 60)
-    }
-})()
-
-function ease (pos) {
-  return ((pos /= 0.5) < 1)
-    ? (0.5 * Math.pow(pos, 5))
-    : (0.5 * (Math.pow((pos - 2), 5) + 2))
-}
-
-module.exports = function scrollToY (el, Y, speed) {
-  var isWindow = !!el.alert
-  var scrollY = isWindow ? el.scrollY : el.scrollTop
-  var pos = Math.abs(scrollY - Y)
-  var time = Math.max(0.1, Math.min(pos / speed, 0.8))
-
-  let currentTime = 0
-
-  function setY () {
-    module.exports.scrolling = true
-    currentTime += 1 / 60
-
-    var p = currentTime / time
-    var t = ease(p)
-
-    if (p < 1) {
-      var y = scrollY + ((Y - scrollY) * t)
-      requestFrame(setY)
-
-      if (isWindow) {
-        el.scrollTo(0, y)
-      } else {
-        el.scrollTop = y
-      }
-
-      return
-    }
-
-    if (isWindow) {
-      el.scrollTo(0, Y)
-    } else {
-      el.scrollTop = Y
-    }
-
-    module.exports.scrolling = false
-  }
-  setY()
-}
-
-},{}],7:[function(require,module,exports){
 class Tonic {
   constructor ({ node, state } = {}) {
     this.props = {}
@@ -4451,5 +4387,66 @@ Tonic.escapeRe = /["&'<>`]/g
 Tonic.escapeMap = { '"': '&quot;', '&': '&amp;', '\'': '&#x27;', '<': '&lt;', '>': '&gt;', '`': '&#x60;' }
 
 if (typeof module === 'object') module.exports = Tonic
+
+},{}],6:[function(require,module,exports){
+const qs = (s, p) => (p || document).querySelector(s)
+const qsa = (s, p) => [...(p || document).querySelectorAll(s)]
+
+module.exports = { qs, qsa }
+
+},{}],7:[function(require,module,exports){
+var requestFrame = (function () {
+  return window.requestAnimationFrame ||
+    window.webkitRequestAnimationFrame ||
+    window.mozRequestAnimationFrame ||
+    function requestAnimationFallback (callback) {
+      window.setTimeout(callback, 1000 / 60)
+    }
+})()
+
+function ease (pos) {
+  return ((pos /= 0.5) < 1)
+    ? (0.5 * Math.pow(pos, 5))
+    : (0.5 * (Math.pow((pos - 2), 5) + 2))
+}
+
+module.exports = function scrollToY (el, Y, speed) {
+  var isWindow = !!el.alert
+  var scrollY = isWindow ? el.scrollY : el.scrollTop
+  var pos = Math.abs(scrollY - Y)
+  var time = Math.max(0.1, Math.min(pos / speed, 0.8))
+
+  let currentTime = 0
+
+  function setY () {
+    module.exports.scrolling = true
+    currentTime += 1 / 60
+
+    var p = currentTime / time
+    var t = ease(p)
+
+    if (p < 1) {
+      var y = scrollY + ((Y - scrollY) * t)
+      requestFrame(setY)
+
+      if (isWindow) {
+        el.scrollTo(0, y)
+      } else {
+        el.scrollTop = y
+      }
+
+      return
+    }
+
+    if (isWindow) {
+      el.scrollTo(0, Y)
+    } else {
+      el.scrollTop = Y
+    }
+
+    module.exports.scrolling = false
+  }
+  setY()
+}
 
 },{}]},{},[1]);

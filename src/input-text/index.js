@@ -265,11 +265,9 @@ class InputText extends Tonic { /* global Tonic */
       pattern,
       theme,
       position,
-      name,
       id
     } = this.props
 
-    const nameAttr = name ? `name="${name}"` : ''
     const idAttr = id ? `id="${id}"` : ''
     const patternAttr = pattern ? `pattern="${pattern}"` : ''
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
@@ -290,7 +288,6 @@ class InputText extends Tonic { /* global Tonic */
         <input
           styles="input"
           type="${type}"
-          ${nameAttr}
           ${idAttr}
           ${patternAttr}
           ${valueAttr}

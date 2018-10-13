@@ -161,12 +161,9 @@ class ProfileImage extends Tonic { /* global Tonic */
 
   render () {
     let {
-      name,
       theme,
       editable
     } = this.props
-
-    const nameAttr = name ? `name="${name}"` : ''
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
@@ -177,7 +174,6 @@ class ProfileImage extends Tonic { /* global Tonic */
 
         <div
           class="tonic--image"
-          ${nameAttr}
           styles="background">
         </div>
 

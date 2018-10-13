@@ -98,7 +98,6 @@ class InputTextarea extends Tonic { /* global Tonic */
 
   render () {
     const {
-      name,
       placeholder,
       spellcheck,
       disabled,
@@ -112,7 +111,6 @@ class InputTextarea extends Tonic { /* global Tonic */
       theme
     } = this.props
 
-    const nameAttr = name ? `name="${name}"` : ''
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
     const rowsAttr = rows ? `rows="${rows}"` : ''
@@ -125,7 +123,6 @@ class InputTextarea extends Tonic { /* global Tonic */
     if (this.props.value === 'undefined') this.props.value = ''
 
     const attributes = `
-      ${nameAttr}
       ${placeholderAttr}
       ${spellcheckAttr}
       ${disabled}

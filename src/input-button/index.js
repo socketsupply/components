@@ -167,7 +167,6 @@ class InputButton extends Tonic { /* global Tonic */
 
   render () {
     const {
-      name,
       value,
       type,
       disabled,
@@ -179,7 +178,6 @@ class InputButton extends Tonic { /* global Tonic */
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
-    const nameAttr = name ? `name="${name}"` : ''
     const disabledAttr = disabled ? `disabled="true"` : ''
     const valueAttr = value ? `value="${value}"` : ''
     const typeAttr = type ? `type="${type}"` : ''
@@ -196,7 +194,6 @@ class InputButton extends Tonic { /* global Tonic */
           styles="button"
           async="${async}"
           alt="${label}"
-          ${nameAttr}
           ${valueAttr}
           ${typeAttr}
           ${disabledAttr}

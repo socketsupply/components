@@ -1761,7 +1761,8 @@ class InputSelect extends Tonic { /* global Tonic */
 
     const that = this
     Object.defineProperty(this.root, 'value', {
-      get () { return that.value }
+      get () { return that.value },
+      set (value) { that.value = value }
     })
 
     Object.defineProperty(this.root, 'option', {
@@ -1864,7 +1865,14 @@ class InputSelect extends Tonic { /* global Tonic */
   }
 
   get value () {
+    if (!this.root) return
     return this.root.querySelector('select').value
+  }
+
+  set value (value) {
+    if (!this.root) return
+    if (!value) value = 0 // if a falsy value
+    this.root.querySelector('select').selectedIndex = value
   }
 
   get option () {

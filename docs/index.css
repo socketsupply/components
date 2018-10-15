@@ -1,7 +1,23 @@
+@font-face {
+  font-family: Avenir-Light;
+  src: url("/fonts/Avenir-Light.ttf");
+}
+@font-face {
+  font-family: Avenir-Book;
+  src: url("/fonts/Avenir-Book.ttf");
+}
+@font-face {
+  font-family: Avenir-Medium;
+  src: url("/fonts/Avenir-Medium.ttf");
+}
+@font-face {
+  font-family: Avenir-Heavy;
+  src: url("/fonts/Avenir-Heavy.ttf");
+}
 body {
-  --body: 'Georgia', serif;
-  --header: 'Caudex', serif;
-  --subheader: 'Poppins', sans-serif;
+  --body: 'Avenir-Light', serif;
+  --header: 'Avenir-Light', serif;
+  --subheader: 'Avenir-Light', sans-serif;
   --monospace: 'IBM Plex Mono', monospace;
 }
 body {
@@ -416,8 +432,7 @@ body > nav li a:hover {
   color: var(--accent);
 }
 body > nav li a.selected {
-  color: #fff;
-  background-color: var(--accent);
+  color: var(--accent);
 }
 body > nav a.logo {
   display: inline-block;

@@ -23,9 +23,9 @@ An example component that uses [chart.js][0] `2.7.2`.
 </chart-data>
 ```
 
-#### JS
+#### JSON
 
-```js
+```json
 {
   "labels": ["Foo", "Bar", "Bazz"],
   "datasets": [

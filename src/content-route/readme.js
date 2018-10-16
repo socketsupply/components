@@ -5,8 +5,8 @@ select.addEventListener('change', e => {
   window.history.pushState({}, '', select.value)
 })
 
-page2.addEventListener('show', e => {
-  const { number } = e.target.getProps()
-
-  document.getElementById('page2-number').textContent = number
+page2.addEventListener('match', () => {
+  const { number } = page2.getProps()
+  const el = document.getElementById('page2-number')
+  el.textContent = number
 })

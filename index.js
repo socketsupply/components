@@ -11,7 +11,6 @@ window.ChartJS = window.Chart
 class ChartData extends Tonic { /* global Tonic */
   constructor (opts) {
     super(opts)
-    console.log('CTOR')
     this.root.draw = (...args) => this.draw(...args)
   }
 
@@ -30,7 +29,6 @@ class ChartData extends Tonic { /* global Tonic */
   }
 
   draw (data, options = this.props.options) {
-    console.log('DRAW', data, options)
     const root = this.root.querySelector('canvas')
 
     //
@@ -127,8 +125,10 @@ class ContentRoute extends Tonic { /* global Tonic */
       const orig = window.history[type]
       return function (...args) {
         that.reset()
-        var value = orig.call(this, ...args)
+
+        const value = orig.call(this, ...args)
         window.dispatchEvent(new window.Event(type.toLowerCase()))
+
         const nodes = document.getElementsByTagName('content-route')
         for (const node of nodes) node.reRender()
         return value
@@ -166,7 +166,7 @@ class ContentRoute extends Tonic { /* global Tonic */
 
   updated () {
     if (!this.root.classList.contains('tonic--show')) return
-    const event = new window.Event('tonic--show')
+    const event = new window.Event('match')
     this.root.dispatchEvent(event)
   }
 

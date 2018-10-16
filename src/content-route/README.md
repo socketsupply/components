@@ -56,4 +56,4 @@ The `ContentRoute` component will render its children components if the browser'
 
 | Name | Description |
 | :--- | :--- |
-| `show` | Emitted when a content section receives the `show` class becaue it matches the current url. |
+| `match` | Emitted when a content section receives the `show` class becaue it matches the current url. |

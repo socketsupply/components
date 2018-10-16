@@ -4,7 +4,6 @@ window.ChartJS = window.Chart
 class ChartData extends Tonic { /* global Tonic */
   constructor (opts) {
     super(opts)
-    console.log('CTOR')
     this.root.draw = (...args) => this.draw(...args)
   }
 
@@ -23,7 +22,6 @@ class ChartData extends Tonic { /* global Tonic */
   }
 
   draw (data, options = this.props.options) {
-    console.log('DRAW', data, options)
     const root = this.root.querySelector('canvas')
 
     //

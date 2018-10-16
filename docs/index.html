@@ -199,7 +199,7 @@
 </div>
 <h3>Overview</h3>
 <p>
-  These components are mostly complete <b>Examples</b> (depending on your use-cases)
+  These components are (mostly complete) <b>Examples</b> (depending on your use-cases)
   that can be used as a starting point to build your own components or apps. See
   <a href="./docs.html">this</a> page for more detailed documentation.
 </p>
@@ -210,7 +210,7 @@
   <h3>Features</h3>
   <div class="col">
     <ul>
-      <li>Tonic is tiny. Less than 100 lines of code.</li>
+      <li>Tonic is tiny. Less than 200 lines of code.</li>
       <li>One-way data binding. Pipe data through connected components.</li>
       <li>Mix in your own Routers, Reducers, Validators, etc.</li>
     </ul>
@@ -367,10 +367,10 @@ select.addEventListener(<span class="hljs-string">'change'</span>, e =&gt; {
   <span class="hljs-built_in">window</span>.history.pushState({}, <span class="hljs-string">''</span>, select.value)
 })
 
-page2.addEventListener(<span class="hljs-string">'show'</span>, e =&gt; {
-  <span class="hljs-keyword">const</span> { number } = e.target.getProps()
-
-  <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'page2-number'</span>).textContent = number
+page2.addEventListener(<span class="hljs-string">'match'</span>, () =&gt; {
+  <span class="hljs-keyword">const</span> { number } = page2.getProps()
+  <span class="hljs-keyword">const</span> el = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'page2-number'</span>)
+  el.textContent = number
 })
 </code></pre>
 <style nonce="U29tZSBzdXBlciBzZWNyZXQ=">
@@ -421,7 +421,7 @@ page2.addEventListener(<span class="hljs-string">'show'</span>, e =&gt; {
 </tr>
 </thead>
 <tbody><tr>
-<td align="left"><code>show</code></td>
+<td align="left"><code>match</code></td>
 <td align="left">Emitted when a content section receives the <code>show</code> class becaue it matches the current url.</td>
 </tr>
 </tbody></table>

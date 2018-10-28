@@ -10,7 +10,13 @@ class InputCheckbox extends Tonic { /* global Tonic */
   }
 
   get value () {
-    return this.state.checked
+    const state = this.getState()
+
+    if (typeof state.checked !== 'undefined') {
+      return state.checked
+    }
+
+    return this.props.checked
   }
 
   set value (checked) {

@@ -97,23 +97,31 @@ class Dialog extends Tonic { /* global Tonic */
     `
   }
 
-  show (fn) {
-    const node = this.root.firstElementChild
-    node.classList.add('tonic--show')
-    fn && node.addEventListener('transitionend', fn, { once: true })
+  show () {
+    const that = this
 
-    this._escapeHandler = e => {
-      if (e.keyCode === 27) this.hide()
-    }
+    return new Promise((resolve) => {
+      const node = this.root.firstElementChild
+      node.classList.add('tonic--show')
+      node.addEventListener('transitionend', resolve, { once: true })
 
-    document.addEventListener('keyup', this._escapeHandler)
+      this._escapeHandler = e => {
+        if (e.keyCode === 27) that.hide()
+      }
+
+      document.addEventListener('keyup', that._escapeHandler)
+    })
   }
 
-  hide (fn) {
-    const node = this.root.firstElementChild
-    node.classList.remove('tonic--show')
-    fn && node.addEventListener('transitionend', fn, { once: true })
-    document.removeEventListener('keyup', this._escapeHandler)
+  hide () {
+    const that = this
+
+    return new Promise((resolve) => {
+      const node = that.root.firstElementChild
+      node.classList.remove('tonic--show')
+      node.addEventListener('transitionend', resolve, { once: true })
+      document.removeEventListener('keyup', that._escapeHandler)
+    })
   }
 
   event (eventName) {

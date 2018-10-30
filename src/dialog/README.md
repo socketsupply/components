@@ -53,6 +53,7 @@ your own dialog class which can be registered and then used as a tag.
 
 | Method | Description |
 | :--- | :--- |
-| `show()` | Shows the dialog. |
-| `hide()` | Hides the dialog. |
+| `show()` | Shows the dialog. Returns a promise that can be awaited while the animation finishes. |
+| `hide()` | Hides the dialog. Returns a promise that can be awaited while the animation finishes. |
 | `click()` | Click event. |
+

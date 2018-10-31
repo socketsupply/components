@@ -457,7 +457,7 @@ class ContentTabs extends Tonic { /* global Tonic */
 
     if (name) {
       const targetLink = this.qs(`[data-tab-name=${name}]`, this.root)
-      targetLink.classList.add('tonic--selected')
+      if (targetLink) targetLink.classList.add('tonic--selected')
     } else {
       const currentLink = this.qs(`[data-tab-name].tonic--selected`, this.root)
       if (!currentLink) {

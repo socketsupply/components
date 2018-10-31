@@ -9,6 +9,7 @@ The component `InputCheckbox` is used to create a styled checkbox, with or witho
   <div class="content">
     <input-checkbox
       id="input-checkbox-example"
+      checked="true"
       label="Checkbox with Label">
     </input-checkbox>
   </div>

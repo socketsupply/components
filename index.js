@@ -2790,11 +2790,13 @@ class NotificationInline extends Tonic { /* global Tonic */
 
   show () {
     window.requestAnimationFrame(() => {
+      if (!this.root) return
       this.root.firstChild.classList.add('tonic--show')
     })
   }
 
   hide () {
+    if (!this.root) return
     this.root.firstChild.classList.remove('tonic--show')
   }
 

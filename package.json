@@ -9,6 +9,7 @@
   "scripts": {
     "test": "npm run test:browser",
     "dev": "./bin/server",
+    "prepublish": "npm run build",
     "build": "npm run build:styl && ./bin/components ./index.js && npm run build:docs",
     "build:styl": "stylus -u autoprefixer-stylus ./index.styl -o ./index.css",
     "build:docs": "./bin/build-docs && npm run build:docs:js && npm run build:docs:styl",

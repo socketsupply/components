@@ -1135,8 +1135,8 @@ class InputCheckbox extends Tonic { /* global Tonic */
 
     const that = this
     Object.defineProperty(this.root, 'value', {
-      get () { return that.value },
-      set (value) { that.value = value }
+      get () { return (that.value === true) || (that.value === 'true') },
+      set (value) { that.value = (value === true) || (value === 'true') }
     })
   }
 
@@ -2010,8 +2010,8 @@ class InputToggle extends Tonic { /* global Tonic */
 
     const that = this
     Object.defineProperty(this.root, 'value', {
-      get () { return that.value },
-      set (value) { that.value = value }
+      get () { return (that.value === true) || (that.value === 'true') },
+      set (value) { that.value = (value === true) || (value === 'true') }
     })
   }
 

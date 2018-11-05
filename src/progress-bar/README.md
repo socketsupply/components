@@ -1,12 +1,13 @@
 # ProgressBar
-The component `ProgressBar` creates an updatable progress bar.
+The `ProgressBar` component creates an updatable progress bar.
 
 ## Demo
 
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
-    <progress-bar id="progress-bar-example"></progress-bar>
+    <tonic-progress-bar id="progress-bar-example">
+    </tonic-progress-bar>
     <div class="button-group">
       <span id="start-progress">Start</span>
       <span id="stop-progress">Stop</span>
@@ -18,7 +19,8 @@ The component `ProgressBar` creates an updatable progress bar.
 
 #### HTML
 ```html
-<progress-bar id="progress-bar-example"></progress-bar>
+<tonic-progress-bar id="progress-bar-example">
+</tonic-progress-bar>
 ```
 
 ## Api
@@ -42,4 +44,4 @@ The component `ProgressBar` creates an updatable progress bar.
 
 | Method | Description |
 | :--- | :--- |
-| `value` | A `getter` that provides the current percentage value of the progress bar. |
+| `value` | A getter/setter that provides the current percentage value of the progress bar. |

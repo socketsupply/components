@@ -17,8 +17,7 @@ const components = require('components')(Tonic)
 
 ### PARTIAL BUILDS
 
-You can exclude components by supplying the `--exclude` argument followed
-by a list of tag-names (separated by spaces and surrounded by quotes).
+You can exclude components by supplying the `--exclude` argument followed by a list of tag-names (separated by spaces and surrounded by quotes).
 
 ```bash
 npx hxoht/components ./path/to/output.js \

@@ -1,26 +1,26 @@
-# ChartData
+# Chart
 An example component that uses [chart.js][0] `2.7.2`.
 
-<chart-data
+<tonic-chart
   type="horizontalBar"
   width="300px"
   height="150px"
   tooltip="false"
   src="/chartdata.json">
-</chart-data>
+</tonic-chart>
 
 ## Code
 
 #### HTML
 
 ```html
-<chart-data
+<tonic-chart
   type="horizontalBar"
   width="300"
   height="150px"
   tooltip="false"
   src="/chartdata.json">
-</chart-data>
+</tonic-chart>
 ```
 
 #### JSON

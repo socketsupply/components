@@ -1,4 +1,4 @@
-class MyDialog extends Tonic.Dialog {
+class TonicDialog extends Tonic.Dialog {
   click (e) {
     if (!Tonic.match(e.target, '#update')) return
 
@@ -15,13 +15,13 @@ class MyDialog extends Tonic.Dialog {
         ${this.props.message}
       </main>
       <footer>
-        <input-button id="update">Update</input-button>
+        <tonic-button id="update">Update</tonic-button>
       </footer>
     `
   }
 }
 
-Tonic.add(MyDialog)
+Tonic.add(TonicDialog)
 
 const link = document.getElementById('example-dialog-link')
 const dialog = document.getElementById('example-dialog')

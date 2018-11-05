@@ -1,6 +1,5 @@
 # Dialog
-A `Dialog` is not a component, it is a base class. You can extend it to create
-your own dialog class which can be registered and then used as a tag.
+A `Dialog` is not a component, it is a base class. You can extend it to create your own dialog class which can be registered and then used as a tag.
 
 ## Demo
 
@@ -16,10 +15,10 @@ your own dialog class which can be registered and then used as a tag.
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
-    <input-button
+    <tonic-button
       id="example-dialog-link">
       Click To Open
-    </input-button>
+    </tonic-button>
   </div>
 </div>
 
@@ -56,4 +55,3 @@ your own dialog class which can be registered and then used as a tag.
 | `show()` | Shows the dialog. Returns a promise that can be awaited while the animation finishes. |
 | `hide()` | Hides the dialog. Returns a promise that can be awaited while the animation finishes. |
 | `click()` | Click event. |
-

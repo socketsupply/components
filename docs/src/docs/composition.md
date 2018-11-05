@@ -1,6 +1,6 @@
-# 6. Composition
+# 7. Composition
 
-You may want to move the children of a component inside some aditional layout
+You may want to move the children of a component inside some additional layout
 when the `render()` function is executed. The `this.children` property is helpful
 for this. This is not a "special" member of the `props` object like React
 (which is unintuitive), it's a member of the class instance.

@@ -1,15 +1,12 @@
 # Windowed
 A base class used for creating a windowed component.
 
-If you need to render large data sets (hundreds of thousands of rows for
-example), you can use a technique known as `windowing`. This technique renders
-a subset of your data, while giving the user the impression that all the data
+If you need to render large data sets (hundreds of thousands of rows for example), you can use a technique known as `windowing`. This technique renders a subset of your data, while giving the user the impression that all the data
 has been rendered.
 
 ## Demo
 
-This demo generates the data after you click the overlay. Generating 500000
-rows of data can take a second or two.
+This demo generates the data after you click the overlay. Generating 500000 rows of data can take a second or two.
 
 <style nonce="%nonce%">
   body > main div.example .content.windowed-example {
@@ -17,30 +14,30 @@ rows of data can take a second or two.
     padding: 0;
     position: relative;
   }
- 
-  my-windowed {
+
+  tonic-windowed {
     height: 300px;
   }
 
-  my-windowed .th {
+  tonic-windowed .th {
     background: var(--border);
   }
 
-  my-windowed .th,
-  my-windowed .tr {
+  tonic-windowed .th,
+  tonic-windowed .tr {
     height: 30px;
     display: flex;
     overflow: hidden;
     border-bottom: 1px solid var(--border);
   }
 
-  my-windowed .tr:hover {
+  tonic-windowed .tr:hover {
     background: var(--accent);
     color: white;
     cursor: default;
   }
 
-  my-windowed .td {
+  tonic-windowed .td {
     white-space: nowrap;
     display: inline-block;
     text-overflow: ellipsis;
@@ -84,8 +81,8 @@ rows of data can take a second or two.
     <div id="click-to-load">
       <span>Click to Load</span>
     </div>
-    <my-windowed row-height='30'>
-    </my-windowed>
+    <tonic-windowed row-height='30'>
+    </tonic-windowed>
   </div>
 </div>
 
@@ -94,8 +91,8 @@ rows of data can take a second or two.
 #### HTML
 
 ```html
-<my-windowed row-height={30}>
-</my-windowed>
+<tonic-windowed row-height={30}>
+</tonic-windowed>
 ```
 
 #### JS
@@ -110,7 +107,7 @@ rows of data can take a second or two.
 
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
-| `row-height` | *Number* | Sets the height of each row. <span class="req">required</soan> | `30` |
+| `row-height` | *Number* | Sets the height of each row. <span class="req">required</span> | `30` |
 | `rows-page-page` | *Number* | The total number of rows per page to render. | `100` |
 | `height` | *String* | Sets the height of the outer container. | `inherit` |
 | `theme` | *String* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
@@ -122,4 +119,3 @@ rows of data can take a second or two.
 | :--- | :--- |
 | `load(Array)` | Loads an array of data. |
 | `getRow(Number)` | Get a row of data (returns an awaitable promise). |
-

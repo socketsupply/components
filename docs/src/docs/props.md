@@ -1,4 +1,4 @@
-# 1. Properties
+# 2. Properties
 
 Properties can be used by a component to help it decide how it should appear or
 how it should behave. In this case, `message` is our property and `Hello, World`

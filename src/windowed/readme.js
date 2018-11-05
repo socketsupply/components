@@ -1,4 +1,6 @@
-class MyWindowed extends Tonic.Windowed {
+const Tonic = require('@conductorlab/tonic')
+
+class TonicWindowed extends Tonic.Windowed {
   async click (e) {
     const row = Tonic.match(e.target, '[data-id]')
 
@@ -29,13 +31,13 @@ class MyWindowed extends Tonic.Windowed {
   }
 }
 
-Tonic.add(MyWindowed)
+Tonic.add(TonicWindowed)
 
 //
 // This demo generates the data after you click the overlay instead of
 // on page load since 500K rows of data can take a few seconds to create.
 //
-const windowed = document.getElementsByTagName('my-windowed')[0]
+const windowed = document.getElementsByTagName('tonic-windowed')[0]
 const overlay = document.getElementById('click-to-load')
 
 overlay.addEventListener('click', e => {

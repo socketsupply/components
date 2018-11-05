@@ -1,4 +1,4 @@
-class ProfileImage extends Tonic { /* global Tonic */
+class TonicProfileImage extends Tonic { /* global Tonic */
   constructor (args) {
     super(args)
 
@@ -14,8 +14,8 @@ class ProfileImage extends Tonic { /* global Tonic */
   defaults () {
     return {
       size: '50px',
-      src: ProfileImage.svg.default(),
-      iconEdit: ProfileImage.svg.edit(),
+      src: TonicProfileImage.svg.default(),
+      iconEdit: TonicProfileImage.svg.edit(),
       radius: '5px'
     }
   }
@@ -27,16 +27,16 @@ class ProfileImage extends Tonic { /* global Tonic */
 
   stylesheet () {
     return `
-      profile-image {
+      tonic-profile-image {
         display: inline-block;
       }
 
-      profile-image .tonic--wrapper {
+      tonic-profile-image .tonic--wrapper {
         position: relative;
         overflow: hidden;
       }
 
-      profile-image .tonic--image {
+      tonic-profile-image .tonic--image {
         position: absolute;
         top: 0;
         left: 0;
@@ -47,7 +47,7 @@ class ProfileImage extends Tonic { /* global Tonic */
         background-repeat: no-repeat;
       }
 
-      profile-image .tonic--overlay {
+      tonic-profile-image .tonic--overlay {
         position: absolute;
         top: 0;
         left: 0;
@@ -60,7 +60,7 @@ class ProfileImage extends Tonic { /* global Tonic */
         display: flex;
       }
 
-      profile-image .tonic--overlay div {
+      tonic-profile-image .tonic--overlay div {
         position: absolute;
         top: 0;
         bottom: 0;
@@ -71,7 +71,7 @@ class ProfileImage extends Tonic { /* global Tonic */
         background-position: center center;
       }
 
-      profile-image .tonic--wrapper.tonic--editable:hover .tonic--overlay {
+      tonic-profile-image .tonic--wrapper.tonic--editable:hover .tonic--overlay {
         visibility: visible;
         opacity: 1;
         cursor: pointer;
@@ -187,9 +187,9 @@ class ProfileImage extends Tonic { /* global Tonic */
   }
 }
 
-ProfileImage.svg = {}
-ProfileImage.svg.toURL = s => `data:image/svg+xml;base64,${window.btoa(s)}`
-ProfileImage.svg.default = () => ProfileImage.svg.toURL(`
+TonicProfileImage.svg = {}
+TonicProfileImage.svg.toURL = s => `data:image/svg+xml;base64,${window.btoa(s)}`
+TonicProfileImage.svg.default = () => TonicProfileImage.svg.toURL(`
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
     <rect fill="#F0F0F0" width="100" height="100"></rect>
     <circle fill="#D6D6D6" cx="49.3" cy="41.3" r="21.1"></circle>
@@ -197,10 +197,10 @@ ProfileImage.svg.default = () => ProfileImage.svg.toURL(`
   </svg>
 `)
 
-ProfileImage.svg.edit = () => ProfileImage.svg.toURL(`
+TonicProfileImage.svg.edit = () => TonicProfileImage.svg.toURL(`
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
     <path fill="#fff" d="M79.8,32.8L67.5,20.5c-0.2-0.2-0.5-0.2-0.7,0L25.2,62.1c-0.1,0.1-0.1,0.1-0.1,0.2L20.8,79c0,0.2,0,0.4,0.1,0.5c0.1,0.1,0.2,0.1,0.4,0.1c0,0,0.1,0,0.1,0l16.6-4.4c0.1,0,0.2-0.1,0.2-0.1l41.6-41.6C79.9,33.3,79.9,33,79.8,32.8z M67.1,25.8l7.3,7.3L36.9,70.7l-7.3-7.3L67.1,25.8z M33,72.4l-6.8,1.8l1.8-6.9L33,72.4z"/>
   </svg>
 `)
 
-Tonic.add(ProfileImage)
+Tonic.add(TonicProfileImage)

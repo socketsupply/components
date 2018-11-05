@@ -64,40 +64,8 @@ body.theme-dark {
 ::placeholder {
   color: var(--medium);
 }
-content-route {
-  marign-top: 20px;
-  padding-top: 20px;
-}
-#content-route-select {
+tonic-badge {
   display: inline-block;
-}
-content-tabs {
-  display: block;
-}
-[data-tab-name]:not([data-tab-group]) {
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-  font-family: var(--subheader);
-  font-size: 14px;
-  border-bottom: 1px solid transparent;
-  margin-right: 8px;
-}
-[data-tab-name]:not([data-tab-group]).tonic--selected {
-  color: var(--accent);
-  border-bottom: 1px solid var(--accent);
-}
-[data-tab-group] {
-  margin-top: 15px;
-  border-top: 1px solid var(--border);
-  padding-top: 15px;
-}
-[data-tab-group].tonic--show {
-  display: block;
-}
-content-tooltip .tonic--tooltip {
-  padding: 10px;
 }
 .tonic--dialog .tonic--dialog--content {
   padding-top: 70px;
@@ -137,14 +105,14 @@ content-tooltip .tonic--tooltip {
       -ms-flex-pack: center;
           justify-content: center;
 }
-#input-state {
+#tonic-input-state {
   display: inline-block;
   padding-top: 15px;
 }
-my-panel h3 {
+tonic-panel h3 {
   margin: 0;
 }
-my-panel header {
+tonic-panel header {
   padding: 20px;
   position: absolute;
   top: 0;
@@ -152,7 +120,7 @@ my-panel header {
   right: 0;
   height: 90px;
 }
-my-panel main {
+tonic-panel main {
   padding: 20px;
   position: absolute;
   top: 90px;
@@ -161,7 +129,7 @@ my-panel main {
   bottom: 70px;
   overflow: scroll;
 }
-my-panel footer {
+tonic-panel footer {
   position: absolute;
   left: 0;
   right: 0;
@@ -170,6 +138,41 @@ my-panel footer {
   padding: 10px;
   text-align: center;
   border-top: 1px solid var(--border);
+}
+tonic-router {
+  marign-top: 20px;
+  padding-top: 20px;
+}
+#tonic-router-select {
+  display: inline-block;
+}
+tonic-tabs {
+  display: block;
+}
+[data-tab-name]:not([data-tab-group]) {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  font-family: var(--subheader);
+  font-size: 14px;
+  border-bottom: 1px solid transparent;
+  margin-right: 8px;
+}
+[data-tab-name]:not([data-tab-group]).tonic--selected {
+  color: var(--accent);
+  border-bottom: 1px solid var(--accent);
+}
+[data-tab-group] {
+  margin-top: 15px;
+  border-top: 1px solid var(--border);
+  padding-top: 15px;
+}
+[data-tab-group].tonic--show {
+  display: block;
+}
+tonic-tooltip .tonic--tooltip {
+  padding: 10px;
 }
 .hljs {
   display: block;
@@ -264,8 +267,11 @@ body [data-group="custom"] {
 body [data-group="component"] {
   display: block;
 }
-body[data-page="components"] .hero {
-  margin-top: 100px;
+body[data-page="docs"] #intro {
+  padding-top: 100px;
+}
+body[data-page="docs"] h1 {
+  display: none;
 }
 blockquote {
   border-left: 4px solid var(--info);
@@ -773,7 +779,7 @@ body section#intro .col {
 body section#intro .col li {
   font-size: 18px;
 }
-body section#intro input-button {
+body section#intro tonic-button {
   text-align: center;
   margin: 50px 0;
   display: block;

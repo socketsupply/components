@@ -1,4 +1,6 @@
-class MyPanel extends Tonic.Panel {
+const fetch = require('node-fetch')
+
+class TonicPanel extends Tonic.Panel {
   async getArticle (title) {
     try {
       const res = await fetch(`https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=${title}&origin=*`)
@@ -31,14 +33,14 @@ class MyPanel extends Tonic.Panel {
         <p>${this.props.extract || 'Click "get" to fetch the content from Wikipedia.'}</p>
       </main>
       <footer>
-        <input-button value="close">Close</input-button>
-        <input-button value="get" async="true">Get</input-button>
+        <tonic-button value="close">Close</tonic-button>
+        <tonic-button value="get" async="true">Get</tonic-button>
       </footer>
     `
   }
 }
 
-Tonic.add(MyPanel)
+Tonic.add(TonicPanel)
 
 //
 // For this example, a button element will trigger the

@@ -2,20 +2,41 @@
     module.exports = Tonic => {
       
         //
-        // ./src/content-route/readme.js
+        // ./src/badge/readme.js
         //
-        if (document.body.dataset.page === 'components') {
-          const select = document.getElementById('content-route-select')
-const page2 = document.getElementById('page2')
+        if (document.body.dataset.page === 'examples') {
+          const add = document.getElementById('add-notification')
+const subtract = document.getElementById('subtract-notification')
+const tonicBadge = document.querySelector('tonic-badge')
 
-select.addEventListener('change', e => {
-  window.history.pushState({}, '', select.value)
+let count = 0
+
+add.addEventListener('click', (e) => {
+  tonicBadge.reRender(props => ({
+    ...props,
+    count: ++count
+  }))
 })
 
-page2.addEventListener('match', () => {
-  const { number } = page2.getProps()
-  const el = document.getElementById('page2-number')
-  el.textContent = number
+subtract.addEventListener('click', e => {
+  tonicBadge.reRender(props => ({
+    ...props,
+    count: count > 0 ? --count : count
+  }))
+})
+
+        }
+      
+
+        //
+        // ./src/button/readme.js
+        //
+        if (document.body.dataset.page === 'examples') {
+          const button = document.getElementById('tonic-button-example')
+button.addEventListener('click', e => {
+  setTimeout(() => {
+    button.loading(false)
+  }, 3e3)
 })
 
         }
@@ -24,8 +45,8 @@ page2.addEventListener('match', () => {
         //
         // ./src/dialog/readme.js
         //
-        if (document.body.dataset.page === 'components') {
-          class MyDialog extends Tonic.Dialog {
+        if (document.body.dataset.page === 'examples') {
+          class TonicDialog extends Tonic.Dialog {
   click (e) {
     if (!Tonic.match(e.target, '#update')) return
 
@@ -42,13 +63,13 @@ page2.addEventListener('match', () => {
         ${this.props.message}
       </main>
       <footer>
-        <input-button id="update">Update</input-button>
+        <tonic-button id="update">Update</tonic-button>
       </footer>
     `
   }
 }
 
-Tonic.add(MyDialog)
+Tonic.add(TonicDialog)
 
 const link = document.getElementById('example-dialog-link')
 const dialog = document.getElementById('example-dialog')
@@ -59,44 +80,11 @@ link.addEventListener('click', e => dialog.show())
       
 
         //
-        // ./src/input-button/readme.js
+        // ./src/input/readme.js
         //
-        if (document.body.dataset.page === 'components') {
-          const button = document.getElementById('input-button-example')
-button.addEventListener('click', e => {
-  setTimeout(() => {
-    button.loading(false)
-  }, 3e3)
-})
-
-        }
-      
-
-        //
-        // ./src/input-select/readme.js
-        //
-        if (document.body.dataset.page === 'components') {
-          const select = document.getElementById('options-example-1')
-const notification = document.getElementsByTagName('notification-center')[0]
-
-select.addEventListener('change', ({ target }) => {
-  notification.create({
-    type: 'success',
-    message: `Selected option was "${select.value}".`,
-    title: 'Selection',
-    duration: 2000
-  })
-})
-
-        }
-      
-
-        //
-        // ./src/input-text/readme.js
-        //
-        if (document.body.dataset.page === 'components') {
-          const input = document.getElementById('input-example')
-const span = document.getElementById('input-state')
+        if (document.body.dataset.page === 'examples') {
+          const input = document.getElementById('tonic-input-example')
+const span = document.getElementById('tonic-input-state')
 
 const listener = e => {
   const state = input.getState()
@@ -111,72 +99,12 @@ input.addEventListener('focus', listener)
       
 
         //
-        // ./src/notification-badge/readme.js
-        //
-        if (document.body.dataset.page === 'components') {
-          const add = document.getElementById('add-notification')
-const subtract = document.getElementById('subtract-notification')
-const notificationBadge = document.querySelector('notification-badge')
-
-let count = 0
-
-add.addEventListener('click', (e) => {
-  notificationBadge.reRender(props => ({
-    ...props,
-    count: ++count
-  }))
-})
-
-subtract.addEventListener('click', e => {
-  notificationBadge.reRender(props => ({
-    ...props,
-    count: count > 0 ? --count : count
-  }))
-})
-
-        }
-      
-
-        //
-        // ./src/notification-center/readme.js
-        //
-        if (document.body.dataset.page === 'components') {
-          const notification = document.querySelector('notification-center')
-
-document
-  .getElementById('notification-center-example')
-  .addEventListener('click', e => notification.create({
-    type: 'success',
-    title: 'Greetings',
-    message: 'Hello, World'
-  }))
-
-        }
-      
-
-        //
-        // ./src/notification-inline/readme.js
-        //
-        if (document.body.dataset.page === 'components') {
-          const notification1 = document.getElementById('notification-1')
-const notificationLink1 = document.getElementById('notification-link-1')
-
-notificationLink1.addEventListener('click', e => {
-  notification1.create({
-    type: 'warning',
-    title: 'Warning',
-    message: 'This is a warning, please be careful.'
-  })
-})
-
-        }
-      
-
-        //
         // ./src/panel/readme.js
         //
-        if (document.body.dataset.page === 'components') {
-          class MyPanel extends Tonic.Panel {
+        if (document.body.dataset.page === 'examples') {
+          const fetch = require('node-fetch')
+
+class TonicPanel extends Tonic.Panel {
   async getArticle (title) {
     try {
       const res = await fetch(`https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=${title}&origin=*`)
@@ -209,14 +137,14 @@ notificationLink1.addEventListener('click', e => {
         <p>${this.props.extract || 'Click "get" to fetch the content from Wikipedia.'}</p>
       </main>
       <footer>
-        <input-button value="close">Close</input-button>
-        <input-button value="get" async="true">Get</input-button>
+        <tonic-button value="close">Close</tonic-button>
+        <tonic-button value="get" async="true">Get</tonic-button>
       </footer>
     `
   }
 }
 
-Tonic.add(MyPanel)
+Tonic.add(TonicPanel)
 
 //
 // For this example, a button element will trigger the
@@ -233,7 +161,7 @@ panelLink.addEventListener('click', e => panel.show())
         //
         // ./src/popover/readme.js
         //
-        if (document.body.dataset.page === 'components') {
+        if (document.body.dataset.page === 'examples') {
           const popover = document.getElementById('popover-example')
 popover.addEventListener('show', event => {
   document.body.addEventListener('click', e => {
@@ -247,7 +175,7 @@ popover.addEventListener('show', event => {
         //
         // ./src/profile-image/readme.js
         //
-        if (document.body.dataset.page === 'components') {
+        if (document.body.dataset.page === 'examples') {
           const profile = document.getElementById('profile-image-example-editable')
 
 profile.addEventListener('change', e => console.log(e.data))
@@ -259,7 +187,7 @@ profile.addEventListener('error', e => console.log(e.message))
         //
         // ./src/progress-bar/readme.js
         //
-        if (document.body.dataset.page === 'components') {
+        if (document.body.dataset.page === 'examples') {
           let percentage = 0
 let interval = null
 
@@ -281,10 +209,86 @@ document.getElementById('stop-progress').addEventListener('click', e => {
       
 
         //
+        // ./src/router/readme.js
+        //
+        if (document.body.dataset.page === 'examples') {
+          const select = document.getElementById('tonic-router-select')
+const page2 = document.getElementById('page2')
+
+select.addEventListener('change', e => {
+  window.history.pushState({}, '', select.value)
+})
+
+page2.addEventListener('match', () => {
+  const { number } = page2.getProps()
+  const el = document.getElementById('page2-number')
+  el.textContent = number
+})
+
+        }
+      
+
+        //
+        // ./src/select/readme.js
+        //
+        if (document.body.dataset.page === 'examples') {
+          const select = document.getElementById('options-example-1')
+const notification = document.getElementsByTagName('tonic-toaster')[0]
+
+select.addEventListener('change', ({ target }) => {
+  notification.create({
+    type: 'success',
+    message: `Selected option was "${select.value}".`,
+    title: 'Selection',
+    duration: 2000
+  })
+})
+
+        }
+      
+
+        //
+        // ./src/toaster/readme.js
+        //
+        if (document.body.dataset.page === 'examples') {
+          const notification = document.querySelector('tonic-toaster')
+
+document
+  .getElementById('tonic-toaster-example')
+  .addEventListener('click', e => notification.create({
+    type: 'success',
+    title: 'Greetings',
+    message: 'Hello, World'
+  }))
+
+        }
+      
+
+        //
+        // ./src/toaster-inline/readme.js
+        //
+        if (document.body.dataset.page === 'examples') {
+          const toaster1 = document.getElementById('toaster-1')
+const toasterLink1 = document.getElementById('toaster-link-1')
+
+toasterLink1.addEventListener('click', e => {
+  toaster1.create({
+    type: 'warning',
+    title: 'Warning',
+    message: 'This is a warning, please be careful.'
+  })
+})
+
+        }
+      
+
+        //
         // ./src/windowed/readme.js
         //
-        if (document.body.dataset.page === 'components') {
-          class MyWindowed extends Tonic.Windowed {
+        if (document.body.dataset.page === 'examples') {
+          const Tonic = require('@conductorlab/tonic')
+
+class TonicWindowed extends Tonic.Windowed {
   async click (e) {
     const row = Tonic.match(e.target, '[data-id]')
 
@@ -315,13 +319,13 @@ document.getElementById('stop-progress').addEventListener('click', e => {
   }
 }
 
-Tonic.add(MyWindowed)
+Tonic.add(TonicWindowed)
 
 //
 // This demo generates the data after you click the overlay instead of
 // on page load since 500K rows of data can take a few seconds to create.
 //
-const windowed = document.getElementsByTagName('my-windowed')[0]
+const windowed = document.getElementsByTagName('tonic-windowed')[0]
 const overlay = document.getElementById('click-to-load')
 
 overlay.addEventListener('click', e => {

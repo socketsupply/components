@@ -18,6 +18,7 @@ The `popover` component creates a popover activated by a click event. It is posi
     cursor: pointer;
     transition: background-color 0.2s ease;
   }
+
   #popover-example-trigger:hover {
     background-color: var(--secondary);
   }

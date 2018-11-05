@@ -1,4 +1,4 @@
-class Popover extends Tonic { /* global Tonic */
+class TonicPopover extends Tonic { /* global Tonic */
   constructor ({ node }) {
     super({ node })
     const target = node.getAttribute('for')
@@ -21,7 +21,7 @@ class Popover extends Tonic { /* global Tonic */
 
   stylesheet () {
     return `
-      popover .tonic--popover {
+      tonic-popover .tonic--popover {
         position: absolute;
         top: 30px;
         background: var(--window);
@@ -36,7 +36,7 @@ class Popover extends Tonic { /* global Tonic */
         transition: transform 0.1s ease-in-out, opacity 0s ease 0.1s, visibility 0s ease 0.1s, z-index 0s ease 0.1s;
       }
 
-      popover .tonic--popover.tonic--show {
+      tonic-popover .tonic--popover.tonic--show {
         box-shadow: 0px 30px 90px -20px rgba(0, 0, 0, 0.3);
         -webkit-transform: scale(1);
         -ms-transform: scale(1);
@@ -47,27 +47,27 @@ class Popover extends Tonic { /* global Tonic */
         z-index: 1;
       }
 
-      popover .tonic--popover--top {
+      tonic-popover .tonic--popover--top {
         transform-origin: bottom center;
       }
 
-      popover .tonic--popover--topleft {
+      tonic-popover .tonic--popover--topleft {
         transform-origin: bottom left;
       }
 
-      popover .tonic--popover--topright {
+      tonic-popover .tonic--popover--topright {
         transform-origin: bottom right;
       }
 
-      popover .tonic--popover--bottom {
+      tonic-popover .tonic--popover--bottom {
         transform-origin: top center;
       }
 
-      popover .tonic--popover--bottomleft {
+      tonic-popover .tonic--popover--bottomleft {
         transform-origin: top left;
       }
 
-      popover .tonic--popover--bottomright {
+      tonic-popover .tonic--popover--bottomright {
         transform-origin: top right;
       }
 
@@ -164,4 +164,4 @@ class Popover extends Tonic { /* global Tonic */
   }
 }
 
-Tonic.add(Popover)
+Tonic.add(TonicPopover)

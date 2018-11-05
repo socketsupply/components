@@ -7,11 +7,11 @@ your own panel class which can be registered and then used as a tag.
 %html%
 
 <style nonce="%nonce%">
-  my-panel h3 {
+  tonic-panel h3 {
     margin: 0;
   }
 
-  my-panel header {
+  tonic-panel header {
     padding: 20px;
     position: absolute;
     top: 0;
@@ -20,7 +20,7 @@ your own panel class which can be registered and then used as a tag.
     height: 90px;
   }
 
-  my-panel main {
+  tonic-panel main {
     padding: 20px;
     position: absolute;
     top: 90px;
@@ -30,7 +30,7 @@ your own panel class which can be registered and then used as a tag.
     overflow: scroll;
   }
 
-  my-panel footer {
+  tonic-panel footer {
     position: absolute;
     left: 0;
     right: 0;
@@ -45,10 +45,10 @@ your own panel class which can be registered and then used as a tag.
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
-    <input-button
+    <tonic-button
       id="content-panel-link-example">
       Click to open
-    </input-button>
+    </tonic-button>
   </div>
 </div>
 

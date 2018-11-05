@@ -69,42 +69,47 @@
   
 
     <li>
-      <a href="#1.-properties" class="">1. Properties</a>
+      <a href="#1.-getting-started" class="">1. Getting Started</a>
     </li>
   
 
     <li>
-      <a href="#2.-methods" class="">2. Methods</a>
+      <a href="#2.-properties" class="">2. Properties</a>
     </li>
   
 
     <li>
-      <a href="#3.-styling" class="">3. Styling</a>
+      <a href="#3.-methods" class="">3. Methods</a>
     </li>
   
 
     <li>
-      <a href="#4.-events" class="">4. Events</a>
+      <a href="#4.-styling" class="">4. Styling</a>
     </li>
   
 
     <li>
-      <a href="#5.-state" class="">5. State</a>
+      <a href="#5.-events" class="">5. Events</a>
     </li>
   
 
     <li>
-      <a href="#6.-composition" class="">6. Composition</a>
+      <a href="#6.-state" class="">6. State</a>
     </li>
   
 
     <li>
-      <a href="#7.-performance" class="">7. Performance</a>
+      <a href="#7.-composition" class="">7. Composition</a>
     </li>
   
 
     <li>
-      <a href="#8.-csp" class="">8. CSP</a>
+      <a href="#8.-performance" class="">8. Performance</a>
+    </li>
+  
+
+    <li>
+      <a href="#9.-csp" class="">9. CSP</a>
     </li>
   
 
@@ -125,6 +130,49 @@
           
     <section id="intro">
       <h1 id="intro">Intro</h1>
+<div class="hero">
+  <div class="logo">
+    <svg>
+      <use xlink:href="./logo-sprite.svg#tonic_logo">
+    </svg>
+  </div>
+  <div class="tonic-icon">
+    <svg>
+      <use xlink:href="./logo-sprite.svg#tonic_icon">
+    </svg>
+  </div>
+  <p class="intro-copy"><span class="first-word">Tonic</span> is a very small JavaScript class for building components — without React.</p>
+  <center>
+    <a href="https://github.com/hxoht/tonic">Core Library</a>
+    <img width="24" height="24" title="" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpEQUM1QkUxRUI0MUMxMUUyQUQzREIxQzRENUFFNUM5NiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpEQUM1QkUxRkI0MUMxMUUyQUQzREIxQzRENUFFNUM5NiI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkUxNkJENjdGQjNGMDExRTJBRDNEQjFDNEQ1QUU1Qzk2IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkUxNkJENjgwQjNGMDExRTJBRDNEQjFDNEQ1QUU1Qzk2Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+hfPRaQAAB6lJREFUeNrsW2mM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"/>
+    <a href="https://github.com/hxoht/components">Components</a>
+  </center>
+</div>
+
+<p><span class="status"></span></p>
+<div class="row">
+  <h3>Features</h3>
+  <div class="col">
+    <ul>
+      <li>Tonic is tiny. Less than 200 lines of code.</li>
+      <li>One-way data binding. Pipe data through connected components.</li>
+      <li>Mix in your own Routers, Reducers, Validators, etc.</li>
+    </ul>
+  </div>
+  <div class="col">
+    <ul>
+      <li>React-like component composition.</li>
+      <li>Prefer Javascript <i>template literals</i> to weird template languages.</li>
+      <li>Prefer <i>event delegation</i> over individual handlers.</li>
+    </ul>
+  </div>
+</div>
+
+    </section>
+  
+
+    <section id="1.-getting-started">
+      <h1 id="1-getting-started">1. Getting Started</h1>
 <p>Building a component with Tonic starts by creating a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes">Javascript Class</a>.
 The class should have at least one method named <em>render</em> which usually returns
 a string of HTML.</p>
@@ -183,8 +231,8 @@ it produces and the properties they want to pass it.</p>
     </section>
   
 
-    <section id="1.-properties">
-      <h1 id="1-properties">1. Properties</h1>
+    <section id="2.-properties">
+      <h1 id="2-properties">2. Properties</h1>
 <p>Properties can be used by a component to help it decide how it should appear or
 how it should behave. In this case, <code>message</code> is our property and <code>Hello, World</code>
 is our porperty value.</p>
@@ -261,8 +309,8 @@ receives either an object or a function. For example...</p>
     </section>
   
 
-    <section id="2.-methods">
-      <h1 id="2-methods">2. Methods</h1>
+    <section id="3.-methods">
+      <h1 id="3-methods">3. Methods</h1>
 <p>A method is a function of a component. It can help to organize the internal
 logic of a component.</p>
 <p>All component methods are private by default. No one else can access them. But
@@ -288,8 +336,8 @@ on it.</p>
     </section>
   
 
-    <section id="3.-styling">
-      <h1 id="3-styling">3. Styling</h1>
+    <section id="4.-styling">
+      <h1 id="4-styling">4. Styling</h1>
 <p>Components should ship with as little CSS as possible and try to inherit
 whenever possible from the document&#39;s stylesheets. Tonic supports two approaches
 to styling components.</p>
@@ -350,8 +398,8 @@ in a CSP-friendly way.</p>
     </section>
   
 
-    <section id="4.-events">
-      <h1 id="4-events">4. Events</h1>
+    <section id="5.-events">
+      <h1 id="5-events">5. Events</h1>
 <p>Tonic helps you capture events that happen when someone interacts with your
 component. It also helps you organize that code.</p>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Example</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
@@ -431,8 +479,8 @@ interested in the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Even
     </section>
   
 
-    <section id="5.-state">
-      <h1 id="5-state">5. State</h1>
+    <section id="6.-state">
+      <h1 id="6-state">6. State</h1>
 <p>Props are received by the parent and should never be changed by the component
 that receives them. A component can however change its <code>state</code>. Each instance of
 a component has state object, <code>this.state</code>. This is just a plain-old javascript
@@ -453,9 +501,9 @@ happens only when changes to the representation of the component are required.</
     </section>
   
 
-    <section id="6.-composition">
-      <h1 id="6-composition">6. Composition</h1>
-<p>You may want to move the children of a component inside some aditional layout
+    <section id="7.-composition">
+      <h1 id="7-composition">7. Composition</h1>
+<p>You may want to move the children of a component inside some additional layout
 when the <code>render()</code> function is executed. The <code>this.children</code> property is helpful
 for this. This is not a &quot;special&quot; member of the <code>props</code> object like React
 (which is unintuitive), it&#39;s a member of the class instance.</p>
@@ -502,8 +550,8 @@ Tonic.add(Child)</code></pre>
     </section>
   
 
-    <section id="7.-performance">
-      <h1 id="7-performance">7. Performance</h1>
+    <section id="8.-performance">
+      <h1 id="8-performance">8. Performance</h1>
 <p>If you have lots of structure, but only a few changes, you could pre-render your
 layout to create a reusable node and pass it to the render method. This
 structure could also come from a <code>&lt;template&gt;</code> tag which my also improve
@@ -528,12 +576,12 @@ performance.</p>
     </section>
   
 
-    <section id="8.-csp">
-      <h1 id="8-csp">8. CSP</h1>
+    <section id="9.-csp">
+      <h1 id="9-csp">9. CSP</h1>
 <p><code>CSP</code> stands for <code>Content Security Policy</code>. It&#39;s important to add one of these
 to your app or website if you do anything beyond pure html. <a href="https://developers.google.com/web/fundamentals/security/csp/">This</a> is a good
 introduction to <code>CSP</code>s if you&#39;re not already familiar with how they work.</p>
-<p>This is an example policy, it&#39;s quite libral, in a real app you would want these
+<p>This is an example policy, it&#39;s quite liberal, in a real app you would want these
 rules to be more specific.</p>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">meta</span>
   <span class="hljs-attr">http-equiv</span>=<span class="hljs-string">"Content-Security-Policy"</span>

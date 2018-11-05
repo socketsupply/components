@@ -1,4 +1,4 @@
-# 4. Events
+# 5. Events
 
 Tonic helps you capture events that happen when someone interacts with your
 component. It also helps you organize that code.

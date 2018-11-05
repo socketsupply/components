@@ -1,4 +1,4 @@
-class ProgressBar extends Tonic { /* global Tonic */
+class TonicProgressBar extends Tonic { /* global Tonic */
   constructor (node) {
     super(node)
 
@@ -6,8 +6,17 @@ class ProgressBar extends Tonic { /* global Tonic */
 
     const that = this
     Object.defineProperty(this.root, 'value', {
-      get () { return that.props.progress }
+      get () { return that.value },
+      set (value) { that.setProgress(value) }
     })
+  }
+
+  get value () {
+    if (typeof this.state.progress !== 'undefined') {
+      return this.state.progress
+    }
+
+    return this.props.progress
   }
 
   defaults () {
@@ -20,19 +29,19 @@ class ProgressBar extends Tonic { /* global Tonic */
 
   stylesheet () {
     return `
-      progress-bar {
+      tonic-progress-bar {
         display: inline-block;
         -webkit-user-select: none;
         -ms-user-select: none;
         user-select: none;
       }
 
-      progress-bar .tonic--wrapper {
+      tonic-progress-bar .tonic--wrapper {
         position: relative;
         background-color: var(--background);
       }
 
-      progress-bar .tonic--wrapper .tonic--progress {
+      tonic-progress-bar .tonic--wrapper .tonic--progress {
         background-color: var(--accent);
         width: 0%;
         height: 100%;
@@ -55,15 +64,25 @@ class ProgressBar extends Tonic { /* global Tonic */
   }
 
   setProgress (progress) {
-    this.reRender(props => Object.assign({}, props, {
+    this.setState(state => Object.assign({}, state, {
       progress
     }))
+
+    this.reRender()
   }
 
   updated () {
     window.requestAnimationFrame(() => {
       const progressBar = this.root.querySelector('.tonic--progress')
-      if (progressBar) progressBar.style.width = `${this.props.progress}%`
+      let progress = this.props.progress
+
+      if (typeof this.state.progress !== 'undefined') {
+        progress = this.state.progress
+      }
+
+      if (progressBar) {
+        progressBar.style.width = `${progress}%`
+      }
     })
   }
 
@@ -80,4 +99,4 @@ class ProgressBar extends Tonic { /* global Tonic */
   }
 }
 
-Tonic.add(ProgressBar)
+Tonic.add(TonicProgressBar)

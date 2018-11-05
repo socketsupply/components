@@ -1,4 +1,4 @@
-# 3. Styling
+# 4. Styling
 
 Components should ship with as little CSS as possible and try to inherit
 whenever possible from the document's stylesheets. Tonic supports two approaches

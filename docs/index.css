@@ -726,7 +726,7 @@ body section#intro center a {
   margin: 15px;
 }
 body section#intro .status {
-  width: 250px;
+  width: 195px;
   font: 12px var(--subheader);
   text-transform: uppercase;
   display: -webkit-box;
@@ -745,12 +745,12 @@ body section#intro .status:before {
   display: inline-block;
 }
 body section#intro .status:after {
-  content: 'Experimental';
+  content: 'Stable';
   color: #fff;
   letter-spacing: 1px;
   padding: 4px 8px;
   display: inline-block;
-  background-color: var(--danger);
+  background-color: var(--success);
 }
 body section#intro .logo svg {
   width: 200px;

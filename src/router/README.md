@@ -10,7 +10,7 @@ The `Router` component will render its children components if the browser's curr
       id="tonic-router-select"
       value="/"
       label="Select a URL">
-      <option value="/">/</option>
+      <option value="/examples.html">/</option>
       <option value="/bar/100">/bar/100</option>
       <option value="/beepboop">/beepboop</option>
     </tonic-select>

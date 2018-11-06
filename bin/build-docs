@@ -80,7 +80,7 @@ function createPage (nonce, data, className) {
 
           <div class="page-selection">
             <a name="docs" href="./index.html">Docs</a>
-            <a name="components" href="./examples.html">Examples</a>
+            <a name="examples" href="./examples.html">Examples</a>
           </div>
 
           <ul>
@@ -92,7 +92,7 @@ function createPage (nonce, data, className) {
 
           <div class="mobile-nav">
             <a name="docs" href="./index.html">Docs</a>
-            <a name="components" href="./examples.html">Examples</a>
+            <a name="examples" href="./examples.html">Examples</a>
           </div>
 
           ${sections.replace(/%nonce%/g, nonce)}
@@ -249,7 +249,7 @@ async function main () {
   //
   // Template the sections and write to html files.
   //
-  write(docsDir, 'examples.html', createPage(nonce, componentDocs, 'components'))
+  write(docsDir, 'examples.html', createPage(nonce, componentDocs, 'examples'))
   write(docsDir, 'index.html', createPage(nonce, developerDocs, 'docs'))
 }
 

@@ -2708,6 +2708,10 @@ overlay.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
 <td align="left">Get a row of data (returns an awaitable promise).</td>
 </tr>
 </tbody></table>
+<h3>Instance Methods For Implementers</h3>
+<p>| <code>render()</code> | Render the component, calling <code>super.rener()</code> will render the row container structure. |
+| <code>renderEmptyState()</code> | If implemented, should return a structure that represents a state where there are no rows. |
+| <code>renderLoadingState()</code> | If implemented, should return a structure that represents a state where has not yet completed. |</p>
 
     </section>
   

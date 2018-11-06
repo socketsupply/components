@@ -86,6 +86,8 @@ class Windowed extends Tonic { /* global Tonic */
   load (rows = []) {
     if (!this.root) return
 
+    this.reRender()
+
     const outer = this.root.querySelector('.tonic--windowed--outer')
     this.outerHeight = outer.offsetHeight
 
@@ -263,7 +265,18 @@ class Windowed extends Tonic { /* global Tonic */
   }
 
   render () {
-    return `
+    let state = ''
+    if (this.renderLoadingState && !this.rows) {
+      state = this.renderLoadingState()
+    }
+
+    if (this.rendereEmptyState && !this.rows.length) {
+      state = this.rendereEmptyState()
+    }
+
+    return this.html`
+      ${state}
+
       <div class="tonic--windowed--outer" styles="outer">
         <div class="tonic--windowed--inner" styles="inner">
         </div>

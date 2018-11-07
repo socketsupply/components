@@ -73,7 +73,7 @@ const index = `
         ${sections}
       </main>
       <script nonce="U29tZSBzdXBlciBzZWNyZXQ=" crossorigin="anonymous" src="bundle.js"></script>
-      <!-- <script src="test.js"></script> -->
+      <script src="bundle.js"></script>
     </body>
   </html>
 `

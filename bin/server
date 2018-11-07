@@ -4,7 +4,7 @@ const parse = require('url').parse
 const send = require('send')
 
 const opts = {
-  root: `${__dirname}/../docs`
+  root: process.argv[2] || `${__dirname}/../docs`
 }
 
 http.createServer((req, res) => {

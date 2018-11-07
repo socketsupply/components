@@ -2581,14 +2581,14 @@ has been rendered.</p>
     <div id="click-to-load">
       <span>Click to Load</span>
     </div>
-    <tonic-windowed row-height='30'>
+    <tonic-windowed id="windowed" row-height=30>
     </tonic-windowed>
   </div>
 </div>
 
 <h2>Code</h2>
 <h4>HTML</h4>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-windowed</span> <span class="hljs-attr">row-height</span>=<span class="hljs-string">{30}</span>&gt;</span>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-windowed</span> <span class="hljs-attr">row-height</span>=<span class="hljs-string">30</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-windowed</span>&gt;</span></code></pre>
 <h4>JS</h4>
 <pre><code class="language-js"><span class="hljs-keyword">const</span> Tonic = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@conductorlab/tonic'</span>)
@@ -2610,6 +2610,14 @@ has been rendered.</p>
         &lt;div class="td"&gt;<span class="hljs-subst">${row.random}</span>&lt;/div&gt;
       &lt;/div&gt;
     `</span>
+  }
+
+  renderLoadingState () {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`Loading...`</span>
+  }
+
+  renderEmptyState () {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`Empty.`</span>
   }
 
   render () {

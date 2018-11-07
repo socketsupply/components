@@ -9,6 +9,7 @@ The `Input` component creates an input that can be invalidated.
   <div class="content">
     <tonic-input
       label="Email Address"
+      src="./sprite.svg#example"
       type="email"
       width="280px"
       id="tonic-input-example"

@@ -23,6 +23,7 @@ class TonicInput extends Tonic { /* global Tonic */
       invalid: false,
       radius: '3px',
       disabled: false,
+      position: 'left',
       errorMessage: 'Invalid'
     }
   }
@@ -54,7 +55,7 @@ class TonicInput extends Tonic { /* global Tonic */
         position: relative;
       }
 
-      tonic-input .tonic--right icon-container {
+      tonic-input .tonic--right tonic-icon {
         right: 10px;
       }
 
@@ -62,7 +63,7 @@ class TonicInput extends Tonic { /* global Tonic */
         padding-right: 40px;
       }
 
-      tonic-input .tonic--left icon-container {
+      tonic-input .tonic--left tonic-icon {
         left: 10px;
       }
 
@@ -70,7 +71,7 @@ class TonicInput extends Tonic { /* global Tonic */
         padding-left: 40px;
       }
 
-      tonic-input icon-container {
+      tonic-input tonic-icon {
         position: absolute;
         bottom: 7px;
       }

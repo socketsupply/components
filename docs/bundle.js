@@ -393,14 +393,6 @@ class TonicWindowed extends Tonic.Windowed {
     `
   }
 
-  renderLoadingState () {
-    return `Loading...`
-  }
-
-  renderEmptyState () {
-    return `Empty.`
-  }
-
   render () {
     return `
       <div class="th">

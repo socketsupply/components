@@ -24,10 +24,8 @@ class TonicButton extends Tonic { /* global Tonic */
       height: '40px',
       width: '150px',
       radius: '2px',
-      textColor: 'var(--primary)',
       textColorDisabled: 'var(--disabled)',
-      backgroundColor: 'transparent',
-      borderColor: 'var(--primary)'
+      backgroundColor: 'transparent'
     }
   }
 

@@ -4,7 +4,8 @@ body {
   --subheader: 'Avenir-Light', sans-serif;
   --monospace: 'IBM Plex Mono', monospace;
 }
-body {
+body,
+*[theme="light"] {
   --window: #fff;
   --primary: #36393d;
   --disabled: #98a1af;
@@ -20,7 +21,8 @@ body {
   --warning: #f9a967;
   --info: #999da0;
 }
-body.theme-dark {
+body.theme-dark,
+*[theme="dark"] {
   --window: #2d2f31;
   --primary: #fff;
   --disabled: #aaa;

@@ -102,10 +102,8 @@ class TonicButton extends Tonic { /* global Tonic */
       height: '40px',
       width: '150px',
       radius: '2px',
-      textColor: 'var(--primary)',
       textColorDisabled: 'var(--disabled)',
-      backgroundColor: 'transparent',
-      borderColor: 'var(--primary)'
+      backgroundColor: 'transparent'
     }
   }
 
@@ -996,10 +994,14 @@ class TonicInput extends Tonic { /* global Tonic */
         background-color: var(--background);
       }
 
+      tonic-input[label] .tonic--invalid {
+        margin-bottom: -13px;
+      }
+
       tonic-input .tonic--invalid {
         font-size: 14px;
         text-align: center;
-        margin-bottom: -13px;
+        margin-bottom: 13px;
         position: absolute;
         bottom: 100%;
         left: 0;

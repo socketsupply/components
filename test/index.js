@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 
-const root = `${__dirname}/sections`
+const root = `${__dirname}/src`
 
 const sections = fs
   .readdirSync(root)
@@ -78,4 +78,4 @@ const index = `
   </html>
 `
 
-fs.writeFileSync(path.join(__dirname, 'index.html'), index)
+fs.writeFileSync(path.join(__dirname, 'build', 'index.html'), index)

@@ -1,0 +1,2 @@
+require('./badge')
+require('./button')

@@ -2211,8 +2211,6 @@ class TonicProgressBar extends Tonic { /* global Tonic */
     return `
       tonic-progress-bar {
         display: inline-block;
-        -webkit-user-select: none;
-        -ms-user-select: none;
         user-select: none;
       }
 
@@ -2270,6 +2268,9 @@ class TonicProgressBar extends Tonic { /* global Tonic */
     if (this.props.theme) {
       this.root.classList.add(`tonic--theme--${this.props.theme}`)
     }
+
+    this.root.style.width = this.props.width
+    this.root.style.height = this.props.height
 
     return `
       <div class="tonic--wrapper" styles="wrapper">

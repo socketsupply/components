@@ -48,3 +48,61 @@ body.theme-dark {
 ::placeholder {
   color: var(--medium);
 }
+body#test main {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+}
+body#test main > div > span {
+  font: 14px var(--monospace);
+  display: inline-block;
+  padding: 15px 0;
+}
+body#test h2 {
+  -ms-flex-preferred-size: 100%;
+      flex-basis: 100%;
+}
+body#test span.fail {
+  color: #f00;
+}
+body#test main > div {
+  border: 1px solid #eaeaea;
+  -ms-flex-preferred-size: 30%;
+      flex-basis: 30%;
+  padding: 20px;
+  margin: 1.5%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+body#test main > div.flex-half {
+  -ms-flex-preferred-size: 45%;
+      flex-basis: 45%;
+}
+body#test main > div.flex-half > span {
+  display: block;
+  width: 100%;
+}
+body#test main > div.dark {
+  background-color: #333;
+}
+body#test main > div.dark > span {
+  color: #fff;
+}
+body#test tonic-toggle {
+  display: block;
+  width: 100%;
+}

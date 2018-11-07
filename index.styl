@@ -5,3 +5,43 @@
 
 ::placeholder
   color var(--medium)
+
+body#test
+  main
+    display flex
+    flex-wrap wrap
+    justify-content flex-start
+
+  main > div > span
+    font 14px var(--monospace)
+    display inline-block
+    padding 15px 0
+
+  h2
+    flex-basis 100%
+
+  span.fail
+    color red
+
+  main > div
+    border 1px solid #eaeaea
+    flex-basis 30%
+    padding 20px
+    margin 1.5%
+    display flex
+    flex-wrap wrap
+    justify-content space-between
+    align-items center
+    &.flex-half
+      flex-basis 45%
+      > span
+        display block
+        width 100%
+    &.dark
+      background-color #333333
+      > span
+        color white
+
+  tonic-toggle
+    display block
+    width 100%

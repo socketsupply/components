@@ -174,15 +174,17 @@ class TonicSelect extends Tonic { /* global Tonic */
 
   render () {
     const {
+      width,
+      height,
       disabled,
       required,
-      width,
       theme
     } = this.props
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
-    this.root.style.width = width
+    if (width) this.root.style.width = width
+    if (height) this.root.style.width = height
 
     const options = this.root.innerHTML
 

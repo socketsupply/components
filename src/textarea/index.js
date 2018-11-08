@@ -98,6 +98,8 @@ class TonicTextarea extends Tonic { /* global Tonic */
 
   render () {
     const {
+      width,
+      height,
       placeholder,
       spellcheck,
       disabled,
@@ -118,6 +120,8 @@ class TonicTextarea extends Tonic { /* global Tonic */
     const minAttr = minlength ? `minlength="${minlength}"` : ''
     const maxAttr = maxlength ? `maxlength="${maxlength}"` : ''
 
+    if (width) this.root.style.width = width
+    if (height) this.root.style.width = height
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     if (this.props.value === 'undefined') this.props.value = ''

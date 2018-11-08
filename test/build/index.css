@@ -4,7 +4,7 @@
 body {
   --body: 'Avenir-Light', serif;
   --header: 'Avenir-Light', serif;
-  --subheader: 'Avenir-Light', sans-serif;
+  --subheader: 'Avenir-Medium', sans-serif;
   --monospace: 'IBM Plex Mono', monospace;
 }
 h2 {
@@ -71,7 +71,7 @@ body#test h2 {
       flex-basis: 100%;
 }
 body#test span.fail {
-  color: #f00;
+  color: #f00 !important;
 }
 body#test main > div {
   border: 1px solid #eaeaea;

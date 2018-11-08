@@ -261,6 +261,8 @@ class TonicInput extends Tonic { /* global Tonic */
 
   render () {
     const {
+      width,
+      height,
       type,
       placeholder,
       spellcheck,
@@ -280,6 +282,8 @@ class TonicInput extends Tonic { /* global Tonic */
     const ariaInvalidAttr = ariaInvalid ? `aria-invalid="${ariaInvalid}"` : ''
     const positionAttr = position ? `tonic--${position}` : ''
 
+    if (width) this.root.style.width = width
+    if (height) this.root.style.width = height
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     const value = this.props.value || this.state.value

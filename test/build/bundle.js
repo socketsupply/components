@@ -98,12 +98,14 @@ class TonicButton extends Tonic { /* global Tonic */
   defaults () {
     return {
       value: 'Submit',
+      height: '40px',
+      width: '150px',
+      margin: '5px',
       disabled: false,
       autofocus: false,
       async: false,
-      height: '40px',
-      width: '150px',
       radius: '2px',
+      borderWidth: '1px',
       textColorDisabled: 'var(--disabled)',
       backgroundColor: 'transparent'
     }
@@ -113,10 +115,6 @@ class TonicButton extends Tonic { /* global Tonic */
     return `
       tonic-button {
         display: inline-block;
-      }
-
-      tonic-button .tonic--button--wrapper {
-        margin: 5px;
       }
 
       tonic-button button {
@@ -145,6 +143,7 @@ class TonicButton extends Tonic { /* global Tonic */
 
       tonic-button button[disabled] {
         pointer-events: none;
+        user-select: none;
       }
 
       tonic-button button:not([disabled]):hover,
@@ -225,9 +224,12 @@ class TonicButton extends Tonic { /* global Tonic */
     const {
       width,
       height,
+      margin,
       radius,
       fill,
       disabled,
+      borderColor,
+      borderWidth,
       textColor,
       textColorDisabled
     } = this.props
@@ -239,7 +241,13 @@ class TonicButton extends Tonic { /* global Tonic */
         color: disabled ? textColorDisabled : textColor,
         backgroundColor: fill,
         borderRadius: radius,
-        borderColor: fill
+        borderColor: fill || borderColor,
+        borderWidth: borderWidth
+      },
+      wrapper: {
+        width,
+        height,
+        margin
       }
     }
   }
@@ -268,7 +276,7 @@ class TonicButton extends Tonic { /* global Tonic */
     const label = this.root.textContent || value
 
     return `
-      <div class="tonic--button--wrapper">
+      <div class="tonic--button--wrapper" styles="wrapper">
         <button
           styles="button"
           async="${async}"
@@ -1136,6 +1144,8 @@ class TonicInput extends Tonic { /* global Tonic */
 
   render () {
     const {
+      width,
+      height,
       type,
       placeholder,
       spellcheck,
@@ -1155,6 +1165,8 @@ class TonicInput extends Tonic { /* global Tonic */
     const ariaInvalidAttr = ariaInvalid ? `aria-invalid="${ariaInvalid}"` : ''
     const positionAttr = position ? `tonic--${position}` : ''
 
+    if (width) this.root.style.width = width
+    if (height) this.root.style.width = height
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     const value = this.props.value || this.state.value
@@ -2308,15 +2320,17 @@ class TonicSelect extends Tonic { /* global Tonic */
 
   render () {
     const {
+      width,
+      height,
       disabled,
       required,
-      width,
       theme
     } = this.props
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
-    this.root.style.width = width
+    if (width) this.root.style.width = width
+    if (height) this.root.style.width = height
 
     const options = this.root.innerHTML
 
@@ -2537,6 +2551,8 @@ class TonicTextarea extends Tonic { /* global Tonic */
 
   render () {
     const {
+      width,
+      height,
       placeholder,
       spellcheck,
       disabled,
@@ -2557,6 +2573,8 @@ class TonicTextarea extends Tonic { /* global Tonic */
     const minAttr = minlength ? `minlength="${minlength}"` : ''
     const maxAttr = maxlength ? `maxlength="${maxlength}"` : ''
 
+    if (width) this.root.style.width = width
+    if (height) this.root.style.width = height
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     if (this.props.value === 'undefined') this.props.value = ''

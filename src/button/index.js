@@ -38,7 +38,7 @@ class TonicButton extends Tonic { /* global Tonic */
       }
 
       tonic-button button {
-        color: var(--primary);
+        color: var(--button);
         width: auto;
         min-height: 40px;
         font: 12px var(--subheader);
@@ -48,7 +48,7 @@ class TonicButton extends Tonic { /* global Tonic */
         padding: 8px 8px 5px 8px;
         position: relative;
         background-color: transparent;
-        border: 1px solid var(--primary);
+        border: 1px solid var(--button);
         transition: all 0.3s ease;
         appearance: none;
         outline: none;
@@ -69,8 +69,8 @@ class TonicButton extends Tonic { /* global Tonic */
       tonic-button button:not([disabled]):hover,
       tonic-button button:not(.tonic--loading):hover {
         color: var(--window) !important;
-        background-color: var(--primary) !important;
-        border-color: var(--primary) !important;
+        background-color: var(--button) !important;
+        border-color: var(--button) !important;
         cursor: pointer;
       }
 

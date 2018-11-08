@@ -29,6 +29,7 @@ body,
   --medium: #999da0;
   --accent: #f06653;
   --border: #e8e8e4;
+  --button: #36393d;
   --background: #f7f7f5;
   --error: #f06653;
   --notification: #f06653;
@@ -45,7 +46,8 @@ body.theme-dark,
   --secondary: #c3c3c3;
   --medium: #999da0;
   --accent: #f06653;
-  --border: #737577;
+  --button: #737577;
+  --border: #fff;
   --background: #3c3c3c;
   --error: #f06653;
   --notification: #f06653;

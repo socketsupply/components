@@ -118,7 +118,7 @@ class TonicButton extends Tonic { /* global Tonic */
       }
 
       tonic-button button {
-        color: var(--primary);
+        color: var(--button);
         width: auto;
         min-height: 40px;
         font: 12px var(--subheader);
@@ -128,7 +128,7 @@ class TonicButton extends Tonic { /* global Tonic */
         padding: 8px 8px 5px 8px;
         position: relative;
         background-color: transparent;
-        border: 1px solid var(--primary);
+        border: 1px solid var(--button);
         transition: all 0.3s ease;
         appearance: none;
         outline: none;
@@ -149,8 +149,8 @@ class TonicButton extends Tonic { /* global Tonic */
       tonic-button button:not([disabled]):hover,
       tonic-button button:not(.tonic--loading):hover {
         color: var(--window) !important;
-        background-color: var(--primary) !important;
-        border-color: var(--primary) !important;
+        background-color: var(--button) !important;
+        border-color: var(--button) !important;
         cursor: pointer;
       }
 
@@ -1155,6 +1155,10 @@ class TonicInput extends Tonic { /* global Tonic */
       pattern,
       theme,
       position,
+      minlength,
+      maxlength,
+      min,
+      max,
       id
     } = this.props
 
@@ -1164,6 +1168,10 @@ class TonicInput extends Tonic { /* global Tonic */
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
     const ariaInvalidAttr = ariaInvalid ? `aria-invalid="${ariaInvalid}"` : ''
     const positionAttr = position ? `tonic--${position}` : ''
+    const minLengthAttr = minlength ? `minlength="${minlength}"` : ''
+    const maxLengthAttr = maxlength ? `maxlength="${maxlength}"` : ''
+    const minAttr = min ? `min="${min}"` : ''
+    const maxAttr = max ? `max="${max}"` : ''
 
     if (width) this.root.style.width = width
     if (height) this.root.style.width = height
@@ -1186,6 +1194,10 @@ class TonicInput extends Tonic { /* global Tonic */
           ${placeholderAttr}
           ${spellcheckAttr}
           ${ariaInvalidAttr}
+          ${minLengthAttr}
+          ${maxLengthAttr}
+          ${minAttr}
+          ${maxAttr}
           ${disabled}
           ${required}/>
         <div class="tonic--invalid">

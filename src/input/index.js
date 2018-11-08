@@ -272,6 +272,10 @@ class TonicInput extends Tonic { /* global Tonic */
       pattern,
       theme,
       position,
+      minlength,
+      maxlength,
+      min,
+      max,
       id
     } = this.props
 
@@ -281,6 +285,10 @@ class TonicInput extends Tonic { /* global Tonic */
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
     const ariaInvalidAttr = ariaInvalid ? `aria-invalid="${ariaInvalid}"` : ''
     const positionAttr = position ? `tonic--${position}` : ''
+    const minLengthAttr = minlength ? `minlength="${minlength}"` : ''
+    const maxLengthAttr = maxlength ? `maxlength="${maxlength}"` : ''
+    const minAttr = min ? `min="${min}"` : ''
+    const maxAttr = max ? `max="${max}"` : ''
 
     if (width) this.root.style.width = width
     if (height) this.root.style.width = height
@@ -303,6 +311,10 @@ class TonicInput extends Tonic { /* global Tonic */
           ${placeholderAttr}
           ${spellcheckAttr}
           ${ariaInvalidAttr}
+          ${minLengthAttr}
+          ${maxLengthAttr}
+          ${minAttr}
+          ${maxAttr}
           ${disabled}
           ${required}/>
         <div class="tonic--invalid">

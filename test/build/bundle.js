@@ -930,23 +930,23 @@ class TonicInput extends Tonic { /* global Tonic */
         position: relative;
       }
 
-      tonic-input .tonic--right tonic-icon {
+      tonic-input[src] .tonic--right tonic-icon {
         right: 10px;
       }
 
-      tonic-input .tonic--right input {
+      tonic-input[src] .tonic--right input {
         padding-right: 40px;
       }
 
-      tonic-input .tonic--left tonic-icon {
+      tonic-input[src] .tonic--left tonic-icon {
         left: 10px;
       }
 
-      tonic-input .tonic--left input {
+      tonic-input[src] .tonic--left input {
         padding-left: 40px;
       }
 
-      tonic-input tonic-icon {
+      tonic-input[src] tonic-icon {
         position: absolute;
         bottom: 7px;
       }
@@ -4010,16 +4010,71 @@ Tonic.escapeMap = { '"': '&quot;', '&': '&amp;', '\'': '&#x27;', '<': '&lt;', '>
 if (typeof module === 'object') module.exports = Tonic
 
 },{}],3:[function(require,module,exports){
-
-},{}],4:[function(require,module,exports){
-arguments[4][3][0].apply(exports,arguments)
-},{"dup":3}],5:[function(require,module,exports){
 const Tonic = require('@conductorlab/tonic')
-const components = require('../..')
+const components = require('..')
 
 components(Tonic)
 
-require('./badge')
-require('./button')
+require('./src/badge')
+require('./src/button')
+require('./src/chart')
+require('./src/checkbox')
+require('./src/dialog')
+require('./src/icon')
+require('./src/input')
+require('./src/panel')
+require('./src/popover')
+require('./src/progressbar')
+require('./src/profileimage')
+require('./src/router')
+require('./src/select')
+require('./src/tabs')
+require('./src/textarea')
+require('./src/toaster')
+require('./src/toasterinline')
+require('./src/toggle')
+require('./src/tooltip')
+require('./src/windowed')
 
-},{"../..":1,"./badge":3,"./button":4,"@conductorlab/tonic":2}]},{},[5]);
+},{"..":1,"./src/badge":4,"./src/button":5,"./src/chart":6,"./src/checkbox":7,"./src/dialog":8,"./src/icon":9,"./src/input":10,"./src/panel":11,"./src/popover":12,"./src/profileimage":13,"./src/progressbar":14,"./src/router":15,"./src/select":16,"./src/tabs":17,"./src/textarea":18,"./src/toaster":19,"./src/toasterinline":20,"./src/toggle":21,"./src/tooltip":22,"./src/windowed":23,"@conductorlab/tonic":2}],4:[function(require,module,exports){
+console.log('badge')
+
+},{}],5:[function(require,module,exports){
+
+},{}],6:[function(require,module,exports){
+arguments[4][5][0].apply(exports,arguments)
+},{"dup":5}],7:[function(require,module,exports){
+arguments[4][5][0].apply(exports,arguments)
+},{"dup":5}],8:[function(require,module,exports){
+arguments[4][5][0].apply(exports,arguments)
+},{"dup":5}],9:[function(require,module,exports){
+arguments[4][5][0].apply(exports,arguments)
+},{"dup":5}],10:[function(require,module,exports){
+arguments[4][5][0].apply(exports,arguments)
+},{"dup":5}],11:[function(require,module,exports){
+arguments[4][5][0].apply(exports,arguments)
+},{"dup":5}],12:[function(require,module,exports){
+arguments[4][5][0].apply(exports,arguments)
+},{"dup":5}],13:[function(require,module,exports){
+arguments[4][5][0].apply(exports,arguments)
+},{"dup":5}],14:[function(require,module,exports){
+arguments[4][5][0].apply(exports,arguments)
+},{"dup":5}],15:[function(require,module,exports){
+arguments[4][5][0].apply(exports,arguments)
+},{"dup":5}],16:[function(require,module,exports){
+arguments[4][5][0].apply(exports,arguments)
+},{"dup":5}],17:[function(require,module,exports){
+arguments[4][5][0].apply(exports,arguments)
+},{"dup":5}],18:[function(require,module,exports){
+arguments[4][5][0].apply(exports,arguments)
+},{"dup":5}],19:[function(require,module,exports){
+arguments[4][5][0].apply(exports,arguments)
+},{"dup":5}],20:[function(require,module,exports){
+arguments[4][5][0].apply(exports,arguments)
+},{"dup":5}],21:[function(require,module,exports){
+arguments[4][5][0].apply(exports,arguments)
+},{"dup":5}],22:[function(require,module,exports){
+arguments[4][5][0].apply(exports,arguments)
+},{"dup":5}],23:[function(require,module,exports){
+arguments[4][5][0].apply(exports,arguments)
+},{"dup":5}]},{},[3]);

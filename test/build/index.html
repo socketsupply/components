@@ -2,7 +2,6 @@
   <!DOCTYPE html>
     <head>
       <title>Tonic - Component Based Architecture</title>
-      <!-- <link href="https://fonts.googleapis.com/css?family=Caudex|Poppins:400,600|IBM+Plex+Mono:400,600" rel="stylesheet"> -->
       <link href="index.css" rel="stylesheet">
 
       <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
@@ -38,31 +37,9 @@
     </head>
 
     <body data-page="test" id="test">
-      <div class="theme-picker">
-        <icon-container src="./sprite.svg#theme" size="20px">
-        </icon-container>
-      </div>
-      <nav>
-        <a href="./index.html" class="logo">
-          <svg>
-            <use xlink:href="./logo-sprite.svg#tonic_logo">
-          </svg>
-        </a>
-
-        <div class="page-selection">
-          <a name="docs" href="./index.html">Docs</a>
-          <a name="components" href="./examples.html">Examples</a>
-        </div>
-
-        <ul>
-
-        </ul>
-
-      </nav>
       <main>
-              <!-- Badge -->
+              <h2>Badge</h2>
 
-<h2>Badge</h2>
 <div>
   <span>Default</span>
   <tonic-badge></tonic-badge>
@@ -83,9 +60,8 @@
   <tonic-badge count="1" theme="dark"></tonic-badge>
 </div>
 
-      
-      <!-- Button -->
-<h2>Button</h2>
+      <h2>Button</h2>
+
 <div>
   <span>Default Button</span>
   <tonic-button></tonic-button>
@@ -191,8 +167,8 @@
   <tonic-button theme="dark"></tonic-button>
 </div>
 
-<!-- Chart -->
-<h2>Chart</h2>
+      <h2>Chart</h2>
+
 <div>
   <!-- <tonic-chart
     type="horizontalBar"
@@ -203,8 +179,8 @@
   </tonic-chart> -->
 </div>
 
-<!-- Checkbox -->
-<h2>Checkbox</h2>
+      <h2>Checkbox</h2>
+
 <div>
   <span>Default</span>
   <tonic-checkbox
@@ -311,16 +287,16 @@
   </tonic-checkbox> -->
 </div>
 
-<!-- Dialog -->
-<h2>Dialog</h2>
+      <h2>Dialog</h2>
+
 <div>
   <span>Default Dialog</span>
   <tonic-button id="dialog-default-button">Open</tonic-button>
   <tonic-dialog id="dialog-default"></tonic-dialog>
 </div>
 
-<!-- Icon -->
-<h2>Icon</h2>
+      <h2>Icon</h2>
+
 <div>
   <span>Default Icon</span>
   <tonic-icon></tonic-icon>
@@ -351,8 +327,8 @@
   <tonic-icon theme="dark"></tonic-icon>
 </div>
 
-<!-- Input -->
-<h2>Input</h2>
+      <h2>Input</h2>
+
 <div class="flex-half">
   <span>Default Input</span>
   <tonic-input></tonic-input>
@@ -503,23 +479,18 @@
   <tonic-input theme="dark"></tonic-input>
 </div>
 
-<!-- Panel -->
-<h2>Panel</h2>
+      <h2>Panel</h2>
 
-<!-- Popover -->
-<h2>Popover</h2>
+      <h2>Popover</h2>
 
-<!-- ProfileImage -->
-<h2>ProfileImage</h2>
+      <h2>ProfileImage</h2>
 
-<!-- ProgressBar -->
-<h2>ProgressBar</h2>
+      <h2>ProgressBar</h2>
 
-<!-- Router -->
-<h2>Router</h2>
+      <h2>Router</h2>
 
-<!-- Select -->
-<h2>Select</h2>
+      <h2>Select</h2>
+
 <div class="flex-half">
   <span>Empty Select</span>
   <tonic-select></tonic-select>
@@ -651,11 +622,10 @@
   </tonic-select>
 </div>
 
-<!-- Tabs -->
-<h2>Tabs</h2>
+      <h2>Tabs</h2>
 
-<!-- Textarea -->
-<h2>Textarea</h2>
+      <h2>Textarea</h2>
+
 <div class="flex-half">
   <span>Default Textarea</span>
   <tonic-textarea></tonic-textarea>
@@ -781,14 +751,12 @@
   <tonic-textarea theme="dark"></tonic-textarea>
 </div>
 
-<!-- Toaster -->
-<h2>Toaster</h2>
+      <h2>Toaster</h2>
 
-<!-- ToasterInline -->
-<h2>ToasterInline</h2>
+      <h2>ToasterInline</h2>
 
-<!-- Toggle -->
-<h2>Toggle</h2>
+      <h2>Toggle</h2>
+
 <div class="flex-half">
   <span>Default Toggle</span>
   <tonic-toggle id="toggle-1"></tonic-toggle>
@@ -839,24 +807,13 @@
   <tonic-toggle id="toggle-10" theme="dark"></tonic-toggle>
 </div>
 
-<!-- Tooltip -->
-<h2>Tooltip</h2>
+      <h2>Tooltip</h2>
 <!-- <div>
   <span>Default Tooltip</span>
   <tonic-tooltip></tonic-tooltip>
 </div> -->
 
-<!-- Windowed -->
-<h2>Windowed</h2>
-
-      
-      const Tonic = require('@conductorlab/tonic')
-const components = require('../..')
-
-components(Tonic)
-
-require('./badge')
-require('./button')
+      <h2>Windowed</h2>
 
       </main>
       <script nonce="U29tZSBzdXBlciBzZWNyZXQ=" crossorigin="anonymous" src="bundle.js"></script>

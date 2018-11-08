@@ -1366,23 +1366,23 @@ class TonicInput extends Tonic { /* global Tonic */
         position: relative;
       }
 
-      tonic-input .tonic--right tonic-icon {
+      tonic-input[src] .tonic--right tonic-icon {
         right: 10px;
       }
 
-      tonic-input .tonic--right input {
+      tonic-input[src] .tonic--right input {
         padding-right: 40px;
       }
 
-      tonic-input .tonic--left tonic-icon {
+      tonic-input[src] .tonic--left tonic-icon {
         left: 10px;
       }
 
-      tonic-input .tonic--left input {
+      tonic-input[src] .tonic--left input {
         padding-left: 40px;
       }
 
-      tonic-input tonic-icon {
+      tonic-input[src] tonic-icon {
         position: absolute;
         bottom: 7px;
       }

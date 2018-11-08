@@ -1,18 +1,17 @@
 const fs = require('fs')
 const path = require('path')
 
-const root = `${__dirname}/src`
+const root = `${__dirname}/src/`
 
 const sections = fs
   .readdirSync(root)
-  .map(f => '      ' + fs.readFileSync(path.join(root, f), 'utf8'))
+  .map(f => '      ' + fs.readFileSync(path.join(root, f, 'index.html'), 'utf8'))
   .join('\n')
 
 const index = `
   <!DOCTYPE html>
     <head>
       <title>Tonic - Component Based Architecture</title>
-      <!-- <link href="https://fonts.googleapis.com/css?family=Caudex|Poppins:400,600|IBM+Plex+Mono:400,600" rel="stylesheet"> -->
       <link href="index.css" rel="stylesheet">
 
       <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
@@ -48,27 +47,6 @@ const index = `
     </head>
 
     <body data-page="test" id="test">
-      <div class="theme-picker">
-        <icon-container src="./sprite.svg#theme" size="20px">
-        </icon-container>
-      </div>
-      <nav>
-        <a href="./index.html" class="logo">
-          <svg>
-            <use xlink:href="./logo-sprite.svg#tonic_logo">
-          </svg>
-        </a>
-
-        <div class="page-selection">
-          <a name="docs" href="./index.html">Docs</a>
-          <a name="components" href="./examples.html">Examples</a>
-        </div>
-
-        <ul>
-
-        </ul>
-
-      </nav>
       <main>
         ${sections}
       </main>

@@ -10,7 +10,7 @@
     "dev": "./bin/server",
     "prepublish": "npm run build",
     "build": "npm run build:styl && ./bin/components ./index.js && npm run build:docs",
-    "build:test": "node test/index.js; browserify ./test/src/index.js > ./test/build/bundle.js",
+    "build:test": "node test/index.js; browserify ./test/build.js > ./test/build/bundle.js",
     "build:styl": "stylus -u autoprefixer-stylus ./index.styl -o ./index.css",
     "build:docs": "./bin/build-docs && npm run build:docs:js && npm run build:docs:styl",
     "build:docs:js": "browserify ./docs/src/index.js > ./docs/bundle.js",

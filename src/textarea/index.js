@@ -113,6 +113,7 @@ class TonicTextarea extends Tonic { /* global Tonic */
       theme
     } = this.props
 
+    const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
     const rowsAttr = rows ? `rows="${rows}"` : ''
@@ -137,6 +138,7 @@ class TonicTextarea extends Tonic { /* global Tonic */
       ${colsAttr}
       ${minAttr}
       ${maxAttr}
+      ${disabledAttr}
     `
 
     return `

@@ -181,8 +181,9 @@ class TonicSelect extends Tonic { /* global Tonic */
       theme
     } = this.props
 
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
 
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
     if (width) this.root.style.width = width
     if (height) this.root.style.width = height
 
@@ -193,7 +194,7 @@ class TonicSelect extends Tonic { /* global Tonic */
         ${this.renderLabel()}
         <select
           styles="select"
-          ${disabled}
+          ${disabledAttr}
           ${required}>
           ${options}
         </select>

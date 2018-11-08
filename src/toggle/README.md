@@ -32,6 +32,7 @@ The `Toggle` component creates a toggle.
 | `name` | *string* | Adds the <code>name</code> attributes. | |
 | `disabled` | *boolean* | Makes the toggle disabled. | `false` |
 | `checked` | *boolean* | Turns the toggle "on". | `false` |
+| `label` | *string* | Adds a label to the toggle | |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
 ### Instance Methods

@@ -1164,6 +1164,8 @@ class TonicInput extends Tonic { /* global Tonic */
     const patternAttr = pattern ? `pattern="${pattern}"` : ''
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
+    const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
+    const requiredAttr = required && required === 'true' ? `required="true"` : ''
     const ariaInvalidAttr = ariaInvalid ? `aria-invalid="${ariaInvalid}"` : ''
     const positionAttr = position ? `tonic--${position}` : ''
     const minLengthAttr = minlength ? `minlength="${minlength}"` : ''
@@ -1196,8 +1198,8 @@ class TonicInput extends Tonic { /* global Tonic */
           ${maxLengthAttr}
           ${minAttr}
           ${maxAttr}
-          ${disabled}
-          ${required}/>
+          ${disabledAttr}
+          ${requiredAttr}/>
         <div class="tonic--invalid">
           <span>${this.props.errorMessage}</span>
         </div>
@@ -2337,8 +2339,9 @@ class TonicSelect extends Tonic { /* global Tonic */
       theme
     } = this.props
 
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
 
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
     if (width) this.root.style.width = width
     if (height) this.root.style.width = height
 
@@ -2349,7 +2352,7 @@ class TonicSelect extends Tonic { /* global Tonic */
         ${this.renderLabel()}
         <select
           styles="select"
-          ${disabled}
+          ${disabledAttr}
           ${required}>
           ${options}
         </select>
@@ -2576,6 +2579,7 @@ class TonicTextarea extends Tonic { /* global Tonic */
       theme
     } = this.props
 
+    const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
     const rowsAttr = rows ? `rows="${rows}"` : ''
@@ -2600,6 +2604,7 @@ class TonicTextarea extends Tonic { /* global Tonic */
       ${colsAttr}
       ${minAttr}
       ${maxAttr}
+      ${disabledAttr}
     `
 
     return `

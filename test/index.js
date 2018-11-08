@@ -3,8 +3,11 @@ const path = require('path')
 
 const root = `${__dirname}/src/`
 
+fs.readdirSync(root).forEach(f => console.log(f))
+
 const sections = fs
   .readdirSync(root)
+  .filter(f => f !== 'index.js')
   .map(f => '      ' + fs.readFileSync(path.join(root, f, 'index.html'), 'utf8'))
   .join('\n')
 
@@ -13,7 +16,6 @@ const index = `
     <head>
       <title>Tonic - Component Based Architecture</title>
       <link href="index.css" rel="stylesheet">
-
       <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
       <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
       <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="120x120">
@@ -21,11 +23,9 @@ const index = `
       <link rel="apple-touch-icon" type="image/png" href="favicon-152x152.png" sizes="152x152">
       <link rel="apple-touch-icon" type="image/png" href="favicon-167x167.png" sizes="167x167">
       <link rel="apple-touch-icon" type="image/png" href="favicon-180x180.png" sizes="180x180">
-
       <meta http-equiv="Content-Type" charset="utf-8" content="text/html">
       <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1 user-scalable=no">
       <meta name="description" content="Component Based Architecture">
-
       <meta property="og:site_name", content="ConductorLab">
       <meta property="og:title", content="Tonic Components">
       <meta property="og:description" content="Component Based Architecture">
@@ -45,7 +45,6 @@ const index = `
           script-src 'self' 'nonce-U29tZSBzdXBlciBzZWNyZXQ=';
           connect-src 'self' https:;">
     </head>
-
     <body data-page="test" id="test">
       <main>
         ${sections}

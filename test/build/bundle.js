@@ -3535,7 +3535,7 @@ class Windowed extends Tonic { /* global Tonic */
   constructor (node) {
     super(node)
 
-    this.root.getRows = () => this.state.rows
+    this.root.getRows = () => this.rows
     this.root.load = (rows) => this.load(rows)
     this.root.rePaint = () => this.rePaint()
 
@@ -3544,7 +3544,7 @@ class Windowed extends Tonic { /* global Tonic */
 
     const that = this
     Object.defineProperty(this.root, 'length', {
-      get () { return that.getState().rows.length }
+      get () { return that.rows.length }
     })
   }
 
@@ -3573,46 +3573,46 @@ class Windowed extends Tonic { /* global Tonic */
   }
 
   getRows () {
-    return this.state.rows
+    return this.rows
   }
 
   push (o) {
-    this.state.rows = this.state.rows || []
-    this.state.rows.push(o)
+    this.rows = this.rows || []
+    this.rows.push(o)
   }
 
   unshift (o) {
-    this.state.rows = this.state.rows || []
-    this.state.rows.unshift(o)
+    this.rows = this.rows || []
+    this.rows.unshift(o)
   }
 
   pop () {
-    this.state.rows = this.state.rows || []
-    this.state.rows.pop()
+    this.rows = this.rows || []
+    this.rows.pop()
   }
 
   shift () {
-    this.state.rows = this.state.rows || []
-    this.state.rows.shift()
+    this.rows = this.rows || []
+    this.rows.shift()
   }
 
   find (fn) {
-    if (!this.state.rows) return -1
-    return this.state.rows.find(fn)
+    if (!this.rows) return -1
+    return this.rows.find(fn)
   }
 
   findIndex (fn) {
-    if (!this.state.rows) return -1
-    return this.state.rows.findIndex(fn)
+    if (!this.rows) return -1
+    return this.rows.findIndex(fn)
   }
 
   splice (...args) {
-    if (!this.state.rows) return null
-    return this.state.rows.splice(...args)
+    if (!this.rows) return null
+    return this.rows.splice(...args)
   }
 
   async getRow (idx) {
-    const el = this.state.rows[idx]
+    const el = this.rows[idx]
     return typeof el === 'function' ? el() : el
   }
 
@@ -3620,21 +3620,21 @@ class Windowed extends Tonic { /* global Tonic */
     if (!this.root) return
 
     const outer = this.root.querySelector('.tonic--windowed--outer')
-    this.state.outerHeight = outer.offsetHeight
+    this.outerHeight = outer.offsetHeight
 
-    this.state.loaded = true
-    this.state.rows = rows
-    this.state.numPages = Math.ceil(this.state.rows.length / this.props.rowsPerPage)
+    this.loaded = true
+    this.rows = rows
+    this.numPages = Math.ceil(this.rows.length / this.props.rowsPerPage)
 
-    this.state.pages = {}
-    this.state.pagesAvailable = this.state.pagesAvailable || []
-    this.state.rowHeight = parseInt(this.props.rowHeight, 10)
+    this.pages = {}
+    this.pagesAvailable = this.pagesAvailable || []
+    this.rowHeight = parseInt(this.props.rowHeight, 10)
 
     const inner = this.root.querySelector('.tonic--windowed--inner')
     inner.innerHTML = ''
-    inner.style.height = `${this.state.rowHeight * this.state.rows.length}px`
-    this.state.pageHeight = this.props.rowsPerPage * this.state.rowHeight
-    this.state.padding = this.props.rowPadding * this.state.rowHeight
+    inner.style.height = `${this.rowHeight * this.rows.length}px`
+    this.pageHeight = this.props.rowsPerPage * this.rowHeight
+    this.padding = this.props.rowPadding * this.rowHeight
 
     this.rePaint()
   }
@@ -3644,7 +3644,7 @@ class Windowed extends Tonic { /* global Tonic */
 
     const outer = this.root.querySelector('.tonic--windowed--outer')
     outer.style.height = height
-    this.state.outerHeight = outer.offsetHeight
+    this.outerHeight = outer.offsetHeight
 
     if (render !== false) {
       this.rePaint()
@@ -3654,16 +3654,16 @@ class Windowed extends Tonic { /* global Tonic */
   getPage (i) {
     let page, state
 
-    ;[page, state] = this.state.pages[i]
-      ? [this.state.pages[i], 'ok']
-      : this.state.pagesAvailable.length
+    ;[page, state] = this.pages[i]
+      ? [this.pages[i], 'ok']
+      : this.pagesAvailable.length
         ? [this.getAvailablePage(i), 'old']
         : [this.createNewPage(i), 'fresh']
 
-    this.state.pages[i] = page
+    this.pages[i] = page
 
-    page.style.height = i < this.state.numPages - 1
-      ? `${this.state.pageHeight}px`
+    page.style.height = i < this.numPages - 1
+      ? `${this.pageHeight}px`
       : this.getLastPageHeight()
 
     page.style.top = this.getPageTop(i)
@@ -3671,7 +3671,7 @@ class Windowed extends Tonic { /* global Tonic */
   }
 
   getAvailablePage (i) {
-    const page = this.state.pagesAvailable.pop()
+    const page = this.pagesAvailable.pop()
     const inner = this.root.querySelector('.tonic--windowed--inner')
     inner.appendChild(page)
     return page
@@ -3697,17 +3697,17 @@ class Windowed extends Tonic { /* global Tonic */
   }
 
   async rePaint ({ refresh, load } = {}) {
-    if (refresh && load !== false) this.load(this.state.rows)
+    if (refresh && load !== false) this.load(this.rows)
 
     const outer = this.root.querySelector('.tonic--windowed--outer')
     const viewStart = outer.scrollTop
-    const viewEnd = viewStart + this.state.outerHeight
+    const viewEnd = viewStart + this.outerHeight
 
-    const _start = Math.floor((viewStart - this.state.padding) / this.state.pageHeight)
+    const _start = Math.floor((viewStart - this.padding) / this.pageHeight)
     const start = Math.max(_start, 0) || 0
 
-    const _end = Math.floor((viewEnd + this.state.padding) / this.state.pageHeight)
-    const end = Math.min(_end, this.state.numPages - 1)
+    const _end = Math.floor((viewEnd + this.padding) / this.pageHeight)
+    const end = Math.min(_end, this.numPages - 1)
     const pagesRendered = {}
 
     for (let i = start; i <= end; i++) {
@@ -3728,27 +3728,27 @@ class Windowed extends Tonic { /* global Tonic */
 
     const inner = this.root.querySelector('.tonic--windowed--inner')
 
-    for (const i of Object.keys(this.state.pages)) {
+    for (const i of Object.keys(this.pages)) {
       if (pagesRendered[i]) continue
 
-      this.state.pagesAvailable.push(this.state.pages[i])
-      inner.removeChild(this.state.pages[i])
-      delete this.state.pages[i]
+      this.pagesAvailable.push(this.pages[i])
+      inner.removeChild(this.pages[i])
+      delete this.pages[i]
     }
   }
 
   getPageTop (i) {
-    return `${i * this.state.pageHeight}px`
+    return `${i * this.pageHeight}px`
   }
 
   getLastPageHeight (i) {
-    return `${(this.state.rows.length % this.props.rowsPerPage) * this.rowHeight}px`
+    return `${(this.rows.length % this.props.rowsPerPage) * this.rowHeight}px`
   }
 
   async fillPage (i) {
-    const page = this.state.pages[i]
+    const page = this.pages[i]
     const frag = document.createDocumentFragment()
-    const limit = Math.min((i + 1) * this.props.rowsPerPage, this.state.rows.length)
+    const limit = Math.min((i + 1) * this.props.rowsPerPage, this.rows.length)
 
     for (let j = i * this.props.rowsPerPage; j < limit; j++) {
       const data = await this.getRow(j)
@@ -3763,15 +3763,15 @@ class Windowed extends Tonic { /* global Tonic */
   }
 
   async updatePage (i) {
-    const page = this.state.pages[i]
+    const page = this.pages[i]
     const start = i * this.props.rowsPerPage
-    const limit = Math.min((i + 1) * this.props.rowsPerPage, this.state.rows.length)
+    const limit = Math.min((i + 1) * this.props.rowsPerPage, this.rows.length)
 
     const inner = this.root.querySelector('.tonic--windowed--inner')
 
     if (start > limit) {
       inner.removeChild(page)
-      delete this.state.pages[i]
+      delete this.pages[i]
       return
     }
 
@@ -4504,41 +4504,17 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],6:[function(require,module,exports){
-const Tonic = require('@conductorlab/tonic')
-const components = require('..')
-
-components(Tonic)
-
-require('./src/badge')
-require('./src/button')
-require('./src/chart')
-require('./src/checkbox')
-require('./src/dialog')
-require('./src/icon')
-require('./src/input')
-require('./src/panel')
-require('./src/popover')
-require('./src/progressbar')
-require('./src/profileimage')
-require('./src/router')
-require('./src/select')
-require('./src/tabs')
-require('./src/textarea')
-require('./src/toaster')
-require('./src/toasterinline')
-require('./src/toggle')
-require('./src/tooltip')
-require('./src/windowed')
-
-},{"..":1,"./src/badge":8,"./src/button":9,"./src/chart":10,"./src/checkbox":11,"./src/dialog":12,"./src/icon":13,"./src/input":14,"./src/panel":15,"./src/popover":16,"./src/profileimage":17,"./src/progressbar":18,"./src/router":19,"./src/select":20,"./src/tabs":21,"./src/textarea":22,"./src/toaster":23,"./src/toasterinline":24,"./src/toggle":25,"./src/tooltip":26,"./src/windowed":27,"@conductorlab/tonic":2}],7:[function(require,module,exports){
 (function (__dirname){
 const fs = require('fs')
 const path = require('path')
 
 const root = `${__dirname}/src/`
 
+fs.readdirSync(root).forEach(f => console.log(f))
+
 const sections = fs
   .readdirSync(root)
+  .filter(f => f !== 'index.js')
   .map(f => '      ' + fs.readFileSync(path.join(root, f, 'index.html'), 'utf8'))
   .join('\n')
 
@@ -4547,7 +4523,6 @@ const index = `
     <head>
       <title>Tonic - Component Based Architecture</title>
       <link href="index.css" rel="stylesheet">
-
       <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
       <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
       <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="120x120">
@@ -4555,11 +4530,9 @@ const index = `
       <link rel="apple-touch-icon" type="image/png" href="favicon-152x152.png" sizes="152x152">
       <link rel="apple-touch-icon" type="image/png" href="favicon-167x167.png" sizes="167x167">
       <link rel="apple-touch-icon" type="image/png" href="favicon-180x180.png" sizes="180x180">
-
       <meta http-equiv="Content-Type" charset="utf-8" content="text/html">
       <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1 user-scalable=no">
       <meta name="description" content="Component Based Architecture">
-
       <meta property="og:site_name", content="ConductorLab">
       <meta property="og:title", content="Tonic Components">
       <meta property="og:description" content="Component Based Architecture">
@@ -4579,7 +4552,6 @@ const index = `
           script-src 'self' 'nonce-U29tZSBzdXBlciBzZWNyZXQ=';
           connect-src 'self' https:;">
     </head>
-
     <body data-page="test" id="test">
       <main>
         ${sections}
@@ -4593,16 +4565,16 @@ const index = `
 fs.writeFileSync(path.join(__dirname, 'build', 'index.html'), index)
 
 }).call(this,"/test")
-},{"fs":3,"path":4}],8:[function(require,module,exports){
+},{"fs":3,"path":4}],7:[function(require,module,exports){
 console.log('badge')
 
-},{}],9:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
+arguments[4][3][0].apply(exports,arguments)
+},{"dup":3}],9:[function(require,module,exports){
 arguments[4][3][0].apply(exports,arguments)
 },{"dup":3}],10:[function(require,module,exports){
 arguments[4][3][0].apply(exports,arguments)
 },{"dup":3}],11:[function(require,module,exports){
-arguments[4][3][0].apply(exports,arguments)
-},{"dup":3}],12:[function(require,module,exports){
 const Tonic = require('@conductorlab/tonic')
 const components = require('../..')
 
@@ -4638,9 +4610,36 @@ const dialog = document.getElementById('dialog-default')
 
 link.addEventListener('click', e => dialog.show())
 
-},{"../..":7,"@conductorlab/tonic":2}],13:[function(require,module,exports){
+},{"../..":6,"@conductorlab/tonic":2}],12:[function(require,module,exports){
 arguments[4][3][0].apply(exports,arguments)
-},{"dup":3}],14:[function(require,module,exports){
+},{"dup":3}],13:[function(require,module,exports){
+const Tonic = require('@conductorlab/tonic')
+const components = require('../..')
+
+components(Tonic)
+
+require('./badge')
+require('./button')
+require('./chart')
+require('./checkbox')
+require('./dialog')
+require('./icon')
+require('./input')
+require('./panel')
+require('./popover')
+require('./progressbar')
+require('./profileimage')
+require('./router')
+require('./select')
+require('./tabs')
+require('./textarea')
+require('./toaster')
+require('./toasterinline')
+require('./toggle')
+require('./tooltip')
+require('./windowed')
+
+},{"../..":1,"./badge":7,"./button":8,"./chart":9,"./checkbox":10,"./dialog":11,"./icon":12,"./input":14,"./panel":15,"./popover":16,"./profileimage":17,"./progressbar":18,"./router":19,"./select":20,"./tabs":21,"./textarea":22,"./toaster":23,"./toasterinline":24,"./toggle":25,"./tooltip":26,"./windowed":27,"@conductorlab/tonic":2}],14:[function(require,module,exports){
 arguments[4][3][0].apply(exports,arguments)
 },{"dup":3}],15:[function(require,module,exports){
 arguments[4][3][0].apply(exports,arguments)
@@ -4668,4 +4667,4 @@ arguments[4][3][0].apply(exports,arguments)
 arguments[4][3][0].apply(exports,arguments)
 },{"dup":3}],27:[function(require,module,exports){
 arguments[4][3][0].apply(exports,arguments)
-},{"dup":3}]},{},[6]);
+},{"dup":3}]},{},[13]);

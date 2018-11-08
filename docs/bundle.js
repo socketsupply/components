@@ -3971,7 +3971,7 @@ class Windowed extends Tonic { /* global Tonic */
   constructor (node) {
     super(node)
 
-    this.root.getRows = () => this.state.rows
+    this.root.getRows = () => this.rows
     this.root.load = (rows) => this.load(rows)
     this.root.rePaint = () => this.rePaint()
 
@@ -3980,7 +3980,7 @@ class Windowed extends Tonic { /* global Tonic */
 
     const that = this
     Object.defineProperty(this.root, 'length', {
-      get () { return that.getState().rows.length }
+      get () { return that.rows.length }
     })
   }
 
@@ -4009,46 +4009,46 @@ class Windowed extends Tonic { /* global Tonic */
   }
 
   getRows () {
-    return this.state.rows
+    return this.rows
   }
 
   push (o) {
-    this.state.rows = this.state.rows || []
-    this.state.rows.push(o)
+    this.rows = this.rows || []
+    this.rows.push(o)
   }
 
   unshift (o) {
-    this.state.rows = this.state.rows || []
-    this.state.rows.unshift(o)
+    this.rows = this.rows || []
+    this.rows.unshift(o)
   }
 
   pop () {
-    this.state.rows = this.state.rows || []
-    this.state.rows.pop()
+    this.rows = this.rows || []
+    this.rows.pop()
   }
 
   shift () {
-    this.state.rows = this.state.rows || []
-    this.state.rows.shift()
+    this.rows = this.rows || []
+    this.rows.shift()
   }
 
   find (fn) {
-    if (!this.state.rows) return -1
-    return this.state.rows.find(fn)
+    if (!this.rows) return -1
+    return this.rows.find(fn)
   }
 
   findIndex (fn) {
-    if (!this.state.rows) return -1
-    return this.state.rows.findIndex(fn)
+    if (!this.rows) return -1
+    return this.rows.findIndex(fn)
   }
 
   splice (...args) {
-    if (!this.state.rows) return null
-    return this.state.rows.splice(...args)
+    if (!this.rows) return null
+    return this.rows.splice(...args)
   }
 
   async getRow (idx) {
-    const el = this.state.rows[idx]
+    const el = this.rows[idx]
     return typeof el === 'function' ? el() : el
   }
 
@@ -4056,21 +4056,21 @@ class Windowed extends Tonic { /* global Tonic */
     if (!this.root) return
 
     const outer = this.root.querySelector('.tonic--windowed--outer')
-    this.state.outerHeight = outer.offsetHeight
+    this.outerHeight = outer.offsetHeight
 
-    this.state.loaded = true
-    this.state.rows = rows
-    this.state.numPages = Math.ceil(this.state.rows.length / this.props.rowsPerPage)
+    this.loaded = true
+    this.rows = rows
+    this.numPages = Math.ceil(this.rows.length / this.props.rowsPerPage)
 
-    this.state.pages = {}
-    this.state.pagesAvailable = this.state.pagesAvailable || []
-    this.state.rowHeight = parseInt(this.props.rowHeight, 10)
+    this.pages = {}
+    this.pagesAvailable = this.pagesAvailable || []
+    this.rowHeight = parseInt(this.props.rowHeight, 10)
 
     const inner = this.root.querySelector('.tonic--windowed--inner')
     inner.innerHTML = ''
-    inner.style.height = `${this.state.rowHeight * this.state.rows.length}px`
-    this.state.pageHeight = this.props.rowsPerPage * this.state.rowHeight
-    this.state.padding = this.props.rowPadding * this.state.rowHeight
+    inner.style.height = `${this.rowHeight * this.rows.length}px`
+    this.pageHeight = this.props.rowsPerPage * this.rowHeight
+    this.padding = this.props.rowPadding * this.rowHeight
 
     this.rePaint()
   }
@@ -4080,7 +4080,7 @@ class Windowed extends Tonic { /* global Tonic */
 
     const outer = this.root.querySelector('.tonic--windowed--outer')
     outer.style.height = height
-    this.state.outerHeight = outer.offsetHeight
+    this.outerHeight = outer.offsetHeight
 
     if (render !== false) {
       this.rePaint()
@@ -4090,16 +4090,16 @@ class Windowed extends Tonic { /* global Tonic */
   getPage (i) {
     let page, state
 
-    ;[page, state] = this.state.pages[i]
-      ? [this.state.pages[i], 'ok']
-      : this.state.pagesAvailable.length
+    ;[page, state] = this.pages[i]
+      ? [this.pages[i], 'ok']
+      : this.pagesAvailable.length
         ? [this.getAvailablePage(i), 'old']
         : [this.createNewPage(i), 'fresh']
 
-    this.state.pages[i] = page
+    this.pages[i] = page
 
-    page.style.height = i < this.state.numPages - 1
-      ? `${this.state.pageHeight}px`
+    page.style.height = i < this.numPages - 1
+      ? `${this.pageHeight}px`
       : this.getLastPageHeight()
 
     page.style.top = this.getPageTop(i)
@@ -4107,7 +4107,7 @@ class Windowed extends Tonic { /* global Tonic */
   }
 
   getAvailablePage (i) {
-    const page = this.state.pagesAvailable.pop()
+    const page = this.pagesAvailable.pop()
     const inner = this.root.querySelector('.tonic--windowed--inner')
     inner.appendChild(page)
     return page
@@ -4133,17 +4133,17 @@ class Windowed extends Tonic { /* global Tonic */
   }
 
   async rePaint ({ refresh, load } = {}) {
-    if (refresh && load !== false) this.load(this.state.rows)
+    if (refresh && load !== false) this.load(this.rows)
 
     const outer = this.root.querySelector('.tonic--windowed--outer')
     const viewStart = outer.scrollTop
-    const viewEnd = viewStart + this.state.outerHeight
+    const viewEnd = viewStart + this.outerHeight
 
-    const _start = Math.floor((viewStart - this.state.padding) / this.state.pageHeight)
+    const _start = Math.floor((viewStart - this.padding) / this.pageHeight)
     const start = Math.max(_start, 0) || 0
 
-    const _end = Math.floor((viewEnd + this.state.padding) / this.state.pageHeight)
-    const end = Math.min(_end, this.state.numPages - 1)
+    const _end = Math.floor((viewEnd + this.padding) / this.pageHeight)
+    const end = Math.min(_end, this.numPages - 1)
     const pagesRendered = {}
 
     for (let i = start; i <= end; i++) {
@@ -4164,27 +4164,27 @@ class Windowed extends Tonic { /* global Tonic */
 
     const inner = this.root.querySelector('.tonic--windowed--inner')
 
-    for (const i of Object.keys(this.state.pages)) {
+    for (const i of Object.keys(this.pages)) {
       if (pagesRendered[i]) continue
 
-      this.state.pagesAvailable.push(this.state.pages[i])
-      inner.removeChild(this.state.pages[i])
-      delete this.state.pages[i]
+      this.pagesAvailable.push(this.pages[i])
+      inner.removeChild(this.pages[i])
+      delete this.pages[i]
     }
   }
 
   getPageTop (i) {
-    return `${i * this.state.pageHeight}px`
+    return `${i * this.pageHeight}px`
   }
 
   getLastPageHeight (i) {
-    return `${(this.state.rows.length % this.props.rowsPerPage) * this.rowHeight}px`
+    return `${(this.rows.length % this.props.rowsPerPage) * this.rowHeight}px`
   }
 
   async fillPage (i) {
-    const page = this.state.pages[i]
+    const page = this.pages[i]
     const frag = document.createDocumentFragment()
-    const limit = Math.min((i + 1) * this.props.rowsPerPage, this.state.rows.length)
+    const limit = Math.min((i + 1) * this.props.rowsPerPage, this.rows.length)
 
     for (let j = i * this.props.rowsPerPage; j < limit; j++) {
       const data = await this.getRow(j)
@@ -4199,15 +4199,15 @@ class Windowed extends Tonic { /* global Tonic */
   }
 
   async updatePage (i) {
-    const page = this.state.pages[i]
+    const page = this.pages[i]
     const start = i * this.props.rowsPerPage
-    const limit = Math.min((i + 1) * this.props.rowsPerPage, this.state.rows.length)
+    const limit = Math.min((i + 1) * this.props.rowsPerPage, this.rows.length)
 
     const inner = this.root.querySelector('.tonic--windowed--inner')
 
     if (start > limit) {
       inner.removeChild(page)
-      delete this.state.pages[i]
+      delete this.pages[i]
       return
     }
 

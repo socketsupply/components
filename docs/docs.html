@@ -3,7 +3,6 @@
 
       <head>
   <title>Tonic - Component Based Architecture</title>
-  <link href="https://fonts.googleapis.com/css?family=Caudex|Poppins:400,600|IBM+Plex+Mono:400,600" rel="stylesheet">
   <link href="index.css" rel="stylesheet">
 
   <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
@@ -62,61 +61,61 @@
           </div>
 
           <ul>
-            
+
     <li>
       <a href="#intro" class="selected">Intro</a>
     </li>
-  
+
 
     <li>
       <a href="#1.-getting-started" class="">1. Getting Started</a>
     </li>
-  
+
 
     <li>
       <a href="#2.-properties" class="">2. Properties</a>
     </li>
-  
+
 
     <li>
       <a href="#3.-methods" class="">3. Methods</a>
     </li>
-  
+
 
     <li>
       <a href="#4.-styling" class="">4. Styling</a>
     </li>
-  
+
 
     <li>
       <a href="#5.-events" class="">5. Events</a>
     </li>
-  
+
 
     <li>
       <a href="#6.-state" class="">6. State</a>
     </li>
-  
+
 
     <li>
       <a href="#7.-composition" class="">7. Composition</a>
     </li>
-  
+
 
     <li>
       <a href="#8.-performance" class="">8. Performance</a>
     </li>
-  
+
 
     <li>
       <a href="#9.-csp" class="">9. CSP</a>
     </li>
-  
+
 
     <li>
       <a href="#api" class="">API</a>
     </li>
-  
+
           </ul>
 
         </nav>
@@ -127,7 +126,7 @@
             <a name="docs" href="./docs.html">Docs</a>
           </div>
 
-          
+
     <section id="intro">
       <h1 id="intro">Intro</h1>
 <div class="hero">
@@ -169,7 +168,7 @@
 </div>
 
     </section>
-  
+
 
     <section id="1.-getting-started">
       <h1 id="1-getting-started">1. Getting Started</h1>
@@ -229,7 +228,7 @@ hidden for the programmer who uses it. They can then focus more on the value
 it produces and the properties they want to pass it.</p>
 
     </section>
-  
+
 
     <section id="2.-properties">
       <h1 id="2-properties">2. Properties</h1>
@@ -307,7 +306,7 @@ receives either an object or a function. For example...</p>
 <pre><code class="language-js"><span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'parent'</span>).reRender({ <span class="hljs-attr">data</span>: [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>, ..<span class="hljs-number">.9999</span>] })</code></pre>
 
     </section>
-  
+
 
     <section id="3.-methods">
       <h1 id="3-methods">3. Methods</h1>
@@ -334,7 +333,7 @@ on it.</p>
 <pre><code class="language-js"><span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'foo'</span>).myMethod(<span class="hljs-number">42</span>)</code></pre>
 
     </section>
-  
+
 
     <section id="4.-styling">
       <h1 id="4-styling">4. Styling</h1>
@@ -396,7 +395,7 @@ in a CSP-friendly way.</p>
 <pre><code class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">my-greeting</span> <span class="hljs-attr">fg</span>=<span class="hljs-string">"white"</span> <span class="hljs-attr">bg</span>=<span class="hljs-string">"red"</span>&gt;</span>Hello, World<span class="hljs-tag">&lt;/<span class="hljs-name">my-greeting</span>&gt;</span></code></pre>
 
     </section>
-  
+
 
     <section id="5.-events">
       <h1 id="5-events">5. Events</h1>
@@ -477,7 +476,7 @@ preventing an event from bubbling up to parent components. You may also be
 interested in the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault"><code>Event.preventDefault()</code></a> method.</p>
 
     </section>
-  
+
 
     <section id="6.-state">
       <h1 id="6-state">6. State</h1>
@@ -499,7 +498,7 @@ is that the <code>state</code> can be updated independently, as needed &mdash; r
 happens only when changes to the representation of the component are required.</p>
 
     </section>
-  
+
 
     <section id="7.-composition">
       <h1 id="7-composition">7. Composition</h1>
@@ -548,7 +547,7 @@ Tonic.add(Child)</code></pre>
 <span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span></code></pre>
 
     </section>
-  
+
 
     <section id="8.-performance">
       <h1 id="8-performance">8. Performance</h1>
@@ -561,7 +560,7 @@ performance.</p>
     <span class="hljs-keyword">super</span>(node)
 
     <span class="hljs-keyword">const</span> template = <span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">'template'</span>)
-    template.appendChild(<span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">'span'</span>))  
+    template.appendChild(<span class="hljs-built_in">document</span>.createElement(<span class="hljs-string">'span'</span>))
 
     <span class="hljs-keyword">this</span>.template = template.content
   }
@@ -574,7 +573,7 @@ performance.</p>
   }
 }</code></pre>
     </section>
-  
+
 
     <section id="9.-csp">
       <h1 id="9-csp">9. CSP</h1>
@@ -599,7 +598,7 @@ add the following to your javascript...</p>
 <p>Note that <code>123</code> is a placeholder, this should be an actual <a href="https://en.wikipedia.org/wiki/Cryptographic_nonce">nonce</a>.</p>
 
     </section>
-  
+
 
     <section id="api">
       <h1 id="apis">APIs</h1>
@@ -696,7 +695,7 @@ add the following to your javascript...</p>
 </tbody></table>
 
     </section>
-  
+
 
           <footer>
             <div>
@@ -716,4 +715,3 @@ add the following to your javascript...</p>
         <script nonce="U29tZSBzdXBlciBzZWNyZXQ=" crossorigin="anonymous" src="bundle.js"></script>
       </body>
     </html>
-  

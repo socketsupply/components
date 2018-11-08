@@ -15,9 +15,9 @@
   src: url("/fonts/Avenir-Heavy.ttf");
 }
 body {
-  --body: 'Avenir-Light', serif;
-  --header: 'Avenir-Light', serif;
-  --subheader: 'Avenir-Light', sans-serif;
+  --body: 'Avenir-Light', sans-serif;
+  --header: 'Avenir-Light', sans-serif;
+  --subheader: 'Avenir-Medium', sans-serif;
   --monospace: 'IBM Plex Mono', monospace;
 }
 body,

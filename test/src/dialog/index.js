@@ -1,7 +1,4 @@
 const Tonic = require('@conductorlab/tonic')
-const components = require('../..')
-
-components(Tonic)
 
 class TonicDialog extends Tonic.Dialog {
   click (e) {

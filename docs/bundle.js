@@ -1626,7 +1626,6 @@ class TonicInput extends Tonic { /* global Tonic */
         <input
           styles="input"
           type="${type}"
-          ${idAttr}
           ${patternAttr}
           ${valueAttr}
           ${placeholderAttr}

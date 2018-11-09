@@ -275,11 +275,9 @@ class TonicInput extends Tonic { /* global Tonic */
       minlength,
       maxlength,
       min,
-      max,
-      id
+      max
     } = this.props
 
-    const idAttr = id ? `id="${id}"` : ''
     const patternAttr = pattern ? `pattern="${pattern}"` : ''
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
@@ -299,25 +297,26 @@ class TonicInput extends Tonic { /* global Tonic */
     const value = this.props.value || this.state.value
     const valueAttr = value && value !== 'undefined' ? `value="${value}"` : ''
 
+    const attributes = `
+    ${patternAttr}
+    ${valueAttr}
+    ${placeholderAttr}
+    ${spellcheckAttr}
+    ${ariaInvalidAttr}
+    ${minLengthAttr}
+    ${maxLengthAttr}
+    ${minAttr}
+    ${maxAttr}
+    ${disabledAttr}
+    ${requiredAttr}
+    `
+
     return `
       <div class="tonic--wrapper ${positionAttr}" styles="wrapper">
         ${this.renderLabel()}
         ${this.renderIcon()}
 
-        <input
-          styles="input"
-          type="${type}"
-          ${patternAttr}
-          ${valueAttr}
-          ${placeholderAttr}
-          ${spellcheckAttr}
-          ${ariaInvalidAttr}
-          ${minLengthAttr}
-          ${maxLengthAttr}
-          ${minAttr}
-          ${maxAttr}
-          ${disabledAttr}
-          ${requiredAttr}/>
+        <input styles="input" type="${type}" ${attributes}/>
         <div class="tonic--invalid">
           <span>${this.props.errorMessage}</span>
         </div>

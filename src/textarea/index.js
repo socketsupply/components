@@ -144,7 +144,7 @@ class TonicTextarea extends Tonic { /* global Tonic */
     return `
       <div class="tonic--wrapper">
         ${this.renderLabel()}
-        <textarea styles="textarea"${attributes}>${this.props.value}</textarea>
+        <textarea styles="textarea" ${attributes}>${this.props.value}</textarea>
       </div>
     `
   }

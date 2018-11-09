@@ -275,16 +275,20 @@ class TonicButton extends Tonic { /* global Tonic */
 
     const label = this.root.textContent || value
 
+    const attributes = `
+      ${valueAttr}
+      ${typeAttr}
+      ${disabledAttr}
+      ${autofocus}
+    `
+
     return `
       <div class="tonic--button--wrapper" styles="wrapper">
         <button
           styles="button"
           async="${async}"
           alt="${label}"
-          ${valueAttr}
-          ${typeAttr}
-          ${disabledAttr}
-          ${autofocus}
+          ${attributes}
           class="${classes}">${label}</button>
       </div>
     `
@@ -1182,26 +1186,27 @@ class TonicInput extends Tonic { /* global Tonic */
     const value = this.props.value || this.state.value
     const valueAttr = value && value !== 'undefined' ? `value="${value}"` : ''
 
+    const attributes = `
+    ${idAttr}
+    ${patternAttr}
+    ${valueAttr}
+    ${placeholderAttr}
+    ${spellcheckAttr}
+    ${ariaInvalidAttr}
+    ${minLengthAttr}
+    ${maxLengthAttr}
+    ${minAttr}
+    ${maxAttr}
+    ${disabledAttr}
+    ${requiredAttr}
+    `
+
     return `
       <div class="tonic--wrapper ${positionAttr}" styles="wrapper">
         ${this.renderLabel()}
         ${this.renderIcon()}
 
-        <input
-          styles="input"
-          type="${type}"
-          ${idAttr}
-          ${patternAttr}
-          ${valueAttr}
-          ${placeholderAttr}
-          ${spellcheckAttr}
-          ${ariaInvalidAttr}
-          ${minLengthAttr}
-          ${maxLengthAttr}
-          ${minAttr}
-          ${maxAttr}
-          ${disabledAttr}
-          ${requiredAttr}/>
+        <input styles="input" type="${type}" ${attributes}/>
         <div class="tonic--invalid">
           <span>${this.props.errorMessage}</span>
         </div>
@@ -2183,8 +2188,7 @@ class TonicSelect extends Tonic { /* global Tonic */
       disabled: false,
       iconArrow: TonicSelect.svg.default(),
       width: '250px',
-      radius: '2px',
-      padding: '10px 20px 10px 10px'
+      radius: '2px'
     }
   }
 
@@ -2232,7 +2236,6 @@ class TonicSelect extends Tonic { /* global Tonic */
       tonic-select select {
         color: var(--primary);
         font: 14px var(--monospace);
-        padding: 10px 20px 10px 10px;
         background-color: var(--window);
         background-repeat: no-repeat;
         background-position: center right;
@@ -2241,6 +2244,10 @@ class TonicSelect extends Tonic { /* global Tonic */
         -webkit-appearance: none;
         appearance: none;
         position: relative;
+      }
+
+      tonic-select select:not([multiple]) {
+        padding: 10px 20px 10px 10px;
       }
 
       tonic-select select[disabled] {
@@ -2255,6 +2262,14 @@ class TonicSelect extends Tonic { /* global Tonic */
         letter-spacing: 1px;
         padding-bottom: 10px;
         display: block;
+      }
+
+      tonic-select[multiple] select {
+        background-image: none !important;
+      }
+
+      tonic-select[multiple] select option {
+        padding: 6px 10px;
       }
 
       @keyframes spin {
@@ -2338,24 +2353,31 @@ class TonicSelect extends Tonic { /* global Tonic */
       height,
       disabled,
       required,
+      multiple,
+      size,
       theme
     } = this.props
 
     const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
+    const multipleAttr = multiple && multiple === 'true' ? `multiple="true"` : ''
+    const sizeAttr = size ? `size="${size}"` : ''
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
     if (width) this.root.style.width = width
     if (height) this.root.style.width = height
 
+    const attributes = `
+      ${disabledAttr}
+      ${multipleAttr}
+      ${sizeAttr}
+      ${required}
+    `
     const options = this.root.innerHTML
 
     return `
       <div class="tonic--wrapper" styles="wrapper">
         ${this.renderLabel()}
-        <select
-          styles="select"
-          ${disabledAttr}
-          ${required}>
+        <select styles="select" ${attributes}>
           ${options}
         </select>
       </div>
@@ -2612,7 +2634,7 @@ class TonicTextarea extends Tonic { /* global Tonic */
     return `
       <div class="tonic--wrapper">
         ${this.renderLabel()}
-        <textarea styles="textarea"${attributes}>${this.props.value}</textarea>
+        <textarea styles="textarea" ${attributes}>${this.props.value}</textarea>
       </div>
     `
   }

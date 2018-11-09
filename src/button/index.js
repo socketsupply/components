@@ -195,16 +195,20 @@ class TonicButton extends Tonic { /* global Tonic */
 
     const label = this.root.textContent || value
 
+    const attributes = `
+      ${valueAttr}
+      ${typeAttr}
+      ${disabledAttr}
+      ${autofocus}
+    `
+
     return `
       <div class="tonic--button--wrapper" styles="wrapper">
         <button
           styles="button"
           async="${async}"
           alt="${label}"
-          ${valueAttr}
-          ${typeAttr}
-          ${disabledAttr}
-          ${autofocus}
+          ${attributes}
           class="${classes}">${label}</button>
       </div>
     `

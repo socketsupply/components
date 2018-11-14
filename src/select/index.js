@@ -120,13 +120,31 @@ class TonicSelect extends Tonic { /* global Tonic */
 
   get value () {
     if (!this.root) return
-    return this.root.querySelector('select').value
+    const el = this.root.querySelector('select')
+
+    if (this.props.multiple === 'true') {
+      const value = [...el.options]
+        .filter(el => el.selected)
+        .map(el => el.getAttribute('value'))
+      return value
+    }
+
+    return el.value
   }
 
   set value (value) {
     if (!this.root) return
-    if (!value) value = 0 // if a falsy value
-    this.root.querySelector('select').selectedIndex = value
+    const el = this.root.querySelector('select')
+
+    if (this.props.multiple === 'true' && Array.isArray(value)) {
+      const options = [...el.options]
+      options.forEach(el => {
+        el.selected = value.findIndex(v => v === el.value) > -1
+      })
+    } else {
+      if (!value) value = 0 // if a falsy value
+      el.selectedIndex = value
+    }
   }
 
   get option () {

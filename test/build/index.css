@@ -111,3 +111,42 @@ body#test tonic-toggle {
   display: block;
   width: 100%;
 }
+
+body#test .tonic--dialog .tonic--dialog--content {
+  padding-top: 70px;
+  padding-bottom: 75px;
+  box-shadow: 0px 30px 90px -20px rgba(0,0,0,0.3), 0 0 1px #a2a9b1;
+  border-radius: 4px;
+}
+
+body#test .tonic--dialog header {
+  text-align: center;
+  height: 70px;
+  font: 14px var(--subheader);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 26px 65px 25px 65px;
+}
+
+body#test .tonic--dialog main {
+  width: auto;
+  padding: 20px;
+  margin: 0 auto;
+  text-align: center;
+  display: block;
+}
+
+body#test .tonic--dialog footer {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 75px;
+  padding: 12px;
+  display: flex;
+  justify-content: center;
+}

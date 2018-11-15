@@ -54,6 +54,7 @@ class Dialog extends Tonic { /* global Tonic */
       }
 
       .tonic--dialog .tonic--dialog--wrapper.tonic--show .tonic--dialog--content {
+        color: var(--primary);
         opacity: 1;
         -webkit-transform: scale(1);
         -ms-transform: scale(1);
@@ -86,7 +87,7 @@ class Dialog extends Tonic { /* global Tonic */
         transition: all 0.3s ease-in-out;
       }
 
-      .tonic--dialog .tonic--dialog--content .tonic--close {
+      .tonic--dialog .tonic--dialog--content > .tonic--close {
         width: 25px;
         height: 25px;
         position: absolute;

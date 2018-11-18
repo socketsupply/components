@@ -295,6 +295,22 @@ document.getElementById('stop-progress').addEventListener('click', e => {
       
 
         //
+        // ./src/range/readme.js
+        //
+        if (document.body.dataset.page === 'examples') {
+          const range = document.getElementById('tonic-range-example')
+const state = document.getElementById('tonic-range-state')
+
+state.textContent = range.value
+
+range.addEventListener('change', e => {
+  state.textContent = range.value
+})
+
+        }
+      
+
+        //
         // ./src/router/readme.js
         //
         if (document.body.dataset.page === 'examples') {
@@ -2561,26 +2577,64 @@ class TonicRange extends Tonic { /* global Tonic */
   }
 
   stylesheet () {
-    return ``
+    return `
+      tonic-range input[type=range] {
+        -webkit-appearance: none;
+        width: 100%;
+        margin: 6px 0;
+        border: 10px solid transparent;
+      }
+
+      tonic-range input[type=range]::-webkit-slider-thumb {
+        height: 18px;
+        width: 18px;
+        border-radius: 50px;
+      }
+
+      tonic-range input[type=range]::-webkit-slider-runnable-track {
+        width: 100%;
+        height: 3px;
+        cursor: pointer;
+        box-shadow: 1px 1px 1px rgba(255,255,255,0);
+        background: var(--border);
+        border: 0px;
+        border-radius: 5px;
+      }
+
+      tonic-range input[type=range]::-webkit-slider-thumb {
+        background: var(--primary);
+        border: 0px;
+        box-shadow: 0 0 0 0 rgba(0,0,0,0);
+        height: 18px;
+        width: 18px;
+        border-radius: 37px;
+        cursor: pointer;
+        -webkit-appearance: none;
+        margin-top: -7px;
+      }
+
+      tonic-range input[type=range]:focus::-webkit-slider-thumb {
+        box-shadow: 0 0 0 0 rgba(0,0,0,0);
+      }
+
+      tonic-range input[type=range]:focus {
+        outline: none;
+      }
+
+      tonic-range ::-ms-fill-lower {
+        background: var(--accent);
+      }
+    `
   }
 
   styles () {
     const {
-      width,
-      height,
-      radius,
-      padding
+      width
     } = this.props
 
     return {
-      wrapper: {
+      width: {
         width
-      },
-      input: {
-        width,
-        height,
-        borderRadius: radius,
-        padding
       }
     }
   }
@@ -2617,8 +2671,8 @@ class TonicRange extends Tonic { /* global Tonic */
     `
 
     return `
-      <div class="tonic--wrapper" styles="wrapper">
-        <input styles="input" type="range" ${attributes}/>
+      <div class="tonic--wrapper" styles="width">
+        <input styles="width" type="range" ${attributes}/>
       </div>
     `
   }

@@ -129,6 +129,11 @@
   
 
     <li>
+      <a href="#range" class="">Range</a>
+    </li>
+  
+
+    <li>
       <a href="#router" class="">Router</a>
     </li>
   
@@ -864,6 +869,7 @@ link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; dialog.s
   <span class="hljs-attr">label</span>=<span class="hljs-string">"Email Address"</span>
   <span class="hljs-attr">type</span>=<span class="hljs-string">"email"</span>
   <span class="hljs-attr">width</span>=<span class="hljs-string">"280px"</span>
+  <span class="hljs-attr">id</span>=<span class="hljs-string">"tonic-input-example"</span>
   <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Enter a valid email address"</span>
   <span class="hljs-attr">spellcheck</span>=<span class="hljs-string">"false"</span>
   <span class="hljs-attr">error-message</span>=<span class="hljs-string">"Invalid Email"</span>&gt;</span>
@@ -1687,6 +1693,114 @@ profile.addEventListener(<span class="hljs-string">'error'</span>, e =&gt; <span
 <tbody><tr>
 <td align="left"><code>addIcon(state, fn)</code></td>
 <td align="left">Add a custom SVG as the icon for the given state Where the <code>state</code> parameter is either <code>on</code> or <code>off</code> and the <code>fn</code> parameter is a function that returns your SVG&#39;s xml. The function will receive the color prop as an argument.</td>
+</tr>
+</tbody></table>
+
+    </section>
+  
+
+    <section id="range">
+      <h1 id="range">Range</h1>
+<p>The <code>Range</code> component creates a range input, or slider.</p>
+<h2>Demo</h2>
+<div class="example">
+  <div class="header">Example</div>
+  <div class="content">
+    <tonic-range
+      id="tonic-range-example">
+    </tonic-range>
+    <span id="tonic-range-state"><span>
+  </div>
+</div>
+
+<h2>Code</h2>
+<h4>HTML</h4>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-range</span>
+  <span class="hljs-attr">id</span>=<span class="hljs-string">"tonic-range-example"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">tonic-range</span>&gt;</span></code></pre>
+<h2>Api</h2>
+<h3>Properties</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>id</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Input with <code>id</code> attribute.</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>name</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Input with <code>name</code> attribute.</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>disabled</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Makes the input <code>disabled</code>.</td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left"><code>width</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Width of the range input.</td>
+<td align="left"><code>250px</code></td>
+</tr>
+<tr>
+<td align="left"><code>radius</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Radius of the range input handle.</td>
+<td align="left"><code>3px</code></td>
+</tr>
+<tr>
+<td align="left"><code>orientation</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Slider orientation (horizontal or vertical)</td>
+<td align="left"><code>horizontal</code></td>
+</tr>
+<tr>
+<td align="left"><code>min</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Least possible value.</td>
+<td align="left"><code>0</code></td>
+</tr>
+<tr>
+<td align="left"><code>max</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Greatest possible value.</td>
+<td align="left"><code>100</code></td>
+</tr>
+<tr>
+<td align="left"><code>step</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Number the value must adhere to.</td>
+<td align="left"><code>1</code></td>
+</tr>
+<tr>
+<td align="left"><code>theme</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
+<td align="left"><code>light</code></td>
+</tr>
+</tbody></table>
+<h3>Instance Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>value</code></td>
+<td align="left">Get the current value of the range input.</td>
 </tr>
 </tbody></table>
 

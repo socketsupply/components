@@ -209,6 +209,22 @@ document.getElementById('stop-progress').addEventListener('click', e => {
       
 
         //
+        // ./src/range/readme.js
+        //
+        if (document.body.dataset.page === 'examples') {
+          const range = document.getElementById('tonic-range-example')
+const state = document.getElementById('tonic-range-state')
+
+state.textContent = range.value
+
+range.addEventListener('change', e => {
+  state.textContent = range.value
+})
+
+        }
+      
+
+        //
         // ./src/router/readme.js
         //
         if (document.body.dataset.page === 'examples') {

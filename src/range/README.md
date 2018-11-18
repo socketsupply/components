@@ -10,7 +10,7 @@ The `Range` component creates a range input, or slider.
     <tonic-range
       id="tonic-range-example">
     </tonic-range>
-    <span id="tonic-input-state"><span>
+    <span id="tonic-range-state"><span>
   </div>
 </div>
 
@@ -40,12 +40,6 @@ The `Range` component creates a range input, or slider.
 | `max` | *string* | Greatest possible value. | `100` |
 | `step` | *string* | Number the value must adhere to. | `1` |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
-
-### Instance Methods
-
-| Method | Description |
-| :--- | :--- |
-| `setValid()` | Sets the input to valid. |
 
 ### Instance Members
 

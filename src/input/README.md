@@ -29,6 +29,7 @@ The `Input` component creates an input that can be invalidated.
   label="Email Address"
   type="email"
   width="280px"
+  id="tonic-input-example"
   placeholder="Enter a valid email address"
   spellcheck="false"
   error-message="Invalid Email">

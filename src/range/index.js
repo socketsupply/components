@@ -20,23 +20,32 @@ class TonicRange extends Tonic { /* global Tonic */
   }
 
   get value () {
-    return this.root.querySelector('input').value
+    return this.state.value
   }
 
   set value (value) {
+    if (!this.root) return
+
     this.root.querySelector('input').value = value
+    this.setValue(value)
+  }
+
+  setValue (value) {
+    const min = this.props.min
+    const max = this.props.max
+    const root = this.root
+
+    const input = root.querySelector('input')
+    const label = root.querySelector('label')
+
+    input.style.backgroundSize = (value - min) * 100 / (max - min) + '% 100%'
+    label.textContent = value
+
+    this.setState(state => Object.assign({}, state, { value }))
   }
 
   input (e) {
-    const min = this.props.min
-    const max = this.props.max
-    const val = e.target.value || this.props.value
-
-    const input = this.root.querySelector('input')
-    const label = this.root.querySelector('label')
-
-    input.style.backgroundSize = (val - min) * 100 / (max - min) + '% 100%'
-    label.textContent = this.root.value
+    this.setValue(e.target.value || this.props.value)
   }
 
   stylesheet () {
@@ -128,15 +137,6 @@ class TonicRange extends Tonic { /* global Tonic */
     return `<label>${this.props.value}</label>`
   }
 
-  renderValue () {
-    if (!this.root.querySelector('input')) return ''
-    //
-    // HELP: Why is this.root.querySelector('input') returning null?
-    //
-    // const currentVal = (this.props.value - this.props.min) * 100 / (this.props.max - this.props.min) + '% 100%'
-    // this.root.querySelector('input').style.backgroundSize = currentVal
-  }
-
   styles () {
     const {
       width
@@ -173,20 +173,21 @@ class TonicRange extends Tonic { /* global Tonic */
     const value = this.props.value || this.state.value
     const valueAttr = value && value !== 'undefined' ? `value="${value}"` : ''
 
-    const attributes = `
-    ${valueAttr}
-    ${minAttr}
-    ${maxAttr}
-    ${stepAttr}
-    ${disabledAttr}
-    `
+    this.setState(state => Object.assign({}, state, { value }))
+
+    const attributes = [
+      valueAttr,
+      minAttr,
+      maxAttr,
+      stepAttr,
+      disabledAttr
+    ].join(' ')
 
     return `
       ${this.renderLabel()}
       <div class="tonic--wrapper" styles="width">
         <input type="range" styles="width" id="${id}" ${attributes}/>
       </div>
-      ${this.renderValue()}
     `
   }
 }

@@ -1548,7 +1548,7 @@ profile.addEventListener(<span class="hljs-string">'error'</span>, e =&gt; <span
   <div class="header">Example</div>
   <div class="content">
     <tonic-range
-      label="true"
+      label="The value is %i%"
       id="tonic-range-example">
     </tonic-range>
   </div>
@@ -1557,6 +1557,7 @@ profile.addEventListener(<span class="hljs-string">'error'</span>, e =&gt; <span
 <h2>Code</h2>
 <h4>HTML</h4>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-range</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">"The value is %i%"</span>
   <span class="hljs-attr">id</span>=<span class="hljs-string">"tonic-range-example"</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-range</span>&gt;</span></code></pre>
 <h2>Api</h2>
@@ -1626,9 +1627,9 @@ profile.addEventListener(<span class="hljs-string">'error'</span>, e =&gt; <span
 </tr>
 <tr>
 <td align="left"><code>label</code></td>
-<td align="left"><em>boolean</em></td>
-<td align="left">Label that displays the current value.</td>
-<td align="left"><code>true</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Label that displays the current value. Use %i, %f, etc to represent the value.</td>
+<td align="left"><code>false</code></td>
 </tr>
 <tr>
 <td align="left"><code>thumbColor</code></td>

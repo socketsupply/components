@@ -8,7 +8,7 @@ The `Range` component creates a range input, or slider.
   <div class="header">Example</div>
   <div class="content">
     <tonic-range
-      label="true"
+      label="The value is %i%"
       id="tonic-range-example">
     </tonic-range>
   </div>
@@ -20,6 +20,7 @@ The `Range` component creates a range input, or slider.
 
 ```html
 <tonic-range
+  label="The value is %i%"
   id="tonic-range-example">
 </tonic-range>
 ```
@@ -39,7 +40,7 @@ The `Range` component creates a range input, or slider.
 | `min` | *string* | Least possible value. | `0` |
 | `max` | *string* | Greatest possible value. | `100` |
 | `step` | *string* | Number the value must adhere to. | `1` |
-| `label` | *boolean* | Label that displays the current value. | `true` |
+| `label` | *string* | Label that displays the current value. Use %i, %f, etc to represent the value. | `false` |
 | `thumbColor` | *string* | Color of the slider "thumb" | `var(--window)` |
 | `thumbRadius` | *string* | Radius of the slider "thumb" | `50px` |
 | `value` | *string* | Default value | `50` |

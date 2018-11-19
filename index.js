@@ -1912,10 +1912,13 @@ class TonicRange extends Tonic { /* global Tonic */
     const root = this.root
 
     const input = root.querySelector('input')
-    const label = root.querySelector('label')
+
+    if (this.props.label) {
+      const label = root.querySelector('label')
+      label.textContent = this.getLabelValue(value)
+    }
 
     input.style.backgroundSize = (value - min) * 100 / (max - min) + '% 100%'
-    label.textContent = value
 
     this.setState(state => Object.assign({}, state, { value }))
   }
@@ -1939,8 +1942,8 @@ class TonicRange extends Tonic { /* global Tonic */
         letter-spacing: 1px;
         position: absolute;
         top: 0;
-        left: 50%;
-        transform: translateX(-50%);
+        left: 0;
+        right: 0;
       }
 
       tonic-range input[type="range"] {
@@ -2008,9 +2011,20 @@ class TonicRange extends Tonic { /* global Tonic */
     `
   }
 
+  getLabelValue (value) {
+    if (this.setLabel) {
+      return this.setLabel(value)
+    } else if (this.props.label) {
+      return this.props.label.replace(/%\w/, value)
+    } else {
+      return value
+    }
+  }
+
   renderLabel () {
     if (!this.props.label) return ''
-    return `<label>${this.props.value}</label>`
+    const value = this.props.value
+    return `<label>${this.getLabelValue(value)}</label>`
   }
 
   styles () {

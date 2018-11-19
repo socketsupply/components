@@ -165,6 +165,10 @@ class TonicRange extends Tonic { /* global Tonic */
     }
   }
 
+  connected () {
+    this.setValue(this.state.value)
+  }
+
   render () {
     const {
       width,

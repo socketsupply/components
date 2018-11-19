@@ -2345,9 +2345,11 @@ class TonicRange extends Tonic { /* global Tonic */
   }
 
   setValue (value) {
+    const root = this.root
+    if (!root) return
+
     const min = this.props.min
     const max = this.props.max
-    const root = this.root
 
     const input = root.querySelector('input')
 
@@ -2475,6 +2477,10 @@ class TonicRange extends Tonic { /* global Tonic */
         width
       }
     }
+  }
+
+  connected () {
+    this.setValue(this.state.value)
   }
 
   render () {

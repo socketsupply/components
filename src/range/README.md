@@ -9,6 +9,7 @@ The `Range` component creates a range input, or slider.
   <div class="content">
     <tonic-range
       label="The value is %i%"
+      value="80"
       id="tonic-range-example">
     </tonic-range>
   </div>

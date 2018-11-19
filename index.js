@@ -2135,7 +2135,7 @@ class TonicRange extends Tonic { /* global Tonic */
       }
 
       tonic-range label {
-        font-size: 14px;
+        font: 13px var(--subheader);
         letter-spacing: 1px;
         position: absolute;
         top: 0;
@@ -2160,6 +2160,14 @@ class TonicRange extends Tonic { /* global Tonic */
         border-radius: 0;
         cursor: pointer;
         -webkit-appearance: none;
+      }
+
+      tonic-range input[type="range"]:disabled {
+        background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, var(--border)), color-stop(100%, var(--border)));
+        background-image: -webkit-linear-gradient(var(--border), var(--border));
+        background-image: -moz-linear-gradient(var(--border), var(--border));
+        background-image: -o-linear-gradient(var(--border), var(--border));
+        background-image: linear-gradient(var(--border), var(--border));
       }
 
       tonic-range input[type="range"]::-webkit-slider-runnable-track {

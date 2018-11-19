@@ -1707,9 +1707,9 @@ profile.addEventListener(<span class="hljs-string">'error'</span>, e =&gt; <span
   <div class="header">Example</div>
   <div class="content">
     <tonic-range
+      label="true"
       id="tonic-range-example">
     </tonic-range>
-    <span id="tonic-range-state"><span>
   </div>
 </div>
 
@@ -1732,7 +1732,7 @@ profile.addEventListener(<span class="hljs-string">'error'</span>, e =&gt; <span
 <tbody><tr>
 <td align="left"><code>id</code></td>
 <td align="left"><em>string</em></td>
-<td align="left">Input with <code>id</code> attribute.</td>
+<td align="left">Input with <code>id</code> attribute. <span class="req">Required</span></td>
 <td align="left"></td>
 </tr>
 <tr>
@@ -1760,12 +1760,6 @@ profile.addEventListener(<span class="hljs-string">'error'</span>, e =&gt; <span
 <td align="left"><code>3px</code></td>
 </tr>
 <tr>
-<td align="left"><code>orientation</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Slider orientation (horizontal or vertical)</td>
-<td align="left"><code>horizontal</code></td>
-</tr>
-<tr>
 <td align="left"><code>min</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">Least possible value.</td>
@@ -1782,6 +1776,18 @@ profile.addEventListener(<span class="hljs-string">'error'</span>, e =&gt; <span
 <td align="left"><em>string</em></td>
 <td align="left">Number the value must adhere to.</td>
 <td align="left"><code>1</code></td>
+</tr>
+<tr>
+<td align="left"><code>label</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Label that displays the current value.</td>
+<td align="left"><code>true</code></td>
+</tr>
+<tr>
+<td align="left"><code>value</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Default value</td>
+<td align="left"><code>50</code></td>
 </tr>
 <tr>
 <td align="left"><code>theme</code></td>

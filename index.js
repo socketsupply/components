@@ -2183,7 +2183,7 @@ class TonicRange extends Tonic { /* global Tonic */
         width: 18px;
         height: 18px;
         border: 0;
-        background: var(--window);
+        background: #fff;
         border-radius: 100%;
         box-shadow: 0 0 3px 0px rgba(0,0,0,0.25);
         -webkit-appearance: none;
@@ -2193,7 +2193,7 @@ class TonicRange extends Tonic { /* global Tonic */
         width: 18px;
         height: 18px;
         border: 0;
-        background: var(--primary);
+        background: #fff;
         border-radius: 100%;
         box-shadow: 0 0 1px 0px rgba(0,0,0,0.1);
       }

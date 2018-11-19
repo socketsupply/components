@@ -45,3 +45,9 @@ npm hxoht/components --css ./test/output.css
 npm install
 npm run build && npm run dev
 ```
+
+# TEST
+
+```bash
+npm run test:manual
+```

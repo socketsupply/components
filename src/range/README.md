@@ -33,12 +33,15 @@ The `Range` component creates a range input, or slider.
 | `id` | *string* | Input with `id` attribute. <span class="req">Required</span> | |
 | `name` | *string* | Input with `name` attribute. | |
 | `disabled` | *boolean* | Makes the input `disabled`. | `false` |
-| `width` | *string* | Width of the range input. | `250px` |
-| `radius` | *string* | Radius of the range input handle. | `3px` |
+| `width` | *string* | Width of the track. | `250px` |
+| `height` | *string* | Height of the track. | `4px` |
+| `radius` | *string* | Radius of the track. | `3px` |
 | `min` | *string* | Least possible value. | `0` |
 | `max` | *string* | Greatest possible value. | `100` |
 | `step` | *string* | Number the value must adhere to. | `1` |
 | `label` | *boolean* | Label that displays the current value. | `true` |
+| `thumbColor` | *string* | Color of the slider "thumb" | `var(--window)` |
+| `thumbRadius` | *string* | Radius of the slider "thumb" | `50px` |
 | `value` | *string* | Default value | `50` |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 

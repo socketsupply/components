@@ -295,28 +295,6 @@ document.getElementById('stop-progress').addEventListener('click', e => {
       
 
         //
-        // ./src/range/readme.js
-        //
-        if (document.body.dataset.page === 'examples') {
-          // const range = document.getElementById('tonic-range-example')
-// const input = range.querySelector('input')
-// const label = range.querySelector('label')
-//
-// if (label) label.textContent = range.value
-//
-// input.addEventListener('input', function (e) {
-//   const min = e.target.min
-//   const max = e.target.max
-//   const val = e.target.value
-//
-//   input.style.backgroundSize = (val - min) * 100 / (max - min) + '% 100%'
-//   if (label) label.textContent = range.value
-// })
-
-        }
-      
-
-        //
         // ./src/router/readme.js
         //
         if (document.body.dataset.page === 'examples') {
@@ -2643,7 +2621,7 @@ class TonicRange extends Tonic { /* global Tonic */
         width: 18px;
         height: 18px;
         border: 0;
-        background: var(--window);
+        background: #fff;
         border-radius: 100%;
         box-shadow: 0 0 3px 0px rgba(0,0,0,0.25);
         -webkit-appearance: none;
@@ -2653,7 +2631,7 @@ class TonicRange extends Tonic { /* global Tonic */
         width: 18px;
         height: 18px;
         border: 0;
-        background: var(--primary);
+        background: #fff;
         border-radius: 100%;
         box-shadow: 0 0 1px 0px rgba(0,0,0,0.1);
       }

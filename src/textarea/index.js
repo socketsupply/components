@@ -127,19 +127,19 @@ class TonicTextarea extends Tonic { /* global Tonic */
 
     if (this.props.value === 'undefined') this.props.value = ''
 
-    const attributes = `
-      ${placeholderAttr}
-      ${spellcheckAttr}
-      ${disabled}
-      ${required}
-      ${readonly}
-      ${autofocus}
-      ${rowsAttr}
-      ${colsAttr}
-      ${minAttr}
-      ${maxAttr}
-      ${disabledAttr}
-    `
+    const attributes = [
+      placeholderAttr,
+      spellcheckAttr,
+      disabled,
+      required,
+      readonly,
+      autofocus,
+      rowsAttr,
+      colsAttr,
+      minAttr,
+      maxAttr,
+      disabledAttr
+    ].join(' ')
 
     return `
       <div class="tonic--wrapper">

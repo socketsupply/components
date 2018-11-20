@@ -227,12 +227,13 @@ class TonicSelect extends Tonic { /* global Tonic */
     if (width) this.root.style.width = width
     if (height) this.root.style.width = height
 
-    const attributes = `
-      ${disabledAttr}
-      ${multipleAttr}
-      ${sizeAttr}
-      ${required}
-    `
+    const attributes = [
+      disabledAttr,
+      multipleAttr,
+      sizeAttr,
+      required
+    ].join(' ')
+
     const options = this.root.innerHTML
 
     return `

@@ -297,19 +297,19 @@ class TonicInput extends Tonic { /* global Tonic */
     const value = this.props.value || this.state.value
     const valueAttr = value && value !== 'undefined' ? `value="${value}"` : ''
 
-    const attributes = `
-    ${patternAttr}
-    ${valueAttr}
-    ${placeholderAttr}
-    ${spellcheckAttr}
-    ${ariaInvalidAttr}
-    ${minLengthAttr}
-    ${maxLengthAttr}
-    ${minAttr}
-    ${maxAttr}
-    ${disabledAttr}
-    ${requiredAttr}
-    `
+    const attributes = [
+      patternAttr,
+      valueAttr,
+      placeholderAttr,
+      spellcheckAttr,
+      ariaInvalidAttr,
+      minLengthAttr,
+      maxLengthAttr,
+      minAttr,
+      maxAttr,
+      disabledAttr,
+      requiredAttr
+    ].join(' ')
 
     return `
       <div class="tonic--wrapper ${positionAttr}" styles="wrapper">

@@ -273,12 +273,12 @@ class TonicButton extends Tonic { /* global Tonic */
 
     const label = this.root.textContent || value
 
-    const attributes = `
-      ${valueAttr}
-      ${typeAttr}
-      ${disabledAttr}
-      ${autofocus}
-    `
+    const attributes = [
+      valueAttr,
+      typeAttr,
+      disabledAttr,
+      autofocus
+    ].join(' ')
 
     return `
       <div class="tonic--button--wrapper" styles="wrapper">
@@ -1183,19 +1183,19 @@ class TonicInput extends Tonic { /* global Tonic */
     const value = this.props.value || this.state.value
     const valueAttr = value && value !== 'undefined' ? `value="${value}"` : ''
 
-    const attributes = `
-    ${patternAttr}
-    ${valueAttr}
-    ${placeholderAttr}
-    ${spellcheckAttr}
-    ${ariaInvalidAttr}
-    ${minLengthAttr}
-    ${maxLengthAttr}
-    ${minAttr}
-    ${maxAttr}
-    ${disabledAttr}
-    ${requiredAttr}
-    `
+    const attributes = [
+      patternAttr,
+      valueAttr,
+      placeholderAttr,
+      spellcheckAttr,
+      ariaInvalidAttr,
+      minLengthAttr,
+      maxLengthAttr,
+      minAttr,
+      maxAttr,
+      disabledAttr,
+      requiredAttr
+    ].join(' ')
 
     return `
       <div class="tonic--wrapper ${positionAttr}" styles="wrapper">
@@ -2604,12 +2604,13 @@ class TonicSelect extends Tonic { /* global Tonic */
     if (width) this.root.style.width = width
     if (height) this.root.style.width = height
 
-    const attributes = `
-      ${disabledAttr}
-      ${multipleAttr}
-      ${sizeAttr}
-      ${required}
-    `
+    const attributes = [
+      disabledAttr,
+      multipleAttr,
+      sizeAttr,
+      required
+    ].join(' ')
+
     const options = this.root.innerHTML
 
     return `
@@ -2855,19 +2856,19 @@ class TonicTextarea extends Tonic { /* global Tonic */
 
     if (this.props.value === 'undefined') this.props.value = ''
 
-    const attributes = `
-      ${placeholderAttr}
-      ${spellcheckAttr}
-      ${disabled}
-      ${required}
-      ${readonly}
-      ${autofocus}
-      ${rowsAttr}
-      ${colsAttr}
-      ${minAttr}
-      ${maxAttr}
-      ${disabledAttr}
-    `
+    const attributes = [
+      placeholderAttr,
+      spellcheckAttr,
+      disabled,
+      required,
+      readonly,
+      autofocus,
+      rowsAttr,
+      colsAttr,
+      minAttr,
+      maxAttr,
+      disabledAttr
+    ].join(' ')
 
     return `
       <div class="tonic--wrapper">

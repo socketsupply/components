@@ -237,7 +237,7 @@ class TonicButton extends Tonic { /* global Tonic */
       button: {
         width,
         height,
-        color: disabled ? textColorDisabled : textColor,
+        color: disabled && disabled === 'true' ? textColorDisabled : textColor,
         backgroundColor: fill,
         borderRadius: radius,
         borderColor: fill || borderColor,
@@ -260,21 +260,28 @@ class TonicButton extends Tonic { /* global Tonic */
       active,
       theme,
       async,
-      tabindex
+      tabindex,
+      href
     } = this.props
 
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
-
-    const disabledAttr = disabled ? `disabled="true"` : ''
+    const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
     const valueAttr = value ? `value="${value}"` : ''
     const typeAttr = type ? `type="${type}"` : ''
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
 
-    if (tabindex) this.root.removeAttribute('tabindex')
-
     let classes = []
+
     if (active) classes.push(`tonic--active`)
     classes = classes.join(' ')
+
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (tabindex) this.root.removeAttribute('tabindex')
+    if (href) {
+      this.root.addEventListener('click', e => {
+        e.preventDefault()
+        window.location.href = href
+      })
+    }
 
     const label = this.root.textContent || value
 
@@ -4354,15 +4361,14 @@ Tonic.escapeMap = { '"': '&quot;', '&': '&amp;', '\'': '&#x27;', '<': '&lt;', '>
 if (typeof module === 'object') module.exports = Tonic
 
 },{}],3:[function(require,module,exports){
-console.log('badge')
 
 },{}],4:[function(require,module,exports){
-
-},{}],5:[function(require,module,exports){
-arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],6:[function(require,module,exports){
-arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],7:[function(require,module,exports){
+arguments[4][3][0].apply(exports,arguments)
+},{"dup":3}],5:[function(require,module,exports){
+arguments[4][3][0].apply(exports,arguments)
+},{"dup":3}],6:[function(require,module,exports){
+arguments[4][3][0].apply(exports,arguments)
+},{"dup":3}],7:[function(require,module,exports){
 const Tonic = require('@conductorlab/tonic')
 
 class TonicDialog extends Tonic.Dialog {
@@ -4462,8 +4468,8 @@ const dialogDarkTheme = document.getElementById('dialog-dark-theme')
 linkDarkTheme.addEventListener('click', e => dialogDarkTheme.show())
 
 },{"@conductorlab/tonic":2}],8:[function(require,module,exports){
-arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],9:[function(require,module,exports){
+arguments[4][3][0].apply(exports,arguments)
+},{"dup":3}],9:[function(require,module,exports){
 const Tonic = require('@conductorlab/tonic')
 const components = require('../..')
 
@@ -4505,31 +4511,31 @@ function ready () {
 document.addEventListener('DOMContentLoaded', ready)
 
 },{"../..":1,"./badge":3,"./button":4,"./chart":5,"./checkbox":6,"./dialog":7,"./icon":8,"./input":10,"./panel":11,"./popover":12,"./profileimage":13,"./progressbar":14,"./router":15,"./select":16,"./tabs":17,"./textarea":18,"./toaster":19,"./toasterinline":20,"./toggle":21,"./tooltip":22,"./windowed":23,"@conductorlab/tonic":2}],10:[function(require,module,exports){
-arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],11:[function(require,module,exports){
-arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],12:[function(require,module,exports){
-arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],13:[function(require,module,exports){
-arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],14:[function(require,module,exports){
-arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],15:[function(require,module,exports){
-arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],16:[function(require,module,exports){
-arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],17:[function(require,module,exports){
-arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],18:[function(require,module,exports){
-arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],19:[function(require,module,exports){
-arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],20:[function(require,module,exports){
-arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],21:[function(require,module,exports){
-arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],22:[function(require,module,exports){
-arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],23:[function(require,module,exports){
-arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}]},{},[9]);
+arguments[4][3][0].apply(exports,arguments)
+},{"dup":3}],11:[function(require,module,exports){
+arguments[4][3][0].apply(exports,arguments)
+},{"dup":3}],12:[function(require,module,exports){
+arguments[4][3][0].apply(exports,arguments)
+},{"dup":3}],13:[function(require,module,exports){
+arguments[4][3][0].apply(exports,arguments)
+},{"dup":3}],14:[function(require,module,exports){
+arguments[4][3][0].apply(exports,arguments)
+},{"dup":3}],15:[function(require,module,exports){
+arguments[4][3][0].apply(exports,arguments)
+},{"dup":3}],16:[function(require,module,exports){
+arguments[4][3][0].apply(exports,arguments)
+},{"dup":3}],17:[function(require,module,exports){
+arguments[4][3][0].apply(exports,arguments)
+},{"dup":3}],18:[function(require,module,exports){
+arguments[4][3][0].apply(exports,arguments)
+},{"dup":3}],19:[function(require,module,exports){
+arguments[4][3][0].apply(exports,arguments)
+},{"dup":3}],20:[function(require,module,exports){
+arguments[4][3][0].apply(exports,arguments)
+},{"dup":3}],21:[function(require,module,exports){
+arguments[4][3][0].apply(exports,arguments)
+},{"dup":3}],22:[function(require,module,exports){
+arguments[4][3][0].apply(exports,arguments)
+},{"dup":3}],23:[function(require,module,exports){
+arguments[4][3][0].apply(exports,arguments)
+},{"dup":3}]},{},[9]);

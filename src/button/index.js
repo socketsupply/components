@@ -157,7 +157,7 @@ class TonicButton extends Tonic { /* global Tonic */
       button: {
         width,
         height,
-        color: disabled ? textColorDisabled : textColor,
+        color: disabled && disabled === 'true' ? textColorDisabled : textColor,
         backgroundColor: fill,
         borderRadius: radius,
         borderColor: fill || borderColor,
@@ -180,21 +180,28 @@ class TonicButton extends Tonic { /* global Tonic */
       active,
       theme,
       async,
-      tabindex
+      tabindex,
+      href
     } = this.props
 
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
-
-    const disabledAttr = disabled ? `disabled="true"` : ''
+    const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
     const valueAttr = value ? `value="${value}"` : ''
     const typeAttr = type ? `type="${type}"` : ''
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
 
-    if (tabindex) this.root.removeAttribute('tabindex')
-
     let classes = []
+
     if (active) classes.push(`tonic--active`)
     classes = classes.join(' ')
+
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (tabindex) this.root.removeAttribute('tabindex')
+    if (href) {
+      this.root.addEventListener('click', e => {
+        e.preventDefault()
+        window.location.href = href
+      })
+    }
 
     const label = this.root.textContent || value
 

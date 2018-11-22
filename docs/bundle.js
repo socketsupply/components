@@ -811,14 +811,27 @@ class TonicChart extends Tonic { /* global Tonic */
   }
 
   async connected () {
-    const { err, data } = await this.fetch(this.props.src)
+    let data = null
+    let configuration = null
 
-    if (err) {
-      return console.error(err)
+    if (typeof this.props.src === 'string') {
+
+      const response = await this.fetch(this.props.src)
+
+      if (response.err) {
+        return console.error(err)
+      }
+
+      data = response.data
+    }
+
+    if ((this.props.src === Object(this.props.src)) && this.props.src.chartData) {
+      data = this.props.src.chartData
+      configuration = this.props.configuration || {}
     }
 
     if (data) {
-      this.draw(data)
+      this.draw(data, configuration)
     }
   }
 
@@ -4746,27 +4759,15 @@ if (typeof module === 'object') module.exports = Tonic
 },{}],6:[function(require,module,exports){
 "use strict";
 
-// ref: https://github.com/tc39/proposal-global
-var getGlobal = function () {
-	// the only reliable means to get the global object is
-	// `Function('return this')()`
-	// However, this causes CSP violations in Chrome apps.
-	if (typeof self !== 'undefined') { return self; }
-	if (typeof window !== 'undefined') { return window; }
-	if (typeof global !== 'undefined') { return global; }
-	throw new Error('unable to locate global object');
-}
-
-var global = getGlobal();
-
-module.exports = exports = global.fetch;
+module.exports = exports = self.fetch;
 
 // Needed for TypeScript and Webpack.
-exports.default = global.fetch.bind(global);
+exports.default = self.fetch.bind(self);
 
-exports.Headers = global.Headers;
-exports.Request = global.Request;
-exports.Response = global.Response;
+exports.Headers = self.Headers;
+exports.Request = self.Request;
+exports.Response = self.Response;
+
 },{}],7:[function(require,module,exports){
 const qs = (s, p) => (p || document).querySelector(s)
 const qsa = (s, p) => [...(p || document).querySelectorAll(s)]

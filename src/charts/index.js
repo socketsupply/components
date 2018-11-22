@@ -79,7 +79,7 @@ class TonicChart extends Tonic { /* global Tonic */
     let data = null
     let configuration = null
 
-    if(typeof this.props.src === 'string'){
+    if (typeof this.props.src === 'string') {
 
       const response = await this.fetch(this.props.src)
 
@@ -90,7 +90,7 @@ class TonicChart extends Tonic { /* global Tonic */
       data = response.data
     }
 
-    if((this.props.src === Object(this.props.src)) && this.props.src.chartData){
+    if ((this.props.src === Object(this.props.src)) && this.props.src.chartData) {
       data = this.props.src.chartData
       configuration = this.props.configuration || {}
     }

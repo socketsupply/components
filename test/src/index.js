@@ -23,3 +23,17 @@ require('./toasterinline')
 require('./toggle')
 require('./tooltip')
 require('./windowed')
+
+function ready () {
+  document.addEventListener('keydown', e => {
+    if (e.keyCode === 9) {
+      document.body.classList.add('show-focus')
+    }
+  })
+
+  document.addEventListener('click', e => {
+    document.body.classList.remove('show-focus')
+  })
+}
+
+document.addEventListener('DOMContentLoaded', ready)

@@ -52,6 +52,10 @@ body.theme-dark,
 ::placeholder {
   color: var(--medium);
 }
+body#test:not(.show-focus) [tabindex]:focus,
+body#test:not(.show-focus) *:focus {
+  outline: none;
+}
 body#test main {
   display: -webkit-box;
   display: -ms-flexbox;

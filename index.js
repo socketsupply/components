@@ -1972,6 +1972,7 @@ class TonicRange extends Tonic { /* global Tonic */
       tonic-range label {
         font: 13px var(--subheader);
         letter-spacing: 1px;
+        text-align: center;
         position: absolute;
         top: 0;
         left: 0;

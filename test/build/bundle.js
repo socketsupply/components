@@ -1974,6 +1974,7 @@ class TonicRange extends Tonic { /* global Tonic */
       tonic-range label {
         font: 13px var(--subheader);
         letter-spacing: 1px;
+        text-align: center;
         position: absolute;
         top: 0;
         left: 0;
@@ -4488,6 +4489,20 @@ require('./toasterinline')
 require('./toggle')
 require('./tooltip')
 require('./windowed')
+
+function ready () {
+  document.addEventListener('keydown', e => {
+    if (e.keyCode === 9) {
+      document.body.classList.add('show-focus')
+    }
+  })
+
+  document.addEventListener('click', e => {
+    document.body.classList.remove('show-focus')
+  })
+}
+
+document.addEventListener('DOMContentLoaded', ready)
 
 },{"../..":1,"./badge":3,"./button":4,"./chart":5,"./checkbox":6,"./dialog":7,"./icon":8,"./input":10,"./panel":11,"./popover":12,"./profileimage":13,"./progressbar":14,"./router":15,"./select":16,"./tabs":17,"./textarea":18,"./toaster":19,"./toasterinline":20,"./toggle":21,"./tooltip":22,"./windowed":23,"@conductorlab/tonic":2}],10:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)

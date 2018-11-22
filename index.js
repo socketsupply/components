@@ -589,19 +589,24 @@ class TonicCheckbox extends Tonic { /* global Tonic */
 
     checked = checked ? 'checked' : ''
 
+    const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
 
     if (theme) this.classList.add(`tonic--theme--${theme}`)
     if (tabindex) this.root.removeAttribute('tabindex')
+
+    const attributes = [
+      disabledAttr,
+      tabAttr,
+      checked
+    ].join(' ')
 
     return `
       <div class="tonic--checkbox--wrapper">
         <input
           type="checkbox"
           id="tonic--checkbox--${id}"
-          ${disabled}
-          ${tabAttr}
-          ${checked}/>
+          ${attributes}/>
         <label
           for="tonic--checkbox--${id}"
           styles="icon"
@@ -3616,17 +3621,17 @@ class TonicToggle extends Tonic { /* global Tonic */
 
       tonic-toggle .tonic--toggle:disabled {
         cursor: default;
-        background-color: var(--background);
+        opacity: 0.5;
       }
 
       tonic-toggle .tonic--toggle:disabled + label {
         cursor: default;
-        background-color: var(--background);
+        opacity: 0.5;
       }
 
       tonic-toggle .tonic--toggle:disabled + label:before {
         content: '';
-        background-color: var(--background);
+        opacity: 0.5;
       }
 
       tonic-toggle .tonic--toggle:disabled + label:after {
@@ -3673,6 +3678,8 @@ class TonicToggle extends Tonic { /* global Tonic */
       theme
     } = this.props
 
+    const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
+
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     let checked
@@ -3686,6 +3693,11 @@ class TonicToggle extends Tonic { /* global Tonic */
     this.state.checked = checked
     checked = checked ? 'checked' : ''
 
+    const attributes = [
+      disabledAttr,
+      checked
+    ].join(' ')
+
     return `
       <div class="tonic--toggle--wrapper">
         <div class="tonic--switch">
@@ -3693,8 +3705,7 @@ class TonicToggle extends Tonic { /* global Tonic */
             type="checkbox"
             class="tonic--toggle"
             id="tonic--toggle--${id}"
-            ${disabled}
-            ${checked}/>
+            ${attributes}/>
           <label for="tonic--toggle--${id}"></label>
         </div>
         ${this.renderLabel()}

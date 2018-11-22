@@ -168,19 +168,24 @@ class TonicCheckbox extends Tonic { /* global Tonic */
 
     checked = checked ? 'checked' : ''
 
+    const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
 
     if (theme) this.classList.add(`tonic--theme--${theme}`)
     if (tabindex) this.root.removeAttribute('tabindex')
+
+    const attributes = [
+      disabledAttr,
+      tabAttr,
+      checked
+    ].join(' ')
 
     return `
       <div class="tonic--checkbox--wrapper">
         <input
           type="checkbox"
           id="tonic--checkbox--${id}"
-          ${disabled}
-          ${tabAttr}
-          ${checked}/>
+          ${attributes}/>
         <label
           for="tonic--checkbox--${id}"
           styles="icon"

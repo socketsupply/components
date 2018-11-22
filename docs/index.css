@@ -335,6 +335,9 @@ body[data-page="docs"] #intro {
 body[data-page="docs"] h1 {
   display: none;
 }
+body:not(.show-focus) [tabindex]:focus {
+  outline: none;
+}
 blockquote {
   border-left: 4px solid var(--info);
   padding-left: 14px;

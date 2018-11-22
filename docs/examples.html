@@ -1987,9 +1987,9 @@ select.addEventListener(<span class="hljs-string">'change'</span>, ({ target }) 
   <div class="header">Example</div>
   <div class="content">
     <tonic-tabs group="profile" selected="two">
-      <span data-tab-name="one">One</span>
-      <span data-tab-name="two">Two</span>
-      <span data-tab-name="three">Three</span>
+      <span tabindex="0" data-tab-name="one">One</span>
+      <span tabindex="0" data-tab-name="two">Two</span>
+      <span tabindex="0" data-tab-name="three">Three</span>
     </tonic-tabs>
     <section data-tab-group="profile" data-tab-name="one">
       Content One
@@ -2007,6 +2007,7 @@ select.addEventListener(<span class="hljs-string">'change'</span>, ({ target }) 
 <p>Tabs have two important concepts. The idea of a <code>group</code> and the idea of a <code>name</code>. Each tab in a tab group will have content that is associated by a <code>name</code>.</p>
 <p>The structure inside the component is arbitrary: spans, links, links inside divs, they can all be different. You just need to add the <code>data-tab-name</code> property to the clickable item.</p>
 <p>The default tab should be specified using the <code>selected</code> property.</p>
+<p>You can specify a tabindex for each tab individually in your html.</p>
 <h4>HTML</h4>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-tabs</span> <span class="hljs-attr">group</span>=<span class="hljs-string">"profile"</span> <span class="hljs-attr">selected</span>=<span class="hljs-string">"one"</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">data-tab-name</span>=<span class="hljs-string">"one"</span>&gt;</span>One<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>

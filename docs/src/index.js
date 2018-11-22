@@ -59,8 +59,21 @@ function setupNavigation () {
   main.addEventListener('scroll', onscroll)
 }
 
+function clearFocus () {
+  document.addEventListener('keydown', e => {
+    if (e.keyCode === 9) {
+      document.body.classList.add('show-focus')
+    }
+  })
+
+  document.addEventListener('click', e => {
+    document.body.classList.remove('show-focus')
+  })
+}
+
 function ready () {
   setupNavigation()
+  clearFocus()
 
   const theme = window.localStorage.theme
   if (theme) document.body.classList.add(theme)

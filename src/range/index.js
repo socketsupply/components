@@ -74,7 +74,6 @@ class TonicRange extends Tonic { /* global Tonic */
 
       tonic-range input[type="range"] {
         margin: auto;
-        outline: none;
         padding: 0;
         width: 50%;
         height: 4px;
@@ -178,7 +177,8 @@ class TonicRange extends Tonic { /* global Tonic */
       min,
       max,
       step,
-      id
+      id,
+      tabindex
     } = this.props
 
     const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
@@ -189,9 +189,11 @@ class TonicRange extends Tonic { /* global Tonic */
     if (width) this.root.style.width = width
     if (height) this.root.style.width = height
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (tabindex) this.root.removeAttribute('tabindex')
 
     const value = this.props.value || this.state.value
     const valueAttr = value && value !== 'undefined' ? `value="${value}"` : ''
+    const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
 
     this.setState(state => Object.assign({}, state, { value }))
 
@@ -200,7 +202,8 @@ class TonicRange extends Tonic { /* global Tonic */
       minAttr,
       maxAttr,
       stepAttr,
-      disabledAttr
+      disabledAttr,
+      tabAttr
     ].join(' ')
 
     return `

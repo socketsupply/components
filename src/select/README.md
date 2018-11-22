@@ -37,17 +37,18 @@ The `Select` component creates a select input.
 
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
-| `id` | *string* | Select box with `id` attribute | |
-| `name` | *string* | Select box with `name` attribute | |
-| `required` | *boolean* | Makes the select box required | `false` |
-| `disabled` | *boolean* | Makes the select box disabled | `false` |
-| `label` | *string* | Adds a label to the select box | |
-| `width` | *string* | Width of the select box | `250px` |
-| `height` | *string* | Height of the select box | |
-| `radius` | *string* | Radius of the select box | `2px` |
-| `multiple` | *boolean* | Show as multiple select | |
-| `size` | *string* | The number of visible items for a multiple select |  |
-| `value` | *string* | The default value that will be selected | |
+| `id` | *string* | Select box with `id` attribute. | |
+| `name` | *string* | Select box with `name` attribute. | |
+| `required` | *boolean* | Makes the select box required. | `false` |
+| `disabled` | *boolean* | Makes the select box disabled. | `false` |
+| `label` | *string* | Adds a label to the select box. | |
+| `width` | *string* | Width of the select box. | `250px` |
+| `height` | *string* | Height of the select box. | |
+| `radius` | *string* | Radius of the select box. | `2px` |
+| `multiple` | *boolean* | Show as multiple select. | |
+| `size` | *string* | The number of visible items for a multiple select. |  |
+| `value` | *string* | The default value that will be selected. | |
+| `tabindex` | *number* | Add a `tabindex` for the select box. | |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
 ### Instance Methods

@@ -75,7 +75,6 @@ class TonicSelect extends Tonic { /* global Tonic */
         background-repeat: no-repeat;
         background-position: center right;
         border: 1px solid var(--border);
-        outline: none;
         -webkit-appearance: none;
         appearance: none;
         position: relative;
@@ -216,22 +215,26 @@ class TonicSelect extends Tonic { /* global Tonic */
       required,
       multiple,
       size,
-      theme
+      theme,
+      tabindex
     } = this.props
 
     const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
     const multipleAttr = multiple && multiple === 'true' ? `multiple="true"` : ''
+    const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
     const sizeAttr = size ? `size="${size}"` : ''
 
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
     if (width) this.root.style.width = width
     if (height) this.root.style.width = height
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (tabindex) this.root.removeAttribute('tabindex')
 
     const attributes = [
       disabledAttr,
       multipleAttr,
       sizeAttr,
-      required
+      required,
+      tabAttr
     ].join(' ')
 
     const options = this.root.innerHTML

@@ -269,8 +269,8 @@
     <tonic-button
       async="true"
       id="tonic-button-example"
-      value="click-me">Click me
-    </tonic-button>
+      tabindex="1"
+      value="click-me">Click me</tonic-button>
   </div>
 </div>
 
@@ -383,6 +383,12 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
 <td align="left"><code>href</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">Add a location (url) for click event.</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>tabindex</code></td>
+<td align="left"><em>number</em></td>
+<td align="left">Add a <code>tabindex</code> for the button.</td>
 <td align="left"></td>
 </tr>
 <tr>
@@ -606,6 +612,12 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
 <td align="left"><em>string</em></td>
 <td align="left">Changes the color of the icon.</td>
 <td align="left"><code>--primary</code></td>
+</tr>
+<tr>
+<td align="left"><code>tabindex</code></td>
+<td align="left"><em>number</em></td>
+<td align="left">Add a <code>tabindex</code> for the checkbox.</td>
+<td align="left"></td>
 </tr>
 <tr>
 <td align="left"><code>theme</code></td>
@@ -982,6 +994,12 @@ link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; dialog.s
 <td align="left"><em>string</em></td>
 <td align="left">Radius of the input.</td>
 <td align="left"><code>3px</code></td>
+</tr>
+<tr>
+<td align="left"><code>tabindex</code></td>
+<td align="left"><em>number</em></td>
+<td align="left">Add a <code>tabindex</code> for the input.</td>
+<td align="left"></td>
 </tr>
 <tr>
 <td align="left"><code>theme</code></td>
@@ -1651,6 +1669,12 @@ profile.addEventListener(<span class="hljs-string">'error'</span>, e =&gt; <span
 <td align="left"><code>50</code></td>
 </tr>
 <tr>
+<td align="left"><code>tabindex</code></td>
+<td align="left"><em>number</em></td>
+<td align="left">Add a <code>tabindex</code> for the range.</td>
+<td align="left"></td>
+</tr>
+<tr>
 <td align="left"><code>theme</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
@@ -1837,67 +1861,73 @@ select.addEventListener(<span class="hljs-string">'change'</span>, ({ target }) 
 <tbody><tr>
 <td align="left"><code>id</code></td>
 <td align="left"><em>string</em></td>
-<td align="left">Select box with <code>id</code> attribute</td>
+<td align="left">Select box with <code>id</code> attribute.</td>
 <td align="left"></td>
 </tr>
 <tr>
 <td align="left"><code>name</code></td>
 <td align="left"><em>string</em></td>
-<td align="left">Select box with <code>name</code> attribute</td>
+<td align="left">Select box with <code>name</code> attribute.</td>
 <td align="left"></td>
 </tr>
 <tr>
 <td align="left"><code>required</code></td>
 <td align="left"><em>boolean</em></td>
-<td align="left">Makes the select box required</td>
+<td align="left">Makes the select box required.</td>
 <td align="left"><code>false</code></td>
 </tr>
 <tr>
 <td align="left"><code>disabled</code></td>
 <td align="left"><em>boolean</em></td>
-<td align="left">Makes the select box disabled</td>
+<td align="left">Makes the select box disabled.</td>
 <td align="left"><code>false</code></td>
 </tr>
 <tr>
 <td align="left"><code>label</code></td>
 <td align="left"><em>string</em></td>
-<td align="left">Adds a label to the select box</td>
+<td align="left">Adds a label to the select box.</td>
 <td align="left"></td>
 </tr>
 <tr>
 <td align="left"><code>width</code></td>
 <td align="left"><em>string</em></td>
-<td align="left">Width of the select box</td>
+<td align="left">Width of the select box.</td>
 <td align="left"><code>250px</code></td>
 </tr>
 <tr>
 <td align="left"><code>height</code></td>
 <td align="left"><em>string</em></td>
-<td align="left">Height of the select box</td>
+<td align="left">Height of the select box.</td>
 <td align="left"></td>
 </tr>
 <tr>
 <td align="left"><code>radius</code></td>
 <td align="left"><em>string</em></td>
-<td align="left">Radius of the select box</td>
+<td align="left">Radius of the select box.</td>
 <td align="left"><code>2px</code></td>
 </tr>
 <tr>
 <td align="left"><code>multiple</code></td>
 <td align="left"><em>boolean</em></td>
-<td align="left">Show as multiple select</td>
+<td align="left">Show as multiple select.</td>
 <td align="left"></td>
 </tr>
 <tr>
 <td align="left"><code>size</code></td>
 <td align="left"><em>string</em></td>
-<td align="left">The number of visible items for a multiple select</td>
+<td align="left">The number of visible items for a multiple select.</td>
 <td align="left"></td>
 </tr>
 <tr>
 <td align="left"><code>value</code></td>
 <td align="left"><em>string</em></td>
-<td align="left">The default value that will be selected</td>
+<td align="left">The default value that will be selected.</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>tabindex</code></td>
+<td align="left"><em>number</em></td>
+<td align="left">Add a <code>tabindex</code> for the select box.</td>
 <td align="left"></td>
 </tr>
 <tr>
@@ -2165,6 +2195,12 @@ select.addEventListener(<span class="hljs-string">'change'</span>, ({ target }) 
 <td align="left"><em>string</em></td>
 <td align="left">Set radius of text area.</td>
 <td align="left"><code>2px</code></td>
+</tr>
+<tr>
+<td align="left"><code>tabindex</code></td>
+<td align="left"><em>number</em></td>
+<td align="left">Add a <code>tabindex</code> for the text area.</td>
+<td align="left"></td>
 </tr>
 <tr>
 <td align="left"><code>theme</code></td>

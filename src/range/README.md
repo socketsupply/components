@@ -45,6 +45,7 @@ The `Range` component creates a range input, or slider.
 | `thumbColor` | *string* | Color of the slider "thumb" | `var(--window)` |
 | `thumbRadius` | *string* | Radius of the slider "thumb" | `50px` |
 | `value` | *string* | Default value | `50` |
+| `tabindex` | *number* | Add a `tabindex` for the range. | |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
 ### Instance Members

@@ -7,6 +7,10 @@
   color var(--medium)
 
 body#test
+  &:not(.show-focus)
+    [tabindex]:focus, *:focus
+      outline none
+
   main
     display flex
     flex-wrap wrap

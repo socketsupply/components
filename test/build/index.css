@@ -43,13 +43,17 @@ body.theme-dark,
   --medium: rgba(153, 157, 160, 1);
   --accent: rgba(240, 102, 83, 1);
   --button: rgba(115, 117, 119, 1);
-  --border: rgb(107, 107, 107, 1);
+  --border: rgb(107, 107, 107, 1g);
   --background: rgba(60, 60, 60, 1);
   --error: rgba(240, 102, 83, 1);
   --notification: rgba(240, 102, 83, 1);
   --caution: rgba(240, 102, 83, 1);
   --success: rgba(133, 178, 116, 1);
   --warn: rgba(249, 169, 103, 1);
+}
+body#test:not(.show-focus) [tabindex]:focus,
+body#test:not(.show-focus) *:focus {
+  outline: none;
 }
 body#test main {
   max-width: 1000px;

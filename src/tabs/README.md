@@ -9,9 +9,9 @@ The `Tabs` component creates a menu that activates sections when clicked on.
   <div class="header">Example</div>
   <div class="content">
     <tonic-tabs group="profile" selected="two">
-      <span data-tab-name="one">One</span>
-      <span data-tab-name="two">Two</span>
-      <span data-tab-name="three">Three</span>
+      <span tabindex="0" data-tab-name="one">One</span>
+      <span tabindex="0" data-tab-name="two">Two</span>
+      <span tabindex="0" data-tab-name="three">Three</span>
     </tonic-tabs>
     <section data-tab-group="profile" data-tab-name="one">
       Content One
@@ -32,6 +32,8 @@ Tabs have two important concepts. The idea of a `group` and the idea of a `name`
 The structure inside the component is arbitrary: spans, links, links inside divs, they can all be different. You just need to add the `data-tab-name` property to the clickable item.
 
 The default tab should be specified using the `selected` property.
+
+You can specify a tabindex for each tab individually in your html.
 
 #### HTML
 ```html

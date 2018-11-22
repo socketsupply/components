@@ -43,7 +43,7 @@ body.theme-dark,
   --medium: rgba(153, 157, 160, 1);
   --accent: rgba(240, 102, 83, 1);
   --button: rgba(115, 117, 119, 1);
-  --border: rgba(255, 255, 255, 1);
+  --border: rgb(107, 107, 107, 1);
   --background: rgba(60, 60, 60, 1);
   --error: rgba(240, 102, 83, 1);
   --notification: rgba(240, 102, 83, 1);

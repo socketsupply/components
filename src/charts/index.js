@@ -76,14 +76,27 @@ class TonicChart extends Tonic { /* global Tonic */
   }
 
   async connected () {
-    const { err, data } = await this.fetch(this.props.src)
+    let data = null
+    let configuration = null
 
-    if (err) {
-      return console.error(err)
+    if(typeof this.props.src === 'string'){
+
+      const response = await this.fetch(this.props.src)
+
+      if (response.err) {
+        return console.error(err)
+      }
+
+      data = response.data
+    }
+
+    if((this.props.src === Object(this.props.src)) && this.props.src.chartData){
+      data = this.props.src.chartData
+      configuration = this.props.configuration || {}
     }
 
     if (data) {
-      this.draw(data)
+      this.draw(data, configuration)
     }
   }
 

@@ -96,7 +96,6 @@ class TonicInput extends Tonic { /* global Tonic */
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
-        outline: none;
       }
 
       tonic-input input:invalid {
@@ -275,7 +274,8 @@ class TonicInput extends Tonic { /* global Tonic */
       minlength,
       maxlength,
       min,
-      max
+      max,
+      tabindex
     } = this.props
 
     const patternAttr = pattern ? `pattern="${pattern}"` : ''
@@ -289,10 +289,12 @@ class TonicInput extends Tonic { /* global Tonic */
     const maxLengthAttr = maxlength ? `maxlength="${maxlength}"` : ''
     const minAttr = min ? `min="${min}"` : ''
     const maxAttr = max ? `max="${max}"` : ''
+    const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
 
     if (width) this.root.style.width = width
     if (height) this.root.style.width = height
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (tabindex) this.root.removeAttribute('tabindex')
 
     const value = this.props.value || this.state.value
     const valueAttr = value && value !== 'undefined' ? `value="${value}"` : ''
@@ -308,7 +310,8 @@ class TonicInput extends Tonic { /* global Tonic */
       minAttr,
       maxAttr,
       disabledAttr,
-      requiredAttr
+      requiredAttr,
+      tabAttr
     ].join(' ')
 
     return `

@@ -567,7 +567,6 @@ class TonicButton extends Tonic { /* global Tonic */
         border: 1px solid var(--button);
         transition: all 0.3s ease;
         appearance: none;
-        outline: none;
       }
 
       tonic-button button[disabled],
@@ -696,7 +695,8 @@ class TonicButton extends Tonic { /* global Tonic */
       autofocus,
       active,
       theme,
-      async
+      async,
+      tabindex
     } = this.props
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
@@ -704,6 +704,9 @@ class TonicButton extends Tonic { /* global Tonic */
     const disabledAttr = disabled ? `disabled="true"` : ''
     const valueAttr = value ? `value="${value}"` : ''
     const typeAttr = type ? `type="${type}"` : ''
+    const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
+
+    if (tabindex) this.root.removeAttribute('tabindex')
 
     let classes = []
     if (active) classes.push(`tonic--active`)
@@ -715,7 +718,8 @@ class TonicButton extends Tonic { /* global Tonic */
       valueAttr,
       typeAttr,
       disabledAttr,
-      autofocus
+      autofocus,
+      tabAttr
     ].join(' ')
 
     return `
@@ -1011,7 +1015,8 @@ class TonicCheckbox extends Tonic { /* global Tonic */
     const {
       id,
       disabled,
-      theme
+      theme,
+      tabindex
     } = this.props
 
     let checked = this.props.checked === 'true'
@@ -1022,7 +1027,10 @@ class TonicCheckbox extends Tonic { /* global Tonic */
 
     checked = checked ? 'checked' : ''
 
+    const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
+
     if (theme) this.classList.add(`tonic--theme--${theme}`)
+    if (tabindex) this.root.removeAttribute('tabindex')
 
     return `
       <div class="tonic--checkbox--wrapper">
@@ -1030,6 +1038,7 @@ class TonicCheckbox extends Tonic { /* global Tonic */
           type="checkbox"
           id="tonic--checkbox--${id}"
           ${disabled}
+          ${tabAttr}
           ${checked}/>
         <label
           for="tonic--checkbox--${id}"
@@ -1433,7 +1442,6 @@ class TonicInput extends Tonic { /* global Tonic */
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
-        outline: none;
       }
 
       tonic-input input:invalid {
@@ -1612,7 +1620,8 @@ class TonicInput extends Tonic { /* global Tonic */
       minlength,
       maxlength,
       min,
-      max
+      max,
+      tabindex
     } = this.props
 
     const patternAttr = pattern ? `pattern="${pattern}"` : ''
@@ -1626,10 +1635,12 @@ class TonicInput extends Tonic { /* global Tonic */
     const maxLengthAttr = maxlength ? `maxlength="${maxlength}"` : ''
     const minAttr = min ? `min="${min}"` : ''
     const maxAttr = max ? `max="${max}"` : ''
+    const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
 
     if (width) this.root.style.width = width
     if (height) this.root.style.width = height
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (tabindex) this.root.removeAttribute('tabindex')
 
     const value = this.props.value || this.state.value
     const valueAttr = value && value !== 'undefined' ? `value="${value}"` : ''
@@ -1645,7 +1656,8 @@ class TonicInput extends Tonic { /* global Tonic */
       minAttr,
       maxAttr,
       disabledAttr,
-      requiredAttr
+      requiredAttr,
+      tabAttr
     ].join(' ')
 
     return `
@@ -2401,7 +2413,6 @@ class TonicRange extends Tonic { /* global Tonic */
 
       tonic-range input[type="range"] {
         margin: auto;
-        outline: none;
         padding: 0;
         width: 50%;
         height: 4px;
@@ -2505,7 +2516,8 @@ class TonicRange extends Tonic { /* global Tonic */
       min,
       max,
       step,
-      id
+      id,
+      tabindex
     } = this.props
 
     const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
@@ -2516,9 +2528,11 @@ class TonicRange extends Tonic { /* global Tonic */
     if (width) this.root.style.width = width
     if (height) this.root.style.width = height
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (tabindex) this.root.removeAttribute('tabindex')
 
     const value = this.props.value || this.state.value
     const valueAttr = value && value !== 'undefined' ? `value="${value}"` : ''
+    const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
 
     this.setState(state => Object.assign({}, state, { value }))
 
@@ -2527,7 +2541,8 @@ class TonicRange extends Tonic { /* global Tonic */
       minAttr,
       maxAttr,
       stepAttr,
-      disabledAttr
+      disabledAttr,
+      tabAttr
     ].join(' ')
 
     return `
@@ -2903,7 +2918,6 @@ class TonicSelect extends Tonic { /* global Tonic */
         background-repeat: no-repeat;
         background-position: center right;
         border: 1px solid var(--border);
-        outline: none;
         -webkit-appearance: none;
         appearance: none;
         position: relative;
@@ -3044,22 +3058,26 @@ class TonicSelect extends Tonic { /* global Tonic */
       required,
       multiple,
       size,
-      theme
+      theme,
+      tabindex
     } = this.props
 
     const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
     const multipleAttr = multiple && multiple === 'true' ? `multiple="true"` : ''
+    const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
     const sizeAttr = size ? `size="${size}"` : ''
 
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
     if (width) this.root.style.width = width
     if (height) this.root.style.width = height
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (tabindex) this.root.removeAttribute('tabindex')
 
     const attributes = [
       disabledAttr,
       multipleAttr,
       sizeAttr,
-      required
+      required,
+      tabAttr
     ].join(' ')
 
     const options = this.root.innerHTML
@@ -3212,7 +3230,6 @@ class TonicTextarea extends Tonic { /* global Tonic */
         padding: 10px;
         background-color: transparent;
         border: 1px solid var(--border);
-        outline: none;
         transition: border 0.2s ease-in-out;
         -webkit-appearance: none;
         -moz-appearance: none;
@@ -3290,6 +3307,7 @@ class TonicTextarea extends Tonic { /* global Tonic */
       cols,
       minlength,
       maxlength,
+      tabindex,
       theme
     } = this.props
 
@@ -3300,10 +3318,12 @@ class TonicTextarea extends Tonic { /* global Tonic */
     const colsAttr = cols ? `cols="${cols}"` : ''
     const minAttr = minlength ? `minlength="${minlength}"` : ''
     const maxAttr = maxlength ? `maxlength="${maxlength}"` : ''
+    const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
 
     if (width) this.root.style.width = width
     if (height) this.root.style.width = height
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (tabindex) this.root.removeAttribute('tabindex')
 
     if (this.props.value === 'undefined') this.props.value = ''
 
@@ -3318,7 +3338,8 @@ class TonicTextarea extends Tonic { /* global Tonic */
       colsAttr,
       minAttr,
       maxAttr,
-      disabledAttr
+      disabledAttr,
+      tabAttr
     ].join(' ')
 
     return `
@@ -4640,7 +4661,6 @@ class Tonic {
   }
 
   static sanitize (o) {
-    if (o === null) return o
     for (const [k, v] of Object.entries(o)) {
       if (typeof v === 'object') o[k] = Tonic.sanitize(v)
       if (typeof v === 'string') o[k] = Tonic.escape(v)

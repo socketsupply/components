@@ -51,7 +51,6 @@ class TonicButton extends Tonic { /* global Tonic */
         border: 1px solid var(--button);
         transition: all 0.3s ease;
         appearance: none;
-        outline: none;
       }
 
       tonic-button button[disabled],
@@ -180,7 +179,8 @@ class TonicButton extends Tonic { /* global Tonic */
       autofocus,
       active,
       theme,
-      async
+      async,
+      tabindex
     } = this.props
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
@@ -188,6 +188,9 @@ class TonicButton extends Tonic { /* global Tonic */
     const disabledAttr = disabled ? `disabled="true"` : ''
     const valueAttr = value ? `value="${value}"` : ''
     const typeAttr = type ? `type="${type}"` : ''
+    const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
+
+    if (tabindex) this.root.removeAttribute('tabindex')
 
     let classes = []
     if (active) classes.push(`tonic--active`)
@@ -199,7 +202,8 @@ class TonicButton extends Tonic { /* global Tonic */
       valueAttr,
       typeAttr,
       disabledAttr,
-      autofocus
+      autofocus,
+      tabAttr
     ].join(' ')
 
     return `

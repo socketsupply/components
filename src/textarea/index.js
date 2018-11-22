@@ -32,7 +32,6 @@ class TonicTextarea extends Tonic { /* global Tonic */
         padding: 10px;
         background-color: transparent;
         border: 1px solid var(--border);
-        outline: none;
         transition: border 0.2s ease-in-out;
         -webkit-appearance: none;
         -moz-appearance: none;
@@ -110,6 +109,7 @@ class TonicTextarea extends Tonic { /* global Tonic */
       cols,
       minlength,
       maxlength,
+      tabindex,
       theme
     } = this.props
 
@@ -120,10 +120,12 @@ class TonicTextarea extends Tonic { /* global Tonic */
     const colsAttr = cols ? `cols="${cols}"` : ''
     const minAttr = minlength ? `minlength="${minlength}"` : ''
     const maxAttr = maxlength ? `maxlength="${maxlength}"` : ''
+    const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
 
     if (width) this.root.style.width = width
     if (height) this.root.style.width = height
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (tabindex) this.root.removeAttribute('tabindex')
 
     if (this.props.value === 'undefined') this.props.value = ''
 
@@ -138,7 +140,8 @@ class TonicTextarea extends Tonic { /* global Tonic */
       colsAttr,
       minAttr,
       maxAttr,
-      disabledAttr
+      disabledAttr,
+      tabAttr
     ].join(' ')
 
     return `

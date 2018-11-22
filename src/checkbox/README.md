@@ -72,6 +72,7 @@ To create a custom SVG checkbox, pass in the properties `icon-on` and `icon-off`
 | `icon-on` | *string* | Add a custom SVG icon `on` state. |  |
 | `icon-off` | *string* | Add a custom SVG icon for the `off` state. |  |
 | `color` | *string* | Changes the color of the icon. | `--primary` |
+| `tabindex` | *number* | Add a `tabindex` for the checkbox. | |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
 ### Instance Properties

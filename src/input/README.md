@@ -71,6 +71,7 @@ setInvalid.addEventListener('click', (e) => {
 | `pattern` | *string* | Regex for checking value. | |
 | `width` | *string* | Width of the input. | `250px` |
 | `radius` | *string* | Radius of the input. | `3px` |
+| `tabindex` | *number* | Add a `tabindex` for the input. | |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
 ### Instance Methods

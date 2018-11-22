@@ -10,8 +10,8 @@ The `Button` component creates a button.
     <tonic-button
       async="true"
       id="tonic-button-example"
-      value="click-me">Click me
-    </tonic-button>
+      tabindex="1"
+      value="click-me">Click me</tonic-button>
   </div>
 </div>
 
@@ -47,6 +47,7 @@ The `Button` component creates a button.
 | `fill` | *string* | Filled button. |  |
 | `text-color` | *string* | TextColor of the button. |  |
 | `href` | *string* | Add a location (url) for click event. | |
+| `tabindex` | *number* | Add a `tabindex` for the button. | |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
 ### Instance Methods & Members

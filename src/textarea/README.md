@@ -45,6 +45,7 @@ The `Textarea` component creates a text area.
 | `width` | *string* | Set width of text area. |  |
 | `height` | *string* | Set height of text area. | `100%` |
 | `radius` | *string* | Set radius of text area. | `2px` |
+| `tabindex` | *number* | Add a `tabindex` for the text area. | |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
 ### Instance Methods & Members

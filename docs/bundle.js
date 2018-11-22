@@ -4745,15 +4745,27 @@ if (typeof module === 'object') module.exports = Tonic
 },{}],6:[function(require,module,exports){
 "use strict";
 
-module.exports = exports = self.fetch;
+// ref: https://github.com/tc39/proposal-global
+var getGlobal = function () {
+	// the only reliable means to get the global object is
+	// `Function('return this')()`
+	// However, this causes CSP violations in Chrome apps.
+	if (typeof self !== 'undefined') { return self; }
+	if (typeof window !== 'undefined') { return window; }
+	if (typeof global !== 'undefined') { return global; }
+	throw new Error('unable to locate global object');
+}
+
+var global = getGlobal();
+
+module.exports = exports = global.fetch;
 
 // Needed for TypeScript and Webpack.
-exports.default = self.fetch.bind(self);
+exports.default = global.fetch.bind(global);
 
-exports.Headers = self.Headers;
-exports.Request = self.Request;
-exports.Response = self.Response;
-
+exports.Headers = global.Headers;
+exports.Request = global.Request;
+exports.Response = global.Response;
 },{}],7:[function(require,module,exports){
 const qs = (s, p) => (p || document).querySelector(s)
 const qsa = (s, p) => [...(p || document).querySelectorAll(s)]

@@ -4605,8 +4605,17 @@ const panelThemeDark = document.getElementById('tonic-panel-theme-dark')
 panelThemeDarkButton.addEventListener('click', e => panelThemeDark.show())
 
 },{"@conductorlab/tonic":2}],12:[function(require,module,exports){
-arguments[4][3][0].apply(exports,arguments)
-},{"dup":3}],13:[function(require,module,exports){
+//
+// Panel Default
+//
+const popover = document.getElementById('tonic-popover-default')
+popover.addEventListener('show', event => {
+  document.body.addEventListener('click', e => {
+    popover.hide()
+  }, { once: true })
+})
+
+},{}],13:[function(require,module,exports){
 arguments[4][3][0].apply(exports,arguments)
 },{"dup":3}],14:[function(require,module,exports){
 arguments[4][3][0].apply(exports,arguments)

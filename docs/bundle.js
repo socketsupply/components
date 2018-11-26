@@ -1734,26 +1734,28 @@ class Panel extends Tonic { /* global Tonic */
   stylesheet () {
     return `
       .tonic--panel .tonic--panel--inner {
+        color: var(--primary);
         width: 500px;
         position: fixed;
         bottom: 0;
         top: 0;
         background-color: var(--window);
         box-shadow: 0px 0px 28px 0 rgba(0,0,0,0.05);
-        z-index: 100;
         transition: transform 0.3s ease-in-out;
+        z-index: 100;
       }
 
       @media (max-width: 500px) .tonic--panel .tonic--panel--inner {
         width: 100%;
       }
 
-      .tonic--panel.tonic--left .tonic--panel {
+      .tonic--panel .tonic--left .tonic--panel--inner {
         left: 0;
         -webkit-transform: translateX(-500px);
         -ms-transform: translateX(-500px);
         transform: translateX(-500px);
         border-right: 1px solid var(--border);
+        visibility: hidden;
       }
 
       .tonic--panel .tonic--right .tonic--panel--inner {
@@ -1762,6 +1764,7 @@ class Panel extends Tonic { /* global Tonic */
         -ms-transform: translateX(500px);
         transform: translateX(500px);
         border-left: 1px solid var(--border);
+        visibility: hidden;
       }
 
       .tonic--panel .tonic--show.tonic--right .tonic--panel--inner,
@@ -1769,6 +1772,7 @@ class Panel extends Tonic { /* global Tonic */
         -webkit-transform: translateX(0);
         -ms-transform: translateX(0);
         transform: translateX(0);
+        visibility: visible;
       }
 
       .tonic--panel .tonic--show[overlay="true"] .tonic--overlay {

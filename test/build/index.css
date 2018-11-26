@@ -23,7 +23,7 @@ body,
   --disabled: rgba(152, 161, 175, 1);
   --secondary: rgba(232, 232, 228, 1);
   --medium: rgba(153, 157, 160, 1);
-  --accent: rgba(240, 102, 83, 1);
+  --accent: rgba(66, 173, 239, 1);
   --border: rgba(232, 232, 228, 1);
   --button: rgba(54, 57, 61, 1);
   --background: rgba(247, 247, 245, 1);
@@ -41,7 +41,7 @@ body.theme-dark,
   --disabled: rgba(170, 170, 170, 1);
   --secondary: rgba(195, 195, 195, 1);
   --medium: rgba(153, 157, 160, 1);
-  --accent: rgba(240, 102, 83, 1);
+  --accent: rgba(66, 173, 239, 1);
   --button: rgba(115, 117, 119, 1);
   --border: rgb(107, 107, 107, 1);
   --background: rgba(60, 60, 60, 1);

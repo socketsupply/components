@@ -1285,26 +1285,28 @@ class Panel extends Tonic { /* global Tonic */
   stylesheet () {
     return `
       .tonic--panel .tonic--panel--inner {
+        color: var(--primary);
         width: 500px;
         position: fixed;
         bottom: 0;
         top: 0;
         background-color: var(--window);
         box-shadow: 0px 0px 28px 0 rgba(0,0,0,0.05);
-        z-index: 100;
         transition: transform 0.3s ease-in-out;
+        z-index: 100;
       }
 
       @media (max-width: 500px) .tonic--panel .tonic--panel--inner {
         width: 100%;
       }
 
-      .tonic--panel.tonic--left .tonic--panel {
+      .tonic--panel .tonic--left .tonic--panel--inner {
         left: 0;
         -webkit-transform: translateX(-500px);
         -ms-transform: translateX(-500px);
         transform: translateX(-500px);
         border-right: 1px solid var(--border);
+        visibility: hidden;
       }
 
       .tonic--panel .tonic--right .tonic--panel--inner {
@@ -1313,6 +1315,7 @@ class Panel extends Tonic { /* global Tonic */
         -ms-transform: translateX(500px);
         transform: translateX(500px);
         border-left: 1px solid var(--border);
+        visibility: hidden;
       }
 
       .tonic--panel .tonic--show.tonic--right .tonic--panel--inner,
@@ -1320,6 +1323,7 @@ class Panel extends Tonic { /* global Tonic */
         -webkit-transform: translateX(0);
         -ms-transform: translateX(0);
         transform: translateX(0);
+        visibility: visible;
       }
 
       .tonic--panel .tonic--show[overlay="true"] .tonic--overlay {
@@ -4513,8 +4517,94 @@ document.addEventListener('DOMContentLoaded', ready)
 },{"../..":1,"./badge":3,"./button":4,"./chart":5,"./checkbox":6,"./dialog":7,"./icon":8,"./input":10,"./panel":11,"./popover":12,"./profileimage":13,"./progressbar":14,"./router":15,"./select":16,"./tabs":17,"./textarea":18,"./toaster":19,"./toasterinline":20,"./toggle":21,"./tooltip":22,"./windowed":23,"@conductorlab/tonic":2}],10:[function(require,module,exports){
 arguments[4][3][0].apply(exports,arguments)
 },{"dup":3}],11:[function(require,module,exports){
-arguments[4][3][0].apply(exports,arguments)
-},{"dup":3}],12:[function(require,module,exports){
+const Tonic = require('@conductorlab/tonic')
+
+class TonicPanel extends Tonic.Panel {
+  async click (e) {
+    if (e.target.value === 'close') {
+      return this.hide()
+    }
+  }
+
+  render () {
+    return `
+      <header></header>
+      <main>
+        <h3>${this.props.title || 'Hello'}
+      </main>
+      <footer>
+        <tonic-button value="close">Close</tonic-button>
+      </footer>
+    `
+  }
+}
+
+Tonic.add(TonicPanel)
+//
+// Panel Default
+//
+const panelDefaultButton = document.getElementById('tonic-panel-default-button')
+const panelDefault = document.getElementById('tonic-panel-default')
+
+panelDefaultButton.addEventListener('click', e => panelDefault.show())
+
+//
+// Panel Name
+//
+const panelNameButton = document.getElementById('tonic-panel-name-button')
+const panelName = document.getElementById('tonic-panel-name')
+
+panelNameButton.addEventListener('click', e => panelName.show())
+
+//
+// Panel Overlay
+//
+const panelOverlayButton = document.getElementById('tonic-panel-overlay-button')
+const panelOverlay = document.getElementById('tonic-panel-overlay')
+
+panelOverlayButton.addEventListener('click', e => panelOverlay.show())
+
+//
+// Panel w/ Position Right
+//
+const panelPositionRightButton = document.getElementById('tonic-panel-position-right-button')
+const panelPositionRight = document.getElementById('tonic-panel-position-right')
+
+panelPositionRightButton.addEventListener('click', e => panelPositionRight.show())
+
+//
+// Panel w/ Position Left
+//
+const panelPositionButton = document.getElementById('tonic-panel-position-button')
+const panelPosition = document.getElementById('tonic-panel-position')
+
+panelPositionButton.addEventListener('click', e => panelPosition.show())
+
+//
+// Panel w/ Background Color
+//
+const panelBackgroundButton = document.getElementById('tonic-panel-background-button')
+const panelBackground = document.getElementById('tonic-panel-background')
+
+panelBackgroundButton.addEventListener('click', e => panelBackground.show())
+
+//
+// Panel w/ Theme Light
+//
+const panelThemeLightButton = document.getElementById('tonic-panel-theme-button')
+const panelThemeLight = document.getElementById('tonic-panel-theme')
+
+panelThemeLightButton.addEventListener('click', e => panelThemeLight.show())
+
+//
+// Panel w/ Theme Dark
+//
+const panelThemeDarkButton = document.getElementById('tonic-panel-theme-dark-button')
+const panelThemeDark = document.getElementById('tonic-panel-theme-dark')
+
+panelThemeDarkButton.addEventListener('click', e => panelThemeDark.show())
+
+},{"@conductorlab/tonic":2}],12:[function(require,module,exports){
 arguments[4][3][0].apply(exports,arguments)
 },{"dup":3}],13:[function(require,module,exports){
 arguments[4][3][0].apply(exports,arguments)

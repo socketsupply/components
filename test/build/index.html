@@ -149,8 +149,8 @@
 </div>
 
 <div>
-  <span>fill="darkturquoise"</span>
-  <tonic-button fill="darkturquoise"></tonic-button>
+  <span>fill="#42adef"</span>
+  <tonic-button fill="#42adef"></tonic-button>
 </div>
 
 <div>
@@ -164,8 +164,8 @@
 </div>
 
 <div>
-  <span>text-color="darkturquoise"</span>
-  <tonic-button text-color="darkturquoise"></tonic-button>
+  <span>text-color="#42adef"</span>
+  <tonic-button text-color="#42adef"></tonic-button>
 </div>
 
 <div>
@@ -400,12 +400,12 @@
 </div>
 
 <div>
-  <span class="fail">theme="light"</span>
+  <span>theme="light"</span>
   <tonic-icon theme="light"></tonic-icon>
 </div>
 
 <div class="dark">
-  <span class="fail">theme="dark"</span>
+  <span>theme="dark"</span>
   <tonic-icon theme="dark"></tonic-icon>
 </div>
 
@@ -583,6 +583,113 @@
 </div>
 
       <h2>Panel</h2>
+
+<!-- Panel Default -->
+<div class="flex-half">
+  <span>Default Panel</span>
+  <tonic-button id="tonic-panel-default-button">
+    Open Panel
+  </tonic-button>
+</div>
+
+<tonic-panel id="tonic-panel-default">
+</tonic-panel>
+
+<!-- Panel Default -->
+<div class="flex-half">
+  <span>name="panel-name"</span>
+  <tonic-button id="tonic-panel-name-button">
+    Open Panel
+  </tonic-button>
+</div>
+
+<tonic-panel
+  id="tonic-panel-name"
+  name="panel-name">
+</tonic-panel>
+
+<!-- Panel Overlay -->
+<div class="flex-half">
+  <span>overlay="true"</span>
+  <tonic-button id="tonic-panel-overlay-button">
+    Open Panel
+  </tonic-button>
+</div>
+
+<tonic-panel
+  id="tonic-panel-overlay"
+  overlay="true">
+</tonic-panel>
+
+<!-- Panel w/ Position Right -->
+<div class="flex-half">
+  <span>position="right"</span>
+  <tonic-button id="tonic-panel-position-right-button">
+    Open Panel
+  </tonic-button>
+</div>
+
+<tonic-panel
+  id="tonic-panel-position-right"
+  overlay="true"
+  position="right">
+</tonic-panel>
+
+<!-- Panel w/ Position Left -->
+<div class="flex-half">
+  <span>position="left"</span>
+  <tonic-button id="tonic-panel-position-button">
+    Open Panel
+  </tonic-button>
+</div>
+
+<tonic-panel
+  id="tonic-panel-position"
+  overlay="true"
+  position="left">
+</tonic-panel>
+
+<!-- Panel w/ Background Color -->
+<div class="flex-half">
+  <span>background-color="rgba(255,255,255,0.8)"</span>
+  <tonic-button id="tonic-panel-background-button">
+    Open Panel
+  </tonic-button>
+</div>
+
+<tonic-panel
+  id="tonic-panel-background"
+  overlay="true"
+  background-color="rgba(255,255,255,0.8)">
+</tonic-panel>
+
+<!-- Panel w/ Theme Light -->
+<div class="flex-half">
+  <span>theme="light"</span>
+  <tonic-button id="tonic-panel-theme-button">
+    Open Panel
+  </tonic-button>
+</div>
+
+<tonic-panel
+  id="tonic-panel-theme"
+  overlay="true"
+  theme="light">
+</tonic-panel>
+
+<!-- Panel w/ Theme Dark -->
+<div class="flex-half">
+  <span>theme="dark"</span>
+  <tonic-button id="tonic-panel-theme-dark-button">
+    Open Panel
+  </tonic-button>
+</div>
+
+<tonic-panel
+  id="tonic-panel-theme-dark"
+  overlay="true"
+  theme="dark">
+</tonic-panel>
 
       <h2>Popover</h2>
 

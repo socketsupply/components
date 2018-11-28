@@ -1723,9 +1723,11 @@ class TonicProfileImage extends Tonic { /* global Tonic */
   }
 
   click (e) {
-    if (!this.props.editable) return
-    const fileInput = this.root.getElementsByTagName('input')[0]
-    fileInput.click()
+    if (this.props.editable) {
+      if (this.props.editable === 'false') return
+      const fileInput = this.root.getElementsByTagName('input')[0]
+      fileInput.click()
+    }
   }
 
   change (e) {
@@ -1775,10 +1777,11 @@ class TonicProfileImage extends Tonic { /* global Tonic */
     } = this.props
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    const editableAttr = editable && (editable === 'true') ? 'tonic--editable' : ''
 
     return `
       <div
-        class="tonic--wrapper ${editable ? 'tonic--editable' : ''}"
+        class="tonic--wrapper ${editableAttr}"
         styles="wrapper">
 
         <div

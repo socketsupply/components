@@ -69,8 +69,9 @@ body#test main {
 }
 body#test main > div > span {
   font: 14px var(--monospace);
-  display: inline-block;
+  display: block;
   padding: 15px 0;
+  width: 100%;
 }
 body#test h2 {
   -ms-flex-preferred-size: 100%;

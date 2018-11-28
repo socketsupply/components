@@ -1723,6 +1723,7 @@ class TonicProfileImage extends Tonic { /* global Tonic */
   }
 
   click (e) {
+    if (!this.props.editable) return
     const fileInput = this.root.getElementsByTagName('input')[0]
     fileInput.click()
   }

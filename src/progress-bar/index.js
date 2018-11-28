@@ -52,6 +52,9 @@ class TonicProgressBar extends Tonic { /* global Tonic */
       wrapper: {
         width: this.props.width,
         height: this.props.height
+      },
+      progress: {
+        backgroundColor: this.props.color || 'var(--accent)'
       }
     }
   }
@@ -94,7 +97,7 @@ class TonicProgressBar extends Tonic { /* global Tonic */
 
     return `
       <div class="tonic--wrapper" styles="wrapper">
-        <div class="tonic--progress"></div>
+        <div class="tonic--progress" styles="progress"></div>
       </div>
     `
   }

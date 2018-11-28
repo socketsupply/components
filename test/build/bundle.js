@@ -1871,6 +1871,9 @@ class TonicProgressBar extends Tonic { /* global Tonic */
       wrapper: {
         width: this.props.width,
         height: this.props.height
+      },
+      progress: {
+        backgroundColor: this.props.color || 'var(--accent)'
       }
     }
   }
@@ -1913,7 +1916,7 @@ class TonicProgressBar extends Tonic { /* global Tonic */
 
     return `
       <div class="tonic--wrapper" styles="wrapper">
-        <div class="tonic--progress"></div>
+        <div class="tonic--progress" styles="progress"></div>
       </div>
     `
   }
@@ -4622,8 +4625,43 @@ popover.addEventListener('show', event => {
 },{}],13:[function(require,module,exports){
 arguments[4][3][0].apply(exports,arguments)
 },{"dup":3}],14:[function(require,module,exports){
-arguments[4][3][0].apply(exports,arguments)
-},{"dup":3}],15:[function(require,module,exports){
+const progressBar30 = document.getElementById('progress-bar-30')
+progressBar30.setProgress(30)
+
+const progressBarWidth = document.getElementById('progress-bar-width')
+progressBarWidth.value = 75
+
+const progressBarWidth100 = document.getElementById('progress-bar-width-100')
+progressBarWidth100.value = 50
+
+const progressBarHeight = document.getElementById('progress-bar-height')
+progressBarHeight.value = 25
+
+const progressBarColor = document.getElementById('progress-bar-color')
+progressBarColor.value = 40
+
+const progressBarThemeLight = document.getElementById('progress-bar-theme-light')
+progressBarThemeLight.value = 60
+
+const progressBarThemeDark = document.getElementById('progress-bar-theme-dark')
+progressBarThemeDark.value = 60
+
+function loadProgress () {
+  let percentage = 0
+  let interval = null
+
+  const progressBarAuto = document.getElementById('progress-bar-auto')
+
+  clearInterval(interval)
+  interval = setInterval(() => {
+    progressBarAuto.setProgress(percentage++)
+    if (progressBarAuto.value >= 100) percentage = 0
+  }, 128)
+}
+
+document.addEventListener('DOMContentLoaded', loadProgress)
+
+},{}],15:[function(require,module,exports){
 arguments[4][3][0].apply(exports,arguments)
 },{"dup":3}],16:[function(require,module,exports){
 arguments[4][3][0].apply(exports,arguments)

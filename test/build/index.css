@@ -55,7 +55,7 @@ body#test:not(.show-focus) [tabindex]:focus,
 body#test:not(.show-focus) *:focus {
   outline: none;
 }
-body#test main {
+body#test > main {
   max-width: 1000px;
   margin: 0 auto;
   display: -webkit-box;
@@ -67,7 +67,7 @@ body#test main {
       -ms-flex-pack: start;
           justify-content: flex-start;
 }
-body#test main > div > span {
+body#test > main > div > span {
   font: 14px var(--monospace);
   display: block;
   padding: 15px 0;
@@ -80,7 +80,7 @@ body#test h2 {
 body#test span.fail {
   color: #f00 !important;
 }
-body#test main > div {
+body#test > main > div {
   border: 1px solid #eaeaea;
   -ms-flex-preferred-size: 30%;
       flex-basis: 30%;
@@ -98,18 +98,18 @@ body#test main > div {
       -ms-flex-align: center;
           align-items: center;
 }
-body#test main > div.flex-half {
+body#test > main > div.flex-half {
   -ms-flex-preferred-size: 45%;
       flex-basis: 45%;
 }
-body#test main > div.flex-half > span {
+body#test > main > div.flex-half > span {
   display: block;
   width: 100%;
 }
-body#test main > div.dark {
+body#test > main > div.dark {
   background-color: #333;
 }
-body#test main > div.dark > span {
+body#test > main > div.dark > span {
   color: #fff;
 }
 body#test tonic-toggle {
@@ -154,4 +154,17 @@ body#test .tonic--dialog footer {
   padding: 12px;
   display: flex;
   justify-content: center;
+}
+
+body#test tonic-router.tonic--show {
+  width: 100%;
+  margin-top: 30px;
+}
+
+body#test tonic-tabs {
+  cursor: default;
+}
+
+body#test tonic-tabs .tonic--selected {
+  color: red;
 }

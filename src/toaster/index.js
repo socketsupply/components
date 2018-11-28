@@ -102,12 +102,13 @@ class TonicToaster extends Tonic { /* global Tonic */
       }
 
       tonic-toaster .tonic--title {
+        color: var(--primary);
         font: 14px/18px var(--subheader);
       }
 
       tonic-toaster .tonic--message {
-        font: 14px/18px var(--subheader);
         color: var(--medium);
+        font: 14px/18px var(--body);
       }
 
       tonic-toaster .tonic--notification .tonic--icon {
@@ -160,7 +161,7 @@ class TonicToaster extends Tonic { /* global Tonic */
     messageElement.className = 'tonic--message'
     messageElement.textContent = message || this.props.message
 
-    if (dismiss !== 'false') {
+    if (dismiss !== false) {
       const close = document.createElement('div')
       close.className = 'tonic--close'
       close.style.backgroundImage = `url("${this.props.closeIcon}")`

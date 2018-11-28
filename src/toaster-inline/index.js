@@ -13,6 +13,7 @@ class TonicToasterInline extends Tonic { /* global Tonic */
 
   defaults () {
     return {
+      display: false,
       closeIcon: TonicToasterInline.svg.closeIcon(),
       dangerIcon: TonicToasterInline.svg.dangerIcon(this.getPropertyValue('danger')),
       warningIcon: TonicToasterInline.svg.warningIcon(this.getPropertyValue('warning')),
@@ -137,11 +138,6 @@ class TonicToasterInline extends Tonic { /* global Tonic */
     notification.className = 'tonic--notification'
     const main = document.createElement('main')
 
-    if (type) {
-      notification.classList.add('tonic--alert')
-      notification.classList.add(`tonic--${type}`)
-    }
-
     const titleElement = document.createElement('div')
     titleElement.className = 'tonic--title'
     titleElement.textContent = title || this.props.title || ''
@@ -150,7 +146,7 @@ class TonicToasterInline extends Tonic { /* global Tonic */
     messageElement.className = 'tonic--message'
     messageElement.innerHTML = message || this.props.message || ''
 
-    if (dismiss !== 'false') {
+    if (dismiss !== false) {
       const close = document.createElement('div')
       close.className = 'tonic--close'
       close.style.backgroundImage = `url("${this.props.closeIcon}")`
@@ -159,6 +155,9 @@ class TonicToasterInline extends Tonic { /* global Tonic */
     }
 
     if (type) {
+      notification.classList.add('tonic--alert')
+      notification.classList.add(`tonic--${type}`)
+
       const alertIcon = document.createElement('div')
       alertIcon.className = 'tonic--icon'
       notification.appendChild(alertIcon)
@@ -186,7 +185,11 @@ class TonicToasterInline extends Tonic { /* global Tonic */
       }
     }
 
-    if (!type && !message && !title) {
+    // TODO figure out why message in html isn't working
+    const msg = message || this.props.message || messageElement.innerHTML || ''
+    const ttl = title || this.props.title
+
+    if (!type && !msg && !ttl) {
       messageElement.textContent = 'Empty message'
     }
 
@@ -235,9 +238,9 @@ class TonicToasterInline extends Tonic { /* global Tonic */
   }
 
   connected () {
-    if (this.props.display !== 'true') return
+    if (!this.props.display) return
     if (this.root.querySelector('main')) return
-    this.props.message = this.html
+    this.props.message = this.html || this.props.message
     this.create(this.props)
   }
 

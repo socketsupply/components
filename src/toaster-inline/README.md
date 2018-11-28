@@ -66,8 +66,9 @@ An example of an inline toaster item that is displayed initially:
 | `title` | *string* | Adds a title. |  |
 | `message` | *string* | Adds a message. If no message attribute is provided the inner HTML will be used. |  |
 | `type` | *string* | Adds an alert type, `success`, `warning`, `danger` or `info`). |  |
-| `duration` | *string* | The duration that the component will be displayed before being hidden. |  |
+| `duration` | *number* | The duration that the component will be displayed before being hidden. |  |
 | `dismiss` | *boolean* | If set to `false`, the close button will not be added to the toaster item. |  |
+| `display` | *boolean* | Specifies whether toaster is displayed initially. | `false` |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
 ### Instance Methods & Members

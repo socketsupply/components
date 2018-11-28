@@ -2316,13 +2316,13 @@ select.addEventListener(<span class="hljs-string">'change'</span>, ({ target }) 
 <tr>
 <td align="left"><code>position</code></td>
 <td align="left"><em>string</em></td>
-<td align="left">Position of the toaster items, can be <code>left</code>, <code>right</code> or <code>center</code>.</td>
+<td align="left">(On Parent <code>tonic-toaster</code> Element) Position of the toaster items, can be <code>left</code>, <code>right</code> or <code>center</code>.</td>
 <td align="left"><code>center</code></td>
 </tr>
 <tr>
 <td align="left"><code>theme</code></td>
 <td align="left"><em>string</em></td>
-<td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
+<td align="left">(On Parent <code>tonic-toaster</code> Element) Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
 <td align="left"><code>light</code></td>
 </tr>
 </tbody></table>
@@ -2456,7 +2456,7 @@ toasterLink1.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; 
 </tr>
 <tr>
 <td align="left"><code>duration</code></td>
-<td align="left"><em>string</em></td>
+<td align="left"><em>number</em></td>
 <td align="left">The duration that the component will be displayed before being hidden.</td>
 <td align="left"></td>
 </tr>
@@ -2465,6 +2465,12 @@ toasterLink1.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; 
 <td align="left"><em>boolean</em></td>
 <td align="left">If set to <code>false</code>, the close button will not be added to the toaster item.</td>
 <td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>display</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Specifies whether toaster is displayed initially.</td>
+<td align="left"><code>false</code></td>
 </tr>
 <tr>
 <td align="left"><code>theme</code></td>

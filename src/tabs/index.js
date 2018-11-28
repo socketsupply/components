@@ -5,6 +5,10 @@ class TonicTabs extends Tonic { /* global Tonic */
 
   stylesheet () {
     return `
+      [data-tab-name] {
+        color: var(--primary);
+      }
+
       [data-tab-group] {
         display: none;
       }

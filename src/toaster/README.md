@@ -47,8 +47,8 @@ To create a new toaster item:
 | `message` | *string* | Adds a message. |  |
 | `dismiss` | *boolean* | If set to `false`, the close button will not be added to the toaster. | `true` |
 | `duration` | *number* | Adds a duration. | `center` |
-| `position` | *string* | Position of the toaster items, can be `left`, `right` or `center`. | `center` |
-| `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
+| `position` | *string* | (On Parent `tonic-toaster` Element) Position of the toaster items, can be `left`, `right` or `center`. | `center` |
+| `theme` | *string* | (On Parent `tonic-toaster` Element) Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
 ### Instance Methods & Members
 

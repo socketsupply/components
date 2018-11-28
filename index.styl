@@ -11,12 +11,12 @@ body#test
     [tabindex]:focus, *:focus
       outline none
 
-  main
+  > main
     display flex
     flex-wrap wrap
     justify-content flex-start
 
-  main > div > span
+  > main > div > span
     font 14px var(--monospace)
     width 100%
     display block
@@ -28,7 +28,7 @@ body#test
   span.fail
     color red
 
-  main > div
+  > main > div
     border 1px solid #eaeaea
     flex-basis 30%
     padding 20px

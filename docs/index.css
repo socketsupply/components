@@ -82,7 +82,7 @@ body#test > main {
       -ms-flex-pack: start;
           justify-content: flex-start;
 }
-body#test > main > div > span {
+body#test > main > div > span:first-of-type {
   font: 14px var(--monospace);
   width: 100%;
   display: block;

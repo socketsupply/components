@@ -28,6 +28,7 @@ class TonicTooltip extends Tonic { /* global Tonic */
   stylesheet () {
     return `
       tonic-tooltip .tonic--tooltip {
+        color: var(--primary);
         position: fixed;
         background: var(--window);
         visibility: hidden;

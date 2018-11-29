@@ -121,6 +121,8 @@ This demo generates the data after you click the overlay. Generating 500000 rows
 | `getRow(Number)` | Get a row of data (returns an awaitable promise). |
 
 ### Instance Methods For Implementers
-| `render()` | Render the component, calling `super.rener()` will render the row container structure. |
+| Method | Description |
+| :--- | :--- |
+| `render()` | Render the component, calling `super.render()` will render the row container structure. |
 | `renderEmptyState()` | If implemented, should return a structure that represents a state where there are no rows. |
 | `renderLoadingState()` | If implemented, should return a structure that represents a state where has not yet completed. |

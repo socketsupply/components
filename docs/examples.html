@@ -2405,7 +2405,7 @@ toasterLink1.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; 
 })
 </code></pre>
 <hr>
-<p>An example of an inline toaster item that is displayed initially:</p>
+<p>An inline toaster that is displayed initially:</p>
 <h4>HTML</h4>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-toaster-inline</span>
   <span class="hljs-attr">id</span>=<span class="hljs-string">"toaster-2"</span>
@@ -2413,6 +2413,8 @@ toasterLink1.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; 
   <span class="hljs-attr">display</span>=<span class="hljs-string">"true"</span>&gt;</span>
   Displayed initially. Uses HTML.
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-toaster-inline</span>&gt;</span></code></pre>
+<p>NOTE: An inline toaster item that is displayed initially must declare each property in the HTML and display it using <code>display=&quot;true&quot;</code>. This will create the notification.</p>
+<p>Otherwise, the properties for the toaster item to be created must be specified in the javascript, where it is created.</p>
 <h2>Api</h2>
 <h3>Properties</h3>
 <table>

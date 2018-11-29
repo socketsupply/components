@@ -89,6 +89,7 @@ class TonicToasterInline extends Tonic { /* global Tonic */
       }
 
       tonic-toaster-inline .tonic--title {
+        color: var(--primary);
         font: 14px/18px var(--subheader);
       }
 
@@ -129,7 +130,7 @@ class TonicToasterInline extends Tonic { /* global Tonic */
     `
   }
 
-  create ({ message, title, duration, type, dismiss } = {}) {
+  create ({ message, title, duration, type, dismiss, theme } = {}) {
     this.show()
 
     while (this.root.firstChild) this.root.firstChild.remove()
@@ -152,6 +153,10 @@ class TonicToasterInline extends Tonic { /* global Tonic */
       close.style.backgroundImage = `url("${this.props.closeIcon}")`
       notification.appendChild(close)
       notification.classList.add('tonic--close')
+    }
+
+    if (theme) {
+      this.root.setAttribute('theme', theme)
     }
 
     if (type) {
@@ -185,11 +190,9 @@ class TonicToasterInline extends Tonic { /* global Tonic */
       }
     }
 
-    // TODO figure out why message in html isn't working
-    const msg = message || this.props.message || messageElement.innerHTML || ''
     const ttl = title || this.props.title
 
-    if (!type && !msg && !ttl) {
+    if (!type && !message && !ttl) {
       messageElement.textContent = 'Empty message'
     }
 
@@ -245,12 +248,6 @@ class TonicToasterInline extends Tonic { /* global Tonic */
   }
 
   render () {
-    const {
-      theme
-    } = this.props
-
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
-
     return `<div class="tonic--wrapper"></div>`
   }
 }

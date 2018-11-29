@@ -43,7 +43,7 @@ The `ToasterInline` component creates an inline toaster item that appears on the
 
 ---
 
-An example of an inline toaster item that is displayed initially:
+An inline toaster that is displayed initially:
 
 #### HTML
 ```html
@@ -54,6 +54,10 @@ An example of an inline toaster item that is displayed initially:
   Displayed initially. Uses HTML.
 </tonic-toaster-inline>
 ```
+
+NOTE: An inline toaster item that is displayed initially must declare each property in the HTML and display it using `display="true"`. This will create the notification.
+
+Otherwise, the properties for the toaster item to be created must be specified in the javascript, where it is created.
 
 ## Api
 

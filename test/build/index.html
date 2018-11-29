@@ -1642,8 +1642,8 @@
     </tonic-button>
     <div>
       <tonic-toaster-inline
-        title="wtf"
-        id="tonic-toasterinline-id">I have an id
+        title="I have an id"
+        id="tonic-toasterinline-id">
       </tonic-toaster-inline>
     </div>
   </div>
@@ -1655,7 +1655,8 @@
     </tonic-button>
     <div>
       <tonic-toaster-inline
-        id="tonic-toasterinline-name">I have a name
+        title="I have a name"
+        id="tonic-toasterinline-name">
       </tonic-toaster-inline>
     </div>
   </div>
@@ -1671,7 +1672,7 @@
     </div>
   </div>
 
-  <!-- Inline toaster w/ title -->
+  <!-- Inline toaster w/ inline HTML title -->
   <div>
     <span>Toaster inline w/ inline HTML title</span>
     <tonic-button id="tonic-toasterinline-inline-title-button">Toast
@@ -1690,8 +1691,19 @@
     </tonic-button>
     <div>
       <tonic-toaster-inline
+        id="tonic-toasterinline-message">
+      </tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/ message (initial) -->
+  <div>
+    <span>Toaster inline w/ message (initial)</span>
+    <div>
+      <tonic-toaster-inline
+        display="true"
         message="I am a message!"
-        id="tonic-toasterinline-message"></tonic-toaster-inline>
+        id="tonic-toasterinline-message-2"></tonic-toaster-inline>
     </div>
   </div>
 
@@ -1702,20 +1714,20 @@
     </tonic-button>
     <div>
       <tonic-toaster-inline
-        title="Hello"
-        message="How are you doing today?"
-        id="tonic-toasterinline-title-message"></tonic-toaster-inline>
+        id="tonic-toasterinline-title-message">
+      </tonic-toaster-inline>
     </div>
   </div>
 
-  <!-- Inline toaster w/ innerHTML message -->
+  <!-- Inline toaster w/ innerHTML message (must be initial)-->
   <div>
-    <span>Toaster inline w/ innerHTML message</span>
-    <tonic-button id="tonic-toasterinline-innerHTML-message-button">Toast
-    </tonic-button>
+    <span>Toaster inline w/ innerHTML message (must be initial)</span>
     <div>
       <tonic-toaster-inline
-        id="tonic-toasterinline-innerHTML-message">This is your message.</tonic-toaster-inline>
+        display="true"
+        id="tonic-toasterinline-innerHTML-message">
+        This is your message.
+      </tonic-toaster-inline>
     </div>
   </div>
 
@@ -1731,15 +1743,25 @@
     </div>
   </div>
 
+  <!-- Inline toaster w/ type success (initial) -->
+  <div>
+    <span>Toaster inline w/ type success (initial)</span>
+    <div>
+      <tonic-toaster-inline
+        display="true"
+        type="success"
+        id="tonic-toasterinline-type-success-2"></tonic-toaster-inline>
+    </div>
+  </div>
+
   <!-- Inline toaster w/ type warning -->
   <div>
     <span>Toaster inline w/ type warning</span>
     <tonic-button id="tonic-toasterinline-type-warning-button">Toast
     </tonic-button>
     <div>
-      <tonic-toaster-inline
-        type="warning"
-        id="tonic-toasterinline-type-warning"></tonic-toaster-inline>
+      <tonic-toaster-inline id="tonic-toasterinline-type-warning">
+      </tonic-toaster-inline>
     </div>
   </div>
 
@@ -1749,9 +1771,8 @@
     <tonic-button id="tonic-toasterinline-type-danger-button">Toast
     </tonic-button>
     <div>
-      <tonic-toaster-inline
-        type="danger"
-        id="tonic-toasterinline-type-danger"></tonic-toaster-inline>
+      <tonic-toaster-inline id="tonic-toasterinline-type-danger">
+      </tonic-toaster-inline>
     </div>
   </div>
 
@@ -1761,10 +1782,8 @@
     <tonic-button id="tonic-toasterinline-type-info-button">Toast
     </tonic-button>
     <div>
-      <tonic-toaster-inline
-        type="info"
-        dismiss="false"
-        id="tonic-toasterinline-type-info"></tonic-toaster-inline>
+      <tonic-toaster-inline id="tonic-toasterinline-type-info">
+      </tonic-toaster-inline>
     </div>
   </div>
 
@@ -1774,11 +1793,8 @@
     <tonic-button id="tonic-toasterinline-type-title-button">Toast
     </tonic-button>
     <div>
-      <tonic-toaster-inline
-        dismiss="false"
-        type="info"
-        title="For your information"
-        id="tonic-toasterinline-type-title"></tonic-toaster-inline>
+      <tonic-toaster-inline id="tonic-toasterinline-type-title">
+      </tonic-toaster-inline>
     </div>
   </div>
 
@@ -1788,10 +1804,8 @@
     <tonic-button id="tonic-toasterinline-type-message-button">Toast
     </tonic-button>
     <div>
-      <tonic-toaster-inline
-        type="success"
-        message="You are truly a success!"
-        id="tonic-toasterinline-type-message"></tonic-toaster-inline>
+      <tonic-toaster-inline id="tonic-toasterinline-type-message">
+      </tonic-toaster-inline>
     </div>
   </div>
 
@@ -1801,11 +1815,8 @@
     <tonic-button id="tonic-toasterinline-type-title-message-button">Toast
     </tonic-button>
     <div>
-      <tonic-toaster-inline
-        type="danger"
-        title="Watch out"
-        message="You are in serious danger"
-        id="tonic-toasterinline-type-title-message"></tonic-toaster-inline>
+      <tonic-toaster-inline id="tonic-toasterinline-type-title-message">
+      </tonic-toaster-inline>
     </div>
   </div>
 
@@ -1815,10 +1826,8 @@
     <tonic-button id="tonic-toasterinline-duration-button">Toast
     </tonic-button>
     <div>
-      <tonic-toaster-inline
-        duration="3e3"
-        id="tonic-toasterinline-duration">
-        Duration 3 seconds</tonic-toaster-inline>
+      <tonic-toaster-inline id="tonic-toasterinline-duration">
+      </tonic-toaster-inline>
     </div>
   </div>
 
@@ -1828,9 +1837,8 @@
     <tonic-button id="tonic-toasterinline-no-duration-button">Toast
     </tonic-button>
     <div>
-      <tonic-toaster-inline
-        id="tonic-toasterinline-no-duration">
-        No Duration</tonic-toaster-inline>
+      <tonic-toaster-inline id="tonic-toasterinline-no-duration">
+      </tonic-toaster-inline>
     </div>
   </div>
 
@@ -1840,11 +1848,8 @@
     <tonic-button id="tonic-toasterinline-dismiss-duration-button">Toast
     </tonic-button>
     <div>
-      <tonic-toaster-inline
-        dismiss="true"
-        duration="3e3"
-        id="tonic-toasterinline-dismiss-duration">
-        Dismiss me or I'll disappear!</tonic-toaster-inline>
+      <tonic-toaster-inline id="tonic-toasterinline-dismiss-duration">
+      </tonic-toaster-inline>
     </div>
   </div>
 
@@ -1854,11 +1859,8 @@
     <tonic-button id="tonic-toasterinline-no-dismiss-duration-button">Toast
     </tonic-button>
     <div>
-      <tonic-toaster-inline
-        dismiss="false"
-        duration="3e3"
-        id="tonic-toasterinline-no-dismiss-duration">
-        I'll disappear when I'm ready!</tonic-toaster-inline>
+      <tonic-toaster-inline id="tonic-toasterinline-no-dismiss-duration">
+      </tonic-toaster-inline>
     </div>
   </div>
 
@@ -1868,23 +1870,19 @@
     <tonic-button id="tonic-toasterinline-theme-light-button">Toast
     </tonic-button>
     <div>
-      <tonic-toaster-inline
-        theme="light"
-        id="tonic-toasterinline-theme-light">
-        I am a light theme</tonic-toaster-inline>
+      <tonic-toaster-inline id="tonic-toasterinline-theme-light">
+      </tonic-toaster-inline>
     </div>
   </div>
 
   <!-- Inline toaster w/ theme dark -->
   <div class="dark">
     <span>Toaster inline w/ dark theme</span>
-    <tonic-button id="tonic-toasterinline-theme-dark-button">Toast
+    <tonic-button theme="dark" id="tonic-toasterinline-theme-dark-button">Toast
     </tonic-button>
     <div>
-      <tonic-toaster-inline
-        theme="dark"
-        id="tonic-toasterinline-theme-dark">
-        I am a dark theme</tonic-toaster-inline>
+      <tonic-toaster-inline id="tonic-toasterinline-theme-dark">
+      </tonic-toaster-inline>
     </div>
   </div>
 

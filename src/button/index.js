@@ -178,7 +178,6 @@ class TonicButton extends Tonic { /* global Tonic */
       disabled,
       autofocus,
       active,
-      theme,
       async,
       tabindex,
       href
@@ -194,7 +193,6 @@ class TonicButton extends Tonic { /* global Tonic */
     if (active) classes.push(`tonic--active`)
     classes = classes.join(' ')
 
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
     if (tabindex) this.root.removeAttribute('tabindex')
     if (href) {
       this.root.addEventListener('click', e => {

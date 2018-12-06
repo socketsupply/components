@@ -89,7 +89,6 @@ class Windowed extends Tonic { /* global Tonic */
     const outer = this.root.querySelector('.tonic--windowed--outer')
     this.outerHeight = outer.offsetHeight
 
-    this.loaded = true
     this.rows = rows
     this.numPages = Math.ceil(this.rows.length / this.props.rowsPerPage)
 
@@ -104,6 +103,10 @@ class Windowed extends Tonic { /* global Tonic */
     this.padding = this.props.rowPadding * this.rowHeight
 
     this.rePaint()
+
+    if (this.loaded) {
+      this.loaded()
+    }
   }
 
   setHeight (height, { render } = {}) {

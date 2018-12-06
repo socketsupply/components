@@ -3848,10 +3848,8 @@ class Windowed extends Tonic { /* global Tonic */
     this.root.load = (rows) => this.load(rows)
     this.root.rePaint = () => this.rePaint()
 
-    const outer = this.root.querySelector('.tonic--windowed--outer')
-    outer.addEventListener('scroll', () => this.rePaint(), { passive: true })
-
     const that = this
+
     Object.defineProperty(this.root, 'length', {
       get () { return that.rows.length }
     })
@@ -3928,11 +3926,12 @@ class Windowed extends Tonic { /* global Tonic */
   load (rows = []) {
     if (!this.root) return
 
+    this.rows = rows
+    this.reRender()
+
     const outer = this.root.querySelector('.tonic--windowed--outer')
     this.outerHeight = outer.offsetHeight
 
-    this.loaded = true
-    this.rows = rows
     this.numPages = Math.ceil(this.rows.length / this.props.rowsPerPage)
 
     this.pages = {}
@@ -4104,7 +4103,33 @@ class Windowed extends Tonic { /* global Tonic */
     this.load(this.props.data)
   }
 
+  updated () {
+    if (!this.root) return
+
+    const outer = this.root.querySelector('.tonic--windowed--outer')
+
+    outer && outer.addEventListener('scroll', () => {
+      this.rePaint()
+    }, { passive: true })
+  }
+
+  renderLoadingState () {
+    return `<div class="tonic--windowed--loader"></div>`
+  }
+
+  renderEmptyState () {
+    return `<div class="tonic--windowed--empty"></div>`
+  }
+
   render () {
+    if (!this.rows) {
+      return this.renderLoadingState()
+    }
+
+    if (!this.rows.length) {
+      return this.renderEmptyState()
+    }
+
     return `
       <div class="tonic--windowed--outer" styles="outer">
         <div class="tonic--windowed--inner" styles="inner">

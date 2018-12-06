@@ -2862,14 +2862,39 @@ overlay.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
 <td align="left">Loads an array of data.</td>
 </tr>
 <tr>
+<td align="left"><code>loaded()</code></td>
+<td align="left">Called after the load function has been called.</td>
+</tr>
+<tr>
+<td align="left"><code>getRows()</code></td>
+<td align="left">Returns an array of all rows that are currently loaded.</td>
+</tr>
+<tr>
 <td align="left"><code>getRow(Number)</code></td>
 <td align="left">Get a row of data (returns an awaitable promise).</td>
 </tr>
 </tbody></table>
 <h3>Instance Methods For Implementers</h3>
-<p>| <code>render()</code> | Render the component, calling <code>super.rener()</code> will render the row container structure. |
-| <code>renderEmptyState()</code> | If implemented, should return a structure that represents a state where there are no rows. |
-| <code>renderLoadingState()</code> | If implemented, should return a structure that represents a state where has not yet completed. |</p>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>render()</code></td>
+<td align="left">Render the component, calling <code>super.render()</code> will render the row container structure.</td>
+</tr>
+<tr>
+<td align="left"><code>renderEmptyState()</code></td>
+<td align="left">If implemented, should return a structure that represents a state where there are no rows.</td>
+</tr>
+<tr>
+<td align="left"><code>renderLoadingState()</code></td>
+<td align="left">If implemented, should return a structure that represents a state where has not yet completed.</td>
+</tr>
+</tbody></table>
 
     </section>
   

@@ -103,10 +103,6 @@ class Windowed extends Tonic { /* global Tonic */
     this.padding = this.props.rowPadding * this.rowHeight
 
     this.rePaint()
-
-    if (this.loaded) {
-      this.loaded()
-    }
   }
 
   setHeight (height, { render } = {}) {

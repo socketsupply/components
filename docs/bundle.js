@@ -4782,6 +4782,7 @@ class Tonic {
     const reduce = (a, b) => a.concat(b, strings.shift())
     const filter = s => s && (s !== true || s === 0)
     const ref = v => {
+      if (typeof v === 'object' && v.__children__) return this._children(v)
       if (typeof v === 'object' || typeof v === 'function') return this._prop(v)
       if (typeof v === 'number') return `${v}__float`
       return v
@@ -4809,11 +4810,15 @@ class Tonic {
     return this.props
   }
 
+  handleEvent (e) {
+    this[e.type](e)
+  }
+
   _bindEventListeners () {
     const hp = Object.getOwnPropertyNames(window.HTMLElement.prototype)
     for (const p of this._props) {
       if (hp.indexOf('on' + p) === -1) continue
-      this.root.addEventListener(p, e => this[p](e))
+      this.root.addEventListener(p, this)
     }
   }
 
@@ -4837,6 +4842,15 @@ class Tonic {
           el.getAttribute('styles').split(/\s+/).forEach(s =>
             Object.assign(el.style, styles[s.trim()])))
       }
+
+      Array.from(target.querySelectorAll('tonic-children')).forEach(el => {
+        const root = Tonic._elements[this.root._id]
+        Array.from(root[el.id]).forEach(node => {
+          el.parentNode.insertBefore(node, el)
+        })
+        delete root[el.id]
+        el.parentNode.removeChild(el)
+      })
     } else {
       while (target.firstChild) target.removeChild(target.firstChild)
       target.appendChild(content.cloneNode(true))
@@ -4851,6 +4865,14 @@ class Tonic {
     if (!Tonic._data[id]) Tonic._data[id] = {}
     Tonic._data[id][p] = o
     return p
+  }
+
+  _children (r) {
+    const id = this.root._id
+    const ref = Tonic._createId()
+    if (!Tonic._elements[id]) Tonic._elements[id] = {}
+    Tonic._elements[id][ref] = r
+    return `<tonic-children id="${ref}"/></tonic-children>`
   }
 
   _connect () {
@@ -4874,7 +4896,8 @@ class Tonic {
     }
 
     this.willConnect && this.willConnect()
-    this.children = this.children || this.root.innerHTML
+    this.children = [...this.root.childNodes].map(node => node.cloneNode(true))
+    this.children.__children__ = true
     this._setContent(this.root, this.render())
     Tonic._constructTags(this.root)
     const style = this.stylesheet && this.stylesheet()
@@ -4890,6 +4913,7 @@ class Tonic {
   _disconnect (index) {
     this.disconnected && this.disconnected()
     delete Tonic._data[this.root._id]
+    delete Tonic._elements[this.root._id]
     delete this.root
     Tonic.refs.splice(index, 1)
   }
@@ -4898,6 +4922,7 @@ class Tonic {
 Tonic.tags = []
 Tonic.refs = []
 Tonic._data = {}
+Tonic._elements = {}
 Tonic.registry = {}
 Tonic.escapeRe = /["&'<>`]/g
 Tonic.escapeMap = { '"': '&quot;', '&': '&amp;', '\'': '&#x27;', '<': '&lt;', '>': '&gt;', '`': '&#x60;' }

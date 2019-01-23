@@ -57,7 +57,7 @@ Tonic also provides a helper function which checks if the element matches the
 selector, and if not, tries to find the closest match.
 
 ```js
-Tonic.matches(el, 'selector')
+Tonic.match(el, 'selector')
 ```
 
 Here, when a particular element inside a child component is clicked, we

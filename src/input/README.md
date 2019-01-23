@@ -85,4 +85,4 @@ setInvalid.addEventListener('click', (e) => {
 
 | Property | Description |
 | :--- | :--- |
-| `value` | Get the current value of the input. |
+| `value` | Getter/setter for the value of the input. |

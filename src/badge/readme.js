@@ -2,18 +2,24 @@ const add = document.getElementById('add-notification')
 const subtract = document.getElementById('subtract-notification')
 const tonicBadge = document.querySelector('tonic-badge')
 
-let count = 0
-
 add.addEventListener('click', (e) => {
-  tonicBadge.reRender(props => ({
-    ...props,
-    count: ++count
+  tonicBadge.setState(state => ({
+    ...state,
+    count: ++state.count
   }))
+
+  tonicBadge.reRender()
 })
 
 subtract.addEventListener('click', e => {
-  tonicBadge.reRender(props => ({
-    ...props,
-    count: count > 0 ? --count : count
-  }))
+  tonicBadge.setState(state => {
+    let count = state.count
+
+    return {
+      ...state,
+      count: count > 0 ? --count : count
+    }
+  })
+
+  tonicBadge.reRender()
 })

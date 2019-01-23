@@ -1,8 +1,30 @@
 class TonicBadge extends Tonic { /* global Tonic */
+  constructor (node) {
+    super(node)
+
+    this.state.count = this.props.count
+
+    const that = this
+
+    Object.defineProperty(this.root, 'value', {
+      get () { return that.value },
+      set (value) { that.value = value }
+    })
+  }
+
   defaults () {
     return {
       count: 0
     }
+  }
+
+  get value () {
+    return this.state.count
+  }
+
+  set value (value) {
+    this.state.count = value
+    this.reRender()
   }
 
   stylesheet () {
@@ -49,9 +71,14 @@ class TonicBadge extends Tonic { /* global Tonic */
 
   render () {
     let {
-      count,
       theme
     } = this.props
+
+    let count = this.state.count
+
+    if (typeof count === 'undefined') {
+      count = this.props.count
+    }
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 

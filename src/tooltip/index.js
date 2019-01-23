@@ -144,9 +144,9 @@ class TonicTooltip extends Tonic { /* global Tonic */
       this.root.classList.add(`tonic--theme--${this.props.theme}`)
     }
 
-    return `
+    return this.html`
       <div class="tonic--tooltip" styles="tooltip">
-        ${this.children.trim()}
+        ${this.children}
         <span class="tonic--tooltip-arrow"></span>
       </div>
     `

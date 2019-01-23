@@ -6,10 +6,32 @@ module.exports = (Tonic, nonce) => {
   if (nonce) Tonic.nonce = nonce
 
   class TonicBadge extends Tonic { /* global Tonic */
+  constructor (node) {
+    super(node)
+
+    this.state.count = this.props.count
+
+    const that = this
+
+    Object.defineProperty(this.root, 'value', {
+      get () { return that.value },
+      set (value) { that.value = value }
+    })
+  }
+
   defaults () {
     return {
       count: 0
     }
+  }
+
+  get value () {
+    return this.state.count
+  }
+
+  set value (value) {
+    this.state.count = value
+    this.reRender()
   }
 
   stylesheet () {
@@ -56,9 +78,14 @@ module.exports = (Tonic, nonce) => {
 
   render () {
     let {
-      count,
       theme
     } = this.props
+
+    let count = this.state.count
+
+    if (typeof count === 'undefined') {
+      count = this.props.count
+    }
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
@@ -1451,12 +1478,23 @@ class TonicPopover extends Tonic { /* global Tonic */
       height: 'auto',
       padding: '15px',
       margin: 10,
-      position: 'bottomleft'
+      position: 'bottomleft',
+      overlay: true
     }
   }
 
   stylesheet () {
     return `
+      tonic-popover .tonic--overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0;
+        display: none;
+      }
+
       tonic-popover .tonic--popover {
         position: absolute;
         top: 30px;
@@ -1481,6 +1519,10 @@ class TonicPopover extends Tonic { /* global Tonic */
         transition: transform 0.15s ease-in-out;
         opacity: 1;
         z-index: 1;
+      }
+
+      tonic-popover .tonic--show ~ .tonic--overlay {
+        display: block;
       }
 
       tonic-popover .tonic--popover--top {
@@ -1585,6 +1627,18 @@ class TonicPopover extends Tonic { /* global Tonic */
     if (popover) popover.classList.remove('tonic--show')
   }
 
+  click (e) {
+    if (this.props.overlay && Tonic.match(e.target, '.tonic--overlay')) {
+      return this.hide()
+    }
+  }
+
+  renderOverlay () {
+    if (!this.props.overlay) return ''
+
+    return `<div class="tonic--overlay"></div>`
+  }
+
   render () {
     const {
       theme
@@ -1592,10 +1646,11 @@ class TonicPopover extends Tonic { /* global Tonic */
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
-    return `
+    return this.html`
       <div class="tonic--popover" styles="popover">
-          ${this.children.trim()}
+        ${this.children}
       </div>
+      ${this.renderOverlay()}
     `
   }
 }
@@ -3884,9 +3939,9 @@ class TonicTooltip extends Tonic { /* global Tonic */
       this.root.classList.add(`tonic--theme--${this.props.theme}`)
     }
 
-    return `
+    return this.html`
       <div class="tonic--tooltip" styles="tooltip">
-        ${this.children.trim()}
+        ${this.children}
         <span class="tonic--tooltip-arrow"></span>
       </div>
     `

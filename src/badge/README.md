@@ -6,7 +6,7 @@ The `Badge` component creates a notification badge with a counter and unread ale
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
-    <tonic-badge></tonic-badge>
+    <tonic-badge count=5></tonic-badge>
     <div class="button-group">
       <span id="add-notification">Add</span>
       <span id="subtract-notification">Subtract</span>
@@ -25,10 +25,7 @@ To update the notification count, pass in the `count` property.
 
 #### JS
 ```js
-tonicBadge.reRender(props => ({
-  ...props,
-  count: `${count}`
-}))
+tonicBadge.value = 5
 ```
 
 ## Api
@@ -41,3 +38,9 @@ tonicBadge.reRender(props => ({
 | `name` | *string* | Adds the `name` attribute. | |
 | `count` | *string* | Updates the `count` property. | `0` |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
+
+### Instance Members
+
+| Property | Description |
+| :--- | :--- |
+| `value` | Getter/setter for the badge count. |

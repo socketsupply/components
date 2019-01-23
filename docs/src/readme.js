@@ -9,20 +9,26 @@
 const subtract = document.getElementById('subtract-notification')
 const tonicBadge = document.querySelector('tonic-badge')
 
-let count = 0
-
 add.addEventListener('click', (e) => {
-  tonicBadge.reRender(props => ({
-    ...props,
-    count: ++count
+  tonicBadge.setState(state => ({
+    ...state,
+    count: ++state.count
   }))
+
+  tonicBadge.reRender()
 })
 
 subtract.addEventListener('click', e => {
-  tonicBadge.reRender(props => ({
-    ...props,
-    count: count > 0 ? --count : count
-  }))
+  tonicBadge.setState(state => {
+    let count = state.count
+
+    return {
+      ...state,
+      count: count > 0 ? --count : count
+    }
+  })
+
+  tonicBadge.reRender()
 })
 
         }
@@ -154,20 +160,6 @@ const panelLink = document.getElementById('content-panel-link-example')
 const panel = document.getElementById('content-panel-example')
 
 panelLink.addEventListener('click', e => panel.show())
-
-        }
-      
-
-        //
-        // ./src/popover/readme.js
-        //
-        if (document.body.dataset.page === 'examples') {
-          const popover = document.getElementById('popover-example')
-popover.addEventListener('show', event => {
-  document.body.addEventListener('click', e => {
-    popover.hide()
-  }, { once: true })
-})
 
         }
       

@@ -108,20 +108,26 @@ document.addEventListener('DOMContentLoaded', ready)
 const subtract = document.getElementById('subtract-notification')
 const tonicBadge = document.querySelector('tonic-badge')
 
-let count = 0
-
 add.addEventListener('click', (e) => {
-  tonicBadge.reRender(props => ({
-    ...props,
-    count: ++count
+  tonicBadge.setState(state => ({
+    ...state,
+    count: ++state.count
   }))
+
+  tonicBadge.reRender()
 })
 
 subtract.addEventListener('click', e => {
-  tonicBadge.reRender(props => ({
-    ...props,
-    count: count > 0 ? --count : count
-  }))
+  tonicBadge.setState(state => {
+    let count = state.count
+
+    return {
+      ...state,
+      count: count > 0 ? --count : count
+    }
+  })
+
+  tonicBadge.reRender()
 })
 
         }
@@ -253,20 +259,6 @@ const panelLink = document.getElementById('content-panel-link-example')
 const panel = document.getElementById('content-panel-example')
 
 panelLink.addEventListener('click', e => panel.show())
-
-        }
-      
-
-        //
-        // ./src/popover/readme.js
-        //
-        if (document.body.dataset.page === 'examples') {
-          const popover = document.getElementById('popover-example')
-popover.addEventListener('show', event => {
-  document.body.addEventListener('click', e => {
-    popover.hide()
-  }, { once: true })
-})
 
         }
       
@@ -457,10 +449,32 @@ module.exports = (Tonic, nonce) => {
   if (nonce) Tonic.nonce = nonce
 
   class TonicBadge extends Tonic { /* global Tonic */
+  constructor (node) {
+    super(node)
+
+    this.state.count = this.props.count
+
+    const that = this
+
+    Object.defineProperty(this.root, 'value', {
+      get () { return that.value },
+      set (value) { that.value = value }
+    })
+  }
+
   defaults () {
     return {
       count: 0
     }
+  }
+
+  get value () {
+    return this.state.count
+  }
+
+  set value (value) {
+    this.state.count = value
+    this.reRender()
   }
 
   stylesheet () {
@@ -507,9 +521,14 @@ module.exports = (Tonic, nonce) => {
 
   render () {
     let {
-      count,
       theme
     } = this.props
+
+    let count = this.state.count
+
+    if (typeof count === 'undefined') {
+      count = this.props.count
+    }
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
@@ -1909,12 +1928,23 @@ class TonicPopover extends Tonic { /* global Tonic */
       height: 'auto',
       padding: '15px',
       margin: 10,
-      position: 'bottomleft'
+      position: 'bottomleft',
+      overlay: true
     }
   }
 
   stylesheet () {
     return `
+      tonic-popover .tonic--overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0;
+        display: none;
+      }
+
       tonic-popover .tonic--popover {
         position: absolute;
         top: 30px;
@@ -1939,6 +1969,10 @@ class TonicPopover extends Tonic { /* global Tonic */
         transition: transform 0.15s ease-in-out;
         opacity: 1;
         z-index: 1;
+      }
+
+      tonic-popover .tonic--show ~ .tonic--overlay {
+        display: block;
       }
 
       tonic-popover .tonic--popover--top {
@@ -2043,6 +2077,18 @@ class TonicPopover extends Tonic { /* global Tonic */
     if (popover) popover.classList.remove('tonic--show')
   }
 
+  click (e) {
+    if (this.props.overlay && Tonic.match(e.target, '.tonic--overlay')) {
+      return this.hide()
+    }
+  }
+
+  renderOverlay () {
+    if (!this.props.overlay) return ''
+
+    return `<div class="tonic--overlay"></div>`
+  }
+
   render () {
     const {
       theme
@@ -2050,10 +2096,11 @@ class TonicPopover extends Tonic { /* global Tonic */
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
-    return `
+    return this.html`
       <div class="tonic--popover" styles="popover">
-          ${this.children.trim()}
+        ${this.children}
       </div>
+      ${this.renderOverlay()}
     `
   }
 }
@@ -4342,9 +4389,9 @@ class TonicTooltip extends Tonic { /* global Tonic */
       this.root.classList.add(`tonic--theme--${this.props.theme}`)
     }
 
-    return `
+    return this.html`
       <div class="tonic--tooltip" styles="tooltip">
-        ${this.children.trim()}
+        ${this.children}
         <span class="tonic--tooltip-arrow"></span>
       </div>
     `
@@ -4735,6 +4782,7 @@ class Tonic {
     const reduce = (a, b) => a.concat(b, strings.shift())
     const filter = s => s && (s !== true || s === 0)
     const ref = v => {
+      if (typeof v === 'object' && v.__children__) return this._children(v)
       if (typeof v === 'object' || typeof v === 'function') return this._prop(v)
       if (typeof v === 'number') return `${v}__float`
       return v
@@ -4790,6 +4838,15 @@ class Tonic {
           el.getAttribute('styles').split(/\s+/).forEach(s =>
             Object.assign(el.style, styles[s.trim()])))
       }
+
+      Array.from(target.querySelectorAll('tonic-children')).forEach(el => {
+        const root = Tonic._elements[this.root._id]
+        Array.from(root[el.id]).forEach(node => {
+          el.parentNode.insertBefore(node, el)
+        })
+        delete root[el.id]
+        el.parentNode.removeChild(el)
+      })
     } else {
       while (target.firstChild) target.removeChild(target.firstChild)
       target.appendChild(content.cloneNode(true))
@@ -4804,6 +4861,14 @@ class Tonic {
     if (!Tonic._data[id]) Tonic._data[id] = {}
     Tonic._data[id][p] = o
     return p
+  }
+
+  _children (r) {
+    const id = this.root._id
+    const ref = Tonic._createId()
+    if (!Tonic._elements[id]) Tonic._elements[id] = {}
+    Tonic._elements[id][ref] = r
+    return `<tonic-children id="${ref}"/></tonic-children>`
   }
 
   _connect () {
@@ -4827,7 +4892,8 @@ class Tonic {
     }
 
     this.willConnect && this.willConnect()
-    this.children = this.children || this.root.innerHTML
+    this.children = [...this.root.childNodes].map(node => node.cloneNode(true))
+    this.children.__children__ = true
     this._setContent(this.root, this.render())
     Tonic._constructTags(this.root)
     const style = this.stylesheet && this.stylesheet()
@@ -4843,6 +4909,7 @@ class Tonic {
   _disconnect (index) {
     this.disconnected && this.disconnected()
     delete Tonic._data[this.root._id]
+    delete Tonic._elements[this.root._id]
     delete this.root
     Tonic.refs.splice(index, 1)
   }
@@ -4851,6 +4918,7 @@ class Tonic {
 Tonic.tags = []
 Tonic.refs = []
 Tonic._data = {}
+Tonic._elements = {}
 Tonic.registry = {}
 Tonic.escapeRe = /["&'<>`]/g
 Tonic.escapeMap = { '"': '&quot;', '&': '&amp;', '\'': '&#x27;', '<': '&lt;', '>': '&gt;', '`': '&#x60;' }

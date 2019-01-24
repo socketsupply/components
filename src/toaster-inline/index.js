@@ -147,6 +147,10 @@ class TonicToasterInline extends Tonic { /* global Tonic */
     messageElement.className = 'tonic--message'
     messageElement.innerHTML = message || this.props.message || ''
 
+    if (typeof dismiss === 'string') {
+      dismiss = dismiss === 'true'
+    }
+
     if (dismiss !== false) {
       const close = document.createElement('div')
       close.className = 'tonic--close'

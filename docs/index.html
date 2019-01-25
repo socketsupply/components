@@ -613,7 +613,7 @@ add the following to your javascript...</p>
 </thead>
 <tbody><tr>
 <td align="left"><code>add(Class, Object)</code></td>
-<td align="left">Register a class as a new custom-tag and provide optional options for it.</td>
+<td align="left">Register a class as a new custom-tag and provide options for it.</td>
 </tr>
 <tr>
 <td align="left"><code>escape(String)</code></td>
@@ -654,7 +654,7 @@ add the following to your javascript...</p>
 </tr>
 <tr>
 <td align="left"><code>styles()</code></td>
-<td align="left">Returns an object that represents inline-styles. Styles are applied by adding a keys from the object to the <code>styles</code> attribute of an html tag in the render function, for example <code>styles=&quot;key1 key2&quot;</code>. Each object&#39;s key-value pair are added to the element&#39;s style object.</td>
+<td align="left">Returns an object that represents inline-styles to be applied to the component. Styles are applied by adding a keys from the object to the <code>styles</code> attribute of an html tag in the render function, for example <code>styles=&quot;key1 key2&quot;</code>. Each object&#39;s key-value pair are added to the element&#39;s style object.</td>
 </tr>
 <tr>
 <td align="left"><code>render()</code></td>
@@ -663,6 +663,19 @@ add the following to your javascript...</p>
 <tr>
 <td align="left">html`...`</td>
 <td align="left">Tidy up an HTML string (use as a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals">tagged template</a>).</td>
+</tr>
+</tbody></table>
+<h2>INSTANCE PROPERTIES</h2>
+<table>
+<thead>
+<tr>
+<th align="left">Name</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>children</code></td>
+<td align="left">An array of nodes, the original child nodes of the component.</td>
 </tr>
 </tbody></table>
 <h2>&quot;LIFECYCLE&quot; INSTANCE METHODS</h2>

@@ -681,9 +681,6 @@ body > main > section {
   max-width: 800px;
   padding-bottom: 60px;
 }
-body > main > section:not(:first-of-type) {
-  border-top: 2px solid var(--border);
-}
 body > main > footer {
   max-width: 800px;
   text-align: center;
@@ -786,12 +783,18 @@ body .mobile-nav a:hover,
 body .github a:hover {
   border-bottom-color: var(--primary);
 }
-body .github-footer {
+body .component-github-link {
   position: absolute;
-  margin-top: 50px;
+  margin-top: 30px;
   margin-left: 4px;
 }
-body .github-footer a {
+@media (max-width: 850px) {
+  body .component-github-link {
+    margin-top: -10px;
+    margin-left: 2px;
+  }
+}
+body .component-github-link a {
   display: inline-block;
   text-transform: uppercase;
   font-size: 12px;

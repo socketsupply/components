@@ -348,8 +348,6 @@ body
     > section
       max-width 800px
       padding-bottom 60px
-      &:not(:first-of-type)
-        border-top 2px solid var(--border)
 
     > footer
       max-width 800px
@@ -436,10 +434,14 @@ body
       &:hover
         border-bottom-color var(--primary)
 
-  .github-footer
+  .component-github-link
     position absolute
-    margin-top 50px
+    margin-top 30px
     margin-left 4px
+
+    @media (max-width: 850px)
+      margin-top -10px
+      margin-left 2px
 
     a
       display inline-block

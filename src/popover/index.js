@@ -15,8 +15,7 @@ class TonicPopover extends Tonic { /* global Tonic */
       height: 'auto',
       padding: '15px',
       margin: 10,
-      position: 'bottomleft',
-      overlay: true
+      position: 'bottomleft'
     }
   }
 
@@ -30,6 +29,8 @@ class TonicPopover extends Tonic { /* global Tonic */
         bottom: 0;
         opacity: 0;
         display: none;
+        z-index: 0;
+        background-color: rgba(0,0,0,0);
       }
 
       tonic-popover .tonic--popover {
@@ -60,6 +61,7 @@ class TonicPopover extends Tonic { /* global Tonic */
 
       tonic-popover .tonic--show ~ .tonic--overlay {
         display: block;
+        opacity: 1;
       }
 
       tonic-popover .tonic--popover--top {
@@ -164,16 +166,16 @@ class TonicPopover extends Tonic { /* global Tonic */
     if (popover) popover.classList.remove('tonic--show')
   }
 
-  click (e) {
-    if (this.props.overlay && Tonic.match(e.target, '.tonic--overlay')) {
-      return this.hide()
-    }
+  connected () {
+    if (!this.props.open) return
+    const target = this.root.getAttribute('for')
+    this.show(document.getElementById(target))
   }
 
-  renderOverlay () {
-    if (!this.props.overlay) return ''
-
-    return `<div class="tonic--overlay"></div>`
+  click (e) {
+    if (Tonic.match(e.target, '.tonic--overlay')) {
+      return this.hide()
+    }
   }
 
   render () {
@@ -187,7 +189,7 @@ class TonicPopover extends Tonic { /* global Tonic */
       <div class="tonic--popover" styles="popover">
         ${this.children}
       </div>
-      ${this.renderOverlay()}
+      <div class="tonic--overlay"></div>
     `
   }
 }

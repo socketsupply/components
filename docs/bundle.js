@@ -2072,6 +2072,12 @@ class TonicPopover extends Tonic { /* global Tonic */
     if (popover) popover.classList.remove('tonic--show')
   }
 
+  connected () {
+    if (!this.props.open) return
+    const target = this.root.getAttribute('for')
+    this.show(document.getElementById(target))
+  }
+
   click (e) {
     if (Tonic.match(e.target, '.tonic--overlay')) {
       return this.hide()

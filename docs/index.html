@@ -612,8 +612,12 @@ add the following to your javascript...</p>
 </tr>
 </thead>
 <tbody><tr>
-<td align="left"><code>add(Class, Object)</code></td>
+<td align="left"><code>add(Class)</code></td>
 <td align="left">Register a class as a new custom-tag and provide options for it.</td>
+</tr>
+<tr>
+<td align="left"><code>init(root?)</code></td>
+<td align="left">Initialize all components (optionally starating at a root node in the DOM). This is called automatically when an <App></App> component is added.</td>
 </tr>
 <tr>
 <td align="left"><code>escape(String)</code></td>
@@ -687,8 +691,8 @@ add the following to your javascript...</p>
 </tr>
 </thead>
 <tbody><tr>
-<td align="left"><code>constructor(props)</code></td>
-<td align="left">An instance of the element is created or upgraded. Useful for initializing state, setting up event listeners, or creating shadow dom. See the spec for restrictions on what you can do in the constructor. A constructor will receive an argument of <code>props</code> and must call <code>super(props)</code>.</td>
+<td align="left"><code>constructor(object)</code></td>
+<td align="left">An instance of the element is created or upgraded. Useful for initializing state, setting up event listeners, or creating shadow dom. See the spec for restrictions on what you can do in the constructor. The constructor&#39;s arguments must be forwarded by calling <code>super(object)</code>.</td>
 </tr>
 <tr>
 <td align="left"><code>willConnect()</code></td>

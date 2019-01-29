@@ -42,11 +42,6 @@ The `popover` component creates a popover activated by a click event. It is posi
 %html%
 ```
 
-#### JS
-```js
-%js%
-```
-
 ## Api
 
 ### Properties
@@ -56,6 +51,7 @@ The `popover` component creates a popover activated by a click event. It is posi
 | `for` | *string* | Adds a `for` attribute. <span class="req">required</span> |  |
 | `width` | *string* | Changes the `width` style. | `auto` |
 | `height` | *string* | Changes `height` style. | `auto` |
+| `open` | *boolean* | Determines the default state of the popover. | `false` |
 | `padding` | *string* | Changes `padding` style. | `15px` |
 | `margin` | *number* | Changes `margin` style. | `10` |
 | `position` | *string* | Changes position of popover. Can be one of: `top`, `topleft`, `topright`, `bottom`, `bottomleft`, or `bottomright`. | `bottomleft` |

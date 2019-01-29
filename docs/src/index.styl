@@ -14,6 +14,10 @@
   font-family Avenir-Heavy
   src url("/fonts/Avenir-Heavy.ttf")
 
+@font-face
+  font-family 'Source Code Pro'
+  src url("/fonts/SourceCodePro-Regular.ttf")
+
 @require '../../index.styl'
 @require '../../src/**/*.styl'
 @require './hl.styl'
@@ -45,8 +49,8 @@ body
     #intro
       padding-top 100px
 
-    h1
-      display none
+      h1
+        display none
 
   &:not(.show-focus) [tabindex]:focus
     outline none
@@ -62,7 +66,7 @@ blockquote
   display inline-block
 
 p
-  font 16px/26px var(--body)
+  font 18px/32px var(--body)
 
 h1, h2, h3, h4, h5
   font-weight normal
@@ -235,9 +239,14 @@ body
 
     .hero
       margin-top 0
-      margin-bottom 150px
       @media (max-width: 850px)
         margin-bottom 100px
+
+      .label
+        margin auto
+        text-align center
+        margin-bottom 50px
+        font-style italic
 
     .tooltip
       padding 10px
@@ -310,6 +319,7 @@ body
       border-right 0
 
     pre
+      font-family 'Source Code Pro'
       padding 15px
       overflow scroll
       white-space pre-line
@@ -327,7 +337,7 @@ body
           color #999
 
     code
-      font 14px/20px var(--monospace)
+      font 16px/22px 'Source Code Pro'
       padding 2px 6px 3px 6px
       margin 0 2px
       white-space nowrap
@@ -401,17 +411,19 @@ body
     margin-top 10px
 
   .mobile-nav
-    font 13px var(--subheader)
-    text-transform uppercase
-    letter-spacing 1px
-    margin-bottom 50px
-    padding 0
     display none
     position absolute
     top 30px
     left 30px
     @media (max-width: 850px)
       display block
+
+  .mobile-nav, .github
+    font 13px var(--subheader)
+    text-transform uppercase
+    letter-spacing 1px
+    margin-bottom 50px
+    padding 0
 
     a
       display inline-block
@@ -424,31 +436,40 @@ body
       &:hover
         border-bottom-color var(--primary)
 
+  .github-footer
+    position absolute
+    margin-top 50px
+    margin-left 4px
+
+    a
+      display inline-block
+      text-transform uppercase
+      font-size 12px
+      border 1px solid
+      padding 2px 4px
+      display inline-block
+
   section#intro
     padding-top 30px
 
     .tonic-icon
       svg
         width 115px
-        margin 0 auto 60px auto
+        margin 0 auto
         display block
         use
           fill var(--primary)
           color var(--primary)
 
-    center
+    .github
+      position absolute
+      top -12px
+      right 35px
       color var(--info)
       margin-top 40px
 
       img
         vertical-align middle
-
-      a
-        color var(--info)
-        font 13px var(--subheader)
-        text-transform uppercase
-        letter-spacing 1px
-        margin 15px
 
     .status
       width 195px
@@ -456,7 +477,7 @@ body
       text-transform uppercase
       display flex
       justify-content space-around
-      margin 50px auto 0 auto
+      margin 0px auto
 
       &:before
         content 'Project Status'

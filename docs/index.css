@@ -14,6 +14,10 @@
   font-family: Avenir-Heavy;
   src: url("/fonts/Avenir-Heavy.ttf");
 }
+@font-face {
+  font-family: 'Source Code Pro';
+  src: url("/fonts/SourceCodePro-Regular.ttf");
+}
 body {
   --body: 'Avenir-Light', sans-serif;
   --header: 'Avenir-Light', sans-serif;
@@ -337,7 +341,7 @@ body [data-group="component"] {
 body[data-page="docs"] #intro {
   padding-top: 100px;
 }
-body[data-page="docs"] h1 {
+body[data-page="docs"] #intro h1 {
   display: none;
 }
 body:not(.show-focus) [tabindex]:focus {
@@ -354,7 +358,7 @@ blockquote {
   display: inline-block;
 }
 p {
-  font: 16px/26px var(--body);
+  font: 18px/32px var(--body);
 }
 h1,
 h2,
@@ -558,12 +562,17 @@ body > main a:hover {
 }
 body > main .hero {
   margin-top: 0;
-  margin-bottom: 150px;
 }
 @media (max-width: 850px) {
   body > main .hero {
     margin-bottom: 100px;
   }
+}
+body > main .hero .label {
+  margin: auto;
+  text-align: center;
+  margin-bottom: 50px;
+  font-style: italic;
 }
 body > main .tooltip {
   padding: 10px;
@@ -642,6 +651,7 @@ body > main td:last-of-type {
   border-right: 0;
 }
 body > main pre {
+  font-family: 'Source Code Pro';
   padding: 15px;
   overflow: scroll;
   white-space: pre-line;
@@ -659,7 +669,7 @@ body > main pre code i {
   color: #999;
 }
 body > main code {
-  font: 14px/20px var(--monospace);
+  font: 16px/22px 'Source Code Pro';
   padding: 2px 6px 3px 6px;
   margin: 0 2px;
   white-space: nowrap;
@@ -741,11 +751,6 @@ body .invalidate-buttons {
   margin-top: 10px;
 }
 body .mobile-nav {
-  font: 13px var(--subheader);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 50px;
-  padding: 0;
   display: none;
   position: absolute;
   top: 30px;
@@ -756,44 +761,65 @@ body .mobile-nav {
     display: block;
   }
 }
-body .mobile-nav a {
+body .mobile-nav,
+body .github {
+  font: 13px var(--subheader);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 50px;
+  padding: 0;
+}
+body .mobile-nav a,
+body .github a {
   display: inline-block;
   margin-right: 17px;
   padding: 0px 0px 5px 0px;
   border-bottom: 1px solid var(--border);
 }
-body .mobile-nav a:first-of-type {
+body .mobile-nav a:first-of-type,
+body .github a:first-of-type {
   margin-right: 15px;
 }
 body .mobile-nav a.active,
-body .mobile-nav a:hover {
+body .github a.active,
+body .mobile-nav a:hover,
+body .github a:hover {
   border-bottom-color: var(--primary);
+}
+body .github-footer {
+  position: absolute;
+  margin-top: 50px;
+  margin-left: 4px;
+}
+body .github-footer a {
+  display: inline-block;
+  text-transform: uppercase;
+  font-size: 12px;
+  border: 1px solid;
+  padding: 2px 4px;
+  display: inline-block;
 }
 body section#intro {
   padding-top: 30px;
 }
 body section#intro .tonic-icon svg {
   width: 115px;
-  margin: 0 auto 60px auto;
+  margin: 0 auto;
   display: block;
 }
 body section#intro .tonic-icon svg use {
   fill: var(--primary);
   color: var(--primary);
 }
-body section#intro center {
+body section#intro .github {
+  position: absolute;
+  top: -12px;
+  right: 35px;
   color: var(--info);
   margin-top: 40px;
 }
-body section#intro center img {
+body section#intro .github img {
   vertical-align: middle;
-}
-body section#intro center a {
-  color: var(--info);
-  font: 13px var(--subheader);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin: 15px;
 }
 body section#intro .status {
   width: 195px;
@@ -804,7 +830,7 @@ body section#intro .status {
   display: flex;
   -ms-flex-pack: distribute;
       justify-content: space-around;
-  margin: 50px auto 0 auto;
+  margin: 0px auto;
 }
 body section#intro .status:before {
   content: 'Project Status';

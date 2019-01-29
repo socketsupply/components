@@ -7,9 +7,8 @@ a string of HTML.
 ```js
 class MyGreeting extends Tonic {
   //
-  // The render function can return a template-literal of HTML, it can include
-  // other components as well. It can also return a dom node, we'll talk about
-  // that later.
+  // The render function can return a template-literal of HTML,
+  // it can also include other components.
   //
   render () {
     return `<div>Hello, World.</div>`
@@ -26,19 +25,24 @@ names will create hyphenated tag names, ie `MyGreeting` will become
 
 ---
 
-Next, you need to tell the browser about your new class and it will create a
-custom HTML tag for it. Your top most component should generally be added after
-the [DOM is ready][2]. Now any time the component's tag appears in your html, an
-instance of your class will be created.
+Next, register your component with the `Tonic.add(ClassName)` method. 
 
 ```js
 Tonic.add(MyGreeting)
 ```
 
+Then, when the [DOM is ready][2] you can initialize all your components.
+
+```js
+document.addEventListener('DOMContentLoaded', () => Tonic.init())
+```
+
+If your top-level component is `<App>...</App>`, you won't need to call
+`Tonic.init()`. Instead just call `Tonic.add(App)` when the DOM is ready.
+
 ---
 
 After adding your Javascript to your HTML, you can start to use your component.
-And remember, all custom tags require a closing tag.
 
 ```html
 <html>
@@ -51,6 +55,9 @@ And remember, all custom tags require a closing tag.
   </body>
 </html>
 ```
+
+> <i><b>Note</b>: Unrelated to Tonic, custom tags (in all browsers) require a
+> closing tag (even if they have no children).</i>
 
 ---
 
@@ -70,13 +77,6 @@ function will be inserted into the component tag.
   </body>
 </html>
 ```
-
----
-
-The potential for components is that the complexity of a solution can be
-hidden for the programmer who uses it. They can then focus more on the value
-it produces and the properties they want to pass it.
-
 
 [0]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
 [1]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals

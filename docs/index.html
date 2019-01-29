@@ -4,6 +4,7 @@
       <head>
   <title>Tonic - Component Based Architecture</title>
   <link rel="preload" href="fonts/Avenir-Light.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+  <link rel="preload" href="fonts/Source-Code-Pro-Latin-Ext.woff2" as="font" type="font/woff2" crossorigin="anonymous">
   <link href="index.css" rel="stylesheet">
 
   <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
@@ -69,11 +70,6 @@
   
 
     <li>
-      <a href="#api" class="">API</a>
-    </li>
-  
-
-    <li>
       <a href="#1.-getting-started" class="">1. Getting Started</a>
     </li>
   
@@ -117,6 +113,11 @@
       <a href="#9.-csp" class="">9. CSP</a>
     </li>
   
+
+    <li>
+      <a href="#api" class="">API</a>
+    </li>
+  
           </ul>
 
         </nav>
@@ -129,6 +130,7 @@
 
           
     <section id="intro">
+      
       <h1 id="intro">Intro</h1>
 <div class="hero">
   <div class="logo">
@@ -140,13 +142,13 @@
     <svg>
       <use xlink:href="./logo-sprite.svg#tonic_icon">
     </svg>
+    <div class="label">100% React Free</div>
   </div>
-  <p class="intro-copy"><span class="first-word">Tonic</span> is a very small JavaScript class for building components — without React.</p>
-  <center>
+  <p class="intro-copy">A minimalist component framework.</p>
+  <div class="github">
     <a href="https://github.com/hxoht/tonic">Core Library</a>
     <img width="24" height="24" title="" alt="" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpEQUM1QkUxRUI0MUMxMUUyQUQzREIxQzRENUFFNUM5NiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpEQUM1QkUxRkI0MUMxMUUyQUQzREIxQzRENUFFNUM5NiI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkUxNkJENjdGQjNGMDExRTJBRDNEQjFDNEQ1QUU1Qzk2IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkUxNkJENjgwQjNGMDExRTJBRDNEQjFDNEQ1QUU1Qzk2Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+hfPRaQAAB6lJREFUeNrsW2mM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"/>
-    <a href="https://github.com/hxoht/components">Examples</a>
-  </center>
+  </div>
 </div>
 
 <p><span class="status"></span></p>
@@ -154,7 +156,7 @@
   <h3>Features</h3>
   <div class="col">
     <ul>
-      <li>Tonic is tiny. Less than 200 lines of code.</li>
+      <li>Tonic is tiny. Less than 250 lines of code.</li>
       <li>One-way data binding. Pipe data through connected components.</li>
       <li>Mix in your own Routers, Reducers, Validators, etc.</li>
     </ul>
@@ -171,126 +173,16 @@
     </section>
   
 
-    <section id="api">
-      <h1 id="apis">APIs</h1>
-<h2>STATIC METHODS</h2>
-<table>
-<thead>
-<tr>
-<th align="left">Method</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>add(Class, Object)</code></td>
-<td align="left">Register a class as a new custom-tag and provide options for it.</td>
-</tr>
-<tr>
-<td align="left"><code>escape(String)</code></td>
-<td align="left">Escapes HTML characters from a string (based on <a href="https://github.com/mathiasbynens/he">he</a>).</td>
-</tr>
-<tr>
-<td align="left"><code>sanitize(Object)</code></td>
-<td align="left">Escapes all the strings found in an object literal.</td>
-</tr>
-<tr>
-<td align="left"><code>match(Node, Selector)</code></td>
-<td align="left">Match the given node against a selector or any matching parent of the given node. This is useful when trying to locate a node from the actual node that was interacted with.</td>
-</tr>
-</tbody></table>
-<h2>INSTANCE METHODS</h2>
-<table>
-<thead>
-<tr>
-<th align="left">Method</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>reRender(Object &#124; Function)</code></td>
-<td align="left">Set the properties of a component instance. Can also take a function which will receive the current props as an argument.</td>
-</tr>
-<tr>
-<td align="left"><code>getProps()</code></td>
-<td align="left">Get the properties of a component instance.</td>
-</tr>
-<tr>
-<td align="left"><code>setState(Object &#124; Function)</code></td>
-<td align="left">Set the state of a component instance. Can also take a function which will receive the current props as an argument.</td>
-</tr>
-<tr>
-<td align="left"><code>stylesheet()</code></td>
-<td align="left">Returns a string of css to be lazily added to a <code>style</code> tag in the head.</td>
-</tr>
-<tr>
-<td align="left"><code>styles()</code></td>
-<td align="left">Returns an object that represents inline-styles to be applied to the component. Styles are applied by adding a keys from the object to the <code>styles</code> attribute of an html tag in the render function, for example <code>styles=&quot;key1 key2&quot;</code>. Each object&#39;s key-value pair are added to the element&#39;s style object.</td>
-</tr>
-<tr>
-<td align="left"><code>render()</code></td>
-<td align="left">Returns HTML to be parsed or a dom node that will overwrite. There is usually no need to call this directly, prefer <code>componentInstance.reRender({ ... })</code>.</td>
-</tr>
-<tr>
-<td align="left">html`...`</td>
-<td align="left">Tidy up an HTML string (use as a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals">tagged template</a>).</td>
-</tr>
-</tbody></table>
-<h2>INSTANCE PROPERTIES</h2>
-<table>
-<thead>
-<tr>
-<th align="left">Name</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>children</code></td>
-<td align="left">An array of nodes, the original child nodes of the component.</td>
-</tr>
-</tbody></table>
-<h2>&quot;LIFECYCLE&quot; INSTANCE METHODS</h2>
-<table>
-<thead>
-<tr>
-<th align="left">Method</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>constructor(props)</code></td>
-<td align="left">An instance of the element is created or upgraded. Useful for initializing state, setting up event listeners, or creating shadow dom. See the spec for restrictions on what you can do in the constructor. A constructor will receive an argument of <code>props</code> and must call <code>super(props)</code>.</td>
-</tr>
-<tr>
-<td align="left"><code>willConnect()</code></td>
-<td align="left">Called prior to the element being inserted into the DOM. Useful for updating configuration, state and preparing for the render.</td>
-</tr>
-<tr>
-<td align="left"><code>connected()</code></td>
-<td align="left">Called every time the element is inserted into the DOM. Useful for running setup code, such as fetching resources or rendering. Generally, you should try to delay work until this time.</td>
-</tr>
-<tr>
-<td align="left"><code>disconnected()</code></td>
-<td align="left">Called every time the element is removed from the DOM. Useful for running clean up code.</td>
-</tr>
-<tr>
-<td align="left"><code>updated(oldProps)</code></td>
-<td align="left">Called after reRender() is called. This method is not called on the initial render.</td>
-</tr>
-</tbody></table>
-
-    </section>
-  
-
     <section id="1.-getting-started">
+      
       <h1 id="1-getting-started">1. Getting Started</h1>
 <p>Building a component with Tonic starts by creating a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes">Javascript Class</a>.
 The class should have at least one method named <em>render</em> which usually returns
 a string of HTML.</p>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyGreeting</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   <span class="hljs-comment">//</span>
-  <span class="hljs-comment">// The render function can return a template-literal of HTML, it can include</span>
-  <span class="hljs-comment">// other components as well. It can also return a dom node, we'll talk about</span>
-  <span class="hljs-comment">// that later.</span>
+  <span class="hljs-comment">// The render function can return a template-literal of HTML,</span>
+  <span class="hljs-comment">// it can also include other components.</span>
   <span class="hljs-comment">//</span>
   render () {
     <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div&gt;Hello, World.&lt;/div&gt;`</span>
@@ -302,14 +194,14 @@ class named <code>Greeting</code> will become <code>&lt;greeting&gt;&lt;/greetin
 names will create hyphenated tag names, ie <code>MyGreeting</code> will become
 <code>&lt;my-greeting&gt;&lt;/my-greeting&gt;</code>.</p>
 <hr>
-<p>Next, you need to tell the browser about your new class and it will create a
-custom HTML tag for it. Your top most component should generally be added after
-the <a href="https://caniuse.com/#search=domcontentloaded">DOM is ready</a>. Now any time the component&#39;s tag appears in your html, an
-instance of your class will be created.</p>
+<p>Next, register your component with the <code>Tonic.add(ClassName)</code> method. </p>
 <pre><code class="language-js">Tonic.add(MyGreeting)</code></pre>
+<p>Then, when the <a href="https://caniuse.com/#search=domcontentloaded">DOM is ready</a> you can initialize all your components.</p>
+<pre><code class="language-js"><span class="hljs-built_in">document</span>.addEventListener(<span class="hljs-string">'DOMContentLoaded'</span>, () =&gt; Tonic.init())</code></pre>
+<p>If your top-level component is <code>&lt;App&gt;...&lt;/App&gt;</code>, you won&#39;t need to call
+<code>Tonic.init()</code>. Instead just call <code>Tonic.add(App)</code> when the DOM is ready.</p>
 <hr>
-<p>After adding your Javascript to your HTML, you can start to use your component.
-And remember, all custom tags require a closing tag.</p>
+<p>After adding your Javascript to your HTML, you can start to use your component.</p>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"index.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
@@ -319,6 +211,10 @@ And remember, all custom tags require a closing tag.</p>
     <span class="hljs-tag">&lt;<span class="hljs-name">my-greeting</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">my-greeting</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+<blockquote>
+<p><i><b>Note</b>: Unrelated to Tonic, custom tags (in all browsers) require a
+closing tag (even if they have no children).</i></p>
+</blockquote>
 <hr>
 <p>When the component is rendered by the browser, the result of your render
 function will be inserted into the component tag.</p>
@@ -333,15 +229,12 @@ function will be inserted into the component tag.</p>
     <span class="hljs-tag">&lt;/<span class="hljs-name">my-greeting</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
-<hr>
-<p>The potential for components is that the complexity of a solution can be
-hidden for the programmer who uses it. They can then focus more on the value
-it produces and the properties they want to pass it.</p>
 
     </section>
   
 
     <section id="2.-properties">
+      
       <h1 id="2-properties">2. Properties</h1>
 <p>Properties can be used by a component to help it decide how it should appear or
 how it should behave. In this case, <code>message</code> is our property and <code>Hello, World</code>
@@ -368,9 +261,7 @@ of HTML is that it only understands string values. So if we want to pass more
 complex property values to a component, Tonic can help. Notice the string we
 would normally return is prefixed with <code>this.html</code>. This just helps Tonic to
 understand your html better.</p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> data = [
-  { <span class="hljs-attr">greeting</span>: <span class="hljs-string">'hello, world'</span> }
-]
+<pre><code class="language-js"><span class="hljs-keyword">const</span> data = { <span class="hljs-attr">greeting</span>: <span class="hljs-string">'hello, world'</span> }
 
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyApp</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   render () {
@@ -384,14 +275,14 @@ understand your html better.</p>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   render () {
     <span class="hljs-keyword">return</span> <span class="hljs-string">`
-      &lt;h1&gt;<span class="hljs-subst">${<span class="hljs-keyword">this</span>.props.data[<span class="hljs-number">0</span>].greeting}</span>&lt;/h1&gt;
+      &lt;h1&gt;<span class="hljs-subst">${<span class="hljs-keyword">this</span>.props.data.greeting}</span>&lt;/h1&gt;
     `</span>
   }
 }</code></pre>
 <blockquote>
-<p><b>A note about property names</b>. A prop named <code>fooBar=&#39;30&#39;</code> will become lowercased
+<p><i><b>Note</b>: A property named <code>fooBar=&#39;30&#39;</code> will become lowercased
 (as per the HTML spec). If you want the property name to be camel cased when
-added to the props object, use <code>foo-bar=&#39;30&#39;</code> to get <code>this.props.fooBar</code>.</p>
+added to the props object, use <code>foo-bar=&#39;30&#39;</code> to get <code>this.props.fooBar</code>.</i></p>
 </blockquote>
 <h3>Updating properties</h3>
 <p>If you want to manually update a component, you should think of your document&#39;s
@@ -420,6 +311,7 @@ receives either an object or a function. For example...</p>
   
 
     <section id="3.-methods">
+      
       <h1 id="3-methods">3. Methods</h1>
 <p>A method is a function of a component. It can help to organize the internal
 logic of a component.</p>
@@ -447,6 +339,7 @@ on it.</p>
   
 
     <section id="4.-styling">
+      
       <h1 id="4-styling">4. Styling</h1>
 <p>Components should ship with as little CSS as possible and try to inherit
 whenever possible from the document&#39;s stylesheets. Tonic supports two approaches
@@ -509,6 +402,7 @@ in a CSP-friendly way.</p>
   
 
     <section id="5.-events">
+      
       <h1 id="5-events">5. Events</h1>
 <p>Tonic helps you capture events that happen when someone interacts with your
 component. It also helps you organize that code.</p>
@@ -590,6 +484,7 @@ interested in the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Even
   
 
     <section id="6.-state">
+      
       <h1 id="6-state">6. State</h1>
 <p>Props are received by the parent and should never be changed by the component
 that receives them. A component can however change its <code>state</code>. Each instance of
@@ -612,6 +507,7 @@ happens only when changes to the representation of the component are required.</
   
 
     <section id="7.-composition">
+      
       <h1 id="7-composition">7. Composition</h1>
 <p>You may want to move the children of a component inside some additional layout
 when the <code>render()</code> function is executed. The <code>this.children</code> property is helpful
@@ -661,6 +557,7 @@ Tonic.add(Child)</code></pre>
   
 
     <section id="8.-performance">
+      
       <h1 id="8-performance">8. Performance</h1>
 <p>If you have lots of structure, but only a few changes, you could pre-render your
 layout to create a reusable node and pass it to the render method. This
@@ -687,6 +584,7 @@ performance.</p>
   
 
     <section id="9.-csp">
+      
       <h1 id="9-csp">9. CSP</h1>
 <p><code>CSP</code> stands for <code>Content Security Policy</code>. It&#39;s important to add one of these
 to your app or website if you do anything beyond pure html. <a href="https://developers.google.com/web/fundamentals/security/csp/">This</a> is a good
@@ -707,6 +605,121 @@ to set the <code>Tonic.nonce</code> property. For example, given the above polic
 add the following to your javascript...</p>
 <pre><code class="language-js">Tonic.nonce = <span class="hljs-string">'123'</span></code></pre>
 <p>Note that <code>123</code> is a placeholder, this should be an actual <a href="https://en.wikipedia.org/wiki/Cryptographic_nonce">nonce</a>.</p>
+
+    </section>
+  
+
+    <section id="api">
+      
+      <h1 id="apis">APIs</h1>
+<h2>STATIC METHODS</h2>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>add(Class)</code></td>
+<td align="left">Register a class as a new custom-tag and provide options for it.</td>
+</tr>
+<tr>
+<td align="left"><code>init(root?)</code></td>
+<td align="left">Initialize all components (optionally starating at a root node in the DOM). This is called automatically when an <App></App> component is added.</td>
+</tr>
+<tr>
+<td align="left"><code>escape(String)</code></td>
+<td align="left">Escapes HTML characters from a string (based on <a href="https://github.com/mathiasbynens/he">he</a>).</td>
+</tr>
+<tr>
+<td align="left"><code>sanitize(Object)</code></td>
+<td align="left">Escapes all the strings found in an object literal.</td>
+</tr>
+<tr>
+<td align="left"><code>match(Node, Selector)</code></td>
+<td align="left">Match the given node against a selector or any matching parent of the given node. This is useful when trying to locate a node from the actual node that was interacted with.</td>
+</tr>
+</tbody></table>
+<h2>INSTANCE METHODS</h2>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>reRender(Object &#124; Function)</code></td>
+<td align="left">Set the properties of a component instance. Can also take a function which will receive the current props as an argument.</td>
+</tr>
+<tr>
+<td align="left"><code>getProps()</code></td>
+<td align="left">Get the properties of a component instance.</td>
+</tr>
+<tr>
+<td align="left"><code>setState(Object &#124; Function)</code></td>
+<td align="left">Set the state of a component instance. Can also take a function which will receive the current props as an argument.</td>
+</tr>
+<tr>
+<td align="left"><code>stylesheet()</code></td>
+<td align="left">Returns a string of css to be lazily added to a <code>style</code> tag in the head.</td>
+</tr>
+<tr>
+<td align="left"><code>styles()</code></td>
+<td align="left">Returns an object that represents inline-styles to be applied to the component. Styles are applied by adding a keys from the object to the <code>styles</code> attribute of an html tag in the render function, for example <code>styles=&quot;key1 key2&quot;</code>. Each object&#39;s key-value pair are added to the element&#39;s style object.</td>
+</tr>
+<tr>
+<td align="left"><code>render()</code></td>
+<td align="left">Returns HTML to be parsed or a dom node that will overwrite. There is usually no need to call this directly, prefer <code>componentInstance.reRender({ ... })</code>.</td>
+</tr>
+<tr>
+<td align="left">html`...`</td>
+<td align="left">Tidy up an HTML string (use as a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals">tagged template</a>).</td>
+</tr>
+</tbody></table>
+<h2>INSTANCE PROPERTIES</h2>
+<table>
+<thead>
+<tr>
+<th align="left">Name</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>children</code></td>
+<td align="left">An array of nodes, the original child nodes of the component.</td>
+</tr>
+</tbody></table>
+<h2>&quot;LIFECYCLE&quot; INSTANCE METHODS</h2>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>constructor(object)</code></td>
+<td align="left">An instance of the element is created or upgraded. Useful for initializing state, setting up event listeners, or creating shadow dom. See the spec for restrictions on what you can do in the constructor. The constructor&#39;s arguments must be forwarded by calling <code>super(object)</code>.</td>
+</tr>
+<tr>
+<td align="left"><code>willConnect()</code></td>
+<td align="left">Called prior to the element being inserted into the DOM. Useful for updating configuration, state and preparing for the render.</td>
+</tr>
+<tr>
+<td align="left"><code>connected()</code></td>
+<td align="left">Called every time the element is inserted into the DOM. Useful for running setup code, such as fetching resources or rendering. Generally, you should try to delay work until this time.</td>
+</tr>
+<tr>
+<td align="left"><code>disconnected()</code></td>
+<td align="left">Called every time the element is removed from the DOM. Useful for running clean up code.</td>
+</tr>
+<tr>
+<td align="left"><code>updated(oldProps)</code></td>
+<td align="left">Called after reRender() is called. This method is not called on the initial render.</td>
+</tr>
+</tbody></table>
 
     </section>
   

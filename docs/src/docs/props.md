@@ -37,9 +37,7 @@ would normally return is prefixed with `this.html`. This just helps Tonic to
 understand your html better.
 
 ```js
-const data = [
-  { greeting: 'hello, world' }
-]
+const data = { greeting: 'hello, world' }
 
 class MyApp extends Tonic {
   render () {
@@ -58,15 +56,15 @@ Now `this.props` has a reference to the `data` object.
 class MyComponent extends Tonic {
   render () {
     return `
-      <h1>${this.props.data[0].greeting}</h1>
+      <h1>${this.props.data.greeting}</h1>
     `
   }
 }
 ```
 
-> <b>A note about property names</b>. A prop named `fooBar='30'` will become lowercased
+> <i><b>Note</b>: A property named `fooBar='30'` will become lowercased
 > (as per the HTML spec). If you want the property name to be camel cased when
-> added to the props object, use `foo-bar='30'` to get `this.props.fooBar`.
+> added to the props object, use `foo-bar='30'` to get `this.props.fooBar`.</i>
 
 
 ### Updating properties

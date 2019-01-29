@@ -133,12 +133,22 @@ function wrapLink (title) {
   `
 }
 
-function wrapSection (str, title, group) {
+function githubLink (title) {
+  return `
+    <div class="github-footer">
+      <a href="https://github.com/heapwolf/components/tree/master/src/${title.toLowerCase()}/">Github</a>
+    </div>
+  `
+}
+
+function wrapSection ({ content, title, group, dir }) {
   const id = title.replace(/\s/g, '-').toLowerCase()
+  const ghLink = dir ? githubLink(dir) : ''
 
   return `
     <section id="${id}">
-      ${str}
+      ${ghLink}
+      ${content}
     </section>
   `
 }
@@ -162,7 +172,10 @@ async function compile () {
     developerDocs.push({
       title,
       link: wrapLink(title),
-      section: wrapSection(marked(s), title)
+      section: wrapSection({
+        content: marked(s),
+        title
+      })
     })
   }
 
@@ -196,7 +209,11 @@ async function compile () {
     componentDocs.push({
       title,
       link: wrapLink(title),
-      section: wrapSection(marked(s), title)
+      section: wrapSection({
+        content: marked(s),
+        title,
+        dir
+      })
     })
   }
 
@@ -205,7 +222,11 @@ async function compile () {
   componentDocs.unshift({
     title: 'Intro',
     link: wrapLink('Intro'),
-    section: wrapSection(intro, 'Intro')
+    section: wrapSection({
+      content: intro,
+      title: 'Intro',
+      type: 'component'
+    })
   })
 
   {
@@ -216,10 +237,14 @@ async function compile () {
     const url = 'https://raw.githubusercontent.com/hxoht/tonic/master/API.md'
     const s = await (await fetch(url)).text()
 
-    developerDocs.push({
+    developerDocs.unshift({
       title,
       link: wrapLink(title, 'custom'),
-      section: wrapSection(marked(s), title, 'custom')
+      section: wrapSection({
+        content: marked(s),
+        title,
+        group: 'custom'
+      })
     })
   }
 

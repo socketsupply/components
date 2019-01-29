@@ -87,6 +87,7 @@ function ready () {
 
   components(Tonic, nonce)
   readme(Tonic)
+  Tonic.init()
 }
 
 document.addEventListener('DOMContentLoaded', ready)

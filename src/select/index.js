@@ -76,6 +76,7 @@ class TonicSelect extends Tonic { /* global Tonic */
         background-position: center right;
         border: 1px solid var(--border);
         -webkit-appearance: none;
+        -moz-appearance: none;
         appearance: none;
         position: relative;
       }

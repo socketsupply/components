@@ -845,13 +845,22 @@ link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; dialog.s
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
-    <tonic-icon size="40px"></tonic-icon>
+    <tonic-icon
+      symbol-id="example"
+      src="/sprite.svg"
+      fill="red"
+      size="40px"></tonic-icon>
   </div>
 </div>
 
 <h2>Code</h2>
 <h4>HTML</h4>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-icon</span> <span class="hljs-attr">size</span>=<span class="hljs-string">"40px"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">tonic-icon</span>&gt;</span></code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-icon</span>
+  <span class="hljs-attr">symbol-id</span>=<span class="hljs-string">"example"</span>
+  <span class="hljs-attr">src</span>=<span class="hljs-string">"/sprite.svg"</span>
+  <span class="hljs-attr">fill</span>=<span class="hljs-string">"red"</span>
+  <span class="hljs-attr">size</span>=<span class="hljs-string">"40px"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">tonic-icon</span>&gt;</span></code></pre>
 <h2>Api</h2>
 <h3>Properties</h3>
 <table>
@@ -870,16 +879,16 @@ link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; dialog.s
 <td align="left"><code>25px</code></td>
 </tr>
 <tr>
-<td align="left"><code>color</code></td>
+<td align="left"><code>fill</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">Changes the color of the icon.</td>
-<td align="left"><code>#000</code></td>
+<td align="left"><code>var(--primary)</code></td>
 </tr>
 <tr>
 <td align="left"><code>src</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">Allow a custom icon from a sprite.</td>
-<td align="left"><code>./sprite.svg#example</code></td>
+<td align="left"><code>./sprite.svg</code></td>
 </tr>
 <tr>
 <td align="left"><code>theme</code></td>

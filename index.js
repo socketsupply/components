@@ -890,60 +890,53 @@ class TonicIcon extends Tonic { /* global Tonic */
   defaults () {
     return {
       size: '25px',
-      color: 'var(--primary)',
-      src: './sprite.svg#example'
+      fill: 'var(--primary)'
     }
   }
 
   stylesheet () {
     return `
-      tonic-icon {
+      icon {
         display: inline-block;
       }
-
-      tonic-icon .tonic--icon {
-        width: 100%;
-        height: 100%;
+      svg path {
+        fill: inherit;
       }
     `
   }
 
   styles () {
     let {
-      color,
-      size,
-      src
+      size
     } = this.props
 
-    // TODO this could be improved
-    if (color === 'undefined' || color === 'color') {
-      color = this.defaults.color
-    }
-
     return {
-      wrapper: {
+      icon: {
         width: size,
         height: size
-      },
-      icon: {
-        '-webkit-mask-image': `url('${src}')`,
-        maskImage: `url('${src}')`,
-        backgroundColor: color
       }
     }
   }
 
   render () {
     let {
-      theme
+      symbolId,
+      size,
+      fill,
+      theme,
+      src
     } = this.props
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
-    return `
-      <div class="tonic--wrapper" styles="wrapper">
-        <div class="tonic--icon" styles="icon"></div>
-      </div>
+    return this.html`
+      <svg styles="icon">
+        <use
+          href="${src}#${symbolId}"
+          fill="${fill}"
+          width="${size}"
+          height="${size}">
+      </svg>
     `
   }
 }
@@ -2567,6 +2560,7 @@ class TonicSelect extends Tonic { /* global Tonic */
         background-position: center right;
         border: 1px solid var(--border);
         -webkit-appearance: none;
+        -moz-appearance: none;
         appearance: none;
         position: relative;
       }

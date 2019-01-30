@@ -1,6 +1,16 @@
 # Icon
 The `Icon` component is used to create an SVG icon with a custom size and color.
 
+Your single SVG sprite file should have the following base structure, using `<symbol>` and an `id` to refer to the specific icon:
+
+```
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <symbol id="example">
+    <path />
+  </symbol>
+</svg>
+```
+
 ## Demo
 
 <div class="example">

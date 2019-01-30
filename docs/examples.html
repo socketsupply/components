@@ -554,8 +554,9 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
   </div>
 </div>
 
+<!-- 
+### Custom Checkbox
 
-<h3>Custom Checkbox</h3>
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
@@ -564,28 +565,38 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
       size="40px"
       color="red"
       checked="false"
-      icon-on="./sprite.svg#custom_on"
-      icon-off="./sprite.svg#custom_off">
+      icon-on="/sprite.svg#custom_on"
+      icon-off="/sprite.svg#custom_off">
     </tonic-checkbox>
   </div>
 </div>
 
-<h2>Code</h2>
-<h4>HTML</h4>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-checkbox</span>
-  <span class="hljs-attr">id</span>=<span class="hljs-string">"tonic-checkbox-example"</span>
-  <span class="hljs-attr">label</span>=<span class="hljs-string">"Checkbox with Label"</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">tonic-checkbox</span>&gt;</span></code></pre>
-<hr>
-<p>To create a custom SVG checkbox, pass in the properties <code>icon-on</code> and <code>icon-off</code> to set  different icons for each checked state.</p>
-<h4>HTML</h4>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-checkbox</span>
-  <span class="hljs-attr">id</span>=<span class="hljs-string">"custom-checkbox-example"</span>
-  <span class="hljs-attr">size</span>=<span class="hljs-string">"40px"</span>
-  <span class="hljs-attr">color</span>=<span class="hljs-string">"red"</span>
-  <span class="hljs-attr">icon-on</span>=<span class="hljs-string">"./sprite.svg#custom_on"</span>
-  <span class="hljs-attr">icon-off</span>=<span class="hljs-string">"./sprite.svg#custom_off"</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">tonic-checkbox</span>&gt;</span></code></pre>
+## Code
+
+#### HTML
+```html
+<tonic-checkbox
+  id="tonic-checkbox-example"
+  label="Checkbox with Label">
+</tonic-checkbox>
+```
+
+--- -->
+
+<!-- To create a custom SVG checkbox, pass in the properties `icon-on` and `icon-off` to set  different icons for each checked state.
+
+#### HTML
+
+```html
+<tonic-checkbox
+  id="custom-checkbox-example"
+  size="40px"
+  color="red"
+  icon-on="./sprite.svg#custom_on"
+  icon-off="./sprite.svg#custom_off">
+</tonic-checkbox>
+``` -->
+
 <h2>Api</h2>
 <h3>Properties</h3>
 <table>
@@ -841,7 +852,12 @@ link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; dialog.s
   
       <h1 id="icon">Icon</h1>
 <p>The <code>Icon</code> component is used to create an SVG icon with a custom size and color.</p>
-<h2>Demo</h2>
+<p>Your single SVG sprite file should have the following base structure, using <code>&lt;symbol&gt;</code> and an <code>id</code> to refer to the specific icon:</p>
+<pre><code>&lt;svg version=<span class="hljs-string">"1.1"</span> xmlns=<span class="hljs-string">"http://www.w3.org/2000/svg"</span>&gt;
+  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">symbol</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"example"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">path</span> /&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">symbol</span>&gt;</span></span>
+&lt;<span class="hljs-regexp">/svg&gt;</span></code></pre><h2>Demo</h2>
 <div class="example">
   <div class="header">Example</div>
   <div class="content">

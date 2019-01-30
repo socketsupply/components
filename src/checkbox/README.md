@@ -15,7 +15,7 @@ The `Checkbox` component is used to create a styled checkbox, with or without a 
   </div>
 </div>
 
-
+<!--
 ### Custom Checkbox
 
 <div class="example">
@@ -26,8 +26,8 @@ The `Checkbox` component is used to create a styled checkbox, with or without a 
       size="40px"
       color="red"
       checked="false"
-      icon-on="./sprite.svg#custom_on"
-      icon-off="./sprite.svg#custom_off">
+      icon-on="/sprite.svg#custom_on"
+      icon-off="/sprite.svg#custom_off">
     </tonic-checkbox>
   </div>
 </div>
@@ -42,9 +42,9 @@ The `Checkbox` component is used to create a styled checkbox, with or without a 
 </tonic-checkbox>
 ```
 
----
+--- -->
 
-To create a custom SVG checkbox, pass in the properties `icon-on` and `icon-off` to set  different icons for each checked state.
+<!-- To create a custom SVG checkbox, pass in the properties `icon-on` and `icon-off` to set  different icons for each checked state.
 
 #### HTML
 
@@ -56,7 +56,7 @@ To create a custom SVG checkbox, pass in the properties `icon-on` and `icon-off`
   icon-on="./sprite.svg#custom_on"
   icon-off="./sprite.svg#custom_off">
 </tonic-checkbox>
-```
+``` -->
 
 ## Api
 

@@ -1362,6 +1362,7 @@ class TonicIcon extends Tonic { /* global Tonic */
       <svg styles="icon">
         <use
           href="${src}#${symbolId}"
+          xlink:href="${src}#${symbolId}"
           fill="${fill}"
           width="${size}"
           height="${size}">

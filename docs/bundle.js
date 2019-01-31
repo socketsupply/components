@@ -76,16 +76,6 @@ function ready () {
   setupNavigation()
   clearFocus()
 
-  const theme = window.localStorage.theme
-  if (theme) document.body.classList.add(theme)
-
-  qs('.theme-picker').addEventListener('click', e => {
-    const dark = document.body.classList.contains('theme-dark')
-    window.localStorage.theme = `theme-${dark ? 'light' : 'dark'}`
-
-    document.body.classList.toggle('theme-dark')
-  })
-
   components(Tonic, nonce)
   readme(Tonic)
   Tonic.init()
@@ -978,10 +968,6 @@ class TonicCheckbox extends Tonic { /* global Tonic */
         background-size: contain;
       }
 
-      tonic-checkbox .tonic--icon svg {
-        fill :blue;
-      }
-
       tonic-checkbox label:nth-of-type(2) {
         padding-top: 2px;
         margin-left: 10px;
@@ -1008,7 +994,7 @@ class TonicCheckbox extends Tonic { /* global Tonic */
     }
 
     label.style['-webkit-mask-image'] =
-      label.style.maskImage = `url("${url}"), url('#${Date.now()}')`
+      label.style.maskImage = `url("${url}")`
 
     label.backgroundColor = color
   }

@@ -75,16 +75,6 @@ function ready () {
   setupNavigation()
   clearFocus()
 
-  const theme = window.localStorage.theme
-  if (theme) document.body.classList.add(theme)
-
-  qs('.theme-picker').addEventListener('click', e => {
-    const dark = document.body.classList.contains('theme-dark')
-    window.localStorage.theme = `theme-${dark ? 'light' : 'dark'}`
-
-    document.body.classList.toggle('theme-dark')
-  })
-
   components(Tonic, nonce)
   readme(Tonic)
   Tonic.init()

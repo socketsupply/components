@@ -559,8 +559,7 @@ class TonicCheckbox extends Tonic { /* global Tonic */
       url = TonicCheckbox.svg[state.checked ? 'iconOn' : 'iconOff']()
     }
 
-    label.style['-webkit-mask-image'] =
-      label.style.maskImage = `url("${url}")`
+    label.style['-webkit-mask-image'] = label.style.maskImage = `url("${url}")`
 
     label.backgroundColor = color
   }

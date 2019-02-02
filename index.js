@@ -4070,6 +4070,8 @@ class Windowed extends Tonic { /* global Tonic */
     if (!this.root) return
 
     const outer = this.root.querySelector('.tonic--windowed--outer')
+    if (!outer) return
+
     outer.style.height = height
     this.outerHeight = outer.offsetHeight
 

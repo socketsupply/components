@@ -19,6 +19,7 @@ The `ToasterInline` component creates an inline toaster item that appears on the
     id="toaster-1"
     display="false"
     dismiss="true"
+    type="danger"
     message="Message as a property.">
   </tonic-toaster-inline>
 

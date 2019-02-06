@@ -3450,9 +3450,11 @@ class TonicToasterInline extends Tonic { /* global Tonic */
   }
 
   styles () {
+    const icon = this.props[this.props.type + 'Icon']
+
     return {
       icon: {
-        backgroundImage: `url("${this.props.type}Icon")`
+        backgroundImage: `url("${icon}")`
       },
       close: {
         backgroundImage: `url("${this.props.closeIcon}")`
@@ -3465,17 +3467,12 @@ class TonicToasterInline extends Tonic { /* global Tonic */
       return ''
     }
 
-    return this.html`
-      <div class="tonic--close" styles="close">
-      </div>
-    `
+    return this.html`<div class="tonic--close" styles="close"></div>`
   }
 
   renderIcon () {
     if (!this.props.type) return ''
-    return this.html`
-      <div class="tonic--icon" styles="icon"></div>
-    `
+    return this.html`<div class="tonic--icon" styles="icon"></div>`
   }
 
   render () {
@@ -4578,29 +4575,31 @@ const components = require('../..')
 
 components(Tonic)
 
-require('./badge')
-require('./button')
-require('./chart')
-require('./checkbox')
-require('./dialog')
-require('./icon')
-require('./input')
-require('./panel')
-require('./popover')
-require('./progressbar')
-require('./profileimage')
-require('./range')
-require('./router')
-require('./select')
-require('./tabs')
-require('./textarea')
-require('./toaster')
-require('./toasterinline')
-require('./toggle')
-require('./tooltip')
-require('./windowed')
-
 function ready () {
+  Tonic.init()
+
+  require('./badge')
+  require('./button')
+  require('./chart')
+  require('./checkbox')
+  require('./dialog')
+  require('./icon')
+  require('./input')
+  require('./panel')
+  require('./popover')
+  require('./progressbar')
+  require('./profileimage')
+  require('./range')
+  require('./router')
+  require('./select')
+  require('./tabs')
+  require('./textarea')
+  require('./toaster')
+  require('./toasterinline')
+  require('./toggle')
+  require('./tooltip')
+  require('./windowed')
+
   document.addEventListener('keydown', e => {
     if (e.keyCode === 9) {
       document.body.classList.add('show-focus')

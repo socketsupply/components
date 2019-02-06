@@ -15,16 +15,16 @@ The `ToasterInline` component creates an inline toaster item that appears on the
 </div>
 
 <div>
-  <tonic-toaster-inline id="toaster-1">
-  </tonic-toaster-inline>
-</div>
-
-<div>
   <tonic-toaster-inline
-    dismiss="false"
-    display="true"
-    id="toaster-2">
-    Displayed initially. Uses <b>html</b>.
+    id="toaster-1"
+    display="false"
+    dismiss="true"
+    message="Message as a property.">
+  </tonic-toaster-inline>
+
+  <tonic-toaster-inline id="toaster-3" display="true">
+    <b>Hello,
+    World</b>
   </tonic-toaster-inline>
 </div>
 

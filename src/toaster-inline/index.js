@@ -2,7 +2,7 @@ class TonicToasterInline extends Tonic { /* global Tonic */
   constructor (node) {
     super(node)
 
-    this.root.create = (o) => this.create(o)
+    this.root.show = () => this.show()
     this.root.hide = () => this.hide()
   }
 
@@ -13,7 +13,7 @@ class TonicToasterInline extends Tonic { /* global Tonic */
 
   defaults () {
     return {
-      display: false,
+      display: 'true',
       closeIcon: TonicToasterInline.svg.closeIcon(),
       dangerIcon: TonicToasterInline.svg.dangerIcon(this.getPropertyValue('danger')),
       warningIcon: TonicToasterInline.svg.warningIcon(this.getPropertyValue('warning')),
@@ -24,21 +24,8 @@ class TonicToasterInline extends Tonic { /* global Tonic */
 
   stylesheet () {
     return `
-      tonic-toaster-inline .tonic--wrapper {
-        user-select: none;
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: column;
-        transform: translateX(-50%);
-        visibility: hidden;
-        border: 1px solid var(--border);
-      }
-
-      tonic-toaster-inline .tonic--wrapper.tonic--show {
-        visibility: visible;
-      }
-
       tonic-toaster-inline .tonic--notification {
+        max-height: 0;
         margin: 10px 0;
         position: relative;
         background-color: var(--window);
@@ -46,10 +33,19 @@ class TonicToasterInline extends Tonic { /* global Tonic */
         -webkit-transform: scale(0.95);
         -ms-transform: scale(0.95);
         transform: scale(0.95);
-        transition: opacity 0.2s ease-in-out, transform 0.3s ease-in-out;
+        transition: opacity 0.2s ease-in-out 0s, transform 0.3s ease-in-out 0s, max-height 0.3s ease-in-out;
         border: 1px solid var(--border);
-        z-index: 1;
         opacity: 0;
+        z-index: 1;
+      }
+
+      tonic-toaster-inline .tonic--notification.tonic--show {
+        max-height: 100%;
+        -webkit-transform: scale(1);
+        -ms-transform: scale(1);
+        transform: scale(1);
+        transition: opacity 0.2s ease-in-out, transform 0.3s ease-in-out, max-height 0.3s ease-in-out;
+        opacity: 1;
       }
 
       tonic-toaster-inline .tonic--warning {
@@ -66,14 +62,6 @@ class TonicToasterInline extends Tonic { /* global Tonic */
 
       tonic-toaster-inline .tonic--info {
         border-color: var(--secondary);
-      }
-
-      tonic-toaster-inline .tonic--notification.tonic--show {
-        opacity: 1;
-        -webkit-transform: scale(1);
-        -ms-transform: scale(1);
-        transform: scale(1);
-        transition: transform 0.3s ease-in-out;
       }
 
       tonic-toaster-inline .tonic--notification.tonic--close {
@@ -130,129 +118,101 @@ class TonicToasterInline extends Tonic { /* global Tonic */
     `
   }
 
-  create ({ message, title, duration, type, dismiss, theme } = {}) {
-    this.show()
-
-    while (this.root.firstChild) this.root.firstChild.remove()
-
-    const notification = document.createElement('div')
-    notification.className = 'tonic--notification'
-    const main = document.createElement('main')
-
-    const titleElement = document.createElement('div')
-    titleElement.className = 'tonic--title'
-    titleElement.textContent = title || this.props.title || ''
-
-    const messageElement = document.createElement('div')
-    messageElement.className = 'tonic--message'
-    messageElement.innerHTML = message || this.props.message || ''
-
-    if (typeof dismiss === 'string') {
-      dismiss = dismiss === 'true'
-    }
-
-    if (dismiss !== false) {
-      const close = document.createElement('div')
-      close.className = 'tonic--close'
-      close.style.backgroundImage = `url("${this.props.closeIcon}")`
-      notification.appendChild(close)
-      notification.classList.add('tonic--close')
-    }
-
-    if (theme) {
-      this.root.setAttribute('theme', theme)
-    }
-
-    if (type) {
-      notification.classList.add('tonic--alert')
-      notification.classList.add(`tonic--${type}`)
-
-      const alertIcon = document.createElement('div')
-      alertIcon.className = 'tonic--icon'
-      notification.appendChild(alertIcon)
-
-      switch (type) {
-        case 'danger':
-          alertIcon.style.backgroundImage = `url("${this.props.dangerIcon}")`
-          if (!title && !message) { titleElement.textContent = 'Danger' }
-          break
-
-        case 'warning':
-          alertIcon.style.backgroundImage = `url("${this.props.warningIcon}")`
-          if (!title && !message) { titleElement.textContent = 'Warning' }
-          break
-
-        case 'success':
-          alertIcon.style.backgroundImage = `url("${this.props.successIcon}")`
-          if (!title && !message) { titleElement.textContent = 'Success' }
-          break
-
-        case 'info':
-          alertIcon.style.backgroundImage = `url("${this.props.infoIcon}")`
-          if (!title && !message) { titleElement.textContent = 'Information' }
-          break
-      }
-    }
-
-    const ttl = title || this.props.title
-
-    if (!type && !message && !ttl) {
-      messageElement.textContent = 'Empty message'
-    }
-
-    this.root.appendChild(notification)
-    notification.appendChild(main)
-    main.appendChild(titleElement)
-    main.appendChild(messageElement)
-    window.requestAnimationFrame(() => {
-      notification.classList.add('tonic--show')
-    })
-
-    if (duration) {
-      setTimeout(() => this.destroy(notification), duration)
-    }
-  }
-
-  destroy (notification) {
-    notification.classList.remove('tonic--show')
-    notification.addEventListener('transitionend', e => {
-      notification.parentNode.removeChild(notification)
-    })
-  }
-
   show () {
-    window.requestAnimationFrame(() => {
-      if (!this.root) return
-      this.root.firstChild.classList.add('tonic--show')
-    })
+    if (!this.root) return
+    this.root.firstElementChild.classList.add('tonic--show')
   }
 
   hide () {
     if (!this.root) return
-    this.root.firstChild.classList.remove('tonic--show')
+    this.root.firstElementChild.classList.remove('tonic--show')
   }
 
   click (e) {
     const el = Tonic.match(e.target, '.tonic--close')
     if (!el) return
 
-    const notification = el.closest('.tonic--notification')
-    if (notification) this.destroy(notification)
-  }
-
-  willConnect () {
-    this.html = this.root.innerHTML
+    this.hide()
   }
 
   connected () {
-    if (!this.props.display) return
-    if (this.root.querySelector('main')) return
-    this.props.message = this.html || this.props.message
-    this.create(this.props)
+    if (!this.root) return
+
+    const {
+      display,
+      duration
+    } = this.props
+
+    if (display === 'true') {
+      window.requestAnimationFrame(() => this.show())
+    }
+
+    if (duration) {
+      setTimeout(() => this.hide(), duration)
+    }
+  }
+
+  styles () {
+    return {
+      icon: {
+        backgroundImage: `url("${this.props.type}Icon")`
+      },
+      close: {
+        backgroundImage: `url("${this.props.closeIcon}")`
+      }
+    }
+  }
+
+  renderClose () {
+    if (this.props.dismiss !== 'true') {
+      return ''
+    }
+
+    return this.html`
+      <div class="tonic--close" styles="close">
+      </div>
+    `
+  }
+
+  renderIcon () {
+    if (!this.props.type) return ''
+    return this.html`
+      <div class="tonic--icon" styles="icon"></div>
+    `
   }
 
   render () {
-    return `<div class="tonic--wrapper"></div>`
+    const {
+      title,
+      type,
+      message,
+      theme
+    } = this.props
+
+    if (theme) {
+      this.root.setAttribute('theme', theme)
+    }
+
+    let typeClasses = ''
+
+    if (type) {
+      typeClasses = `tonic--alert tonic--${type}`
+    }
+
+    return this.html`
+      <div class="tonic--notification ${typeClasses}">
+        ${this.renderIcon()}
+        ${this.renderClose()}
+        <main>
+          <div class="tonic--title">
+            ${title}
+          </div>
+          <div class="tonic--message">
+            ${message || this.children}
+          </div>
+        </main>
+      </div>
+    `
   }
 }
 

@@ -2500,16 +2500,16 @@ select.addEventListener(<span class="hljs-string">'change'</span>, ({ target }) 
 </div>
 
 <div>
-  <tonic-toaster-inline id="toaster-1">
-  </tonic-toaster-inline>
-</div>
-
-<div>
   <tonic-toaster-inline
-    dismiss="false"
-    display="true"
-    id="toaster-2">
-    Displayed initially. Uses <b>html</b>.
+    id="toaster-1"
+    display="false"
+    dismiss="true"
+    message="Message as a property.">
+  </tonic-toaster-inline>
+
+  <tonic-toaster-inline id="toaster-3" display="true">
+    <b>Hello,
+    World</b>
   </tonic-toaster-inline>
 </div>
 
@@ -2521,13 +2521,7 @@ select.addEventListener(<span class="hljs-string">'change'</span>, ({ target }) 
 <pre><code class="language-js"><span class="hljs-keyword">const</span> toaster1 = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'toaster-1'</span>)
 <span class="hljs-keyword">const</span> toasterLink1 = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'toaster-link-1'</span>)
 
-toasterLink1.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
-  toaster1.create({
-    <span class="hljs-attr">type</span>: <span class="hljs-string">'warning'</span>,
-    <span class="hljs-attr">title</span>: <span class="hljs-string">'Warning'</span>,
-    <span class="hljs-attr">message</span>: <span class="hljs-string">'This is a warning, please be careful.'</span>
-  })
-})
+toasterLink1.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; toaster1.show())
 </code></pre>
 <hr>
 <p>An inline toaster that is displayed initially:</p>

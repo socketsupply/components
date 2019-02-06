@@ -1,6 +1,6 @@
 # 2. Properties
 
-Properties can be used by a component to help it decide how it should appear or
+Properties are used by a component to help it decide how it should appear or
 how it should behave. In this case, `message` is our property and `Hello, World`
 is our porperty value.
 
@@ -30,11 +30,10 @@ class MyGreeting extends Tonic {
 
 ---
 
-There is no templating language in Tonic. It's just HTML &mdash; a limitation
-of HTML is that it only understands string values. So if we want to pass more
-complex property values to a component, Tonic can help. Notice the string we
-would normally return is prefixed with `this.html`. This just helps Tonic to
-understand your html better.
+Tonic has no templating language, it uses HTML. A limitation of HTML is that it
+only understands string values. If we want to pass more complex property values
+to a component, we can prefix the string returned by the render function with
+`this.html`. This helps Tonic to understand your html better.
 
 ```js
 const data = { greeting: 'hello, world' }

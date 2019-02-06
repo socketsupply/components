@@ -25,7 +25,7 @@
   <h3>Features</h3>
   <div class="col">
     <ul>
-      <li>Tonic is tiny. Less than 250 lines of code.</li>
+      <li>Tonic is less than 250 lines of code.</li>
       <li>One-way data binding. Pipe data through connected components.</li>
       <li>Mix in your own Routers, Reducers, Validators, etc.</li>
     </ul>

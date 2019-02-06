@@ -156,7 +156,7 @@
   <h3>Features</h3>
   <div class="col">
     <ul>
-      <li>Tonic is tiny. Less than 250 lines of code.</li>
+      <li>Tonic is less than 250 lines of code.</li>
       <li>One-way data binding. Pipe data through connected components.</li>
       <li>Mix in your own Routers, Reducers, Validators, etc.</li>
     </ul>
@@ -236,7 +236,7 @@ function will be inserted into the component tag.</p>
     <section id="2.-properties">
       
       <h1 id="2-properties">2. Properties</h1>
-<p>Properties can be used by a component to help it decide how it should appear or
+<p>Properties are used by a component to help it decide how it should appear or
 how it should behave. In this case, <code>message</code> is our property and <code>Hello, World</code>
 is our porperty value.</p>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyApp</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
@@ -256,11 +256,10 @@ is our porperty value.</p>
   }
 }</code></pre>
 <hr>
-<p>There is no templating language in Tonic. It&#39;s just HTML &mdash; a limitation
-of HTML is that it only understands string values. So if we want to pass more
-complex property values to a component, Tonic can help. Notice the string we
-would normally return is prefixed with <code>this.html</code>. This just helps Tonic to
-understand your html better.</p>
+<p>Tonic has no templating language, it uses HTML. A limitation of HTML is that it
+only understands string values. If we want to pass more complex property values
+to a component, we can prefix the string returned by the render function with
+<code>this.html</code>. This helps Tonic to understand your html better.</p>
 <pre><code class="language-js"><span class="hljs-keyword">const</span> data = { <span class="hljs-attr">greeting</span>: <span class="hljs-string">'hello, world'</span> }
 
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyApp</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
@@ -331,8 +330,7 @@ element of your component that calls a method from the component.</p>
     <span class="hljs-keyword">this</span>.root.innerHTML = <span class="hljs-string">`The number is <span class="hljs-subst">${n}</span>`</span>
   }
 }</code></pre>
-<p>Once the component has been created, the <code>exampleMethod</code> method can be called
-on it.</p>
+<p>After the component is created, the <code>exampleMethod</code> method can be called.</p>
 <pre><code class="language-js"><span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'foo'</span>).myMethod(<span class="hljs-number">42</span>)</code></pre>
 
     </section>
@@ -559,7 +557,7 @@ Tonic.add(Child)</code></pre>
     <section id="8.-performance">
       
       <h1 id="8-performance">8. Performance</h1>
-<p>If you have lots of structure, but only a few changes, you could pre-render your
+<p>If you have lots of structure, but minimal changes, you could pre-render your
 layout to create a reusable node and pass it to the render method. This
 structure could also come from a <code>&lt;template&gt;</code> tag which my also improve
 performance.</p>

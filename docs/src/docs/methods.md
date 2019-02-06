@@ -24,8 +24,7 @@ class MyComponent extends Tonic {
 }
 ```
 
-Once the component has been created, the `exampleMethod` method can be called
-on it.
+After the component is created, the `exampleMethod` method can be called.
 
 ```js
 document.getElementById('foo').myMethod(42)

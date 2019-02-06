@@ -1,6 +1,6 @@
 # 8. Performance
 
-If you have lots of structure, but only a few changes, you could pre-render your
+If you have lots of structure, but minimal changes, you could pre-render your
 layout to create a reusable node and pass it to the render method. This
 structure could also come from a `<template>` tag which my also improve
 performance.

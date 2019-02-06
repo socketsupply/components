@@ -153,9 +153,11 @@ class TonicToasterInline extends Tonic { /* global Tonic */
   }
 
   styles () {
+    const icon = this.props[this.props.type + 'Icon']
+
     return {
       icon: {
-        backgroundImage: `url("${this.props.type}Icon")`
+        backgroundImage: `url("${icon}")`
       },
       close: {
         backgroundImage: `url("${this.props.closeIcon}")`
@@ -168,17 +170,12 @@ class TonicToasterInline extends Tonic { /* global Tonic */
       return ''
     }
 
-    return this.html`
-      <div class="tonic--close" styles="close">
-      </div>
-    `
+    return this.html`<div class="tonic--close" styles="close"></div>`
   }
 
   renderIcon () {
     if (!this.props.type) return ''
-    return this.html`
-      <div class="tonic--icon" styles="icon"></div>
-    `
+    return this.html`<div class="tonic--icon" styles="icon"></div>`
   }
 
   render () {

@@ -2,7 +2,7 @@ const tape = require('../../test/tape')
 
 const test = tape('badge')
 
-test('default state', t => {
+test('default state for badge-1', t => {
   const container = document.getElementById('badge-1')
   const component = container.querySelector('tonic-badge')
 

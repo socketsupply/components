@@ -1,73 +1,67 @@
 const tape = require('tape')
+const stream = tape.createStream({ objectMode: true })
 
-module.exports = id => {
-  const stream = tape.createStream({ objectMode: true })
+const inc = id => {
+  const el = document.getElementById(id)
+  const count = el.querySelector('.value')
 
-  let count = 0
-  let passed = 0
+  return () => {
+    const val = count.textContent.trim()
+    count.textContent = parseInt(val, 10) + 1
+  }
+}
 
-  const section = document.getElementById(id)
-  const aside = section.querySelector('aside')
+const incPassing = inc('passing')
+const incTotal = inc('total')
 
-  const inc = id => {
-    const el = document.getElementById(id)
-    const count = el.querySelector('.value')
+const output = document.querySelector('#test-output')
 
-    return () => {
-      const val = count.textContent.trim()
-      count.textContent = parseInt(val, 10) + 1
-    }
+let count = 0
+let passed = 0
+
+stream.on('data', data => {
+  if (typeof data === 'string') {
+    output.innerHTML += `<span class="comment">#${data}</span>`
   }
 
-  const incPassing = inc('passing')
-  const incTotal = inc('total')
+  if (data.type === 'test') {
+    output.innerHTML += `<span class="title"># ${data.name}</span>\n`
+    return
+  }
 
-  stream.on('data', data => {
-    if (typeof data === 'string') {
-      aside.innerHTML += `<span class="comment">#${data}</span>`
-    }
+  if (data.type === 'assert') {
+    ++count
+    incTotal()
 
-    if (data.type === 'test') {
-      aside.innerHTML += `<span class="title"># ${data.name}</span>\n`
+    let status = data.ok ? 'OK' : 'FAIL'
+    output.innerHTML += `<span class="result ${status}">${status} ${data.id} ${data.name}</span>`
+
+    if (!data.ok) {
+      console.error(data)
       return
     }
 
-    if (data.type === 'assert') {
-      ++count
-      incTotal()
+    ++passed
+    incPassing()
+    return
+  }
 
-      let status = data.ok ? 'OK' : 'FAIL'
-      aside.innerHTML += `<span class="result ${status}">${status} ${data.id} ${data.name}</span>`
+  if (data.type === 'end') {
+    const ok = passed === count ? 'OK' : 'FAIL'
 
-      if (!data.ok) {
-        console.error(data)
-        return
-      }
+    const status = document.getElementById('status')
+    const value = status.querySelector('.value')
 
-      ++passed
-      incPassing()
-      return
+    if (!status.classList.contains('fail')) {
+      value.textContent = ok
     }
 
-    if (data.type === 'end') {
-      aside.innerHTML += `\n1..${count}\n# tests ${count}\n# passed ${passed}`
-
-      const ok = passed === count ? 'OK' : 'FAIL'
-
-      const status = document.getElementById('status')
-      const value = status.querySelector('.value')
-
-      if (!status.classList.contains('fail')) {
-        value.textContent = ok
-      }
-
-      if (!ok) {
-        status.classList.add('fail')
-      }
-
-      aside.innerHTML += `<span class="${ok}"># ${ok ? 'ok' : 'not ok'}</span>`
+    if (!ok) {
+      status.classList.add('fail')
     }
-  })
 
-  return tape
-}
+    output.innerHTML += `\n<span class="${ok}"># ${ok ? 'ok' : 'not ok'}</span>`
+  }
+})
+
+module.exports = tape

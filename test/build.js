@@ -48,12 +48,15 @@ const index = `
     </head>
     <body data-page="test" id="test">
       <main>
-        <section>
-          <div id="passing"><h1 class="value">0</h1><label>Passing</label></div>
-          <div id="total"><h1 class="value">0</h1><label>Total</label></div>
-          <div id="status"><h1 class="value">TESTING...</h1><label>Status</label></div>
-          <hr/>
-        </section>
+        <aside id="test-column">
+          <div class="test-summary">
+            <div id="passing"><h1 class="value">0</h1><label>Passing</label></div>
+            <div id="total"><h1 class="value">0</h1><label>Total</label></div>
+            <div id="status"><h1 class="value">TESTING...</h1><label>Status</label></div>
+            <hr/>
+          </div>
+          <div id="test-output"></div>
+        </aside>
         ${sections}
       </main>
       <script nonce="U29tZSBzdXBlciBzZWNyZXQ=" crossorigin="anonymous" src="test.js"></script>

@@ -4,10 +4,36 @@ body#test
     [tabindex]:focus, *:focus
       outline none
 
+  aside
+    width 500px
+    font 14px var(--monospace)
+    white-space pre
+    padding 20px 60px 60px 60px
+    overflow scroll
+    position fixed
+    top 0
+    right 0
+    bottom 0
+    background-color #f8f8f8
+
+    span
+      display block
+
+      &.title
+        margin-top 30px
+
+      &.result.OK
+        color green
+
+      &.result:not(.OK)
+        color red
+
+  .test-summary
+    display flex
+
   #passing,
   #total,
   #status
-    display inline-block
     margin 0 10px
     margin-right 80px
 
@@ -15,6 +41,8 @@ body#test
       font-weight 700
       display block
       margin 8px 4px
+      padding 0
+
     label
       margin 0 4px
       text-transform uppercase
@@ -29,37 +57,14 @@ body#test
 
   main
     left 0
-    width 100%
+    right 500px
 
-  main > section
-    width 1000px
-    max-width 100%
-    padding-bottom 0
-    margin 0 auto
-    display flex
-    flex-wrap wrap
-    justify-content flex-start
-
-  aside.results
-    font 14px var(--monospace)
-    white-space pre
-    flex-basis 100%
-    padding 30px 1.5% 0 1.5%
-
-    span
-      display block
-
-      &.result.OK
-        color green
-
-      &.result:not(.OK)
-        color red
-
-  .test-container > span:first-of-type
-    font 14px var(--monospace)
-    width 100%
-    display block
-    padding 15px 0
+    > section
+      padding-bottom 0
+      margin 0 auto
+      display flex
+      flex-wrap wrap
+      justify-content flex-start
 
   h2
     flex-basis 100%
@@ -78,6 +83,12 @@ body#test
     > span
       display block
       width 100%
+
+      &:first-of-type
+        font 14px var(--monospace)
+        width 100%
+        display block
+        padding 15px 0
 
     &.dark
       background-color #333333

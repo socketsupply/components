@@ -36,12 +36,15 @@
     </head>
     <body data-page="test" id="test">
       <main>
-        <section>
-          <div id="passing"><h1 class="value">0</h1><label>Passing</label></div>
-          <div id="total"><h1 class="value">0</h1><label>Total</label></div>
-          <div id="status"><h1 class="value">TESTING...</h1><label>Status</label></div>
-          <hr/>
-        </section>
+        <aside id="test-column">
+          <div class="test-summary">
+            <div id="passing"><h1 class="value">0</h1><label>Passing</label></div>
+            <div id="total"><h1 class="value">0</h1><label>Total</label></div>
+            <div id="status"><h1 class="value">TESTING...</h1><label>Status</label></div>
+            <hr/>
+          </div>
+          <div id="test-output"></div>
+        </aside>
               <section id="badge">
   <h2>Badge</h2>
 
@@ -65,15 +68,23 @@
     <tonic-badge count="1" theme="dark"></tonic-badge>
   </div>
 
-  <aside class="results"></aside>
 </section>
 
       <section id="button">
   <h2>Button</h2>
 
-  <div class="test-container">
+  <div id="button-1" class="test-container">
     <span>Default Button</span>
     <tonic-button></tonic-button>
+  </div>
+
+  <div id="button-2" class="test-container">
+    <span>value="test"</span>
+    <tonic-button value="test"></tonic-button>
+  </div>
+
+  <div id="button-3" class="test-container">
+    <tonic-button>Text Content</tonic-button>
   </div>
 
   <div class="test-container">
@@ -87,23 +98,8 @@
   </div>
 
   <div class="test-container">
-    <span>id="button-id"</span>
-    <tonic-button id="button-id"></tonic-button>
-  </div>
-
-  <div class="test-container">
-    <span>name="button-name"</span>
-    <tonic-button name="button-name"></tonic-button>
-  </div>
-
-  <div class="test-container">
     <span>type="reset"</span>
     <tonic-button type="reset"></tonic-button>
-  </div>
-
-  <div class="test-container">
-    <span>value="test"</span>
-    <tonic-button value="test"></tonic-button>
   </div>
 
   <div class="test-container">
@@ -196,7 +192,6 @@
     <tonic-button theme="dark"></tonic-button>
   </div>
 
-  <aside class="results"></aside>
 </section>
 
       <section id="chart">
@@ -206,7 +201,6 @@
     TBD
   </div>
 
-  <aside class="results"></aside>
 </section>
 
       <section id="checkbox">
@@ -318,7 +312,6 @@
     </tonic-checkbox>
   </div>
 
-  <aside class="results"></aside>
 </section>
 
       <section id="dialog">
@@ -396,7 +389,6 @@
     <tonic-dialog message="theme: dark" theme="dark" id="dialog-dark-theme"></tonic-dialog>
   </div>
 
-  <aside class="results"></aside>
 </section>
 
       <section id="icon">
@@ -432,7 +424,6 @@
     <tonic-icon theme="dark"></tonic-icon>
   </div>
 
-  <aside class="results"></aside>
 </section>
 
       <section id="input">
@@ -642,7 +633,6 @@
     <tonic-input theme="dark"></tonic-input>
   </div>
 
-  <aside class="results"></aside>
 </section>
 
       <section id="panel">
@@ -754,7 +744,6 @@
     theme="dark">
   </tonic-panel>
 
-  <aside class="results"></aside>
 </section>
 
       <section id="popover">
@@ -777,7 +766,6 @@
     <div>Item 3</div>
   </tonic-popover>
 
-  <aside class="results"></aside>
 </section>
 
       <section id="profile-image">
@@ -887,7 +875,6 @@
     </tonic-profile-image>
   </div>
 
-  <aside class="results"></aside>
 </section>
 
       <section id="progress-bar">
@@ -971,7 +958,6 @@
     </tonic-progress-bar>
   </div>
 
-  <aside class="results"></aside>
 </section>
 
       <section id="range">
@@ -1097,7 +1083,6 @@
     <tonic-range id="range-theme-dark" theme="dark"></tonic-range>
   </div>
 
-  <aside class="results"></aside>
 </section>
 
       <section id="router">
@@ -1130,7 +1115,6 @@
     </tonic-router>
   </div>
 
-  <aside class="results"></aside>
 </section>
 
       <section id="select">
@@ -1317,6 +1301,7 @@
       <option value="e">Option E</option>
     </tonic-select>
   </div>
+
 </section>
 
       <section id="tabs">
@@ -1376,7 +1361,6 @@
     </section>
   </div>
 
-  <aside class="results"></aside>
 </section>
 
       <section id="textarea">
@@ -1512,7 +1496,6 @@
     <tonic-textarea theme="dark"></tonic-textarea>
   </div>
 
-  <aside class="results"></aside>
 </section>
 
       <section id="toaster">
@@ -1678,7 +1661,6 @@
     </tonic-button>
   </div>
 
-  <aside class="results"></aside>
 </section>
 
       <section id="toaster-inline">
@@ -1964,7 +1946,6 @@
     </div>
   </div>
 
-  <aside class="results"></aside>
 </section>
 
       <section id="toggle">
@@ -2036,7 +2017,6 @@
     <tonic-toggle id="toggle-13" theme="dark" checked="true" disabled="true"></tonic-toggle>
   </div>
 
-  <aside class="results"></aside>
 </section>
 
       <section id="tooltip">
@@ -2104,7 +2084,6 @@
     </tonic-tooltip>
   </div>
 
-  <aside class="results"></aside>
 </section>
 
       <section id="windowed">
@@ -2114,7 +2093,6 @@
     TBD
   </div>
 
-  <aside class="results"></aside>
 </section>
 
       </main>

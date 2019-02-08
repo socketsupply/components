@@ -5,7 +5,8 @@ body#test
       outline none
 
   #passing,
-  #total
+  #total,
+  #status
     display inline-block
     margin 0 10px
     margin-right 80px
@@ -18,6 +19,13 @@ body#test
       margin 0 4px
       text-transform uppercase
       display block
+
+  #status
+    &:not(.fail)
+      color green
+
+    &.fail
+      color red
 
   main
     left 0

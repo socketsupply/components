@@ -3,22 +3,31 @@ body#test:not(.show-focus) *:focus {
   outline: none;
 }
 body#test #passing,
-body#test #total {
+body#test #total,
+body#test #status {
   display: inline-block;
   margin: 0 10px;
   margin-right: 80px;
 }
 body#test #passing h1,
-body#test #total h1 {
+body#test #total h1,
+body#test #status h1 {
   font-weight: 700;
   display: block;
   margin: 8px 4px;
 }
 body#test #passing label,
-body#test #total label {
+body#test #total label,
+body#test #status label {
   margin: 0 4px;
   text-transform: uppercase;
   display: block;
+}
+body#test #status:not(.fail) {
+  color: #008000;
+}
+body#test #status.fail {
+  color: #f00;
 }
 body#test main {
   left: 0;

@@ -53,6 +53,18 @@ module.exports = id => {
       aside.innerHTML += `\n1..${count}\n# tests ${count}\n# passed ${passed}`
 
       const ok = passed === count ? 'OK' : 'FAIL'
+
+      const status = document.getElementById('status')
+      const value = status.querySelector('.value')
+
+      if (!status.classList.contains('fail')) {
+        value.textContent = ok
+      }
+
+      if (!ok) {
+        status.classList.add('fail')
+      }
+
       aside.innerHTML += `<span class="${ok}"># ${ok ? 'ok' : 'not ok'}</span>`
     }
   })

@@ -3,8 +3,6 @@ const fs = require('fs')
 const path = require('path')
 const mkdirp = require('mkdirp')
 const argv = require('minimist')(process.argv.slice(2))
-const pkgComponents = require('../package.json')
-const pkgTonic = require('@conductorlab/tonic/package.json')
 
 const componentsDir = path.join(__dirname, '..', 'src')
 
@@ -16,10 +14,15 @@ function ensurePath (filename) {
   }
 }
 
+function trim (s) {
+  return s.split(/\n/).map(s => s.slice(4))
+}
+
 const filename = argv._[0]
 
-async function js () {
+async function main () {
   ensurePath(filename)
+
   const includes = argv.include && argv.include.split(' ')
   const excludes = argv.exclude && argv.exclude.split(' ')
 
@@ -43,47 +46,18 @@ async function js () {
     output.push(fs.readFileSync(src, 'utf8'))
   }
 
-  const js = `
-//
-// Warning: Do not edit. To regenerate, run 'npm run build'.
-//
-module.exports = (Tonic, nonce) => {
-  if (nonce) Tonic.nonce = nonce
+  const wrapper = trim(`
+    //
+    // Warning: Do not edit, use 'npm run build'.
+    //
+    module.exports = (Tonic, nonce) => {
+      if (nonce) Tonic.nonce = nonce
 
-  ${output.join('\n')}
-}`
+      ${output.join('\n')}
+    }
+  `)
 
-  fs.writeFileSync(filename, js)
+  fs.writeFileSync(filename, wrapper)
 }
 
-function css () {
-  ensurePath(argv.css)
-  const css = fs.readFileSync(path.join(__dirname, '..', 'index.css'), 'utf8')
-  fs.writeFileSync(argv.css, css)
-}
-
-const help = `
-components v${pkgComponents.version} (tonic v${pkgTonic.version})
-
-Usage:
-  components --help
-  components <path> [--css <path>] [--exclude '...']
-  components <path> [--css <path>] [--include '...']
-
-Examples:
-  components ./index.js
-  components ./index.js --css ./index.css
-  components ./index.js --css ./index.css --exclude content-panel windowed
-`
-
-if (argv.v || argv.version) {
-  console.log(pkgComponents.version)
-}
-
-if (argv.h || argv.help) {
-  console.log(help)
-  process.exit(0)
-}
-
-if (argv.css) css()
-if (filename) js()
+main()

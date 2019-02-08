@@ -11,6 +11,21 @@ body#test
     flex-wrap wrap
     justify-content flex-start
 
+  aside.results
+    font 14px var(--monospace)
+    white-space pre
+    flex-basis 100%
+    padding 0 10px
+
+    span
+      display block
+
+    span.result.OK
+      color green
+
+    span.result:not(.OK)
+      color red
+
   .test-container > span:first-of-type
     font 14px var(--monospace)
     width 100%

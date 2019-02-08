@@ -13094,14 +13094,21 @@ function config (name) {
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],66:[function(require,module,exports){
-const test = require('tape')
+const test = require('../../test/tape')
 
-test('foo', t => {
-  console.log('FOOOOOOOOOOOOOOOOO')
+test('default state', t => {
+
+  const container = document.getElementById('badge-1')
+  const component = container.querySelector('tonic-badge')
+
+  t.ok(component.firstElementChild, 'the component was constructed')
+  t.equal(component.value, 0, 'the default value is zero')
+
+  t.ok(false, 'there is no indicator')
   t.end()
 })
 
-},{"tape":59}],67:[function(require,module,exports){
+},{"../../test/tape":87}],67:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
 },{"dup":4}],68:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
@@ -13770,6 +13777,38 @@ arguments[4][4][0].apply(exports,arguments)
 },{"dup":4}],86:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
 },{"dup":4}],87:[function(require,module,exports){
+const tape = require('tape')
+
+const stream = tape.createStream({ objectMode: true })
+
+stream.on('data', data => {
+  const section = document.getElementById('badge')
+  const aside = section.querySelector('aside')
+
+  if (data.type === 'test') {
+    aside.innerHTML += `<span class="title"># ${data.name}</span>`
+    return
+  }
+
+  if (data.type === 'assert') {
+    let status = data.ok ? 'OK' : 'FAIL'
+    aside.innerHTML += `<span class="result ${status}">${status} ${data.id} ${data.name}</span>`
+
+    if (!data.ok) {
+      console.error(data)
+    }
+
+    return
+  }
+
+  if (data.type === 'end') {
+    aside.innerHTML += '<span>END</span>'
+  }
+})
+
+module.exports = tape
+
+},{"tape":59}],88:[function(require,module,exports){
 const Tonic = require('@conductorlab/tonic')
 const components = require('..')
 
@@ -13813,4 +13852,4 @@ function ready () {
 
 document.addEventListener('DOMContentLoaded', ready)
 
-},{"..":1,"../src/badge/test":66,"../src/button/test":67,"../src/charts/test":68,"../src/checkbox/test":69,"../src/dialog/test":70,"../src/icon/test":71,"../src/input/test":72,"../src/panel/test":73,"../src/popover/test":74,"../src/profile-image/test":75,"../src/progress-bar/test":76,"../src/range/test":77,"../src/router/test":78,"../src/select/test":79,"../src/tabs/test":80,"../src/textarea/test":81,"../src/toaster-inline/test":82,"../src/toaster/test":83,"../src/toggle/test":84,"../src/tooltip/test":85,"../src/windowed/test":86,"@conductorlab/tonic":2}]},{},[87]);
+},{"..":1,"../src/badge/test":66,"../src/button/test":67,"../src/charts/test":68,"../src/checkbox/test":69,"../src/dialog/test":70,"../src/icon/test":71,"../src/input/test":72,"../src/panel/test":73,"../src/popover/test":74,"../src/profile-image/test":75,"../src/progress-bar/test":76,"../src/range/test":77,"../src/router/test":78,"../src/select/test":79,"../src/tabs/test":80,"../src/textarea/test":81,"../src/toaster-inline/test":82,"../src/toaster/test":83,"../src/toggle/test":84,"../src/tooltip/test":85,"../src/windowed/test":86,"@conductorlab/tonic":2}]},{},[88]);

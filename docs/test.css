@@ -16,6 +16,22 @@ body#test main > section {
       -ms-flex-pack: start;
           justify-content: flex-start;
 }
+body#test aside.results {
+  font: 14px var(--monospace);
+  white-space: pre;
+  -ms-flex-preferred-size: 100%;
+      flex-basis: 100%;
+  padding: 0 10px;
+}
+body#test aside.results span {
+  display: block;
+}
+body#test aside.results span.result.OK {
+  color: #008000;
+}
+body#test aside.results span.result:not(.OK) {
+  color: #f00;
+}
 body#test .test-container > span:first-of-type {
   font: 14px var(--monospace);
   width: 100%;

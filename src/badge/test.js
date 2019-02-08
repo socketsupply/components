@@ -1,6 +1,11 @@
-const test = require('tape')
+const test = require('../../test/tape')
 
-test('foo', t => {
-  console.log('FOOOOOOOOOOOOOOOOO')
+test('default state', t => {
+  const container = document.getElementById('badge-1')
+  const component = container.querySelector('tonic-badge')
+
+  t.ok(component.firstElementChild, 'the component was constructed')
+  t.equal(component.value, 0, 'the default value is zero')
+
   t.end()
 })

@@ -1,927 +1,2030 @@
-<!DOCTYPE html>
 
-  <head>
-    <title>Tonic - Component Based Architecture</title>
-    <link href="index.css" rel="stylesheet">
+  <!DOCTYPE html>
+    <head>
+      <title>Tonic - Component Based Architecture</title>
+      <link href="index.css" rel="stylesheet">
+      <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+      <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+      <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="120x120">
+      <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="128x128">
+      <link rel="apple-touch-icon" type="image/png" href="favicon-152x152.png" sizes="152x152">
+      <link rel="apple-touch-icon" type="image/png" href="favicon-167x167.png" sizes="167x167">
+      <link rel="apple-touch-icon" type="image/png" href="favicon-180x180.png" sizes="180x180">
+      <meta http-equiv="Content-Type" charset="utf-8" content="text/html">
+      <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1 user-scalable=no">
+      <meta name="description" content="Component Based Architecture">
+      <meta property="og:site_name", content="ConductorLab">
+      <meta property="og:title", content="Tonic Components">
+      <meta property="og:description" content="Component Based Architecture">
+      <meta property="og:type", content="website">
+      <meta property="og:url", content="https://hxoht.github.io/components">
+      <meta property="og:image", content="https://hxoht.github.io/components/tonic_preview.png">
+      <meta name="twitter:card", content="summary">
+      <meta name="twitter:site", content="@conductorlab">
+      <meta name="twitter:image", content="https://hxoht.github.io/components/tonic_preview.png">
+      <meta
+        http-equiv="Content-Security-Policy"
+        content="
+          default-src 'self';
+          font-src 'self' https:;
+          img-src 'self' http: https: data:;
+          style-src 'self' 'unsafe-inline' https:;
+          script-src 'self' 'nonce-U29tZSBzdXBlciBzZWNyZXQ=';
+          connect-src 'self' https:;">
+    </head>
+    <body data-page="test" id="test">
+      <main>
+              <h2>Badge</h2>
 
-    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
-    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="120x120">
-    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="128x128">
-    <link rel="apple-touch-icon" type="image/png" href="favicon-152x152.png" sizes="152x152">
-    <link rel="apple-touch-icon" type="image/png" href="favicon-167x167.png" sizes="167x167">
-    <link rel="apple-touch-icon" type="image/png" href="favicon-180x180.png" sizes="180x180">
+<section id="badge">
+  <div>
+    <span>Default</span>
+    <tonic-badge></tonic-badge>
+  </div>
 
-    <meta http-equiv="Content-Type" charset="utf-8" content="text/html">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1 user-scalable=no">
-    <meta name="description" content="Component Based Architecture">
+  <div>
+    <span>count="6"</span>
+    <tonic-badge count="6"></tonic-badge>
+  </div>
 
-    <meta property="og:site_name", content="ConductorLab">
-    <meta property="og:title", content="Tonic Components">
-    <meta property="og:description" content="Component Based Architecture">
-    <meta property="og:type", content="website">
-    <meta property="og:url", content="https://hxoht.github.io/components">
-    <meta property="og:image", content="https://hxoht.github.io/components/tonic_preview.png">
-    <meta name="twitter:card", content="summary">
-    <meta name="twitter:site", content="@conductorlab">
-    <meta name="twitter:image", content="https://hxoht.github.io/components/tonic_preview.png">
-    <meta
-      http-equiv="Content-Security-Policy"
-      content="
-        default-src 'self';
-        font-src 'self' https:;
-        img-src 'self' http: https: data:;
-        style-src 'self' 'unsafe-inline' https:;
-        script-src 'self' 'nonce-U29tZSBzdXBlciBzZWNyZXQ=';
-        connect-src 'self' https:;">
-  </head>
+  <div>
+    <span>theme="light"</span>
+    <tonic-badge count="1" theme="light"></tonic-badge>
+  </div>
 
-  <body data-page="test" id="test">
-    <div class="theme-picker">
-      <icon-container src="./sprite.svg#theme" size="20px">
-      </icon-container>
-    </div>
-    <nav>
-      <a href="./index.html" class="logo">
-        <svg>
-          <use xlink:href="./logo-sprite.svg#tonic_logo">
-        </svg>
-      </a>
+  <div class="dark">
+    <span>theme="dark"</span>
+    <tonic-badge count="1" theme="dark"></tonic-badge>
+  </div>
 
-      <div class="page-selection">
-        <a name="docs" href="./index.html">Docs</a>
-        <a name="components" href="./examples.html">Examples</a>
-      </div>
+  <aside class="results">
+  </aside>
+</section>
 
-      <ul>
-
-      </ul>
-
-    </nav>
-    <main>
-
-      <!-- Badge -->
-      <h2>Badge</h2>
-      <div>
-        <span>Default</span>
-        <tonic-badge></tonic-badge>
-      </div>
-
-      <div>
-        <span>count="6"</span>
-        <tonic-badge count="6"></tonic-badge>
-      </div>
-
-      <div>
-        <span>theme="light"</span>
-        <tonic-badge count="1" theme="light"></tonic-badge>
-      </div>
-
-      <div class="dark">
-        <span>theme="dark"</span>
-        <tonic-badge count="1" theme="dark"></tonic-badge>
-      </div>
-
-      <!-- Button -->
       <h2>Button</h2>
-      <div>
-        <span>Default Button</span>
-        <tonic-button></tonic-button>
-      </div>
 
-      <div>
-        <span>id="button-id"</span>
-        <tonic-button id="button-id"></tonic-button>
-      </div>
+<div>
+  <span>Default Button</span>
+  <tonic-button></tonic-button>
+</div>
 
-      <div>
-        <span>name="button-name"</span>
-        <tonic-button name="button-name"></tonic-button>
-      </div>
+<div>
+  <span>margin="0px"</span>
+  <tonic-button margin="0px"></tonic-button>
+</div>
 
-      <div>
-        <span>type="reset"</span>
-        <tonic-button type="reset"></tonic-button>
-      </div>
+<div>
+  <span>margin="12px 20px"</span>
+  <tonic-button margin="12px 20px"></tonic-button>
+</div>
 
-      <div>
-        <span>value="test"</span>
-        <tonic-button value="test"></tonic-button>
-      </div>
+<div>
+  <span>id="button-id"</span>
+  <tonic-button id="button-id"></tonic-button>
+</div>
 
-      <div>
-        <span>disabled="true"</span>
-        <tonic-button disabled="true"></tonic-button>
-      </div>
+<div>
+  <span>name="button-name"</span>
+  <tonic-button name="button-name"></tonic-button>
+</div>
 
-      <div>
-        <span class="fail">disabled="false"</span>
-        <tonic-button disabled="false"></tonic-button>
-      </div>
+<div>
+  <span>type="reset"</span>
+  <tonic-button type="reset"></tonic-button>
+</div>
 
-      <div>
-        <span>autofocus="true"</span>
-        <tonic-button autofocus="true"></tonic-button>
-      </div>
+<div>
+  <span>value="test"</span>
+  <tonic-button value="test"></tonic-button>
+</div>
 
-      <div>
-        <span>autofocus="false"</span>
-        <tonic-button autofocus="false"></tonic-button>
-      </div>
+<div>
+  <span>disabled="true"</span>
+  <tonic-button disabled="true"></tonic-button>
+</div>
 
-      <div>
-        <span>async="true"</span>
-        <tonic-button async="true"></tonic-button>
-      </div>
+<div>
+  <span>disabled="false"</span>
+  <tonic-button disabled="false"></tonic-button>
+</div>
 
-      <div>
-        <span>async="false"</span>
-        <tonic-button async="false"></tonic-button>
-      </div>
+<div>
+  <span>autofocus="true"</span>
+  <tonic-button autofocus="true"></tonic-button>
+</div>
 
-      <div>
-        <span class="fail">is-active="true"</span>
-        <tonic-button is-active="true"></tonic-button>
-      </div>
+<div>
+  <span>autofocus="false"</span>
+  <tonic-button autofocus="false"></tonic-button>
+</div>
 
-      <div>
-        <span>is-active="false"</span>
-        <tonic-button is-active="false"></tonic-button>
-      </div>
+<div>
+  <span>async="true"</span>
+  <tonic-button async="true"></tonic-button>
+</div>
 
-      <div>
-        <span>width="200px"</span>
-        <tonic-button width="200px"></tonic-button>
-      </div>
+<div>
+  <span>async="false"</span>
+  <tonic-button async="false"></tonic-button>
+</div>
 
-      <div>
-        <span>height="75px"</span>
-        <tonic-button height="75px"></tonic-button>
-      </div>
+<div>
+  <span class="fail">is-active="true"</span>
+  <tonic-button is-active="true"></tonic-button>
+</div>
 
-      <div>
-        <span>radius="8px"</span>
-        <tonic-button radius="8px"></tonic-button>
-      </div>
+<div>
+  <span>is-active="false"</span>
+  <tonic-button is-active="false"></tonic-button>
+</div>
 
-      <div>
-        <span>fill="#42adef"</span>
-        <tonic-button fill="#42adef"></tonic-button>
-      </div>
+<div>
+  <span>width="200px"</span>
+  <tonic-button width="200px"></tonic-button>
+</div>
 
-      <div>
-        <span>text-color="#42adef"</span>
-        <tonic-button text-color="#42adef"></tonic-button>
-      </div>
+<div>
+  <span>height="75px"</span>
+  <tonic-button height="75px"></tonic-button>
+</div>
 
-      <div>
-        <span class="fail">href="https://google.com"</span>
-        <tonic-button href="https://google.com"></tonic-button>
-      </div>
+<div>
+  <span>radius="8px"</span>
+  <tonic-button radius="8px"></tonic-button>
+</div>
 
-      <div>
-        <span class="fail">theme="light"</span>
-        <tonic-button theme="light"></tonic-button>
-      </div>
+<div>
+  <span>fill="#42adef"</span>
+  <tonic-button fill="#42adef"></tonic-button>
+</div>
 
-      <div class="dark">
-        <span class="fail">theme="dark"</span>
-        <tonic-button theme="dark"></tonic-button>
-      </div>
+<div>
+  <span>border-color="purple"</span>
+  <tonic-button border-color="purple"></tonic-button>
+</div>
 
-      <!-- Chart -->
-      <h2>Chart</h2>
-      <div>
-        <tonic-chart
-          type="horizontalBar"
-          width="300"
-          height="150px"
-          tooltip="false"
-          src="/chartdata.json">
-        </tonic-chart>
-      </div>
+<div>
+  <span>border-width="3px"</span>
+  <tonic-button border-width="3px"></tonic-button>
+</div>
 
-      <!-- Checkbox -->
+<div>
+  <span>text-color="#42adef"</span>
+  <tonic-button text-color="#42adef"></tonic-button>
+</div>
+
+<div>
+  <span>href="https://google.com"</span>
+  <tonic-button href="https://google.com"></tonic-button>
+</div>
+
+<div>
+  <span>theme="light"</span>
+  <tonic-button theme="light"></tonic-button>
+</div>
+
+<div class="dark">
+  <span>theme="dark"</span>
+  <tonic-button theme="dark"></tonic-button>
+</div>
+
+      <!-- <h2>Chart</h2> -->
+
       <h2>Checkbox</h2>
-      <div>
-        <span>Default</span>
-        <tonic-checkbox
-          id="tonic-checkbox">
-        </tonic-checkbox>
-      </div>
 
-      <div>
-        <span>label="label"</span>
-        <tonic-checkbox
-          id="tonic-checkbox-label"
-          label="Label">
-        </tonic-checkbox>
-      </div>
+<div>
+  <span>Default</span>
+  <tonic-checkbox
+    id="tonic-checkbox">
+  </tonic-checkbox>
+</div>
 
-      <div>
-        <span>name="checkbox-1"</span>
-        <tonic-checkbox
-          id="tonic-checkbox-name"
-          name="checkbox-1">
-        </tonic-checkbox>
-      </div>
+<div>
+  <span>label="label"</span>
+  <tonic-checkbox
+    id="tonic-checkbox-label"
+    label="Label">
+  </tonic-checkbox>
+</div>
 
-      <div>
-        <span>checked="true"</span>
-        <tonic-checkbox
-          id="tonic-checkbox-checked"
-          checked="true">
-        </tonic-checkbox>
-      </div>
+<div>
+  <span>name="checkbox-1"</span>
+  <tonic-checkbox
+    id="tonic-checkbox-name"
+    name="checkbox-1">
+  </tonic-checkbox>
+</div>
 
-      <div>
-        <span>checked="false"</span>
-        <tonic-checkbox
-          id="tonic-checkbox-checked-false"
-          checked="false">
-        </tonic-checkbox>
-      </div>
+<div>
+  <span>checked="true"</span>
+  <tonic-checkbox
+    id="tonic-checkbox-checked"
+    checked="true">
+  </tonic-checkbox>
+</div>
 
-      <div>
-        <span>color="blue"</span>
-        <tonic-checkbox
-          id="tonic-checkbox-color"
-          color="blue">
-        </tonic-checkbox>
-      </div>
+<div>
+  <span>checked="false"</span>
+  <tonic-checkbox
+    id="tonic-checkbox-checked-false"
+    checked="false">
+  </tonic-checkbox>
+</div>
 
-      <div>
-        <span class="fail">disabled="true"</span>
-        <tonic-checkbox
-          id="tonic-checkbox-disabled"
-          disabled="true">
-        </tonic-checkbox>
-      </div>
+<div>
+  <span>color="blue"</span>
+  <tonic-checkbox
+    id="tonic-checkbox-color"
+    color="blue">
+  </tonic-checkbox>
+</div>
 
-      <div>
-        <span>disabled="false"</span>
-        <tonic-checkbox
-          id="tonic-checkbox-disabled-false"
-          disabled="false">
-        </tonic-checkbox>
-      </div>
+<div>
+  <span>disabled="true"</span>
+  <tonic-checkbox
+    id="tonic-checkbox-disabled"
+    disabled="true">
+  </tonic-checkbox>
+</div>
 
-      <div>
-        <span>size="30px"</span>
-        <tonic-checkbox
-          id="tonic-checkbox-size"
-          size="30px">
-        </tonic-checkbox>
-      </div>
+<div>
+  <span>disabled="false"</span>
+  <tonic-checkbox
+    id="tonic-checkbox-disabled-false"
+    disabled="false">
+  </tonic-checkbox>
+</div>
 
-      <div>
-        <span>Custom</span>
-        <tonic-checkbox
-          id="tonic-checkbox-custom"
-          icon-on="./sprite.svg#custom_on"
-          icon-off="./sprite.svg#custom_off">
-        </tonic-checkbox>
-      </div>
+<div>
+  <span>size="30px"</span>
+  <tonic-checkbox
+    id="tonic-checkbox-size"
+    size="30px">
+  </tonic-checkbox>
+</div>
 
-      <div>
-        <span>Custom, checked</span>
-        <tonic-checkbox
-          id="tonic-checkbox-custom"
-          checked="true"
-          icon-on="./sprite.svg#custom_on"
-          icon-off="./sprite.svg#custom_off">
-        </tonic-checkbox>
-      </div>
+<div>
+  <span>Custom</span>
+  <tonic-checkbox
+    id="tonic-checkbox-custom"
+    icon-on="./sprite.svg#custom_on"
+    icon-off="./sprite.svg#custom_off">
+  </tonic-checkbox>
+</div>
 
-      <div class="dark">
-        <span class="fail">theme="dark"</span>
-        <!-- <tonic-checkbox
-          id="tonic-checkbox-theme"
-          theme="dark">
-        </tonic-checkbox> -->
-      </div>
+<div>
+  <span>Custom, checked</span>
+  <tonic-checkbox
+    id="tonic-checkbox-custom-2"
+    checked="true"
+    icon-on="./sprite.svg#custom_on"
+    icon-off="./sprite.svg#custom_off">
+  </tonic-checkbox>
+</div>
 
-      <div>
-        <span class="fail">theme="light"</span>
-        <!-- <tonic-checkbox
-          id="tonic-checkbox-theme-light"
-          theme="light">
-        </tonic-checkbox> -->
-      </div>
+<div class="dark">
+  <span class="fail">theme="dark"</span>
+  <tonic-checkbox
+    id="tonic-checkbox-theme"
+    theme="dark">
+  </tonic-checkbox>
+</div>
 
-      <!-- Dialog -->
+<div>
+  <span>theme="light"</span>
+  <tonic-checkbox
+    id="tonic-checkbox-theme-light"
+    theme="light">
+  </tonic-checkbox>
+</div>
+
       <h2>Dialog</h2>
-      <div>
-        <span>Default Dialog</span>
-        <tonic-button id="dialog-default-button">Open</tonic-button>
-        <tonic-dialog id="dialog-default"></tonic-dialog>
-      </div>
 
-      <!-- Icon -->
+<div>
+  <span>Default Dialog</span>
+  <tonic-button id="dialog-default-button">Open</tonic-button>
+  <tonic-dialog message="Hello!" id="dialog-default"></tonic-dialog>
+</div>
+
+<div>
+  <span>id="dialog-id"</span>
+  <tonic-button id="dialog-id-button">Open</tonic-button>
+  <tonic-dialog message="id: dialog-id" id="dialog-id"></tonic-dialog>
+</div>
+
+<div>
+  <span>name="dialog-name"</span>
+  <tonic-button id="dialog-name-button">Open</tonic-button>
+  <tonic-dialog message="name: dialog-name" id="dialog-name"></tonic-dialog>
+</div>
+
+<div>
+  <span>width="150px"</span>
+  <tonic-button id="dialog-width-button">Open</tonic-button>
+  <tonic-dialog message="width: 150px" width="150px" id="dialog-width"></tonic-dialog>
+</div>
+
+<div>
+  <span>width="100%"</span>
+  <tonic-button id="dialog-full-width-button">Open</tonic-button>
+  <tonic-dialog message="width: 100%" width="100%" id="dialog-full-width"></tonic-dialog>
+</div>
+
+<div>
+  <span>height="700px"</span>
+  <tonic-button id="dialog-height-button">Open</tonic-button>
+  <tonic-dialog message="height: 700px" height="700px" id="dialog-height"></tonic-dialog>
+</div>
+
+<div>
+  <span>height="100%"</span>
+  <tonic-button id="dialog-full-height-button">Open</tonic-button>
+  <tonic-dialog message="height: 100%" height="100%" id="dialog-full-height"></tonic-dialog>
+</div>
+
+<div>
+  <span>overlay="true"</span>
+  <tonic-button id="dialog-overlay-button">Open</tonic-button>
+  <tonic-dialog message="overlay: true" overlay="true" id="dialog-overlay"></tonic-dialog>
+</div>
+
+<div>
+  <span>overlay="false"</span>
+  <tonic-button id="dialog-no-overlay-button">Open</tonic-button>
+  <tonic-dialog message="overlay: false" overlay="false" id="dialog-no-overlay"></tonic-dialog>
+</div>
+
+<div>
+  <span>background-color="red"</span>
+  <tonic-button id="dialog-background-button">Open</tonic-button>
+  <tonic-dialog message="background-color: red" background-color="red" id="dialog-background"></tonic-dialog>
+</div>
+
+<div>
+  <span>theme="light"</span>
+  <tonic-button id="dialog-light-theme-button">Open</tonic-button>
+  <tonic-dialog message="theme: light" theme="light" id="dialog-light-theme"></tonic-dialog>
+</div>
+
+<div>
+  <span>theme="dark"</span>
+  <tonic-button id="dialog-dark-theme-button">Open</tonic-button>
+  <tonic-dialog message="theme: dark" theme="dark" id="dialog-dark-theme"></tonic-dialog>
+</div>
+
       <h2>Icon</h2>
-      <div>
-        <span>Default Icon</span>
-        <tonic-icon></tonic-icon>
-      </div>
 
-      <div>
-        <span>size="40px"</span>
-        <tonic-icon size="40px"></tonic-icon>
-      </div>
+<div>
+  <span>Default Icon</span>
+  <tonic-icon></tonic-icon>
+</div>
 
-      <div>
-        <span>color="cyan"</span>
-        <tonic-icon color="cyan"></tonic-icon>
-      </div>
+<div>
+  <span>size="40px"</span>
+  <tonic-icon size="40px"></tonic-icon>
+</div>
 
-      <div>
-        <span>src="${path}"</span>
-        <tonic-icon src="./sprite.svg#custom_off"></tonic-icon>
-      </div>
+<div>
+  <span>color="cyan"</span>
+  <tonic-icon color="cyan"></tonic-icon>
+</div>
 
-      <div>
-        <span class="fail">theme="light"</span>
-        <tonic-icon theme="light"></tonic-icon>
-      </div>
+<div>
+  <span>src="${path}"</span>
+  <tonic-icon src="./sprite.svg#custom_off"></tonic-icon>
+</div>
 
-      <div class="dark">
-        <span class="fail">theme="dark"</span>
-        <tonic-icon theme="dark"></tonic-icon>
-      </div>
+<div>
+  <span>theme="light"</span>
+  <tonic-icon theme="light"></tonic-icon>
+</div>
 
-      <!-- Input -->
+<div class="dark">
+  <span>theme="dark"</span>
+  <tonic-icon theme="dark"></tonic-icon>
+</div>
+
       <h2>Input</h2>
-      <div class="flex-half">
-        <span>Default Input</span>
-        <tonic-input></tonic-input>
-      </div>
 
-      <div class="flex-half">
-        <span class="fail">Input with Value</span>
-        <tonic-input>I'm a value</tonic-input>
-      </div>
+<!-- Default Input -->
+<div class="flex-half">
+  <span>Default Input</span>
+  <tonic-input></tonic-input>
+</div>
 
-      <div class="flex-half">
-        <span>id="input-id"</span>
-        <tonic-input id="input-id"></tonic-input>
-      </div>
+<!-- Input w/ Value -->
+<div class="flex-half">
+  <span>value="I'm a value"</span>
+  <tonic-input value="I'm a value"></tonic-input>
+</div>
 
-      <div class="flex-half">
-        <span>name="input-name"</span>
-        <tonic-input name="input-name"></tonic-input>
-      </div>
+<!-- Input w/ id -->
+<div class="flex-half">
+  <span>id="input-id"</span>
+  <tonic-input id="input-id"></tonic-input>
+</div>
 
-      <div class="flex-half">
-        <span>type="text"</span>
-        <tonic-input type="text"></tonic-input>
-      </div>
+<!-- Input w/ name -->
+<div class="flex-half">
+  <span>name="input-name"</span>
+  <tonic-input name="input-name"></tonic-input>
+</div>
 
-      <div class="flex-half">
-        <span>type="email"</span>
-        <tonic-input type="email"></tonic-input>
-      </div>
+<!-- Input w/ type text -->
+<div class="flex-half">
+  <span>type="text"</span>
+  <tonic-input type="text"></tonic-input>
+</div>
 
-      <div class="flex-half">
-        <span>type="password"</span>
-        <tonic-input type="password"></tonic-input>
-      </div>
+<!-- Input w/ type email -->
+<div class="flex-half">
+  <span>type="email"</span>
+  <tonic-input type="email"></tonic-input>
+</div>
 
-      <div class="flex-half">
-        <span>required="true"</span>
-        <tonic-input required="true"></tonic-input>
-      </div>
+<!-- Input w/ type password -->
+<div class="flex-half">
+  <span>type="password"</span>
+  <tonic-input type="password"></tonic-input>
+</div>
 
-      <div class="flex-half">
-        <span>required="false"</span>
-        <tonic-input required="false"></tonic-input>
-      </div>
+<!-- Input w/ type number -->
+<div class="flex-half">
+  <span>type="number"</span>
+  <tonic-input type="number"></tonic-input>
+</div>
 
-      <div class="flex-half">
-        <span>disabled="true"</span>
-        <tonic-input disabled="true"></tonic-input>
-      </div>
+<!-- Required input -->
+<div class="flex-half">
+  <span>required="true"</span>
+  <tonic-input required="true"></tonic-input>
+</div>
 
-      <div class="flex-half">
-        <span>disabled="false"</span>
-        <tonic-input disabled="false"></tonic-input>
-      </div>
+<!-- Non-required input -->
+<div class="flex-half">
+  <span>required="false"</span>
+  <tonic-input required="false"></tonic-input>
+</div>
 
-      <div class="flex-half">
-        <span>spellcheck="true"</span>
-        <tonic-input spellcheck="true"></tonic-input>
-      </div>
+<!-- Disabled input -->
+<div class="flex-half">
+  <span>disabled="true"</span>
+  <tonic-input disabled="true"></tonic-input>
+</div>
 
-      <div class="flex-half">
-        <span>spellcheck="false"</span>
-        <tonic-input spellcheck="false"></tonic-input>
-      </div>
+<!-- Non-disabled input -->
+<div class="flex-half">
+  <span>disabled="false"</span>
+  <tonic-input disabled="false"></tonic-input>
+</div>
 
-      <div class="flex-half">
-        <span>invalid="true"</span>
-        <tonic-input spellcheck="true"></tonic-input>
-      </div>
+<!-- Input w/ Spellcheck -->
+<div class="flex-half">
+  <span>spellcheck="true"</span>
+  <tonic-input spellcheck="true"></tonic-input>
+</div>
 
-      <div class="flex-half">
-        <span>invalid="false"</span>
-        <tonic-input spellcheck="false"></tonic-input>
-      </div>
+<!-- Input w/out Spellcheck -->
+<div class="flex-half">
+  <span>spellcheck="false"</span>
+  <tonic-input spellcheck="false"></tonic-input>
+</div>
 
-      <div class="flex-half">
-        <span>aria-invalid="true"</span>
-        <tonic-input spellcheck="true"></tonic-input>
-      </div>
+<!-- Input w/ Invalid -->
+<div class="flex-half">
+  <span>invalid="true"</span>
+  <tonic-input spellcheck="true"></tonic-input>
+</div>
 
-      <div class="flex-half">
-        <span>aria-invalid="false"</span>
-        <tonic-input spellcheck="false"></tonic-input>
-      </div>
+<!-- Input w/out invalid -->
+<div class="flex-half">
+  <span>invalid="false"</span>
+  <tonic-input spellcheck="false"></tonic-input>
+</div>
 
-      <div class="flex-half">
-        <span>placeholder="test"</span>
-        <tonic-input placeholder="test"></tonic-input>
-      </div>
+<!-- Input w/ aria-invalid -->
+<div class="flex-half">
+  <span>aria-invalid="true"</span>
+  <tonic-input spellcheck="true"></tonic-input>
+</div>
 
-      <div class="flex-half">
-        <span>error-message="nope"</span>
-        <tonic-input type="email" error-message="nope"></tonic-input>
-      </div>
+<!-- Input w/out aria-invalid -->
+<div class="flex-half">
+  <span>aria-invalid="false"</span>
+  <tonic-input spellcheck="false"></tonic-input>
+</div>
 
-      <div class="flex-half">
-        <span>label="Label"</span>
-        <tonic-input label="Label"></tonic-input>
-      </div>
+<!-- Input w/ Placeholder -->
+<div class="flex-half">
+  <span>placeholder="test"</span>
+  <tonic-input placeholder="test"></tonic-input>
+</div>
 
-      <div class="flex-half">
-        <span>src="${path}"</span>
-        <tonic-input src="./sprite.svg#custom_off"></tonic-input>
-      </div>
+<!-- Input w/ error message -->
+<div class="flex-half">
+  <span>error-message="nope"</span>
+  <tonic-input type="email" error-message="nope"></tonic-input>
+</div>
 
-      <div class="flex-half">
-        <span>position="left"</span>
-        <tonic-input position="left" src="./sprite.svg#custom_off"></tonic-input>
-      </div>
+<!-- Input w/ label -->
+<div class="flex-half">
+  <span>label="Label"</span>
+  <tonic-input label="Label"></tonic-input>
+</div>
 
-      <div class="flex-half">
-        <span>position="right"</span>
-        <tonic-input position="right" src="./sprite.svg#custom_off"></tonic-input>
-      </div>
+<!-- Input w/ icon -->
+<div class="flex-half">
+  <span>src="${path}"</span>
+  <tonic-input src="./sprite.svg#custom_off"></tonic-input>
+</div>
 
-      <div class="flex-half">
-        <span>pattern="[A-Za-z\s]+"</span>
-        <tonic-input pattern="[A-Za-z\s]+"></tonic-input>
-      </div>
+<!-- Input w/ icon position left -->
+<div class="flex-half">
+  <span>position="left"</span>
+  <tonic-input position="left" src="./sprite.svg#custom_off"></tonic-input>
+</div>
 
-      <div class="flex-half">
-        <span class="fail">minlength MISSING</span>
-        <tonic-input></tonic-input>
-      </div>
+<!-- Input w/ icon position right -->
+<div class="flex-half">
+  <span>position="right"</span>
+  <tonic-input position="right" src="./sprite.svg#custom_off"></tonic-input>
+</div>
 
-      <div class="flex-half">
-        <span class="fail">maxlength MISSING</span>
-        <tonic-input></tonic-input>
-      </div>
+<!-- Input w/ pattern -->
+<div class="flex-half">
+  <span>pattern="[A-Za-z\s]+"</span>
+  <tonic-input pattern="[A-Za-z\s]+"></tonic-input>
+</div>
 
-      <div class="flex-half">
-        <span>width="60px"</span>
-        <tonic-input width="60px"></tonic-input>
-      </div>
+<!-- Input w/ minlength -->
+<div class="flex-half">
+  <span>minlength="5"</span>
+  <tonic-input minlength="5"></tonic-input>
+</div>
 
-      <div class="flex-half">
-        <span>radius="8px"</span>
-        <tonic-input radius="8px"></tonic-input>
-      </div>
+<!-- Input w/ maxlength -->
+<div class="flex-half">
+  <span>maxlength="10"</span>
+  <tonic-input maxlength="10"></tonic-input>
+</div>
 
-      <div class="flex-half">
-        <span>theme="light"</span>
-        <tonic-input theme="light"></tonic-input>
-      </div>
+<!-- Input w/ min -->
+<div class="flex-half">
+  <span>type="number", min="5"</span>
+  <tonic-input type="number" min="5"></tonic-input>
+</div>
 
-      <div class="dark flex-half">
-        <span>theme="dark"</span>
-        <tonic-input theme="dark"></tonic-input>
-      </div>
+<!-- Input w/ max -->
+<div class="flex-half">
+  <span>type="number", max="10"</span>
+  <tonic-input type="number" max="10"></tonic-input>
+</div>
 
-      <div class="dark flex-half">
-        <span>theme="dark"</span>
-        <tonic-input label="with label" theme="dark"></tonic-input>
-      </div>
+<!-- Input w/ width px -->
+<div class="flex-half">
+  <span>width="60px"</span>
+  <tonic-input width="60px"></tonic-input>
+</div>
 
-      <!-- Panel -->
+<!-- Input w/ width % -->
+<div class="flex-half">
+  <span>width="100%"</span>
+  <tonic-input width="100%"></tonic-input>
+</div>
+
+<!-- Input w/ radius -->
+<div class="flex-half">
+  <span>radius="8px"</span>
+  <tonic-input radius="8px"></tonic-input>
+</div>
+
+<!-- Input w/ theme light -->
+<div class="flex-half">
+  <span>theme="light"</span>
+  <tonic-input theme="light"></tonic-input>
+</div>
+
+<!-- Input w/ theme dark -->
+<div class="dark flex-half">
+  <span>theme="dark"</span>
+  <tonic-input theme="dark"></tonic-input>
+</div>
+
       <h2>Panel</h2>
 
-      <div class="flex-half">
-        <span>Default Panel</span>
-        <tonic-button id="panel-default-button">Open</tonic-button>
-        <tonic-panel id="panel-default"></tonic-panel>
-      </div>
+<!-- Panel Default -->
+<div class="flex-half">
+  <span>Default Panel</span>
+  <tonic-button id="tonic-panel-default-button">
+    Open Panel
+  </tonic-button>
+</div>
 
-      <!-- Popover -->
+<tonic-panel id="tonic-panel-default">
+</tonic-panel>
+
+<!-- Panel Default -->
+<div class="flex-half">
+  <span>name="panel-name"</span>
+  <tonic-button id="tonic-panel-name-button">
+    Open Panel
+  </tonic-button>
+</div>
+
+<tonic-panel
+  id="tonic-panel-name"
+  name="panel-name">
+</tonic-panel>
+
+<!-- Panel Overlay -->
+<div class="flex-half">
+  <span>overlay="true"</span>
+  <tonic-button id="tonic-panel-overlay-button">
+    Open Panel
+  </tonic-button>
+</div>
+
+<tonic-panel
+  id="tonic-panel-overlay"
+  overlay="true">
+</tonic-panel>
+
+<!-- Panel w/ Position Right -->
+<div class="flex-half">
+  <span>position="right"</span>
+  <tonic-button id="tonic-panel-position-right-button">
+    Open Panel
+  </tonic-button>
+</div>
+
+<tonic-panel
+  id="tonic-panel-position-right"
+  overlay="true"
+  position="right">
+</tonic-panel>
+
+<!-- Panel w/ Position Left -->
+<div class="flex-half">
+  <span>position="left"</span>
+  <tonic-button id="tonic-panel-position-button">
+    Open Panel
+  </tonic-button>
+</div>
+
+<tonic-panel
+  id="tonic-panel-position"
+  overlay="true"
+  position="left">
+</tonic-panel>
+
+<!-- Panel w/ Background Color -->
+<div class="flex-half">
+  <span>background-color="rgba(255,255,255,0.8)"</span>
+  <tonic-button id="tonic-panel-background-button">
+    Open Panel
+  </tonic-button>
+</div>
+
+<tonic-panel
+  id="tonic-panel-background"
+  overlay="true"
+  background-color="rgba(255,255,255,0.8)">
+</tonic-panel>
+
+<!-- Panel w/ Theme Light -->
+<div class="flex-half">
+  <span>theme="light"</span>
+  <tonic-button id="tonic-panel-theme-button">
+    Open Panel
+  </tonic-button>
+</div>
+
+<tonic-panel
+  id="tonic-panel-theme"
+  overlay="true"
+  theme="light">
+</tonic-panel>
+
+<!-- Panel w/ Theme Dark -->
+<div class="flex-half">
+  <span>theme="dark"</span>
+  <tonic-button id="tonic-panel-theme-dark-button">
+    Open Panel
+  </tonic-button>
+</div>
+
+<tonic-panel
+  id="tonic-panel-theme-dark"
+  overlay="true"
+  theme="dark">
+</tonic-panel>
+
       <h2>Popover</h2>
 
-      <div class="flex-half">
-        <span>Default Popover</span>
-        <tonic-button id="popover-default-button">Open</tonic-button>
-        <tonic-popover id="popover-default" for="popover-default-button">
-          <div>Item 1</div>
-          <div>Item 2</div>
-          <div>Item 3</div>
-        </tonic-popover>
-      </div>
+<!-- Popover Default -->
+<div class="flex-half">
+  <span>Default Popover</span>
+  <tonic-button id="tonic-popover-default-button">
+    Open Popover
+  </tonic-button>
+</div>
 
-      <!-- ProfileImage -->
+<tonic-popover
+  id="tonic-popover-default"
+  width="175px"
+  for="tonic-popover-default-button">
+  <div>Item 1</div>
+  <div>Item 2</div>
+  <div>Item 3</div>
+</tonic-popover>
+
       <h2>ProfileImage</h2>
 
-      <div class="flex-half">
-        <span>Default Profile Image</span>
-        <tonic-profile-image id="profile-image-default">
-        </tonic-profile-image>
-      </div>
+<!-- Profile Image Default -->
+<div class="flex-half">
+  <span>Default Profile Image</span>
+  <tonic-profile-image
+    id="profile-image-default">
+  </tonic-profile-image>
+</div>
 
-      <!-- ProgressBar -->
+<!-- Profile with id -->
+<div class="flex-half">
+  <span>id="profile-image-id"</span>
+  <tonic-profile-image
+    id="profile-image-id">
+  </tonic-profile-image>
+</div>
+
+<!-- Profile with name -->
+<div class="flex-half">
+  <span>name="profile-name"</span>
+  <tonic-profile-image
+    id="profile-image-name"
+    name="profile-name">
+  </tonic-profile-image>
+</div>
+
+<!-- Profile with src -->
+<div class="flex-half">
+  <span>src="/sampleprofile.jpg"</span>
+  <tonic-profile-image
+    id="profile-image-src"
+    src="/sampleprofile.jpg"
+    size="100px">
+  </tonic-profile-image>
+</div>
+
+<!-- Profile with size -->
+<div class="flex-half">
+  <span>size="100px"</span>
+  <tonic-profile-image
+    id="profile-image-size"
+    size="100px">
+  </tonic-profile-image>
+</div>
+
+<!-- Profile with radius -->
+<div class="flex-half">
+  <span>radius="50%"</span>
+  <tonic-profile-image
+    id="profile-image-radius"
+    radius="50%"
+    size="100px">
+  </tonic-profile-image>
+</div>
+
+<!-- Profile with border -->
+<div class="flex-half">
+  <span>border="3px solid black"</span>
+  <tonic-profile-image
+    id="profile-image-border"
+    border="3px solid black"
+    size="100px">
+  </tonic-profile-image>
+</div>
+
+<!-- Profile editable -->
+<div class="flex-half">
+  <span>editable="true"</span>
+  <tonic-profile-image
+    id="profile-image-editable"
+    editable="true"
+    size="100px">
+  </tonic-profile-image>
+</div>
+
+<!-- Profile not editable -->
+<div class="flex-half">
+  <span>editable="false"</span>
+  <tonic-profile-image
+    id="profile-image-editable-false"
+    editable="false"
+    size="100px">
+  </tonic-profile-image>
+</div>
+
+<!-- Profile theme light -->
+<div class="flex-half">
+  <span>theme="light"</span>
+  <tonic-profile-image
+    id="profile-image-theme-light"
+    theme="light"
+    size="100px">
+  </tonic-profile-image>
+</div>
+
+<!-- Profile theme dark -->
+<div class="flex-half dark">
+  <span>theme="dark"</span>
+  <tonic-profile-image
+    id="profile-image-theme-dark"
+    theme="dark"
+    size="100px">
+  </tonic-profile-image>
+</div>
+
       <h2>ProgressBar</h2>
 
-      <div class="flex-half">
-        <span>Default Progress Bar</span>
-        <tonic-progress-bar id="progress-bar-default">
-        </tonic-progress-bar>
-      </div>
+<!-- Progress Bar Default -->
+<div class="flex-half">
+  <span>Default Progress Bar</span>
+  <tonic-progress-bar
+    id="progress-bar-default">
+  </tonic-progress-bar>
+</div>
 
-      <div class="flex-half">
-        <span>width="75px"</span>
-        <tonic-progress-bar
-          id="progress-bar-width"
-          width="75px">
-        </tonic-progress-bar>
-      </div>
+<!-- Progress Bar Auto -->
+<div class="flex-half">
+  <span>Progress Bar (automatic with js)</span>
+  <tonic-progress-bar
+    id="progress-bar-auto">
+  </tonic-progress-bar>
+</div>
 
-      <div class="flex-half">
-        <span>width="100%"</span>
-        <tonic-progress-bar
-          id="progress-bar-full-width"
-          width="100%">
-        </tonic-progress-bar>
-      </div>
+<!-- Progress Bar Default -->
+<div class="flex-half">
+  <span>Progress Bar - 30%</span>
+  <tonic-progress-bar
+    id="progress-bar-30">
+  </tonic-progress-bar>
+</div>
 
-      <div class="flex-half">
-        <span>height="30px"</span>
-        <tonic-progress-bar
-          id="progress-bar-height"
-          height="30px">
-        </tonic-progress-bar>
-      </div>
+<!-- Progress Bar Width px -->
+<div class="flex-half">
+  <span>width="150px"</span>
+  <tonic-progress-bar
+    id="progress-bar-width"
+    width="150px">
+  </tonic-progress-bar>
+</div>
 
-      <div class="flex-half">
-        <span>color="blue"</span>
-        <tonic-progress-bar
-          id="progress-bar-color"
-          color="blue">
-        </tonic-progress-bar>
-      </div>
+<!-- Progress Bar Width % -->
+<div class="flex-half">
+  <span>width="100%"</span>
+  <tonic-progress-bar
+    id="progress-bar-width-100"
+    width="100%">
+  </tonic-progress-bar>
+</div>
 
-      <div class="flex-half dark">
-        <span>theme="dark"</span>
-        <tonic-progress-bar
-          id="progress-bar-theme"
-          theme="dark">
-        </tonic-progress-bar>
-      </div>
+<!-- Progress Bar Height -->
+<div class="flex-half">
+  <span>height="40px"</span>
+  <tonic-progress-bar
+    id="progress-bar-height"
+    height="40px">
+  </tonic-progress-bar>
+</div>
 
-      <!-- Router -->
+<!-- Progress Bar Color -->
+<div class="flex-half">
+  <span>color="purple"</span>
+  <tonic-progress-bar
+    id="progress-bar-color"
+    color="purple">
+  </tonic-progress-bar>
+</div>
+
+<!-- Progress Bar Theme Light -->
+<div class="flex-half">
+  <span>theme="light"</span>
+  <tonic-progress-bar
+    id="progress-bar-theme-light"
+    theme="light">
+  </tonic-progress-bar>
+</div>
+
+<!-- Progress Bar Theme Dark -->
+<div class="flex-half dark">
+  <span>theme="dark"</span>
+  <tonic-progress-bar
+    id="progress-bar-theme-dark"
+    theme="dark">
+  </tonic-progress-bar>
+</div>
+
+      <h2>Range</h2>
+
+<!-- Range Default -->
+<div class="flex-half">
+  <span>Default Range Input</span>
+  <tonic-range id="range-default"></tonic-range>
+</div>
+
+<!-- Range w/ id -->
+<div class="flex-half">
+  <span>id="range-id"</span>
+  <tonic-range id="range-id"></tonic-range>
+</div>
+
+<!-- Range w/ name -->
+<div class="flex-half">
+  <span>name="range-name"</span>
+  <tonic-range id="range-name" name="range-name"></tonic-range>
+</div>
+
+<!-- Disabled range -->
+<div class="flex-half">
+  <span>disabled="true"</span>
+  <tonic-range id="range-disabled-true" disabled="true"></tonic-range>
+</div>
+
+<!-- Non-disabled range -->
+<div class="flex-half">
+  <span>disabled="false"</span>
+  <tonic-range id="range-disabled-false" disabled="false"></tonic-range>
+</div>
+
+<!-- Range w/ Width px -->
+<div class="flex-half">
+  <span>width="100px"</span>
+  <tonic-range id="range-width" width="100px"></tonic-range>
+</div>
+
+<!-- Range w/ Width % -->
+<div class="flex-half">
+  <span>width="100%"</span>
+  <tonic-range id="range-width-full" width="100%"></tonic-range>
+</div>
+
+<!-- Range w/ Height px -->
+<div class="flex-half">
+  <span class="fail">height="10px"</span>
+  <tonic-range id="range-height" width="10px"></tonic-range>
+</div>
+
+<!-- Range w/ Height % -->
+<div class="flex-half">
+  <span>height="100%"</span>
+  <tonic-range id="range-height-full" height="100%"></tonic-range>
+</div>
+
+<!-- Range w/ Radius -->
+<div class="flex-half">
+  <span>radius="2px"</span>
+  <tonic-range id="range-radius" height="2px"></tonic-range>
+</div>
+
+<!-- Range w/ min -->
+<div class="flex-half">
+  <span>min="15"</span>
+  <tonic-range id="range-min" label="%i%" min="15"></tonic-range>
+</div>
+
+<!-- Range w/ max -->
+<div class="flex-half">
+  <span>max="120"</span>
+  <tonic-range id="range-max" label="%i%" max="120"></tonic-range>
+</div>
+
+<!-- Range w/ step -->
+<div class="flex-half">
+  <span>step="25"</span>
+  <tonic-range id="range-step" label="%i%" step="25"></tonic-range>
+</div>
+
+<!-- Range w/ label -->
+<div class="flex-half">
+  <span>label="%i%"</span>
+  <tonic-range id="range-label" label="%i%"></tonic-range>
+</div>
+
+<!-- Range w/ thumb color -->
+<div class="flex-half">
+  <span>thumb-color="red"</span>
+  <tonic-range id="range-thumb-color" thumb-color="red"></tonic-range>
+</div>
+
+<!-- Range w/ thumb radius -->
+<div class="flex-half">
+  <span>thumb-radius="0px"</span>
+  <tonic-range id="range-thumb-radius" thumb-radius="0px"></tonic-range>
+</div>
+
+<!-- Range w/ value -->
+<div class="flex-half">
+  <span>value="90"</span>
+  <tonic-range id="range-thumb-value" value="90"></tonic-range>
+</div>
+
+<!-- Range w/ value (js) -->
+<div class="flex-half">
+  <span>js (value = 15)</span>
+  <tonic-range id="range-thumb-value-js"></tonic-range>
+</div>
+
+<!-- Range w/ theme light -->
+<div class="flex-half">
+  <span>theme="light"</span>
+  <tonic-range id="range-theme-light" theme="light"></tonic-range>
+</div>
+
+<!-- Range w/ theme dark -->
+<div class="dark flex-half">
+  <span>theme="dark"</span>
+  <tonic-range id="range-theme-dark" theme="dark"></tonic-range>
+</div>
+
       <h2>Router</h2>
 
-      <!-- Select -->
+<div class="flex-half">
+  <span>Router examples</span>
+  <tonic-select
+    id="tonic-router-select"
+    value="/"
+    label="Select a URL">
+    <option value="/">/</option>
+    <option value="/bar/100">/bar/100</option>
+    <option value="/beepboop">/beepboop</option>
+  </tonic-select>
+
+  <!-- Router w/ path -->
+  <tonic-router id="page1" path="/">
+    <i>Hello, World</i>
+  </tonic-router>
+
+  <!-- Router w/ id -->
+  <tonic-router id="page2" path="/bar/:number">
+    <b>number</b> prop has the value <b id="page2-number"></b>.
+  </tonic-router>
+
+  <!-- Router w/ none -->
+  <tonic-router none>
+    404
+  </tonic-router>
+</div>
+
       <h2>Select</h2>
-      <div class="flex-half">
-        <span>Empty Select</span>
-        <tonic-select></tonic-select>
-      </div>
 
-      <div class="flex-half">
-        <span>Default Select</span>
-        <tonic-select>
-          <option value="a">Option A</option>
-          <option value="b">Option B</option>
-          <option value="c">Option C</option>
-        </tonic-select>
-      </div>
+<!-- Default select -->
+<div class="flex-half">
+  <span>Default Select</span>
+  <tonic-select>
+    <option value="a">Option A</option>
+    <option value="b">Option B</option>
+    <option value="c">Option C</option>
+  </tonic-select>
+</div>
 
-      <div class="flex-half">
-        <span>id="select-id"</span>
-        <tonic-select id="select-id">
-          <option value="a">Option A</option>
-          <option value="b">Option B</option>
-          <option value="c">Option C</option>
-        </tonic-select>
-      </div>
+<!-- Empty select -->
+<div class="flex-half">
+  <span>Empty Select</span>
+  <tonic-select></tonic-select>
+</div>
 
-      <div class="flex-half">
-        <span>name="select-name"</span>
-        <tonic-select name="select-name">
-          <option value="a">Option A</option>
-          <option value="b">Option B</option>
-          <option value="c">Option C</option>
-        </tonic-select>
-      </div>
+<!-- Select w/ id -->
+<div class="flex-half">
+  <span>id="select-id"</span>
+  <tonic-select id="select-id">
+    <option value="a">Option A</option>
+    <option value="b">Option B</option>
+    <option value="c">Option C</option>
+  </tonic-select>
+</div>
 
-      <div class="flex-half">
-        <span>required="true"</span>
-        <tonic-select required="true">
-          <option value="a">Option A</option>
-          <option value="b">Option B</option>
-          <option value="c">Option C</option>
-        </tonic-select>
-      </div>
+<!-- Select w/ name -->
+<div class="flex-half">
+  <span>name="select-name"</span>
+  <tonic-select name="select-name">
+    <option value="a">Option A</option>
+    <option value="b">Option B</option>
+    <option value="c">Option C</option>
+  </tonic-select>
+</div>
 
-      <div class="flex-half">
-        <span>required="false"</span>
-        <tonic-select required="false">
-          <option value="a">Option A</option>
-          <option value="b">Option B</option>
-          <option value="c">Option C</option>
-        </tonic-select>
-      </div>
+<!-- Required select -->
+<div class="flex-half">
+  <span>required="true"</span>
+  <tonic-select required="true">
+    <option value="a">Option A</option>
+    <option value="b">Option B</option>
+    <option value="c">Option C</option>
+  </tonic-select>
+</div>
 
-      <div class="flex-half">
-        <span>disabled="true"</span>
-        <tonic-select disabled="true">
-          <option value="a">Option A</option>
-          <option value="b">Option B</option>
-          <option value="c">Option C</option>
-        </tonic-select>
-      </div>
+<!-- Non-required select -->
+<div class="flex-half">
+  <span>required="false"</span>
+  <tonic-select required="false">
+    <option value="a">Option A</option>
+    <option value="b">Option B</option>
+    <option value="c">Option C</option>
+  </tonic-select>
+</div>
 
-      <div class="flex-half">
-        <span>disabled="false"</span>
-        <tonic-select disabled="false">
-          <option value="a">Option A</option>
-          <option value="b">Option B</option>
-          <option value="c">Option C</option>
-        </tonic-select>
-      </div>
+<!-- Disabled select -->
+<div class="flex-half">
+  <span>disabled="true"</span>
+  <tonic-select disabled="true">
+    <option value="a">Option A</option>
+    <option value="b">Option B</option>
+    <option value="c">Option C</option>
+  </tonic-select>
+</div>
 
-      <div class="flex-half">
-        <span>label="Label"</span>
-        <tonic-select label="Label">
-          <option value="a">Option A</option>
-          <option value="b">Option B</option>
-          <option value="c">Option C</option>
-        </tonic-select>
-      </div>
+<!-- Non-disabled select -->
+<div class="flex-half">
+  <span>disabled="false"</span>
+  <tonic-select disabled="false">
+    <option value="a">Option A</option>
+    <option value="b">Option B</option>
+    <option value="c">Option C</option>
+  </tonic-select>
+</div>
 
-      <div class="flex-half">
-        <span>width="100%"</span>
-        <tonic-select width="100%">
-          <option value="a">Option A</option>
-          <option value="b">Option B</option>
-          <option value="c">Option C</option>
-        </tonic-select>
-      </div>
+<!-- Select with label -->
+<div class="flex-half">
+  <span>label="Label"</span>
+  <tonic-select label="Label">
+    <option value="a">Option A</option>
+    <option value="b">Option B</option>
+    <option value="c">Option C</option>
+  </tonic-select>
+</div>
 
-      <div class="flex-half">
-        <span>height="60px"</span>
-        <tonic-select height="60px">
-          <option value="a">Option A</option>
-          <option value="b">Option B</option>
-          <option value="c">Option C</option>
-        </tonic-select>
-      </div>
+<!-- Select with width % -->
+<div class="flex-half">
+  <span>width="100%"</span>
+  <tonic-select width="100%">
+    <option value="a">Option A</option>
+    <option value="b">Option B</option>
+    <option value="c">Option C</option>
+  </tonic-select>
+</div>
 
-      <div class="flex-half">
-        <span>radius="8px"</span>
-        <tonic-select radius="8px">
-          <option value="a">Option A</option>
-          <option value="b">Option B</option>
-          <option value="c">Option C</option>
-        </tonic-select>
-      </div>
+<!-- Select with height -->
+<div class="flex-half">
+  <span>height="60px"</span>
+  <tonic-select height="60px">
+    <option value="a">Option A</option>
+    <option value="b">Option B</option>
+    <option value="c">Option C</option>
+  </tonic-select>
+</div>
 
-      <div class="flex-half">
-        <span>value="c"</span>
-        <tonic-select value="c">
-          <option value="a">Option A</option>
-          <option value="b">Option B</option>
-          <option value="c">Option C</option>
-        </tonic-select>
-      </div>
+<!-- Select with radius -->
+<div class="flex-half">
+  <span>radius="8px"</span>
+  <tonic-select radius="8px">
+    <option value="a">Option A</option>
+    <option value="b">Option B</option>
+    <option value="c">Option C</option>
+  </tonic-select>
+</div>
 
-      <div class="flex-half">
-        <span>theme="light"</span>
-        <tonic-select theme="light">
-          <option value="a">Option A</option>
-          <option value="b">Option B</option>
-          <option value="c">Option C</option>
-        </tonic-select>
-      </div>
+<!-- Select with value -->
+<div class="flex-half">
+  <span>value="c"</span>
+  <tonic-select value="c">
+    <option value="a">Option A</option>
+    <option value="b">Option B</option>
+    <option value="c">Option C</option>
+  </tonic-select>
+</div>
 
-      <div class="dark flex-half">
-        <span>theme="dark"</span>
-        <tonic-select theme="dark">
-          <option value="a">Option A</option>
-          <option value="b">Option B</option>
-          <option value="c">Option C</option>
-        </tonic-select>
-      </div>
+<!-- Select with theme light -->
+<div class="flex-half">
+  <span>theme="light"</span>
+  <tonic-select theme="light">
+    <option value="a">Option A</option>
+    <option value="b">Option B</option>
+    <option value="c">Option C</option>
+  </tonic-select>
+</div>
 
-      <!-- Tabs -->
+<!-- Select with theme dark -->
+<div class="dark flex-half">
+  <span>theme="dark"</span>
+  <tonic-select theme="dark">
+    <option value="a">Option A</option>
+    <option value="b">Option B</option>
+    <option value="c">Option C</option>
+  </tonic-select>
+</div>
+
+<!-- Multiple select -->
+<div class="flex-half">
+  <span>multiple="true"</span>
+  <tonic-select multiple="true">
+    <option value="a">Option A</option>
+    <option value="b">Option B</option>
+    <option value="c">Option C</option>
+    <option value="d">Option D</option>
+    <option value="e">Option E</option>
+  </tonic-select>
+</div>
+
+<!-- Multiple select, width % -->
+<div class="flex-half">
+  <span>multiple="true", width="100%"</span>
+  <tonic-select multiple="true" width="100%">
+    <option value="a">Option A</option>
+    <option value="b">Option B</option>
+    <option value="c">Option C</option>
+    <option value="d">Option D</option>
+    <option value="e">Option E</option>
+  </tonic-select>
+</div>
+
+<!-- Multiple select, size -->
+<div class="flex-half">
+  <span>multiple="true", size="3"</span>
+  <tonic-select multiple="true" size="3">
+    <option value="a">Option A</option>
+    <option value="b">Option B</option>
+    <option value="c">Option C</option>
+    <option value="d">Option D</option>
+    <option value="e">Option E</option>
+  </tonic-select>
+</div>
+
       <h2>Tabs</h2>
 
-      <!-- Textarea -->
+<!-- Default tabs -->
+<div class="flex-half">
+  <span>Default Tabs</span>
+  <tonic-tabs group="profile" selected="one">
+    <span data-tab-name="one">One</span>
+    <span data-tab-name="two">Two</span>
+    <span data-tab-name="three">Three</span>
+  </tonic-tabs>
+
+  <section data-tab-group="profile" data-tab-name="one">
+    Content One
+  </section>
+
+  <section data-tab-group="profile" data-tab-name="two">
+    Content Two
+  </section>
+
+  <section data-tab-group="profile" data-tab-name="three">
+    Content Three
+  </section>
+</div>
+
+<!-- Tabs with theme dark -->
+<div class="flex-half dark">
+  <span>theme="dark"</span>
+  <tonic-tabs group="theme" selected="one" theme="dark">
+    <span data-tab-name="one">One</span>
+    <span data-tab-name="two">Two</span>
+    <span data-tab-name="three">Three</span>
+    <span data-tab-name="four">Four</span>
+    <span data-tab-name="five">Five</span>
+  </tonic-tabs>
+
+  <section data-tab-group="theme" data-tab-name="one" theme="dark">
+    Content One
+  </section>
+
+  <section data-tab-group="theme" data-tab-name="two" theme="dark">
+    Content Two
+  </section>
+
+  <section data-tab-group="theme" data-tab-name="three" theme="dark">
+    Content Three
+  </section>
+
+  <section data-tab-group="theme" data-tab-name="four" theme="dark">
+    Content Four
+  </section>
+
+  <section data-tab-group="theme" data-tab-name="five" theme="dark">
+    Content Five
+  </section>
+</div>
+
       <h2>Textarea</h2>
-      <div class="flex-half">
-        <span>Default Textarea</span>
-        <tonic-textarea></tonic-textarea>
-      </div>
 
-      <div class="flex-half">
-        <span>With Content</span>
-        <tonic-textarea>It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair, we had everything before us, we had nothing before us, we were all going direct to Heaven, we were all going direct the other way—in short, the period was so far like the present period, that some of its noisiest authorities insisted on its being received, for good or for evil, in the superlative degree of comparison only.</tonic-textarea>
-      </div>
+<div class="flex-half">
+  <span>Default Textarea</span>
+  <tonic-textarea></tonic-textarea>
+</div>
 
-      <div class="flex-half">
-        <span>id="textarea-id"</span>
-        <tonic-textarea id="textarea-id"></tonic-textarea>
-      </div>
+<div class="flex-half">
+  <span>With Content</span>
+  <tonic-textarea>It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair, we had everything before us, we had nothing before us, we were all going direct to Heaven, we were all going direct the other way—in short, the period was so far like the present period, that some of its noisiest authorities insisted on its being received, for good or for evil, in the superlative degree of comparison only.</tonic-textarea>
+</div>
 
-      <div class="flex-half">
-        <span>name="textarea-name"</span>
-        <tonic-textarea name="textarea-name"></tonic-textarea>
-      </div>
+<div class="flex-half">
+  <span>id="textarea-id"</span>
+  <tonic-textarea id="textarea-id"></tonic-textarea>
+</div>
 
-      <div class="flex-half">
-        <span>placeholder="This is a placeholder"</span>
-        <tonic-textarea placeholder="This is a placeholder"></tonic-textarea>
-      </div>
+<div class="flex-half">
+  <span>name="textarea-name"</span>
+  <tonic-textarea name="textarea-name"></tonic-textarea>
+</div>
 
-      <div class="flex-half">
-        <span>resize="none"</span>
-        <tonic-textarea resize="none"></tonic-textarea>
-      </div>
+<div class="flex-half">
+  <span>placeholder="This is a placeholder"</span>
+  <tonic-textarea placeholder="This is a placeholder"></tonic-textarea>
+</div>
 
-      <div class="flex-half">
-        <span>spellcheck="true"</span>
-        <tonic-textarea spellcheck="true">fdsfds</tonic-textarea>
-      </div>
+<div class="flex-half">
+  <span>resize="none"</span>
+  <tonic-textarea resize="none"></tonic-textarea>
+</div>
 
-      <div class="flex-half">
-        <span>spellcheck="false"</span>
-        <tonic-textarea spellcheck="false">fdsfds</tonic-textarea>
-      </div>
+<div class="flex-half">
+  <span>spellcheck="true"</span>
+  <tonic-textarea spellcheck="true">fdsfds</tonic-textarea>
+</div>
 
-      <div class="flex-half">
-        <span>disabled="true"</span>
-        <tonic-textarea disabled="true"></tonic-textarea>
-      </div>
+<div class="flex-half">
+  <span>spellcheck="false"</span>
+  <tonic-textarea spellcheck="false">fdsfds</tonic-textarea>
+</div>
 
-      <div class="flex-half">
-        <span>disabled="false"</span>
-        <tonic-textarea disabled="false"></tonic-textarea>
-      </div>
+<div class="flex-half">
+  <span>disabled="true"</span>
+  <tonic-textarea disabled="true"></tonic-textarea>
+</div>
 
-      <div class="flex-half">
-        <span>required="true"</span>
-        <tonic-textarea required="true"></tonic-textarea>
-      </div>
+<div class="flex-half">
+  <span>disabled="false"</span>
+  <tonic-textarea disabled="false"></tonic-textarea>
+</div>
 
-      <div class="flex-half">
-        <span>required="false"</span>
-        <tonic-textarea required="false"></tonic-textarea>
-      </div>
+<div class="flex-half">
+  <span>required="true"</span>
+  <tonic-textarea required="true"></tonic-textarea>
+</div>
 
-      <div class="flex-half">
-        <span>readonly="true"</span>
-        <tonic-textarea readonly="true"></tonic-textarea>
-      </div>
+<div class="flex-half">
+  <span>required="false"</span>
+  <tonic-textarea required="false"></tonic-textarea>
+</div>
 
-      <div class="flex-half">
-        <span>readonly="false"</span>
-        <tonic-textarea readonly="false"></tonic-textarea>
-      </div>
+<div class="flex-half">
+  <span>readonly="true"</span>
+  <tonic-textarea readonly="true"></tonic-textarea>
+</div>
 
-      <div class="flex-half">
-        <span>autofocus="true"</span>
-        <tonic-textarea autofocus="true"></tonic-textarea>
-      </div>
+<div class="flex-half">
+  <span>readonly="false"</span>
+  <tonic-textarea readonly="false"></tonic-textarea>
+</div>
 
-      <div class="flex-half">
-        <span>autofocus="false"</span>
-        <tonic-textarea autofocus="false"></tonic-textarea>
-      </div>
+<div class="flex-half">
+  <span>autofocus="true"</span>
+  <tonic-textarea autofocus="true"></tonic-textarea>
+</div>
 
-      <div class="flex-half">
-        <span>rows="10"</span>
-        <tonic-textarea rows="10"></tonic-textarea>
-      </div>
+<div class="flex-half">
+  <span>autofocus="false"</span>
+  <tonic-textarea autofocus="false"></tonic-textarea>
+</div>
 
-      <div class="flex-half">
-        <span>cols="10"</span>
-        <tonic-textarea cols="10"></tonic-textarea>
-      </div>
+<div class="flex-half">
+  <span>rows="10"</span>
+  <tonic-textarea rows="10"></tonic-textarea>
+</div>
 
-      <div class="flex-half">
-        <span>minlength="10"</span>
-        <tonic-textarea minlength="10"></tonic-textarea>
-      </div>
+<div class="flex-half">
+  <span>cols="10"</span>
+  <tonic-textarea cols="10"></tonic-textarea>
+</div>
 
-      <div class="flex-half">
-        <span>maxlength="100"</span>
-        <tonic-textarea maxlength="100"></tonic-textarea>
-      </div>
+<div class="flex-half">
+  <span>minlength="10"</span>
+  <tonic-textarea minlength="10"></tonic-textarea>
+</div>
 
-      <div class="flex-half">
-        <span>width="100%"</span>
-        <tonic-textarea width="100%"></tonic-textarea>
-      </div>
+<div class="flex-half">
+  <span>maxlength="100"</span>
+  <tonic-textarea maxlength="100"></tonic-textarea>
+</div>
 
-      <div class="flex-half">
-        <span>height="300px"</span>
-        <tonic-textarea height="300px"></tonic-textarea>
-      </div>
+<div class="flex-half">
+  <span>width="100%"</span>
+  <tonic-textarea width="100%"></tonic-textarea>
+</div>
 
-      <div class="flex-half">
-        <span>radius="10px"</span>
-        <tonic-textarea radius="10px"></tonic-textarea>
-      </div>
+<div class="flex-half">
+  <span>width="200px"</span>
+  <tonic-textarea width="100%"></tonic-textarea>
+</div>
 
-      <div class="flex-half">
-        <span>theme="light"</span>
-        <tonic-textarea theme="light"></tonic-textarea>
-      </div>
+<div class="flex-half">
+  <span>height="300px"</span>
+  <tonic-textarea height="300px"></tonic-textarea>
+</div>
 
-      <div class="flex-half dark">
-        <span>theme="dark"</span>
-        <tonic-textarea theme="dark"></tonic-textarea>
-      </div>
+<div class="flex-half">
+  <span>radius="10px"</span>
+  <tonic-textarea radius="10px"></tonic-textarea>
+</div>
 
-      <!-- Toaster -->
+<div class="flex-half">
+  <span>theme="light"</span>
+  <tonic-textarea theme="light"></tonic-textarea>
+</div>
+
+<div class="flex-half dark">
+  <span>theme="dark"</span>
+  <tonic-textarea theme="dark"></tonic-textarea>
+</div>
+
       <h2>Toaster</h2>
 
-      <!-- ToasterInline -->
+<tonic-toaster position="center"></tonic-toaster>
+<tonic-toaster position="left"></tonic-toaster>
+<tonic-toaster position="right"></tonic-toaster>
+<tonic-toaster theme="light"></tonic-toaster>
+<tonic-toaster theme="dark"></tonic-toaster>
+
+<!-- Default toaster -->
+<div>
+  <span>Default Toaster</span>
+  <tonic-button id="tonic-toaster-default">
+    Toast
+  </tonic-button>
+</div>
+
+<!-- Toaster w/ id -->
+<div>
+  <span>Toaster w/ id</span>
+  <tonic-button id="tonic-toaster-id">
+    Toast
+  </tonic-button>
+</div>
+
+<!-- Toaster w/ name -->
+<div>
+  <span>Toaster w/ name</span>
+  <tonic-button
+    id="tonic-toaster-name"
+    name="tonic-toaster-name">
+    Toast
+  </tonic-button>
+</div>
+
+<!-- Toaster w/ type success -->
+<div>
+  <span>Toaster w/ Type Success</span>
+  <tonic-button id="tonic-toaster-type-success">
+    Toast
+  </tonic-button>
+</div>
+
+<!-- Toaster w/ type warning -->
+<div>
+  <span>Toaster w/ Type warning</span>
+  <tonic-button id="tonic-toaster-type-warning">
+    Toast
+  </tonic-button>
+</div>
+
+<!-- Toaster w/ type danger -->
+<div>
+  <span>Toaster w/ Type danger</span>
+  <tonic-button id="tonic-toaster-type-danger">
+    Toast
+  </tonic-button>
+</div>
+
+<!-- Toaster w/ type info -->
+<div>
+  <span>Toaster w/ Type info</span>
+  <tonic-button id="tonic-toaster-type-info">
+    Toast
+  </tonic-button>
+</div>
+
+<!-- Toaster w/ title -->
+<div>
+  <span>Toaster w/ Title</span>
+  <tonic-button id="tonic-toaster-title">
+    Toast
+  </tonic-button>
+</div>
+
+<!-- Toaster w/ message -->
+<div>
+  <span>Toaster w/ Message</span>
+  <tonic-button id="tonic-toaster-message">
+    Toast
+  </tonic-button>
+</div>
+
+<!-- Toaster w/ title and message -->
+<div>
+  <span>Toaster w/ Title & Message</span>
+  <tonic-button id="tonic-toaster-title-message">
+    Toast
+  </tonic-button>
+</div>
+
+<!-- Toaster w/ title and message and type -->
+<div>
+  <span>Toaster w/ Type, Title & Message</span>
+  <tonic-button id="tonic-toaster-type-title-message">
+    Toast
+  </tonic-button>
+</div>
+
+<!-- Toaster w/ dismiss -->
+<div>
+  <span>Toaster w/ dismiss</span>
+  <tonic-button id="tonic-toaster-dismiss">
+    Toast
+  </tonic-button>
+</div>
+
+<!-- Toaster w/out dismiss -->
+<div>
+  <span>Toaster w/out dismiss</span>
+  <tonic-button id="tonic-toaster-dismiss-false">
+    Toast
+  </tonic-button>
+</div>
+
+<!-- Toaster w/ dismiss w/ duration -->
+<div>
+  <span>Toaster w/ dismiss w/ duration</span>
+  <tonic-button id="tonic-toaster-dismiss-duration">
+    Toast
+  </tonic-button>
+</div>
+
+<!-- Toaster w/out dismiss w/ duration -->
+<div>
+  <span>Toaster w/out dismiss w/ duration</span>
+  <tonic-button id="tonic-toaster-dismiss-false-duration">
+    Toast
+  </tonic-button>
+</div>
+
+<!-- Toaster w/ left position -->
+<div>
+  <span>Toaster w/ left position</span>
+  <tonic-button id="tonic-toaster-position-left">
+    Toast
+  </tonic-button>
+</div>
+
+<!-- Toaster w/ right position -->
+<div>
+  <span>Toaster w/ right position</span>
+  <tonic-button id="tonic-toaster-position-right">
+    Toast
+  </tonic-button>
+</div>
+
+<!-- Toaster w/ theme light -->
+<div>
+  <span>Toaster w/ theme light</span>
+  <tonic-button id="tonic-toaster-theme-light" theme="light">
+    Toast
+  </tonic-button>
+</div>
+
+<!-- Toaster w/ theme dark -->
+<div class="dark">
+  <span>Toaster w/ theme dark</span>
+  <tonic-button id="tonic-toaster-theme-dark" theme="dark">
+    Toast
+  </tonic-button>
+</div>
+
       <h2>ToasterInline</h2>
 
-      <!-- Toggle -->
+  <!-- Default inline toaster -->
+  <div>
+    <span>Default Inline Toaster</span>
+    <tonic-button id="tonic-toasterinline-default-button">Toast
+    </tonic-button>
+    <tonic-toaster-inline id="tonic-toasterinline-default"></tonic-toaster-inline>
+  </div>
+
+  <!-- Toaster inline displayed initially -->
+  <div>
+    <span>Toaster inline displayed initially</span>
+    <div>
+      <tonic-toaster-inline
+        display="true"
+        id="tonic-toasterinline-initial">
+        Displayed initially.</tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/ id -->
+  <div>
+    <span>Toaster inline w/ id</span>
+    <tonic-button id="tonic-toasterinline-id-button">Toast
+    </tonic-button>
+    <div>
+      <tonic-toaster-inline
+        title="I have an id"
+        id="tonic-toasterinline-id">
+      </tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/ name -->
+  <div>
+    <span>Toaster inline w/ name</span>
+    <tonic-button id="tonic-toasterinline-name-button">Toast
+    </tonic-button>
+    <div>
+      <tonic-toaster-inline
+        title="I have a name"
+        id="tonic-toasterinline-name">
+      </tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/ title -->
+  <div>
+    <span>Toaster inline w/ title</span>
+    <tonic-button id="tonic-toasterinline-title-button">Toast
+    </tonic-button>
+    <div>
+      <tonic-toaster-inline
+        id="tonic-toasterinline-title"></tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/ inline HTML title -->
+  <div>
+    <span>Toaster inline w/ inline HTML title</span>
+    <tonic-button id="tonic-toasterinline-inline-title-button">Toast
+    </tonic-button>
+    <div>
+      <tonic-toaster-inline
+        title="I am a title!"
+        id="tonic-toasterinline-inline-title"></tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/ message -->
+  <div>
+    <span>Toaster inline w/ message</span>
+    <tonic-button id="tonic-toasterinline-message-button">Toast
+    </tonic-button>
+    <div>
+      <tonic-toaster-inline
+        id="tonic-toasterinline-message">
+      </tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/ message (initial) -->
+  <div>
+    <span>Toaster inline w/ message (initial)</span>
+    <div>
+      <tonic-toaster-inline
+        display="true"
+        message="I am a message!"
+        id="tonic-toasterinline-message-2"></tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/ title & message -->
+  <div>
+    <span>Toaster inline w/ title & message</span>
+    <tonic-button id="tonic-toasterinline-title-message-button">Toast
+    </tonic-button>
+    <div>
+      <tonic-toaster-inline
+        id="tonic-toasterinline-title-message">
+      </tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/ innerHTML message (must be initial)-->
+  <div>
+    <span>Toaster inline w/ innerHTML message (must be initial)</span>
+    <div>
+      <tonic-toaster-inline
+        display="true"
+        id="tonic-toasterinline-innerHTML-message">
+        This is your message.
+      </tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/ type success -->
+  <div>
+    <span>Toaster inline w/ type success</span>
+    <tonic-button id="tonic-toasterinline-type-success-button">Toast
+    </tonic-button>
+    <div>
+      <tonic-toaster-inline
+        type="success"
+        id="tonic-toasterinline-type-success"></tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/ type success (initial) -->
+  <div>
+    <span>Toaster inline w/ type success (initial)</span>
+    <div>
+      <tonic-toaster-inline
+        display="true"
+        type="success"
+        id="tonic-toasterinline-type-success-2"></tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/ type warning -->
+  <div>
+    <span>Toaster inline w/ type warning</span>
+    <tonic-button id="tonic-toasterinline-type-warning-button">Toast
+    </tonic-button>
+    <div>
+      <tonic-toaster-inline id="tonic-toasterinline-type-warning">
+      </tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/ type danger -->
+  <div>
+    <span>Toaster inline w/ type danger</span>
+    <tonic-button id="tonic-toasterinline-type-danger-button">Toast
+    </tonic-button>
+    <div>
+      <tonic-toaster-inline id="tonic-toasterinline-type-danger">
+      </tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/ type info -->
+  <div>
+    <span>Toaster inline w/ type info</span>
+    <tonic-button id="tonic-toasterinline-type-info-button">Toast
+    </tonic-button>
+    <div>
+      <tonic-toaster-inline id="tonic-toasterinline-type-info">
+      </tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/ type & title -->
+  <div>
+    <span>Toaster inline w/ type & title</span>
+    <tonic-button id="tonic-toasterinline-type-title-button">Toast
+    </tonic-button>
+    <div>
+      <tonic-toaster-inline id="tonic-toasterinline-type-title">
+      </tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/ type & message -->
+  <div>
+    <span>Toaster inline w/ type & message</span>
+    <tonic-button id="tonic-toasterinline-type-message-button">Toast
+    </tonic-button>
+    <div>
+      <tonic-toaster-inline id="tonic-toasterinline-type-message">
+      </tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/ type & title & message -->
+  <div>
+    <span>Toaster inline w/ type & title & message</span>
+    <tonic-button id="tonic-toasterinline-type-title-message-button">Toast
+    </tonic-button>
+    <div>
+      <tonic-toaster-inline id="tonic-toasterinline-type-title-message">
+      </tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/ duration -->
+  <div>
+    <span>Toaster inline w/ duration</span>
+    <tonic-button id="tonic-toasterinline-duration-button">Toast
+    </tonic-button>
+    <div>
+      <tonic-toaster-inline id="tonic-toasterinline-duration">
+      </tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/out duration -->
+  <div>
+    <span>Toaster inline w/out duration</span>
+    <tonic-button id="tonic-toasterinline-no-duration-button">Toast
+    </tonic-button>
+    <div>
+      <tonic-toaster-inline id="tonic-toasterinline-no-duration">
+      </tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/ dismiss w/ duration -->
+  <div>
+    <span>Toaster inline w/ dismiss w/ duration</span>
+    <tonic-button id="tonic-toasterinline-dismiss-duration-button">Toast
+    </tonic-button>
+    <div>
+      <tonic-toaster-inline id="tonic-toasterinline-dismiss-duration">
+      </tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/out dismiss w/ duration -->
+  <div>
+    <span>Toaster inline w/out dismiss w/ duration</span>
+    <tonic-button id="tonic-toasterinline-no-dismiss-duration-button">Toast
+    </tonic-button>
+    <div>
+      <tonic-toaster-inline id="tonic-toasterinline-no-dismiss-duration">
+      </tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/ theme light -->
+  <div>
+    <span>Toaster inline w/ light theme</span>
+    <tonic-button id="tonic-toasterinline-theme-light-button">Toast
+    </tonic-button>
+    <div>
+      <tonic-toaster-inline id="tonic-toasterinline-theme-light">
+      </tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/ theme dark -->
+  <div class="dark">
+    <span>Toaster inline w/ dark theme</span>
+    <tonic-button theme="dark" id="tonic-toasterinline-theme-dark-button">Toast
+    </tonic-button>
+    <div>
+      <tonic-toaster-inline id="tonic-toasterinline-theme-dark">
+      </tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/ all js attributes -->
+  <div class="dark">
+    <span>Toaster inline w/ all js attributes</span>
+    <tonic-button theme="dark" id="tonic-toasterinline-js-button">Toast
+    </tonic-button>
+    <div>
+      <tonic-toaster-inline id="tonic-toasterinline-js"></tonic-toaster-inline>
+    </div>
+  </div>
+
       <h2>Toggle</h2>
-      <div class="flex-half">
-        <span>Default Toggle</span>
-        <tonic-toggle id="toggle-1"></tonic-toggle>
-      </div>
 
-      <div class="flex-half">
-        <span>label="label"</span>
-        <tonic-toggle id="toggle-2" label="label"></tonic-toggle>
-      </div>
+<div class="flex-half">
+  <span>Default Toggle</span>
+  <tonic-toggle id="toggle-1"></tonic-toggle>
+</div>
 
-      <div class="flex-half">
-        <span>id="toggle-3"</span>
-        <tonic-toggle id="toggle-3"></tonic-toggle>
-      </div>
+<div class="flex-half">
+  <span>label="label"</span>
+  <tonic-toggle id="toggle-2" label="label"></tonic-toggle>
+</div>
 
-      <div class="flex-half">
-        <span>name="toggle-name"</span>
-        <tonic-toggle id="toggle-4" name="toggle-name"></tonic-toggle>
-      </div>
+<div class="flex-half">
+  <span>id="toggle-3"</span>
+  <tonic-toggle id="toggle-3"></tonic-toggle>
+</div>
 
-      <div class="flex-half">
-        <span>disabled="true"</span>
-        <tonic-toggle id="toggle-5" disabled="true"></tonic-toggle>
-      </div>
+<div class="flex-half">
+  <span>name="toggle-name"</span>
+  <tonic-toggle id="toggle-4" name="toggle-name"></tonic-toggle>
+</div>
 
-      <div class="flex-half">
-        <span>disabled="false"</span>
-        <tonic-toggle id="toggle-6" disabled="false"></tonic-toggle>
-      </div>
+<div class="flex-half">
+  <span>disabled="true"</span>
+  <tonic-toggle id="toggle-5" disabled="true"></tonic-toggle>
+</div>
 
-      <div class="flex-half">
-        <span>checked="true"</span>
-        <tonic-toggle id="toggle-7" checked="true"></tonic-toggle>
-      </div>
+<div class="flex-half">
+  <span>disabled="false"</span>
+  <tonic-toggle id="toggle-6" disabled="false"></tonic-toggle>
+</div>
 
-      <div class="flex-half">
-        <span>checked="false"</span>
-        <tonic-toggle id="toggle-8" checked="false"></tonic-toggle>
-      </div>
+<div class="flex-half">
+  <span>checked="true"</span>
+  <tonic-toggle id="toggle-7" checked="true"></tonic-toggle>
+</div>
 
-      <div class="flex-half">
-        <span>theme="light"</span>
-        <tonic-toggle id="toggle-9" theme="light"></tonic-toggle>
-      </div>
+<div class="flex-half">
+  <span>checked="false"</span>
+  <tonic-toggle id="toggle-8" checked="false"></tonic-toggle>
+</div>
 
-      <div class="flex-half dark">
-        <span>theme="dark"</span>
-        <tonic-toggle id="toggle-10" theme="dark"></tonic-toggle>
-      </div>
+<div class="flex-half">
+  <span>checked="true", disabled="true"</span>
+  <tonic-toggle id="toggle-9" checked="true" disabled="true"></tonic-toggle>
+</div>
 
-      <!-- Tooltip -->
+<div class="flex-half">
+  <span>theme="light"</span>
+  <tonic-toggle id="toggle-10" theme="light"></tonic-toggle>
+</div>
+
+<div class="flex-half dark">
+  <span>theme="dark"</span>
+  <tonic-toggle id="toggle-11" theme="dark"></tonic-toggle>
+</div>
+
+<div class="flex-half dark">
+  <span>theme="dark", disabled="true"</span>
+  <tonic-toggle id="toggle-12" theme="dark" disabled="true"></tonic-toggle>
+</div>
+
+<div class="flex-half dark">
+  <span>theme="dark", checked="true", disabled="true"</span>
+  <tonic-toggle id="toggle-13" theme="dark" checked="true" disabled="true"></tonic-toggle>
+</div>
+
       <h2>Tooltip</h2>
-      <!-- <div>
-        <span>Default Tooltip</span>
-        <tonic-tooltip></tonic-tooltip>
-      </div> -->
 
-      <!-- Windowed -->
-      <h2>Windowed</h2>
+  <!-- Default tooltip -->
+  <div>
+    <span>Default tooltip</span>
+    <span id="tonic-tooltip-default">Hover!</span>
+    <tonic-tooltip for="tonic-tooltip-default">
+      Hello World
+    </tonic-tooltip>
+  </div>
 
-    </main>
-    <script nonce="U29tZSBzdXBlciBzZWNyZXQ=" crossorigin="anonymous" src="bundle.js"></script>
-    <!-- <script src="test.js"></script> -->
-  </body>
-</html>
+  <!-- Default tooltip w/ image -->
+  <div>
+    <span>Default tooltip w/ image</span>
+    <span id="tonic-tooltip-image">Hover!</span>
+    <tonic-tooltip for="tonic-tooltip-image">
+      <img src="/sampleprofile.jpg" width="100px">
+    </tonic-tooltip>
+  </div>
+
+  <!-- Default tooltip width-->
+  <div>
+    <span>width="400px"</span>
+    <span id="tonic-tooltip-width">Hover!</span>
+    <tonic-tooltip
+      for="tonic-tooltip-width"
+      width="400px">
+      Hello World
+    </tonic-tooltip>
+  </div>
+
+  <!-- Default tooltip height -->
+  <div>
+    <span>height="250px"</span>
+    <span id="tonic-tooltip-height">Hover!</span>
+    <tonic-tooltip
+      for="tonic-tooltip-height"
+      height="250px">
+      Hello World
+    </tonic-tooltip>
+  </div>
+
+  <!-- Default tooltip theme light -->
+  <div>
+    <span>theme="light"</span>
+    <span id="tonic-tooltip-theme-light">Hover!</span>
+    <tonic-tooltip
+      for="tonic-tooltip-theme-light"
+      theme="light">
+      I am a light theme!
+    </tonic-tooltip>
+  </div>
+
+  <!-- Default tooltip theme dark -->
+  <div>
+    <span>theme="dark"</span>
+    <span id="tonic-tooltip-theme-dark">Hover!</span>
+    <tonic-tooltip
+      for="tonic-tooltip-theme-dark"
+      theme="dark">
+      I am a dark theme!
+    </tonic-tooltip>
+  </div>
+
+      <!-- <h2>Windowed</h2> -->
+
+      </main>
+      <script nonce="U29tZSBzdXBlciBzZWNyZXQ=" crossorigin="anonymous" src="test.js"></script>
+    </body>
+  </html>

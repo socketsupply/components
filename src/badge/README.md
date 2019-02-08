@@ -39,6 +39,7 @@ tonicBadge.value = 5
 | `count` | *string* | Updates the `count` property. | `0` |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
+
 ### Instance Members
 
 | Property | Description |

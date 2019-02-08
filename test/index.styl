@@ -1,10 +1,7 @@
-@require 'theme.styl'
+@require '../theme.styl'
 
 *
   box-sizing border-box
-
-::placeholder
-  color var(--medium)
 
 body#test
   &:not(.show-focus)
@@ -16,7 +13,7 @@ body#test
     flex-wrap wrap
     justify-content flex-start
 
-  > main > div > span:first-of-type
+  div > span:first-of-type
     font 14px var(--monospace)
     width 100%
     display block
@@ -28,7 +25,7 @@ body#test
   span.fail
     color red
 
-  > main > div
+  div
     border 1px solid #eaeaea
     flex-basis 30%
     padding 20px

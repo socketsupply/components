@@ -49,9 +49,9 @@ const index = `
       <main>
         ${sections}
       </main>
-      <script nonce="U29tZSBzdXBlciBzZWNyZXQ=" crossorigin="anonymous" src="bundle.js"></script>
+      <script nonce="U29tZSBzdXBlciBzZWNyZXQ=" crossorigin="anonymous" src="test.js"></script>
     </body>
   </html>
 `
 
-fs.writeFileSync(path.join(__dirname, 'build', 'index.html'), index)
+fs.writeFileSync(path.join(__dirname, '..', 'docs', 'test.html'), index)

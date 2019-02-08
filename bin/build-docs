@@ -161,11 +161,11 @@ function parseHeading (s) {
 }
 
 async function compile () {
-  const developerDir = path.join(docsDir, 'src', 'docs')
-  const customFiles = fs.readdirSync(developerDir)
+  const markdownDir = path.join(docsDir, '..', 'markdown')
+  const customFiles = fs.readdirSync(markdownDir)
 
   for (const file of customFiles) {
-    let s = read(developerDir, file)
+    let s = read(markdownDir, file)
     if (!s) continue
 
     const title = parseHeading(s)

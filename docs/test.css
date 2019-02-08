@@ -43,15 +43,6 @@ body.theme-dark,
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
 }
-::-webkit-input-placeholder {
-  color: var(--medium);
-}
-:-ms-input-placeholder {
-  color: var(--medium);
-}
-::placeholder {
-  color: var(--medium);
-}
 body#test:not(.show-focus) [tabindex]:focus,
 body#test:not(.show-focus) *:focus {
   outline: none;
@@ -66,7 +57,7 @@ body#test > main {
       -ms-flex-pack: start;
           justify-content: flex-start;
 }
-body#test > main > div > span:first-of-type {
+body#test div > span:first-of-type {
   font: 14px var(--monospace);
   width: 100%;
   display: block;
@@ -79,7 +70,7 @@ body#test h2 {
 body#test span.fail {
   color: #f00;
 }
-body#test > main > div {
+body#test div {
   border: 1px solid #eaeaea;
   -ms-flex-preferred-size: 30%;
       flex-basis: 30%;
@@ -97,18 +88,18 @@ body#test > main > div {
       -ms-flex-align: center;
           align-items: center;
 }
-body#test > main > div.flex-half {
+body#test div.flex-half {
   -ms-flex-preferred-size: 45%;
       flex-basis: 45%;
 }
-body#test > main > div.flex-half > span {
+body#test div.flex-half > span {
   display: block;
   width: 100%;
 }
-body#test > main > div.dark {
+body#test div.dark {
   background-color: #333;
 }
-body#test > main > div.dark > span {
+body#test div.dark > span {
   color: #fff;
 }
 body#test tonic-toggle {

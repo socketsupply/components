@@ -19,17 +19,13 @@ progressBarThemeLight.value = 60
 const progressBarThemeDark = document.getElementById('progress-bar-theme-dark')
 progressBarThemeDark.value = 60
 
-function loadProgress () {
-  let percentage = 0
-  let interval = null
+let percentage = 0
+let interval = null
 
-  const progressBarAuto = document.getElementById('progress-bar-auto')
+const progressBarAuto = document.getElementById('progress-bar-auto')
 
-  clearInterval(interval)
-  interval = setInterval(() => {
-    progressBarAuto.setProgress(percentage++)
-    if (progressBarAuto.value >= 100) percentage = 0
-  }, 128)
-}
-
-document.addEventListener('DOMContentLoaded', loadProgress)
+clearInterval(interval)
+interval = setInterval(() => {
+  progressBarAuto.setProgress(percentage++)
+  if (progressBarAuto.value >= 100) percentage = 0
+}, 128)

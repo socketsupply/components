@@ -41,6 +41,7 @@ class TonicPanel extends Tonic.Panel {
 }
 
 Tonic.add(TonicPanel)
+Tonic.init()
 
 //
 // For this example, a button element will trigger the

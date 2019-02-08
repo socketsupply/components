@@ -4,7 +4,11 @@ The `popover` component creates a popover activated by a click event. It is posi
 
 ## Demo
 
-%html%
+<tonic-popover id="popover-example" width="175px" for="popover-example-trigger">
+  <div>Item 1</div>
+  <div>Item 2</div>
+  <div>Item 3</div>
+</tonic-popover>
 
 <style nonce="%nonce%">
   #popover-example-trigger {
@@ -39,7 +43,11 @@ The `popover` component creates a popover activated by a click event. It is posi
 
 #### HTML
 ```html
-%html%
+<tonic-popover id="popover-example" width="175px" for="popover-example-trigger">
+  <div>Item 1</div>
+  <div>Item 2</div>
+  <div>Item 3</div>
+</tonic-popover>
 ```
 
 ## Api

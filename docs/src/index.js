@@ -76,8 +76,9 @@ function ready () {
   clearFocus()
 
   components(Tonic, nonce)
-  readme(Tonic)
   Tonic.init()
+
+  readme(Tonic)
 }
 
 document.addEventListener('DOMContentLoaded', ready)

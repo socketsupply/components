@@ -19,7 +19,10 @@ The `Toggle` component creates a toggle.
 
 #### HTML
 ```html
-%html%
+<tonic-toggle
+  id="toggle-example"
+  label="Change">
+</tonic-toggle>
 ```
 
 ## Api

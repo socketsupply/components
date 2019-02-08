@@ -29,7 +29,9 @@ The element that will be used to trigger the display of the tooltip must contain
 ```html
 <span id="tonic-tooltip-example">Hover over this text</span>
 
-%html%
+<tonic-tooltip for="tonic-tooltip-example">
+  <img src="./tonic.svg" width="100px">
+</tonic-tooltip>
 ```
 
 ## Api

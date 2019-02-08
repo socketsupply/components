@@ -10,7 +10,6 @@ The `Button` component creates a button.
     <tonic-button
       async="true"
       id="tonic-button-example"
-      tabindex="1"
       value="click-me">Click me</tonic-button>
   </div>
 </div>
@@ -19,7 +18,11 @@ The `Button` component creates a button.
 
 #### HTML
 ```html
-%html%
+<tonic-button
+  async="true"
+  id="tonic-button-example"
+  value="click-me">Click me
+</tonic-button>
 ```
 
 #### JS

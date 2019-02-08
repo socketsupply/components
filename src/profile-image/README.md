@@ -18,7 +18,11 @@ The `ProfileImage` component is used to create an SVG icon with a custom size an
 
 #### HTML
 ```html
-%html%
+<tonic-profile-image
+  id="profile-image-example-editable"
+  size="150px"
+  editable="true">
+</tonic-profile-image>
 ```
 
 #### JS

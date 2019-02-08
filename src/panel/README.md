@@ -1,52 +1,17 @@
 # Panel
-A `Panel` is not a component, it is a base class. You can extend it to create
-your own panel class which can be registered and then used as a tag.
+A `Panel` is not a component, it is a base class. You can extend it to create your own panel class which can be registered and then used as a tag.
 
 ## Demo
 
-%html%
-
-<style nonce="%nonce%">
-  tonic-panel h3 {
-    margin: 0;
-  }
-
-  tonic-panel header {
-    padding: 20px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 90px;
-  }
-
-  tonic-panel main {
-    padding: 20px;
-    position: absolute;
-    top: 90px;
-    left: 0;
-    right: 0;
-    bottom: 70px;
-    overflow: scroll;
-  }
-
-  tonic-panel footer {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 70px;
-    padding: 10px;
-    text-align: center;
-    border-top: 1px solid var(--border);
-  }
-</style>
+<tonic-panel
+  id="content-panel-example"
+  overlay="true">
+</tonic-panel>
 
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
-    <tonic-button
-      id="content-panel-link-example">
+    <tonic-button id="content-panel-link-example">
       Click to open
     </tonic-button>
   </div>
@@ -56,7 +21,10 @@ your own panel class which can be registered and then used as a tag.
 
 #### HTML
 ```html
-%html%
+<tonic-panel
+  id="content-panel-example"
+  overlay="true">
+</tonic-panel>
 ```
 
 #### JS

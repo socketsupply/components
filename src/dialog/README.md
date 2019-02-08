@@ -3,14 +3,8 @@ A `Dialog` is not a component, it is a base class. You can extend it to create y
 
 ## Demo
 
-%html%
-
-<style nonce="%nonce%">
-  my-dialog header,
-  my-dialog main {
-    text-align: center;
-  }
-</style>
+<tonic-dialog id="example-dialog" message="Click update for timestamp">
+</tonic-dialog>
 
 <div class="example">
   <div class="header">Example</div>
@@ -26,7 +20,8 @@ A `Dialog` is not a component, it is a base class. You can extend it to create y
 
 #### HTML
 ```html
-%html%
+<tonic-dialog id="example-dialog" message="Click update for timestamp">
+</tonic-dialog>
 ```
 
 #### JS

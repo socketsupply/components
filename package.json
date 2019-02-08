@@ -10,12 +10,11 @@
     "dev": "./bin/server",
     "prepublish": "npm run build",
     "build": "npm run build:styl && ./bin/components ./index.js && npm run build:docs",
-    "build:test": "node test/build.js && browserify ./test/src/index.js > ./docs/test.js",
-    "build:styl": "cp ./theme.css ./docs",
+    "build:test": "node test/build.js && browserify ./test/test.js > ./docs/test.js",
+    "build:styl": "cp ./theme.css ./docs && stylus -u autoprefixer-stylus ./test/index.styl -o ./docs/test.css",
     "build:docs": "./bin/build-docs && npm run build:docs:js && npm run build:docs:styl",
     "build:docs:js": "browserify ./docs/src/index.js > ./docs/bundle.js",
-    "build:docs:styl": "stylus -u autoprefixer-stylus ./docs/src/index.styl -o ./docs",
-    "test:manual": "npm run build:test && ./bin/server ./docs"
+    "build:docs:styl": "stylus -u autoprefixer-stylus ./docs/src/index.styl -o ./docs"
   },
   "repository": {
     "type": "git",
@@ -37,7 +36,7 @@
     "tape-run": "^4.0.0"
   },
   "dependencies": {
-    "@conductorlab/tonic": "^8.0.0",
+    "@conductorlab/tonic": "^8.0.2",
     "autoprefixer-stylus": "^0.14.0",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",

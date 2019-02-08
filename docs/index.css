@@ -54,6 +54,7 @@ tonic-badge {
   padding: 26px 65px 25px 65px;
 }
 .tonic--dialog main {
+  text-align: center;
   width: auto;
   padding: 20px;
   margin: 0 auto;
@@ -107,8 +108,14 @@ tonic-panel footer {
   border-top: 1px solid var(--border);
 }
 tonic-router {
-  marign-top: 20px;
+  margin-top: 20px;
   padding-top: 20px;
+}
+tonic-router.tonic--show {
+  display: block;
+  margin: 20px 0 6px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border);
 }
 #tonic-router-select {
   display: inline-block;

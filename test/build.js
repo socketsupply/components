@@ -1,14 +1,13 @@
 const fs = require('fs')
 const path = require('path')
 
-const root = `${__dirname}/src/`
+const root = `${__dirname}/../src`
 
 const paths = fs
   .readdirSync(root)
-  .filter(f => f !== 'index.js')
 
 const sections = paths
-  .map(f => '      ' + fs.readFileSync(path.join(root, f, 'index.html'), 'utf8'))
+  .map(f => '      ' + fs.readFileSync(path.join(root, f, 'test.html'), 'utf8'))
   .join('\n')
 
 const index = `
@@ -16,6 +15,8 @@ const index = `
     <head>
       <title>Tonic - Component Based Architecture</title>
       <link href="index.css" rel="stylesheet">
+      <link href="theme.css" rel="stylesheet">
+      <link href="test.css" rel="stylesheet">
       <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
       <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
       <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="120x120">

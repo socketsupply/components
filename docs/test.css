@@ -1,44 +1,3 @@
-body {
-  --body: 'Avenir-Light', sans-serif;
-  --header: 'Avenir-Light', sans-serif;
-  --subheader: 'Avenir-Medium', sans-serif;
-  --monospace: 'IBM Plex Mono', monospace;
-}
-body,
-*[theme="light"] {
-  --window: #fff;
-  --primary: #36393d;
-  --disabled: #98a1af;
-  --secondary: #e8e8e4;
-  --medium: #999da0;
-  --accent: #f06653;
-  --button: #36393d;
-  --border: #e8e8e4;
-  --background: #f7f7f5;
-  --error: #f06653;
-  --notification: #f06653;
-  --danger: #f06653;
-  --success: #85b274;
-  --warning: #f9a967;
-  --info: #999da0;
-}
-body.theme-dark,
-*[theme="dark"] {
-  --window: #2d2f31;
-  --primary: #fff;
-  --disabled: #aaa;
-  --secondary: #c3c3c3;
-  --medium: #999da0;
-  --accent: #f06653;
-  --button: #fff;
-  --border: #6b6b6b;
-  --background: #3c3c3c;
-  --error: #f06653;
-  --notification: #f06653;
-  --caution: #f06653;
-  --success: #85b274;
-  --warn: #f9a967;
-}
 * {
   -webkit-box-sizing: border-box;
           box-sizing: border-box;
@@ -47,7 +6,7 @@ body#test:not(.show-focus) [tabindex]:focus,
 body#test:not(.show-focus) *:focus {
   outline: none;
 }
-body#test > main {
+body#test main > section {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -57,7 +16,7 @@ body#test > main {
       -ms-flex-pack: start;
           justify-content: flex-start;
 }
-body#test div > span:first-of-type {
+body#test .test-container > span:first-of-type {
   font: 14px var(--monospace);
   width: 100%;
   display: block;
@@ -67,10 +26,10 @@ body#test h2 {
   -ms-flex-preferred-size: 100%;
       flex-basis: 100%;
 }
-body#test span.fail {
+body#test .fail {
   color: #f00;
 }
-body#test div {
+body#test .test-container {
   border: 1px solid #eaeaea;
   -ms-flex-preferred-size: 30%;
       flex-basis: 30%;
@@ -88,18 +47,18 @@ body#test div {
       -ms-flex-align: center;
           align-items: center;
 }
-body#test div.flex-half {
+body#test .test-container.flex-half {
   -ms-flex-preferred-size: 45%;
       flex-basis: 45%;
 }
-body#test div.flex-half > span {
+body#test .test-container.flex-half > span {
   display: block;
   width: 100%;
 }
-body#test div.dark {
+body#test .test-container.dark {
   background-color: #333;
 }
-body#test div.dark > span {
+body#test .test-container.dark > span {
   color: #fff;
 }
 body#test tonic-toggle {

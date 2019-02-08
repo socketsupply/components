@@ -77,8 +77,9 @@ function ready () {
   clearFocus()
 
   components(Tonic, nonce)
-  readme(Tonic)
   Tonic.init()
+
+  readme(Tonic)
 }
 
 document.addEventListener('DOMContentLoaded', ready)
@@ -166,6 +167,7 @@ button.addEventListener('click', e => {
 }
 
 Tonic.add(TonicDialog)
+Tonic.init()
 
 const link = document.getElementById('example-dialog-link')
 const dialog = document.getElementById('example-dialog')
@@ -241,6 +243,7 @@ class TonicPanel extends Tonic.Panel {
 }
 
 Tonic.add(TonicPanel)
+Tonic.init()
 
 //
 // For this example, a button element will trigger the
@@ -4681,7 +4684,7 @@ class Tonic {
     return el.matches(s) ? el : el.closest(s)
   }
 
-  static add (c, isReady) {
+  static add (c, root) {
     c.prototype._props = Object.getOwnPropertyNames(c.prototype)
     if (!c.name || c.name.length === 1) throw Error('Mangling detected. https://github.com/heapwolf/tonic/blob/master/HELP.md')
 
@@ -4697,7 +4700,7 @@ class Tonic {
       Tonic.styleNode = document.head.appendChild(styleTag)
     }
 
-    if (isReady || c.name === 'App') Tonic.init(document.firstElementChild)
+    if (root || c.name === 'App') Tonic.init(root || document.firstElementChild)
   }
 
   static init (node = document.firstElementChild, states = {}) {
@@ -4706,7 +4709,7 @@ class Tonic {
     while (node) {
       const tagName = node.tagName
 
-      if (Tonic.tags.includes(tagName)) { /* eslint-disable no-new */
+      if (Tonic.tags.includes(tagName) && !node._id) { /* eslint-disable no-new */
         new Tonic.registry[tagName]({ node, state: states[node.id] })
         node = node.nextElementSibling
         continue

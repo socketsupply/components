@@ -14,7 +14,15 @@ The `Router` component will render its children components if the browser's curr
       <option value="/bar/100">/bar/100</option>
       <option value="/beepboop">/beepboop</option>
     </tonic-select>
-    %html%
+    <tonic-router id="page1" path="/examples.html">
+      <i>Hello, World</i>
+    </tonic-router>
+    <tonic-router id="page2" path="/bar/:number">
+      <b>number</b> prop has the value <b id="page2-number"></b>.
+    </tonic-router>
+    <tonic-router none>
+      404
+    </tonic-router>
   </div>
 </div>
 
@@ -23,7 +31,15 @@ The `Router` component will render its children components if the browser's curr
 #### HTML
 
 ```html
-%html%
+<tonic-router id="page1" path="/examples.html">
+  <i>Hello, World</i>
+</tonic-router>
+
+<tonic-router id="page2" path="/bar/:number">
+  <b>number</b> prop has the value <b id="page2-number"></b>.
+</tonic-router>
+
+<tonic-router none>404</tonic-router>
 ```
 
 #### JS
@@ -32,14 +48,7 @@ The `Router` component will render its children components if the browser's curr
 %js%
 ```
 
-<style nonce="%nonce%">
-  tonic-router.tonic--show {
-    display: block;
-    margin: 20px 0 6px;
-    padding-top: 20px;
-    border-top: 1px solid var(--border);
-  }
-</style>
+
 
 ## Api
 

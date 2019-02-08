@@ -1,12 +1,18 @@
-*
-  box-sizing border-box
-
 body#test
+
   &:not(.show-focus)
     [tabindex]:focus, *:focus
       outline none
 
+  main
+    left 0
+    width 100%
+
   main > section
+    width 1000px
+    max-width 100%
+    padding-bottom 0
+    margin 0 auto
     display flex
     flex-wrap wrap
     justify-content flex-start
@@ -15,16 +21,16 @@ body#test
     font 14px var(--monospace)
     white-space pre
     flex-basis 100%
-    padding 0 10px
+    padding 30px 1.5% 0 1.5%
 
     span
       display block
 
-    span.result.OK
-      color green
+      &.result.OK
+        color green
 
-    span.result:not(.OK)
-      color red
+      &.result:not(.OK)
+        color red
 
   .test-container > span:first-of-type
     font 14px var(--monospace)
@@ -34,24 +40,22 @@ body#test
 
   h2
     flex-basis 100%
-
-  .fail
-    color red
+    margin 60px 1.5% 30px 1.5%
 
   .test-container
     border 1px solid #eaeaea
-    flex-basis 30%
+    flex-basis 47%
     padding 20px
     margin 1.5%
     display flex
     flex-wrap wrap
     justify-content space-between
     align-items center
-    &.flex-half
-      flex-basis 45%
-      > span
-        display block
-        width 100%
+
+    > span
+      display block
+      width 100%
+
     &.dark
       background-color #333333
       > span

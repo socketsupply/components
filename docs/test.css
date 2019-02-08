@@ -1,12 +1,16 @@
-* {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-}
 body#test:not(.show-focus) [tabindex]:focus,
 body#test:not(.show-focus) *:focus {
   outline: none;
 }
+body#test main {
+  left: 0;
+  width: 100%;
+}
 body#test main > section {
+  width: 1000px;
+  max-width: 100%;
+  padding-bottom: 0;
+  margin: 0 auto;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -21,7 +25,7 @@ body#test aside.results {
   white-space: pre;
   -ms-flex-preferred-size: 100%;
       flex-basis: 100%;
-  padding: 0 10px;
+  padding: 30px 1.5% 0 1.5%;
 }
 body#test aside.results span {
   display: block;
@@ -41,14 +45,12 @@ body#test .test-container > span:first-of-type {
 body#test h2 {
   -ms-flex-preferred-size: 100%;
       flex-basis: 100%;
-}
-body#test .fail {
-  color: #f00;
+  margin: 60px 1.5% 30px 1.5%;
 }
 body#test .test-container {
   border: 1px solid #eaeaea;
-  -ms-flex-preferred-size: 30%;
-      flex-basis: 30%;
+  -ms-flex-preferred-size: 47%;
+      flex-basis: 47%;
   padding: 20px;
   margin: 1.5%;
   display: -webkit-box;
@@ -63,11 +65,7 @@ body#test .test-container {
       -ms-flex-align: center;
           align-items: center;
 }
-body#test .test-container.flex-half {
-  -ms-flex-preferred-size: 45%;
-      flex-basis: 45%;
-}
-body#test .test-container.flex-half > span {
+body#test .test-container > span {
   display: block;
   width: 100%;
 }

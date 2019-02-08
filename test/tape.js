@@ -28,7 +28,7 @@ module.exports = id => {
     }
 
     if (data.type === 'test') {
-      aside.innerHTML += `<span class="title"># ${data.name}</span>`
+      aside.innerHTML += `<span class="title"># ${data.name}</span>\n`
       return
     }
 

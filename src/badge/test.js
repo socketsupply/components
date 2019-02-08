@@ -1,4 +1,6 @@
-const test = require('../../test/tape')
+const tape = require('../../test/tape')
+
+const test = tape('badge')
 
 test('default state', t => {
   const container = document.getElementById('badge-1')

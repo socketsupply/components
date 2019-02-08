@@ -7,7 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "dev": "./bin/server",
+    "dev": "npm run build && npm run build:test && ./bin/server",
     "prepublish": "npm run build",
     "build": "npm run build:styl && ./bin/components ./index.js && npm run build:docs",
     "build:test": "node test/build.js && browserify ./test/test.js > ./docs/test.js",

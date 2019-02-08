@@ -1,11 +1,11 @@
 
-//
-// Warning: Do not edit. To regenerate, run 'npm run build'.
-//
-module.exports = (Tonic, nonce) => {
-  if (nonce) Tonic.nonce = nonce
+    //
+    // Warning: Do not edit, use 'npm run build'.
+    //
+    module.exports = (Tonic, nonce) => {
+      if (nonce) Tonic.nonce = nonce
 
-  class TonicBadge extends Tonic { /* global Tonic */
+      class TonicBadge extends Tonic { /* global Tonic */
   constructor (node) {
     super(node)
 
@@ -4219,4 +4219,5 @@ class Windowed extends Tonic { /* global Tonic */
 
 Tonic.Windowed = Windowed
 
-}
+    }
+  

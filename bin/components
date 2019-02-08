@@ -14,10 +14,6 @@ function ensurePath (filename) {
   }
 }
 
-function trim (s) {
-  return s.split(/\n/).map(s => s.slice(4))
-}
-
 const filename = argv._[0]
 
 async function main () {
@@ -46,7 +42,7 @@ async function main () {
     output.push(fs.readFileSync(src, 'utf8'))
   }
 
-  const wrapper = trim(`
+  const wrapper = `
     //
     // Warning: Do not edit, use 'npm run build'.
     //
@@ -55,7 +51,7 @@ async function main () {
 
       ${output.join('\n')}
     }
-  `)
+  `
 
   fs.writeFileSync(filename, wrapper)
 }

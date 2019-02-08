@@ -430,13 +430,13 @@ overlay.addEventListener('click', e => {
 },{"@conductorlab/tonic":5,"node-fetch":6}],4:[function(require,module,exports){
 (function (global){
 
-//
-// Warning: Do not edit. To regenerate, run 'npm run build'.
-//
-module.exports = (Tonic, nonce) => {
-  if (nonce) Tonic.nonce = nonce
+    //
+    // Warning: Do not edit, use 'npm run build'.
+    //
+    module.exports = (Tonic, nonce) => {
+      if (nonce) Tonic.nonce = nonce
 
-  class TonicBadge extends Tonic { /* global Tonic */
+      class TonicBadge extends Tonic { /* global Tonic */
   constructor (node) {
     super(node)
 
@@ -4650,7 +4650,8 @@ class Windowed extends Tonic { /* global Tonic */
 
 Tonic.Windowed = Windowed
 
-}
+    }
+  
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],5:[function(require,module,exports){
 class Tonic {

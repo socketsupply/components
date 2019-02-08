@@ -2,6 +2,24 @@ body#test:not(.show-focus) [tabindex]:focus,
 body#test:not(.show-focus) *:focus {
   outline: none;
 }
+body#test #passing,
+body#test #total {
+  display: inline-block;
+  margin: 0 10px;
+  margin-right: 80px;
+}
+body#test #passing h1,
+body#test #total h1 {
+  font-weight: 700;
+  display: block;
+  margin: 8px 4px;
+}
+body#test #passing label,
+body#test #total label {
+  margin: 0 4px;
+  text-transform: uppercase;
+  display: block;
+}
 body#test main {
   left: 0;
   width: 100%;

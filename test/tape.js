@@ -6,10 +6,23 @@ module.exports = id => {
   let count = 0
   let passed = 0
 
-  stream.on('data', data => {
-    const section = document.getElementById(id)
-    const aside = section.querySelector('aside')
+  const section = document.getElementById(id)
+  const aside = section.querySelector('aside')
 
+  const inc = id => {
+    const el = document.getElementById(id)
+    const count = el.querySelector('.value')
+
+    return () => {
+      const val = count.textContent.trim()
+      count.textContent = parseInt(val, 10) + 1
+    }
+  }
+
+  const incPassing = inc('passing')
+  const incTotal = inc('total')
+
+  stream.on('data', data => {
     if (typeof data === 'string') {
       aside.innerHTML += `<span class="comment">#${data}</span>`
     }
@@ -21,6 +34,8 @@ module.exports = id => {
 
     if (data.type === 'assert') {
       ++count
+      incTotal()
+
       let status = data.ok ? 'OK' : 'FAIL'
       aside.innerHTML += `<span class="result ${status}">${status} ${data.id} ${data.name}</span>`
 
@@ -30,6 +45,7 @@ module.exports = id => {
       }
 
       ++passed
+      incPassing()
       return
     }
 

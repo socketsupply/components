@@ -13136,11 +13136,15 @@ tape('{{button-1}} has correct default state', t => {
   const container = qs('#button-1')
   const component = qs('tonic-button', container)
   const buttonElement = qs('button', component)
+  const isLoading = buttonElement.classList.contains('tonic--loading')
+  const attrAsyncIsFalse = buttonElement.getAttribute('async') === 'false'
+
+  t.plan(4)
 
   t.ok(component.firstElementChild, 'the component was constructed')
   t.equal(buttonElement.getAttribute('disabled'), 'false', 'disabled is false')
   t.equal(buttonElement.getAttribute('autofocus'), 'false', 'autofocus is false')
-  t.equal(buttonElement.getAttribute('async'), 'false', 'async is false')
+  t.equal(attrAsyncIsFalse, !isLoading, 'async is false, loading class is not applied')
 
   t.end()
 })
@@ -13149,6 +13153,8 @@ tape('{{button-2}} has value', t => {
   const container = qs('#button-2')
   const component = qs('tonic-button', container)
   const buttonElement = qs('button', component)
+
+  t.plan(4)
 
   t.ok(component.firstElementChild, 'the component was constructed')
   t.ok(!component.hasAttribute('value'), 'the component does not have a value attribute')
@@ -13163,6 +13169,8 @@ tape('{{button-3}} is disabled', t => {
   const component = qs('tonic-button', container)
   const buttonElement = qs('button', component)
 
+  t.plan(3)
+
   t.ok(component.firstElementChild, 'the component was constructed')
   t.ok(buttonElement.hasAttribute('disabled'), 'the button has the disabled attribute')
   t.equal(buttonElement.getAttribute('disabled'), 'true', 'disabled is true')
@@ -13174,6 +13182,8 @@ tape('{{button-4}} is not disabled when disabled="false"', t => {
   const container = qs('#button-4')
   const component = qs('tonic-button', container)
   const buttonElement = qs('button', component)
+
+  t.plan(3)
 
   t.ok(component.firstElementChild, 'the component was constructed')
   t.ok(buttonElement.hasAttribute('disabled'), 'the button has the disabled attribute')
@@ -13187,6 +13197,8 @@ tape('{{button-5}} has correct attributes', t => {
   const component = qs('tonic-button', container)
   const buttonWrapper = qs('.tonic--button--wrapper', component)
   const buttonElement = qs('button', component)
+
+  t.plan(9)
 
   t.ok(component.firstElementChild, 'the component was constructed')
   t.equal(buttonElement.getAttribute('autofocus'), 'true', 'button has autofocus="true" attribute')
@@ -13205,6 +13217,8 @@ tape('{{button-6}} gets style derived from component "fill" attribute', t => {
   const container = qs('#button-6')
   const component = qs('tonic-button', container)
   const buttonElement = qs('button', component)
+
+  t.plan(4)
 
   t.ok(component.firstElementChild, 'the component was constructed')
   t.ok(component.hasAttribute('fill'), 'the component has fill attribute')
@@ -13236,14 +13250,15 @@ tape('{{button-8}} shows loading when clicked', async t => {
   t.plan(1)
 
   component.addEventListener('click', async e => {
-    const button = e.target.querySelector('button')
-    await sleep(1)
-    t.ok(button.classList.contains('tonic--loading'), 'loading class was applied')
+    const button = component.querySelector('button')
+
+    await sleep(128)
+    const isLoading = button.classList.contains('tonic--loading')
+    t.ok(isLoading, 'loading class was applied')
+    t.end()
   })
 
   component.dispatchEvent(new window.Event('click'))
-  await sleep(1)
-  t.end()
 })
 
 },{"../../test/tape":88,"qs":38}],69:[function(require,module,exports){

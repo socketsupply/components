@@ -52,7 +52,7 @@ const index = `
           <div class="test-summary">
             <div id="passing"><h1 class="value">0</h1><label>Passing</label></div>
             <div id="total"><h1 class="value">0</h1><label>Total</label></div>
-            <div id="status"><h1 class="value">TESTING...</h1><label>Status</label></div>
+            <div id="status"><h1 class="value">--</h1><label>Status</label></div>
             <hr/>
           </div>
           <div id="test-output"></div>

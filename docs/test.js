@@ -124,13 +124,12 @@ class TonicButton extends Tonic { /* global Tonic */
 
   defaults () {
     return {
-      value: 'Submit',
       height: '40px',
       width: '150px',
       margin: '5px',
-      disabled: false,
-      autofocus: false,
-      async: false,
+      disabled: 'false',
+      autofocus: 'false',
+      async: 'false',
       radius: '2px',
       borderWidth: '1px',
       textColorDisabled: 'var(--disabled)',
@@ -160,19 +159,19 @@ class TonicButton extends Tonic { /* global Tonic */
         appearance: none;
       }
 
-      tonic-button button[disabled],
+      tonic-button button[disabled="true"],
       tonic-button button.tonic--active {
         color: var(--medium);
         background-color: var(--background);
         border-color: var(--background);
       }
 
-      tonic-button button[disabled] {
+      tonic-button button[disabled="true"] {
         pointer-events: none;
         user-select: none;
       }
 
-      tonic-button button:not([disabled]):hover,
+      tonic-button button:not([disabled="true"]):hover,
       tonic-button button:not(.tonic--loading):hover {
         color: var(--window) !important;
         background-color: var(--button) !important;
@@ -239,7 +238,7 @@ class TonicButton extends Tonic { /* global Tonic */
 
   click () {
     const disabled = this.props.disabled === 'true'
-    const async = this.props.async
+    const async = this.props.async === 'true'
 
     if (async && !disabled) {
       this.loading(true)
@@ -290,7 +289,6 @@ class TonicButton extends Tonic { /* global Tonic */
       href
     } = this.props
 
-    const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
     const valueAttr = value ? `value="${value}"` : ''
     const typeAttr = type ? `type="${type}"` : ''
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
@@ -308,13 +306,11 @@ class TonicButton extends Tonic { /* global Tonic */
       })
     }
 
-    const label = this.root.textContent || value
+    const label = this.root.textContent || type || 'Button'
 
     const attributes = [
       valueAttr,
       typeAttr,
-      disabledAttr,
-      autofocus,
       tabAttr
     ].join(' ')
 
@@ -323,6 +319,8 @@ class TonicButton extends Tonic { /* global Tonic */
         <button
           styles="button"
           async="${async}"
+          disabled=${disabled}
+          autofocus=${autofocus}
           alt="${label}"
           ${attributes}
           class="${classes}">${label}</button>
@@ -9013,9 +9011,15 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],38:[function(require,module,exports){
+const qs = (s, p) => (p || document).querySelector(s)
+const qsa = (s, p) => [...(p || document).querySelectorAll(s)]
+
+module.exports = { qs, qsa }
+
+},{}],39:[function(require,module,exports){
 module.exports = require('./lib/_stream_duplex.js');
 
-},{"./lib/_stream_duplex.js":39}],39:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":40}],40:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -9147,7 +9151,7 @@ Duplex.prototype._destroy = function (err, cb) {
 
   pna.nextTick(cb, err);
 };
-},{"./_stream_readable":41,"./_stream_writable":43,"core-util-is":7,"inherits":28,"process-nextick-args":36}],40:[function(require,module,exports){
+},{"./_stream_readable":42,"./_stream_writable":44,"core-util-is":7,"inherits":28,"process-nextick-args":36}],41:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -9195,7 +9199,7 @@ function PassThrough(options) {
 PassThrough.prototype._transform = function (chunk, encoding, cb) {
   cb(null, chunk);
 };
-},{"./_stream_transform":42,"core-util-is":7,"inherits":28}],41:[function(require,module,exports){
+},{"./_stream_transform":43,"core-util-is":7,"inherits":28}],42:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -10217,7 +10221,7 @@ function indexOf(xs, x) {
   return -1;
 }
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./_stream_duplex":39,"./internal/streams/BufferList":44,"./internal/streams/destroy":45,"./internal/streams/stream":46,"_process":37,"core-util-is":7,"events":21,"inherits":28,"isarray":31,"process-nextick-args":36,"safe-buffer":52,"string_decoder/":58,"util":4}],42:[function(require,module,exports){
+},{"./_stream_duplex":40,"./internal/streams/BufferList":45,"./internal/streams/destroy":46,"./internal/streams/stream":47,"_process":37,"core-util-is":7,"events":21,"inherits":28,"isarray":31,"process-nextick-args":36,"safe-buffer":53,"string_decoder/":59,"util":4}],43:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -10432,7 +10436,7 @@ function done(stream, er, data) {
 
   return stream.push(null);
 }
-},{"./_stream_duplex":39,"core-util-is":7,"inherits":28}],43:[function(require,module,exports){
+},{"./_stream_duplex":40,"core-util-is":7,"inherits":28}],44:[function(require,module,exports){
 (function (process,global,setImmediate){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -11122,7 +11126,7 @@ Writable.prototype._destroy = function (err, cb) {
   cb(err);
 };
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"./_stream_duplex":39,"./internal/streams/destroy":45,"./internal/streams/stream":46,"_process":37,"core-util-is":7,"inherits":28,"process-nextick-args":36,"safe-buffer":52,"timers":64,"util-deprecate":65}],44:[function(require,module,exports){
+},{"./_stream_duplex":40,"./internal/streams/destroy":46,"./internal/streams/stream":47,"_process":37,"core-util-is":7,"inherits":28,"process-nextick-args":36,"safe-buffer":53,"timers":65,"util-deprecate":66}],45:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -11202,7 +11206,7 @@ if (util && util.inspect && util.inspect.custom) {
     return this.constructor.name + ' ' + obj;
   };
 }
-},{"safe-buffer":52,"util":4}],45:[function(require,module,exports){
+},{"safe-buffer":53,"util":4}],46:[function(require,module,exports){
 'use strict';
 
 /*<replacement>*/
@@ -11277,13 +11281,13 @@ module.exports = {
   destroy: destroy,
   undestroy: undestroy
 };
-},{"process-nextick-args":36}],46:[function(require,module,exports){
+},{"process-nextick-args":36}],47:[function(require,module,exports){
 module.exports = require('events').EventEmitter;
 
-},{"events":21}],47:[function(require,module,exports){
+},{"events":21}],48:[function(require,module,exports){
 module.exports = require('./readable').PassThrough
 
-},{"./readable":48}],48:[function(require,module,exports){
+},{"./readable":49}],49:[function(require,module,exports){
 exports = module.exports = require('./lib/_stream_readable.js');
 exports.Stream = exports;
 exports.Readable = exports;
@@ -11292,13 +11296,13 @@ exports.Duplex = require('./lib/_stream_duplex.js');
 exports.Transform = require('./lib/_stream_transform.js');
 exports.PassThrough = require('./lib/_stream_passthrough.js');
 
-},{"./lib/_stream_duplex.js":39,"./lib/_stream_passthrough.js":40,"./lib/_stream_readable.js":41,"./lib/_stream_transform.js":42,"./lib/_stream_writable.js":43}],49:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":40,"./lib/_stream_passthrough.js":41,"./lib/_stream_readable.js":42,"./lib/_stream_transform.js":43,"./lib/_stream_writable.js":44}],50:[function(require,module,exports){
 module.exports = require('./readable').Transform
 
-},{"./readable":48}],50:[function(require,module,exports){
+},{"./readable":49}],51:[function(require,module,exports){
 module.exports = require('./lib/_stream_writable.js');
 
-},{"./lib/_stream_writable.js":43}],51:[function(require,module,exports){
+},{"./lib/_stream_writable.js":44}],52:[function(require,module,exports){
 (function (process,setImmediate){
 var through = require('through');
 var nextTick = typeof setImmediate !== 'undefined'
@@ -11331,7 +11335,7 @@ module.exports = function (write, end) {
 };
 
 }).call(this,require('_process'),require("timers").setImmediate)
-},{"_process":37,"through":63,"timers":64}],52:[function(require,module,exports){
+},{"_process":37,"through":64,"timers":65}],53:[function(require,module,exports){
 /* eslint-disable node/no-deprecated-api */
 var buffer = require('buffer')
 var Buffer = buffer.Buffer
@@ -11395,7 +11399,7 @@ SafeBuffer.allocUnsafeSlow = function (size) {
   return buffer.SlowBuffer(size)
 }
 
-},{"buffer":6}],53:[function(require,module,exports){
+},{"buffer":6}],54:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -11524,7 +11528,7 @@ Stream.prototype.pipe = function(dest, options) {
   return dest;
 };
 
-},{"events":21,"inherits":28,"readable-stream/duplex.js":38,"readable-stream/passthrough.js":47,"readable-stream/readable.js":48,"readable-stream/transform.js":49,"readable-stream/writable.js":50}],54:[function(require,module,exports){
+},{"events":21,"inherits":28,"readable-stream/duplex.js":39,"readable-stream/passthrough.js":48,"readable-stream/readable.js":49,"readable-stream/transform.js":50,"readable-stream/writable.js":51}],55:[function(require,module,exports){
 'use strict';
 
 var bind = require('function-bind');
@@ -11539,7 +11543,7 @@ module.exports = function trim() {
 	return replace(replace(S, leftWhitespace, ''), rightWhitespace, '');
 };
 
-},{"es-abstract/es5":14,"function-bind":25}],55:[function(require,module,exports){
+},{"es-abstract/es5":14,"function-bind":25}],56:[function(require,module,exports){
 'use strict';
 
 var bind = require('function-bind');
@@ -11559,7 +11563,7 @@ define(boundTrim, {
 
 module.exports = boundTrim;
 
-},{"./implementation":54,"./polyfill":56,"./shim":57,"define-properties":11,"function-bind":25}],56:[function(require,module,exports){
+},{"./implementation":55,"./polyfill":57,"./shim":58,"define-properties":11,"function-bind":25}],57:[function(require,module,exports){
 'use strict';
 
 var implementation = require('./implementation');
@@ -11573,7 +11577,7 @@ module.exports = function getPolyfill() {
 	return implementation;
 };
 
-},{"./implementation":54}],57:[function(require,module,exports){
+},{"./implementation":55}],58:[function(require,module,exports){
 'use strict';
 
 var define = require('define-properties');
@@ -11585,7 +11589,7 @@ module.exports = function shimStringTrim() {
 	return polyfill;
 };
 
-},{"./polyfill":56,"define-properties":11}],58:[function(require,module,exports){
+},{"./polyfill":57,"define-properties":11}],59:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -11882,7 +11886,7 @@ function simpleWrite(buf) {
 function simpleEnd(buf) {
   return buf && buf.length ? this.write(buf) : '';
 }
-},{"safe-buffer":52}],59:[function(require,module,exports){
+},{"safe-buffer":53}],60:[function(require,module,exports){
 (function (process,setImmediate){
 var defined = require('defined');
 var createDefaultStream = require('./lib/default_stream');
@@ -12045,7 +12049,7 @@ function createHarness (conf_) {
 }
 
 }).call(this,require('_process'),require("timers").setImmediate)
-},{"./lib/default_stream":60,"./lib/results":61,"./lib/test":62,"_process":37,"defined":12,"through":63,"timers":64}],60:[function(require,module,exports){
+},{"./lib/default_stream":61,"./lib/results":62,"./lib/test":63,"_process":37,"defined":12,"through":64,"timers":65}],61:[function(require,module,exports){
 (function (process){
 var through = require('through');
 var fs = require('fs');
@@ -12079,7 +12083,7 @@ module.exports = function () {
 };
 
 }).call(this,require('_process'))
-},{"_process":37,"fs":5,"through":63}],61:[function(require,module,exports){
+},{"_process":37,"fs":5,"through":64}],62:[function(require,module,exports){
 (function (process,setImmediate){
 var defined = require('defined');
 var EventEmitter = require('events').EventEmitter;
@@ -12277,7 +12281,7 @@ function invalidYaml (str) {
 }
 
 }).call(this,require('_process'),require("timers").setImmediate)
-},{"_process":37,"defined":12,"events":21,"function-bind":25,"has":26,"inherits":28,"object-inspect":32,"resumer":51,"through":63,"timers":64}],62:[function(require,module,exports){
+},{"_process":37,"defined":12,"events":21,"function-bind":25,"has":26,"inherits":28,"object-inspect":32,"resumer":52,"through":64,"timers":65}],63:[function(require,module,exports){
 (function (process,setImmediate,__dirname){
 var deepEqual = require('deep-equal');
 var defined = require('defined');
@@ -12832,7 +12836,7 @@ Test.skip = function (name_, _opts, _cb) {
 // vim: set softtabstop=4 shiftwidth=4:
 
 }).call(this,require('_process'),require("timers").setImmediate,"/node_modules/tape/lib")
-},{"_process":37,"deep-equal":8,"defined":12,"events":21,"for-each":22,"function-bind":25,"has":26,"inherits":28,"path":35,"string.prototype.trim":55,"timers":64}],63:[function(require,module,exports){
+},{"_process":37,"deep-equal":8,"defined":12,"events":21,"for-each":22,"function-bind":25,"has":26,"inherits":28,"path":35,"string.prototype.trim":56,"timers":65}],64:[function(require,module,exports){
 (function (process){
 var Stream = require('stream')
 
@@ -12944,7 +12948,7 @@ function through (write, end, opts) {
 
 
 }).call(this,require('_process'))
-},{"_process":37,"stream":53}],64:[function(require,module,exports){
+},{"_process":37,"stream":54}],65:[function(require,module,exports){
 (function (setImmediate,clearImmediate){
 var nextTick = require('process/browser.js').nextTick;
 var apply = Function.prototype.apply;
@@ -13023,7 +13027,7 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
   delete immediateIds[id];
 };
 }).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-},{"process/browser.js":37,"timers":64}],65:[function(require,module,exports){
+},{"process/browser.js":37,"timers":65}],66:[function(require,module,exports){
 (function (global){
 
 /**
@@ -13094,12 +13098,13 @@ function config (name) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],66:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 const tape = require('../../test/tape')
+const { qs } = require('qs')
 
-tape('default state for badge-1', t => {
-  const container = document.getElementById('badge-1')
-  const component = container.querySelector('tonic-badge')
+tape('{{badge-1}} has correct default state', t => {
+  const container = qs('#badge-1')
+  const component = qs('tonic-badge', container)
 
   t.ok(component.firstElementChild, 'the component was constructed')
   t.equal(component.value, 0, 'the default value is zero')
@@ -13107,11 +13112,11 @@ tape('default state for badge-1', t => {
   t.end()
 })
 
-tape('badge-2 shows a count', t => {
-  const container = document.getElementById('badge-2')
-  const component = container.querySelector('tonic-badge')
-  const span = component.querySelector('span')
-  const notification = component.querySelector('.tonic--new')
+tape('{{badge-2}} shows a count', t => {
+  const container = qs('#badge-2')
+  const component = qs('tonic-badge', container)
+  const span = qs('span', component)
+  const notification = qs('.tonic--new', component)
 
   t.ok(component.firstElementChild, 'the component was constructed')
   t.ok(component.hasAttribute('count'), 'the component has a count attribute')
@@ -13121,59 +13126,142 @@ tape('badge-2 shows a count', t => {
   t.end()
 })
 
-},{"../../test/tape":87}],67:[function(require,module,exports){
+},{"../../test/tape":88,"qs":38}],68:[function(require,module,exports){
 const tape = require('../../test/tape')
+const { qs } = require('qs')
 
-tape('default state for button-1', t => {
-  const container = document.getElementById('button-1')
-  const component = container.querySelector('tonic-button')
+const sleep = n => new Promise(resolve => setTimeout(resolve, n))
+
+tape('{{button-1}} has correct default state', t => {
+  const container = qs('#button-1')
+  const component = qs('tonic-button', container)
+  const buttonElement = qs('button', component)
 
   t.ok(component.firstElementChild, 'the component was constructed')
+  t.equal(buttonElement.getAttribute('disabled'), 'false', 'disabled is false')
+  t.equal(buttonElement.getAttribute('autofocus'), 'false', 'autofocus is false')
+  t.equal(buttonElement.getAttribute('async'), 'false', 'async is false')
 
   t.end()
 })
 
-tape('button-2 has value as attribute', t => {
-  const container = document.getElementById('button-2')
-  const component = container.querySelector('tonic-button')
-  const buttonElement = component.querySelector('button')
-
-  t.ok(component.firstElementChild, 'the component was constructed')
-  t.ok(component.hasAttribute('value'), 'the component has value attribute')
-  t.equal(component.value, buttonElement.textContent, 'value attribute matches text of button')
-  t.equal(component.value, buttonElement.getAttribute('alt'), 'button has alt attribute that matches value')
-
-  t.end()
-})
-
-tape('button-3 has value as children', t => {
-  const container = document.getElementById('button-3')
-  const component = container.querySelector('tonic-button')
-  const buttonElement = component.querySelector('button')
+tape('{{button-2}} has value', t => {
+  const container = qs('#button-2')
+  const component = qs('tonic-button', container)
+  const buttonElement = qs('button', component)
 
   t.ok(component.firstElementChild, 'the component was constructed')
   t.ok(!component.hasAttribute('value'), 'the component does not have a value attribute')
-  t.ok(buttonElement.textContent, 'the button does have text content')
+  t.ok(buttonElement.textContent, 'the button has text content')
+  t.equal(buttonElement.textContent, buttonElement.getAttribute('alt'), 'button has alt attribute that matches value')
 
   t.end()
 })
 
-},{"../../test/tape":87}],68:[function(require,module,exports){
+tape('{{button-3}} is disabled', t => {
+  const container = qs('#button-3')
+  const component = qs('tonic-button', container)
+  const buttonElement = qs('button', component)
+
+  t.ok(component.firstElementChild, 'the component was constructed')
+  t.ok(buttonElement.hasAttribute('disabled'), 'the button has the disabled attribute')
+  t.equal(buttonElement.getAttribute('disabled'), 'true', 'disabled is true')
+
+  t.end()
+})
+
+tape('{{button-4}} is not disabled when disabled="false"', t => {
+  const container = qs('#button-4')
+  const component = qs('tonic-button', container)
+  const buttonElement = qs('button', component)
+
+  t.ok(component.firstElementChild, 'the component was constructed')
+  t.ok(buttonElement.hasAttribute('disabled'), 'the button has the disabled attribute')
+  t.equal(buttonElement.getAttribute('disabled'), 'false', 'disabled is false')
+
+  t.end()
+})
+
+tape('{{button-5}} has correct attributes', t => {
+  const container = qs('#button-5')
+  const component = qs('tonic-button', container)
+  const buttonWrapper = qs('.tonic--button--wrapper', component)
+  const buttonElement = qs('button', component)
+
+  t.ok(component.firstElementChild, 'the component was constructed')
+  t.equal(buttonElement.getAttribute('autofocus'), 'true', 'button has autofocus="true" attribute')
+  t.equal(buttonElement.getAttribute('type'), 'reset', 'button has type="reset" attribute')
+  t.ok(buttonWrapper.style.margin === '10px', 'button wrapper has margin="10px"')
+  t.ok(buttonElement.style.width === '200px', 'button has width of 200px')
+  t.ok(buttonElement.style.height === '50px', 'button has height of 50px')
+  t.ok(buttonElement.style.borderRadius === '5px', 'button has border radius of 5px')
+  t.equal(buttonElement.getAttribute('tabindex'), '1', 'tabindex is 1')
+  t.equal(buttonElement.getAttribute('type'), buttonElement.textContent, 'button has text content equal to type')
+
+  t.end()
+})
+
+tape('{{button-6}} gets style derived from component "fill" attribute', t => {
+  const container = qs('#button-6')
+  const component = qs('tonic-button', container)
+  const buttonElement = qs('button', component)
+
+  t.ok(component.firstElementChild, 'the component was constructed')
+  t.ok(component.hasAttribute('fill'), 'the component has fill attribute')
+  t.equal(component.getAttribute('fill'), buttonElement.style.backgroundColor, 'the fill attribute matches button background color')
+  t.equal(component.getAttribute('fill'), buttonElement.style.borderColor, 'the fill attribute matches button border color')
+
+  t.end()
+})
+
+tape('{{button-7}} gets border style derived from component attributes', t => {
+  const container = qs('#button-7')
+  const component = qs('tonic-button', container)
+  const buttonElement = qs('button', component)
+
+  t.plan(4)
+
+  t.ok(component.firstElementChild, 'the component was constructed')
+  t.equal(component.getAttribute('border-color'), buttonElement.style.borderColor, 'button contains style "border-color" matching component attribute "border-color"')
+  t.equal(component.getAttribute('border-width'), buttonElement.style.borderWidth, 'button contains style "border-width" matching component attribute "border-width"')
+  t.equal(component.getAttribute('text-color'), buttonElement.style.color, 'button contains style "color" matching component attribute "text-color"')
+
+  t.end()
+})
+
+tape('{{button-8}} shows loading when clicked', async t => {
+  const container = qs('#button-8')
+  const component = qs('tonic-button', container)
+
+  t.plan(1)
+
+  component.addEventListener('click', async e => {
+    const button = e.target.querySelector('button')
+    await sleep(1)
+    t.ok(button.classList.contains('tonic--loading'), 'loading class was applied')
+  })
+
+  component.dispatchEvent(new window.Event('click'))
+  await sleep(1)
+  t.end()
+})
+
+},{"../../test/tape":88,"qs":38}],69:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],69:[function(require,module,exports){
-const tape = require('../../test/tape')
+},{"dup":4}],70:[function(require,module,exports){
+// const tape = require('../../test/tape')
+//
+// tape('default state for checkbox-1', t => {
+//   t.ok(true, 'cool')
+//   t.end()
+// })
+//
+// tape('checkbox-1 has value as attribute', t => {
+//   t.ok(true, 'cool')
+//   t.end()
+// })
 
-tape('default state for checkbox-1', t => {
-  t.ok(true, 'cool')
-  t.end()
-})
-
-tape('checkbox-1 has value as attribute', t => {
-  t.ok(true, 'cool')
-  t.end()
-})
-
-},{"../../test/tape":87}],70:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 const Tonic = require('@conductorlab/tonic')
 
 class TonicDialog extends Tonic.Dialog {
@@ -13272,11 +13360,11 @@ const dialogDarkTheme = document.getElementById('dialog-dark-theme')
 
 linkDarkTheme.addEventListener('click', e => dialogDarkTheme.show())
 
-},{"@conductorlab/tonic":2}],71:[function(require,module,exports){
-arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],72:[function(require,module,exports){
+},{"@conductorlab/tonic":2}],72:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
 },{"dup":4}],73:[function(require,module,exports){
+arguments[4][4][0].apply(exports,arguments)
+},{"dup":4}],74:[function(require,module,exports){
 const Tonic = require('@conductorlab/tonic')
 
 class TonicPanel extends Tonic.Panel {
@@ -13365,7 +13453,7 @@ const panelThemeDark = document.getElementById('tonic-panel-theme-dark')
 
 panelThemeDarkButton.addEventListener('click', e => panelThemeDark.show())
 
-},{"@conductorlab/tonic":2}],74:[function(require,module,exports){
+},{"@conductorlab/tonic":2}],75:[function(require,module,exports){
 //
 // Panel Default
 //
@@ -13376,9 +13464,9 @@ popover.addEventListener('show', event => {
   }, { once: true })
 })
 
-},{}],75:[function(require,module,exports){
+},{}],76:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],76:[function(require,module,exports){
+},{"dup":4}],77:[function(require,module,exports){
 const progressBar30 = document.getElementById('progress-bar-30')
 progressBar30.setProgress(30)
 
@@ -13411,11 +13499,11 @@ interval = setInterval(() => {
   if (progressBarAuto.value >= 100) percentage = 0
 }, 128)
 
-},{}],77:[function(require,module,exports){
+},{}],78:[function(require,module,exports){
 const rangeValue = document.getElementById('range-thumb-value-js')
 rangeValue.value = 15
 
-},{}],78:[function(require,module,exports){
+},{}],79:[function(require,module,exports){
 const select = document.getElementById('tonic-router-select')
 const page2 = document.getElementById('page2')
 
@@ -13429,13 +13517,13 @@ page2.addEventListener('match', () => {
   el.textContent = number
 })
 
-},{}],79:[function(require,module,exports){
-arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],80:[function(require,module,exports){
+},{}],80:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
 },{"dup":4}],81:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
 },{"dup":4}],82:[function(require,module,exports){
+arguments[4][4][0].apply(exports,arguments)
+},{"dup":4}],83:[function(require,module,exports){
 // Default inline toaster
 const toasterInlineDefault = document.getElementById('tonic-toasterinline-default')
 const toasterInlineDefaultButton = document.getElementById('tonic-toasterinline-default-button')
@@ -13656,7 +13744,7 @@ toasterInlineJsButton.addEventListener('click', e => {
   })
 })
 
-},{}],83:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 const notification = document.querySelector('tonic-toaster[position="center"]')
 
 // Toaster Default
@@ -13829,13 +13917,13 @@ toasterThemeDark.addEventListener('click', e => {
   })
 })
 
-},{}],84:[function(require,module,exports){
-arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],85:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
 },{"dup":4}],86:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
 },{"dup":4}],87:[function(require,module,exports){
+arguments[4][4][0].apply(exports,arguments)
+},{"dup":4}],88:[function(require,module,exports){
 const tape = require('tape')
 const stream = tape.createStream({ objectMode: true })
 
@@ -13904,7 +13992,7 @@ stream.on('data', data => {
 
 module.exports = tape
 
-},{"tape":59}],88:[function(require,module,exports){
+},{"tape":60}],89:[function(require,module,exports){
 const Tonic = require('@conductorlab/tonic')
 const components = require('..')
 
@@ -13948,4 +14036,4 @@ function ready () {
 
 document.addEventListener('DOMContentLoaded', ready)
 
-},{"..":1,"../src/badge/test":66,"../src/button/test":67,"../src/charts/test":68,"../src/checkbox/test":69,"../src/dialog/test":70,"../src/icon/test":71,"../src/input/test":72,"../src/panel/test":73,"../src/popover/test":74,"../src/profile-image/test":75,"../src/progress-bar/test":76,"../src/range/test":77,"../src/router/test":78,"../src/select/test":79,"../src/tabs/test":80,"../src/textarea/test":81,"../src/toaster-inline/test":82,"../src/toaster/test":83,"../src/toggle/test":84,"../src/tooltip/test":85,"../src/windowed/test":86,"@conductorlab/tonic":2}]},{},[88]);
+},{"..":1,"../src/badge/test":67,"../src/button/test":68,"../src/charts/test":69,"../src/checkbox/test":70,"../src/dialog/test":71,"../src/icon/test":72,"../src/input/test":73,"../src/panel/test":74,"../src/popover/test":75,"../src/profile-image/test":76,"../src/progress-bar/test":77,"../src/range/test":78,"../src/router/test":79,"../src/select/test":80,"../src/tabs/test":81,"../src/textarea/test":82,"../src/toaster-inline/test":83,"../src/toaster/test":84,"../src/toggle/test":85,"../src/tooltip/test":86,"../src/windowed/test":87,"@conductorlab/tonic":2}]},{},[89]);

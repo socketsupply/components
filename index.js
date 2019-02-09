@@ -122,13 +122,12 @@ class TonicButton extends Tonic { /* global Tonic */
 
   defaults () {
     return {
-      value: 'Submit',
       height: '40px',
       width: '150px',
       margin: '5px',
-      disabled: false,
-      autofocus: false,
-      async: false,
+      disabled: 'false',
+      autofocus: 'false',
+      async: 'false',
       radius: '2px',
       borderWidth: '1px',
       textColorDisabled: 'var(--disabled)',
@@ -158,19 +157,19 @@ class TonicButton extends Tonic { /* global Tonic */
         appearance: none;
       }
 
-      tonic-button button[disabled],
+      tonic-button button[disabled="true"],
       tonic-button button.tonic--active {
         color: var(--medium);
         background-color: var(--background);
         border-color: var(--background);
       }
 
-      tonic-button button[disabled] {
+      tonic-button button[disabled="true"] {
         pointer-events: none;
         user-select: none;
       }
 
-      tonic-button button:not([disabled]):hover,
+      tonic-button button:not([disabled="true"]):hover,
       tonic-button button:not(.tonic--loading):hover {
         color: var(--window) !important;
         background-color: var(--button) !important;
@@ -237,7 +236,7 @@ class TonicButton extends Tonic { /* global Tonic */
 
   click () {
     const disabled = this.props.disabled === 'true'
-    const async = this.props.async
+    const async = this.props.async === 'true'
 
     if (async && !disabled) {
       this.loading(true)
@@ -288,7 +287,6 @@ class TonicButton extends Tonic { /* global Tonic */
       href
     } = this.props
 
-    const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
     const valueAttr = value ? `value="${value}"` : ''
     const typeAttr = type ? `type="${type}"` : ''
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
@@ -306,13 +304,11 @@ class TonicButton extends Tonic { /* global Tonic */
       })
     }
 
-    const label = this.root.textContent || value
+    const label = this.root.textContent || type || 'Button'
 
     const attributes = [
       valueAttr,
       typeAttr,
-      disabledAttr,
-      autofocus,
       tabAttr
     ].join(' ')
 
@@ -321,6 +317,8 @@ class TonicButton extends Tonic { /* global Tonic */
         <button
           styles="button"
           async="${async}"
+          disabled=${disabled}
+          autofocus=${autofocus}
           alt="${label}"
           ${attributes}
           class="${classes}">${label}</button>

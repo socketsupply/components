@@ -13,7 +13,7 @@ tape('{{button-1}} has correct default state', t => {
   t.plan(4)
 
   t.ok(component.firstElementChild, 'the component was constructed')
-  t.equal(buttonElement.getAttribute('disabled'), 'false', 'disabled is false')
+  t.ok(!buttonElement.hasAttribute('disabled'), 'does not have disabled attribute')
   t.equal(buttonElement.getAttribute('autofocus'), 'false', 'autofocus is false')
   t.equal(attrAsyncIsFalse, !isLoading, 'async is false, loading class is not applied')
 
@@ -40,11 +40,10 @@ tape('{{button-3}} is disabled', t => {
   const component = qs('tonic-button', container)
   const buttonElement = qs('button', component)
 
-  t.plan(3)
+  t.plan(2)
 
   t.ok(component.firstElementChild, 'the component was constructed')
   t.ok(buttonElement.hasAttribute('disabled'), 'the button has the disabled attribute')
-  t.equal(buttonElement.getAttribute('disabled'), 'true', 'disabled is true')
 
   t.end()
 })
@@ -57,8 +56,8 @@ tape('{{button-4}} is not disabled when disabled="false"', t => {
   t.plan(3)
 
   t.ok(component.firstElementChild, 'the component was constructed')
-  t.ok(buttonElement.hasAttribute('disabled'), 'the button has the disabled attribute')
-  t.equal(buttonElement.getAttribute('disabled'), 'false', 'disabled is false')
+  t.ok(component.hasAttribute('disabled'), 'component has the disabled attribute')
+  t.ok(!buttonElement.hasAttribute('disabled'), 'button does not have the disabled attribute')
 
   t.end()
 })
@@ -114,11 +113,14 @@ tape('{{button-7}} gets border style derived from component attributes', t => {
   t.end()
 })
 
-tape('{{button-8}} shows loading when clicked', async t => {
+tape('{{button-8}} is async, shows loading state when clicked', async t => {
   const container = qs('#button-8')
   const component = qs('tonic-button', container)
 
-  t.plan(1)
+  t.plan(3)
+
+  t.ok(component.firstElementChild, 'the component was constructed')
+  t.equal(component.getAttribute('async'), 'true', 'the button async attribute is true')
 
   component.addEventListener('click', async e => {
     const button = component.querySelector('button')
@@ -126,6 +128,27 @@ tape('{{button-8}} shows loading when clicked', async t => {
     await sleep(128)
     const isLoading = button.classList.contains('tonic--loading')
     t.ok(isLoading, 'loading class was applied')
+    t.end()
+  })
+
+  component.dispatchEvent(new window.Event('click'))
+})
+
+tape('{{button-9}} is not async, does not show loading when clicked', async t => {
+  const container = qs('#button-9')
+  const component = qs('tonic-button', container)
+
+  t.plan(3)
+
+  t.ok(component.firstElementChild, 'the component was constructed')
+  t.equal(component.getAttribute('async'), 'false', 'the button async attribute is false')
+
+  component.addEventListener('click', async e => {
+    const button = component.querySelector('button')
+
+    await sleep(128)
+    const isLoading = button.classList.contains('tonic--loading')
+    t.ok(!isLoading, 'loading class was not applied')
     t.end()
   })
 

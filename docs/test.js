@@ -117,7 +117,7 @@ class TonicButton extends Tonic { /* global Tonic */
     })
 
     Object.defineProperty(this.root, 'disabled', {
-      get () { return that.props.disabled === 'true' },
+      get () { return that.props.disabled === true },
       set (state) { that.props.disabled = state }
     })
   }
@@ -127,7 +127,6 @@ class TonicButton extends Tonic { /* global Tonic */
       height: '40px',
       width: '150px',
       margin: '5px',
-      disabled: 'false',
       autofocus: 'false',
       async: 'false',
       radius: '2px',
@@ -159,19 +158,19 @@ class TonicButton extends Tonic { /* global Tonic */
         appearance: none;
       }
 
-      tonic-button button[disabled="true"],
+      tonic-button button[disabled],
       tonic-button button.tonic--active {
         color: var(--medium);
         background-color: var(--background);
         border-color: var(--background);
       }
 
-      tonic-button button[disabled="true"] {
+      tonic-button button[disabled] {
         pointer-events: none;
         user-select: none;
       }
 
-      tonic-button button:not([disabled="true"]):hover,
+      tonic-button button:not([disabled]):hover,
       tonic-button button:not(.tonic--loading):hover {
         color: var(--window) !important;
         background-color: var(--button) !important;
@@ -236,13 +235,17 @@ class TonicButton extends Tonic { /* global Tonic */
     })
   }
 
-  click () {
+  click (e) {
     const disabled = this.props.disabled === 'true'
     const async = this.props.async === 'true'
+    const href = this.props.href
 
     if (async && !disabled) {
       this.loading(true)
     }
+
+    console.log(e)
+    if (href) window.open(href)
   }
 
   styles () {
@@ -285,10 +288,10 @@ class TonicButton extends Tonic { /* global Tonic */
       autofocus,
       active,
       async,
-      tabindex,
-      href
+      tabindex
     } = this.props
 
+    const disabledAttr = disabled && disabled !== 'false' ? 'disabled' : ''
     const valueAttr = value ? `value="${value}"` : ''
     const typeAttr = type ? `type="${type}"` : ''
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
@@ -299,12 +302,6 @@ class TonicButton extends Tonic { /* global Tonic */
     classes = classes.join(' ')
 
     if (tabindex) this.root.removeAttribute('tabindex')
-    if (href) {
-      this.root.addEventListener('click', e => {
-        e.preventDefault()
-        window.location.href = href
-      })
-    }
 
     const label = this.root.textContent || type || 'Button'
 
@@ -319,8 +316,8 @@ class TonicButton extends Tonic { /* global Tonic */
         <button
           styles="button"
           async="${async}"
-          disabled=${disabled}
-          autofocus=${autofocus}
+          ${disabledAttr}
+          autofocus="${autofocus}"
           alt="${label}"
           ${attributes}
           class="${classes}">${label}</button>
@@ -13142,7 +13139,7 @@ tape('{{button-1}} has correct default state', t => {
   t.plan(4)
 
   t.ok(component.firstElementChild, 'the component was constructed')
-  t.equal(buttonElement.getAttribute('disabled'), 'false', 'disabled is false')
+  t.ok(!buttonElement.hasAttribute('disabled'), 'does not have disabled attribute')
   t.equal(buttonElement.getAttribute('autofocus'), 'false', 'autofocus is false')
   t.equal(attrAsyncIsFalse, !isLoading, 'async is false, loading class is not applied')
 
@@ -13169,11 +13166,10 @@ tape('{{button-3}} is disabled', t => {
   const component = qs('tonic-button', container)
   const buttonElement = qs('button', component)
 
-  t.plan(3)
+  t.plan(2)
 
   t.ok(component.firstElementChild, 'the component was constructed')
   t.ok(buttonElement.hasAttribute('disabled'), 'the button has the disabled attribute')
-  t.equal(buttonElement.getAttribute('disabled'), 'true', 'disabled is true')
 
   t.end()
 })
@@ -13186,8 +13182,8 @@ tape('{{button-4}} is not disabled when disabled="false"', t => {
   t.plan(3)
 
   t.ok(component.firstElementChild, 'the component was constructed')
-  t.ok(buttonElement.hasAttribute('disabled'), 'the button has the disabled attribute')
-  t.equal(buttonElement.getAttribute('disabled'), 'false', 'disabled is false')
+  t.ok(component.hasAttribute('disabled'), 'component has the disabled attribute')
+  t.ok(!buttonElement.hasAttribute('disabled'), 'button does not have the disabled attribute')
 
   t.end()
 })
@@ -13243,11 +13239,14 @@ tape('{{button-7}} gets border style derived from component attributes', t => {
   t.end()
 })
 
-tape('{{button-8}} shows loading when clicked', async t => {
+tape('{{button-8}} is async, shows loading state when clicked', async t => {
   const container = qs('#button-8')
   const component = qs('tonic-button', container)
 
-  t.plan(1)
+  t.plan(3)
+
+  t.ok(component.firstElementChild, 'the component was constructed')
+  t.equal(component.getAttribute('async'), 'true', 'the button async attribute is true')
 
   component.addEventListener('click', async e => {
     const button = component.querySelector('button')
@@ -13255,6 +13254,27 @@ tape('{{button-8}} shows loading when clicked', async t => {
     await sleep(128)
     const isLoading = button.classList.contains('tonic--loading')
     t.ok(isLoading, 'loading class was applied')
+    t.end()
+  })
+
+  component.dispatchEvent(new window.Event('click'))
+})
+
+tape('{{button-9}} is not async, does not show loading when clicked', async t => {
+  const container = qs('#button-9')
+  const component = qs('tonic-button', container)
+
+  t.plan(3)
+
+  t.ok(component.firstElementChild, 'the component was constructed')
+  t.equal(component.getAttribute('async'), 'false', 'the button async attribute is false')
+
+  component.addEventListener('click', async e => {
+    const button = component.querySelector('button')
+
+    await sleep(128)
+    const isLoading = button.classList.contains('tonic--loading')
+    t.ok(!isLoading, 'loading class was not applied')
     t.end()
   })
 

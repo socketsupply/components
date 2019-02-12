@@ -137,7 +137,6 @@ class TonicButton extends Tonic { /* global Tonic */
       this.loading(true)
     }
 
-    console.log(e)
     if (href) window.open(href)
   }
 

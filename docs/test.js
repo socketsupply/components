@@ -244,7 +244,6 @@ class TonicButton extends Tonic { /* global Tonic */
       this.loading(true)
     }
 
-    console.log(e)
     if (href) window.open(href)
   }
 
@@ -13275,6 +13274,7 @@ tape('{{button-9}} is not async, does not show loading when clicked', async t =>
     await sleep(128)
     const isLoading = button.classList.contains('tonic--loading')
     t.ok(!isLoading, 'loading class was not applied')
+
     t.end()
   })
 
@@ -13284,19 +13284,62 @@ tape('{{button-9}} is not async, does not show loading when clicked', async t =>
 },{"../../test/tape":88,"qs":38}],69:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
 },{"dup":4}],70:[function(require,module,exports){
-// const tape = require('../../test/tape')
-//
-// tape('default state for checkbox-1', t => {
-//   t.ok(true, 'cool')
-//   t.end()
-// })
-//
-// tape('checkbox-1 has value as attribute', t => {
-//   t.ok(true, 'cool')
-//   t.end()
-// })
+const tape = require('../../test/tape')
+const { qs } = require('qs')
 
-},{}],71:[function(require,module,exports){
+tape('{{checkbox-1}} has correct default state', t => {
+  const container = qs('#checkbox-1')
+  const component = qs('tonic-checkbox', container)
+  const input = qs('input[type="checkbox"]', component)
+
+  t.plan(2)
+
+  t.ok(component.firstElementChild, 'the component was constructed')
+  t.ok(input.checked === false, 'the default checkbox is not checked')
+
+  t.end()
+})
+
+tape('{{checkbox-2}} has correct label', t => {
+  const container = qs('#checkbox-2')
+  const component = qs('tonic-checkbox', container)
+  const label = qs('label:last-of-type', component)
+
+  t.plan(2)
+
+  t.ok(component.firstElementChild, 'the component was constructed')
+  t.equal(component.getAttribute('label'), label.textContent, 'the label attribute matches the label text')
+
+  t.end()
+})
+
+tape('{{checkbox-3}} is checked', t => {
+  const container = qs('#checkbox-3')
+  const component = qs('tonic-checkbox', container)
+  const input = qs('input[type="checkbox"]', component)
+
+  t.plan(2)
+
+  t.ok(component.firstElementChild, 'the component was constructed')
+  t.ok(input.checked, 'the input is checked')
+
+  t.end()
+})
+
+tape('{{checkbox-4}} is disabled', t => {
+  const container = qs('#checkbox-4')
+  const component = qs('tonic-checkbox', container)
+  const input = qs('input[type="checkbox"]', component)
+
+  t.plan(2)
+
+  t.ok(component.firstElementChild, 'the component was constructed')
+  t.ok(input.hasAttribute('disabled'), 'the input is disabled')
+
+  t.end()
+})
+
+},{"../../test/tape":88,"qs":38}],71:[function(require,module,exports){
 const Tonic = require('@conductorlab/tonic')
 
 class TonicDialog extends Tonic.Dialog {

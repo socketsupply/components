@@ -149,6 +149,7 @@ tape('{{button-9}} is not async, does not show loading when clicked', async t =>
     await sleep(128)
     const isLoading = button.classList.contains('tonic--loading')
     t.ok(!isLoading, 'loading class was not applied')
+
     t.end()
   })
 

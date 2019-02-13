@@ -2991,7 +2991,7 @@ class TonicSelect extends Tonic { /* global Tonic */
       }
 
       tonic-select select:not([multiple]) {
-        padding: 10px 20px 10px 10px;
+        padding: 10px 30px 10px 10px;
       }
 
       tonic-select select[disabled] {

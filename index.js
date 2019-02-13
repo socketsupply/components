@@ -542,8 +542,6 @@ class TonicCheckbox extends Tonic { /* global Tonic */
 
     const state = this.getState()
 
-    console.log('STATE', state)
-
     let url = ''
 
     const label = this.root.querySelector('label.tonic--icon')

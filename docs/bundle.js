@@ -973,6 +973,8 @@ class TonicCheckbox extends Tonic { /* global Tonic */
 
     const state = this.getState()
 
+    console.log('STATE', state)
+
     let url = ''
 
     const label = this.root.querySelector('label.tonic--icon')
@@ -1040,14 +1042,18 @@ class TonicCheckbox extends Tonic { /* global Tonic */
       tabindex
     } = this.props
 
-    let checked = this.props.checked === 'true'
+    let checked = (this.props.checked === true) || (this.props.checked === 'true')
 
-    if (this.state.checked !== 'undefined') {
+    if (typeof this.state.checked !== 'undefined') {
       checked = this.state.checked
+    } else {
+      this.setState(state => Object.assign(state, {
+        state,
+        checked
+      }))
     }
 
-    checked = checked ? 'checked' : ''
-
+    const checkedAttr = checked ? 'checked' : ''
     const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
 
@@ -1056,8 +1062,7 @@ class TonicCheckbox extends Tonic { /* global Tonic */
 
     const attributes = [
       disabledAttr,
-      tabAttr,
-      checked
+      tabAttr
     ].join(' ')
 
     return `
@@ -1065,6 +1070,7 @@ class TonicCheckbox extends Tonic { /* global Tonic */
         <input
           type="checkbox"
           id="tonic--checkbox--${id}"
+          ${checkedAttr}
           ${attributes}/>
         <label
           for="tonic--checkbox--${id}"

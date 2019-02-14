@@ -32,6 +32,7 @@ class TonicWindowed extends Tonic.Windowed {
 }
 
 Tonic.add(TonicWindowed)
+Tonic.init()
 
 //
 // This demo generates the data after you click the overlay instead of

@@ -4083,9 +4083,13 @@ class Windowed extends Tonic { /* global Tonic */
   }
 
   async rePaint ({ refresh, load } = {}) {
+    if (!this.root) return
+
     if (refresh && load !== false) this.load(this.rows)
 
     const outer = this.root.querySelector('.tonic--windowed--outer')
+    if (!outer) return
+
     const viewStart = outer.scrollTop
     const viewEnd = viewStart + this.outerHeight
 

@@ -1,0 +1,66 @@
+body > main div.example .content.windowed-example {
+  max-width: initial;
+  padding: 0;
+  position: relative;
+  height: 330px;
+}
+
+tonic-windowed {
+  height: 300px;
+}
+
+tonic-windowed .th {
+  background: var(--border);
+}
+
+tonic-windowed .th,
+tonic-windowed .tr {
+  height: 30px;
+  display: flex;
+  overflow: hidden;
+  border-bottom: 1px solid var(--border);
+}
+
+tonic-windowed .tr:hover {
+  background: var(--accent);
+  color: white;
+  cursor: default;
+}
+
+tonic-windowed .td {
+  white-space: nowrap;
+  display: inline-block;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100px;
+  font-family: var(--monospace);
+  font-size: 14px;
+  height: 30px;
+  line-height: 30px;
+  flex-basis: 33.3%;
+  padding: 0 4px;
+}
+
+#click-to-load {
+  position: absolute;
+  display: flex;
+  left: 0;
+  right: 0;
+  background: var(--window);
+  z-index: 1;
+  top: 0;
+  bottom: 0;
+  cursor: pointer;
+  opacity: 1;
+  transition: all 1.5s;
+}
+
+#click-to-load span {
+  margin: auto;
+}
+
+#click-to-load.hidden {
+  opacity: 0;
+  z-index: -1;
+}
+

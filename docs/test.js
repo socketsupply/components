@@ -13340,6 +13340,7 @@ tape('{{checkbox-4}} is disabled', t => {
 })
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 tape('{{checkbox-5}} has size attributes', t => {
   const container = qs('#checkbox-5')
   const component = qs('tonic-checkbox', container)
@@ -13361,6 +13362,31 @@ tape('{{checkbox-5}} has size attributes', t => {
 =======
 },{"../../test/tape":87,"qs":37}],70:[function(require,module,exports){
 >>>>>>> rebuild
+=======
+},{"../../test/tape":87,"qs":37}],70:[function(require,module,exports){
+=======
+tape('{{checkbox-5}} has size attributes', t => {
+  const container = qs('#checkbox-5')
+  const component = qs('tonic-checkbox', container)
+  const icon = qs('label.tonic--icon', component)
+  const size = component.getAttribute('size')
+
+  console.log(size)
+  console.log(icon.style.width)
+
+  t.plan(4)
+
+  t.ok(component.firstElementChild, 'the component was constructed')
+  t.ok(component.hasAttribute('size'), 'the component has a size attribute')
+  t.ok(icon.style.width === size, 'the width equals the size attribute')
+  t.ok(icon.style.height === size, 'the height equals the size attribute')
+
+  t.end()
+})
+
+},{"../../test/tape":88,"qs":38}],71:[function(require,module,exports){
+>>>>>>> wip checkboxes, tests for tonic-icon
+>>>>>>> wip checkboxes, tests for tonic-icon
 const Tonic = require('@conductorlab/tonic')
 
 class TonicDialog extends Tonic.Dialog {
@@ -13624,11 +13650,85 @@ tape('{{input-9}} has label', t => {
   t.end()
 })
 
+<<<<<<< HEAD
 },{"../../test/tape":88,"qs":38}],74:[function(require,module,exports){
 =======
+=======
+<<<<<<< HEAD
+>>>>>>> wip checkboxes, tests for tonic-icon
 },{"@conductorlab/tonic":2}],71:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
 },{"dup":4}],72:[function(require,module,exports){
+=======
+},{"@conductorlab/tonic":2}],72:[function(require,module,exports){
+const tape = require('../../test/tape')
+const { qs } = require('qs')
+
+tape('{{icon-1}} is constructed properly', t => {
+  const container = qs('#icon-1')
+  const component = qs('tonic-icon', container)
+  // const svg = qs('svg', component)
+  // const use = qs('use', component)
+
+  t.plan(3)
+
+  t.ok(component.firstElementChild, 'the component was constructed')
+  t.ok(component.hasAttribute('src'), 'the component has a src')
+  t.ok(component.hasAttribute('symbol-id'), 'the component has a symbol id')
+
+  t.end()
+})
+
+tape('{{icon-2}} has size attribute', t => {
+  const container = qs('#icon-2')
+  const component = qs('tonic-icon', container)
+  const svg = qs('svg', component)
+
+  t.plan(4)
+
+  t.ok(component.firstElementChild, 'the component was constructed')
+  t.ok(component.hasAttribute('size'), 'the component has the size attribute')
+  t.equal(component.getAttribute('size'), svg.style.width, 'the size attribute matches svg width')
+  t.equal(component.getAttribute('size'), svg.style.height, 'the size attribute matches svg height')
+
+  t.end()
+})
+
+tape('{{icon-3}} has color attribute', t => {
+  const container = qs('#icon-3')
+  const component = qs('tonic-icon', container)
+  const use = qs('use', component)
+
+  t.plan(3)
+
+  t.ok(component.firstElementChild, 'the component was constructed')
+  t.equal(component.getAttribute('fill'), use.getAttribute('fill'), 'the fill attribute on the component matches use')
+  t.equal(use.getAttribute('fill'), use.getAttribute('color'), 'use has matching fill and color attributes')
+
+  t.end()
+})
+
+tape('{{icon-4}} uses custom symbol', t => {
+  const container = qs('#icon-4')
+  const component = qs('tonic-icon', container)
+  const id = component.getAttribute('symbol-id')
+  const src = component.getAttribute('src')
+  const use = qs('use', component)
+  const url = `${src}#${id}`
+
+  t.plan(4)
+
+  t.ok(component.firstElementChild, 'the component was constructed')
+  t.ok(id, 'the component has symbol id')
+  t.ok(src, 'the component has src')
+  t.equal(use.getAttribute('href'), url, 'the href attribute contains the correct url')
+  console.log(use.getAttribute('href'), url)
+
+  t.end()
+})
+
+},{"../../test/tape":88,"qs":38}],73:[function(require,module,exports){
+>>>>>>> wip checkboxes, tests for tonic-icon
 arguments[4][4][0].apply(exports,arguments)
 },{"dup":4}],73:[function(require,module,exports){
 >>>>>>> rebuild

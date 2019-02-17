@@ -13135,16 +13135,18 @@ const sleep = n => new Promise(resolve => setTimeout(resolve, n))
 tape('{{button-1}} has correct default state', t => {
   const container = qs('#button-1')
   const component = qs('tonic-button', container)
-  const buttonElement = qs('button', component)
-  const isLoading = buttonElement.classList.contains('tonic--loading')
-  const attrAsyncIsFalse = buttonElement.getAttribute('async') === 'false'
+  const wrapper = qs('.tonic--button--wrapper', component)
+  const button = qs('button', component)
+  const isLoading = button.classList.contains('tonic--loading')
 
-  t.plan(4)
+  t.plan(6)
 
-  t.ok(component.firstElementChild, 'the component was constructed')
-  t.ok(!buttonElement.hasAttribute('disabled'), 'does not have disabled attribute')
-  t.equal(buttonElement.getAttribute('autofocus'), 'false', 'autofocus is false')
-  t.equal(attrAsyncIsFalse, !isLoading, 'async is false, loading class is not applied')
+  t.ok(wrapper, 'component was constructed with a wrapper')
+  t.ok(button, 'component was constructed with a button element')
+  t.ok(!button.hasAttribute('disabled'), 'does not have disabled attribute')
+  t.equal(button.getAttribute('autofocus'), 'false', 'autofocus is false')
+  t.equal(button.getAttribute('async'), 'false', 'async attribute is false')
+  t.equal(isLoading, false, 'loading class is not applied')
 
   t.end()
 })
@@ -13152,14 +13154,14 @@ tape('{{button-1}} has correct default state', t => {
 tape('{{button-2}} has value', t => {
   const container = qs('#button-2')
   const component = qs('tonic-button', container)
-  const buttonElement = qs('button', component)
+  const button = qs('button', component)
 
   t.plan(4)
 
-  t.ok(component.firstElementChild, 'the component was constructed')
+  t.ok(button, 'the component was constructed with a button')
   t.ok(!component.hasAttribute('value'), 'the component does not have a value attribute')
-  t.ok(buttonElement.textContent, 'the button has text content')
-  t.equal(buttonElement.textContent, buttonElement.getAttribute('alt'), 'button has alt attribute that matches value')
+  t.ok(button.textContent, 'the button has text content')
+  t.equal(button.textContent, button.getAttribute('alt'), 'button has alt attribute that matches value')
 
   t.end()
 })
@@ -13167,12 +13169,12 @@ tape('{{button-2}} has value', t => {
 tape('{{button-3}} is disabled', t => {
   const container = qs('#button-3')
   const component = qs('tonic-button', container)
-  const buttonElement = qs('button', component)
+  const button = qs('button', component)
 
   t.plan(2)
 
-  t.ok(component.firstElementChild, 'the component was constructed')
-  t.ok(buttonElement.hasAttribute('disabled'), 'the button has the disabled attribute')
+  t.ok(button, 'the component was constructed with a button')
+  t.ok(button.hasAttribute('disabled'), 'the button has the disabled attribute')
 
   t.end()
 })
@@ -13180,13 +13182,13 @@ tape('{{button-3}} is disabled', t => {
 tape('{{button-4}} is not disabled when disabled="false"', t => {
   const container = qs('#button-4')
   const component = qs('tonic-button', container)
-  const buttonElement = qs('button', component)
+  const button = qs('button', component)
 
   t.plan(3)
 
-  t.ok(component.firstElementChild, 'the component was constructed')
-  t.ok(component.hasAttribute('disabled'), 'component has the disabled attribute')
-  t.ok(!buttonElement.hasAttribute('disabled'), 'button does not have the disabled attribute')
+  t.ok(button, 'the component was constructed with a button')
+  t.equal(component.getAttribute('disabled'), 'false', 'component has the disabled="false" attribute')
+  t.ok(!button.hasAttribute('disabled'), 'button does not have disabled class')
 
   t.end()
 })
@@ -13195,19 +13197,19 @@ tape('{{button-5}} has correct attributes', t => {
   const container = qs('#button-5')
   const component = qs('tonic-button', container)
   const buttonWrapper = qs('.tonic--button--wrapper', component)
-  const buttonElement = qs('button', component)
+  const button = qs('button', component)
 
   t.plan(9)
 
-  t.ok(component.firstElementChild, 'the component was constructed')
-  t.equal(buttonElement.getAttribute('autofocus'), 'true', 'button has autofocus="true" attribute')
-  t.equal(buttonElement.getAttribute('type'), 'reset', 'button has type="reset" attribute')
+  t.ok(button, 'the component was constructed with a button')
+  t.equal(button.getAttribute('autofocus'), 'true', 'button has autofocus="true" attribute')
+  t.equal(button.getAttribute('type'), 'reset', 'button has type="reset" attribute')
   t.ok(buttonWrapper.style.margin === '10px', 'button wrapper has margin="10px"')
-  t.ok(buttonElement.style.width === '200px', 'button has width of 200px')
-  t.ok(buttonElement.style.height === '50px', 'button has height of 50px')
-  t.ok(buttonElement.style.borderRadius === '5px', 'button has border radius of 5px')
-  t.equal(buttonElement.getAttribute('tabindex'), '1', 'tabindex is 1')
-  t.equal(buttonElement.getAttribute('type'), buttonElement.textContent, 'button has text content equal to type')
+  t.ok(button.style.width === '200px', 'button has width of 200px')
+  t.ok(button.style.height === '50px', 'button has height of 50px')
+  t.ok(button.style.borderRadius === '5px', 'button has border radius of 5px')
+  t.equal(button.getAttribute('tabindex'), '1', 'tabindex is 1')
+  t.equal(button.getAttribute('type'), button.textContent, 'button has text content equal to type')
 
   t.end()
 })
@@ -13215,14 +13217,14 @@ tape('{{button-5}} has correct attributes', t => {
 tape('{{button-6}} gets style derived from component "fill" attribute', t => {
   const container = qs('#button-6')
   const component = qs('tonic-button', container)
-  const buttonElement = qs('button', component)
+  const button = qs('button', component)
 
   t.plan(4)
 
-  t.ok(component.firstElementChild, 'the component was constructed')
+  t.ok(button, 'the component was constructed with a button')
   t.ok(component.hasAttribute('fill'), 'the component has fill attribute')
-  t.equal(component.getAttribute('fill'), buttonElement.style.backgroundColor, 'the fill attribute matches button background color')
-  t.equal(component.getAttribute('fill'), buttonElement.style.borderColor, 'the fill attribute matches button border color')
+  t.equal(component.getAttribute('fill'), button.style.backgroundColor, 'the fill attribute matches button background color')
+  t.equal(component.getAttribute('fill'), button.style.borderColor, 'the fill attribute matches button border color')
 
   t.end()
 })
@@ -13230,14 +13232,14 @@ tape('{{button-6}} gets style derived from component "fill" attribute', t => {
 tape('{{button-7}} gets border style derived from component attributes', t => {
   const container = qs('#button-7')
   const component = qs('tonic-button', container)
-  const buttonElement = qs('button', component)
+  const button = qs('button', component)
 
   t.plan(4)
 
-  t.ok(component.firstElementChild, 'the component was constructed')
-  t.equal(component.getAttribute('border-color'), buttonElement.style.borderColor, 'button contains style "border-color" matching component attribute "border-color"')
-  t.equal(component.getAttribute('border-width'), buttonElement.style.borderWidth, 'button contains style "border-width" matching component attribute "border-width"')
-  t.equal(component.getAttribute('text-color'), buttonElement.style.color, 'button contains style "color" matching component attribute "text-color"')
+  t.ok(button, 'the component was constructed with a button')
+  t.equal(component.getAttribute('border-color'), button.style.borderColor, 'button contains style "border-color" matching component attribute "border-color"')
+  t.equal(component.getAttribute('border-width'), button.style.borderWidth, 'button contains style "border-width" matching component attribute "border-width"')
+  t.equal(component.getAttribute('text-color'), button.style.color, 'button contains style "color" matching component attribute "text-color"')
 
   t.end()
 })
@@ -13294,11 +13296,15 @@ const { qs } = require('qs')
 tape('{{checkbox-1}} has correct default state', t => {
   const container = qs('#checkbox-1')
   const component = qs('tonic-checkbox', container)
+  const wrapper = qs('.tonic--checkbox--wrapper', component)
   const input = qs('input[type="checkbox"]', component)
+  const icon = qs('.tonic--icon', component)
 
-  t.plan(2)
+  t.plan(4)
 
-  t.ok(component.firstElementChild, 'the component was constructed')
+  t.ok(wrapper, 'component constructed with a wrapper')
+  t.ok(input, 'component constructed with an input')
+  t.ok(icon, 'component constructed with default icon')
   t.ok(input.checked === false, 'the default checkbox is not checked')
 
   t.end()
@@ -13307,11 +13313,11 @@ tape('{{checkbox-1}} has correct default state', t => {
 tape('{{checkbox-2}} has correct label', t => {
   const container = qs('#checkbox-2')
   const component = qs('tonic-checkbox', container)
-  const label = qs('label:last-of-type', component)
+  const label = qs('label:not(.tonic--icon)', component)
 
   t.plan(2)
 
-  t.ok(component.firstElementChild, 'the component was constructed')
+  t.ok(label, 'component was constructed with a label')
   t.equal(component.getAttribute('label'), label.textContent, 'the label attribute matches the label text')
 
   t.end()
@@ -13324,7 +13330,7 @@ tape('{{checkbox-3}} is checked', t => {
 
   t.plan(2)
 
-  t.ok(component.firstElementChild, 'the component was constructed')
+  t.ok(input, 'component was constructed with an input')
   t.ok(input.checked, 'the input is checked')
 
   t.end()
@@ -13337,7 +13343,7 @@ tape('{{checkbox-4}} is disabled', t => {
 
   t.plan(2)
 
-  t.ok(component.firstElementChild, 'the component was constructed')
+  t.ok(input, 'component was constructed with an input')
   t.ok(input.hasAttribute('disabled'), 'the input is disabled')
 
   t.end()
@@ -13347,11 +13353,12 @@ tape('{{checkbox-5}} has size attributes', t => {
   const container = qs('#checkbox-5')
   const component = qs('tonic-checkbox', container)
   const icon = qs('label.tonic--icon', component)
+  const input = qs('input[type="checkbox"]', component)
   const size = component.getAttribute('size')
 
   t.plan(4)
 
-  t.ok(component.firstElementChild, 'the component was constructed')
+  t.ok(input, 'component was constructed with an input')
   t.ok(component.hasAttribute('size'), 'the component has a size attribute')
   t.ok(icon.style.width === size, 'the width equals the size attribute')
   t.ok(icon.style.height === size, 'the height equals the size attribute')
@@ -13386,73 +13393,9 @@ class TonicDialog extends Tonic.Dialog {
 
 Tonic.add(TonicDialog)
 
-// ID
-const linkID = document.getElementById('dialog-id-button')
-const dialogID = document.getElementById('dialog-id')
-
-linkID.addEventListener('click', e => dialogID.show())
-
-// Name
-const linkName = document.getElementById('dialog-name-button')
-const dialogName = document.getElementById('dialog-name')
-
-linkName.addEventListener('click', e => dialogName.show())
-
-// Width
-const linkWidth = document.getElementById('dialog-width-button')
-const dialogWidth = document.getElementById('dialog-width')
-
-linkWidth.addEventListener('click', e => dialogWidth.show())
-
-// Full Width
-const linkFullWidth = document.getElementById('dialog-full-width-button')
-const dialogFullWidth = document.getElementById('dialog-full-width')
-
-linkFullWidth.addEventListener('click', e => dialogFullWidth.show())
-
-// Height
-const linkHeight = document.getElementById('dialog-height-button')
-const dialogHeight = document.getElementById('dialog-height')
-
-linkHeight.addEventListener('click', e => dialogHeight.show())
-
-// Full Height
-const linkFullHeight = document.getElementById('dialog-full-height-button')
-const dialogFullHeight = document.getElementById('dialog-full-height')
-
-linkFullHeight.addEventListener('click', e => dialogFullHeight.show())
-
-// Overlay
-const linkOverlay = document.getElementById('dialog-overlay-button')
-const dialogOverlay = document.getElementById('dialog-overlay')
-
-linkOverlay.addEventListener('click', e => dialogOverlay.show())
-
-// No Overlay
-const linkNoOverlay = document.getElementById('dialog-no-overlay-button')
-const dialogNoOverlay = document.getElementById('dialog-no-overlay')
-
-linkNoOverlay.addEventListener('click', e => dialogNoOverlay.show())
-
-// Background Color
-const linkBackground = document.getElementById('dialog-background-button')
-const dialogBackground = document.getElementById('dialog-background')
-
-linkBackground.addEventListener('click', e => dialogBackground.show())
-
-// Theme: Light
-const linkLightTheme = document.getElementById('dialog-light-theme-button')
-const dialogLightTheme = document.getElementById('dialog-light-theme')
-
-linkLightTheme.addEventListener('click', e => dialogLightTheme.show())
-
-// Theme: Dark
-const linkDarkTheme = document.getElementById('dialog-dark-theme-button')
-const dialogDarkTheme = document.getElementById('dialog-dark-theme')
-
-linkDarkTheme.addEventListener('click', e => dialogDarkTheme.show())
-
-// TESTS
+//
+// Dialog Tests
+//
 const tape = require('../../test/tape')
 const { qs } = require('qs')
 
@@ -13466,8 +13409,8 @@ tape('{{dialog-1}} is constructed properly, opens and closes properly', async t 
   const isShowingInitialState = wrapper.classList.contains('tonic--show')
 
   t.plan(5)
-  t.equal(isShowingInitialState, false, 'the element has no show class')
 
+  t.equal(isShowingInitialState, false, 'the element has no show class')
   t.ok(wrapper, 'the component contains the wrapper')
   t.ok(close, 'the component contains the close button')
   t.ok(component.hasAttribute('id'), 'the component has an id')
@@ -13475,13 +13418,13 @@ tape('{{dialog-1}} is constructed properly, opens and closes properly', async t 
   await component.show()
 
   const isShowingAfterOpen = wrapper.classList.contains('tonic--show')
-  t.equal(isShowingAfterOpen, true, 'the element has show class')
+  t.equal(isShowingAfterOpen, true, 'the element has been opened, has show class')
 
   await sleep(128)
   await component.hide()
 
   const isShowing = wrapper.classList.contains('tonic--show')
-  t.equal(isShowing, false, 'dialog closes when close button is clicked')
+  t.equal(isShowing, false, 'the element has been closed, has no show class')
   t.end()
 })
 
@@ -13550,8 +13493,37 @@ tape('{{icon-4}} uses custom symbol', t => {
 })
 
 },{"../../test/tape":88,"qs":38}],73:[function(require,module,exports){
-arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],74:[function(require,module,exports){
+const tape = require('../../test/tape')
+const { qs } = require('qs')
+
+tape('{{input-1}} default state is constructed', t => {
+  const container = qs('#input-1')
+  const component = qs('tonic-input', container)
+  const wrapper = qs('.tonic--wrapper', component)
+  const input = qs('input', wrapper)
+  const invalid = qs('.tonic--invalid', wrapper)
+
+  t.ok(wrapper, 'the component was constructed, has a wrapper')
+  t.ok(input, 'the component contains an input')
+  t.ok(invalid, 'the component contains a tonic invalid div')
+  t.ok(!input.hasAttribute('disabled'), 'the input is not disabled by default')
+
+  t.end()
+})
+
+tape('{{input-2}} contains a default value', t => {
+  const container = qs('#input-2')
+  const component = qs('tonic-input', container)
+  const input = qs('input', component)
+  const value = component.getAttribute('value')
+
+  t.equal(value, input.getAttribute('value'), 'component input value attributes match')
+  t.equal(value, input.value, 'component value attribute matches input value')
+
+  t.end()
+})
+
+},{"../../test/tape":88,"qs":38}],74:[function(require,module,exports){
 const Tonic = require('@conductorlab/tonic')
 
 class TonicPanel extends Tonic.Panel {

@@ -4,11 +4,15 @@ const { qs } = require('qs')
 tape('{{checkbox-1}} has correct default state', t => {
   const container = qs('#checkbox-1')
   const component = qs('tonic-checkbox', container)
+  const wrapper = qs('.tonic--checkbox--wrapper', component)
   const input = qs('input[type="checkbox"]', component)
+  const icon = qs('.tonic--icon', component)
 
-  t.plan(2)
+  t.plan(4)
 
-  t.ok(component.firstElementChild, 'the component was constructed')
+  t.ok(wrapper, 'component constructed with a wrapper')
+  t.ok(input, 'component constructed with an input')
+  t.ok(icon, 'component constructed with default icon')
   t.ok(input.checked === false, 'the default checkbox is not checked')
 
   t.end()
@@ -17,11 +21,11 @@ tape('{{checkbox-1}} has correct default state', t => {
 tape('{{checkbox-2}} has correct label', t => {
   const container = qs('#checkbox-2')
   const component = qs('tonic-checkbox', container)
-  const label = qs('label:last-of-type', component)
+  const label = qs('label:not(.tonic--icon)', component)
 
   t.plan(2)
 
-  t.ok(component.firstElementChild, 'the component was constructed')
+  t.ok(label, 'component was constructed with a label')
   t.equal(component.getAttribute('label'), label.textContent, 'the label attribute matches the label text')
 
   t.end()
@@ -34,7 +38,7 @@ tape('{{checkbox-3}} is checked', t => {
 
   t.plan(2)
 
-  t.ok(component.firstElementChild, 'the component was constructed')
+  t.ok(input, 'component was constructed with an input')
   t.ok(input.checked, 'the input is checked')
 
   t.end()
@@ -47,7 +51,7 @@ tape('{{checkbox-4}} is disabled', t => {
 
   t.plan(2)
 
-  t.ok(component.firstElementChild, 'the component was constructed')
+  t.ok(input, 'component was constructed with an input')
   t.ok(input.hasAttribute('disabled'), 'the input is disabled')
 
   t.end()
@@ -57,11 +61,12 @@ tape('{{checkbox-5}} has size attributes', t => {
   const container = qs('#checkbox-5')
   const component = qs('tonic-checkbox', container)
   const icon = qs('label.tonic--icon', component)
+  const input = qs('input[type="checkbox"]', component)
   const size = component.getAttribute('size')
 
   t.plan(4)
 
-  t.ok(component.firstElementChild, 'the component was constructed')
+  t.ok(input, 'component was constructed with an input')
   t.ok(component.hasAttribute('size'), 'the component has a size attribute')
   t.ok(icon.style.width === size, 'the width equals the size attribute')
   t.ok(icon.style.height === size, 'the height equals the size attribute')

@@ -13371,9 +13371,6 @@ tape('{{checkbox-5}} has size attributes', t => {
   const icon = qs('label.tonic--icon', component)
   const size = component.getAttribute('size')
 
-  console.log(size)
-  console.log(icon.style.width)
-
   t.plan(4)
 
   t.ok(component.firstElementChild, 'the component was constructed')
@@ -13413,6 +13410,7 @@ class TonicDialog extends Tonic.Dialog {
 
 Tonic.add(TonicDialog)
 
+<<<<<<< HEAD
 //
 // Dialog Tests
 //
@@ -13427,6 +13425,11 @@ tape('{{dialog-1}} is constructed properly, opens and closes properly', async t 
   const wrapper = qs('.tonic--dialog--wrapper', component)
   const close = qs('.tonic--close', component)
   const isShowingInitialState = wrapper.classList.contains('tonic--show')
+=======
+// ID
+const linkID = document.getElementById('dialog-id-button')
+const dialogID = document.getElementById('dialog-id')
+>>>>>>> dialog tests
 
   t.plan(5)
 
@@ -13530,6 +13533,7 @@ tape('{{input-1}} default state is constructed', t => {
   t.ok(invalid, 'the component contains a tonic invalid div')
   t.equal(input.disabled, false, 'the input is not disabled by default')
 
+<<<<<<< HEAD
 <<<<<<< HEAD
   t.end()
 })
@@ -13656,19 +13660,56 @@ tape('{{input-9}} has label', t => {
 =======
 <<<<<<< HEAD
 >>>>>>> wip checkboxes, tests for tonic-icon
+=======
+<<<<<<< HEAD
+>>>>>>> dialog tests
 },{"@conductorlab/tonic":2}],71:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
 },{"dup":4}],72:[function(require,module,exports){
 =======
 },{"@conductorlab/tonic":2}],72:[function(require,module,exports){
+=======
+// TESTS
+const tape = require('../../test/tape')
+const { qs } = require('qs')
+
+const sleep = n => new Promise(resolve => setTimeout(resolve, n))
+
+tape('{{dialog-1}} is constructed properly, opens and closes properly', async t => {
+  const container = qs('#dialog-1')
+  const component = qs('tonic-dialog', container)
+  const wrapper = qs('.tonic--dialog--wrapper', component)
+  const close = qs('.tonic--close', component)
+  const isShowingInitialState = wrapper.classList.contains('tonic--show')
+
+  t.plan(5)
+  t.equal(isShowingInitialState, false, 'the element has no show class')
+
+  t.ok(wrapper, 'the component contains the wrapper')
+  t.ok(close, 'the component contains the close button')
+  t.ok(component.hasAttribute('id'), 'the component has an id')
+
+  await component.show()
+
+  const isShowingAfterOpen = wrapper.classList.contains('tonic--show')
+  t.equal(isShowingAfterOpen, true, 'the element has show class')
+
+  await sleep(128)
+  await component.hide()
+
+  const isShowing = wrapper.classList.contains('tonic--show')
+  t.equal(isShowing, false, 'dialog closes when close button is clicked')
+  t.end()
+})
+
+},{"../../test/tape":88,"@conductorlab/tonic":2,"qs":38}],72:[function(require,module,exports){
+>>>>>>> dialog tests
 const tape = require('../../test/tape')
 const { qs } = require('qs')
 
 tape('{{icon-1}} is constructed properly', t => {
   const container = qs('#icon-1')
   const component = qs('tonic-icon', container)
-  // const svg = qs('svg', component)
-  // const use = qs('use', component)
 
   t.plan(3)
 
@@ -13722,7 +13763,6 @@ tape('{{icon-4}} uses custom symbol', t => {
   t.ok(id, 'the component has symbol id')
   t.ok(src, 'the component has src')
   t.equal(use.getAttribute('href'), url, 'the href attribute contains the correct url')
-  console.log(use.getAttribute('href'), url)
 
   t.end()
 })

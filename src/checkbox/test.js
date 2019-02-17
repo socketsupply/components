@@ -52,3 +52,22 @@ tape('{{checkbox-4}} is disabled', t => {
 
   t.end()
 })
+
+tape('{{checkbox-5}} has size attributes', t => {
+  const container = qs('#checkbox-5')
+  const component = qs('tonic-checkbox', container)
+  const icon = qs('label.tonic--icon', component)
+  const size = component.getAttribute('size')
+
+  console.log(size)
+  console.log(icon.style.width)
+
+  t.plan(4)
+
+  t.ok(component.firstElementChild, 'the component was constructed')
+  t.ok(component.hasAttribute('size'), 'the component has a size attribute')
+  t.ok(icon.style.width === size, 'the width equals the size attribute')
+  t.ok(icon.style.height === size, 'the height equals the size attribute')
+
+  t.end()
+})

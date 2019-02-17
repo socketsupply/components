@@ -59,9 +59,6 @@ tape('{{checkbox-5}} has size attributes', t => {
   const icon = qs('label.tonic--icon', component)
   const size = component.getAttribute('size')
 
-  console.log(size)
-  console.log(icon.style.width)
-
   t.plan(4)
 
   t.ok(component.firstElementChild, 'the component was constructed')

@@ -4,8 +4,6 @@ const { qs } = require('qs')
 tape('{{icon-1}} is constructed properly', t => {
   const container = qs('#icon-1')
   const component = qs('tonic-icon', container)
-  // const svg = qs('svg', component)
-  // const use = qs('use', component)
 
   t.plan(3)
 
@@ -59,7 +57,6 @@ tape('{{icon-4}} uses custom symbol', t => {
   t.ok(id, 'the component has symbol id')
   t.ok(src, 'the component has src')
   t.equal(use.getAttribute('href'), url, 'the href attribute contains the correct url')
-  console.log(use.getAttribute('href'), url)
 
   t.end()
 })

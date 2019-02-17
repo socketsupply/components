@@ -24,74 +24,37 @@ class TonicDialog extends Tonic.Dialog {
 
 Tonic.add(TonicDialog)
 
-// Default
-const link = document.getElementById('dialog-default-button')
-const dialog = document.getElementById('dialog-default')
+//
+// Dialog Tests
+//
+const tape = require('../../test/tape')
+const { qs } = require('qs')
 
-link.addEventListener('click', e => dialog.show())
+const sleep = n => new Promise(resolve => setTimeout(resolve, n))
 
-// ID
-const linkID = document.getElementById('dialog-id-button')
-const dialogID = document.getElementById('dialog-id')
+tape('{{dialog-1}} is constructed properly, opens and closes properly', async t => {
+  const container = qs('#dialog-1')
+  const component = qs('tonic-dialog', container)
+  const wrapper = qs('.tonic--dialog--wrapper', component)
+  const close = qs('.tonic--close', component)
+  const isShowingInitialState = wrapper.classList.contains('tonic--show')
 
-linkID.addEventListener('click', e => dialogID.show())
+  t.plan(5)
 
-// Name
-const linkName = document.getElementById('dialog-name-button')
-const dialogName = document.getElementById('dialog-name')
+  t.equal(isShowingInitialState, false, 'the element has no show class')
+  t.ok(wrapper, 'the component contains the wrapper')
+  t.ok(close, 'the component contains the close button')
+  t.ok(component.hasAttribute('id'), 'the component has an id')
 
-linkName.addEventListener('click', e => dialogName.show())
+  await component.show()
 
-// Width
-const linkWidth = document.getElementById('dialog-width-button')
-const dialogWidth = document.getElementById('dialog-width')
+  const isShowingAfterOpen = wrapper.classList.contains('tonic--show')
+  t.equal(isShowingAfterOpen, true, 'the element has been opened, has show class')
 
-linkWidth.addEventListener('click', e => dialogWidth.show())
+  await sleep(128)
+  await component.hide()
 
-// Full Width
-const linkFullWidth = document.getElementById('dialog-full-width-button')
-const dialogFullWidth = document.getElementById('dialog-full-width')
-
-linkFullWidth.addEventListener('click', e => dialogFullWidth.show())
-
-// Height
-const linkHeight = document.getElementById('dialog-height-button')
-const dialogHeight = document.getElementById('dialog-height')
-
-linkHeight.addEventListener('click', e => dialogHeight.show())
-
-// Full Height
-const linkFullHeight = document.getElementById('dialog-full-height-button')
-const dialogFullHeight = document.getElementById('dialog-full-height')
-
-linkFullHeight.addEventListener('click', e => dialogFullHeight.show())
-
-// Overlay
-const linkOverlay = document.getElementById('dialog-overlay-button')
-const dialogOverlay = document.getElementById('dialog-overlay')
-
-linkOverlay.addEventListener('click', e => dialogOverlay.show())
-
-// No Overlay
-const linkNoOverlay = document.getElementById('dialog-no-overlay-button')
-const dialogNoOverlay = document.getElementById('dialog-no-overlay')
-
-linkNoOverlay.addEventListener('click', e => dialogNoOverlay.show())
-
-// Background Color
-const linkBackground = document.getElementById('dialog-background-button')
-const dialogBackground = document.getElementById('dialog-background')
-
-linkBackground.addEventListener('click', e => dialogBackground.show())
-
-// Theme: Light
-const linkLightTheme = document.getElementById('dialog-light-theme-button')
-const dialogLightTheme = document.getElementById('dialog-light-theme')
-
-linkLightTheme.addEventListener('click', e => dialogLightTheme.show())
-
-// Theme: Dark
-const linkDarkTheme = document.getElementById('dialog-dark-theme-button')
-const dialogDarkTheme = document.getElementById('dialog-dark-theme')
-
-linkDarkTheme.addEventListener('click', e => dialogDarkTheme.show())
+  const isShowing = wrapper.classList.contains('tonic--show')
+  t.equal(isShowing, false, 'the element has been closed, has no show class')
+  t.end()
+})

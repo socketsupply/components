@@ -1,34 +1,38 @@
 <section id="icon">
   <h2>Icon</h2>
 
-  <div class="test-container">
+  <div id="icon-1" class="test-container">
     <span>Default Icon</span>
-    <tonic-icon></tonic-icon>
+    <tonic-icon
+      symbol-id="example"
+      src="/sprite.svg">
+    </tonic-icon>
   </div>
 
-  <div class="test-container">
+  <div id="icon-2" class="test-container">
     <span>size="40px"</span>
-    <tonic-icon size="40px"></tonic-icon>
+    <tonic-icon
+      symbol-id="example"
+      src="/sprite.svg"
+      size="40px">
+    </tonic-icon>
   </div>
 
-  <div class="test-container">
-    <span>color="cyan"</span>
-    <tonic-icon color="cyan"></tonic-icon>
+  <div id="icon-3" class="test-container">
+    <span>fill="cyan"</span>
+    <tonic-icon
+      symbol-id="example"
+      src="/sprite.svg"
+      fill="cyan">
+    </tonic-icon>
   </div>
 
-  <div class="test-container">
-    <span>src="${path}"</span>
-    <tonic-icon src="./sprite.svg#custom_off"></tonic-icon>
-  </div>
-
-  <div class="test-container">
-    <span>theme="light"</span>
-    <tonic-icon theme="light"></tonic-icon>
-  </div>
-
-  <div class="test-container dark">
-    <span>theme="dark"</span>
-    <tonic-icon theme="dark"></tonic-icon>
+  <div id="icon-4" class="test-container">
+    <span>symbol-id="custom_off"</span>
+    <tonic-icon
+      symbol-id="custom_off"
+      src="/sprite.svg">
+    </tonic-icon>
   </div>
 
 </section>

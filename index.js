@@ -542,8 +542,6 @@ class TonicCheckbox extends Tonic { /* global Tonic */
 
     const state = this.getState()
 
-    console.log('STATE', state)
-
     let url = ''
 
     const label = this.root.querySelector('label.tonic--icon')
@@ -929,8 +927,8 @@ class TonicIcon extends Tonic { /* global Tonic */
         <use
           href="${src}#${symbolId}"
           xlink:href="${src}#${symbolId}"
-          fill="${fill}"
           width="${size}"
+          ${fill ? `fill="${fill}" color="${fill}"` : ''}
           height="${size}">
       </svg>
     `

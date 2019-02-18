@@ -970,14 +970,11 @@ class TonicInput extends Tonic { /* global Tonic */
   }
 
   get value () {
-    // if (!this.root) return
-    return this.state.value // this.root.querySelector('input').value
+    return this.state.value
   }
 
   set value (value) {
-    // if (!this.root) return
     this.state.value = value
-    // this.root.querySelector('input').value = value
   }
 
   setValid () {
@@ -4094,6 +4091,9 @@ class Windowed extends Tonic { /* global Tonic */
 
   async rePaint ({ refresh, load } = {}) {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> bump version, build
     if (!this.root) return
 
     if (refresh && load !== false) this.load(this.rows)
@@ -4101,11 +4101,14 @@ class Windowed extends Tonic { /* global Tonic */
     const outer = this.root.querySelector('.tonic--windowed--outer')
     if (!outer) return
 
+<<<<<<< HEAD
 =======
     if (refresh && load !== false) this.load(this.rows)
 
     const outer = this.root.querySelector('.tonic--windowed--outer')
 >>>>>>> wip input tests
+=======
+>>>>>>> bump version, build
     const viewStart = outer.scrollTop
     const viewEnd = viewStart + this.outerHeight
 

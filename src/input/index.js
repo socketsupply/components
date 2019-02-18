@@ -29,13 +29,11 @@ class TonicInput extends Tonic { /* global Tonic */
   }
 
   get value () {
-    if (!this.root) return
-    return this.root.querySelector('input').value
+    return this.state.value
   }
 
   set value (value) {
-    if (!this.root) return
-    this.root.querySelector('input').value = value
+    this.state.value = value
   }
 
   setValid () {
@@ -224,7 +222,9 @@ class TonicInput extends Tonic { /* global Tonic */
   }
 
   updated () {
+    if (!this.root) return
     const input = this.root.querySelector('input')
+
     setTimeout(() => {
       if (this.props.invalid) {
         input.setCustomValidity(this.props.errorMessage)
@@ -238,6 +238,10 @@ class TonicInput extends Tonic { /* global Tonic */
 
   connected () {
     this.setupEvents()
+
+    if (this.props.value) {
+      this.state.value = this.props.value
+    }
   }
 
   styles () {
@@ -299,7 +303,7 @@ class TonicInput extends Tonic { /* global Tonic */
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
     if (tabindex) this.root.removeAttribute('tabindex')
 
-    const value = this.props.value || this.state.value
+    const value = this.state.value || this.props.value
     const valueAttr = value && value !== 'undefined' ? `value="${value}"` : ''
 
     const attributes = [

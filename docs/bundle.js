@@ -1399,14 +1399,11 @@ class TonicInput extends Tonic { /* global Tonic */
   }
 
   get value () {
-    // if (!this.root) return
-    return this.state.value // this.root.querySelector('input').value
+    return this.state.value
   }
 
   set value (value) {
-    // if (!this.root) return
     this.state.value = value
-    // this.root.querySelector('input').value = value
   }
 
   setValid () {

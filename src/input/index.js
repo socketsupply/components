@@ -29,10 +29,12 @@ class TonicInput extends Tonic { /* global Tonic */
   }
 
   get value () {
+    if (!this.root) return
     return this.root.querySelector('input').value
   }
 
   set value (value) {
+    if (!this.root) return
     this.root.querySelector('input').value = value
   }
 
@@ -182,6 +184,7 @@ class TonicInput extends Tonic { /* global Tonic */
   }
 
   setupEvents () {
+    if (!this.root) return
     const input = this.root.querySelector('input')
 
     const set = (k, v, event) => {

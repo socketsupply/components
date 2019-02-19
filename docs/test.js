@@ -2562,7 +2562,7 @@ class TonicSelect extends Tonic { /* global Tonic */
       }
 
       tonic-select select:not([multiple]) {
-        padding: 10px 20px 10px 10px;
+        padding: 10px 30px 10px 10px;
       }
 
       tonic-select select[disabled] {
@@ -13496,6 +13496,8 @@ tape('{{icon-4}} uses custom symbol', t => {
 const tape = require('../../test/tape')
 const { qs } = require('qs')
 
+const sleep = n => new Promise(resolve => setTimeout(resolve, n))
+
 tape('{{input-1}} default state is constructed', t => {
   const container = qs('#input-1')
   const component = qs('tonic-input', container)
@@ -13625,6 +13627,27 @@ tape('{{input-9}} has label', t => {
   t.ok(input, 'the component was constructed with an input')
   t.ok(label, 'the component was constructed with a label')
   t.equal(component.getAttribute('label'), label.textContent, 'component label attribute matches text of label')
+
+  t.end()
+})
+
+tape('{{input-10}} has min length', t => {
+  const container = qs('#input-10')
+  const component = qs('tonic-input', container)
+  const input = qs('input', component)
+
+  t.plan(3)
+
+  t.ok(input, 'the component was constructed with an input')
+  t.equal(component.getAttribute('minlength'), input.getAttribute('minlength'), 'component minlength attribute matches input')
+
+  sleep(128)
+
+  input.focus()
+  input.value = 'two'
+
+  const error = qs('.tonic--invalid', component)
+  t.ok(error.classList.contains('.tonic--show'), 'error is showing')
 
   t.end()
 })

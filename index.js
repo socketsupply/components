@@ -4130,6 +4130,10 @@ class Windowed extends Tonic { /* global Tonic */
       inner.removeChild(this.pages[i])
       delete this.pages[i]
     }
+
+    if (this.state.scrollTop) {
+      outer.scrollTop = this.state.scrollTop
+    }
   }
 
   getPageTop (i) {
@@ -4196,6 +4200,7 @@ class Windowed extends Tonic { /* global Tonic */
     const outer = this.root.querySelector('.tonic--windowed--outer')
 
     outer && outer.addEventListener('scroll', () => {
+      this.state.scrollTop = outer.scrollTop
       this.rePaint()
     }, { passive: true })
   }

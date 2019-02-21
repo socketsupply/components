@@ -130,6 +130,11 @@
     <tonic-button async="false">Button</tonic-button>
   </div>
 
+  <div id="button-10" class="test-container">
+    <span>tabindex="0"</span>
+    <tonic-button tabindex="0">Button</tonic-button>
+  </div>
+
 </section>
 
       
@@ -175,9 +180,17 @@
     </tonic-checkbox>
   </div>
 
+  <div id="checkbox-6" class="test-container">
+    <span>tabindex="0"</span>
+    <tonic-checkbox
+      tabindex="0"
+      id="tonic-checkbox-tabindex">
+    </tonic-checkbox>
+  </div>
+
   <!-- need to fix with new tonic-icon method -->
 
-  <div id="checkbox-6" class="test-container">
+  <!-- <div id="checkbox-6" class="test-container">
     <span>Custom</span>
     <tonic-checkbox
       id="tonic-checkbox-custom"
@@ -194,7 +207,7 @@
       icon-on="./sprite.svg#custom_on"
       icon-off="./sprite.svg#custom_off">
     </tonic-checkbox>
-  </div>
+  </div> -->
 
 </section>
 
@@ -289,6 +302,14 @@
     </tonic-icon>
   </div>
 
+  <div id="icon-5" class="test-container">
+    <span>tabindex="0"</span>
+    <tonic-icon
+      tabindex="0"
+      src="/sprite.svg">
+    </tonic-icon>
+  </div>
+
 </section>
 
       <section id="input">
@@ -339,6 +360,11 @@
     <tonic-input label="Label"></tonic-input>
   </div>
 
+  <div id="input-10" class="test-container">
+    <span>tabindex="0"</span>
+    <tonic-input tabindex="0"></tonic-input>
+  </div>
+
   <!-- <div class="test-container">
     <span>src="${path}"</span>
     <tonic-input src="./sprite.svg#custom_off"></tonic-input>
@@ -359,7 +385,8 @@
     <tonic-input pattern="[A-Za-z\s]+"></tonic-input>
   </div> -->
 
-  <div id="input-10" class="test-container">
+
+  <!-- <div id="input-11" class="test-container">
     <span>minlength="5"</span>
     <tonic-input minlength="5"></tonic-input>
   </div>
@@ -392,7 +419,7 @@
   <div class="test-container">
     <span>radius="8px"</span>
     <tonic-input radius="8px"></tonic-input>
-  </div>
+  </div> -->
 
 </section>
 
@@ -1069,7 +1096,7 @@
   <h2>Tabs</h2>
 
   <!-- Default tabs -->
-  <div class="test-container">
+  <div id="tabs-1" class="test-container">
     <span>Default Tabs</span>
     <tonic-tabs tabindex="0" group="profile" selected="one">
       <span data-tab-name="one">One</span>
@@ -1712,10 +1739,9 @@
       <section id="toggle">
   <h2>Toggle</h2>
 
-  <!-- Default inline toaster -->
   <div class="test-container">
     <span>Default Toggle</span>
-    <tonic-toggle id="toggle-1"></tonic-toggle>
+    <tonic-toggle tabindex="0" id="toggle-1"></tonic-toggle>
   </div>
 
   <div class="test-container">

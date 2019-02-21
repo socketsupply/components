@@ -4067,7 +4067,7 @@ class TonicToggle extends Tonic { /* global Tonic */
 
       tonic-toggle .tonic--toggle {
         position: absolute;
-        display: none;
+        opacity: 0;
         outline: none;
         user-select: none;
         z-index: 1;
@@ -4083,6 +4083,10 @@ class TonicToggle extends Tonic { /* global Tonic */
         border-radius: 60px;
         transition: background 0.4s ease-in-out;
         cursor: default;
+      }
+
+      tonic-toggle .tonic--toggle:focus + label {
+        outline: -webkit-focus-ring-color auto 5px;
       }
 
       tonic-toggle .tonic--toggle + label:before {
@@ -4173,10 +4177,14 @@ class TonicToggle extends Tonic { /* global Tonic */
     const {
       id,
       disabled,
-      theme
+      theme,
+      tabindex
     } = this.props
 
     const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
+
+    const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
+    if (tabindex) this.root.removeAttribute('tabindex')
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
@@ -4200,6 +4208,7 @@ class TonicToggle extends Tonic { /* global Tonic */
       <div class="tonic--toggle--wrapper">
         <div class="tonic--switch">
           <input
+            ${tabAttr}
             type="checkbox"
             class="tonic--toggle"
             id="tonic--toggle--${id}"

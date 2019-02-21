@@ -85,6 +85,18 @@ class TonicTabs extends Tonic { /* global Tonic */
   }
 
   render () {
+    const {
+      tabindex
+    } = this.props
+
+    if (tabindex) this.root.removeAttribute('tabindex')
+
+    const tabs = this.root.querySelectorAll('[data-tab-name]')
+
+    tabs.forEach(tab => {
+      tab.setAttribute('tabindex', tabindex)
+    })
+
     if (this.props.theme) {
       this.root.classList.add(`tonic--theme--${this.props.theme}`)
     }

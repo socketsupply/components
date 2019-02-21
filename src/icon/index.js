@@ -36,13 +36,19 @@ class TonicIcon extends Tonic { /* global Tonic */
       size,
       fill,
       theme,
-      src
+      src,
+      tabindex
     } = this.props
+
+    const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
+    if (tabindex) this.root.removeAttribute('tabindex')
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     return this.html`
-      <svg styles="icon">
+      <svg
+        ${tabAttr}
+        styles="icon">
         <use
           href="${src}#${symbolId}"
           xlink:href="${src}#${symbolId}"

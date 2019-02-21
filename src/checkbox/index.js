@@ -168,10 +168,11 @@ class TonicCheckbox extends Tonic { /* global Tonic */
 
     const checkedAttr = checked ? 'checked' : ''
     const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
+
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
+    if (tabindex) this.root.removeAttribute('tabindex')
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
-    if (tabindex) this.root.removeAttribute('tabindex')
 
     const attributes = [
       disabledAttr,

@@ -120,12 +120,13 @@ class TonicTextarea extends Tonic { /* global Tonic */
     const colsAttr = cols ? `cols="${cols}"` : ''
     const minAttr = minlength ? `minlength="${minlength}"` : ''
     const maxAttr = maxlength ? `maxlength="${maxlength}"` : ''
+
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
+    if (tabindex) this.root.removeAttribute('tabindex')
 
     if (width) this.root.style.width = width
     if (height) this.root.style.width = height
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
-    if (tabindex) this.root.removeAttribute('tabindex')
 
     if (this.props.value === 'undefined') this.props.value = ''
 

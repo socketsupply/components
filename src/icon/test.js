@@ -65,11 +65,13 @@ tape('{{icon-4}} uses custom symbol', t => {
 tape('{{icon-5}} has tabindex attribute', t => {
   const container = qs('#icon-5')
   const component = qs('tonic-icon', container)
+  const id = component.getAttribute('symbol-id')
   const svg = qs('svg', component)
 
-  t.plan(3)
+  t.plan(4)
 
   t.ok(svg, 'the component was constructed with an svg')
+  t.ok(id, 'the component has symbol id')
   t.equal(component.hasAttribute('tabindex'), false, 'component does not have tabindex attribute')
   t.equal(svg.hasAttribute('tabindex'), true, 'svg has tabindex attribute')
 

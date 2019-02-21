@@ -13479,7 +13479,7 @@ tape('{{dialog-1}} is constructed properly, opens and closes properly', async t 
   const close = qs('.tonic--close', component)
   const isShowingInitialState = wrapper.classList.contains('tonic--show')
 
-  t.plan(5)
+  t.plan(6)
 
   t.equal(isShowingInitialState, false, 'the element has no show class')
   t.ok(wrapper, 'the component contains the wrapper')
@@ -13496,6 +13496,7 @@ tape('{{dialog-1}} is constructed properly, opens and closes properly', async t 
 
   const isShowing = wrapper.classList.contains('tonic--show')
   t.equal(isShowing, false, 'the element has been closed, has no show class')
+
   t.end()
 })
 
@@ -13567,11 +13568,13 @@ tape('{{icon-4}} uses custom symbol', t => {
 tape('{{icon-5}} has tabindex attribute', t => {
   const container = qs('#icon-5')
   const component = qs('tonic-icon', container)
+  const id = component.getAttribute('symbol-id')
   const svg = qs('svg', component)
 
-  t.plan(3)
+  t.plan(4)
 
   t.ok(svg, 'the component was constructed with an svg')
+  t.ok(id, 'the component has symbol id')
   t.equal(component.hasAttribute('tabindex'), false, 'component does not have tabindex attribute')
   t.equal(svg.hasAttribute('tabindex'), true, 'svg has tabindex attribute')
 
@@ -14323,8 +14326,42 @@ toasterThemeDark.addEventListener('click', e => {
 })
 
 },{}],85:[function(require,module,exports){
-arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],86:[function(require,module,exports){
+const tape = require('../../test/tape')
+const { qs } = require('qs')
+
+tape('{{toggle-1}} default state renders properly', t => {
+  const container = qs('#toggle-1')
+  const component = qs('tonic-toggle', container)
+  const toggleWrapper = qs('.tonic--switch', component)
+  const input = qs('input', toggleWrapper)
+  const label = qs('label', toggleWrapper)
+
+  t.plan(4)
+
+  t.ok(input, 'the component was constructed with an input')
+  t.ok(toggleWrapper, 'the component was constructed with a toggle wrapper')
+  t.ok(component.hasAttribute('id'), 'the component has an id')
+  t.equal(input.getAttribute('id'), label.getAttribute('for'), 'the input id matches the label')
+
+  t.end()
+})
+
+tape('{{toggle-2}} has tabindex attribute', t => {
+  const container = qs('#toggle-2')
+  const component = qs('tonic-toggle', container)
+  const toggleWrapper = qs('.tonic--switch', component)
+  const input = qs('input', toggleWrapper)
+
+  t.plan(3)
+
+  t.ok(input, 'the component was constructed with an input')
+  t.equal(component.hasAttribute('tabindex'), false, 'component does not have a tabindex')
+  t.equal(input.hasAttribute('tabindex'), true, 'input has a tabindex')
+
+  t.end()
+})
+
+},{"../../test/tape":88,"qs":38}],86:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
 },{"dup":4}],87:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)

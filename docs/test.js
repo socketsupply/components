@@ -3694,7 +3694,6 @@ class TonicToggle extends Tonic { /* global Tonic */
 
       tonic-toggle .tonic--toggle:disabled {
         cursor: default;
-        opacity: 0.5;
       }
 
       tonic-toggle .tonic--toggle:disabled + label {

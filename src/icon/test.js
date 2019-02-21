@@ -46,6 +46,7 @@ tape('{{icon-3}} has color attribute', t => {
 tape('{{icon-4}} uses custom symbol', t => {
   const container = qs('#icon-4')
   const component = qs('tonic-icon', container)
+  const svg = qs('svg', component)
   const id = component.getAttribute('symbol-id')
   const src = component.getAttribute('src')
   const use = qs('use', component)
@@ -53,10 +54,24 @@ tape('{{icon-4}} uses custom symbol', t => {
 
   t.plan(4)
 
-  t.ok(component.firstElementChild, 'the component was constructed')
+  t.ok(svg, 'the component was constructed with an svg')
   t.ok(id, 'the component has symbol id')
   t.ok(src, 'the component has src')
   t.equal(use.getAttribute('href'), url, 'the href attribute contains the correct url')
+
+  t.end()
+})
+
+tape('{{icon-5}} has tabindex attribute', t => {
+  const container = qs('#icon-5')
+  const component = qs('tonic-icon', container)
+  const svg = qs('svg', component)
+
+  t.plan(3)
+
+  t.ok(svg, 'the component was constructed with an svg')
+  t.equal(component.hasAttribute('tabindex'), false, 'component does not have tabindex attribute')
+  t.equal(svg.hasAttribute('tabindex'), true, 'svg has tabindex attribute')
 
   t.end()
 })

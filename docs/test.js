@@ -3638,7 +3638,7 @@ class TonicToggle extends Tonic { /* global Tonic */
 
       tonic-toggle .tonic--toggle {
         position: absolute;
-        display: none;
+        opacity: 0;
         outline: none;
         user-select: none;
         z-index: 1;
@@ -3654,6 +3654,10 @@ class TonicToggle extends Tonic { /* global Tonic */
         border-radius: 60px;
         transition: background 0.4s ease-in-out;
         cursor: default;
+      }
+
+      tonic-toggle .tonic--toggle:focus + label {
+        outline: -webkit-focus-ring-color auto 5px;
       }
 
       tonic-toggle .tonic--toggle + label:before {
@@ -3744,10 +3748,14 @@ class TonicToggle extends Tonic { /* global Tonic */
     const {
       id,
       disabled,
-      theme
+      theme,
+      tabindex
     } = this.props
 
     const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
+
+    const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
+    if (tabindex) this.root.removeAttribute('tabindex')
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
@@ -3771,6 +3779,7 @@ class TonicToggle extends Tonic { /* global Tonic */
       <div class="tonic--toggle--wrapper">
         <div class="tonic--switch">
           <input
+            ${tabAttr}
             type="checkbox"
             class="tonic--toggle"
             id="tonic--toggle--${id}"
@@ -4111,13 +4120,9 @@ class Windowed extends Tonic { /* global Tonic */
   }
 
   async rePaint ({ refresh, load } = {}) {
-    if (!this.root) return
-
     if (refresh && load !== false) this.load(this.rows)
 
     const outer = this.root.querySelector('.tonic--windowed--outer')
-    if (!outer) return
-
     const viewStart = outer.scrollTop
     const viewEnd = viewStart + this.outerHeight
 
@@ -13319,6 +13324,20 @@ tape('{{button-9}} is not async, does not show loading when clicked', async t =>
   component.dispatchEvent(new window.Event('click'))
 })
 
+tape('{{button-10}} has tabindex attribute', t => {
+  const container = qs('#button-10')
+  const component = qs('tonic-button', container)
+  const button = qs('button', component)
+
+  t.plan(3)
+
+  t.ok(button, 'the component was constructed with a button')
+  t.equal(component.hasAttribute('tabindex'), false, 'component does not have a tabindex')
+  t.equal(button.hasAttribute('tabindex'), true, 'button has a tabindex')
+
+  t.end()
+})
+
 },{"../../test/tape":88,"qs":38}],69:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
 },{"dup":4}],70:[function(require,module,exports){
@@ -13332,10 +13351,11 @@ tape('{{checkbox-1}} has correct default state', t => {
   const input = qs('input[type="checkbox"]', component)
   const icon = qs('.tonic--icon', component)
 
-  t.plan(4)
+  t.plan(5)
 
   t.ok(wrapper, 'component constructed with a wrapper')
   t.ok(input, 'component constructed with an input')
+  t.ok(input.hasAttribute('id'), 'input was constructed with an id')
   t.ok(icon, 'component constructed with default icon')
   t.ok(input.checked === false, 'the default checkbox is not checked')
 
@@ -13345,10 +13365,12 @@ tape('{{checkbox-1}} has correct default state', t => {
 tape('{{checkbox-2}} has correct label', t => {
   const container = qs('#checkbox-2')
   const component = qs('tonic-checkbox', container)
+  const input = qs('input[type="checkbox"]', component)
   const label = qs('label:not(.tonic--icon)', component)
 
-  t.plan(2)
+  t.plan(3)
 
+  t.ok(input.hasAttribute('id'), 'input was constructed with an id')
   t.ok(label, 'component was constructed with a label')
   t.equal(component.getAttribute('label'), label.textContent, 'the label attribute matches the label text')
 
@@ -13360,9 +13382,10 @@ tape('{{checkbox-3}} is checked', t => {
   const component = qs('tonic-checkbox', container)
   const input = qs('input[type="checkbox"]', component)
 
-  t.plan(2)
+  t.plan(3)
 
   t.ok(input, 'component was constructed with an input')
+  t.ok(input.hasAttribute('id'), 'input was constructed with an id')
   t.ok(input.checked, 'the input is checked')
 
   t.end()
@@ -13373,9 +13396,10 @@ tape('{{checkbox-4}} is disabled', t => {
   const component = qs('tonic-checkbox', container)
   const input = qs('input[type="checkbox"]', component)
 
-  t.plan(2)
+  t.plan(3)
 
   t.ok(input, 'component was constructed with an input')
+  t.ok(input.hasAttribute('id'), 'input was constructed with an id')
   t.ok(input.hasAttribute('disabled'), 'the input is disabled')
 
   t.end()
@@ -13388,12 +13412,28 @@ tape('{{checkbox-5}} has size attributes', t => {
   const input = qs('input[type="checkbox"]', component)
   const size = component.getAttribute('size')
 
-  t.plan(4)
+  t.plan(5)
 
   t.ok(input, 'component was constructed with an input')
+  t.ok(input.hasAttribute('id'), 'input was constructed with an id')
   t.ok(component.hasAttribute('size'), 'the component has a size attribute')
   t.ok(icon.style.width === size, 'the width equals the size attribute')
   t.ok(icon.style.height === size, 'the height equals the size attribute')
+
+  t.end()
+})
+
+tape('{{checkbox-6}} has size attributes', t => {
+  const container = qs('#checkbox-6')
+  const component = qs('tonic-checkbox', container)
+  const input = qs('input[type="checkbox"]', component)
+
+  t.plan(4)
+
+  t.ok(input, 'component was constructed with an input')
+  t.ok(input.hasAttribute('id'), 'input was constructed with an id')
+  t.equal(component.hasAttribute('tabindex'), false, 'component does not have a tabindex')
+  t.equal(input.hasAttribute('tabindex'), true, 'input has a tabindex')
 
   t.end()
 })
@@ -13509,6 +13549,7 @@ tape('{{icon-3}} has color attribute', t => {
 tape('{{icon-4}} uses custom symbol', t => {
   const container = qs('#icon-4')
   const component = qs('tonic-icon', container)
+  const svg = qs('svg', component)
   const id = component.getAttribute('symbol-id')
   const src = component.getAttribute('src')
   const use = qs('use', component)
@@ -13516,10 +13557,24 @@ tape('{{icon-4}} uses custom symbol', t => {
 
   t.plan(4)
 
-  t.ok(component.firstElementChild, 'the component was constructed')
+  t.ok(svg, 'the component was constructed with an svg')
   t.ok(id, 'the component has symbol id')
   t.ok(src, 'the component has src')
   t.equal(use.getAttribute('href'), url, 'the href attribute contains the correct url')
+
+  t.end()
+})
+
+tape('{{icon-5}} has tabindex attribute', t => {
+  const container = qs('#icon-5')
+  const component = qs('tonic-icon', container)
+  const svg = qs('svg', component)
+
+  t.plan(3)
+
+  t.ok(svg, 'the component was constructed with an svg')
+  t.equal(component.hasAttribute('tabindex'), false, 'component does not have tabindex attribute')
+  t.equal(svg.hasAttribute('tabindex'), true, 'svg has tabindex attribute')
 
   t.end()
 })
@@ -13663,8 +13718,22 @@ tape('{{input-9}} has label', t => {
   t.end()
 })
 
-// tape('{{input-10}} has min length', t => {
-//   const container = qs('#input-10')
+tape('{{input-10}} has tabindex', t => {
+  const container = qs('#input-10')
+  const component = qs('tonic-input', container)
+  const input = qs('input', component)
+
+  t.plan(3)
+
+  t.ok(input, 'the component was constructed with an input')
+  t.equal(component.hasAttribute('tabindex'), false, 'component does not have a tabindex')
+  t.equal(input.hasAttribute('tabindex'), true, 'input has a tabindex')
+
+  t.end()
+})
+
+// tape('{{input-11}} has min length', t => {
+//   const container = qs('#input-11')
 //   const component = qs('tonic-input', container)
 //   const input = qs('input', component)
 //
@@ -13840,8 +13909,25 @@ page2.addEventListener('match', () => {
 },{}],80:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
 },{"dup":4}],81:[function(require,module,exports){
-arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],82:[function(require,module,exports){
+const tape = require('../../test/tape')
+const { qs, qsa } = require('qs')
+
+tape('{{tabs-1}} data tabs have tabindex attribute', t => {
+  const container = qs('#tabs-1')
+  const component = qs('tonic-tabs', container)
+  const tabs = qsa('[data-tab-name]', component)
+
+  t.ok(tabs, 'the component was created with tabs')
+  t.equal(component.hasAttribute('tabindex'), false, 'component does not have tabindex attribute')
+
+  tabs.forEach(tab => {
+    t.equal(tab.hasAttribute('tabindex'), true, 'tab has tabindex attribute')
+  })
+
+  t.end()
+})
+
+},{"../../test/tape":88,"qs":38}],82:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
 },{"dup":4}],83:[function(require,module,exports){
 // Default inline toaster

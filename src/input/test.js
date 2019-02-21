@@ -136,8 +136,22 @@ tape('{{input-9}} has label', t => {
   t.end()
 })
 
-// tape('{{input-10}} has min length', t => {
-//   const container = qs('#input-10')
+tape('{{input-10}} has tabindex', t => {
+  const container = qs('#input-10')
+  const component = qs('tonic-input', container)
+  const input = qs('input', component)
+
+  t.plan(3)
+
+  t.ok(input, 'the component was constructed with an input')
+  t.equal(component.hasAttribute('tabindex'), false, 'component does not have a tabindex')
+  t.equal(input.hasAttribute('tabindex'), true, 'input has a tabindex')
+
+  t.end()
+})
+
+// tape('{{input-11}} has min length', t => {
+//   const container = qs('#input-11')
 //   const component = qs('tonic-input', container)
 //   const input = qs('input', component)
 //

@@ -157,3 +157,17 @@ tape('{{button-9}} is not async, does not show loading when clicked', async t =>
 
   component.dispatchEvent(new window.Event('click'))
 })
+
+tape('{{button-10}} has tabindex attribute', t => {
+  const container = qs('#button-10')
+  const component = qs('tonic-button', container)
+  const button = qs('button', component)
+
+  t.plan(3)
+
+  t.ok(button, 'the component was constructed with a button')
+  t.equal(component.hasAttribute('tabindex'), false, 'component does not have a tabindex')
+  t.equal(button.hasAttribute('tabindex'), true, 'button has a tabindex')
+
+  t.end()
+})

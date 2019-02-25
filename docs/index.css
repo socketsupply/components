@@ -141,6 +141,8 @@ tonic-tabs {
   margin-top: 15px;
   border-top: 1px solid var(--border);
   padding-top: 15px;
+  -ms-flex-preferred-size: 100%;
+      flex-basis: 100%;
 }
 [data-tab-group].tonic--show {
   display: block;

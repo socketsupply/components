@@ -1326,7 +1326,7 @@ class Panel extends Tonic { /* global Tonic */
         top: 0;
         background-color: var(--window);
         box-shadow: 0px 0px 28px 0 rgba(0,0,0,0.05);
-        transition: transform 0.3s ease-in-out;
+        transition: transform 0.3s ease-in-out, visibility 0.3s ease;
         z-index: 100;
       }
 

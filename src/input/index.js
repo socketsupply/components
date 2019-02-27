@@ -238,10 +238,6 @@ class TonicInput extends Tonic { /* global Tonic */
 
   connected () {
     this.setupEvents()
-
-    if (this.props.value) {
-      this.state.value = this.props.value
-    }
   }
 
   styles () {

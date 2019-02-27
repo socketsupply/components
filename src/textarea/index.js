@@ -125,7 +125,7 @@ class TonicTextarea extends Tonic { /* global Tonic */
     if (tabindex) this.root.removeAttribute('tabindex')
 
     if (width) this.root.style.width = width
-    if (height) this.root.style.width = height
+    if (height) this.root.style.height = height
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
     if (this.props.value === 'undefined') this.props.value = ''

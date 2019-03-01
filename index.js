@@ -517,7 +517,7 @@ class TonicCheckbox extends Tonic { /* global Tonic */
         font-weight: 500;
         text-transform: uppercase;
         letter-spacing: 1px;
-        display: inline-block;
+        display: inline;
         vertical-align: middle;
       }
 

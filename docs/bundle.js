@@ -1023,14 +1023,16 @@ class TonicCheckbox extends Tonic { /* global Tonic */
   }
 
   renderLabel () {
-    if (!this.props.label) return ''
-
-    const {
+    let {
       id,
       label
     } = this.props
 
-    return `<label styles="label" for="tonic--checkbox--${id}">${label}</label>`
+    if (!this.props.label) {
+      label = this.children
+    }
+
+    return this.html`<label styles="label" for="tonic--checkbox--${id}">${label}</label>`
   }
 
   render () {

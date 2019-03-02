@@ -71,6 +71,11 @@
   
 
     <li>
+      <a href="#accordion" class="">Accordion</a>
+    </li>
+  
+
+    <li>
       <a href="#badge" class="">Badge</a>
     </li>
   
@@ -194,6 +199,163 @@
   that can be used as a starting point to build your own components or apps.
 </p>
 <p>See the <a href="./docs.html">docs</a> page for more details.</p>
+
+    </section>
+  
+
+    <section id="accordion">
+      
+    <div class="component-github-link">
+      <a href="https://github.com/heapwolf/components/tree/master/src/accordion/">Github</a>
+    </div>
+  
+      <h1 id="accordion">Accordion</h1>
+<p>The <code>Accordion</code> component creates a set of interactive headings that hide and show content sections, with <strong>Keyboard Support</strong></p>
+<h2>Demo</h2>
+<div class="example">
+  <div class="header">Example</div>
+  <div class="content">
+    <tonic-accordion>
+      <tonic-accordion-section
+        name="accordion-test-1"
+        id="accordion-test-1"
+        data="preview"
+        label="Accordion Test 1">
+        Whatever
+      </tonic-accordion-section>
+      <tonic-accordion-section
+        name="accordion-test-2"
+        id="accordion-test-2"
+        label="Accordion Test 2">
+        Some Content
+      </tonic-accordion-section>
+      <tonic-accordion-section
+        name="accordion-test-3"
+        id="accordion-test-3"
+        label="Accordion Test 3">
+        The visual design includes features intended to help users understand that the accordion provides enhanced keyboard navigation functions. When an accordion header button has keyboard focus, the styling of the accordion container and all its header buttons is changed.
+      </tonic-accordion-section>
+    </tonic-accordion>
+  </div>
+</div>
+
+<p>Add the <code>dataAllowMultiple</code> property to the <code>tonic-accordion</code> component to allow multiple sections to be expanded at one time.</p>
+<div class="example">
+  <div class="header">Example</div>
+  <div class="content">
+    <tonic-accordion data-allow-multiple="true">
+      <tonic-accordion-section
+        name="multiple-accordion-test-1"
+        id="multiple-accordion-test-1"
+        label="Multiple Accordion Test 1">
+        Whatever
+      </tonic-accordion-section>
+      <tonic-accordion-section
+        name="multiple-accordion-test-2"
+        id="multiple-accordion-test-2"
+        label="Multiple Accordion Test 2">
+        Some Content
+      </tonic-accordion-section>
+      <tonic-accordion-section
+        name="multiple-accordion-test-3"
+        id="multiple-accordion-test-3"
+        label="Multiple Accordion Test 3">
+        The visual design includes features intended to help users understand that the accordion provides enhanced keyboard navigation functions. When an accordion header button has keyboard focus, the styling of the accordion container and all its header buttons is changed.
+      </tonic-accordion-section>
+    </tonic-accordion>
+  </div>
+</div>
+
+<h2>Code</h2>
+<h4>HTML</h4>
+<pre><code class="language-html">  <span class="hljs-tag">&lt;<span class="hljs-name">tonic-accordion</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">tonic-accordion-section</span>
+      <span class="hljs-attr">name</span>=<span class="hljs-string">"bucket-test-1"</span>
+      <span class="hljs-attr">id</span>=<span class="hljs-string">"bucket-test-1"</span>
+      <span class="hljs-attr">data</span>=<span class="hljs-string">"preview"</span>
+      <span class="hljs-attr">label</span>=<span class="hljs-string">"Accordion Test 1"</span>&gt;</span>
+      Whatever
+    <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-accordion-section</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">tonic-accordion-section</span>
+      <span class="hljs-attr">name</span>=<span class="hljs-string">"bucket-test-2"</span>
+      <span class="hljs-attr">id</span>=<span class="hljs-string">"bucket-test-2"</span>
+      <span class="hljs-attr">label</span>=<span class="hljs-string">"Accordion Test 2"</span>&gt;</span>
+      Some Content
+    <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-accordion-section</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">tonic-accordion-section</span>
+      <span class="hljs-attr">name</span>=<span class="hljs-string">"bucket-test-3"</span>
+      <span class="hljs-attr">id</span>=<span class="hljs-string">"bucket-test-3"</span>
+      <span class="hljs-attr">label</span>=<span class="hljs-string">"Accordion Test 3"</span>&gt;</span>
+      The visual design includes features intended to help users understand that the accordion provides enhanced keyboard navigation functions. When an accordion header button has keyboard focus, the styling of the accordion container and all its header buttons is changed.
+    <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-accordion-section</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-accordion</span>&gt;</span></code></pre>
+<h2>Api</h2>
+<h3>Properties</h3>
+<p>for <strong>TonicAccordion</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>dataAllowMultiple</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Allow multiple sections to be expanded at one time.</td>
+<td align="left"><code>0</code></td>
+</tr>
+<tr>
+<td align="left"><code>theme</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
+<td align="left"><code>light</code></td>
+</tr>
+</tbody></table>
+<p>for <strong>TonicAccordionSection</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>id</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds the <code>id</code> attribute.</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>name</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds the <code>name</code> attribute.</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>label</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Pass into</td>
+<td align="left"><code>0</code></td>
+</tr>
+</tbody></table>
+<h3>Instance Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>click()</code></td>
+<td align="left">Click event</td>
+</tr>
+</tbody></table>
 
     </section>
   
@@ -2390,14 +2552,6 @@ select.addEventListener(<span class="hljs-string">'change'</span>, ({ target }) 
 </tr>
 </thead>
 <tbody><tr>
-<td align="left"><code>show()</code></td>
-<td align="left">Shows the toaster.</td>
-</tr>
-<tr>
-<td align="left"><code>hide()</code></td>
-<td align="left">Hides a toaster item.</td>
-</tr>
-<tr>
 <td align="left"><code>click()</code></td>
 <td align="left">Removes a toaster item.</td>
 </tr>
@@ -2554,14 +2708,6 @@ toasterLink1.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; 
 </tr>
 <tr>
 <td align="left"><code>click()</code></td>
-<td align="left">Removes a toaster item.</td>
-</tr>
-<tr>
-<td align="left"><code>create()</code></td>
-<td align="left">Creates a toaster item.</td>
-</tr>
-<tr>
-<td align="left"><code>destroy()</code></td>
 <td align="left">Removes a toaster item.</td>
 </tr>
 </tbody></table>

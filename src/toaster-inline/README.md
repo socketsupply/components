@@ -83,5 +83,3 @@ Otherwise, the properties for the toaster item to be created must be specified i
 | `show()` | Shows the toaster. |
 | `hide()` | Hides a toaster item. |
 | `click()` | Removes a toaster item. |
-| `create()` | Creates a toaster item. |
-| `destroy()` | Removes a toaster item. |

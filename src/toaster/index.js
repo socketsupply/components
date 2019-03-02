@@ -3,6 +3,7 @@ class TonicToaster extends Tonic { /* global Tonic */
     super(node)
 
     this.root.create = (o) => this.create(o)
+    this.root.destroy = (o) => this.destroy(o)
     this.root.hide = () => this.hide()
   }
 

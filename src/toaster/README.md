@@ -54,8 +54,6 @@ To create a new toaster item:
 
 | Method | Description |
 | :--- | :--- |
-| `show()` | Shows the toaster. |
-| `hide()` | Hides a toaster item. |
 | `click()` | Removes a toaster item. |
 | `create()` | Creates a toaster item. |
 | `destroy()` | Removes a toaster item. |

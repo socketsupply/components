@@ -26,7 +26,6 @@ class TonicToasterInline extends Tonic { /* global Tonic */
     return `
       tonic-toaster-inline .tonic--notification {
         max-height: 0;
-        margin: 10px 0;
         position: relative;
         background-color: var(--window);
         border-radius: 3px;
@@ -41,6 +40,7 @@ class TonicToasterInline extends Tonic { /* global Tonic */
 
       tonic-toaster-inline .tonic--notification.tonic--show {
         max-height: 100%;
+        margin: 10px 0;
         -webkit-transform: scale(1);
         -ms-transform: scale(1);
         transform: scale(1);
@@ -120,12 +120,14 @@ class TonicToasterInline extends Tonic { /* global Tonic */
 
   show () {
     if (!this.root) return
-    this.root.firstElementChild.classList.add('tonic--show')
+    const node = this.root.firstElementChild
+    node.classList.add('tonic--show')
   }
 
   hide () {
     if (!this.root) return
-    this.root.firstElementChild.classList.remove('tonic--show')
+    const node = this.root.firstElementChild
+    node.classList.remove('tonic--show')
   }
 
   click (e) {

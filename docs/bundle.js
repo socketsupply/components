@@ -1,3 +1,430 @@
+(function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+const scrollToY = require('scrolltoy')
+const { qs, qsa } = require('qs')
+const Tonic = require('@conductorlab/tonic')
+const nonce = require('./nonce')
+
+const components = require('../..')
+const readme = require('./readme')
+
+function setupNavigation () {
+  qsa(`a[name="${document.body.dataset.page}"]`).forEach(el => {
+    el.classList.add('active')
+  })
+
+  const main = qs('main')
+  const links = qsa('nav ul li a')
+  const ranges = []
+  let current
+
+  links.map(link => {
+    const id = link.getAttribute('href').slice(1)
+    const section = document.getElementById(id)
+    const { top } = section.getBoundingClientRect()
+
+    ranges.push({
+      upper: top,
+      lower: top + section.offsetHeight,
+      id: id,
+      link: link
+    })
+
+    link.addEventListener('click', event => {
+      event.preventDefault()
+
+      const prev = qs('a.selected')
+      if (prev) prev.className = ''
+      link.className = 'selected'
+      scrollToY(main, section.offsetTop, 500)
+      window.location.hash = id
+    })
+  })
+
+  function onscroll (event) {
+    if (scrollToY.scrolling) return
+    var pos = main.scrollTop
+
+    pos = pos + 100
+
+    ranges.map(range => {
+      if (pos >= range.upper && pos <= range.lower) {
+        if (range.id === current) return
+
+        current = range.id
+        var prev = qs('a.selected')
+        if (prev) prev.className = ''
+        range.link.className = 'selected'
+      }
+    })
+  }
+  main.addEventListener('scroll', onscroll)
+}
+
+function clearFocus () {
+  document.addEventListener('keydown', e => {
+    if (e.keyCode === 9) {
+      document.body.classList.add('show-focus')
+    }
+  })
+
+  document.addEventListener('click', e => {
+    document.body.classList.remove('show-focus')
+  })
+}
+
+function ready () {
+  setupNavigation()
+  clearFocus()
+
+  components(Tonic, nonce)
+  readme(Tonic)
+}
+
+document.addEventListener('DOMContentLoaded', ready)
+
+},{"../..":4,"./nonce":2,"./readme":3,"@conductorlab/tonic":5,"qs":7,"scrolltoy":8}],2:[function(require,module,exports){
+
+    module.exports = 'U29tZSBzdXBlciBzZWNyZXQ='
+  
+},{}],3:[function(require,module,exports){
+
+    module.exports = Tonic => {
+      
+        //
+        // ./src/badge/readme.js
+        //
+        if (document.body.dataset.page === 'examples') {
+          const add = document.getElementById('add-notification')
+const subtract = document.getElementById('subtract-notification')
+const tonicBadge = document.querySelector('tonic-badge')
+
+add.addEventListener('click', (e) => {
+  tonicBadge.setState(state => ({
+    ...state,
+    count: ++state.count
+  }))
+
+  tonicBadge.reRender()
+})
+
+subtract.addEventListener('click', e => {
+  tonicBadge.setState(state => {
+    let count = state.count
+
+    return {
+      ...state,
+      count: count > 0 ? --count : count
+    }
+  })
+
+  tonicBadge.reRender()
+})
+
+        }
+      
+
+        //
+        // ./src/button/readme.js
+        //
+        if (document.body.dataset.page === 'examples') {
+          const button = document.getElementById('tonic-button-example')
+button.addEventListener('click', e => {
+  setTimeout(() => {
+    button.loading(false)
+  }, 3e3)
+})
+
+        }
+      
+
+        //
+        // ./src/dialog/readme.js
+        //
+        if (document.body.dataset.page === 'examples') {
+          class TonicDialog extends Tonic.Dialog {
+  click (e) {
+    if (!Tonic.match(e.target, '#update')) return
+
+    this.reRender(props => ({
+      ...props,
+      message: `Date stamp ${Date.now()}`
+    }))
+  }
+
+  render () {
+    return `
+      <header>Dialog</header>
+      <main>
+        ${this.props.message}
+      </main>
+      <footer>
+        <tonic-button id="update">Update</tonic-button>
+      </footer>
+    `
+  }
+}
+
+Tonic.add(TonicDialog)
+
+const link = document.getElementById('example-dialog-link')
+const dialog = document.getElementById('example-dialog')
+
+link.addEventListener('click', e => dialog.show())
+
+        }
+      
+
+        //
+        // ./src/input/readme.js
+        //
+        if (document.body.dataset.page === 'examples') {
+          const input = document.getElementById('tonic-input-example')
+const span = document.getElementById('tonic-input-state')
+
+const listener = e => {
+  const state = input.getState()
+  span.textContent = `Value: "${state.value || 'Empty'}", Focus: ${state.focus}`
+}
+
+input.addEventListener('input', listener)
+input.addEventListener('blur', listener)
+input.addEventListener('focus', listener)
+
+        }
+      
+
+        //
+        // ./src/panel/readme.js
+        //
+        if (document.body.dataset.page === 'examples') {
+          const fetch = require('node-fetch')
+
+class TonicPanel extends Tonic.Panel {
+  async getArticle (title) {
+    try {
+      const res = await fetch(`https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=${title}&origin=*`)
+      return Object.values((await res.json()).query.pages)[0]
+    } catch (err) {
+      return { title: 'Error', extract: err.message }
+    }
+  }
+
+  async click (e) {
+    if (e.target.value === 'close') {
+      return this.hide()
+    }
+
+    if (e.target.value === 'get') {
+      const page = await this.getArticle('HTML')
+
+      this.reRender(props => ({
+        ...props,
+        ...page
+      }))
+    }
+  }
+
+  render () {
+    return `
+      <header></header>
+      <main>
+        <h3>${this.props.title || 'Hello'}
+        <p>${this.props.extract || 'Click "get" to fetch the content from Wikipedia.'}</p>
+      </main>
+      <footer>
+        <tonic-button value="close">Close</tonic-button>
+        <tonic-button value="get" async="true">Get</tonic-button>
+      </footer>
+    `
+  }
+}
+
+Tonic.add(TonicPanel)
+
+//
+// For this example, a button element will trigger the
+// `.show()` method on the panel when it is clicked.
+//
+const panelLink = document.getElementById('content-panel-link-example')
+const panel = document.getElementById('content-panel-example')
+
+panelLink.addEventListener('click', e => panel.show())
+
+        }
+      
+
+        //
+        // ./src/profile-image/readme.js
+        //
+        if (document.body.dataset.page === 'examples') {
+          const profile = document.getElementById('profile-image-example-editable')
+
+profile.addEventListener('change', e => console.log(e.data))
+profile.addEventListener('error', e => console.log(e.message))
+
+        }
+      
+
+        //
+        // ./src/progress-bar/readme.js
+        //
+        if (document.body.dataset.page === 'examples') {
+          let percentage = 0
+let interval = null
+
+const progressBar = document.getElementById('progress-bar-example')
+
+document.getElementById('start-progress').addEventListener('click', e => {
+  clearInterval(interval)
+  interval = setInterval(() => {
+    progressBar.setProgress(percentage++)
+    if (progressBar.value >= 100) percentage = 0
+  }, 128)
+})
+
+document.getElementById('stop-progress').addEventListener('click', e => {
+  clearInterval(interval)
+})
+
+        }
+      
+
+        //
+        // ./src/router/readme.js
+        //
+        if (document.body.dataset.page === 'examples') {
+          const select = document.getElementById('tonic-router-select')
+const page2 = document.getElementById('page2')
+
+select.addEventListener('change', e => {
+  window.history.pushState({}, '', select.value)
+})
+
+page2.addEventListener('match', () => {
+  const { number } = page2.getProps()
+  const el = document.getElementById('page2-number')
+  el.textContent = number
+})
+
+        }
+      
+
+        //
+        // ./src/select/readme.js
+        //
+        if (document.body.dataset.page === 'examples') {
+          const select = document.getElementById('options-example-1')
+const notification = document.getElementsByTagName('tonic-toaster')[0]
+
+select.addEventListener('change', ({ target }) => {
+  notification.create({
+    type: 'success',
+    message: `Selected option was "${select.value}".`,
+    title: 'Selection',
+    duration: 2000
+  })
+})
+
+        }
+      
+
+        //
+        // ./src/toaster/readme.js
+        //
+        if (document.body.dataset.page === 'examples') {
+          const notification = document.querySelector('tonic-toaster')
+
+document
+  .getElementById('tonic-toaster-example')
+  .addEventListener('click', e => notification.create({
+    type: 'success',
+    title: 'Greetings',
+    message: 'Hello, World'
+  }))
+
+        }
+      
+
+        //
+        // ./src/toaster-inline/readme.js
+        //
+        if (document.body.dataset.page === 'examples') {
+          const toaster1 = document.getElementById('toaster-1')
+const toasterLink1 = document.getElementById('toaster-link-1')
+
+toasterLink1.addEventListener('click', e => toaster1.show())
+
+        }
+      
+
+        //
+        // ./src/windowed/readme.js
+        //
+        if (document.body.dataset.page === 'examples') {
+          const Tonic = require('@conductorlab/tonic')
+
+class TonicWindowed extends Tonic.Windowed {
+  async click (e) {
+    const row = Tonic.match(e.target, '[data-id]')
+
+    if (row) {
+      console.log(await this.getRow(+row.dataset.id))
+    }
+  }
+
+  renderRow (row) {
+    return `
+      <div class="tr" data-id="${row.id}">
+        <div class="td">${row.title}</div>
+        <div class="td">${row.date}</div>
+        <div class="td">${row.random}</div>
+      </div>
+    `
+  }
+
+  render () {
+    return `
+      <div class="th">
+        <div class="td">Title</div>
+        <div class="td">Date</div>
+        <div class="td">Random</div>
+      </div>
+      ${super.render()}
+    `
+  }
+}
+
+Tonic.add(TonicWindowed)
+
+//
+// This demo generates the data after you click the overlay instead of
+// on page load since 500K rows of data can take a few seconds to create.
+//
+const windowed = document.getElementsByTagName('tonic-windowed')[0]
+const overlay = document.getElementById('click-to-load')
+
+overlay.addEventListener('click', e => {
+  const rows = []
+
+  for (let i = 1; i < 500001; i++) {
+    rows.push({
+      id: i - 1,
+      title: `Row #${i}`,
+      date: String(new Date()),
+      random: Math.random().toString(16).slice(2)
+    })
+  }
+
+  overlay.classList.add('hidden')
+  windowed.load(rows)
+})
+
+        }
+      
+    }
+  
+},{"@conductorlab/tonic":5,"node-fetch":6}],4:[function(require,module,exports){
+(function (global){
 
     //
     // Warning: Do not edit, use 'npm run build'.
@@ -4433,3 +4860,298 @@ Tonic.Windowed = Windowed
 
     }
   
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"qs":7}],5:[function(require,module,exports){
+class Tonic extends window.HTMLElement {
+  constructor () {
+    super()
+    const state = Tonic._states[this.id]
+    delete Tonic._states[this.id]
+    this.state = state || {}
+    this.props = {}
+    this.root = this.shadowRoot || this
+    this._events()
+  }
+
+  static _createId () {
+    return Math.random().toString(16).slice(2, 8)
+  }
+
+  static match (el, s) {
+    if (!el.matches) el = el.parentElement
+    return el.matches(s) ? el : el.closest(s)
+  }
+
+  static add (c, root) {
+    c.prototype._props = Object.getOwnPropertyNames(c.prototype)
+
+    if (!c.name || c.name.length === 1) {
+      throw Error('Mangling. https://bit.ly/2TkJ6zP')
+    }
+
+    const name = Tonic._splitName(c.name).toLowerCase()
+    if (window.customElements.get(name)) return
+
+    Tonic._reg[name.toUpperCase()] = c
+    Tonic._tags = Object.keys(Tonic._reg)
+    window.customElements.define(name, c)
+  }
+
+  static sanitize (o) {
+    if (o === null) return o
+    for (const [k, v] of Object.entries(o)) {
+      if (typeof v === 'object') o[k] = Tonic.sanitize(v)
+      if (typeof v === 'string') o[k] = Tonic.escape(v)
+    }
+    return o
+  }
+
+  static escape (s) {
+    return s.replace(Tonic.escapeRe, ch => Tonic.escapeMap[ch])
+  }
+
+  static _splitName (s) {
+    return s.match(/[A-Z][a-z]*/g).join('-')
+  }
+
+  html ([s, ...strings], ...values) {
+    const reduce = (a, b) => a.concat(b, strings.shift())
+    const filter = s => s && (s !== true || s === 0)
+    const ref = o => {
+      const oo = ({}).toString.call(o).slice(8, -1)
+      switch (oo) {
+        case 'HTMLCollection':
+          const v = [...o].map(node => node.cloneNode(true))
+          return this._placehold(v)
+        case 'Array':
+        case 'Object':
+        case 'Function': return this._prop(o)
+        case 'Number': return `${o}__float`
+        case 'Boolean': return `${o}__boolean`
+      }
+      return o
+    }
+    return values.map(ref).reduce(reduce, [s]).filter(filter).join('')
+  }
+
+  setState (o) {
+    this.state = typeof o === 'function' ? o(this.state) : o
+  }
+
+  getState () {
+    return this.state
+  }
+
+  reRender (o = this.props) {
+    if (!this.root) return
+    const p = typeof o === 'function' ? o(this.props) : o
+    this.props = Tonic.sanitize(p)
+    this._set(this.root, this.render(this.state, this.props))
+
+    if (this.updated) {
+      const oldProps = JSON.parse(JSON.stringify(this.props))
+      this.updated(oldProps)
+    }
+  }
+
+  getProps () {
+    return this.props
+  }
+
+  handleEvent (e) {
+    this[e.type](e)
+  }
+
+  _events () {
+    const hp = Object.getOwnPropertyNames(window.HTMLElement.prototype)
+    for (const p of this._props) {
+      if (hp.indexOf('on' + p) === -1) continue
+      this.root.addEventListener(p, this)
+    }
+  }
+
+  _set (target, content = '') {
+    target.querySelectorAll(Tonic._tags.join()).forEach(node => {
+      const index = Tonic._refs.findIndex(ref => ref === node)
+      if (index === -1) return
+      Tonic._states[node.id] = node.getState()
+    })
+
+    if (typeof content === 'string') {
+      target.innerHTML = content.trim()
+
+      if (this.styles) {
+        const styles = this.styles()
+        target.querySelectorAll('[styles]').forEach(el =>
+          el.getAttribute('styles').split(/\s+/).forEach(s =>
+            Object.assign(el.style, styles[s.trim()])))
+      }
+
+      target.querySelectorAll('tonic-children').forEach(el => {
+        const nodes = Tonic._children[this._id][el.id]
+        nodes.forEach(node => el.parentNode.insertBefore(node, el))
+
+        delete Tonic._children[el.id]
+        el.parentNode.removeChild(el)
+      })
+    } else {
+      target.innerHTML = ''
+      target.appendChild(content.cloneNode(true))
+    }
+
+    if (typeof this.stylesheet === 'function') {
+      const styleNode = document.createElement('style')
+      const source = document.createTextNode(this.stylesheet())
+      styleNode.appendChild(source)
+      target.insertBefore(styleNode, target.firstChild)
+    }
+
+    this.root = target
+  }
+
+  _prop (o) {
+    const id = this.root._id
+    const p = `__${id}__${Tonic._createId()}__`
+    if (!Tonic._data[id]) Tonic._data[id] = {}
+    Tonic._data[id][p] = o
+    return p
+  }
+
+  _placehold (r) {
+    const id = this._id
+    const ref = Tonic._createId()
+    if (!Tonic._children[id]) Tonic._children[id] = {}
+    Tonic._children[id][ref] = r
+    return `<tonic-children id="${ref}"/></tonic-children>`
+  }
+
+  connectedCallback () {
+    this.root = (this.shadowRoot || this)
+    this.root._id = Tonic._createId()
+
+    if (this.wrap) {
+      const render = this.render
+      this.render = () => this.wrap(render.bind(this))
+    }
+
+    Tonic._refs.push(this.root)
+
+    for (let { name, value } of this.root.attributes) {
+      name = name.replace(/-(.)/g, (_, m) => m.toUpperCase())
+      const p = this.props[name] = value
+
+      if (/__\w+__\w+__/.test(p)) {
+        const { 1: root } = p.split('__')
+        this.props[name] = Tonic._data[root][p]
+      } else if (/\d+__float/.test(p)) {
+        this.props[name] = parseFloat(p, 10)
+      } else if (/\w+__boolean/.test(p)) {
+        this.props[name] = p.includes('true')
+      }
+    }
+
+    this.props = Object.assign(
+      (this.defaults && this.defaults()) || {},
+      Tonic.sanitize(this.props))
+
+    this.willConnect && this.willConnect()
+    this._set(this.root, this.render(this.state, this.props))
+    this.connected && this.connected()
+  }
+
+  disconnectedCallback (index) {
+    this.disconnected && this.disconnected()
+    delete Tonic._data[this.root._id]
+    delete Tonic._children[this.root._id]
+    delete this.root
+    Tonic._refs.splice(index, 1)
+  }
+}
+
+Object.assign(Tonic, {
+  _tags: [],
+  _refs: [],
+  _data: {},
+  _states: {},
+  _children: {},
+  _reg: {},
+  escapeRe: /["&'<>`]/g,
+  escapeMap: { '"': '&quot;', '&': '&amp;', '\'': '&#x27;', '<': '&lt;', '>': '&gt;', '`': '&#x60;' }
+})
+
+if (typeof module === 'object') module.exports = Tonic
+
+},{}],6:[function(require,module,exports){
+"use strict";
+
+module.exports = exports = self.fetch;
+
+// Needed for TypeScript and Webpack.
+exports.default = self.fetch.bind(self);
+
+exports.Headers = self.Headers;
+exports.Request = self.Request;
+exports.Response = self.Response;
+
+},{}],7:[function(require,module,exports){
+const qs = (s, p) => (p || document).querySelector(s)
+const qsa = (s, p) => [...(p || document).querySelectorAll(s)]
+
+module.exports = { qs, qsa }
+
+},{}],8:[function(require,module,exports){
+var requestFrame = (function () {
+  return window.requestAnimationFrame ||
+    window.webkitRequestAnimationFrame ||
+    window.mozRequestAnimationFrame ||
+    function requestAnimationFallback (callback) {
+      window.setTimeout(callback, 1000 / 60)
+    }
+})()
+
+function ease (pos) {
+  return ((pos /= 0.5) < 1)
+    ? (0.5 * Math.pow(pos, 5))
+    : (0.5 * (Math.pow((pos - 2), 5) + 2))
+}
+
+module.exports = function scrollToY (el, Y, speed) {
+  var isWindow = !!el.alert
+  var scrollY = isWindow ? el.scrollY : el.scrollTop
+  var pos = Math.abs(scrollY - Y)
+  var time = Math.max(0.1, Math.min(pos / speed, 0.8))
+
+  let currentTime = 0
+
+  function setY () {
+    module.exports.scrolling = true
+    currentTime += 1 / 60
+
+    var p = currentTime / time
+    var t = ease(p)
+
+    if (p < 1) {
+      var y = scrollY + ((Y - scrollY) * t)
+      requestFrame(setY)
+
+      if (isWindow) {
+        el.scrollTo(0, y)
+      } else {
+        el.scrollTop = y
+      }
+
+      return
+    }
+
+    if (isWindow) {
+      el.scrollTo(0, Y)
+    } else {
+      el.scrollTop = Y
+    }
+
+    module.exports.scrolling = false
+  }
+  setY()
+}
+
+},{}]},{},[1]);

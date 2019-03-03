@@ -432,19 +432,16 @@ overlay.addEventListener('click', e => {
     module.exports = (Tonic, nonce) => {
       if (nonce) Tonic.nonce = nonce
 
-      const { qs, qsa } = require('qs')
-
-class TonicAccordion extends Tonic { /* global Tonic */
+      class TonicAccordion extends Tonic { /* global Tonic */
   defaults () {
     return {
-      dataAllowMultiple: false
+      multiple: false
     }
   }
 
   stylesheet () {
     return `
       tonic-accordion {
-        margin-top: 1px;
         display: block;
         border: 1px solid var(--border);
       }
@@ -452,79 +449,85 @@ class TonicAccordion extends Tonic { /* global Tonic */
   }
 
   click (e) {
-    const allowMultiple = this.root.hasAttribute('data-allow-multiple')
+    console.log('CLICKED')
     const trigger = Tonic.match(e.target, '.tonic--accordion-header')
+    if (!trigger) return
 
-    if (trigger) {
-      const isExpanded = trigger.getAttribute('aria-expanded') === 'true'
-      const id = trigger.getAttribute('aria-controls')
+    e.preventDefault()
 
-      if (isExpanded) {
+    const multiple = this.root.hasAttribute('data-allow-multiple')
+    const isExpanded = trigger.getAttribute('aria-expanded') === 'true'
+
+    if (!isExpanded && !multiple) {
+      const triggers = document.querySelectorAll('.tonic--accordion-header', this.root)
+      const panels = document.querySelectorAll('.tonic--accordion-panel', this.root)
+
+      triggers.forEach(trigger => {
         trigger.setAttribute('aria-expanded', 'false')
-        const currentPanel = qs(`#${id}`)
-        currentPanel.setAttribute('hidden', '')
-      }
+      })
 
-      if (!isExpanded) {
-        if (!allowMultiple) {
-          const triggers = qsa('.tonic--accordion-header')
-          const panels = qsa('.tonic--accordion-panel')
+      panels.forEach(panel => {
+        panel.setAttribute('hidden', '')
+      })
+    }
 
-          triggers.forEach(trigger => {
-            trigger.setAttribute('aria-expanded', 'false')
-          })
-          panels.forEach(panel => {
-            panel.setAttribute('hidden', '')
-          })
-        }
+    const id = trigger.getAttribute('aria-controls')
 
-        trigger.setAttribute('aria-expanded', 'true')
-        const currentPanel = qs(`#${id}`)
-        currentPanel.removeAttribute('hidden')
+    if (isExpanded) {
+      trigger.setAttribute('aria-expanded', 'false')
+      const currentPanel = this.root.querySelector(`#${id}`)
+      currentPanel.setAttribute('hidden', '')
+    } else {
+      trigger.setAttribute('aria-expanded', 'true')
+      const currentPanel = this.root.querySelector(`#${id}`)
+      currentPanel.removeAttribute('hidden')
+    }
+  }
+
+  keydown (e) {
+    const trigger = Tonic.match(e.target, 'button.tonic--title')
+    if (!trigger) return
+
+    const CTRL = e.ctrlKey
+    const PAGEUP = e.code === 'PageUp'
+    const PAGEDOWN = e.code === 'PageDown'
+    const UPARROW = e.code === 'ArrowUp'
+    const DOWNARROW = e.code === 'ArrowDown'
+    const END = e.metaKey && e.code === 'ArrowDown'
+    const HOME = e.metaKey && e.code === 'ArrowUp'
+
+    const ctrlModifier = CTRL && (PAGEUP || PAGEDOWN)
+    const triggers = this.root.querySelectorAll('button.tonic--title', this.root)
+
+    if ((UPARROW || DOWNARROW) || ctrlModifier) {
+      const index = triggers.indexOf(e.target)
+      const direction = (PAGEDOWN || DOWNARROW) ? 1 : -1
+      const length = triggers.length
+      const newIndex = (index + length + direction) % length
+
+      triggers[newIndex].focus()
+      e.preventDefault()
+    }
+
+    if (HOME || END) {
+      switch (e.key) {
+        case HOME:
+          triggers[0].focus()
+          break
+        case END:
+          triggers[triggers.length - 1].focus()
+          break
       }
       e.preventDefault()
     }
   }
 
-  keydown (e) {
-    const key = e.which.toString()
-    const ctrlModifier = (e.ctrlKey && key.match(/33|34/))
-    const trigger = Tonic.match(e.target, 'button.tonic--title')
-
-    if (trigger) {
-      const triggers = qsa('button.tonic--title')
-
-      if (key.match(/38|40/) || ctrlModifier) {
-        const index = triggers.indexOf(e.target)
-        const direction = (key.match(/34|40/)) ? 1 : -1
-        const length = triggers.length
-        const newIndex = (index + length + direction) % length
-
-        triggers[newIndex].focus()
-        e.preventDefault()
-      }
-      if (key.match(/35|36/)) {
-        switch (key) {
-          case '36':
-            triggers[0].focus()
-            break
-          case '35':
-            triggers[triggers.length - 1].focus()
-            break
-        }
-        e.preventDefault()
-      }
-    }
-  }
-
   render () {
     const {
-      dataAllowMultiple,
-      theme
+      multiple
     } = this.props
 
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
-    if (dataAllowMultiple) this.root.setAttribute('data-allow-multiple', '')
+    if (multiple) this.root.setAttribute('data-allow-multiple', '')
 
     return this.html`
       ${this.children}
@@ -546,8 +549,11 @@ class TonicAccordionSection extends Tonic {
         margin: 0;
       }
 
+      tonic-accordion-section .tonic--accordion-header {
+        display: flex;
+      }
+
       tonic-accordion-section button {
-        width: 100%;
         font-size: 14px;
         text-align: left;
         padding: 20px;
@@ -555,6 +561,7 @@ class TonicAccordionSection extends Tonic {
         border: 0;
         -webkit-appearance: none;
         outline: none;
+        width: 100%;
       }
 
       tonic-accordion-section button:focus {
@@ -607,6 +614,8 @@ class TonicAccordionSection extends Tonic {
       name,
       label
     } = this.props
+
+    console.log(this.children)
 
     return this.html`
       <h4
@@ -4861,7 +4870,7 @@ Tonic.Windowed = Windowed
     }
   
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"qs":7}],5:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 class Tonic extends window.HTMLElement {
   constructor () {
     super()

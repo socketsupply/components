@@ -19,26 +19,17 @@ class MyGreeting extends Tonic {
 ---
 
 The name of your class will determine the html tag name for your component. A
-class named `Greeting` will become `<greeting></greeting>`. Camel cased class
-names will create hyphenated tag names, ie `MyGreeting` will become
-`<my-greeting></my-greeting>`.
+Camel cased class names will create hyphenated tag names, ie `MyGreeting` will
+become `<my-greeting></my-greeting>`. Web components require that you have two
+part names.
 
 ---
 
-Next, register your component with the `Tonic.add(ClassName)` method. 
+Next, register your component with `Tonic.add(ClassName)`.
 
 ```js
 Tonic.add(MyGreeting)
 ```
-
-Then, when the [DOM is ready][2] you can initialize all your components.
-
-```js
-document.addEventListener('DOMContentLoaded', () => Tonic.init())
-```
-
-If your top-level component is `<App>...</App>`, you won't need to call
-`Tonic.init()`. Instead just call `Tonic.add(App)` when the DOM is ready.
 
 ---
 

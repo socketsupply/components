@@ -77,5 +77,5 @@ body.theme-dark, *[theme="dark"] {
 
 ```bash
 npm install
-npm run build && npm run dev
+npm run dev
 ```

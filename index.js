@@ -5,6 +5,7 @@
     module.exports = (Tonic, nonce) => {
       if (nonce) Tonic.nonce = nonce
 
+<<<<<<< HEAD
       const { qs, qsa } = require('qs')
 
 class TonicAccordion extends Tonic { /* global Tonic */
@@ -222,6 +223,9 @@ class TonicBadge extends Tonic { /* global Tonic */
     })
   }
 
+=======
+      class TonicBadge extends Tonic { /* global Tonic */
+>>>>>>> web components
   defaults () {
     return {
       count: 0
@@ -279,6 +283,10 @@ class TonicBadge extends Tonic { /* global Tonic */
     `
   }
 
+  willConnect () {
+    this.state.count = this.props.count
+  }
+
   render () {
     let {
       theme
@@ -296,9 +304,9 @@ class TonicBadge extends Tonic { /* global Tonic */
 
     const newAttr = (count > 0) ? 'tonic--new' : ''
 
-    return `
+    return this.html`
       <div class="tonic--notifications ${newAttr}">
-        <span>${countAttr}</span>
+        <span>${String(countAttr)}</span>
       </div>
     `
   }
@@ -307,20 +315,16 @@ class TonicBadge extends Tonic { /* global Tonic */
 Tonic.add(TonicBadge)
 
 class TonicButton extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
-    this.root.loading = (state) => this.loading(state)
+  get value () {
+    return this.props.value
+  }
 
-    const that = this
+  get disabled () {
+    return this.props.disabled === true
+  }
 
-    Object.defineProperty(this.root, 'value', {
-      get () { return that.props.value }
-    })
-
-    Object.defineProperty(this.root, 'disabled', {
-      get () { return that.props.disabled === true },
-      set (state) { that.props.disabled = state }
-    })
+  set disabled (state) {
+    this.props.disabled = state
   }
 
   defaults () {
@@ -329,7 +333,7 @@ class TonicButton extends Tonic { /* global Tonic */
       width: '150px',
       margin: '5px',
       autofocus: 'false',
-      async: 'false',
+      async: false,
       radius: '2px',
       borderWidth: '1px',
       textColorDisabled: 'var(--disabled)',
@@ -428,12 +432,10 @@ class TonicButton extends Tonic { /* global Tonic */
   }
 
   loading (state) {
-    window.requestAnimationFrame(() => {
-      if (!this.root) return
-      const button = this.root.querySelector('button')
-      const method = state ? 'add' : 'remove'
-      if (button) button.classList[method]('tonic--loading')
-    })
+    if (!this.root) return
+    const button = this.root.querySelector('button')
+    const method = state ? 'add' : 'remove'
+    if (button) button.classList[method]('tonic--loading')
   }
 
   click (e) {
@@ -529,12 +531,6 @@ class TonicButton extends Tonic { /* global Tonic */
 Tonic.add(TonicButton)
 
 class TonicChart extends Tonic { /* global Tonic */
-  constructor (opts) {
-    super(opts)
-
-    this.root.draw = (...args) => this.draw(...args)
-  }
-
   stylesheet () {
     return `
       tonic-chart {
@@ -656,27 +652,22 @@ class TonicChart extends Tonic { /* global Tonic */
 Tonic.add(TonicChart)
 
 class TonicCheckbox extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
-
-    const that = this
-    Object.defineProperty(this.root, 'value', {
-      get () { return (that.value === true) || (that.value === 'true') },
-      set (value) { that.value = (value === true) || (value === 'true') }
-    })
-  }
-
   get value () {
     const state = this.getState()
+    let value
 
     if (typeof state.checked !== 'undefined') {
-      return state.checked
+      value = state.checked
+    } else {
+      value = this.props.checked
     }
 
-    return this.props.checked
+    return (value === true) || (value === 'true')
   }
 
-  set value (checked) {
+  set value (value) {
+    const checked = (value === true) || (value === 'true')
+
     this.reRender(props => Object.assign(props, {
       checked
     }))
@@ -875,14 +866,10 @@ TonicCheckbox.svg.iconOff = () => TonicCheckbox.svg.toURL(`
 Tonic.add(TonicCheckbox)
 
 class Dialog extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
+  constructor () {
+    super()
 
-    this.root.show = () => this.show()
-    this.root.hide = () => this.hide()
-    this.root.event = name => this.event(name)
-
-    this.root.addEventListener('click', e => {
+    this.addEventListener('click', e => {
       const el = Tonic.match(e.target, '.tonic--close')
       if (el) this.hide()
 
@@ -978,7 +965,8 @@ class Dialog extends Tonic { /* global Tonic */
     const that = this
 
     return new Promise((resolve) => {
-      const node = this.root.firstElementChild
+      if (!this.root) return
+      const node = this.root.querySelector('.tonic--dialog--wrapper')
       node.classList.add('tonic--show')
       node.addEventListener('transitionend', resolve, { once: true })
 
@@ -994,7 +982,8 @@ class Dialog extends Tonic { /* global Tonic */
     const that = this
 
     return new Promise((resolve) => {
-      const node = that.root.firstElementChild
+      if (!this.root) return
+      const node = this.root.querySelector('.tonic--dialog--wrapper')
       node.classList.remove('tonic--show')
       node.addEventListener('transitionend', resolve, { once: true })
       document.removeEventListener('keyup', that._escapeHandler)
@@ -1486,13 +1475,10 @@ class TonicInput extends Tonic { /* global Tonic */
 Tonic.add(TonicInput)
 
 class Panel extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
+  constructor () {
+    super()
 
-    this.root.show = fn => this.show(fn)
-    this.root.hide = fn => this.hide(fn)
-
-    this.root.addEventListener('click', e => {
+    this.addEventListener('click', e => {
       const el = Tonic.match(e.target, '.tonic--close')
       if (el) this.hide()
 
@@ -1588,16 +1574,33 @@ class Panel extends Tonic { /* global Tonic */
     `
   }
 
-  show (fn) {
-    const node = this.root.firstChild
-    node.classList.add('tonic--show')
-    fn && node.addEventListener('transitionend', fn, { once: true })
+  show () {
+    const that = this
+
+    return new Promise((resolve) => {
+      if (!this.root) return
+      const node = this.root.querySelector('.tonic--wrapper')
+      node.classList.add('tonic--show')
+      node.addEventListener('transitionend', resolve, { once: true })
+
+      this._escapeHandler = e => {
+        if (e.keyCode === 27) that.hide()
+      }
+
+      document.addEventListener('keyup', that._escapeHandler)
+    })
   }
 
-  hide (fn) {
-    const node = this.root.firstChild
-    node.classList.remove('tonic--show')
-    fn && node.addEventListener('transitionend', fn, { once: true })
+  hide () {
+    const that = this
+
+    return new Promise((resolve) => {
+      if (!this.root) return
+      const node = this.root.querySelector('.tonic--wrapper')
+      node.classList.remove('tonic--show')
+      node.addEventListener('transitionend', resolve, { once: true })
+      document.removeEventListener('keyup', that._escapeHandler)
+    })
   }
 
   wrap (render) {
@@ -1672,12 +1675,11 @@ Panel.svg.closeIcon = color => Panel.svg.toURL(`
 Tonic.Panel = Panel
 
 class TonicPopover extends Tonic { /* global Tonic */
-  constructor ({ node }) {
-    super({ node })
-    const target = node.getAttribute('for')
-    const el = document.getElementById(target)
+  constructor () {
+    super()
 
-    this.root.hide = () => this.hide()
+    const target = this.getAttribute('for')
+    const el = document.getElementById(target)
 
     el.addEventListener('click', e => this.show(el))
   }
@@ -2081,16 +2083,8 @@ TonicProfileImage.svg.edit = () => TonicProfileImage.svg.toURL(`
 Tonic.add(TonicProfileImage)
 
 class TonicProgressBar extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
-
-    this.root.setProgress = n => this.setProgress(n)
-
-    const that = this
-    Object.defineProperty(this.root, 'value', {
-      get () { return that.value },
-      set (value) { that.setProgress(value) }
-    })
+  set value (value) {
+    this.setProgress(value)
   }
 
   get value () {
@@ -2177,7 +2171,7 @@ class TonicProgressBar extends Tonic { /* global Tonic */
     this.root.style.width = this.props.width
     this.root.style.height = this.props.height
 
-    return `
+    return this.html`
       <div class="tonic--wrapper" styles="wrapper">
         <div class="tonic--progress" styles="progress"></div>
       </div>
@@ -2693,25 +2687,6 @@ TonicRouter.matcher = (() => {
 Tonic.add(TonicRouter)
 
 class TonicSelect extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
-    this.root.loading = (state) => this.loading(state)
-
-    const that = this
-    Object.defineProperty(this.root, 'value', {
-      get () { return that.value },
-      set (value) { that.value = value }
-    })
-
-    Object.defineProperty(this.root, 'option', {
-      get () { return that.option }
-    })
-
-    Object.defineProperty(this.root, 'selectedIndex', {
-      get () { return that.selectedIndex }
-    })
-  }
-
   defaults () {
     return {
       disabled: false,
@@ -2827,6 +2802,7 @@ class TonicSelect extends Tonic { /* global Tonic */
   }
 
   selectOptions (value) {
+    if (!this.root) return
     const el = this.root.querySelector('select')
     const options = [...el.options]
 
@@ -2848,11 +2824,13 @@ class TonicSelect extends Tonic { /* global Tonic */
   }
 
   get option () {
+    if (!this.root) return
     const node = this.root.querySelector('select')
     return node.options[node.selectedIndex]
   }
 
   get selectedIndex () {
+    if (!this.root) return
     const node = this.root.querySelector('select')
     return node.selectedIndex
   }
@@ -3107,17 +3085,6 @@ class TonicTabs extends Tonic { /* global Tonic */
 Tonic.add(TonicTabs)
 
 class TonicTextarea extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
-
-    const that = this
-
-    Object.defineProperty(this.root, 'value', {
-      get () { return that.value },
-      set (value) { that.value = value }
-    })
-  }
-
   defaults () {
     return {
       placeholder: '',
@@ -3265,6 +3232,7 @@ class TonicTextarea extends Tonic { /* global Tonic */
 Tonic.add(TonicTextarea)
 
 class TonicToaster extends Tonic { /* global Tonic */
+<<<<<<< HEAD
   constructor (node) {
     super(node)
 
@@ -3273,6 +3241,8 @@ class TonicToaster extends Tonic { /* global Tonic */
     this.root.hide = () => this.hide()
   }
 
+=======
+>>>>>>> web components
   getPropertyValue (s) {
     const computed = window.getComputedStyle(this.root)
     return computed.getPropertyValue(`--${s}`).trim()
@@ -3497,12 +3467,14 @@ class TonicToaster extends Tonic { /* global Tonic */
   }
 
   show () {
-    const node = this.root.firstElementChild
+    if (!this.root) return
+    const node = this.root.querySelector('.tonic--wrapper')
     node.classList.add('tonic--show')
   }
 
   hide () {
-    const node = this.root.firstElementChild
+    if (!this.root) return
+    const node = this.root.querySelector('.tonic--wrapper')
     node.classList.remove('tonic--show')
   }
 
@@ -3564,13 +3536,6 @@ TonicToaster.svg.infoIcon = color => TonicToaster.svg.toURL(`
 Tonic.add(TonicToaster)
 
 class TonicToasterInline extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
-
-    this.root.show = () => this.show()
-    this.root.hide = () => this.hide()
-  }
-
   getPropertyValue (s) {
     const computed = window.getComputedStyle(this.root)
     return computed.getPropertyValue(`--${s}`).trim()
@@ -3685,13 +3650,21 @@ class TonicToasterInline extends Tonic { /* global Tonic */
 
   show () {
     if (!this.root) return
+<<<<<<< HEAD
     const node = this.root.firstElementChild
+=======
+    const node = this.root.querySelector('.tonic--notification')
+>>>>>>> web components
     node.classList.add('tonic--show')
   }
 
   hide () {
     if (!this.root) return
+<<<<<<< HEAD
     const node = this.root.firstElementChild
+=======
+    const node = this.root.querySelector('.tonic--notification')
+>>>>>>> web components
     node.classList.remove('tonic--show')
   }
 
@@ -3816,16 +3789,6 @@ TonicToasterInline.svg.infoIcon = color => TonicToasterInline.svg.toURL(`
 Tonic.add(TonicToasterInline)
 
 class TonicToggle extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
-
-    const that = this
-    Object.defineProperty(this.root, 'value', {
-      get () { return (that.value === true) || (that.value === 'true') },
-      set (value) { that.value = (value === true) || (value === 'true') }
-    })
-  }
-
   defaults () {
     return {
       checked: false
@@ -3834,15 +3797,19 @@ class TonicToggle extends Tonic { /* global Tonic */
 
   get value () {
     const state = this.getState()
+    let value
 
     if (typeof state.checked !== 'undefined') {
-      return state.checked
+      value = state.checked
+    } else {
+      value = this.props.checked
     }
 
-    return this.props.checked
+    return (value === true) || (value === 'true')
   }
 
-  set value (checked) {
+  set value (value) {
+    const checked = (value === true) || (value === 'true')
     this.state.checked = checked
 
     this.reRender(props => Object.assign(props, {
@@ -4038,9 +4005,8 @@ class TonicToggle extends Tonic { /* global Tonic */
 Tonic.add(TonicToggle)
 
 class TonicTooltip extends Tonic { /* global Tonic */
-  constructor ({ node }) {
-    super({ node })
-    const target = node.getAttribute('for')
+  connected () {
+    const target = this.props['for']
     const el = document.getElementById(target)
     let timer = null
 
@@ -4051,9 +4017,12 @@ class TonicTooltip extends Tonic { /* global Tonic */
       }, 256)
     }
 
-    el.addEventListener('mouseenter', e => this.show(el))
-    node.addEventListener('mouseenter', e => clearTimeout(timer))
-    node.addEventListener('mouseleave', leave)
+    el.addEventListener('mouseenter', e => {
+      this.show(el)
+    })
+
+    this.root.addEventListener('mouseenter', e => clearTimeout(timer))
+    this.root.addEventListener('mouseleave', leave)
     el.addEventListener('mouseleave', leave)
   }
 
@@ -4195,18 +4164,8 @@ class TonicTooltip extends Tonic { /* global Tonic */
 Tonic.add(TonicTooltip)
 
 class Windowed extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
-
-    this.root.getRows = () => this.rows
-    this.root.load = (rows) => this.load(rows)
-    this.root.rePaint = () => this.rePaint()
-
-    const that = this
-
-    Object.defineProperty(this.root, 'length', {
-      get () { return that.rows.length }
-    })
+  get length () {
+    return this.rows.length
   }
 
   defaults () {

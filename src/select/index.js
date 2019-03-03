@@ -1,23 +1,4 @@
 class TonicSelect extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
-    this.root.loading = (state) => this.loading(state)
-
-    const that = this
-    Object.defineProperty(this.root, 'value', {
-      get () { return that.value },
-      set (value) { that.value = value }
-    })
-
-    Object.defineProperty(this.root, 'option', {
-      get () { return that.option }
-    })
-
-    Object.defineProperty(this.root, 'selectedIndex', {
-      get () { return that.selectedIndex }
-    })
-  }
-
   defaults () {
     return {
       disabled: false,
@@ -133,6 +114,7 @@ class TonicSelect extends Tonic { /* global Tonic */
   }
 
   selectOptions (value) {
+    if (!this.root) return
     const el = this.root.querySelector('select')
     const options = [...el.options]
 
@@ -154,11 +136,13 @@ class TonicSelect extends Tonic { /* global Tonic */
   }
 
   get option () {
+    if (!this.root) return
     const node = this.root.querySelector('select')
     return node.options[node.selectedIndex]
   }
 
   get selectedIndex () {
+    if (!this.root) return
     const node = this.root.querySelector('select')
     return node.selectedIndex
   }

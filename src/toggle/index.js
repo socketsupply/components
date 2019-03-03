@@ -1,14 +1,4 @@
 class TonicToggle extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
-
-    const that = this
-    Object.defineProperty(this.root, 'value', {
-      get () { return (that.value === true) || (that.value === 'true') },
-      set (value) { that.value = (value === true) || (value === 'true') }
-    })
-  }
-
   defaults () {
     return {
       checked: false
@@ -17,15 +7,19 @@ class TonicToggle extends Tonic { /* global Tonic */
 
   get value () {
     const state = this.getState()
+    let value
 
     if (typeof state.checked !== 'undefined') {
-      return state.checked
+      value = state.checked
+    } else {
+      value = this.props.checked
     }
 
-    return this.props.checked
+    return (value === true) || (value === 'true')
   }
 
-  set value (checked) {
+  set value (value) {
+    const checked = (value === true) || (value === 'true')
     this.state.checked = checked
 
     this.reRender(props => Object.assign(props, {

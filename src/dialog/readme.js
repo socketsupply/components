@@ -22,7 +22,6 @@ class TonicDialog extends Tonic.Dialog {
 }
 
 Tonic.add(TonicDialog)
-Tonic.init()
 
 const link = document.getElementById('example-dialog-link')
 const dialog = document.getElementById('example-dialog')

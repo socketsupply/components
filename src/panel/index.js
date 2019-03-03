@@ -1,11 +1,8 @@
 class Panel extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
+  constructor () {
+    super()
 
-    this.root.show = fn => this.show(fn)
-    this.root.hide = fn => this.hide(fn)
-
-    this.root.addEventListener('click', e => {
+    this.addEventListener('click', e => {
       const el = Tonic.match(e.target, '.tonic--close')
       if (el) this.hide()
 
@@ -101,16 +98,33 @@ class Panel extends Tonic { /* global Tonic */
     `
   }
 
-  show (fn) {
-    const node = this.root.firstChild
-    node.classList.add('tonic--show')
-    fn && node.addEventListener('transitionend', fn, { once: true })
+  show () {
+    const that = this
+
+    return new Promise((resolve) => {
+      if (!this.root) return
+      const node = this.root.querySelector('.tonic--wrapper')
+      node.classList.add('tonic--show')
+      node.addEventListener('transitionend', resolve, { once: true })
+
+      this._escapeHandler = e => {
+        if (e.keyCode === 27) that.hide()
+      }
+
+      document.addEventListener('keyup', that._escapeHandler)
+    })
   }
 
-  hide (fn) {
-    const node = this.root.firstChild
-    node.classList.remove('tonic--show')
-    fn && node.addEventListener('transitionend', fn, { once: true })
+  hide () {
+    const that = this
+
+    return new Promise((resolve) => {
+      if (!this.root) return
+      const node = this.root.querySelector('.tonic--wrapper')
+      node.classList.remove('tonic--show')
+      node.addEventListener('transitionend', resolve, { once: true })
+      document.removeEventListener('keyup', that._escapeHandler)
+    })
   }
 
   wrap (render) {

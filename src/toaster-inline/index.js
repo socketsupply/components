@@ -1,11 +1,4 @@
 class TonicToasterInline extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
-
-    this.root.show = () => this.show()
-    this.root.hide = () => this.hide()
-  }
-
   getPropertyValue (s) {
     const computed = window.getComputedStyle(this.root)
     return computed.getPropertyValue(`--${s}`).trim()
@@ -120,13 +113,13 @@ class TonicToasterInline extends Tonic { /* global Tonic */
 
   show () {
     if (!this.root) return
-    const node = this.root.firstElementChild
+    const node = this.root.querySelector('.tonic--notification')
     node.classList.add('tonic--show')
   }
 
   hide () {
     if (!this.root) return
-    const node = this.root.firstElementChild
+    const node = this.root.querySelector('.tonic--notification')
     node.classList.remove('tonic--show')
   }
 

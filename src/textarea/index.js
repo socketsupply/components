@@ -1,15 +1,4 @@
 class TonicTextarea extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
-
-    const that = this
-
-    Object.defineProperty(this.root, 'value', {
-      get () { return that.value },
-      set (value) { that.value = value }
-    })
-  }
-
   defaults () {
     return {
       placeholder: '',

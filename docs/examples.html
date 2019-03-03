@@ -911,7 +911,6 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
 }
 
 Tonic.add(TonicDialog)
-Tonic.init()
 
 <span class="hljs-keyword">const</span> link = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'example-dialog-link'</span>)
 <span class="hljs-keyword">const</span> dialog = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'example-dialog'</span>)
@@ -1339,7 +1338,6 @@ link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; dialog.s
 }
 
 Tonic.add(TonicPanel)
-Tonic.init()
 
 <span class="hljs-comment">//</span>
 <span class="hljs-comment">// For this example, a button element will trigger the</span>
@@ -2828,18 +2826,15 @@ toasterLink1.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; 
       <h1 id="tooltip">Tooltip</h1>
 <p>The <code>Tooltip</code> component creates a dynamically positioned pop-up tooltip filled with custom content that shows during the <code>hover</code> state of the corresponding trigger element.</p>
 <h2>Demo</h2>
-<style nonce="U29tZSBzdXBlciBzZWNyZXQ=">
-  #tonic-tooltip-example-1 {
-    cursor: default;
-  }
-</style>
-
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
     <span id="tonic-tooltip-example">
       Hover over this text
     </span>
+    <tonic-tooltip for="tonic-tooltip-example">
+      <img src="./tonic.svg" width="100px">
+    </tonic-tooltip>
   </div>
 </div>
 
@@ -2970,7 +2965,6 @@ has been rendered.</p>
 }
 
 Tonic.add(TonicWindowed)
-Tonic.init()
 
 <span class="hljs-comment">//</span>
 <span class="hljs-comment">// This demo generates the data after you click the overlay instead of</span>

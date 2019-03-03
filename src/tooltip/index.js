@@ -1,7 +1,6 @@
 class TonicTooltip extends Tonic { /* global Tonic */
-  constructor ({ node }) {
-    super({ node })
-    const target = node.getAttribute('for')
+  connected () {
+    const target = this.props['for']
     const el = document.getElementById(target)
     let timer = null
 
@@ -12,9 +11,12 @@ class TonicTooltip extends Tonic { /* global Tonic */
       }, 256)
     }
 
-    el.addEventListener('mouseenter', e => this.show(el))
-    node.addEventListener('mouseenter', e => clearTimeout(timer))
-    node.addEventListener('mouseleave', leave)
+    el.addEventListener('mouseenter', e => {
+      this.show(el)
+    })
+
+    this.root.addEventListener('mouseenter', e => clearTimeout(timer))
+    this.root.addEventListener('mouseleave', leave)
     el.addEventListener('mouseleave', leave)
   }
 

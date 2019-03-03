@@ -1,18 +1,14 @@
 class TonicButton extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
-    this.root.loading = (state) => this.loading(state)
+  get value () {
+    return this.props.value
+  }
 
-    const that = this
+  get disabled () {
+    return this.props.disabled === true
+  }
 
-    Object.defineProperty(this.root, 'value', {
-      get () { return that.props.value }
-    })
-
-    Object.defineProperty(this.root, 'disabled', {
-      get () { return that.props.disabled === true },
-      set (state) { that.props.disabled = state }
-    })
+  set disabled (state) {
+    this.props.disabled = state
   }
 
   defaults () {
@@ -21,7 +17,7 @@ class TonicButton extends Tonic { /* global Tonic */
       width: '150px',
       margin: '5px',
       autofocus: 'false',
-      async: 'false',
+      async: false,
       radius: '2px',
       borderWidth: '1px',
       textColorDisabled: 'var(--disabled)',
@@ -120,12 +116,10 @@ class TonicButton extends Tonic { /* global Tonic */
   }
 
   loading (state) {
-    window.requestAnimationFrame(() => {
-      if (!this.root) return
-      const button = this.root.querySelector('button')
-      const method = state ? 'add' : 'remove'
-      if (button) button.classList[method]('tonic--loading')
-    })
+    if (!this.root) return
+    const button = this.root.querySelector('button')
+    const method = state ? 'add' : 'remove'
+    if (button) button.classList[method]('tonic--loading')
   }
 
   click (e) {

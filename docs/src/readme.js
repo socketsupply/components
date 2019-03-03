@@ -76,7 +76,6 @@ button.addEventListener('click', e => {
 }
 
 Tonic.add(TonicDialog)
-Tonic.init()
 
 const link = document.getElementById('example-dialog-link')
 const dialog = document.getElementById('example-dialog')
@@ -152,7 +151,6 @@ class TonicPanel extends Tonic.Panel {
 }
 
 Tonic.add(TonicPanel)
-Tonic.init()
 
 //
 // For this example, a button element will trigger the
@@ -308,7 +306,6 @@ class TonicWindowed extends Tonic.Windowed {
 }
 
 Tonic.add(TonicWindowed)
-Tonic.init()
 
 //
 // This demo generates the data after you click the overlay instead of

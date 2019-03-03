@@ -1,10 +1,9 @@
 class TonicPopover extends Tonic { /* global Tonic */
-  constructor ({ node }) {
-    super({ node })
-    const target = node.getAttribute('for')
-    const el = document.getElementById(target)
+  constructor () {
+    super()
 
-    this.root.hide = () => this.hide()
+    const target = this.getAttribute('for')
+    const el = document.getElementById(target)
 
     el.addEventListener('click', e => this.show(el))
   }

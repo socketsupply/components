@@ -1,12 +1,4 @@
 class TonicToaster extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
-
-    this.root.create = (o) => this.create(o)
-    this.root.destroy = (o) => this.destroy(o)
-    this.root.hide = () => this.hide()
-  }
-
   getPropertyValue (s) {
     const computed = window.getComputedStyle(this.root)
     return computed.getPropertyValue(`--${s}`).trim()
@@ -231,12 +223,14 @@ class TonicToaster extends Tonic { /* global Tonic */
   }
 
   show () {
-    const node = this.root.firstElementChild
+    if (!this.root) return
+    const node = this.root.querySelector('.tonic--wrapper')
     node.classList.add('tonic--show')
   }
 
   hide () {
-    const node = this.root.firstElementChild
+    if (!this.root) return
+    const node = this.root.querySelector('.tonic--wrapper')
     node.classList.remove('tonic--show')
   }
 

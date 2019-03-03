@@ -1,16 +1,6 @@
 class Windowed extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
-
-    this.root.getRows = () => this.rows
-    this.root.load = (rows) => this.load(rows)
-    this.root.rePaint = () => this.rePaint()
-
-    const that = this
-
-    Object.defineProperty(this.root, 'length', {
-      get () { return that.rows.length }
-    })
+  get length () {
+    return this.rows.length
   }
 
   defaults () {

@@ -1,17 +1,4 @@
 class TonicBadge extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
-
-    this.state.count = this.props.count
-
-    const that = this
-
-    Object.defineProperty(this.root, 'value', {
-      get () { return that.value },
-      set (value) { that.value = value }
-    })
-  }
-
   defaults () {
     return {
       count: 0
@@ -69,6 +56,10 @@ class TonicBadge extends Tonic { /* global Tonic */
     `
   }
 
+  willConnect () {
+    this.state.count = this.props.count
+  }
+
   render () {
     let {
       theme
@@ -86,9 +77,9 @@ class TonicBadge extends Tonic { /* global Tonic */
 
     const newAttr = (count > 0) ? 'tonic--new' : ''
 
-    return `
+    return this.html`
       <div class="tonic--notifications ${newAttr}">
-        <span>${countAttr}</span>
+        <span>${String(countAttr)}</span>
       </div>
     `
   }

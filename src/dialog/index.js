@@ -1,12 +1,8 @@
 class Dialog extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
+  constructor () {
+    super()
 
-    this.root.show = () => this.show()
-    this.root.hide = () => this.hide()
-    this.root.event = name => this.event(name)
-
-    this.root.addEventListener('click', e => {
+    this.addEventListener('click', e => {
       const el = Tonic.match(e.target, '.tonic--close')
       if (el) this.hide()
 
@@ -102,7 +98,8 @@ class Dialog extends Tonic { /* global Tonic */
     const that = this
 
     return new Promise((resolve) => {
-      const node = this.root.firstElementChild
+      if (!this.root) return
+      const node = this.root.querySelector('.tonic--dialog--wrapper')
       node.classList.add('tonic--show')
       node.addEventListener('transitionend', resolve, { once: true })
 
@@ -118,7 +115,8 @@ class Dialog extends Tonic { /* global Tonic */
     const that = this
 
     return new Promise((resolve) => {
-      const node = that.root.firstElementChild
+      if (!this.root) return
+      const node = this.root.querySelector('.tonic--dialog--wrapper')
       node.classList.remove('tonic--show')
       node.addEventListener('transitionend', resolve, { once: true })
       document.removeEventListener('keyup', that._escapeHandler)

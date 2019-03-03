@@ -1,7 +1,4 @@
-const Tonic = require('@conductorlab/tonic')
-const { qs, qsa } = require('qs')
-
-class Accordion extends Tonic {
+class TonicAccordion extends Tonic { /* global Tonic */
   defaults () {
     return {
       dataAllowMultiple: false
@@ -10,15 +7,23 @@ class Accordion extends Tonic {
 
   stylesheet () {
     return `
-      accordion {
+      tonic-accordion {
         margin-top: 1px;
         display: block;
       }
     `
   }
 
+  qs (s) {
+    return this.root.querySelector(s)
+  }
+
+  qsa (s) {
+    return [...this.root.querySelectorAll(s)]
+  }
+
   click (e) {
-    const trigger = Tonic.match(e.target, '.accordion-header')
+    const trigger = Tonic.match(e.target, '.tonic-accordion-header')
     if (!trigger) return
 
     e.preventDefault()
@@ -27,8 +32,8 @@ class Accordion extends Tonic {
     const isExpanded = trigger.getAttribute('aria-expanded') === 'true'
 
     if (!isExpanded && !allowMultiple) {
-      const triggers = qsa('.accordion-header', this.root)
-      const panels = qsa('.accordion-panel', this.root)
+      const triggers = this.qsa('.tonic-accordion-header')
+      const panels = this.qsa('.tonic-accordion-panel')
 
       triggers.forEach(trigger => {
         trigger.setAttribute('aria-expanded', 'false')
@@ -43,11 +48,11 @@ class Accordion extends Tonic {
 
     if (isExpanded) {
       trigger.setAttribute('aria-expanded', 'false')
-      const currentPanel = qs(`#${id}`)
+      const currentPanel = this.qs(`#${id}`)
       currentPanel.setAttribute('hidden', '')
     } else {
       trigger.setAttribute('aria-expanded', 'true')
-      const currentPanel = qs(`#${id}`)
+      const currentPanel = this.qs(`#${id}`)
       currentPanel.removeAttribute('hidden')
     }
   }
@@ -65,7 +70,7 @@ class Accordion extends Tonic {
     const HOME = e.metaKey && e.code === 'ArrowUp'
 
     const ctrlModifier = CTRL && (PAGEUP || PAGEDOWN)
-    const triggers = qsa('button.title', this.root)
+    const triggers = this.qsa('button.title')
 
     if ((UPARROW || DOWNARROW) || ctrlModifier) {
       const index = triggers.indexOf(e.target)
@@ -103,25 +108,25 @@ class Accordion extends Tonic {
   }
 }
 
-Tonic.add(Accordion)
+Tonic.add(TonicAccordion)
 
-class AccordionSection extends Tonic {
+class TonicAccordionSection extends Tonic {
   stylesheet () {
     return `
-      accordion-section {
+      tonic-accordion-section {
         display: block;
         border-bottom: 1px solid var(--border);
       }
 
-      accordion-section h4 {
+      tonic-accordion-section h4 {
         margin: 0;
       }
 
-      accordion-section .accordion-header {
+      tonic-accordion-section .accordion-header {
         display: flex;
       }
 
-      accordion-section button {
+      tonic-accordion-section button {
         font-size: 14px;
         text-align: left;
         padding: 20px;
@@ -131,23 +136,23 @@ class AccordionSection extends Tonic {
         outline: none;
       }
 
-      accordion-section button:focus {
+      tonic-accordion-section button:focus {
         outline: none;
       }
 
-      accordion-section button:focus .label {
+      tonic-accordion-section button:focus .label {
         border-bottom: 3px solid Highlight;
       }
 
-      accordion-section [hidden] {
+      tonic-accordion-section [hidden] {
         display: none;
       }
 
-      accordion-section .accordion-panel {
+      tonic-accordion-section .tonic-accordion-panel {
         padding: 10px 50px 20px 20px;
       }
 
-      accordion-section .accordion-header .arrow {
+      tonic-accordion-section .tonic-accordion-header .arrow {
         display: block;
         position: absolute;
         top: 0;
@@ -156,7 +161,7 @@ class AccordionSection extends Tonic {
         width: 50px;
       }
 
-      accordion-section .accordion-header .arrow:before {
+      tonic-accordion-section .tonic-accordion-header .arrow:before {
         content: "";
         width: 8px;
         height: 8px;
@@ -168,7 +173,7 @@ class AccordionSection extends Tonic {
         border-right: 1px solid var(--primary);
       }
 
-      accordion-section .accordion-header[aria-expanded="true"] .arrow:before {
+      tonic-accordion-section .tonic-accordion-header[aria-expanded="true"] .arrow:before {
         transform: translateY(-50%) translateX(-50%) rotate(315deg);
         margin-top: 3px;
       }
@@ -184,21 +189,21 @@ class AccordionSection extends Tonic {
 
     return this.html`
       <h4
-        class="accordion-header"
-        id="accordion-header-${id}"
+        class="tonic-accordion-header"
+        id="tonic-accordion-header-${id}"
         name="${name}"
         role="heading"
         aria-expanded="false"
-        aria-controls="accordion-panel-${id}">
+        aria-controls="tonic-accordion-panel-${id}">
         <button class="title">
           <span class="label">${label}</span>
           <span class="arrow"></span>
         </button>
       </h4>
       <div
-        class="accordion-panel"
-        id="accordion-panel-${id}"
-        aria-labelledby="accordion-header-${id}"
+        class="tonic-accordion-panel"
+        id="tonic-accordion-panel-${id}"
+        aria-labelledby="tonic-accordion-header-${id}"
         role="region"
         hidden>
         ${this.children}
@@ -207,4 +212,4 @@ class AccordionSection extends Tonic {
   }
 }
 
-Tonic.add(AccordionSection)
+Tonic.add(TonicAccordionSection)

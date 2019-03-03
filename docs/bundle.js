@@ -432,9 +432,7 @@ overlay.addEventListener('click', e => {
     module.exports = (Tonic, nonce) => {
       if (nonce) Tonic.nonce = nonce
 
-      const { qs, qsa } = require('qs')
-
-class TonicAccordion extends Tonic { /* global Tonic */
+      class TonicAccordion extends Tonic { /* global Tonic */
   defaults () {
     return {
       dataAllowMultiple: false
@@ -446,84 +444,96 @@ class TonicAccordion extends Tonic { /* global Tonic */
       tonic-accordion {
         margin-top: 1px;
         display: block;
-        border: 1px solid var(--border);
       }
     `
   }
 
+  qs (s) {
+    return this.root.querySelector(s)
+  }
+
+  qsa (s) {
+    return [...this.root.querySelectorAll(s)]
+  }
+
   click (e) {
+    const trigger = Tonic.match(e.target, '.tonic-accordion-header')
+    if (!trigger) return
+
+    e.preventDefault()
+
     const allowMultiple = this.root.hasAttribute('data-allow-multiple')
-    const trigger = Tonic.match(e.target, '.tonic--accordion-header')
+    const isExpanded = trigger.getAttribute('aria-expanded') === 'true'
 
-    if (trigger) {
-      const isExpanded = trigger.getAttribute('aria-expanded') === 'true'
-      const id = trigger.getAttribute('aria-controls')
+    if (!isExpanded && !allowMultiple) {
+      const triggers = this.qsa('.tonic-accordion-header')
+      const panels = this.qsa('.tonic-accordion-panel')
 
-      if (isExpanded) {
+      triggers.forEach(trigger => {
         trigger.setAttribute('aria-expanded', 'false')
-        const currentPanel = qs(`#${id}`)
-        currentPanel.setAttribute('hidden', '')
-      }
+      })
 
-      if (!isExpanded) {
-        if (!allowMultiple) {
-          const triggers = qsa('.tonic--accordion-header')
-          const panels = qsa('.tonic--accordion-panel')
+      panels.forEach(panel => {
+        panel.setAttribute('hidden', '')
+      })
+    }
 
-          triggers.forEach(trigger => {
-            trigger.setAttribute('aria-expanded', 'false')
-          })
-          panels.forEach(panel => {
-            panel.setAttribute('hidden', '')
-          })
-        }
+    const id = trigger.getAttribute('aria-controls')
 
-        trigger.setAttribute('aria-expanded', 'true')
-        const currentPanel = qs(`#${id}`)
-        currentPanel.removeAttribute('hidden')
+    if (isExpanded) {
+      trigger.setAttribute('aria-expanded', 'false')
+      const currentPanel = this.qs(`#${id}`)
+      currentPanel.setAttribute('hidden', '')
+    } else {
+      trigger.setAttribute('aria-expanded', 'true')
+      const currentPanel = this.qs(`#${id}`)
+      currentPanel.removeAttribute('hidden')
+    }
+  }
+
+  keydown (e) {
+    const trigger = Tonic.match(e.target, 'button.title')
+    if (!trigger) return
+
+    const CTRL = e.ctrlKey
+    const PAGEUP = e.code === 'PageUp'
+    const PAGEDOWN = e.code === 'PageDown'
+    const UPARROW = e.code === 'ArrowUp'
+    const DOWNARROW = e.code === 'ArrowDown'
+    const END = e.metaKey && e.code === 'ArrowDown'
+    const HOME = e.metaKey && e.code === 'ArrowUp'
+
+    const ctrlModifier = CTRL && (PAGEUP || PAGEDOWN)
+    const triggers = this.qsa('button.title')
+
+    if ((UPARROW || DOWNARROW) || ctrlModifier) {
+      const index = triggers.indexOf(e.target)
+      const direction = (PAGEDOWN || DOWNARROW) ? 1 : -1
+      const length = triggers.length
+      const newIndex = (index + length + direction) % length
+
+      triggers[newIndex].focus()
+      e.preventDefault()
+    }
+
+    if (HOME || END) {
+      switch (e.key) {
+        case HOME:
+          triggers[0].focus()
+          break
+        case END:
+          triggers[triggers.length - 1].focus()
+          break
       }
       e.preventDefault()
     }
   }
 
-  keydown (e) {
-    const key = e.which.toString()
-    const ctrlModifier = (e.ctrlKey && key.match(/33|34/))
-    const trigger = Tonic.match(e.target, 'button.tonic--title')
-
-    if (trigger) {
-      const triggers = qsa('button.tonic--title')
-
-      if (key.match(/38|40/) || ctrlModifier) {
-        const index = triggers.indexOf(e.target)
-        const direction = (key.match(/34|40/)) ? 1 : -1
-        const length = triggers.length
-        const newIndex = (index + length + direction) % length
-
-        triggers[newIndex].focus()
-        e.preventDefault()
-      }
-      if (key.match(/35|36/)) {
-        switch (key) {
-          case '36':
-            triggers[0].focus()
-            break
-          case '35':
-            triggers[triggers.length - 1].focus()
-            break
-        }
-        e.preventDefault()
-      }
-    }
-  }
-
   render () {
     const {
-      dataAllowMultiple,
-      theme
+      dataAllowMultiple
     } = this.props
 
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
     if (dataAllowMultiple) this.root.setAttribute('data-allow-multiple', '')
 
     return this.html`
@@ -546,8 +556,11 @@ class TonicAccordionSection extends Tonic {
         margin: 0;
       }
 
+      tonic-accordion-section .accordion-header {
+        display: flex;
+      }
+
       tonic-accordion-section button {
-        width: 100%;
         font-size: 14px;
         text-align: left;
         padding: 20px;
@@ -561,7 +574,7 @@ class TonicAccordionSection extends Tonic {
         outline: none;
       }
 
-      tonic-accordion-section button:focus .tonic--label {
+      tonic-accordion-section button:focus .label {
         border-bottom: 3px solid Highlight;
       }
 
@@ -569,11 +582,11 @@ class TonicAccordionSection extends Tonic {
         display: none;
       }
 
-      tonic-accordion-section .tonic--accordion-panel {
+      tonic-accordion-section .tonic-accordion-panel {
         padding: 10px 50px 20px 20px;
       }
 
-      tonic-accordion-section .tonic--accordion-header .tonic--arrow {
+      tonic-accordion-section .tonic-accordion-header .arrow {
         display: block;
         position: absolute;
         top: 0;
@@ -582,7 +595,7 @@ class TonicAccordionSection extends Tonic {
         width: 50px;
       }
 
-      tonic-accordion-section .tonic--accordion-header .tonic--arrow:before {
+      tonic-accordion-section .tonic-accordion-header .arrow:before {
         content: "";
         width: 8px;
         height: 8px;
@@ -594,7 +607,7 @@ class TonicAccordionSection extends Tonic {
         border-right: 1px solid var(--primary);
       }
 
-      tonic-accordion-section .tonic--accordion-header[aria-expanded="true"] .tonic--arrow:before {
+      tonic-accordion-section .tonic-accordion-header[aria-expanded="true"] .arrow:before {
         transform: translateY(-50%) translateX(-50%) rotate(315deg);
         margin-top: 3px;
       }
@@ -610,21 +623,21 @@ class TonicAccordionSection extends Tonic {
 
     return this.html`
       <h4
-        class="tonic--accordion-header"
-        id="tonic--accordion-header-${id}"
+        class="tonic-accordion-header"
+        id="tonic-accordion-header-${id}"
         name="${name}"
         role="heading"
         aria-expanded="false"
-        aria-controls="tonic--accordion-panel-${id}">
-        <button class="tonic--title">
-          <span class="tonic--label">${label}</span>
-          <span class="tonic--arrow"></span>
+        aria-controls="tonic-accordion-panel-${id}">
+        <button class="title">
+          <span class="label">${label}</span>
+          <span class="arrow"></span>
         </button>
       </h4>
       <div
-        class="tonic--accordion-panel"
-        id="tonic--accordion-panel-${id}"
-        aria-labelledby="tonic--accordion-header-${id}"
+        class="tonic-accordion-panel"
+        id="tonic-accordion-panel-${id}"
+        aria-labelledby="tonic-accordion-header-${id}"
         role="region"
         hidden>
         ${this.children}
@@ -4861,7 +4874,7 @@ Tonic.Windowed = Windowed
     }
   
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"qs":7}],5:[function(require,module,exports){
+},{}],5:[function(require,module,exports){
 class Tonic extends window.HTMLElement {
   constructor () {
     super()

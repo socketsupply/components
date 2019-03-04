@@ -1,5 +1,3 @@
-![logo](https://raw.githubusercontent.com/heapwolf/tonic/addimage/readme-tonic.png)
-
 # SYNOPSIS
 A bundle of basic components built with [Tonic](https://github.com/hxoht/tonic).
 

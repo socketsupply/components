@@ -2170,16 +2170,6 @@ class TonicProgressBar extends Tonic { /* global Tonic */
 Tonic.add(TonicProgressBar)
 
 class TonicRange extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
-
-    const that = this
-    Object.defineProperty(this.root, 'value', {
-      get () { return that.value },
-      set (value) { that.value = value }
-    })
-  }
-
   defaults () {
     return {
       width: '250px',

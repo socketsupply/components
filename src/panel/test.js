@@ -21,7 +21,7 @@ class TonicPanel extends Tonic.Panel {
 }
 
 Tonic.add(TonicPanel)
-Tonic.init()
+
 //
 // Panel Default
 //

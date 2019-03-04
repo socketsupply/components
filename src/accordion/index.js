@@ -1,15 +1,15 @@
 class TonicAccordion extends Tonic { /* global Tonic */
   defaults () {
     return {
-      dataAllowMultiple: false
+      multiple: false
     }
   }
 
   stylesheet () {
     return `
       tonic-accordion {
-        margin-top: 1px;
         display: block;
+        border: 1px solid var(--border);
       }
     `
   }
@@ -97,10 +97,10 @@ class TonicAccordion extends Tonic { /* global Tonic */
 
   render () {
     const {
-      dataAllowMultiple
+      multiple
     } = this.props
 
-    if (dataAllowMultiple) this.root.setAttribute('data-allow-multiple', '')
+    if (multiple) this.root.setAttribute('data-allow-multiple', '')
 
     return this.html`
       ${this.childNodes}
@@ -115,6 +115,9 @@ class TonicAccordionSection extends Tonic {
     return `
       tonic-accordion-section {
         display: block;
+      }
+
+      tonic-accordion-section:not(:last-of-type) {
         border-bottom: 1px solid var(--border);
       }
 
@@ -134,6 +137,7 @@ class TonicAccordionSection extends Tonic {
         border: 0;
         -webkit-appearance: none;
         outline: none;
+        width: 100%;
       }
 
       tonic-accordion-section button:focus {

@@ -286,7 +286,7 @@ added to the props object, use <code>foo-bar=&#39;30&#39;</code> to get <code>th
     <span class="hljs-keyword">const</span> o = {
       <span class="hljs-attr">a</span>: <span class="hljs-string">'testing'</span>,
       <span class="hljs-attr">b</span>: <span class="hljs-number">2.2</span>,
-      <span class="hljs-attr">c</span>: <span class="hljs-string">'"ok"'</span>
+      <span class="hljs-attr">fooBar</span>: <span class="hljs-string">'"ok"'</span>
     }
 
     <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.html<span class="hljs-string">`
@@ -298,6 +298,16 @@ added to the props object, use <code>foo-bar=&#39;30&#39;</code> to get <code>th
     `</span>
   }
 }</code></pre>
+<p>The above compoent renders the following output.</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">foo-bar</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">spread-component</span> <span class="hljs-attr">a</span>=<span class="hljs-string">"testing"</span> <span class="hljs-attr">b</span>=<span class="hljs-string">"2.2"</span> <span class="hljs-attr">foo-bar</span>=<span class="hljs-string">"&amp;quot;ok&amp;quot;"</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">a</span>=<span class="hljs-string">"testing"</span> <span class="hljs-attr">b</span>=<span class="hljs-string">"2.2"</span> <span class="hljs-attr">foo-bar</span>=<span class="hljs-string">"&amp;amp;quot;ok&amp;amp;quot;"</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">spread-component</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">a</span>=<span class="hljs-string">"testing"</span> <span class="hljs-attr">b</span>=<span class="hljs-string">"2.2"</span> <span class="hljs-attr">foo-bar</span>=<span class="hljs-string">"&amp;quot;ok&amp;quot;"</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">foo-bar</span>&gt;</span></code></pre>
 <h3>Updating properties</h3>
 <p>If you want to manually update a component, you should think of your document&#39;s
 hierarchy and where in it the update should take place. It&#39;s better to update a

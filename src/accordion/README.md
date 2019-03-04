@@ -30,7 +30,7 @@ The `Accordion` component creates a set of interactive headings that hide and sh
   </div>
 </div>
 
-Add the `dataAllowMultiple` property to the `tonic-accordion` component to allow multiple sections to be expanded at one time.
+Add the `multiple` property to the `tonic-accordion` component to allow multiple sections to be expanded at one time.
 
 <div class="example">
   <div class="header">Example</div>
@@ -93,7 +93,7 @@ for **TonicAccordion**
 
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
-| `dataAllowMultiple` | *string* | Allow multiple sections to be expanded at one time. | `0` |
+| `multiple` | *string* | Allow multiple sections to be expanded at one time. | `0` |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
 for **TonicAccordionSection**

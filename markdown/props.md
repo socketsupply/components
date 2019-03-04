@@ -74,7 +74,7 @@ class FooBar extends Tonic {
     const o = {
       a: 'testing',
       b: 2.2,
-      c: '"ok"'
+      fooBar: '"ok"'
     }
 
     return this.html`
@@ -86,6 +86,20 @@ class FooBar extends Tonic {
     `
   }
 }
+```
+
+The above compoent renders the following output.
+
+```html
+<foo-bar>
+  <spread-component a="testing" b="2.2" foo-bar="&quot;ok&quot;">
+    <div a="testing" b="2.2" foo-bar="&amp;quot;ok&amp;quot;">
+    </div>
+  </spread-component>
+
+  <div a="testing" b="2.2" foo-bar="&quot;ok&quot;">
+  </div>
+</foo-bar>
 ```
 
 ### Updating properties

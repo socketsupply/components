@@ -167,7 +167,7 @@ class Dialog extends Tonic { /* global Tonic */
 
     typeof content === 'string'
       ? (template.innerHTML = content)
-      : [...content.children].forEach(el => template.appendChild(el))
+      : [...content.childNodes].forEach(el => template.appendChild(el))
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 

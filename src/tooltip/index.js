@@ -148,7 +148,7 @@ class TonicTooltip extends Tonic { /* global Tonic */
 
     return this.html`
       <div class="tonic--tooltip" styles="tooltip">
-        ${this.children}
+        ${this.childNodes}
         <span class="tonic--tooltip-arrow"></span>
       </div>
     `

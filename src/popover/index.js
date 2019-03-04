@@ -186,7 +186,7 @@ class TonicPopover extends Tonic { /* global Tonic */
 
     return this.html`
       <div class="tonic--popover" styles="popover">
-        ${this.children}
+        ${this.childNodes}
       </div>
       <div class="tonic--overlay"></div>
     `

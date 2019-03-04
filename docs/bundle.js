@@ -537,7 +537,7 @@ overlay.addEventListener('click', e => {
     if (dataAllowMultiple) this.root.setAttribute('data-allow-multiple', '')
 
     return this.html`
-      ${this.children}
+      ${this.childNodes}
     `
   }
 }
@@ -640,7 +640,7 @@ class TonicAccordionSection extends Tonic {
         aria-labelledby="tonic-accordion-header-${id}"
         role="region"
         hidden>
-        ${this.children}
+        ${this.childNodes}
       </div>
     `
   }
@@ -1214,7 +1214,7 @@ class TonicCheckbox extends Tonic { /* global Tonic */
     } = this.props
 
     if (!this.props.label) {
-      label = this.children
+      label = this.childNodes
     }
 
     return this.html`<label styles="label" for="tonic--checkbox--${id}">${label}</label>`
@@ -1457,7 +1457,7 @@ class Dialog extends Tonic { /* global Tonic */
 
     typeof content === 'string'
       ? (template.innerHTML = content)
-      : [...content.children].forEach(el => template.appendChild(el))
+      : [...content.childNodes].forEach(el => template.appendChild(el))
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
@@ -1562,18 +1562,6 @@ class TonicIcon extends Tonic { /* global Tonic */
 Tonic.add(TonicIcon)
 
 class TonicInput extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
-    this.root.setInvalid = msg => this.setInvalid(msg)
-    this.root.setValid = () => this.setValid()
-
-    const that = this
-    Object.defineProperty(this.root, 'value', {
-      get () { return that.value },
-      set (value) { that.value = value }
-    })
-  }
-
   defaults () {
     return {
       type: 'text',
@@ -2045,7 +2033,7 @@ class Panel extends Tonic { /* global Tonic */
 
     typeof content === 'string'
       ? (template.innerHTML = content)
-      : [...content.children].forEach(el => template.appendChild(el))
+      : [...content.childNodes].forEach(el => template.appendChild(el))
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
@@ -2285,7 +2273,7 @@ class TonicPopover extends Tonic { /* global Tonic */
 
     return this.html`
       <div class="tonic--popover" styles="popover">
-        ${this.children}
+        ${this.childNodes}
       </div>
       <div class="tonic--overlay"></div>
     `
@@ -4149,7 +4137,7 @@ class TonicToasterInline extends Tonic { /* global Tonic */
             ${title}
           </div>
           <div class="tonic--message">
-            ${message || this.children}
+            ${message || this.childNodes}
           </div>
         </main>
       </div>
@@ -4558,7 +4546,7 @@ class TonicTooltip extends Tonic { /* global Tonic */
 
     return this.html`
       <div class="tonic--tooltip" styles="tooltip">
-        ${this.children}
+        ${this.childNodes}
         <span class="tonic--tooltip-arrow"></span>
       </div>
     `
@@ -4905,7 +4893,7 @@ class Tonic extends window.HTMLElement {
     const name = Tonic._splitName(c.name).toLowerCase()
     if (window.customElements.get(name)) return
 
-    Tonic._reg[name.toUpperCase()] = c
+    Tonic._reg[name] = c
     Tonic._tags = Object.keys(Tonic._reg)
     window.customElements.define(name, c)
   }
@@ -4920,7 +4908,7 @@ class Tonic extends window.HTMLElement {
   }
 
   static escape (s) {
-    return s.replace(Tonic.escapeRe, ch => Tonic.escapeMap[ch])
+    return s.replace(Tonic.ERE, ch => Tonic.MAP[ch])
   }
 
   static _splitName (s) {
@@ -4931,9 +4919,9 @@ class Tonic extends window.HTMLElement {
     const reduce = (a, b) => a.concat(b, strings.shift())
     const filter = s => s && (s !== true || s === 0)
     const ref = o => {
-      const oo = ({}).toString.call(o).slice(8, -1)
-      switch (oo) {
+      switch (({}).toString.call(o).slice(8, -1)) {
         case 'HTMLCollection':
+        case 'NodeList':
           const v = [...o].map(node => node.cloneNode(true))
           return this._placehold(v)
         case 'Array':
@@ -4959,7 +4947,7 @@ class Tonic extends window.HTMLElement {
     if (!this.root) return
     const p = typeof o === 'function' ? o(this.props) : o
     this.props = Tonic.sanitize(p)
-    this._set(this.root, this.render(this.state, this.props))
+    this._set(this.root, this.render())
 
     if (this.updated) {
       const oldProps = JSON.parse(JSON.stringify(this.props))
@@ -5012,18 +5000,17 @@ class Tonic extends window.HTMLElement {
       target.appendChild(content.cloneNode(true))
     }
 
-    if (typeof this.stylesheet === 'function') {
+    if (this.stylesheet) {
       const styleNode = document.createElement('style')
       const source = document.createTextNode(this.stylesheet())
       styleNode.appendChild(source)
       target.insertBefore(styleNode, target.firstChild)
     }
-
     this.root = target
   }
 
   _prop (o) {
-    const id = this.root._id
+    const id = this._id
     const p = `__${id}__${Tonic._createId()}__`
     if (!Tonic._data[id]) Tonic._data[id] = {}
     Tonic._data[id][p] = o
@@ -5040,16 +5027,16 @@ class Tonic extends window.HTMLElement {
 
   connectedCallback () {
     this.root = (this.shadowRoot || this)
-    this.root._id = Tonic._createId()
+    this._id = Tonic._createId()
 
     if (this.wrap) {
       const render = this.render
       this.render = () => this.wrap(render.bind(this))
     }
 
-    Tonic._refs.push(this.root)
+    Tonic._refs.push(this)
 
-    for (let { name, value } of this.root.attributes) {
+    for (let { name, value } of this.attributes) {
       name = name.replace(/-(.)/g, (_, m) => m.toUpperCase())
       const p = this.props[name] = value
 
@@ -5062,20 +5049,19 @@ class Tonic extends window.HTMLElement {
         this.props[name] = p.includes('true')
       }
     }
-
     this.props = Object.assign(
       (this.defaults && this.defaults()) || {},
       Tonic.sanitize(this.props))
 
     this.willConnect && this.willConnect()
-    this._set(this.root, this.render(this.state, this.props))
+    this._set(this.root, this.render())
     this.connected && this.connected()
   }
 
   disconnectedCallback (index) {
     this.disconnected && this.disconnected()
-    delete Tonic._data[this.root._id]
-    delete Tonic._children[this.root._id]
+    delete Tonic._data[this._id]
+    delete Tonic._children[this._id]
     delete this.root
     Tonic._refs.splice(index, 1)
   }
@@ -5088,8 +5074,8 @@ Object.assign(Tonic, {
   _states: {},
   _children: {},
   _reg: {},
-  escapeRe: /["&'<>`]/g,
-  escapeMap: { '"': '&quot;', '&': '&amp;', '\'': '&#x27;', '<': '&lt;', '>': '&gt;', '`': '&#x60;' }
+  ERE: /["&'<>`]/g,
+  MAP: { '"': '&quot;', '&': '&amp;', '\'': '&#x27;', '<': '&lt;', '>': '&gt;', '`': '&#x60;' }
 })
 
 if (typeof module === 'object') module.exports = Tonic

@@ -1,8 +1,8 @@
 # 2. Properties
 
 Properties are used by a component to help it decide how it should appear or
-how it should behave. In this case, `message` is our property and `Hello, World`
-is our property value.
+how it should behave. Properties are read only. In this case, `message` is our
+property and `Hello, World` is our property value.
 
 ```js
 class MyApp extends Tonic {
@@ -30,10 +30,9 @@ class MyGreeting extends Tonic {
 
 ---
 
-Tonic has no templating language, it uses HTML. A limitation of HTML is that it
-only understands string values. If we want to pass more complex property values
-to a component, we can prefix the string returned by the render function with
-`this.html`. This helps Tonic to understand your html better.
+Tonic has no templating language, it uses HTML! Remember, HTML only understands
+string values. If we want to pass more complex values to a component, prefix the
+string returned by the render function with `this.html`.
 
 ```js
 const data = { greeting: 'hello, world' }
@@ -65,6 +64,29 @@ class MyComponent extends Tonic {
 > (as per the HTML spec). If you want the property name to be camel cased when
 > added to the props object, use `foo-bar='30'` to get `this.props.fooBar`.</i>
 
+---
+
+You can use the "spread" operator to expand object literals into html properties.
+
+```js
+class FooBar extends Tonic {
+  render () {
+    const o = {
+      a: 'testing',
+      b: 2.2,
+      c: '"ok"'
+    }
+
+    return this.html`
+      <spread-component ...${o}>
+      </spread-component>
+
+      <div ...${o}>
+      </div>
+    `
+  }
+}
+```
 
 ### Updating properties
 

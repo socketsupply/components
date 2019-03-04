@@ -103,7 +103,7 @@ class TonicAccordion extends Tonic { /* global Tonic */
     if (dataAllowMultiple) this.root.setAttribute('data-allow-multiple', '')
 
     return this.html`
-      ${this.children}
+      ${this.childNodes}
     `
   }
 }
@@ -206,7 +206,7 @@ class TonicAccordionSection extends Tonic {
         aria-labelledby="tonic-accordion-header-${id}"
         role="region"
         hidden>
-        ${this.children}
+        ${this.childNodes}
       </div>
     `
   }

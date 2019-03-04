@@ -1,16 +1,4 @@
 class TonicInput extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
-    this.root.setInvalid = msg => this.setInvalid(msg)
-    this.root.setValid = () => this.setValid()
-
-    const that = this
-    Object.defineProperty(this.root, 'value', {
-      get () { return that.value },
-      set (value) { that.value = value }
-    })
-  }
-
   defaults () {
     return {
       type: 'text',

@@ -252,6 +252,8 @@ body
         text-align center
         margin-bottom 50px
         font-style italic
+        text-transform uppercase
+        font-size 14px
 
     .tooltip
       padding 10px
@@ -479,7 +481,7 @@ body
         vertical-align middle
 
     .status
-      width 195px
+      width 210px
       font 12px var(--subheader)
       text-transform uppercase
       display flex
@@ -487,7 +489,7 @@ body
       margin 0px auto
 
       &:before
-        content 'Project Status'
+        content attr(data-before)
         color var(--medium)
         text-align center
         letter-spacing 1px
@@ -495,12 +497,12 @@ body
         display inline-block
 
       &:after
-        content 'Stable'
+        content attr(data-after)
         color white
         letter-spacing 1px
         padding 4px 8px
         display inline-block
-        background-color var(--success)
+        background-color var(--accent)
 
     .logo svg
       width 200px

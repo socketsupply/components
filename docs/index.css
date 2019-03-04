@@ -538,6 +538,8 @@ body > main .hero .label {
   text-align: center;
   margin-bottom: 50px;
   font-style: italic;
+  text-transform: uppercase;
+  font-size: 14px;
 }
 body > main .tooltip {
   padding: 10px;
@@ -790,7 +792,7 @@ body section#intro .github img {
   vertical-align: middle;
 }
 body section#intro .status {
-  width: 195px;
+  width: 210px;
   font: 12px var(--subheader);
   text-transform: uppercase;
   display: -webkit-box;
@@ -801,7 +803,7 @@ body section#intro .status {
   margin: 0px auto;
 }
 body section#intro .status:before {
-  content: 'Project Status';
+  content: attr(data-before);
   color: var(--medium);
   text-align: center;
   letter-spacing: 1px;
@@ -809,12 +811,12 @@ body section#intro .status:before {
   display: inline-block;
 }
 body section#intro .status:after {
-  content: 'Stable';
+  content: attr(data-after);
   color: #fff;
   letter-spacing: 1px;
   padding: 4px 8px;
   display: inline-block;
-  background-color: var(--success);
+  background-color: var(--accent);
 }
 body section#intro .logo svg {
   width: 200px;

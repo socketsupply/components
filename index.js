@@ -110,7 +110,7 @@
     if (dataAllowMultiple) this.root.setAttribute('data-allow-multiple', '')
 
     return this.html`
-      ${this.children}
+      ${this.childNodes}
     `
   }
 }
@@ -213,7 +213,7 @@ class TonicAccordionSection extends Tonic {
         aria-labelledby="tonic-accordion-header-${id}"
         role="region"
         hidden>
-        ${this.children}
+        ${this.childNodes}
       </div>
     `
   }
@@ -787,7 +787,7 @@ class TonicCheckbox extends Tonic { /* global Tonic */
     } = this.props
 
     if (!this.props.label) {
-      label = this.children
+      label = this.childNodes
     }
 
     return this.html`<label styles="label" for="tonic--checkbox--${id}">${label}</label>`
@@ -1030,7 +1030,7 @@ class Dialog extends Tonic { /* global Tonic */
 
     typeof content === 'string'
       ? (template.innerHTML = content)
-      : [...content.children].forEach(el => template.appendChild(el))
+      : [...content.childNodes].forEach(el => template.appendChild(el))
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
@@ -1135,18 +1135,6 @@ class TonicIcon extends Tonic { /* global Tonic */
 Tonic.add(TonicIcon)
 
 class TonicInput extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
-    this.root.setInvalid = msg => this.setInvalid(msg)
-    this.root.setValid = () => this.setValid()
-
-    const that = this
-    Object.defineProperty(this.root, 'value', {
-      get () { return that.value },
-      set (value) { that.value = value }
-    })
-  }
-
   defaults () {
     return {
       type: 'text',
@@ -1618,7 +1606,7 @@ class Panel extends Tonic { /* global Tonic */
 
     typeof content === 'string'
       ? (template.innerHTML = content)
-      : [...content.children].forEach(el => template.appendChild(el))
+      : [...content.childNodes].forEach(el => template.appendChild(el))
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 
@@ -1858,7 +1846,7 @@ class TonicPopover extends Tonic { /* global Tonic */
 
     return this.html`
       <div class="tonic--popover" styles="popover">
-        ${this.children}
+        ${this.childNodes}
       </div>
       <div class="tonic--overlay"></div>
     `
@@ -3722,7 +3710,7 @@ class TonicToasterInline extends Tonic { /* global Tonic */
             ${title}
           </div>
           <div class="tonic--message">
-            ${message || this.children}
+            ${message || this.childNodes}
           </div>
         </main>
       </div>
@@ -4131,7 +4119,7 @@ class TonicTooltip extends Tonic { /* global Tonic */
 
     return this.html`
       <div class="tonic--tooltip" styles="tooltip">
-        ${this.children}
+        ${this.childNodes}
         <span class="tonic--tooltip-arrow"></span>
       </div>
     `

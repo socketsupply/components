@@ -1,12 +1,9 @@
 ![logo](https://raw.githubusercontent.com/hxoht/tonic/addimage/readme-tonic.png)
 
 # SYNOPSIS
-A collection of components built with [Tonic](https://github.com/hxoht/tonic).
+A bundle of basic components built with [Tonic](https://github.com/hxoht/tonic).
 
 # USAGE
-This repo demonstrates how to bundle multiple components, a single component
-could be an npm module.
-
 ```bash
 npm install @conductorlab/tonic @conductorlab/components
 ```

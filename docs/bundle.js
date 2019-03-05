@@ -574,8 +574,11 @@ class TonicAccordionSection extends Tonic {
         text-align: left;
         padding: 20px;
         position: relative;
+        background: transparent;
         border: 0;
         -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
         outline: none;
         width: 100%;
       }
@@ -612,12 +615,16 @@ class TonicAccordionSection extends Tonic {
         position: absolute;
         top: 50%;
         left: 50%;
+        -webkit-transform: translateY(-50%) translateX(-50%) rotate(135deg);
+        -moz-transform: translateY(-50%) translateX(-50%) rotate(135deg);
         transform: translateY(-50%) translateX(-50%) rotate(135deg);
         border-top: 1px solid var(--tonic-primary);
         border-right: 1px solid var(--tonic-primary);
       }
 
       tonic-accordion-section .tonic--accordion-header[aria-expanded="true"] .tonic--arrow:before {
+        -webkit-transform: translateY(-50%) translateX(-50%) rotate(315deg);
+        -moz-transform: translateY(-50%) translateX(-50%) rotate(315deg);
         transform: translateY(-50%) translateX(-50%) rotate(315deg);
         margin-top: 3px;
       }
@@ -633,7 +640,7 @@ class TonicAccordionSection extends Tonic {
 
     return this.html`
       <h4
-        class="tonic--ccordion-header"
+        class="tonic--accordion-header"
         id="tonic--accordion-header-${id}"
         name="${name}"
         role="heading"
@@ -1172,7 +1179,7 @@ class TonicCheckbox extends Tonic { /* global Tonic */
     let url = ''
 
     const label = this.root.querySelector('label.tonic--icon')
-    const color = this.props.color || this.getPropertyValue('primary')
+    const color = this.props.color || this.getPropertyValue('tonic-primary')
 
     if (this.props.iconOn && this.props.iconOff) {
       url = this.props[state.checked ? 'iconOn' : 'iconOff']
@@ -1194,7 +1201,7 @@ class TonicCheckbox extends Tonic { /* global Tonic */
       size
     } = this.props
 
-    if (!color) color = this.getPropertyValue('primary')
+    if (!color) color = this.getPropertyValue('tonic-primary')
     if (!iconOn) iconOn = TonicCheckbox.svg.iconOn()
     if (!iconOff) iconOff = TonicCheckbox.svg.iconOff()
 

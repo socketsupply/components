@@ -35,9 +35,9 @@ class TonicToggle extends Tonic { /* global Tonic */
       }
 
       tonic-toggle .tonic--toggle--wrapper > label {
-        color: var(--medium);
+        color: var(--tonic-medium);
         font-weight: 500;
-        font: 12px/14px var(--subheader);
+        font: 12px/14px var(--tonic-subheader);
         text-transform: uppercase;
         letter-spacing: 1px;
         margin-left: 58px;
@@ -53,7 +53,7 @@ class TonicToggle extends Tonic { /* global Tonic */
       }
 
       tonic-toggle .tonic--switch label:before {
-        font: bold 12px var(--subheader);
+        font: bold 12px var(--tonic-subheader);
         text-transform: uppercase;
       }
 
@@ -71,7 +71,7 @@ class TonicToggle extends Tonic { /* global Tonic */
         padding: 2px;
         display: block;
         position: relative;
-        background-color: var(--border);
+        background-color: var(--tonic-border);
         border-radius: 60px;
         transition: background 0.4s ease-in-out;
         cursor: default;
@@ -96,7 +96,7 @@ class TonicToggle extends Tonic { /* global Tonic */
         padding-top: 1px;
         font-size: 0.65em;
         letter-spacing: 0.05em;
-        background-color: var(--border);
+        background-color: var(--tonic-border);
       }
 
       tonic-toggle .tonic--toggle + label:after {
@@ -106,7 +106,7 @@ class TonicToggle extends Tonic { /* global Tonic */
         top: 4px;
         left: 4px;
         bottom: 4px;
-        background-color: var(--window);
+        background-color: var(--tonic-window);
         border-radius: 52px;
         transition: background 0.4s ease-in-out, margin 0.4s ease-in-out;
         display: block;
@@ -128,21 +128,21 @@ class TonicToggle extends Tonic { /* global Tonic */
       }
 
       tonic-toggle .tonic--toggle:disabled + label:after {
-        background-color: var(--window);
+        background-color: var(--tonic-window);
       }
 
       tonic-toggle .tonic--toggle:checked + label {
-        background-color: var(--accent);
+        background-color: var(--tonic-accent);
       }
 
       tonic-toggle .tonic--toggle:checked + label:before {
-        background-color: var(--accent);
-        color: var(--background);
+        background-color: var(--tonic-accent);
+        color: var(--tonic-background);
       }
 
       tonic-toggle .tonic--toggle:checked + label:after {
         margin-left: 18px;
-        background-color: var(--background);
+        background-color: var(--tonic-background);
       }
     `
   }

@@ -35,8 +35,8 @@ class TonicPopover extends Tonic { /* global Tonic */
       tonic-popover .tonic--popover {
         position: absolute;
         top: 30px;
-        background: var(--window);
-        border: 1px solid var(--border);
+        background: var(--tonic-window);
+        border: 1px solid var(--tonic-border);
         border-radius: 2px;
         visibility: hidden;
         z-index: -1;

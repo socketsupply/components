@@ -5,146 +5,100 @@ class TonicTabs extends Tonic { /* global Tonic */
 
   stylesheet () {
     return `
-      [data-tab-name] {
-        color: var(--primary);
+      tonic-tabs .tonic--tab {
+        -webkit-appearance: none;
+        border: 0;
+        border-bottom: 2px solid transparent;
+        user-select: none;
       }
 
-      [data-tab-group][hidden="true"] {
-        display: none;
-      }
-
-      [data-tab-group] {
-        display: block;
+      tonic-tabs .tonic--tab[aria-selected="true"] {
+        border-bottom: 2px solid var(--tonic-accent);
       }
     `
   }
 
-  qs (s, p) {
-    return (p || document).querySelector(s)
-  }
-
-  qsa (s, p) {
-    return [...(p || document).querySelectorAll(s)]
-  }
-
-  getCurrentContentNode (group) {
-    return this.qs(`[data-tab-group="${group}"].tonic--show`)
-  }
-
   click (e) {
-    const tab = Tonic.match(e.target, '[data-tab-name]:not([data-tab-group])')
+    const tab = Tonic.match(e.target, '.tonic--tab')
     if (!tab) return
 
     e.preventDefault()
 
-    const group = this.props.group
+    const tabs = this.root.querySelectorAll(`.tonic--tab`)
 
-    const currentPanel = this.getCurrentContentNode(group)
+    tabs.forEach(tab => {
+      tab.setAttribute('aria-selected', 'false')
 
-    if (currentPanel) {
-      currentPanel.classList.remove('tonic--show')
-      currentPanel.setAttribute('hidden', true) // NOTE: accessibility
-    }
-
-    const name = tab.dataset.tabName
-    const target = this.qs(`[data-tab-group="${group}"][data-tab-name="${name}"]`)
-
-    if (target) {
-      target.classList.add('tonic--show')
-      target.removeAttribute('hidden') // NOTE: accessibility
-    } else {
-      console.warn(`Not found '[data-tab-group="${group}"][data-tab-name="${name}"]'`)
-    }
-
-    const parent = tab.closest('tonic-tabs')
-    const currentTab = this.qs(`[data-tab-name].tonic--selected`, parent)
-
-    if (currentTab) {
-      currentTab.classList.remove('tonic--selected')
-      currentTab.setAttribute('aria-selected', false) // NOTE: accessibility
-    }
-
-    tab.classList.add('tonic--selected')
-    tab.setAttribute('aria-selected', true) // NOTE: accessibility
-
-    this.setState(state => Object.assign(state, {
-      selected: name
-    }))
-  }
-
-  connected () {
-    let name = this.state.selected || this.root.getAttribute('selected')
-
-    if (name) {
-      const targetTab = this.qs(`[data-tab-name=${name}]`, this.root)
-      if (targetTab) {
-        targetTab.classList.add('tonic--selected')
-        targetTab.setAttribute('aria-selected', true) // NOTE: accessibility
-      }
-    } else {
-      const currentTab = this.qs(`[data-tab-name].tonic--selected`, this.root)
-      if (!currentTab) return console.warn(`Not found '[data.tab-name].tonic--selected'`)
-
-      name = currentTab.dataset.tabName
-    }
-
-    const group = this.props.group
-    if (!group) return
-
-    const currentPanel = this.getCurrentContentNode(group)
-    if (currentPanel) currentPanel.classList.remove('tonic--show')
-
-    const target = this.qs(`[data-tab-group="${group}"][data-tab-name="${name}"]`)
-    if (!target) return
-
-    target.classList.add('tonic--show')
-
-    //
-    // NOTE: accessibility
-    //
-    const sections = this.qsa(`[data-tab-group="${group}"]`)
-
-    sections.forEach(section => {
-      const tabName = section.getAttribute('data-tab-name')
-      section.setAttribute('role', 'tabpanel')
-      section.setAttribute('aria-labelledby', `tab--${tabName}`)
-
-      const isShowing = section.classList.contains('tonic--show')
-      if (isShowing === false) section.setAttribute('hidden', true)
+      const control = tab.getAttribute('for')
+      const panel = document.querySelector(`tonic-tab-panel[id="${control}"]`)
+      panel.setAttribute('hidden', '')
     })
+
+    tab.setAttribute('aria-selected', 'true')
+
+    const id = tab.getAttribute('aria-controls')
+    const currentPanel = document.querySelector(`tonic-tab-panel[id="${id}"]`)
+    currentPanel.removeAttribute('hidden')
   }
 
   render () {
-    const {
-      tabindex,
-      label
-    } = this.props
-
-    //
-    // NOTE: accessibility
-    //
-    if (tabindex) this.root.removeAttribute('tabindex')
-    const tabIndex = tabindex || '0'
-
-    if (label) this.root.setAttribute('aria-label', label)
-
     this.root.setAttribute('role', 'tablist')
 
-    this.qsa('[data-tab-name]', this.root).forEach(tab => {
-      const dataTabName = tab.getAttribute('data-tab-name')
-      tab.setAttribute('tabindex', tabIndex)
-      tab.setAttribute('role', 'tab')
-      tab.setAttribute('aria-selected', false)
-      tab.setAttribute('id', `tab--${dataTabName}`)
-    })
+    return [...this.root.childElements].map(node => {
+      const ariaControls = node.getAttribute('for')
+      const ariaSelected = node.getAttribute('selected')
 
-    // Theme
-    if (this.props.theme) {
-      this.root.classList.add(`tonic--theme--${this.props.theme}`)
-    }
-
-    return this.root.innerHTML
+      return this.html`
+        <a
+          ...${node.attributes}
+          class="tonic--tab"
+          href="#"
+          role="tab"
+          aria-controls="${ariaControls}"
+          aria-selected="${ariaSelected}">
+          ${node.childNodes}
+        </a>
+      `
+    }).join('')
   }
 }
 
 Tonic.add(TonicTabs)
+
+class TonicTabPanel extends Tonic { /* global Tonic */
+  defaults () {
+    return {}
+  }
+
+  stylesheet () {
+    return `
+      tonic-tab-panel {
+        display: block;
+      }
+
+      tonic-tab-panel[hidden] {
+        display: none;
+      }
+    `
+  }
+
+  click (e) {}
+
+  render () {
+    const {
+      id
+    } = this.props
+
+    this.root.setAttribute('role', 'tabpanel')
+
+    const tab = document.querySelector(`.tonic--tab[for="${id}"]`)
+    const tabid = tab.getAttribute('id')
+    this.root.setAttribute('aria-labelledby', tabid)
+
+    return this.html`
+      ${this.childNodes}
+    `
+  }
+}
+
+Tonic.add(TonicTabPanel)

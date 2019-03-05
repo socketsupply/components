@@ -50,7 +50,7 @@ class Dialog extends Tonic { /* global Tonic */
       }
 
       .tonic--dialog .tonic--dialog--wrapper.tonic--show .tonic--dialog--content {
-        color: var(--primary);
+        color: var(--tonic-primary);
         opacity: 1;
         -webkit-transform: scale(1);
         -ms-transform: scale(1);
@@ -74,7 +74,7 @@ class Dialog extends Tonic { /* global Tonic */
         width: auto;
         margin: auto;
         position: relative;
-        background-color: var(--window);
+        background-color: var(--tonic-window);
         z-index: 1;
         opacity: 0;
         -webkit-transform: scale(0.8);

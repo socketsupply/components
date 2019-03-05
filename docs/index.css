@@ -3,13 +3,13 @@
           box-sizing: border-box;
 }
 ::-webkit-input-placeholder {
-  color: var(--medium);
+  color: var(--tonic-medium);
 }
 :-ms-input-placeholder {
-  color: var(--medium);
+  color: var(--tonic-medium);
 }
 ::placeholder {
-  color: var(--medium);
+  color: var(--tonic-medium);
 }
 @font-face {
   font-family: Avenir-Light;
@@ -44,7 +44,7 @@ tonic-badge {
 .tonic--dialog header {
   text-align: center;
   height: 70px;
-  font: 14px var(--subheader);
+  font: 14px var(--tonic-subheader);
   text-transform: uppercase;
   letter-spacing: 1.5px;
   position: absolute;
@@ -105,7 +105,7 @@ tonic-panel footer {
   height: 70px;
   padding: 10px;
   text-align: center;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid var(--tonic-border);
 }
 tonic-router {
   margin-top: 20px;
@@ -115,37 +115,19 @@ tonic-router.tonic--show {
   display: block;
   margin: 20px 0 6px;
   padding-top: 20px;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid var(--tonic-border);
 }
 #tonic-router-select {
   display: inline-block;
 }
-tonic-tabs {
-  display: block;
+tonic-tabs .tonic--tab {
+  margin-right: 10px;
+  display: inline-block;
 }
-[data-tab-name]:not([data-tab-group]) {
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-  font-family: var(--subheader);
-  font-size: 14px;
-  border-bottom: 1px solid transparent;
-  margin-right: 8px;
-}
-[data-tab-name]:not([data-tab-group]).tonic--selected {
-  color: var(--accent);
-  border-bottom: 1px solid var(--accent);
-}
-[data-tab-group] {
-  margin-top: 15px;
-  border-top: 1px solid var(--border);
-  padding-top: 15px;
+tonic-tab-panel {
   -ms-flex-preferred-size: 100%;
       flex-basis: 100%;
-}
-[data-tab-group].tonic--show {
-  display: block;
+  padding: 15px 0;
 }
 tonic-tooltip .tonic--tooltip {
   padding: 10px;
@@ -160,7 +142,7 @@ tonic-windowed {
   height: 300px;
 }
 tonic-windowed .th {
-  background: var(--border);
+  background: var(--tonic-border);
 }
 tonic-windowed .th,
 tonic-windowed .tr {
@@ -169,10 +151,10 @@ tonic-windowed .tr {
   display: -ms-flexbox;
   display: flex;
   overflow: hidden;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--tonic-border);
 }
 tonic-windowed .tr:hover {
-  background: var(--accent);
+  background: var(--tonic-accent);
   color: #fff;
   cursor: default;
 }
@@ -182,7 +164,7 @@ tonic-windowed .td {
   text-overflow: ellipsis;
   overflow: hidden;
   width: 100px;
-  font-family: var(--monospace);
+  font-family: var(--tonic-monospace);
   font-size: 14px;
   height: 30px;
   line-height: 30px;
@@ -197,7 +179,7 @@ tonic-windowed .td {
   display: flex;
   left: 0;
   right: 0;
-  background: var(--window);
+  background: var(--tonic-window);
   z-index: 1;
   top: 0;
   bottom: 0;
@@ -221,7 +203,7 @@ tonic-windowed .td {
 }
 .hljs,
 .hljs-subst {
-  color: var(--medium);
+  color: var(--tonic-medium);
 }
 .hljs-comment {
   color: #aaa;
@@ -289,10 +271,10 @@ body {
   -webkit-font-kerning: normal;
           font-kerning: normal;
   font-weight: normal;
-  color: var(--primary);
-  font-family: var(--body);
+  color: var(--tonic-primary);
+  font-family: var(--tonic-body);
   margin: 0;
-  background-color: var(--window);
+  background-color: var(--tonic-window);
 }
 body[data-group="custom"] [data-group="component"] {
   display: none;
@@ -313,17 +295,17 @@ body[data-page="docs"] #intro h1 {
   display: none;
 }
 blockquote {
-  border-left: 4px solid var(--info);
+  border-left: 4px solid var(--tonic-info);
   padding-left: 14px;
   font-style: italic;
   line-height: 20px;
   font-size: 14px;
   margin: 10px;
-  color: var(--info);
+  color: var(--tonic-info);
   display: inline-block;
 }
 p {
-  font: 18px/32px var(--body);
+  font: 18px/32px var(--tonic-body);
 }
 h1,
 h2,
@@ -334,31 +316,31 @@ h5 {
   margin: 20px 0;
 }
 h1 {
-  font: 48px/56px var(--header);
+  font: 48px/56px var(--tonic-header);
   padding: 60px 0 20px 0;
 }
 @media (max-width: 850px) {
   h1 {
-    font: 36px/45px var(--header);
+    font: 36px/45px var(--tonic-header);
     padding: 20px 0 20px 0;
   }
 }
 h2 {
-  font: 14px/16px var(--subheader);
+  font: 14px/16px var(--tonic-subheader);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  border-top: 2px solid var(--primary);
+  border-top: 2px solid var(--tonic-primary);
   padding-top: 20px;
   margin: 50px 0;
 }
 h3 {
-  font: 26px/30px var(--header);
+  font: 26px/30px var(--tonic-header);
   margin-top: 60px;
   margin-bottom: 30px;
 }
 h4 {
-  font: 14px/16px var(--subheader);
+  font: 14px/16px var(--tonic-subheader);
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 1.5px;
@@ -397,14 +379,14 @@ body .theme-picker svg {
   cursor: pointer;
 }
 body .theme-picker svg use {
-  fill: var(--primary);
-  color: var(--primary);
+  fill: var(--tonic-primary);
+  color: var(--tonic-primary);
 }
 body .theme-picker svg:hover {
   opacity: 1;
 }
 body > main ul {
-  font: 15px/30px var(--body);
+  font: 15px/30px var(--tonic-body);
   list-style: disc;
   padding: 0;
   padding-left: 40px;
@@ -428,7 +410,7 @@ body > nav {
   bottom: 0;
   overflow: scroll;
   overflow-x: hidden;
-  border-right: 1px solid var(--border);
+  border-right: 1px solid var(--tonic-border);
 }
 @media (max-width: 850px) {
   body > nav {
@@ -436,7 +418,7 @@ body > nav {
   }
 }
 body > nav .page-selection {
-  font: 13px var(--subheader);
+  font: 13px var(--tonic-subheader);
   text-transform: uppercase;
   letter-spacing: 1px;
   padding: 20px 0 0 0;
@@ -452,7 +434,7 @@ body > nav .page-selection a:first-of-type {
 }
 body > nav .page-selection a.active,
 body > nav .page-selection a:hover {
-  border-bottom: 1px solid var(--primary);
+  border-bottom: 1px solid var(--tonic-primary);
 }
 body > nav ul {
   list-style: none;
@@ -463,7 +445,7 @@ body > nav li {
   margin: 20px 0;
 }
 body > nav li a {
-  font: 17px var(--header);
+  font: 17px var(--tonic-header);
   font-weight: 400;
   padding: 5px 8px;
   background-color: transparent;
@@ -472,10 +454,10 @@ body > nav li a {
   transition: background-color 0.2s ease;
 }
 body > nav li a:hover {
-  color: var(--accent);
+  color: var(--tonic-accent);
 }
 body > nav li a.selected {
-  color: var(--accent);
+  color: var(--tonic-accent);
 }
 body > nav a.logo {
   display: inline-block;
@@ -485,8 +467,8 @@ body > nav a.logo svg {
   width: 150px;
 }
 body > nav a.logo svg use {
-  fill: var(--primary);
-  color: var(--primary);
+  fill: var(--tonic-primary);
+  color: var(--tonic-primary);
 }
 body > main {
   padding: 0 60px 60px 60px;
@@ -519,11 +501,11 @@ body > main .logo {
   }
 }
 body > main a {
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--tonic-border);
 }
 body > main a:hover {
-  color: var(--accent);
-  border-bottom-color: var(--accent);
+  color: var(--tonic-accent);
+  border-bottom-color: var(--tonic-accent);
 }
 body > main .hero {
   margin-top: 0;
@@ -553,23 +535,23 @@ body > main .tooltip p {
   line-height: 18px;
 }
 body > main span.req {
-  color: var(--danger);
+  color: var(--tonic-danger);
   font-style: italic;
   display: block;
   float: right;
 }
 body > main div.example {
   width: 100%;
-  border: 1px solid var(--border);
+  border: 1px solid var(--tonic-border);
 }
 body > main div.example .header {
-  font: 13px/16px var(--subheader);
+  font: 13px/16px var(--tonic-subheader);
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 1px;
   padding: 12px 10px 9px 10px;
-  background-color: var(--background);
-  border-bottom: 1px solid var(--border);
+  background-color: var(--tonic-background);
+  border-bottom: 1px solid var(--tonic-border);
 }
 body > main div.example .content {
   max-width: 450px;
@@ -591,25 +573,25 @@ body > main table {
   text-align: left;
   margin-bottom: 15px;
   border-collapse: collapse;
-  border: 1px solid var(--border);
+  border: 1px solid var(--tonic-border);
 }
 body > main th {
-  font: 13px/16px var(--subheader);
+  font: 13px/16px var(--tonic-subheader);
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 1px;
   padding: 12px 10px 9px 10px;
-  background-color: var(--background);
-  border-bottom: 1px solid var(--border);
-  border-right: 1px solid var(--border);
+  background-color: var(--tonic-background);
+  border-bottom: 1px solid var(--tonic-border);
+  border-right: 1px solid var(--tonic-border);
 }
 body > main td {
   line-height: 22px;
   padding: 15px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--tonic-border);
 }
 body > main td:not(:first-of-type) {
-  border-left: 1px solid var(--border);
+  border-left: 1px solid var(--tonic-border);
 }
 body > main tr:last-of-type td {
   border-bottom: 0;
@@ -623,8 +605,8 @@ body > main pre {
   overflow: scroll;
   white-space: pre-line;
   border-radius: 3px;
-  border: 1px solid var(--border);
-  background-color: var(--background);
+  border: 1px solid var(--tonic-border);
+  background-color: var(--tonic-background);
 }
 body > main pre code {
   border: 0;
@@ -640,8 +622,8 @@ body > main code {
   padding: 2px 6px 3px 6px;
   margin: 0 2px;
   white-space: nowrap;
-  background-color: var(--background);
-  border: 1px solid var(--border);
+  background-color: var(--tonic-background);
+  border: 1px solid var(--tonic-border);
   border-radius: 3px;
 }
 body > main > section {
@@ -659,7 +641,7 @@ body > main > footer > div {
   vertical-align: middle;
 }
 body > main > footer > div:first-of-type {
-  border-right: 1px solid var(--border);
+  border-right: 1px solid var(--tonic-border);
   padding-right: 40px;
   margin-right: 40px;
 }
@@ -682,15 +664,15 @@ body > main > footer > div:not(:first-of-type) svg {
   height: 50px;
 }
 body > main > footer > div:hover span {
-  color: var(--primary);
+  color: var(--tonic-primary);
 }
 body > main > footer > div:hover svg use {
-  fill: var(--primary);
-  color: var(--primary);
+  fill: var(--tonic-primary);
+  color: var(--tonic-primary);
 }
 body > main > footer span {
-  color: var(--medium);
-  font: 13px var(--subheader);
+  color: var(--tonic-medium);
+  font: 13px var(--tonic-subheader);
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 2px;
@@ -705,8 +687,8 @@ body > main > footer svg {
   display: block;
 }
 body > main > footer svg use {
-  fill: var(--medium);
-  color: var(--medium);
+  fill: var(--tonic-medium);
+  color: var(--tonic-medium);
   -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
 }
@@ -727,7 +709,7 @@ body .mobile-nav {
 }
 body .mobile-nav,
 body .github {
-  font: 13px var(--subheader);
+  font: 13px var(--tonic-subheader);
   text-transform: uppercase;
   letter-spacing: 1px;
   margin-bottom: 50px;
@@ -738,7 +720,7 @@ body .github a {
   display: inline-block;
   margin-right: 17px;
   padding: 0px 0px 5px 0px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--tonic-border);
 }
 body .mobile-nav a:first-of-type,
 body .github a:first-of-type {
@@ -748,7 +730,7 @@ body .mobile-nav a.active,
 body .github a.active,
 body .mobile-nav a:hover,
 body .github a:hover {
-  border-bottom-color: var(--primary);
+  border-bottom-color: var(--tonic-primary);
 }
 body .component-github-link {
   position: absolute;
@@ -778,14 +760,14 @@ body section#intro .tonic-icon svg {
   display: block;
 }
 body section#intro .tonic-icon svg use {
-  fill: var(--primary);
-  color: var(--primary);
+  fill: var(--tonic-primary);
+  color: var(--tonic-primary);
 }
 body section#intro .github {
   position: absolute;
   top: -12px;
   right: 35px;
-  color: var(--info);
+  color: var(--tonic-info);
   margin-top: 40px;
 }
 body section#intro .github img {
@@ -793,7 +775,7 @@ body section#intro .github img {
 }
 body section#intro .status {
   width: 210px;
-  font: 12px var(--subheader);
+  font: 12px var(--tonic-subheader);
   text-transform: uppercase;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -804,7 +786,7 @@ body section#intro .status {
 }
 body section#intro .status:before {
   content: attr(data-before);
-  color: var(--medium);
+  color: var(--tonic-medium);
   text-align: center;
   letter-spacing: 1px;
   padding: 4px 8px;
@@ -816,14 +798,14 @@ body section#intro .status:after {
   letter-spacing: 1px;
   padding: 4px 8px;
   display: inline-block;
-  background-color: var(--accent);
+  background-color: var(--tonic-accent);
 }
 body section#intro .logo svg {
   width: 200px;
 }
 body section#intro .logo svg use {
-  fill: var(--primary);
-  color: var(--primary);
+  fill: var(--tonic-primary);
+  color: var(--tonic-primary);
 }
 body section#intro p:not(.intro-copy) {
   font-size: 17px;
@@ -851,25 +833,25 @@ body section#intro tonic-button {
   display: block;
 }
 body section#intro span.first-word {
-  color: var(--primary);
+  color: var(--tonic-primary);
 }
 body section#intro p.intro-copy {
-  color: var(--medium);
+  color: var(--tonic-medium);
   max-width: 670px;
-  font: 30px var(--header);
+  font: 30px var(--tonic-header);
   text-align: center;
   margin: 0 auto;
 }
 @media (max-width: 850px) {
   body section#intro p.intro-copy {
-    font: 26px var(--header);
+    font: 26px var(--tonic-header);
   }
 }
 body content-tooltip pre {
   margin: 0;
 }
 body content-tooltip span.code-type {
-  font: 12px var(--subheader);
+  font: 12px var(--tonic-subheader);
   text-transform: uppercase;
   text-align: center;
   letter-spacing: 1px;
@@ -879,7 +861,7 @@ body content-tooltip span.code-type {
 body content-dialog header {
   text-align: center;
   height: 70px;
-  font: 14px var(--subheader);
+  font: 14px var(--tonic-subheader);
   text-transform: uppercase;
   letter-spacing: 1.5px;
   position: absolute;
@@ -927,7 +909,7 @@ body .button-group {
 body .button-group span {
   display: inline-block;
   margin-left: 15px;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--tonic-border);
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
@@ -935,7 +917,7 @@ body .button-group span {
   cursor: pointer;
 }
 body .button-group span:hover {
-  border-bottom-color: var(--accent);
+  border-bottom-color: var(--tonic-accent);
 }
 @media (max-width: 850px) {
   body #progressbar .button-group {

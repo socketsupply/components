@@ -29,8 +29,8 @@ class TonicSelect extends Tonic { /* global Tonic */
 
       tonic-select.tonic--loading select {
         color: transparent;
-        background-color: var(--window);
-        border-color: var(--border);
+        background-color: var(--tonic-window);
+        border-color: var(--tonic-border);
       }
 
       tonic-select.tonic--loading .tonic--wrapper:before {
@@ -42,7 +42,7 @@ class TonicSelect extends Tonic { /* global Tonic */
         left: 50%;
         opacity: 1;
         transform: translateX(-50%);
-        border: 2px solid var(--medium);
+        border: 2px solid var(--tonic-medium);
         border-radius: 50%;
         border-top-color: transparent;
         animation: spin 1s linear 0s infinite;
@@ -50,12 +50,12 @@ class TonicSelect extends Tonic { /* global Tonic */
       }
 
       tonic-select select {
-        color: var(--primary);
-        font: 14px var(--monospace);
-        background-color: var(--window);
+        color: var(--tonic-primary);
+        font: 14px var(--tonic-monospace);
+        background-color: var(--tonic-window);
         background-repeat: no-repeat;
         background-position: center right;
-        border: 1px solid var(--border);
+        border: 1px solid var(--tonic-border);
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
@@ -67,12 +67,12 @@ class TonicSelect extends Tonic { /* global Tonic */
       }
 
       tonic-select select[disabled] {
-        background-color: var(--background);
+        background-color: var(--tonic-background);
       }
 
       tonic-select label {
-        color: var(--medium);
-        font: 12px/14px var(--subheader);
+        color: var(--tonic-medium);
+        font: 12px/14px var(--tonic-subheader);
         font-weight: 500;
         text-transform: uppercase;
         letter-spacing: 1px;

@@ -26,7 +26,7 @@ class TonicBadge extends Tonic { /* global Tonic */
         text-align: center;
         padding: 10px;
         position: relative;
-        background-color: var(--background);
+        background-color: var(--tonic-background);
         border-radius: 8px;
       }
 
@@ -38,8 +38,8 @@ class TonicBadge extends Tonic { /* global Tonic */
         position: absolute;
         top: 7px;
         right: 6px;
-        background-color: var(--notification);
-        border: 2px solid var(--background);
+        background-color: var(--tonic-notification);
+        border: 2px solid var(--tonic-background);
         border-radius: 50%;
       }
 
@@ -48,8 +48,8 @@ class TonicBadge extends Tonic { /* global Tonic */
       }
 
       tonic-badge span {
-        color: var(--primary);
-        font: 15px var(--subheader);
+        color: var(--tonic-primary);
+        font: 15px var(--tonic-subheader);
         letter-spacing: 1px;
         text-align: center;
       }

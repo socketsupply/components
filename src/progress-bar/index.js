@@ -28,11 +28,11 @@ class TonicProgressBar extends Tonic { /* global Tonic */
 
       tonic-progress-bar .tonic--wrapper {
         position: relative;
-        background-color: var(--background);
+        background-color: var(--tonic-background);
       }
 
       tonic-progress-bar .tonic--wrapper .tonic--progress {
-        background-color: var(--accent);
+        background-color: var(--tonic-accent);
         width: 0%;
         height: 100%;
       }
@@ -46,7 +46,7 @@ class TonicProgressBar extends Tonic { /* global Tonic */
         height: this.props.height
       },
       progress: {
-        backgroundColor: this.props.color || 'var(--accent)'
+        backgroundColor: this.props.color || 'var(--tonic-accent)'
       }
     }
   }

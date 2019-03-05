@@ -53,8 +53,8 @@ class TonicCheckbox extends Tonic { /* global Tonic */
       }
 
       tonic-checkbox label {
-        color: var(--primary);
-        font: 12px var(--subheader);
+        color: var(--tonic-primary);
+        font: 12px var(--tonic-subheader);
         font-weight: 500;
         text-transform: uppercase;
         letter-spacing: 1px;

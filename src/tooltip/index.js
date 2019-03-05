@@ -30,13 +30,13 @@ class TonicTooltip extends Tonic { /* global Tonic */
   stylesheet () {
     return `
       tonic-tooltip .tonic--tooltip {
-        color: var(--primary);
+        color: var(--tonic-primary);
         position: fixed;
-        background: var(--window);
+        background: var(--tonic-window);
         visibility: hidden;
         z-index: -1;
         opacity: 0;
-        border: 1px solid var(--border);
+        border: 1px solid var(--tonic-border);
         border-radius: 2px;
         transition: visibility 0.2s ease-in-out, opacity 0.2s ease-in-out, z-index 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
       }
@@ -53,7 +53,7 @@ class TonicTooltip extends Tonic { /* global Tonic */
         height: 12px;
         position: absolute;
         z-index: -1;
-        background-color: var(--window);
+        background-color: var(--tonic-window);
         -webkit-transform: rotate(45deg);
         -ms-transform: rotate(45deg);
         transform: rotate(45deg);
@@ -69,16 +69,16 @@ class TonicTooltip extends Tonic { /* global Tonic */
       tonic-tooltip .tonic--top .tonic--tooltip-arrow {
         margin-bottom: -6px;
         bottom: 100%;
-        border-top-color: var(--border);
-        border-left-color: var(--border);
+        border-top-color: var(--tonic-border);
+        border-left-color: var(--tonic-border);
       }
 
       tonic-tooltip .tonic--bottom .tonic--tooltip-arrow {
         margin-top: -6px;
         position: absolute;
         top: 100%;
-        border-bottom-color: var(--border);
-        border-right-color: var(--border);
+        border-bottom-color: var(--tonic-border);
+        border-right-color: var(--tonic-border);
       }
     `
   }

@@ -1,6 +1,6 @@
 body#test aside {
   width: 600px;
-  font: 14px var(--monospace);
+  font: 14px var(--tonic-monospace);
   white-space: pre-wrap;
   padding: 20px 60px 60px 60px;
   overflow: scroll;
@@ -98,7 +98,7 @@ body#test .test-container > span {
   width: 100%;
 }
 body#test .test-container > span:first-of-type {
-  font: 14px var(--monospace);
+  font: 14px var(--tonic-monospace);
   width: 100%;
   display: block;
   padding: 15px 0;

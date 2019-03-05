@@ -9,7 +9,7 @@ class TonicAccordion extends Tonic { /* global Tonic */
     return `
       tonic-accordion {
         display: block;
-        border: 1px solid var(--border);
+        border: 1px solid var(--tonic-border);
       }
     `
   }
@@ -23,7 +23,7 @@ class TonicAccordion extends Tonic { /* global Tonic */
   }
 
   click (e) {
-    const trigger = Tonic.match(e.target, '.tonic-accordion-header')
+    const trigger = Tonic.match(e.target, '.tonic--accordion-header')
     if (!trigger) return
 
     e.preventDefault()
@@ -32,8 +32,8 @@ class TonicAccordion extends Tonic { /* global Tonic */
     const isExpanded = trigger.getAttribute('aria-expanded') === 'true'
 
     if (!isExpanded && !allowMultiple) {
-      const triggers = this.qsa('.tonic-accordion-header')
-      const panels = this.qsa('.tonic-accordion-panel')
+      const triggers = this.qsa('.tonic--accordion-header')
+      const panels = this.qsa('.tonic--accordion-panel')
 
       triggers.forEach(trigger => {
         trigger.setAttribute('aria-expanded', 'false')
@@ -118,14 +118,14 @@ class TonicAccordionSection extends Tonic {
       }
 
       tonic-accordion-section:not(:last-of-type) {
-        border-bottom: 1px solid var(--border);
+        border-bottom: 1px solid var(--tonic-border);
       }
 
       tonic-accordion-section h4 {
         margin: 0;
       }
 
-      tonic-accordion-section .accordion-header {
+      tonic-accordion-section .tonic--accordion-header {
         display: flex;
       }
 
@@ -144,7 +144,7 @@ class TonicAccordionSection extends Tonic {
         outline: none;
       }
 
-      tonic-accordion-section button:focus .label {
+      tonic-accordion-section button:focus .tonic--label {
         border-bottom: 3px solid Highlight;
       }
 
@@ -152,11 +152,11 @@ class TonicAccordionSection extends Tonic {
         display: none;
       }
 
-      tonic-accordion-section .tonic-accordion-panel {
+      tonic-accordion-section .tonic--accordion-panel {
         padding: 10px 50px 20px 20px;
       }
 
-      tonic-accordion-section .tonic-accordion-header .arrow {
+      tonic-accordion-section .tonic--accordion-header .tonic--arrow {
         display: block;
         position: absolute;
         top: 0;
@@ -165,7 +165,7 @@ class TonicAccordionSection extends Tonic {
         width: 50px;
       }
 
-      tonic-accordion-section .tonic-accordion-header .arrow:before {
+      tonic-accordion-section .tonic--accordion-header .tonic--arrow:before {
         content: "";
         width: 8px;
         height: 8px;
@@ -173,11 +173,11 @@ class TonicAccordionSection extends Tonic {
         top: 50%;
         left: 50%;
         transform: translateY(-50%) translateX(-50%) rotate(135deg);
-        border-top: 1px solid var(--primary);
-        border-right: 1px solid var(--primary);
+        border-top: 1px solid var(--tonic-primary);
+        border-right: 1px solid var(--tonic-primary);
       }
 
-      tonic-accordion-section .tonic-accordion-header[aria-expanded="true"] .arrow:before {
+      tonic-accordion-section .tonic--accordion-header[aria-expanded="true"] .tonic--arrow:before {
         transform: translateY(-50%) translateX(-50%) rotate(315deg);
         margin-top: 3px;
       }
@@ -193,21 +193,21 @@ class TonicAccordionSection extends Tonic {
 
     return this.html`
       <h4
-        class="tonic-accordion-header"
-        id="tonic-accordion-header-${id}"
+        class="tonic--ccordion-header"
+        id="tonic--accordion-header-${id}"
         name="${name}"
         role="heading"
         aria-expanded="false"
-        aria-controls="tonic-accordion-panel-${id}">
-        <button class="title">
-          <span class="label">${label}</span>
-          <span class="arrow"></span>
+        aria-controls="tonic--accordion-panel-${id}">
+        <button class="tonic--title">
+          <span class="tonic--label">${label}</span>
+          <span class="tonic--arrow"></span>
         </button>
       </h4>
       <div
-        class="tonic-accordion-panel"
-        id="tonic-accordion-panel-${id}"
-        aria-labelledby="tonic-accordion-header-${id}"
+        class="tonic--accordion-panel"
+        id="tonic--accordion-panel-${id}"
+        aria-labelledby="tonic--accordion-header-${id}"
         role="region"
         hidden>
         ${this.childNodes}

@@ -4,26 +4,23 @@
   <!-- Default tabs -->
   <div id="tabs-1" class="test-container">
     <span>Default Tabs</span>
-    <tonic-tabs
-      label="Tab Example"
-      group="profile"
-      selected="one">
-      <span data-tab-name="one">One</span>
-      <span data-tab-name="two">Two</span>
-      <span data-tab-name="three">Three</span>
+
+    <tonic-tabs>
+      <tonic-tab
+        id="tab-1"
+        for="tab-panel-1"
+        selected="true">One</tonic-tab>
+      <tonic-tab
+        id="tab-2"
+        for="tab-panel-2">Two</tonic-tab>
+      <tonic-tab
+        id="tab-3"
+        for="tab-panel-3">Three</tonic-tab>
     </tonic-tabs>
 
-    <section data-tab-group="profile" data-tab-name="one">
-      Content One
-    </section>
-
-    <section data-tab-group="profile" data-tab-name="two">
-      Content Two
-    </section>
-
-    <section data-tab-group="profile" data-tab-name="three">
-      Content Three
-    </section>
+    <tonic-tab-panel id="tab-panel-1">Content One</tonic-tab-panel>
+    <tonic-tab-panel id="tab-panel-2" hidden>Content Two</tonic-tab-panel>
+    <tonic-tab-panel id="tab-panel-3" hidden>Content Three</tonic-tab-panel>
   </div>
 
   <!-- Tabs with theme dark -->

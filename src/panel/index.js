@@ -28,12 +28,12 @@ class Panel extends Tonic { /* global Tonic */
   stylesheet () {
     return `
       .tonic--panel .tonic--panel--inner {
-        color: var(--primary);
+        color: var(--tonic-primary);
         width: 500px;
         position: fixed;
         bottom: 0;
         top: 0;
-        background-color: var(--window);
+        background-color: var(--tonic-window);
         box-shadow: 0px 0px 28px 0 rgba(0,0,0,0.05);
         transition: transform 0.3s ease-in-out, visibility 0.3s ease;
         z-index: 100;
@@ -48,7 +48,7 @@ class Panel extends Tonic { /* global Tonic */
         -webkit-transform: translateX(-500px);
         -ms-transform: translateX(-500px);
         transform: translateX(-500px);
-        border-right: 1px solid var(--border);
+        border-right: 1px solid var(--tonic-border);
         visibility: hidden;
       }
 
@@ -57,7 +57,7 @@ class Panel extends Tonic { /* global Tonic */
         -webkit-transform: translateX(500px);
         -ms-transform: translateX(500px);
         transform: translateX(500px);
-        border-left: 1px solid var(--border);
+        border-left: 1px solid var(--tonic-border);
         visibility: hidden;
       }
 

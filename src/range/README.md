@@ -42,7 +42,7 @@ The `Range` component creates a range input, or slider.
 | `max` | *string* | Greatest possible value. | `100` |
 | `step` | *string* | Number the value must adhere to. | `1` |
 | `label` | *string* | Label that displays the current value. Use %i, %f, etc to represent the value. | `false` |
-| `thumbColor` | *string* | Color of the slider "thumb" | `var(--window)` |
+| `thumbColor` | *string* | Color of the slider "thumb" | `var(--tonic-window)` |
 | `thumbRadius` | *string* | Radius of the slider "thumb" | `50px` |
 | `value` | *string* | Default value | `50` |
 | `tabindex` | *number* | Add a `tabindex` for the range. | |

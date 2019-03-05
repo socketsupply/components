@@ -86,7 +86,7 @@ class TonicCheckbox extends Tonic { /* global Tonic */
     let url = ''
 
     const label = this.root.querySelector('label.tonic--icon')
-    const color = this.props.color || this.getPropertyValue('primary')
+    const color = this.props.color || this.getPropertyValue('tonic-primary')
 
     if (this.props.iconOn && this.props.iconOff) {
       url = this.props[state.checked ? 'iconOn' : 'iconOff']
@@ -108,7 +108,7 @@ class TonicCheckbox extends Tonic { /* global Tonic */
       size
     } = this.props
 
-    if (!color) color = this.getPropertyValue('primary')
+    if (!color) color = this.getPropertyValue('tonic-primary')
     if (!iconOn) iconOn = TonicCheckbox.svg.iconOn()
     if (!iconOff) iconOff = TonicCheckbox.svg.iconOff()
 

@@ -1,16 +1,22 @@
 #!/usr/bin/env node
-const http = require('http')
+const https = require('https')
 const parse = require('url').parse
 const send = require('send')
+const fs = require('fs')
 
 const opts = {
   root: process.argv[2] || `${__dirname}/../docs`
 }
 
-http.createServer((req, res) => {
+const certs = {
+  key: fs.readFileSync(`${__dirname}/keys/server.key`),
+  cert: fs.readFileSync(`${__dirname}/keys/server.crt`)
+}
+
+https.createServer(certs, (req, res) => {
   const p = parse(req.url).pathname
   console.log(`  req -> ${p}`)
   send(req, p, opts).pipe(res)
 }).listen(8080, () => {
-  console.log('  started -> http://localhost:8080')
+  console.log('  started -> https://localhost:8080')
 })

@@ -2,7 +2,7 @@ class TonicIcon extends Tonic { /* global Tonic */
   defaults () {
     return {
       size: '25px',
-      fill: 'var(--primary)'
+      fill: 'var(--tonic-primary)'
     }
   }
 

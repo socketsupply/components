@@ -1,10 +1,4 @@
 class TonicChart extends Tonic { /* global Tonic */
-  constructor (opts) {
-    super(opts)
-
-    this.root.draw = (...args) => this.draw(...args)
-  }
-
   stylesheet () {
     return `
       tonic-chart {

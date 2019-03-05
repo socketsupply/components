@@ -1,11 +1,4 @@
 class TonicToaster extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
-
-    this.root.create = (o) => this.create(o)
-    this.root.hide = () => this.hide()
-  }
-
   getPropertyValue (s) {
     const computed = window.getComputedStyle(this.root)
     return computed.getPropertyValue(`--${s}`).trim()
@@ -70,7 +63,7 @@ class TonicToaster extends Tonic { /* global Tonic */
         max-width: 600px;
         margin-top: 10px;
         position: relative;
-        background-color: var(--window);
+        background-color: var(--tonic-window);
         box-shadow: 0px 10px 40px -20px rgba(0,0,0,0.4), 0 0 1px #a2a9b1;
         border-radius: 3px;
         -webkit-transform: translateY(-100px);
@@ -102,13 +95,13 @@ class TonicToaster extends Tonic { /* global Tonic */
       }
 
       tonic-toaster .tonic--title {
-        color: var(--primary);
-        font: 14px/18px var(--subheader);
+        color: var(--tonic-primary);
+        font: 14px/18px var(--tonic-subheader);
       }
 
       tonic-toaster .tonic--message {
-        color: var(--medium);
-        font: 14px/18px var(--body);
+        color: var(--tonic-medium);
+        font: 14px/18px var(--tonic-body);
       }
 
       tonic-toaster .tonic--notification .tonic--icon {
@@ -137,8 +130,8 @@ class TonicToaster extends Tonic { /* global Tonic */
       }
 
       tonic-toaster .tonic--notification .tonic--close svg path {
-        fill: var(--primary);
-        color: var(--primary);
+        fill: var(--tonic-primary);
+        color: var(--tonic-primary);
       }
     `
   }
@@ -230,12 +223,14 @@ class TonicToaster extends Tonic { /* global Tonic */
   }
 
   show () {
-    const node = this.root.firstElementChild
+    if (!this.root) return
+    const node = this.root.querySelector('.tonic--wrapper')
     node.classList.add('tonic--show')
   }
 
   hide () {
-    const node = this.root.firstElementChild
+    if (!this.root) return
+    const node = this.root.querySelector('.tonic--wrapper')
     node.classList.remove('tonic--show')
   }
 

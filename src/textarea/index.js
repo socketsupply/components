@@ -1,15 +1,4 @@
 class TonicTextarea extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
-
-    const that = this
-
-    Object.defineProperty(this.root, 'value', {
-      get () { return that.value },
-      set (value) { that.value = value }
-    })
-  }
-
   defaults () {
     return {
       placeholder: '',
@@ -26,12 +15,12 @@ class TonicTextarea extends Tonic { /* global Tonic */
   stylesheet () {
     return `
       tonic-textarea textarea {
-        color: var(--primary);
+        color: var(--tonic-primary);
         width: 100%;
-        font: 14px var(--monospace);
+        font: 14px var(--tonic-monospace);
         padding: 10px;
         background-color: transparent;
-        border: 1px solid var(--border);
+        border: 1px solid var(--tonic-border);
         transition: border 0.2s ease-in-out;
         -webkit-appearance: none;
         -moz-appearance: none;
@@ -39,21 +28,21 @@ class TonicTextarea extends Tonic { /* global Tonic */
       }
 
       tonic-textarea textarea:focus {
-        border: 1px solid var(--primary);
+        border: 1px solid var(--tonic-primary);
       }
 
       tonic-textarea textarea:invalid {
-        border-color: var(--danger);
+        border-color: var(--tonic-danger);
       }
 
       tonic-textarea textarea[disabled] {
-        background-color: var(--background);
+        background-color: var(--tonic-background);
       }
 
       tonic-textarea label {
-        color: var(--medium);
+        color: var(--tonic-medium);
         font-weight: 500;
-        font: 12px/14px var(--subheader);
+        font: 12px/14px var(--tonic-subheader);
         text-transform: uppercase;
         letter-spacing: 1px;
         padding-bottom: 10px;

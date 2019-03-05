@@ -4,7 +4,6 @@ The `Toaster` component creates a container for all toaster items to be added to
 ## Demo
 
 <tonic-toaster></tonic-toaster>
-
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
@@ -22,7 +21,7 @@ The following code should be included once on the page:
 
 #### HTML
 ```html
-<tonic-toaster></tonic-toaster>
+<tonic-toaster id="tonic-toaster-example"></tonic-toaster>
 ```
 
 ---
@@ -31,7 +30,17 @@ To create a new toaster item:
 
 #### JS
 ```js
-%js%
+const notification = document.querySelector('tonic-toaster')
+
+document
+  .getElementById('tonic-toaster-example')
+  .addEventListener('click', e => {
+    notification.create({
+      type: 'success',
+      title: 'Greetings',
+      message: 'Hello, World'
+    })
+  })
 ```
 
 ## Api
@@ -54,8 +63,6 @@ To create a new toaster item:
 
 | Method | Description |
 | :--- | :--- |
-| `show()` | Shows the toaster. |
-| `hide()` | Hides a toaster item. |
 | `click()` | Removes a toaster item. |
 | `create()` | Creates a toaster item. |
 | `destroy()` | Removes a toaster item. |

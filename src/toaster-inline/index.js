@@ -1,11 +1,4 @@
 class TonicToasterInline extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
-
-    this.root.show = () => this.show()
-    this.root.hide = () => this.hide()
-  }
-
   getPropertyValue (s) {
     const computed = window.getComputedStyle(this.root)
     return computed.getPropertyValue(`--${s}`).trim()
@@ -26,21 +19,21 @@ class TonicToasterInline extends Tonic { /* global Tonic */
     return `
       tonic-toaster-inline .tonic--notification {
         max-height: 0;
-        margin: 10px 0;
         position: relative;
-        background-color: var(--window);
+        background-color: var(--tonic-window);
         border-radius: 3px;
         -webkit-transform: scale(0.95);
         -ms-transform: scale(0.95);
         transform: scale(0.95);
         transition: opacity 0.2s ease-in-out 0s, transform 0.3s ease-in-out 0s, max-height 0.3s ease-in-out;
-        border: 1px solid var(--border);
+        border: 1px solid var(--tonic-border);
         opacity: 0;
         z-index: 1;
       }
 
       tonic-toaster-inline .tonic--notification.tonic--show {
         max-height: 100%;
+        margin: 10px 0;
         -webkit-transform: scale(1);
         -ms-transform: scale(1);
         transform: scale(1);
@@ -49,19 +42,19 @@ class TonicToasterInline extends Tonic { /* global Tonic */
       }
 
       tonic-toaster-inline .tonic--warning {
-        border-color: var(--warning);
+        border-color: var(--tonic-warning);
       }
 
       tonic-toaster-inline .tonic--danger {
-        border-color: var(--danger);
+        border-color: var(--tonic-danger);
       }
 
       tonic-toaster-inline .tonic--success {
-        border-color: var(--success);
+        border-color: var(--tonic-success);
       }
 
       tonic-toaster-inline .tonic--info {
-        border-color: var(--secondary);
+        border-color: var(--tonic-secondary);
       }
 
       tonic-toaster-inline .tonic--notification.tonic--close {
@@ -77,13 +70,13 @@ class TonicToasterInline extends Tonic { /* global Tonic */
       }
 
       tonic-toaster-inline .tonic--title {
-        color: var(--primary);
-        font: 14px/18px var(--subheader);
+        color: var(--tonic-primary);
+        font: 14px/18px var(--tonic-subheader);
       }
 
       tonic-toaster-inline .tonic--message {
-        font: 14px/18px var(--subheader);
-        color: var(--medium);
+        font: 14px/18px var(--tonic-subheader);
+        color: var(--tonic-medium);
       }
 
       tonic-toaster-inline .tonic--notification .tonic--icon {
@@ -112,20 +105,22 @@ class TonicToasterInline extends Tonic { /* global Tonic */
       }
 
       tonic-toaster-inline .tonic--notification .tonic--close svg path {
-        fill: var(--primary);
-        color: var(--primary);
+        fill: var(--tonic-primary);
+        color: var(--tonic-primary);
       }
     `
   }
 
   show () {
     if (!this.root) return
-    this.root.firstElementChild.classList.add('tonic--show')
+    const node = this.root.querySelector('.tonic--notification')
+    node.classList.add('tonic--show')
   }
 
   hide () {
     if (!this.root) return
-    this.root.firstElementChild.classList.remove('tonic--show')
+    const node = this.root.querySelector('.tonic--notification')
+    node.classList.remove('tonic--show')
   }
 
   click (e) {
@@ -205,7 +200,7 @@ class TonicToasterInline extends Tonic { /* global Tonic */
             ${title}
           </div>
           <div class="tonic--message">
-            ${message || this.children}
+            ${message || this.childNodes}
           </div>
         </main>
       </div>

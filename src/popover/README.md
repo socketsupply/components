@@ -14,7 +14,7 @@ The `popover` component creates a popover activated by a click event. It is posi
   #popover-example-trigger {
     width: 50px;
     height: 50px;
-    background-color: var(--background);
+    background-color: var(--tonic-background);
     display: inline-block;
     padding: 15px;
     text-align: center;
@@ -24,7 +24,7 @@ The `popover` component creates a popover activated by a click event. It is posi
   }
 
   #popover-example-trigger:hover {
-    background-color: var(--secondary);
+    background-color: var(--tonic-secondary);
   }
 
   .tonic--popover {

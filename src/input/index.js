@@ -1,23 +1,11 @@
 class TonicInput extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
-    this.root.setInvalid = msg => this.setInvalid(msg)
-    this.root.setValid = () => this.setValid()
-
-    const that = this
-    Object.defineProperty(this.root, 'value', {
-      get () { return that.value },
-      set (value) { that.value = value }
-    })
-  }
-
   defaults () {
     return {
       type: 'text',
       value: '',
       placeholder: '',
       width: '250px',
-      color: 'var(--primary)',
+      color: 'var(--tonic-primary)',
       spellcheck: false,
       ariaInvalid: false,
       invalid: false,
@@ -77,9 +65,9 @@ class TonicInput extends Tonic { /* global Tonic */
       }
 
       tonic-input label {
-        color: var(--medium);
+        color: var(--tonic-medium);
         font-weight: 500;
-        font: 12px/14px var(--subheader);
+        font: 12px/14px var(--tonic-subheader);
         text-transform: uppercase;
         letter-spacing: 1px;
         padding-bottom: 10px;
@@ -87,11 +75,11 @@ class TonicInput extends Tonic { /* global Tonic */
       }
 
       tonic-input input {
-        color: var(--primary);
-        font: 14px var(--monospace);
+        color: var(--tonic-primary);
+        font: 14px var(--tonic-monospace);
         padding: 10px;
         background-color: transparent;
-        border: 1px solid var(--border);
+        border: 1px solid var(--tonic-border);
         transition: border 0.2s ease-in-out;
         -webkit-appearance: none;
         -moz-appearance: none;
@@ -99,11 +87,11 @@ class TonicInput extends Tonic { /* global Tonic */
       }
 
       tonic-input input:invalid {
-        border-color: var(--error);
+        border-color: var(--tonic-error);
       }
 
       tonic-input input:invalid:focus {
-        border-color: var(--error);
+        border-color: var(--tonic-error);
       }
 
       tonic-input input:invalid ~ .tonic--invalid {
@@ -114,11 +102,11 @@ class TonicInput extends Tonic { /* global Tonic */
       }
 
       tonic-input input:focus {
-        border-color: var(--primary);
+        border-color: var(--tonic-primary);
       }
 
       tonic-input input[disabled] {
-        background-color: var(--background);
+        background-color: var(--tonic-background);
       }
 
       tonic-input[label] .tonic--invalid {
@@ -142,7 +130,7 @@ class TonicInput extends Tonic { /* global Tonic */
       tonic-input .tonic--invalid span {
         color: white;
         padding: 2px 6px;
-        background-color: var(--error);
+        background-color: var(--tonic-error);
         border-radius: 2px;
         position: relative;
         display: inline-block;
@@ -160,7 +148,7 @@ class TonicInput extends Tonic { /* global Tonic */
         transform: translateX(-50%);
         border-left: 6px solid transparent;
         border-right: 6px solid transparent;
-        border-top: 6px solid var(--error);
+        border-top: 6px solid var(--tonic-error);
       }
     `
   }
@@ -238,10 +226,6 @@ class TonicInput extends Tonic { /* global Tonic */
 
   connected () {
     this.setupEvents()
-
-    if (this.props.value) {
-      this.state.value = this.props.value
-    }
   }
 
   styles () {

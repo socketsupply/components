@@ -1,17 +1,4 @@
 class TonicBadge extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
-
-    this.state.count = this.props.count
-
-    const that = this
-
-    Object.defineProperty(this.root, 'value', {
-      get () { return that.value },
-      set (value) { that.value = value }
-    })
-  }
-
   defaults () {
     return {
       count: 0
@@ -39,7 +26,7 @@ class TonicBadge extends Tonic { /* global Tonic */
         text-align: center;
         padding: 10px;
         position: relative;
-        background-color: var(--background);
+        background-color: var(--tonic-background);
         border-radius: 8px;
       }
 
@@ -51,8 +38,8 @@ class TonicBadge extends Tonic { /* global Tonic */
         position: absolute;
         top: 7px;
         right: 6px;
-        background-color: var(--notification);
-        border: 2px solid var(--background);
+        background-color: var(--tonic-notification);
+        border: 2px solid var(--tonic-background);
         border-radius: 50%;
       }
 
@@ -61,12 +48,16 @@ class TonicBadge extends Tonic { /* global Tonic */
       }
 
       tonic-badge span {
-        color: var(--primary);
-        font: 15px var(--subheader);
+        color: var(--tonic-primary);
+        font: 15px var(--tonic-subheader);
         letter-spacing: 1px;
         text-align: center;
       }
     `
+  }
+
+  willConnect () {
+    this.state.count = this.props.count
   }
 
   render () {
@@ -86,9 +77,9 @@ class TonicBadge extends Tonic { /* global Tonic */
 
     const newAttr = (count > 0) ? 'tonic--new' : ''
 
-    return `
+    return this.html`
       <div class="tonic--notifications ${newAttr}">
-        <span>${countAttr}</span>
+        <span>${String(countAttr)}</span>
       </div>
     `
   }

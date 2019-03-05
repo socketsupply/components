@@ -1,14 +1,6 @@
 class TonicProgressBar extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
-
-    this.root.setProgress = n => this.setProgress(n)
-
-    const that = this
-    Object.defineProperty(this.root, 'value', {
-      get () { return that.value },
-      set (value) { that.setProgress(value) }
-    })
+  set value (value) {
+    this.setProgress(value)
   }
 
   get value () {
@@ -36,11 +28,11 @@ class TonicProgressBar extends Tonic { /* global Tonic */
 
       tonic-progress-bar .tonic--wrapper {
         position: relative;
-        background-color: var(--background);
+        background-color: var(--tonic-background);
       }
 
       tonic-progress-bar .tonic--wrapper .tonic--progress {
-        background-color: var(--accent);
+        background-color: var(--tonic-accent);
         width: 0%;
         height: 100%;
       }
@@ -54,7 +46,7 @@ class TonicProgressBar extends Tonic { /* global Tonic */
         height: this.props.height
       },
       progress: {
-        backgroundColor: this.props.color || 'var(--accent)'
+        backgroundColor: this.props.color || 'var(--tonic-accent)'
       }
     }
   }
@@ -95,7 +87,7 @@ class TonicProgressBar extends Tonic { /* global Tonic */
     this.root.style.width = this.props.width
     this.root.style.height = this.props.height
 
-    return `
+    return this.html`
       <div class="tonic--wrapper" styles="wrapper">
         <div class="tonic--progress" styles="progress"></div>
       </div>

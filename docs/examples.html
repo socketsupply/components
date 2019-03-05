@@ -71,6 +71,11 @@
   
 
     <li>
+      <a href="#accordion" class="">Accordion</a>
+    </li>
+  
+
+    <li>
       <a href="#badge" class="">Badge</a>
     </li>
   
@@ -194,6 +199,163 @@
   that can be used as a starting point to build your own components or apps.
 </p>
 <p>See the <a href="./docs.html">docs</a> page for more details.</p>
+
+    </section>
+  
+
+    <section id="accordion">
+      
+    <div class="component-github-link">
+      <a href="https://github.com/heapwolf/components/tree/master/src/accordion/">Github</a>
+    </div>
+  
+      <h1 id="accordion">Accordion</h1>
+<p>The <code>Accordion</code> component creates a set of interactive headings that hide and show content sections, with <strong>Keyboard Support</strong></p>
+<h2>Demo</h2>
+<div class="example">
+  <div class="header">Example</div>
+  <div class="content">
+    <tonic-accordion>
+      <tonic-accordion-section
+        name="accordion-test-1"
+        id="accordion-test-1"
+        data="preview"
+        label="Accordion Test 1">
+        Whatever
+      </tonic-accordion-section>
+      <tonic-accordion-section
+        name="accordion-test-2"
+        id="accordion-test-2"
+        label="Accordion Test 2">
+        Some Content
+      </tonic-accordion-section>
+      <tonic-accordion-section
+        name="accordion-test-3"
+        id="accordion-test-3"
+        label="Accordion Test 3">
+        The visual design includes features intended to help users understand that the accordion provides enhanced keyboard navigation functions. When an accordion header button has keyboard focus, the styling of the accordion container and all its header buttons is changed.
+      </tonic-accordion-section>
+    </tonic-accordion>
+  </div>
+</div>
+
+<p>Add the <code>multiple</code> property to the <code>tonic-accordion</code> component to allow multiple sections to be expanded at one time.</p>
+<div class="example">
+  <div class="header">Example</div>
+  <div class="content">
+    <tonic-accordion data-allow-multiple="true">
+      <tonic-accordion-section
+        name="multiple-accordion-test-1"
+        id="multiple-accordion-test-1"
+        label="Multiple Accordion Test 1">
+        Whatever
+      </tonic-accordion-section>
+      <tonic-accordion-section
+        name="multiple-accordion-test-2"
+        id="multiple-accordion-test-2"
+        label="Multiple Accordion Test 2">
+        Some Content
+      </tonic-accordion-section>
+      <tonic-accordion-section
+        name="multiple-accordion-test-3"
+        id="multiple-accordion-test-3"
+        label="Multiple Accordion Test 3">
+        The visual design includes features intended to help users understand that the accordion provides enhanced keyboard navigation functions. When an accordion header button has keyboard focus, the styling of the accordion container and all its header buttons is changed.
+      </tonic-accordion-section>
+    </tonic-accordion>
+  </div>
+</div>
+
+<h2>Code</h2>
+<h4>HTML</h4>
+<pre><code class="language-html">  <span class="hljs-tag">&lt;<span class="hljs-name">tonic-accordion</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">tonic-accordion-section</span>
+      <span class="hljs-attr">name</span>=<span class="hljs-string">"bucket-test-1"</span>
+      <span class="hljs-attr">id</span>=<span class="hljs-string">"bucket-test-1"</span>
+      <span class="hljs-attr">data</span>=<span class="hljs-string">"preview"</span>
+      <span class="hljs-attr">label</span>=<span class="hljs-string">"Accordion Test 1"</span>&gt;</span>
+      Whatever
+    <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-accordion-section</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">tonic-accordion-section</span>
+      <span class="hljs-attr">name</span>=<span class="hljs-string">"bucket-test-2"</span>
+      <span class="hljs-attr">id</span>=<span class="hljs-string">"bucket-test-2"</span>
+      <span class="hljs-attr">label</span>=<span class="hljs-string">"Accordion Test 2"</span>&gt;</span>
+      Some Content
+    <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-accordion-section</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">tonic-accordion-section</span>
+      <span class="hljs-attr">name</span>=<span class="hljs-string">"bucket-test-3"</span>
+      <span class="hljs-attr">id</span>=<span class="hljs-string">"bucket-test-3"</span>
+      <span class="hljs-attr">label</span>=<span class="hljs-string">"Accordion Test 3"</span>&gt;</span>
+      The visual design includes features intended to help users understand that the accordion provides enhanced keyboard navigation functions. When an accordion header button has keyboard focus, the styling of the accordion container and all its header buttons is changed.
+    <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-accordion-section</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-accordion</span>&gt;</span></code></pre>
+<h2>Api</h2>
+<h3>Properties</h3>
+<p>for <strong>TonicAccordion</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>multiple</code></td>
+<td align="left"><em>number</em></td>
+<td align="left">Allow multiple sections to be expanded at one time.</td>
+<td align="left"><code>0</code></td>
+</tr>
+<tr>
+<td align="left"><code>theme</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
+<td align="left"><code>light</code></td>
+</tr>
+</tbody></table>
+<p>for <strong>TonicAccordionSection</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>id</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds the <code>id</code> attribute.</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>name</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds the <code>name</code> attribute.</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>label</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Pass into</td>
+<td align="left"><code>0</code></td>
+</tr>
+</tbody></table>
+<h3>Instance Members</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>click()</code></td>
+<td align="left">Click event</td>
+</tr>
+</tbody></table>
 
     </section>
   
@@ -726,20 +888,26 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-dialog</span>&gt;</span></code></pre>
 <h4>JS</h4>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TonicDialog</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span>.<span class="hljs-title">Dialog</span> </span>{
+  willConnect () {
+    <span class="hljs-keyword">this</span>.state.message = <span class="hljs-keyword">this</span>.props.message
+  }
+
   click (e) {
     <span class="hljs-keyword">if</span> (!Tonic.match(e.target, <span class="hljs-string">'#update'</span>)) <span class="hljs-keyword">return</span>
 
-    <span class="hljs-keyword">this</span>.reRender(<span class="hljs-function"><span class="hljs-params">props</span> =&gt;</span> ({
-      ...props,
+    <span class="hljs-keyword">this</span>.setState(<span class="hljs-function"><span class="hljs-params">state</span> =&gt;</span> ({
+      ...state,
       <span class="hljs-attr">message</span>: <span class="hljs-string">`Date stamp <span class="hljs-subst">${<span class="hljs-built_in">Date</span>.now()}</span>`</span>
     }))
+
+    <span class="hljs-keyword">this</span>.reRender()
   }
 
   render () {
     <span class="hljs-keyword">return</span> <span class="hljs-string">`
       &lt;header&gt;Dialog&lt;/header&gt;
       &lt;main&gt;
-        <span class="hljs-subst">${<span class="hljs-keyword">this</span>.props.message}</span>
+        <span class="hljs-subst">${<span class="hljs-keyword">this</span>.state.message}</span>
       &lt;/main&gt;
       &lt;footer&gt;
         &lt;tonic-button id="update"&gt;Update&lt;/tonic-button&gt;
@@ -749,13 +917,11 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
 }
 
 Tonic.add(TonicDialog)
-Tonic.init()
 
 <span class="hljs-keyword">const</span> link = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'example-dialog-link'</span>)
 <span class="hljs-keyword">const</span> dialog = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'example-dialog'</span>)
 
-link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; dialog.show())
-</code></pre>
+link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; dialog.show())</code></pre>
 <h2>Api</h2>
 <h3>Properties</h3>
 <table>
@@ -889,7 +1055,7 @@ link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; dialog.s
 <td align="left"><code>fill</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">Changes the color of the icon.</td>
-<td align="left"><code>var(--primary)</code></td>
+<td align="left"><code>var(--tonic-primary)</code></td>
 </tr>
 <tr>
 <td align="left"><code>src</code></td>
@@ -1177,7 +1343,6 @@ link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; dialog.s
 }
 
 Tonic.add(TonicPanel)
-Tonic.init()
 
 <span class="hljs-comment">//</span>
 <span class="hljs-comment">// For this example, a button element will trigger the</span>
@@ -1280,7 +1445,7 @@ panelLink.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; pan
   #popover-example-trigger {
     width: 50px;
     height: 50px;
-    background-color: var(--background);
+    background-color: var(--tonic-background);
     display: inline-block;
     padding: 15px;
     text-align: center;
@@ -1290,7 +1455,7 @@ panelLink.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; pan
   }
 
   #popover-example-trigger:hover {
-    background-color: var(--secondary);
+    background-color: var(--tonic-secondary);
   }
 
   .tonic--popover {
@@ -1699,7 +1864,7 @@ profile.addEventListener(<span class="hljs-string">'error'</span>, e =&gt; <span
 <td align="left"><code>thumbColor</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">Color of the slider &quot;thumb&quot;</td>
-<td align="left"><code>var(--window)</code></td>
+<td align="left"><code>var(--tonic-window)</code></td>
 </tr>
 <tr>
 <td align="left"><code>thumbRadius</code></td>
@@ -2026,57 +2191,78 @@ select.addEventListener(<span class="hljs-string">'change'</span>, ({ target }) 
     </div>
   
       <h1 id="tabs">Tabs</h1>
-<p>The <code>Tabs</code> component creates a menu that activates sections when clicked on.</p>
+<p>The <code>tonic-tabs</code> and <code>tonic-tab-panel</code> components create a tab list that activates sections when clicked on.</p>
 <h2>Demo</h2>
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
-    <tonic-tabs group="profile" selected="two">
-      <span tabindex="0" data-tab-name="one">One</span>
-      <span tabindex="0" data-tab-name="two">Two</span>
-      <span tabindex="0" data-tab-name="three">Three</span>
+    <tonic-tabs>
+      <tonic-tab
+        id="tab-1"
+        for="tab-panel-1"
+        selected="true">One</tonic-tab>
+      <tonic-tab
+        id="tab-2"
+        for="tab-panel-2">Two</tonic-tab>
+      <tonic-tab
+        id="tab-3"
+        for="tab-panel-3">Three</tonic-tab>
     </tonic-tabs>
-    <section data-tab-group="profile" data-tab-name="one">
+    <tonic-tab-panel id="tab-panel-1">
       Content One
-    </section>
-    <section data-tab-group="profile" data-tab-name="two">
+    </tonic-tab-panel>
+    <tonic-tab-panel id="tab-panel-2" hidden>
       Content Two
-    </section>
-    <section data-tab-group="profile" data-tab-name="three">
+    </tonic-tab-panel>
+    <tonic-tab-panel id="tab-panel-3" hidden>
       Content Three
-    </section>
+    </tonic-tab-panel>
   </div>
 </div>
 
 <h2>Code</h2>
-<p>Tabs have two important concepts. The idea of a <code>group</code> and the idea of a <code>name</code>. Each tab in a tab group will have content that is associated by a <code>name</code>.</p>
-<p>The structure inside the component is arbitrary: spans, links, links inside divs, they can all be different. You just need to add the <code>data-tab-name</code> property to the clickable item.</p>
-<p>The default tab should be specified using the <code>selected</code> property.</p>
-<p>You can specify a tabindex for each tab individually in your html.</p>
+<p>The tabs are grouped under the <code>tonic-tabs</code> component. Each tab should be a <code>tonic-tab</code> element, and it is associated to a <code>tonic-tab-panel</code> id with the <code>for</code> element.</p>
+<p>The default selected tab should have the <code>selected</code> attribute.</p>
 <h4>HTML</h4>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-tabs</span> <span class="hljs-attr">group</span>=<span class="hljs-string">"profile"</span> <span class="hljs-attr">selected</span>=<span class="hljs-string">"one"</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">data-tab-name</span>=<span class="hljs-string">"one"</span>&gt;</span>One<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">data-tab-name</span>=<span class="hljs-string">"two"</span>&gt;</span>Two<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"special-tab"</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"/three.png"</span> <span class="hljs-attr">data-tab-name</span>=<span class="hljs-string">"three"</span>/&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-tabs</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">tonic-tab</span>
+    <span class="hljs-attr">id</span>=<span class="hljs-string">"tab-1"</span>
+    <span class="hljs-attr">for</span>=<span class="hljs-string">"tab-panel-1"</span>
+    <span class="hljs-attr">selected</span>=<span class="hljs-string">"true"</span>&gt;</span>
+    One
+  <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-tab</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">tonic-tab</span>
+    <span class="hljs-attr">id</span>=<span class="hljs-string">"tab-2"</span>
+    <span class="hljs-attr">for</span>=<span class="hljs-string">"tab-panel-2"</span>&gt;</span>
+    Two
+  <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-tab</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">tonic-tab</span>
+    <span class="hljs-attr">id</span>=<span class="hljs-string">"tab-3"</span>
+    <span class="hljs-attr">for</span>=<span class="hljs-string">"tab-panel-3"</span>&gt;</span>
+    Three
+  <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-tab</span>&gt;</span>
+
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-tabs</span>&gt;</span></code></pre>
 <hr>
-<p>You can use any tag for the content — <code>section</code> is a nice one to use — and the tag containing the content can be located anywhere in your document.</p>
+<p>Specify which <code>tonic-tab-panel</code> should be showing by marking the other panels as <code>hidden</code> by default.</p>
 <h4>HTML</h4>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">section</span> <span class="hljs-attr">data-tab-group</span>=<span class="hljs-string">"profile"</span> <span class="hljs-attr">data-tab-name</span>=<span class="hljs-string">"one"</span>&gt;</span>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-tab-panel</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"tab-panel-1"</span>&gt;</span>
   Content One
-<span class="hljs-tag">&lt;/<span class="hljs-name">section</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">tonic-tab-panel</span>&gt;</span>
 
-<span class="hljs-tag">&lt;<span class="hljs-name">section</span> <span class="hljs-attr">data-tab-group</span>=<span class="hljs-string">"profile"</span> <span class="hljs-attr">data-tab-name</span>=<span class="hljs-string">"two"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">tonic-tab-panel</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"tab-panel-2"</span> <span class="hljs-attr">hidden</span>&gt;</span>
   Content Two
-<span class="hljs-tag">&lt;/<span class="hljs-name">section</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">tonic-tab-panel</span>&gt;</span>
 
-<span class="hljs-tag">&lt;<span class="hljs-name">section</span> <span class="hljs-attr">data-tab-group</span>=<span class="hljs-string">"profile"</span> <span class="hljs-attr">data-tab-name</span>=<span class="hljs-string">"three"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">tonic-tab-panel</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"tab-panel-3"</span> <span class="hljs-attr">hidden</span>&gt;</span>
   Content Three
-<span class="hljs-tag">&lt;/<span class="hljs-name">section</span>&gt;</span></code></pre>
+<span class="hljs-tag">&lt;/<span class="hljs-name">tonic-tab-panel</span>&gt;</span></code></pre>
 <h2>Api</h2>
 <h3>Properties</h3>
+<p><em>for <code>tonic-tab</code></em></p>
 <table>
 <thead>
 <tr>
@@ -2089,17 +2275,41 @@ select.addEventListener(<span class="hljs-string">'change'</span>, ({ target }) 
 <tbody><tr>
 <td align="left"><code>id</code></td>
 <td align="left"><em>string</em></td>
-<td align="left">Adds the <code>id</code> attribute.</td>
+<td align="left">Adds the <code>id</code> attribute. <span class="req">required</span></td>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="left"><code>theme</code></td>
+<td align="left"><code>for</code></td>
 <td align="left"><em>string</em></td>
-<td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
-<td align="left"><code>light</code></td>
+<td align="left">Adds the <code>id</code> attribute. <span class="req">required</span></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>selected</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Adds the <code>id</code> attribute.</td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+<p><em>for <code>tonic-tab-panel</code></em></p>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>id</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds the <code>id</code> attribute. <span class="req">required</span></td>
+<td align="left"></td>
 </tr>
 </tbody></table>
 <h3>Instance Methods &amp; Members</h3>
+<p><em>for <code>tonic-tab</code></em></p>
 <table>
 <thead>
 <tr>
@@ -2301,7 +2511,7 @@ select.addEventListener(<span class="hljs-string">'change'</span>, ({ target }) 
 <h2>Code</h2>
 <p>The following code should be included once on the page:</p>
 <h4>HTML</h4>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-toaster</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">tonic-toaster</span>&gt;</span></code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-toaster</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"tonic-toaster-example"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">tonic-toaster</span>&gt;</span></code></pre>
 <hr>
 <p>To create a new toaster item:</p>
 <h4>JS</h4>
@@ -2309,12 +2519,13 @@ select.addEventListener(<span class="hljs-string">'change'</span>, ({ target }) 
 
 <span class="hljs-built_in">document</span>
   .getElementById(<span class="hljs-string">'tonic-toaster-example'</span>)
-  .addEventListener(<span class="hljs-string">'click'</span>, e =&gt; notification.create({
-    <span class="hljs-attr">type</span>: <span class="hljs-string">'success'</span>,
-    <span class="hljs-attr">title</span>: <span class="hljs-string">'Greetings'</span>,
-    <span class="hljs-attr">message</span>: <span class="hljs-string">'Hello, World'</span>
-  }))
-</code></pre>
+  .addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
+    notification.create({
+      <span class="hljs-attr">type</span>: <span class="hljs-string">'success'</span>,
+      <span class="hljs-attr">title</span>: <span class="hljs-string">'Greetings'</span>,
+      <span class="hljs-attr">message</span>: <span class="hljs-string">'Hello, World'</span>
+    })
+  })</code></pre>
 <h2>Api</h2>
 <h3>Properties</h3>
 <table>
@@ -2390,14 +2601,6 @@ select.addEventListener(<span class="hljs-string">'change'</span>, ({ target }) 
 </tr>
 </thead>
 <tbody><tr>
-<td align="left"><code>show()</code></td>
-<td align="left">Shows the toaster.</td>
-</tr>
-<tr>
-<td align="left"><code>hide()</code></td>
-<td align="left">Hides a toaster item.</td>
-</tr>
-<tr>
 <td align="left"><code>click()</code></td>
 <td align="left">Removes a toaster item.</td>
 </tr>
@@ -2442,7 +2645,6 @@ select.addEventListener(<span class="hljs-string">'change'</span>, ({ target }) 
     type="danger"
     message="Message as a property.">
   </tonic-toaster-inline>
-
   <tonic-toaster-inline id="toaster-3" display="true">
     <b>Hello,
     World</b>
@@ -2457,8 +2659,9 @@ select.addEventListener(<span class="hljs-string">'change'</span>, ({ target }) 
 <pre><code class="language-js"><span class="hljs-keyword">const</span> toaster1 = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'toaster-1'</span>)
 <span class="hljs-keyword">const</span> toasterLink1 = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'toaster-link-1'</span>)
 
-toasterLink1.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; toaster1.show())
-</code></pre>
+toasterLink1.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
+  toaster1.show()
+})</code></pre>
 <hr>
 <p>An inline toaster that is displayed initially:</p>
 <h4>HTML</h4>
@@ -2554,14 +2757,6 @@ toasterLink1.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; 
 </tr>
 <tr>
 <td align="left"><code>click()</code></td>
-<td align="left">Removes a toaster item.</td>
-</tr>
-<tr>
-<td align="left"><code>create()</code></td>
-<td align="left">Creates a toaster item.</td>
-</tr>
-<tr>
-<td align="left"><code>destroy()</code></td>
 <td align="left">Removes a toaster item.</td>
 </tr>
 </tbody></table>
@@ -2682,18 +2877,15 @@ toasterLink1.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; 
       <h1 id="tooltip">Tooltip</h1>
 <p>The <code>Tooltip</code> component creates a dynamically positioned pop-up tooltip filled with custom content that shows during the <code>hover</code> state of the corresponding trigger element.</p>
 <h2>Demo</h2>
-<style nonce="U29tZSBzdXBlciBzZWNyZXQ=">
-  #tonic-tooltip-example-1 {
-    cursor: default;
-  }
-</style>
-
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
     <span id="tonic-tooltip-example">
       Hover over this text
     </span>
+    <tonic-tooltip for="tonic-tooltip-example">
+      <img src="./tonic.svg" width="100px">
+    </tonic-tooltip>
   </div>
 </div>
 
@@ -2824,7 +3016,6 @@ has been rendered.</p>
 }
 
 Tonic.add(TonicWindowed)
-Tonic.init()
 
 <span class="hljs-comment">//</span>
 <span class="hljs-comment">// This demo generates the data after you click the overlay instead of</span>

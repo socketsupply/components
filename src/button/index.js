@@ -1,18 +1,14 @@
 class TonicButton extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
-    this.root.loading = (state) => this.loading(state)
+  get value () {
+    return this.props.value
+  }
 
-    const that = this
+  get disabled () {
+    return this.props.disabled === true
+  }
 
-    Object.defineProperty(this.root, 'value', {
-      get () { return that.props.value }
-    })
-
-    Object.defineProperty(this.root, 'disabled', {
-      get () { return that.props.disabled === true },
-      set (state) { that.props.disabled = state }
-    })
+  set disabled (state) {
+    this.props.disabled = state
   }
 
   defaults () {
@@ -21,10 +17,10 @@ class TonicButton extends Tonic { /* global Tonic */
       width: '150px',
       margin: '5px',
       autofocus: 'false',
-      async: 'false',
+      async: false,
       radius: '2px',
       borderWidth: '1px',
-      textColorDisabled: 'var(--disabled)',
+      textColorDisabled: 'var(--tonic-disabled)',
       backgroundColor: 'transparent'
     }
   }
@@ -36,26 +32,26 @@ class TonicButton extends Tonic { /* global Tonic */
       }
 
       tonic-button button {
-        color: var(--button);
+        color: var(--tonic-button);
         width: auto;
         min-height: 40px;
-        font: 12px var(--subheader);
+        font: 12px var(--tonic-subheader);
         font-weight: 400;
         text-transform: uppercase;
         letter-spacing: 1px;
         padding: 8px 8px 5px 8px;
         position: relative;
         background-color: transparent;
-        border: 1px solid var(--button);
+        border: 1px solid var(--tonic-button);
         transition: all 0.3s ease;
         appearance: none;
       }
 
       tonic-button button[disabled],
       tonic-button button.tonic--active {
-        color: var(--medium);
-        background-color: var(--background);
-        border-color: var(--background);
+        color: var(--tonic-medium);
+        background-color: var(--tonic-background);
+        border-color: var(--tonic-background);
       }
 
       tonic-button button[disabled] {
@@ -65,24 +61,24 @@ class TonicButton extends Tonic { /* global Tonic */
 
       tonic-button button:not([disabled]):hover,
       tonic-button button:not(.tonic--loading):hover {
-        color: var(--window) !important;
-        background-color: var(--button) !important;
-        border-color: var(--button) !important;
+        color: var(--tonic-window) !important;
+        background-color: var(--tonic-button) !important;
+        border-color: var(--tonic-button) !important;
         cursor: pointer;
       }
 
       tonic-button button.tonic--loading {
         color: transparent !important;
-        background: var(--medium);
-        border-color: var(--medium);
+        background: var(--tonic-medium);
+        border-color: var(--tonic-medium);
         transition: all 0.3s ease;
         pointer-events: none;
       }
 
       tonic-button button.tonic--loading:hover {
         color: transparent !important;
-        background: var(--medium) !important;
-        border-color: var(--medium) !important;
+        background: var(--tonic-medium) !important;
+        border-color: var(--tonic-medium) !important;
       }
 
       tonic-button button.tonic--loading:before {
@@ -120,12 +116,10 @@ class TonicButton extends Tonic { /* global Tonic */
   }
 
   loading (state) {
-    window.requestAnimationFrame(() => {
-      if (!this.root) return
-      const button = this.root.querySelector('button')
-      const method = state ? 'add' : 'remove'
-      if (button) button.classList[method]('tonic--loading')
-    })
+    if (!this.root) return
+    const button = this.root.querySelector('button')
+    const method = state ? 'add' : 'remove'
+    if (button) button.classList[method]('tonic--loading')
   }
 
   click (e) {

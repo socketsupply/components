@@ -4,20 +4,15 @@ The `Tooltip` component creates a dynamically positioned pop-up tooltip filled w
 
 ## Demo
 
-%html%
-
-<style nonce="%nonce%">
-  #tonic-tooltip-example-1 {
-    cursor: default;
-  }
-</style>
-
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
     <span id="tonic-tooltip-example">
       Hover over this text
     </span>
+    <tonic-tooltip for="tonic-tooltip-example">
+      <img src="./tonic.svg" width="100px">
+    </tonic-tooltip>
   </div>
 </div>
 

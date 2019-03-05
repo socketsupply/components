@@ -45,7 +45,36 @@
           </div>
           <div id="test-output"></div>
         </aside>
-              <section id="badge">
+              <section id="accordion">
+  <h2>Accordion</h2>
+
+  <div id="accordion-1" class="test-container">
+    <span>Default</span>
+    <tonic-accordion>
+      <tonic-accordion-section
+        name="accordion-test-1"
+        id="accordion-test-1"
+        data="preview"
+        label="Accordion Test 1">
+        Whatever
+      </tonic-accordion-section>
+      <tonic-accordion-section
+        name="accordion-test-2"
+        id="accordion-test-2"
+        label="Accordion Test 2">
+        Some Content
+      </tonic-accordion-section>
+      <tonic-accordion-section
+        name="accordion-test-3"
+        id="accordion-test-3"
+        label="Accordion Test 3">
+        The visual design includes features intended to help users understand that the accordion provides enhanced keyboard navigation functions. When an accordion header button has keyboard focus, the styling of the accordion container and all its header buttons is changed.
+      </tonic-accordion-section>
+    </tonic-accordion>
+  </div>
+</section>
+
+      <section id="badge">
   <h2>Badge</h2>
 
   <div id="badge-1" class="test-container">
@@ -106,18 +135,18 @@
   </div>
 
   <div id="button-6" class="test-container">
-    <span>fill="var(--accent)"</span>
+    <span>fill="var(--tonic-accent)"</span>
     <tonic-button
-      fill="var(--accent)"
+      fill="var(--tonic-accent)"
       text-color="white">Button</tonic-button>
   </div>
 
   <div id="button-7" class="test-container">
     <span>border-color, border-width, text-color</span>
     <tonic-button
-      border-color="var(--accent)"
+      border-color="var(--tonic-accent)"
       border-width="3px"
-      text-color="var(--accent)">Button</tonic-button>
+      text-color="var(--tonic-accent)">Button</tonic-button>
   </div>
 
   <div id="button-8" class="test-container">
@@ -1108,60 +1137,24 @@
   <!-- Default tabs -->
   <div id="tabs-1" class="test-container">
     <span>Default Tabs</span>
-    <tonic-tabs
-      label="Tab Example"
-      group="profile"
-      selected="one">
-      <span data-tab-name="one">One</span>
-      <span data-tab-name="two">Two</span>
-      <span data-tab-name="three">Three</span>
+
+    <tonic-tabs>
+      <tonic-tab
+        id="tab-1"
+        for="tab-panel-1"
+        selected="true">One</tonic-tab>
+      <tonic-tab
+        id="tab-2"
+        for="tab-panel-2">Two</tonic-tab>
+      <tonic-tab
+        id="tab-3"
+        for="tab-panel-3">Three</tonic-tab>
     </tonic-tabs>
 
-    <section data-tab-group="profile" data-tab-name="one">
-      Content One
-    </section>
-
-    <section data-tab-group="profile" data-tab-name="two">
-      Content Two
-    </section>
-
-    <section data-tab-group="profile" data-tab-name="three">
-      Content Three
-    </section>
+    <tonic-tab-panel id="tab-panel-1">Content One</tonic-tab-panel>
+    <tonic-tab-panel id="tab-panel-2" hidden>Content Two</tonic-tab-panel>
+    <tonic-tab-panel id="tab-panel-3" hidden>Content Three</tonic-tab-panel>
   </div>
-
-  <!-- Tabs with theme dark -->
-  <div class="test-container flex-half dark">
-    <span>theme="dark"</span>
-    <tonic-tabs group="theme" selected="one" theme="dark">
-      <span data-tab-name="one">One</span>
-      <span data-tab-name="two">Two</span>
-      <span data-tab-name="three">Three</span>
-      <span data-tab-name="four">Four</span>
-      <span data-tab-name="five">Five</span>
-    </tonic-tabs>
-
-    <section data-tab-group="theme" data-tab-name="one" theme="dark">
-      Content One
-    </section>
-
-    <section data-tab-group="theme" data-tab-name="two" theme="dark">
-      Content Two
-    </section>
-
-    <section data-tab-group="theme" data-tab-name="three" theme="dark">
-      Content Three
-    </section>
-
-    <section data-tab-group="theme" data-tab-name="four" theme="dark">
-      Content Four
-    </section>
-
-    <section data-tab-group="theme" data-tab-name="five" theme="dark">
-      Content Five
-    </section>
-  </div>
-
 </section>
 
       <section id="textarea">

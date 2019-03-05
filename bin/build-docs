@@ -4,6 +4,7 @@ const path = require('path')
 const marked = require('marked')
 const hl = require('highlight.js')
 const fetch = require('node-fetch')
+const pkg = require('../package.json')
 
 const renderer = new marked.Renderer()
 
@@ -168,6 +169,11 @@ async function compile () {
     let s = read(markdownDir, file)
     if (!s) continue
 
+    if (file === 'intro.md') {
+      const version = pkg.dependencies['@conductorlab/tonic']
+      s = s.replace('{{version}}', version.slice(1))
+    }
+
     const title = parseHeading(s)
     developerDocs.push({
       title,
@@ -235,7 +241,10 @@ async function compile () {
     //
     const title = 'API'
     const url = 'https://raw.githubusercontent.com/hxoht/tonic/master/API.md'
-    const s = await (await fetch(url)).text()
+
+    const s = process.env.API
+      ? await (await fetch(url)).text()
+      : 'BUILT IN DEV MODE'
 
     developerDocs.unshift({
       title,

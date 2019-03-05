@@ -1,7 +1,6 @@
 class TonicTooltip extends Tonic { /* global Tonic */
-  constructor ({ node }) {
-    super({ node })
-    const target = node.getAttribute('for')
+  connected () {
+    const target = this.props['for']
     const el = document.getElementById(target)
     let timer = null
 
@@ -12,9 +11,12 @@ class TonicTooltip extends Tonic { /* global Tonic */
       }, 256)
     }
 
-    el.addEventListener('mouseenter', e => this.show(el))
-    node.addEventListener('mouseenter', e => clearTimeout(timer))
-    node.addEventListener('mouseleave', leave)
+    el.addEventListener('mouseenter', e => {
+      this.show(el)
+    })
+
+    this.root.addEventListener('mouseenter', e => clearTimeout(timer))
+    this.root.addEventListener('mouseleave', leave)
     el.addEventListener('mouseleave', leave)
   }
 
@@ -28,13 +30,13 @@ class TonicTooltip extends Tonic { /* global Tonic */
   stylesheet () {
     return `
       tonic-tooltip .tonic--tooltip {
-        color: var(--primary);
+        color: var(--tonic-primary);
         position: fixed;
-        background: var(--window);
+        background: var(--tonic-window);
         visibility: hidden;
         z-index: -1;
         opacity: 0;
-        border: 1px solid var(--border);
+        border: 1px solid var(--tonic-border);
         border-radius: 2px;
         transition: visibility 0.2s ease-in-out, opacity 0.2s ease-in-out, z-index 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
       }
@@ -51,7 +53,7 @@ class TonicTooltip extends Tonic { /* global Tonic */
         height: 12px;
         position: absolute;
         z-index: -1;
-        background-color: var(--window);
+        background-color: var(--tonic-window);
         -webkit-transform: rotate(45deg);
         -ms-transform: rotate(45deg);
         transform: rotate(45deg);
@@ -67,16 +69,16 @@ class TonicTooltip extends Tonic { /* global Tonic */
       tonic-tooltip .tonic--top .tonic--tooltip-arrow {
         margin-bottom: -6px;
         bottom: 100%;
-        border-top-color: var(--border);
-        border-left-color: var(--border);
+        border-top-color: var(--tonic-border);
+        border-left-color: var(--tonic-border);
       }
 
       tonic-tooltip .tonic--bottom .tonic--tooltip-arrow {
         margin-top: -6px;
         position: absolute;
         top: 100%;
-        border-bottom-color: var(--border);
-        border-right-color: var(--border);
+        border-bottom-color: var(--tonic-border);
+        border-right-color: var(--tonic-border);
       }
     `
   }
@@ -146,7 +148,7 @@ class TonicTooltip extends Tonic { /* global Tonic */
 
     return this.html`
       <div class="tonic--tooltip" styles="tooltip">
-        ${this.children}
+        ${this.childNodes}
         <span class="tonic--tooltip-arrow"></span>
       </div>
     `

@@ -1,12 +1,8 @@
 class Dialog extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
+  constructor () {
+    super()
 
-    this.root.show = () => this.show()
-    this.root.hide = () => this.hide()
-    this.root.event = name => this.event(name)
-
-    this.root.addEventListener('click', e => {
+    this.addEventListener('click', e => {
       const el = Tonic.match(e.target, '.tonic--close')
       if (el) this.hide()
 
@@ -54,7 +50,7 @@ class Dialog extends Tonic { /* global Tonic */
       }
 
       .tonic--dialog .tonic--dialog--wrapper.tonic--show .tonic--dialog--content {
-        color: var(--primary);
+        color: var(--tonic-primary);
         opacity: 1;
         -webkit-transform: scale(1);
         -ms-transform: scale(1);
@@ -78,7 +74,7 @@ class Dialog extends Tonic { /* global Tonic */
         width: auto;
         margin: auto;
         position: relative;
-        background-color: var(--window);
+        background-color: var(--tonic-window);
         z-index: 1;
         opacity: 0;
         -webkit-transform: scale(0.8);
@@ -102,7 +98,8 @@ class Dialog extends Tonic { /* global Tonic */
     const that = this
 
     return new Promise((resolve) => {
-      const node = this.root.firstElementChild
+      if (!this.root) return
+      const node = this.root.querySelector('.tonic--dialog--wrapper')
       node.classList.add('tonic--show')
       node.addEventListener('transitionend', resolve, { once: true })
 
@@ -118,7 +115,8 @@ class Dialog extends Tonic { /* global Tonic */
     const that = this
 
     return new Promise((resolve) => {
-      const node = that.root.firstElementChild
+      if (!this.root) return
+      const node = this.root.querySelector('.tonic--dialog--wrapper')
       node.classList.remove('tonic--show')
       node.addEventListener('transitionend', resolve, { once: true })
       document.removeEventListener('keyup', that._escapeHandler)
@@ -169,7 +167,7 @@ class Dialog extends Tonic { /* global Tonic */
 
     typeof content === 'string'
       ? (template.innerHTML = content)
-      : [...content.children].forEach(el => template.appendChild(el))
+      : [...content.childNodes].forEach(el => template.appendChild(el))
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
 

@@ -1,10 +1,9 @@
 class TonicPopover extends Tonic { /* global Tonic */
-  constructor ({ node }) {
-    super({ node })
-    const target = node.getAttribute('for')
-    const el = document.getElementById(target)
+  constructor () {
+    super()
 
-    this.root.hide = () => this.hide()
+    const target = this.getAttribute('for')
+    const el = document.getElementById(target)
 
     el.addEventListener('click', e => this.show(el))
   }
@@ -36,8 +35,8 @@ class TonicPopover extends Tonic { /* global Tonic */
       tonic-popover .tonic--popover {
         position: absolute;
         top: 30px;
-        background: var(--window);
-        border: 1px solid var(--border);
+        background: var(--tonic-window);
+        border: 1px solid var(--tonic-border);
         border-radius: 2px;
         visibility: hidden;
         z-index: -1;
@@ -187,7 +186,7 @@ class TonicPopover extends Tonic { /* global Tonic */
 
     return this.html`
       <div class="tonic--popover" styles="popover">
-        ${this.children}
+        ${this.childNodes}
       </div>
       <div class="tonic--overlay"></div>
     `

@@ -2,7 +2,7 @@
   box-sizing border-box
 
 ::placeholder
-  color var(--medium)
+  color var(--tonic-medium)
 
 @font-face
   font-family Avenir-Light
@@ -34,10 +34,10 @@ body
   font-variant-ligatures common-ligatures
   font-kerning normal
   font-weight normal
-  color var(--primary)
-  font-family var(--body)
+  color var(--tonic-primary)
+  font-family var(--tonic-body)
   margin 0
-  background-color var(--window)
+  background-color var(--tonic-window)
 
   &[data-group="custom"]
     [data-group="component"]
@@ -61,45 +61,45 @@ body
   //   outline none
 
 blockquote
-  border-left 4px solid var(--info)
+  border-left 4px solid var(--tonic-info)
   padding-left 14px
   font-style italic
   line-height 20px
   font-size 14px
   margin 10px
-  color var(--info)
+  color var(--tonic-info)
   display inline-block
 
 p
-  font 18px/32px var(--body)
+  font 18px/32px var(--tonic-body)
 
 h1, h2, h3, h4, h5
   font-weight normal
   margin 20px 0
 
 h1
-  font 48px/56px var(--header)
+  font 48px/56px var(--tonic-header)
   padding 60px 0 20px 0
   @media (max-width: 850px)
-    font 36px/45px var(--header)
+    font 36px/45px var(--tonic-header)
     padding 20px 0 20px 0
 
 h2
-  font 14px/16px var(--subheader)
+  font 14px/16px var(--tonic-subheader)
   font-weight 600
   text-transform uppercase
   letter-spacing 1.5px
-  border-top 2px solid var(--primary)
+  border-top 2px solid var(--tonic-primary)
   padding-top 20px
   margin 50px 0
 
 h3
-  font 26px/30px var(--header)
+  font 26px/30px var(--tonic-header)
   margin-top 60px
   margin-bottom 30px
 
 h4
-  font 14px/16px var(--subheader)
+  font 14px/16px var(--tonic-subheader)
   font-weight 400
   text-transform uppercase
   letter-spacing 1.5px
@@ -136,14 +136,14 @@ body
       opacity 0.5
       cursor pointer
       use
-        fill var(--primary)
-        color var(--primary)
+        fill var(--tonic-primary)
+        color var(--tonic-primary)
       &:hover
         opacity 1
 
   > main
     ul
-      font 15px/30px var(--body)
+      font 15px/30px var(--tonic-body)
       list-style disc
       padding 0
       padding-left 40px
@@ -164,12 +164,12 @@ body
     bottom 0
     overflow scroll
     overflow-x hidden
-    border-right 1px solid var(--border)
+    border-right 1px solid var(--tonic-border)
     @media (max-width: 850px)
       display none
 
     .page-selection
-      font 13px var(--subheader)
+      font 13px var(--tonic-subheader)
       text-transform uppercase
       letter-spacing 1px
       padding 20px 0 0 0
@@ -185,7 +185,7 @@ body
 
         &.active,
         &:hover
-          border-bottom 1px solid var(--primary)
+          border-bottom 1px solid var(--tonic-primary)
 
     ul
       list-style none
@@ -195,16 +195,16 @@ body
     li
       margin 20px 0
       a
-        font 17px var(--header)
+        font 17px var(--tonic-header)
         font-weight 400
         padding 5px 8px
         background-color transparent
         border-radius 3px
         transition background-color 0.2s ease
         &:hover
-          color var(--accent)
+          color var(--tonic-accent)
         &.selected
-          color var(--accent)
+          color var(--tonic-accent)
 
     a.logo
       display inline-block
@@ -213,8 +213,8 @@ body
       svg
         width 150px
         use
-          fill var(--primary)
-          color var(--primary)
+          fill var(--tonic-primary)
+          color var(--tonic-primary)
 
   > main
     padding 0 60px 60px 60px
@@ -237,10 +237,10 @@ body
         justify-content center
 
     a
-      border-bottom 1px solid var(--border)
+      border-bottom 1px solid var(--tonic-border)
       &:hover
-        color var(--accent)
-        border-bottom-color var(--accent)
+        color var(--tonic-accent)
+        border-bottom-color var(--tonic-accent)
 
     .hero
       margin-top 0
@@ -252,6 +252,8 @@ body
         text-align center
         margin-bottom 50px
         font-style italic
+        text-transform uppercase
+        font-size 14px
 
     .tooltip
       padding 10px
@@ -263,22 +265,22 @@ body
         line-height 18px
 
     span.req
-      color var(--danger)
+      color var(--tonic-danger)
       font-style italic
       display block
       float right
 
     div.example
       width 100%
-      border 1px solid var(--border)
+      border 1px solid var(--tonic-border)
       .header
-        font 13px/16px var(--subheader)
+        font 13px/16px var(--tonic-subheader)
         font-weight 400
         text-transform uppercase
         letter-spacing 1px
         padding 12px 10px 9px 10px
-        background-color var(--background)
-        border-bottom 1px solid var(--border)
+        background-color var(--tonic-background)
+        border-bottom 1px solid var(--tonic-border)
       .content
         max-width 450px
         padding 15px
@@ -297,25 +299,25 @@ body
       text-align left
       margin-bottom 15px
       border-collapse collapse
-      border 1px solid var(--border)
+      border 1px solid var(--tonic-border)
 
     th
-      font 13px/16px var(--subheader)
+      font 13px/16px var(--tonic-subheader)
       font-weight 400
       text-transform uppercase
       letter-spacing 1px
       padding 12px 10px 9px 10px
-      background-color var(--background)
-      border-bottom 1px solid var(--border)
-      border-right 1px solid var(--border)
+      background-color var(--tonic-background)
+      border-bottom 1px solid var(--tonic-border)
+      border-right 1px solid var(--tonic-border)
 
     td
       line-height 22px
       padding 15px
-      border-bottom 1px solid var(--border)
+      border-bottom 1px solid var(--tonic-border)
 
     td:not(:first-of-type)
-      border-left 1px solid var(--border)
+      border-left 1px solid var(--tonic-border)
 
     tr:last-of-type td
       border-bottom 0
@@ -329,8 +331,8 @@ body
       overflow scroll
       white-space pre-line
       border-radius 3px
-      border 1px solid var(--border)
-      background-color var(--background)
+      border 1px solid var(--tonic-border)
+      background-color var(--tonic-background)
 
       code
         border 0
@@ -346,8 +348,8 @@ body
       padding 2px 6px 3px 6px
       margin 0 2px
       white-space nowrap
-      background-color var(--background)
-      border 1px solid var(--border)
+      background-color var(--tonic-background)
+      border 1px solid var(--tonic-border)
       border-radius 3px
 
     > section
@@ -364,7 +366,7 @@ body
         display inline-block
         vertical-align middle
         &:first-of-type
-          border-right 1px solid var(--border)
+          border-right 1px solid var(--tonic-border)
           padding-right 40px
           margin-right 40px
           @media (max-width: 850px)
@@ -384,15 +386,15 @@ body
 
         &:hover
           span
-            color var(--primary)
+            color var(--tonic-primary)
           svg
             use
-              fill var(--primary)
-              color var(--primary)
+              fill var(--tonic-primary)
+              color var(--tonic-primary)
 
       span
-        color var(--medium)
-        font 13px var(--subheader)
+        color var(--tonic-medium)
+        font 13px var(--tonic-subheader)
         font-weight 600
         text-transform uppercase
         letter-spacing 2px
@@ -405,8 +407,8 @@ body
         margin 0 auto
         display block
         use
-          fill var(--medium)
-          color var(--medium)
+          fill var(--tonic-medium)
+          color var(--tonic-medium)
           transition all 0.2s ease-in-out
 
   .invalidate-buttons
@@ -422,7 +424,7 @@ body
       display block
 
   .mobile-nav, .github
-    font 13px var(--subheader)
+    font 13px var(--tonic-subheader)
     text-transform uppercase
     letter-spacing 1px
     margin-bottom 50px
@@ -432,12 +434,12 @@ body
       display inline-block
       margin-right 17px
       padding 0px 0px 5px 0px
-      border-bottom 1px solid var(--border)
+      border-bottom 1px solid var(--tonic-border)
       &:first-of-type
         margin-right 15px
       &.active,
       &:hover
-        border-bottom-color var(--primary)
+        border-bottom-color var(--tonic-primary)
 
   .component-github-link
     position absolute
@@ -465,48 +467,48 @@ body
         margin 0 auto
         display block
         use
-          fill var(--primary)
-          color var(--primary)
+          fill var(--tonic-primary)
+          color var(--tonic-primary)
 
     .github
       position absolute
       top -12px
       right 35px
-      color var(--info)
+      color var(--tonic-info)
       margin-top 40px
 
       img
         vertical-align middle
 
     .status
-      width 195px
-      font 12px var(--subheader)
+      width 210px
+      font 12px var(--tonic-subheader)
       text-transform uppercase
       display flex
       justify-content space-around
       margin 0px auto
 
       &:before
-        content 'Project Status'
-        color var(--medium)
+        content attr(data-before)
+        color var(--tonic-medium)
         text-align center
         letter-spacing 1px
         padding 4px 8px
         display inline-block
 
       &:after
-        content 'Stable'
+        content attr(data-after)
         color white
         letter-spacing 1px
         padding 4px 8px
         display inline-block
-        background-color var(--success)
+        background-color var(--tonic-accent)
 
     .logo svg
       width 200px
       use
-        fill var(--primary)
-        color var(--primary)
+        fill var(--tonic-primary)
+        color var(--tonic-primary)
 
     p:not(.intro-copy)
       font-size 17px
@@ -531,23 +533,23 @@ body
       display block
 
     span.first-word
-      color var(--primary)
+      color var(--tonic-primary)
 
     p.intro-copy
-      color var(--medium)
+      color var(--tonic-medium)
       max-width 670px
-      font 30px var(--header)
+      font 30px var(--tonic-header)
       text-align center
       margin 0 auto
       @media (max-width: 850px)
-        font 26px var(--header)
+        font 26px var(--tonic-header)
 
   content-tooltip
     pre
       margin 0
 
     span.code-type
-      font 12px var(--subheader)
+      font 12px var(--tonic-subheader)
       text-transform uppercase
       text-align center
       letter-spacing 1px
@@ -558,7 +560,7 @@ body
     header
       text-align center
       height 70px
-      font 14px var(--subheader)
+      font 14px var(--tonic-subheader)
       text-transform uppercase
       letter-spacing 1.5px
       position absolute
@@ -600,12 +602,12 @@ body
     span
       display inline-block
       margin-left 15px
-      border-bottom 1px solid var(--border)
+      border-bottom 1px solid var(--tonic-border)
       user-select none
       cursor pointer
 
       &:hover
-        border-bottom-color var(--accent)
+        border-bottom-color var(--tonic-accent)
 
   #progressbar
     @media (max-width: 850px)

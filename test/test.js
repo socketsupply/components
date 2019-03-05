@@ -4,8 +4,6 @@ const components = require('..')
 components(Tonic)
 
 function ready () {
-  Tonic.init()
-
   require('../src/badge/test')
   require('../src/button/test')
   require('../src/charts/test')

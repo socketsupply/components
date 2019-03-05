@@ -22,7 +22,6 @@ The `ToasterInline` component creates an inline toaster item that appears on the
     type="danger"
     message="Message as a property.">
   </tonic-toaster-inline>
-
   <tonic-toaster-inline id="toaster-3" display="true">
     <b>Hello,
     World</b>
@@ -39,7 +38,12 @@ The `ToasterInline` component creates an inline toaster item that appears on the
 
 #### JS
 ```js
-%js%
+const toaster1 = document.getElementById('toaster-1')
+const toasterLink1 = document.getElementById('toaster-link-1')
+
+toasterLink1.addEventListener('click', e => {
+  toaster1.show()
+})
 ```
 
 ---
@@ -83,5 +87,3 @@ Otherwise, the properties for the toaster item to be created must be specified i
 | `show()` | Shows the toaster. |
 | `hide()` | Hides a toaster item. |
 | `click()` | Removes a toaster item. |
-| `create()` | Creates a toaster item. |
-| `destroy()` | Removes a toaster item. |

@@ -1,22 +1,8 @@
 tonic-tabs
-  display block
+  .tonic--tab
+    margin-right 10px
+    display inline-block
 
-[data-tab-name]:not([data-tab-group])
-  user-select none
-  font-family var(--subheader)
-  font-size 14px
-  border-bottom 1px solid transparent
-  margin-right 8px
-
-  &.tonic--selected
-    color var(--accent)
-    border-bottom 1px solid var(--accent)
-
-[data-tab-group]
-  margin-top 15px
-  border-top 1px solid var(--border)
-  padding-top 15px
+tonic-tab-panel
   flex-basis 100%
-
-  &.tonic--show
-    display block
+  padding 15px 0

@@ -76,8 +76,6 @@ function ready () {
   clearFocus()
 
   components(Tonic, nonce)
-  Tonic.init()
-
   readme(Tonic)
 }
 

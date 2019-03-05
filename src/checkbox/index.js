@@ -1,25 +1,20 @@
 class TonicCheckbox extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
-
-    const that = this
-    Object.defineProperty(this.root, 'value', {
-      get () { return (that.value === true) || (that.value === 'true') },
-      set (value) { that.value = (value === true) || (value === 'true') }
-    })
-  }
-
   get value () {
     const state = this.getState()
+    let value
 
     if (typeof state.checked !== 'undefined') {
-      return state.checked
+      value = state.checked
+    } else {
+      value = this.props.checked
     }
 
-    return this.props.checked
+    return (value === true) || (value === 'true')
   }
 
-  set value (checked) {
+  set value (value) {
+    const checked = (value === true) || (value === 'true')
+
     this.reRender(props => Object.assign(props, {
       checked
     }))
@@ -58,8 +53,8 @@ class TonicCheckbox extends Tonic { /* global Tonic */
       }
 
       tonic-checkbox label {
-        color: var(--primary);
-        font: 12px var(--subheader);
+        color: var(--tonic-primary);
+        font: 12px var(--tonic-subheader);
         font-weight: 500;
         text-transform: uppercase;
         letter-spacing: 1px;
@@ -143,7 +138,7 @@ class TonicCheckbox extends Tonic { /* global Tonic */
     } = this.props
 
     if (!this.props.label) {
-      label = this.children
+      label = this.childNodes
     }
 
     return this.html`<label styles="label" for="tonic--checkbox--${id}">${label}</label>`

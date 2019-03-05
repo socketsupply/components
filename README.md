@@ -1,19 +1,21 @@
-![logo](https://raw.githubusercontent.com/hxoht/tonic/addimage/readme-tonic.png)
-
 # SYNOPSIS
-A collection of components built with [Tonic](https://github.com/hxoht/tonic).
+A bundle of example components built with [Tonic](https://github.com/hxoht/tonic).
 
 # USAGE
-This repo demonstrates how to bundle multiple components, a single component
-could be an npm module.
+To use this repo, install the following dependencies, then require the components
+module once from your bundle. This will attach all the components to Tonic. Then,
+require tonic wherever you want to use it.
 
 ```bash
-npm install @conductorlab/tonic @conductorlab/components
+npm install @conductorlab/tonic
+npm install @conductorlab/components
 ```
 
 ```js
-const Tonic = require('tonic')
-const components = require('components')(Tonic)
+const Tonic = require('@conductorlab/tonic')
+const attachComponents = require('@conductorlab/components')
+
+attachComponents(Tonic)
 ```
 
 ### THEME
@@ -23,10 +25,10 @@ The following variables are observed but are not required.
 #### FONTS
 ```css
 body {
-  --body: 'Avenir-Light', sans-serif; // Body font
-  --header: 'Avenir-Light', sans-serif; // Header font
-  --subheader: 'Avenir-Medium', sans-serif; // Accent font
-  --monospace: 'IBM Plex Mono', monospace; // Monospace font
+  --tonic-body: 'Avenir-Light', sans-serif; // Body font
+  --tonic-header: 'Avenir-Light', sans-serif; // Header font
+  --tonic-subheader: 'Avenir-Medium', sans-serif; // Accent font
+  --tonic-monospace: 'IBM Plex Mono', monospace; // Monospace font
 }
 ```
 
@@ -34,42 +36,42 @@ body {
 
 ```css
 body, *[theme="light"] {
-  --window: rgba(255, 255, 255, 1); // Base window color
-  --primary: rgba(54, 57, 61, 1); // Primary font and contrast
-  --disabled: rgba(152, 161, 175, 1);
-  --secondary: rgba(232, 232, 228, 1);
-  --medium: rgba(153, 157, 160, 1);
-  --accent: rgba(240, 102, 83, 1); // Accent color
-  --button: rgba(54, 57, 61, 1); // Button color
-  --border: rgba(232, 232, 228, 1); // Border color
-  --background: rgba(247, 247, 245, 1);
-  --error: rgba(240, 102, 83, 1); // Error color
-  --notification: rgba(240, 102, 83, 1); // Notification Badge Color
-  --danger: rgba(240, 102, 83, 1); // Alert: Caution
-  --success: rgba(133, 178, 116, 1); // Alert: Success
-  --warning: rgba(249, 169, 103, 1); // Alert: Warning
-  --info: rgba(153, 157, 160, 1); // Alert: Warning
+  --tonic-window: rgba(255, 255, 255, 1);
+  --tonic-primary: rgba(54, 57, 61, 1);
+  --tonic-disabled: rgba(152, 161, 175, 1);
+  --tonic-secondary: rgba(232, 232, 228, 1);
+  --tonic-medium: rgba(153, 157, 160, 1);
+  --tonic-accent: rgba(240, 102, 83, 1);
+  --tonic-button: rgba(54, 57, 61, 1);
+  --tonic-border: rgba(232, 232, 228, 1);
+  --tonic-background: rgba(247, 247, 245, 1);
+  --tonic-error: rgba(240, 102, 83, 1);
+  --tonic-notification: rgba(240, 102, 83, 1);
+  --tonic-danger: rgba(240, 102, 83, 1);
+  --tonic-success: rgba(133, 178, 116, 1);
+  --tonic-warning: rgba(249, 169, 103, 1);
+  --tonic-info: rgba(153, 157, 160, 1);
 }
 ```
 
 #### DARK THEME
 
 ```css
-body.theme-dark, *[theme="dark"] {
-  --window: rgba(45, 47, 49, 1); // Base window color
-  --primary: rgba(255, 255, 255, 1); // Primary font and contrast
-  --disabled: rgba(170, 170, 170, 1); // Primary font and contrast
-  --secondary: rgba(195, 195, 195, 1);
-  --medium: rgba(153, 157, 160, 1);
-  --accent: rgba(240, 102, 83, 1); // Accent color
-  --button: rgba(255, 255, 255, 1); // Button color
-  --border: rgb(107, 107, 107); // Border color
-  --background: rgba(60, 60, 60, 1);
-  --error: rgba(240, 102, 83, 1); // Error color
-  --notification: rgba(240, 102, 83, 1); // Notification Badge Color
-  --caution: rgba(240, 102, 83, 1); // Alert: Caution
-  --success: rgba(133, 178, 116, 1); // Alert: Success
-  --warn: rgba(249, 169, 103, 1); // Alert: Warning
+body, *[theme="dark"] {
+  --tonoc-window: rgba(45, 47, 49, 1);
+  --tonic-primary: rgba(255, 255, 255, 1);
+  --tonic-disabled: rgba(170, 170, 170, 1);
+  --tonic-secondary: rgba(195, 195, 195, 1);
+  --tonic-medium: rgba(153, 157, 160, 1);
+  --tonic-accent: rgba(240, 102, 83, 1);
+  --tonic-button: rgba(255, 255, 255, 1);
+  --tonic-border: rgb(107, 107, 107);
+  --tonic-background: rgba(60, 60, 60, 1);
+  --tonic-error: rgba(240, 102, 83, 1);
+  --tonic-notification: rgba(240, 102, 83, 1);
+  --tonic-caution: rgba(240, 102, 83, 1);
+  --tonic-success: rgba(133, 178, 116, 1);
+  --tonic-warn: rgba(249, 169, 103, 1);
 }
 ```
 
@@ -77,5 +79,5 @@ body.theme-dark, *[theme="dark"] {
 
 ```bash
 npm install
-npm run build && npm run dev
+npm run dev
 ```

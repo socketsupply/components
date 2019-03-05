@@ -1,14 +1,4 @@
 class TonicRange extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
-
-    const that = this
-    Object.defineProperty(this.root, 'value', {
-      get () { return that.value },
-      set (value) { that.value = value }
-    })
-  }
-
   defaults () {
     return {
       width: '250px',
@@ -64,7 +54,7 @@ class TonicRange extends Tonic { /* global Tonic */
       }
 
       tonic-range label {
-        font: 13px var(--subheader);
+        font: 13px var(--tonic-subheader);
         letter-spacing: 1px;
         text-align: center;
         position: absolute;
@@ -78,12 +68,12 @@ class TonicRange extends Tonic { /* global Tonic */
         padding: 0;
         width: 50%;
         height: 4px;
-        background-color: var(--background);
-        background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, var(--accent)), color-stop(100%, var(--accent)));
-        background-image: -webkit-linear-gradient(var(--accent), var(--accent));
-        background-image: -moz-linear-gradient(var(--accent), var(--accent));
-        background-image: -o-linear-gradient(var(--accent), var(--accent));
-        background-image: linear-gradient(var(--accent), var(--accent));
+        background-color: var(--tonic-background);
+        background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, var(--tonic-accent)), color-stop(100%, var(--tonic-accent)));
+        background-image: -webkit-linear-gradient(var(--tonic-accent), var(--tonic-accent));
+        background-image: -moz-linear-gradient(var(--tonic-accent), var(--tonic-accent));
+        background-image: -o-linear-gradient(var(--tonic-accent), var(--tonic-accent));
+        background-image: linear-gradient(var(--tonic-accent), var(--tonic-accent));
         background-size: 50% 100%;
         background-repeat: no-repeat;
         border-radius: 0;
@@ -92,11 +82,11 @@ class TonicRange extends Tonic { /* global Tonic */
       }
 
       tonic-range input[type="range"]:disabled {
-        background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, var(--border)), color-stop(100%, var(--border)));
-        background-image: -webkit-linear-gradient(var(--border), var(--border));
-        background-image: -moz-linear-gradient(var(--border), var(--border));
-        background-image: -o-linear-gradient(var(--border), var(--border));
-        background-image: linear-gradient(var(--border), var(--border));
+        background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, var(--tonic-border)), color-stop(100%, var(--tonic-border)));
+        background-image: -webkit-linear-gradient(var(--tonic-border), var(--tonic-border));
+        background-image: -moz-linear-gradient(var(--tonic-border), var(--tonic-border));
+        background-image: -o-linear-gradient(var(--tonic-border), var(--tonic-border));
+        background-image: linear-gradient(var(--tonic-border), var(--tonic-border));
       }
 
       tonic-range input[type="range"]::-webkit-slider-runnable-track {

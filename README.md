@@ -57,7 +57,7 @@ body, *[theme="light"] {
 #### DARK THEME
 
 ```css
-body, *[theme="dark"] {
+*[theme="dark"] {
   --tonoc-window: rgba(45, 47, 49, 1);
   --tonic-primary: rgba(255, 255, 255, 1);
   --tonic-disabled: rgba(170, 170, 170, 1);

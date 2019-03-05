@@ -1,9 +1,14 @@
 # SYNOPSIS
-A bundle of basic components built with [Tonic](https://github.com/hxoht/tonic).
+A bundle of example components built with [Tonic](https://github.com/hxoht/tonic).
 
 # USAGE
+To use this repo, install the following dependencies, then require the components
+module once from your bundle. This will attach all the components to Tonic. Then,
+require tonic wherever you want to use it.
+
 ```bash
-npm install @conductorlab/tonic @conductorlab/components
+npm install @conductorlab/tonic
+npm install @conductorlab/components
 ```
 
 ```js

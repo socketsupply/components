@@ -1,80 +1,107 @@
 # Tabs
-The `Tabs` component creates a menu that activates sections when clicked on.
+The `tonic-tabs` and `tonic-tab-panel` components create a tab list that activates sections when clicked on.
 
 ## Demo
-
-%html%
 
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
-    <tonic-tabs group="profile" selected="two">
-      <span tabindex="0" data-tab-name="one">One</span>
-      <span tabindex="0" data-tab-name="two">Two</span>
-      <span tabindex="0" data-tab-name="three">Three</span>
+    <tonic-tabs>
+      <tonic-tab
+        id="tab-1"
+        for="tab-panel-1"
+        selected="true">One</tonic-tab>
+      <tonic-tab
+        id="tab-2"
+        for="tab-panel-2">Two</tonic-tab>
+      <tonic-tab
+        id="tab-3"
+        for="tab-panel-3">Three</tonic-tab>
     </tonic-tabs>
-    <section data-tab-group="profile" data-tab-name="one">
+    <tonic-tab-panel id="tab-panel-1">
       Content One
-    </section>
-    <section data-tab-group="profile" data-tab-name="two">
+    </tonic-tab-panel>
+    <tonic-tab-panel id="tab-panel-2" hidden>
       Content Two
-    </section>
-    <section data-tab-group="profile" data-tab-name="three">
+    </tonic-tab-panel>
+    <tonic-tab-panel id="tab-panel-3" hidden>
       Content Three
-    </section>
+    </tonic-tab-panel>
   </div>
 </div>
 
 ## Code
 
-Tabs have two important concepts. The idea of a `group` and the idea of a `name`. Each tab in a tab group will have content that is associated by a `name`.
+The tabs are grouped under the `tonic-tabs` component. Each tab should be a `tonic-tab` element, and it is associated to a `tonic-tab-panel` id with the `for` element.
 
-The structure inside the component is arbitrary: spans, links, links inside divs, they can all be different. You just need to add the `data-tab-name` property to the clickable item.
-
-The default tab should be specified using the `selected` property.
-
-You can specify a tabindex for each tab individually in your html.
+The default selected tab should have the `selected` attribute.
 
 #### HTML
 ```html
-<tonic-tabs group="profile" selected="one">
-  <span data-tab-name="one">One</span>
-  <span data-tab-name="two">Two</span>
-  <div class="special-tab">
-    <img src="/three.png" data-tab-name="three"/>
-  </div>
+<tonic-tabs>
+
+  <tonic-tab
+    id="tab-1"
+    for="tab-panel-1"
+    selected="true">
+    One
+  </tonic-tab>
+
+  <tonic-tab
+    id="tab-2"
+    for="tab-panel-2">
+    Two
+  </tonic-tab>
+
+  <tonic-tab
+    id="tab-3"
+    for="tab-panel-3">
+    Three
+  </tonic-tab>
+
 </tonic-tabs>
 ```
 
 ---
 
-You can use any tag for the content — `section` is a nice one to use — and the tag containing the content can be located anywhere in your document.
+Specify which `tonic-tab-panel` should be showing by marking the other panels as `hidden` by default.
 
 #### HTML
 ```html
-<section data-tab-group="profile" data-tab-name="one">
+<tonic-tab-panel id="tab-panel-1">
   Content One
-</section>
+</tonic-tab-panel>
 
-<section data-tab-group="profile" data-tab-name="two">
+<tonic-tab-panel id="tab-panel-2" hidden>
   Content Two
-</section>
+</tonic-tab-panel>
 
-<section data-tab-group="profile" data-tab-name="three">
+<tonic-tab-panel id="tab-panel-3" hidden>
   Content Three
-</section>
+</tonic-tab-panel>
 ```
 
 ## Api
 
 ### Properties
 
+*for `tonic-tab`*
+
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
-| `id` | *string* | Adds the `id` attribute. | |
-| `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
+| `id` | *string* | Adds the `id` attribute. <span class="req">required</span> | |
+| `for` | *string* | Adds the `id` attribute. <span class="req">required</span> | |
+| `selected` | *boolean* | Adds the `id` attribute. | |
+
+*for `tonic-tab-panel`*
+
+| Property | Type | Description | Default |
+| :--- | :--- | :--- | :--- |
+| `id` | *string* | Adds the `id` attribute. <span class="req">required</span> | |
 
 ### Instance Methods & Members
+
+*for `tonic-tab`*
 
 | Method | Description |
 | :--- | :--- |

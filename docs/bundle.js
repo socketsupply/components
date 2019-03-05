@@ -142,20 +142,26 @@ button.addEventListener('click', e => {
         //
         if (document.body.dataset.page === 'examples') {
           class TonicDialog extends Tonic.Dialog {
+  willConnect () {
+    this.state.message = this.props.message
+  }
+
   click (e) {
     if (!Tonic.match(e.target, '#update')) return
 
-    this.reRender(props => ({
-      ...props,
+    this.setState(state => ({
+      ...state,
       message: `Date stamp ${Date.now()}`
     }))
+
+    this.reRender()
   }
 
   render () {
     return `
       <header>Dialog</header>
       <main>
-        ${this.props.message}
+        ${this.state.message}
       </main>
       <footer>
         <tonic-button id="update">Update</tonic-button>

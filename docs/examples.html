@@ -888,20 +888,26 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-dialog</span>&gt;</span></code></pre>
 <h4>JS</h4>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TonicDialog</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span>.<span class="hljs-title">Dialog</span> </span>{
+  willConnect () {
+    <span class="hljs-keyword">this</span>.state.message = <span class="hljs-keyword">this</span>.props.message
+  }
+
   click (e) {
     <span class="hljs-keyword">if</span> (!Tonic.match(e.target, <span class="hljs-string">'#update'</span>)) <span class="hljs-keyword">return</span>
 
-    <span class="hljs-keyword">this</span>.reRender(<span class="hljs-function"><span class="hljs-params">props</span> =&gt;</span> ({
-      ...props,
+    <span class="hljs-keyword">this</span>.setState(<span class="hljs-function"><span class="hljs-params">state</span> =&gt;</span> ({
+      ...state,
       <span class="hljs-attr">message</span>: <span class="hljs-string">`Date stamp <span class="hljs-subst">${<span class="hljs-built_in">Date</span>.now()}</span>`</span>
     }))
+
+    <span class="hljs-keyword">this</span>.reRender()
   }
 
   render () {
     <span class="hljs-keyword">return</span> <span class="hljs-string">`
       &lt;header&gt;Dialog&lt;/header&gt;
       &lt;main&gt;
-        <span class="hljs-subst">${<span class="hljs-keyword">this</span>.props.message}</span>
+        <span class="hljs-subst">${<span class="hljs-keyword">this</span>.state.message}</span>
       &lt;/main&gt;
       &lt;footer&gt;
         &lt;tonic-button id="update"&gt;Update&lt;/tonic-button&gt;
@@ -915,8 +921,7 @@ Tonic.add(TonicDialog)
 <span class="hljs-keyword">const</span> link = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'example-dialog-link'</span>)
 <span class="hljs-keyword">const</span> dialog = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'example-dialog'</span>)
 
-link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; dialog.show())
-</code></pre>
+link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; dialog.show())</code></pre>
 <h2>Api</h2>
 <h3>Properties</h3>
 <table>
@@ -2461,7 +2466,7 @@ select.addEventListener(<span class="hljs-string">'change'</span>, ({ target }) 
 <h2>Code</h2>
 <p>The following code should be included once on the page:</p>
 <h4>HTML</h4>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-toaster</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">tonic-toaster</span>&gt;</span></code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-toaster</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"tonic-toaster-example"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">tonic-toaster</span>&gt;</span></code></pre>
 <hr>
 <p>To create a new toaster item:</p>
 <h4>JS</h4>
@@ -2469,12 +2474,13 @@ select.addEventListener(<span class="hljs-string">'change'</span>, ({ target }) 
 
 <span class="hljs-built_in">document</span>
   .getElementById(<span class="hljs-string">'tonic-toaster-example'</span>)
-  .addEventListener(<span class="hljs-string">'click'</span>, e =&gt; notification.create({
-    <span class="hljs-attr">type</span>: <span class="hljs-string">'success'</span>,
-    <span class="hljs-attr">title</span>: <span class="hljs-string">'Greetings'</span>,
-    <span class="hljs-attr">message</span>: <span class="hljs-string">'Hello, World'</span>
-  }))
-</code></pre>
+  .addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
+    notification.create({
+      <span class="hljs-attr">type</span>: <span class="hljs-string">'success'</span>,
+      <span class="hljs-attr">title</span>: <span class="hljs-string">'Greetings'</span>,
+      <span class="hljs-attr">message</span>: <span class="hljs-string">'Hello, World'</span>
+    })
+  })</code></pre>
 <h2>Api</h2>
 <h3>Properties</h3>
 <table>
@@ -2594,7 +2600,6 @@ select.addEventListener(<span class="hljs-string">'change'</span>, ({ target }) 
     type="danger"
     message="Message as a property.">
   </tonic-toaster-inline>
-
   <tonic-toaster-inline id="toaster-3" display="true">
     <b>Hello,
     World</b>
@@ -2609,8 +2614,9 @@ select.addEventListener(<span class="hljs-string">'change'</span>, ({ target }) 
 <pre><code class="language-js"><span class="hljs-keyword">const</span> toaster1 = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'toaster-1'</span>)
 <span class="hljs-keyword">const</span> toasterLink1 = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'toaster-link-1'</span>)
 
-toasterLink1.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; toaster1.show())
-</code></pre>
+toasterLink1.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
+  toaster1.show()
+})</code></pre>
 <hr>
 <p>An inline toaster that is displayed initially:</p>
 <h4>HTML</h4>

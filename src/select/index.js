@@ -222,13 +222,11 @@ class TonicSelect extends Tonic { /* global Tonic */
       tabAttr
     ].join(' ')
 
-    const options = this.root.innerHTML
-
-    return `
+    return this.html`
       <div class="tonic--wrapper" styles="wrapper">
         ${this.renderLabel()}
         <select styles="select" ${attributes}>
-          ${options}
+          ${this.childNodes}
         </select>
       </div>
     `

@@ -19,16 +19,32 @@ const filename = argv._[0]
 async function main () {
   ensurePath(filename)
 
-  const includes = argv.include && argv.include.split(' ')
-  const excludes = argv.exclude && argv.exclude.split(' ')
-
-  const dirs = fs.readdirSync(componentsDir).filter(dir => {
-    if (includes) return includes.includes(dir)
-    if (excludes) return !excludes.includes(dir)
-    return dir
-  })
-
   const output = []
+
+  const dirs = [
+    'router',
+    'panel',
+    'dialog',
+    'tabs',
+    'accordion',
+    'windowed',
+    'tooltip',
+    'popover',
+    'badge',
+    'button',
+    'charts',
+    'checkbox',
+    'icon',
+    'input',
+    'progress-bar',
+    'profile-image',
+    'range',
+    'select',
+    'textarea',
+    'toaster',
+    'toaster-inline',
+    'toggle'
+  ]
 
   for (const dir of dirs) {
     try {
@@ -44,7 +60,7 @@ async function main () {
 
   const wrapper = `
     //
-    // Warning: Do not edit, use 'npm run build'.
+    // DO NOT EDIT! USE 'npm run build'!
     //
     module.exports = (Tonic, nonce) => {
       if (nonce) Tonic.nonce = nonce

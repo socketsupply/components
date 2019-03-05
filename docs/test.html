@@ -1155,6 +1155,56 @@
     <tonic-tab-panel id="tab-panel-2" hidden>Content Two</tonic-tab-panel>
     <tonic-tab-panel id="tab-panel-3" hidden>Content Three</tonic-tab-panel>
   </div>
+
+  <!-- Default tabs -->
+  <div id="tabs-2" class="test-container">
+    <span>Tabs with nesting</span>
+
+    <tonic-tabs>
+      <tonic-tab
+        id="tab-4"
+        for="tab-panel-4"
+        selected="true">One</tonic-tab>
+      <tonic-tab
+        id="tab-5"
+        for="tab-panel-5">Two</tonic-tab>
+      <tonic-tab
+        id="tab-6"
+        for="tab-panel-6">Three</tonic-tab>
+    </tonic-tabs>
+
+    <tonic-tab-panel id="tab-panel-4">
+      <tonic-select value="b">
+        <option value="a">a</option>
+        <option value="b">b</option>
+        <option value="c">c</option>
+      </tonic-select>
+    </tonic-tab-panel>
+    <tonic-tab-panel id="tab-panel-5" hidden>
+      <tonic-accordion>
+        <tonic-accordion-section
+          name="accordion-test-4"
+          id="accordion-test-4"
+          data="preview"
+          label="Accordion Test 4">
+          Whatever
+        </tonic-accordion-section>
+        <tonic-accordion-section
+          name="accordion-test-5"
+          id="accordion-test-5"
+          label="Accordion Test 5">
+          Some Content
+        </tonic-accordion-section>
+        <tonic-accordion-section
+          name="accordion-test-6"
+          id="accordion-test-6"
+          label="Accordion Test 6">
+          The visual design includes features intended to help users understand that the accordion provides enhanced keyboard navigation functions. When an accordion header button has keyboard focus, the styling of the accordion container and all its header buttons is changed.
+        </tonic-accordion-section>
+      </tonic-accordion>
+    </tonic-tab-panel>
+    <tonic-tab-panel id="tab-panel-6" hidden>Content Three</tonic-tab-panel>
+  </div>
 </section>
 
       <section id="textarea">

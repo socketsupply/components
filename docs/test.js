@@ -2,12 +2,1069 @@
 (function (global){
 
     //
-    // Warning: Do not edit, use 'npm run build'.
+    // DO NOT EDIT! USE 'npm run build'!
     //
     module.exports = (Tonic, nonce) => {
       if (nonce) Tonic.nonce = nonce
 
-      class TonicAccordion extends Tonic { /* global Tonic */
+      class TonicRouter extends Tonic { /* global Tonic */
+  constructor (node) {
+    super(node)
+
+    const that = this
+
+    if (TonicRouter.patched) return
+    TonicRouter.patched = true
+
+    const createEvent = function (type) {
+      const orig = window.history[type]
+      return function (...args) {
+        that.reset()
+
+        const value = orig.call(this, ...args)
+        window.dispatchEvent(new window.Event(type.toLowerCase()))
+
+        const nodes = document.getElementsByTagName('tonic-router')
+        for (const node of nodes) node.reRender()
+        return value
+      }
+    }
+
+    window.addEventListener('popstate', e => this.reRender(p => p))
+
+    window.history.pushState = createEvent('pushState')
+    window.history.replaceState = createEvent('replaceState')
+  }
+
+  stylesheet () {
+    return `
+      tonic-router {
+        display: none;
+      }
+
+      tonic-router.tonic--show {
+        display: block;
+      }
+    `
+  }
+
+  reset () {
+    TonicRouter.matches = false
+    const contentTags = document.getElementsByTagName('tonic-router')
+    Array.from(contentTags).forEach(tag => tag.classList.remove('tonic--show'))
+  }
+
+  willConnect () {
+    this.template = document.createElement('template')
+    this.template.innerHTML = this.root.innerHTML
+  }
+
+  updated () {
+    if (!this.root.classList.contains('tonic--show')) return
+    const event = new window.Event('match')
+    this.root.dispatchEvent(event)
+  }
+
+  render () {
+    const none = this.root.hasAttribute('none')
+
+    if (none) {
+      if (TonicRouter.matches) return
+      this.root.classList.add('tonic--show')
+      return this.template.content
+    }
+
+    const path = this.root.getAttribute('path')
+    const keys = []
+    const matcher = TonicRouter.matcher(path, keys)
+    const match = matcher.exec(window.location.pathname)
+
+    if (match) {
+      TonicRouter.matches = true
+
+      match.slice(1).forEach((m, i) => {
+        this.props[keys[i].name] = m
+      })
+
+      this.root.classList.add('tonic--show')
+      return this.template.content
+    }
+
+    return ''
+  }
+}
+
+TonicRouter.matches = false
+TonicRouter.matcher = (() => {
+  //
+  // Most of this was lifted from the path-to-regex project which can
+  // be found here -> https://github.com/pillarjs/path-to-regexp
+  //
+  const DEFAULT_DELIMITER = '/'
+  const DEFAULT_DELIMITERS = './'
+
+  const PATH_REGEXP = new RegExp([
+    '(\\\\.)',
+    '(?:\\:(\\w+)(?:\\(((?:\\\\.|[^\\\\()])+)\\))?|\\(((?:\\\\.|[^\\\\()])+)\\))([+*?])?'
+  ].join('|'), 'g')
+
+  function parse (str, options) {
+    let tokens = []
+    let key = 0
+    let index = 0
+    let path = ''
+    let defaultDelimiter = (options && options.delimiter) || DEFAULT_DELIMITER
+    let delimiters = (options && options.delimiters) || DEFAULT_DELIMITERS
+    let pathEscaped = false
+    let res
+
+    while ((res = PATH_REGEXP.exec(str)) !== null) {
+      let m = res[0]
+      let escaped = res[1]
+      let offset = res.index
+      path += str.slice(index, offset)
+      index = offset + m.length
+
+      // Ignore already escaped sequences.
+      if (escaped) {
+        path += escaped[1]
+        pathEscaped = true
+        continue
+      }
+
+      let prev = ''
+      let next = str[index]
+      let name = res[2]
+      let capture = res[3]
+      let group = res[4]
+      let modifier = res[5]
+
+      if (!pathEscaped && path.length) {
+        let k = path.length - 1
+
+        if (delimiters.indexOf(path[k]) > -1) {
+          prev = path[k]
+          path = path.slice(0, k)
+        }
+      }
+
+      if (path) {
+        tokens.push(path)
+        path = ''
+        pathEscaped = false
+      }
+
+      let partial = prev !== '' && next !== undefined && next !== prev
+      let repeat = modifier === '+' || modifier === '*'
+      let optional = modifier === '?' || modifier === '*'
+      let delimiter = prev || defaultDelimiter
+      let pattern = capture || group
+
+      tokens.push({
+        name: name || key++,
+        prefix: prev,
+        delimiter: delimiter,
+        optional: optional,
+        repeat: repeat,
+        partial: partial,
+        pattern: pattern ? escapeGroup(pattern) : '[^' + escapeString(delimiter) + ']+?'
+      })
+    }
+
+    if (path || index < str.length) {
+      tokens.push(path + str.substr(index))
+    }
+
+    return tokens
+  }
+
+  function escapeString (str) {
+    return str.replace(/([.+*?=^!:${}()[\]|/\\])/g, '\\$1')
+  }
+
+  function escapeGroup (group) {
+    return group.replace(/([=!:$/()])/g, '\\$1')
+  }
+
+  function flags (options) {
+    return options && options.sensitive ? '' : 'i'
+  }
+
+  function regexpToRegexp (path, keys) {
+    if (!keys) return path
+
+    const groups = path.source.match(/\((?!\?)/g)
+
+    if (groups) {
+      for (let i = 0; i < groups.length; i++) {
+        keys.push({
+          name: i,
+          prefix: null,
+          delimiter: null,
+          optional: false,
+          repeat: false,
+          partial: false,
+          pattern: null
+        })
+      }
+    }
+
+    return path
+  }
+
+  function arrayToRegexp (path, keys, options) {
+    let parts = []
+
+    for (let i = 0; i < path.length; i++) {
+      parts.push(pathToRegexp(path[i], keys, options).source)
+    }
+
+    return new RegExp('(?:' + parts.join('|') + ')', flags(options))
+  }
+
+  function stringToRegexp (path, keys, options) {
+    return tokensToRegExp(parse(path, options), keys, options)
+  }
+
+  function tokensToRegExp (tokens, keys, options) {
+    options = options || {}
+
+    let strict = options.strict
+    let end = options.end !== false
+    let delimiter = escapeString(options.delimiter || DEFAULT_DELIMITER)
+    let delimiters = options.delimiters || DEFAULT_DELIMITERS
+    let endsWith = [].concat(options.endsWith || []).map(escapeString).concat('$').join('|')
+    let route = ''
+    let isEndDelimited = tokens.length === 0
+
+    for (let i = 0; i < tokens.length; i++) {
+      let token = tokens[i]
+
+      if (typeof token === 'string') {
+        route += escapeString(token)
+        isEndDelimited = i === tokens.length - 1 && delimiters.indexOf(token[token.length - 1]) > -1
+      } else {
+        let prefix = escapeString(token.prefix)
+        let capture = token.repeat
+          ? '(?:' + token.pattern + ')(?:' + prefix + '(?:' + token.pattern + '))*'
+          : token.pattern
+
+        if (keys) keys.push(token)
+
+        if (token.optional) {
+          if (token.partial) {
+            route += prefix + '(' + capture + ')?'
+          } else {
+            route += '(?:' + prefix + '(' + capture + '))?'
+          }
+        } else {
+          route += prefix + '(' + capture + ')'
+        }
+      }
+    }
+
+    if (end) {
+      if (!strict) route += '(?:' + delimiter + ')?'
+
+      route += endsWith === '$' ? '$' : '(?=' + endsWith + ')'
+    } else {
+      if (!strict) route += '(?:' + delimiter + '(?=' + endsWith + '))?'
+      if (!isEndDelimited) route += '(?=' + delimiter + '|' + endsWith + ')'
+    }
+
+    return new RegExp('^' + route, flags(options))
+  }
+
+  function pathToRegexp (path, keys, options) {
+    if (path instanceof RegExp) {
+      return regexpToRegexp(path, keys)
+    }
+
+    if (Array.isArray(path)) {
+      return arrayToRegexp(/** @type {!Array} */ (path), keys, options)
+    }
+
+    return stringToRegexp(/** @type {string} */ (path), keys, options)
+  }
+
+  return pathToRegexp
+})()
+
+Tonic.add(TonicRouter)
+
+class Panel extends Tonic { /* global Tonic */
+  constructor () {
+    super()
+
+    this.addEventListener('click', e => {
+      const el = Tonic.match(e.target, '.tonic--close')
+      if (el) this.hide()
+
+      const overlay = Tonic.match(e.target, '.tonic--overlay')
+      if (overlay) this.hide()
+    })
+  }
+
+  getPropertyValue (s) {
+    const computed = window.getComputedStyle(this.root)
+    return computed.getPropertyValue(`--${s}`).trim()
+  }
+
+  defaults () {
+    return {
+      position: 'right',
+      overlay: false,
+      closeIcon: Panel.svg.closeIcon,
+      backgroundColor: 'rgba(0,0,0,0.5)'
+    }
+  }
+
+  stylesheet () {
+    return `
+      .tonic--panel .tonic--panel--inner {
+        color: var(--tonic-primary);
+        width: 500px;
+        position: fixed;
+        bottom: 0;
+        top: 0;
+        background-color: var(--tonic-window);
+        box-shadow: 0px 0px 28px 0 rgba(0,0,0,0.05);
+        transition: transform 0.3s ease-in-out, visibility 0.3s ease;
+        z-index: 100;
+      }
+
+      @media (max-width: 500px) .tonic--panel .tonic--panel--inner {
+        width: 100%;
+      }
+
+      .tonic--panel .tonic--left .tonic--panel--inner {
+        left: 0;
+        -webkit-transform: translateX(-500px);
+        -ms-transform: translateX(-500px);
+        transform: translateX(-500px);
+        border-right: 1px solid var(--tonic-border);
+        visibility: hidden;
+      }
+
+      .tonic--panel .tonic--right .tonic--panel--inner {
+        right: 0;
+        -webkit-transform: translateX(500px);
+        -ms-transform: translateX(500px);
+        transform: translateX(500px);
+        border-left: 1px solid var(--tonic-border);
+        visibility: hidden;
+      }
+
+      .tonic--panel .tonic--show.tonic--right .tonic--panel--inner,
+      .tonic--panel .tonic--show.tonic--left .tonic--panel--inner {
+        -webkit-transform: translateX(0);
+        -ms-transform: translateX(0);
+        transform: translateX(0);
+        visibility: visible;
+      }
+
+      .tonic--panel .tonic--show[overlay="true"] .tonic--overlay {
+        opacity: 1;
+        visibility: visible;
+        transition: opacity 0.3s ease-in-out, visibility 0s ease 0s;
+      }
+
+      .tonic--panel .tonic--overlay {
+        opacity: 0;
+        visibility: hidden;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        transition: opacity 0.3s ease-in-out, visibility 0s ease 1s;
+        z-index: 1;
+      }
+
+      .tonic--panel .tonic--close {
+        width: 25px;
+        height: 25px;
+        position: absolute;
+        top: 30px;
+        right: 30px;
+        cursor: pointer;
+      }
+    `
+  }
+
+  show () {
+    const that = this
+
+    return new Promise((resolve) => {
+      if (!this.root) return
+      const node = this.root.querySelector('.tonic--wrapper')
+      node.classList.add('tonic--show')
+      node.addEventListener('transitionend', resolve, { once: true })
+
+      this._escapeHandler = e => {
+        if (e.keyCode === 27) that.hide()
+      }
+
+      document.addEventListener('keyup', that._escapeHandler)
+    })
+  }
+
+  hide () {
+    const that = this
+
+    return new Promise((resolve) => {
+      if (!this.root) return
+      const node = this.root.querySelector('.tonic--wrapper')
+      node.classList.remove('tonic--show')
+      node.addEventListener('transitionend', resolve, { once: true })
+      document.removeEventListener('keyup', that._escapeHandler)
+    })
+  }
+
+  wrap (render) {
+    const {
+      name,
+      position,
+      overlay,
+      theme,
+      color,
+      backgroundColor
+    } = this.props
+
+    this.root.classList.add('tonic--panel')
+
+    const wrapper = document.createElement('div')
+    const template = document.createElement('template')
+
+    const content = render()
+
+    typeof content === 'string'
+      ? (template.innerHTML = content)
+      : [...content.childNodes].forEach(el => template.appendChild(el))
+
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+
+    const isOpen = !!this.root.querySelector('.tonic--wrapper.tonic--show')
+    wrapper.className = isOpen ? 'tonic--wrapper tonic--show' : 'tonic--wrapper'
+    wrapper.id = 'wrapper'
+    const positionAttr = position ? `tonic--${position}` : ''
+    wrapper.classList.add(positionAttr)
+
+    if (overlay) wrapper.setAttribute('overlay', true)
+    if (name) wrapper.setAttribute('name', name)
+
+    // create panel
+    const panel = document.createElement('div')
+    panel.className = 'tonic--panel--inner'
+
+    if (overlay !== 'false') {
+      const overlayElement = document.createElement('div')
+      overlayElement.className = 'tonic--overlay'
+      overlayElement.style.backgroundColor = backgroundColor
+      wrapper.appendChild(overlayElement)
+    }
+
+    // create template
+    const close = document.createElement('div')
+    close.className = 'tonic--close'
+
+    const iconColor = color || this.getPropertyValue('primary')
+    const url = Panel.svg.closeIcon(iconColor)
+    close.style.backgroundImage = `url("${url}")`
+
+    // append everything
+    wrapper.appendChild(panel)
+    wrapper.appendChild(panel)
+    panel.appendChild(template.content)
+    panel.appendChild(close)
+
+    return wrapper
+  }
+}
+
+Panel.svg = {}
+Panel.svg.toURL = s => `data:image/svg+xml;base64,${window.btoa(s)}`
+Panel.svg.closeIcon = color => Panel.svg.toURL(`
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <path fill="${color}" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
+  </svg>
+`)
+
+Tonic.Panel = Panel
+
+class Dialog extends Tonic { /* global Tonic */
+  constructor () {
+    super()
+
+    this.addEventListener('click', e => {
+      const el = Tonic.match(e.target, '.tonic--close')
+      if (el) this.hide()
+
+      const overlay = e.target.matches('.tonic--overlay')
+      if (overlay) this.hide()
+    })
+  }
+
+  getPropertyValue (s) {
+    const computed = window.getComputedStyle(this.root)
+    return computed.getPropertyValue(`--${s}`).trim()
+  }
+
+  defaults () {
+    return {
+      width: '450px',
+      height: 'auto',
+      overlay: true,
+      closeIcon: Dialog.svg.closeIcon(this.getPropertyValue('primary')),
+      backgroundColor: 'rgba(0,0,0,0.5)'
+    }
+  }
+
+  stylesheet () {
+    return `
+      .tonic--dialog .tonic--dialog--wrapper {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        z-index: 100;
+        visibility: hidden;
+        transition: visibility 0s ease 0.5s;
+      }
+
+      .tonic--dialog .tonic--dialog--wrapper.tonic--show {
+        visibility: visible;
+        transition: visibility 0s ease 0s;
+      }
+
+      .tonic--dialog .tonic--dialog--wrapper.tonic--show .tonic--overlay {
+        opacity: 1;
+      }
+
+      .tonic--dialog .tonic--dialog--wrapper.tonic--show .tonic--dialog--content {
+        color: var(--tonic-primary);
+        opacity: 1;
+        -webkit-transform: scale(1);
+        -ms-transform: scale(1);
+        transform: scale(1);
+      }
+
+      .tonic--dialog .tonic--overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+      }
+
+      .tonic--dialog .tonic--dialog--content {
+        min-width: 350px;
+        min-height: 250px;
+        height: auto;
+        width: auto;
+        margin: auto;
+        position: relative;
+        background-color: var(--tonic-window);
+        z-index: 1;
+        opacity: 0;
+        -webkit-transform: scale(0.8);
+        -ms-transform: scale(0.8);
+        transform: scale(0.8);
+        transition: all 0.3s ease-in-out;
+      }
+
+      .tonic--dialog .tonic--dialog--content > .tonic--close {
+        width: 25px;
+        height: 25px;
+        position: absolute;
+        top: 25px;
+        right: 25px;
+        cursor: pointer;
+      }
+    `
+  }
+
+  show () {
+    const that = this
+
+    return new Promise((resolve) => {
+      if (!this.root) return
+      const node = this.root.querySelector('.tonic--dialog--wrapper')
+      node.classList.add('tonic--show')
+      node.addEventListener('transitionend', resolve, { once: true })
+
+      this._escapeHandler = e => {
+        if (e.keyCode === 27) that.hide()
+      }
+
+      document.addEventListener('keyup', that._escapeHandler)
+    })
+  }
+
+  hide () {
+    const that = this
+
+    return new Promise((resolve) => {
+      if (!this.root) return
+      const node = this.root.querySelector('.tonic--dialog--wrapper')
+      node.classList.remove('tonic--show')
+      node.addEventListener('transitionend', resolve, { once: true })
+      document.removeEventListener('keyup', that._escapeHandler)
+    })
+  }
+
+  event (eventName) {
+    const that = this
+
+    return {
+      then (resolve) {
+        const listener = event => {
+          const close = Tonic.match(event.target, '.tonic--close')
+          const value = Tonic.match(event.target, '[value]')
+
+          if (close || value) {
+            that.root.removeEventListener(eventName, listener)
+          }
+
+          if (close) return resolve({})
+          if (value) resolve({ [event.target.value]: true })
+        }
+
+        that.root.addEventListener(eventName, listener)
+      }
+    }
+  }
+
+  wrap (render) {
+    const {
+      width,
+      height,
+      overlay,
+      theme,
+      color,
+      backgroundColor
+    } = this.props
+
+    this.root.classList.add('tonic--dialog')
+
+    const template = document.createElement('template')
+    const wrapper = document.createElement('div')
+
+    const isOpen = !!this.root.querySelector('.tonic--dialog--wrapper.tonic--show')
+    wrapper.className = isOpen ? 'tonic--dialog--wrapper tonic--show' : 'tonic--dialog--wrapper'
+
+    const content = render()
+
+    typeof content === 'string'
+      ? (template.innerHTML = content)
+      : [...content.childNodes].forEach(el => template.appendChild(el))
+
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+
+    if (overlay !== 'false') {
+      const overlayElement = document.createElement('div')
+      overlayElement.className = 'tonic--overlay'
+      overlayElement.style.backgroundColor = backgroundColor
+      wrapper.appendChild(overlayElement)
+    }
+
+    const dialog = document.createElement('div')
+    dialog.className = 'tonic--dialog--content'
+    if (width) dialog.style.width = width
+    if (height) dialog.style.height = height
+
+    const close = document.createElement('div')
+    close.className = 'tonic--close'
+
+    const iconColor = color || this.getPropertyValue('primary')
+    const url = Dialog.svg.closeIcon(iconColor)
+    close.style.backgroundImage = `url("${url}")`
+
+    wrapper.appendChild(dialog)
+    dialog.appendChild(template.content)
+    dialog.appendChild(close)
+    return wrapper
+  }
+}
+
+Dialog.svg = {}
+Dialog.svg.toURL = s => `data:image/svg+xml;base64,${window.btoa(s)}`
+Dialog.svg.closeIcon = color => Dialog.svg.toURL(`
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <path fill="${color}" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
+  </svg>
+`)
+
+Tonic.Dialog = Dialog
+
+class XTronicSelect extends Tonic { /* global Tonic */
+  /* defaults () {
+    return {
+      disabled: false,
+      iconArrow: TonicSelect.svg.default(),
+      width: '250px',
+      radius: '2px'
+    }
+  }
+
+  stylesheet () {
+    return `
+      tonic-select .tonic--wrapper {
+        position: relative;
+      }
+
+      tonic-select .tonic--wrapper:before {
+        content: '';
+        width: 14px;
+        height: 14px;
+        opacity: 0;
+        z-index: 1;
+      }
+
+      tonic-select.tonic--loading {
+        pointer-events: none;
+        transition: background 0.3s ease;
+      }
+
+      tonic-select.tonic--loading select {
+        color: transparent;
+        background-color: var(--tonic-window);
+        border-color: var(--tonic-border);
+      }
+
+      tonic-select.tonic--loading .tonic--wrapper:before {
+        margin-top: -8px;
+        margin-left: -8px;
+        display: block;
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        opacity: 1;
+        transform: translateX(-50%);
+        border: 2px solid var(--tonic-medium);
+        border-radius: 50%;
+        border-top-color: transparent;
+        animation: spin 1s linear 0s infinite;
+        transition: opacity 0.3s ease;
+      }
+
+      tonic-select select {
+        color: var(--tonic-primary);
+        font: 14px var(--tonic-monospace);
+        background-color: var(--tonic-window);
+        background-repeat: no-repeat;
+        background-position: center right;
+        border: 1px solid var(--tonic-border);
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        position: relative;
+      }
+
+      tonic-select select:not([multiple]) {
+        padding: 10px 30px 10px 10px;
+      }
+
+      tonic-select select[disabled] {
+        background-color: var(--tonic-background);
+      }
+
+      tonic-select label {
+        color: var(--tonic-medium);
+        font: 12px/14px var(--tonic-subheader);
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding-bottom: 10px;
+        display: block;
+      }
+
+      tonic-select[multiple] select {
+        background-image: none !important;
+      }
+
+      tonic-select[multiple] select option {
+        padding: 6px 10px;
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    `
+  }
+
+  get value () {
+    if (!this.root) return
+    const el = this.root.querySelector('select')
+
+    if (this.props.multiple === 'true') {
+      const value = [...el.options]
+        .filter(el => el.selected)
+        .map(el => el.getAttribute('value'))
+      return value
+    }
+
+    return el.value
+  }
+
+  selectOptions (value) {
+    if (!this.root) return
+    const el = this.root.querySelector('select')
+    const options = [...el.options]
+
+    options.forEach(el => {
+      el.selected = value.findIndex(v => v === el.value) > -1
+    })
+  }
+
+  set value (value) {
+    if (!this.root) return
+
+    if (this.props.multiple === 'true' && Array.isArray(value)) {
+      this.selectOptions(value)
+    } else {
+      if (!value) value = 0 // if a falsy value
+      const el = this.root.querySelector('select')
+      el.selectedIndex = value
+    }
+  }
+
+  get option () {
+    if (!this.root) return
+    const node = this.root.querySelector('select')
+    return node.options[node.selectedIndex]
+  }
+
+  get selectedIndex () {
+    if (!this.root) return
+    const node = this.root.querySelector('select')
+    return node.selectedIndex
+  }
+
+  loading (state) {
+    if (!this.root) return
+    const method = state ? 'add' : 'remove'
+    this.root.classList[method]('tonic--loading')
+  }
+
+  renderLabel () {
+    if (!this.props.label) return ''
+    return `<label>${this.props.label}</label>`
+  }
+
+  connected () {
+    const value = this.props.value
+
+    if (Array.isArray(value)) {
+      this.selectOptions(value)
+    } else if (value) {
+      const option = this.root.querySelector(`option[value="${value}"]`)
+      if (option) option.setAttribute('selected', true)
+    }
+  } */
+
+  styles () {
+    const {
+      height,
+      width,
+      padding,
+      radius,
+      iconArrow
+    } = this.props
+
+    return {
+      wrapper: {
+        width
+      },
+      select: {
+        width,
+        height,
+        borderRadius: radius,
+        padding,
+        backgroundImage: `url('${iconArrow}')`
+      }
+    }
+  }
+
+  render () {
+    /* const {
+      width,
+      height,
+      disabled,
+      required,
+      multiple,
+      size,
+      theme,
+      tabindex
+    } = this.props
+
+    const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
+    const multipleAttr = multiple && multiple === 'true' ? `multiple="true"` : ''
+    const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
+    const sizeAttr = size ? `size="${size}"` : ''
+
+    if (width) this.root.style.width = width
+    if (height) this.root.style.width = height
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (tabindex) this.root.removeAttribute('tabindex')
+
+    const attributes = [
+      disabledAttr,
+      multipleAttr,
+      sizeAttr,
+      required,
+      tabAttr
+    ].join(' ') */
+
+    return this.html`
+      <div class="tonic--wrapper">
+        <select>
+          ${this.childNodes}
+        </select>
+      </div>
+    `
+  }
+}
+
+class XPanel extends Tonic {
+  render () {
+    return this.html`
+      <div class="tab">
+        ${this.childNodes}
+      </div>
+    `
+  }
+}
+
+class XSelect extends Tonic {
+  render () {
+    return this.html`
+      <div class="tonic--wrapper">
+        <select>
+          ${this.childNodes}
+        </select>
+      </div>
+    `
+  }
+}
+
+Tonic.add(XPanel)
+Tonic.add(XSelect)
+Tonic.add(XTronicSelect)
+
+class TonicTabs extends Tonic { /* global Tonic */
+  defaults () {
+    return {}
+  }
+
+  stylesheet () {
+    return `
+      tonic-tabs .tonic--tab {
+        -webkit-appearance: none;
+        border: 0;
+        border-bottom: 2px solid transparent;
+        user-select: none;
+      }
+      tonic-tabs .tonic--tab[aria-selected="true"] {
+        border-bottom: 2px solid var(--tonic-accent);
+      }
+    `
+  }
+
+  click (e) {
+    const tab = Tonic.match(e.target, '.tonic--tab')
+    if (!tab) return
+
+    e.preventDefault()
+
+    const tabs = this.root.querySelectorAll(`.tonic--tab`)
+
+    tabs.forEach(tab => {
+      tab.setAttribute('aria-selected', 'false')
+
+      const control = tab.getAttribute('for')
+      const panel = document.querySelector(`tonic-tab-panel[id="${control}"]`)
+      panel.setAttribute('hidden', '')
+    })
+
+    tab.setAttribute('aria-selected', 'true')
+
+    const id = tab.getAttribute('aria-controls')
+    const currentPanel = document.querySelector(`tonic-tab-panel[id="${id}"]`)
+    currentPanel.removeAttribute('hidden')
+  }
+
+  render () {
+    this.root.setAttribute('role', 'tablist')
+
+    return [...this.root.childElements].map(node => {
+      const ariaControls = node.getAttribute('for')
+      const ariaSelected = node.getAttribute('selected')
+
+      return this.html`
+        <a
+          ...${node.attributes}
+          class="tonic--tab"
+          href="#"
+          role="tab"
+          aria-controls="${ariaControls}"
+          aria-selected="${ariaSelected}">
+          ${node.innerHTML}
+        </a>
+      `
+    }).join('')
+  }
+}
+
+Tonic.add(TonicTabs)
+
+class TonicTabPanel extends Tonic { /* global Tonic */
+  defaults () {
+    return {}
+  }
+
+  stylesheet () {
+    return `
+      tonic-tab-panel {
+        display: block;
+      }
+      tonic-tab-panel[hidden] {
+        display: none;
+      }
+    `
+  }
+
+  click (e) {}
+
+  render () {
+    const {
+      id
+    } = this.props
+
+    this.root.setAttribute('role', 'tabpanel')
+
+    const tab = document.querySelector(`.tonic--tab[for="${id}"]`)
+    const tabid = tab.getAttribute('id')
+    this.root.setAttribute('aria-labelledby', tabid)
+
+    return this.html`
+      ${this.childNodes}
+    `
+  }
+}
+
+Tonic.add(TonicTabPanel)
+
+class TonicAccordion extends Tonic { /* global Tonic */
   defaults () {
     return {
       multiple: false
@@ -233,6 +1290,666 @@ class TonicAccordionSection extends Tonic {
 }
 
 Tonic.add(TonicAccordionSection)
+
+class Windowed extends Tonic { /* global Tonic */
+  get length () {
+    return this.rows.length
+  }
+
+  defaults () {
+    return {
+      page: 100,
+      rowsPerPage: 100,
+      rowPadding: 50,
+      rowHeight: 30,
+      debug: false
+    }
+  }
+
+  styles () {
+    return {
+      inner: {
+        position: 'relative'
+      },
+
+      outer: {
+        width: '100%',
+        height: 'inherit',
+        overflow: 'auto'
+      }
+    }
+  }
+
+  getRows () {
+    return this.rows
+  }
+
+  push (o) {
+    this.rows = this.rows || []
+    this.rows.push(o)
+  }
+
+  unshift (o) {
+    this.rows = this.rows || []
+    this.rows.unshift(o)
+  }
+
+  pop () {
+    this.rows = this.rows || []
+    this.rows.pop()
+  }
+
+  shift () {
+    this.rows = this.rows || []
+    this.rows.shift()
+  }
+
+  find (fn) {
+    if (!this.rows) return -1
+    return this.rows.find(fn)
+  }
+
+  findIndex (fn) {
+    if (!this.rows) return -1
+    return this.rows.findIndex(fn)
+  }
+
+  splice (...args) {
+    if (!this.rows) return null
+    return this.rows.splice(...args)
+  }
+
+  async getRow (idx) {
+    const el = this.rows[idx]
+    return typeof el === 'function' ? el() : el
+  }
+
+  load (rows = []) {
+    if (!this.root) return
+
+    this.rows = rows
+    this.reRender()
+
+    const outer = this.root.querySelector('.tonic--windowed--outer')
+    if (!outer) return
+
+    this.outerHeight = outer.offsetHeight
+
+    this.numPages = Math.ceil(this.rows.length / this.props.rowsPerPage)
+
+    this.pages = {}
+    this.pagesAvailable = this.pagesAvailable || []
+    this.rowHeight = parseInt(this.props.rowHeight, 10)
+
+    const inner = this.root.querySelector('.tonic--windowed--inner')
+    inner.innerHTML = ''
+    inner.style.height = `${this.rowHeight * this.rows.length}px`
+    this.pageHeight = this.props.rowsPerPage * this.rowHeight
+    this.padding = this.props.rowPadding * this.rowHeight
+
+    this.rePaint()
+  }
+
+  setHeight (height, { render } = {}) {
+    if (!this.root) return
+
+    const outer = this.root.querySelector('.tonic--windowed--outer')
+    if (!outer) return
+
+    outer.style.height = height
+    this.outerHeight = outer.offsetHeight
+
+    if (render !== false) {
+      this.rePaint()
+    }
+  }
+
+  getPage (i) {
+    let page, state
+
+    ;[page, state] = this.pages[i]
+      ? [this.pages[i], 'ok']
+      : this.pagesAvailable.length
+        ? [this.getAvailablePage(i), 'old']
+        : [this.createNewPage(i), 'fresh']
+
+    this.pages[i] = page
+
+    page.style.height = i < this.numPages - 1
+      ? `${this.pageHeight}px`
+      : this.getLastPageHeight()
+
+    page.style.top = this.getPageTop(i)
+    return [page, state]
+  }
+
+  getAvailablePage (i) {
+    const page = this.pagesAvailable.pop()
+    const inner = this.root.querySelector('.tonic--windowed--inner')
+    inner.appendChild(page)
+    return page
+  }
+
+  createNewPage (i) {
+    const page = document.createElement('div')
+
+    Object.assign(page.style, {
+      position: 'absolute',
+      minWidth: '100%',
+      className: 'tonic--windowed--page'
+    })
+
+    if (this.props.debug) {
+      const random = Math.random() * 356
+      page.style.backgroundColor = `hsla(${random}, 100%, 50%, 0.5)`
+    }
+
+    const inner = this.root.querySelector('.tonic--windowed--inner')
+    inner.appendChild(page)
+    return page
+  }
+
+  async rePaint ({ refresh, load } = {}) {
+    if (!this.root) return
+
+    if (refresh && load !== false) this.load(this.rows)
+
+    const outer = this.root.querySelector('.tonic--windowed--outer')
+    if (!outer) return
+
+    const viewStart = outer.scrollTop
+    const viewEnd = viewStart + this.outerHeight
+
+    const _start = Math.floor((viewStart - this.padding) / this.pageHeight)
+    const start = Math.max(_start, 0) || 0
+
+    const _end = Math.floor((viewEnd + this.padding) / this.pageHeight)
+    const end = Math.min(_end, this.numPages - 1)
+    const pagesRendered = {}
+
+    for (let i = start; i <= end; i++) {
+      const [page, state] = this.getPage(i)
+
+      if (state === 'fresh') {
+        await this.fillPage(i)
+      } else if (refresh || state === 'old') {
+        if (this.updateRow) {
+          await this.updatePage(i)
+        } else {
+          page.innerHTML = ''
+          await this.fillPage(i)
+        }
+      }
+      pagesRendered[i] = true
+    }
+
+    const inner = this.root.querySelector('.tonic--windowed--inner')
+
+    for (const i of Object.keys(this.pages)) {
+      if (pagesRendered[i]) continue
+
+      this.pagesAvailable.push(this.pages[i])
+      inner.removeChild(this.pages[i])
+      delete this.pages[i]
+    }
+
+    if (this.state.scrollTop) {
+      outer.scrollTop = this.state.scrollTop
+    }
+  }
+
+  getPageTop (i) {
+    return `${i * this.pageHeight}px`
+  }
+
+  getLastPageHeight (i) {
+    return `${(this.rows.length % this.props.rowsPerPage) * this.rowHeight}px`
+  }
+
+  async fillPage (i) {
+    const page = this.pages[i]
+    const frag = document.createDocumentFragment()
+    const limit = Math.min((i + 1) * this.props.rowsPerPage, this.rows.length)
+
+    for (let j = i * this.props.rowsPerPage; j < limit; j++) {
+      const data = await this.getRow(j)
+      if (!data) continue
+
+      const div = document.createElement('div')
+      div.innerHTML = this.renderRow(data, j)
+      frag.appendChild(div.firstElementChild)
+    }
+
+    window.requestAnimationFrame(() => page.appendChild(frag))
+  }
+
+  async updatePage (i) {
+    const page = this.pages[i]
+    const start = i * this.props.rowsPerPage
+    const limit = Math.min((i + 1) * this.props.rowsPerPage, this.rows.length)
+
+    const inner = this.root.querySelector('.tonic--windowed--inner')
+
+    if (start > limit) {
+      inner.removeChild(page)
+      delete this.pages[i]
+      return
+    }
+
+    for (let j = start, rowIdx = 0; j < limit; j++, rowIdx++) {
+      if (page.children[rowIdx] && this.updateRow) {
+        this.updateRow(await this.getRow(j), page.children[rowIdx])
+      } else {
+        const div = document.createElement('div')
+        div.innerHTML = this.renderRow(await this.getRow(j))
+        page.appendChild(div.firstElementChild)
+      }
+    }
+
+    while (page.children.length > limit - start) {
+      page.removeChild(page.lastChild)
+    }
+  }
+
+  connected () {
+    if (!this.props.data || !this.props.data.length) return
+    this.load(this.props.data)
+  }
+
+  updated () {
+    if (!this.root) return
+
+    const outer = this.root.querySelector('.tonic--windowed--outer')
+
+    outer && outer.addEventListener('scroll', () => {
+      this.state.scrollTop = outer.scrollTop
+      this.rePaint()
+    }, { passive: true })
+  }
+
+  renderLoadingState () {
+    return `<div class="tonic--windowed--loader"></div>`
+  }
+
+  renderEmptyState () {
+    return `<div class="tonic--windowed--empty"></div>`
+  }
+
+  render () {
+    if (!this.rows) {
+      return this.renderLoadingState()
+    }
+
+    if (!this.rows.length) {
+      return this.renderEmptyState()
+    }
+
+    return `
+      <div class="tonic--windowed--outer" styles="outer">
+        <div class="tonic--windowed--inner" styles="inner">
+        </div>
+      </div>
+    `
+  }
+}
+
+Tonic.Windowed = Windowed
+
+class TonicTooltip extends Tonic { /* global Tonic */
+  connected () {
+    const target = this.props['for']
+    const el = document.getElementById(target)
+    let timer = null
+
+    const leave = e => {
+      clearTimeout(timer)
+      timer = setTimeout(() => {
+        this.hide()
+      }, 256)
+    }
+
+    el.addEventListener('mouseenter', e => {
+      this.show(el)
+    })
+
+    this.root.addEventListener('mouseenter', e => clearTimeout(timer))
+    this.root.addEventListener('mouseleave', leave)
+    el.addEventListener('mouseleave', leave)
+  }
+
+  defaults (props) {
+    return {
+      width: 'auto',
+      height: 'auto'
+    }
+  }
+
+  stylesheet () {
+    return `
+      tonic-tooltip .tonic--tooltip {
+        color: var(--tonic-primary);
+        position: fixed;
+        background: var(--tonic-window);
+        visibility: hidden;
+        z-index: -1;
+        opacity: 0;
+        border: 1px solid var(--tonic-border);
+        border-radius: 2px;
+        transition: visibility 0.2s ease-in-out, opacity 0.2s ease-in-out, z-index 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+      }
+
+      tonic-tooltip .tonic--tooltip.tonic--show {
+        visibility: visible;
+        opacity: 1;
+        z-index: 1;
+        box-shadow: 0px 30px 90px -20px rgba(0, 0, 0, 0.3);
+      }
+
+      tonic-tooltip .tonic--tooltip .tonic--tooltip-arrow {
+        width: 12px;
+        height: 12px;
+        position: absolute;
+        z-index: -1;
+        background-color: var(--tonic-window);
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+        left: 50%;
+      }
+
+      tonic-tooltip .tonic--tooltip .tonic--tooltip-arrow {
+        border: 1px solid transparent;
+        border-radius: 2px;
+        pointer-events: none;
+      }
+
+      tonic-tooltip .tonic--top .tonic--tooltip-arrow {
+        margin-bottom: -6px;
+        bottom: 100%;
+        border-top-color: var(--tonic-border);
+        border-left-color: var(--tonic-border);
+      }
+
+      tonic-tooltip .tonic--bottom .tonic--tooltip-arrow {
+        margin-top: -6px;
+        position: absolute;
+        top: 100%;
+        border-bottom-color: var(--tonic-border);
+        border-right-color: var(--tonic-border);
+      }
+    `
+  }
+
+  show (triggerNode) {
+    clearTimeout(this.timer)
+    this.timer = setTimeout(() => {
+      const tooltip = this.root.querySelector('.tonic--tooltip')
+      const arrow = this.root.querySelector('.tonic--tooltip-arrow')
+
+      let { top, left } = triggerNode.getBoundingClientRect()
+
+      left += triggerNode.offsetWidth / 2
+      left -= tooltip.offsetWidth / 2
+
+      const offset = triggerNode.offsetHeight + (arrow.offsetHeight / 2)
+
+      if (top < (window.innerHeight / 2)) {
+        tooltip.classList.remove('tonic--bottom')
+        tooltip.classList.add('tonic--top')
+        top += offset
+      } else {
+        tooltip.classList.remove('tonic--top')
+        tooltip.classList.add('tonic--bottom')
+        top -= offset + tooltip.offsetHeight
+      }
+
+      tooltip.style.top = `${top}px`
+      tooltip.style.left = `${left}px`
+
+      window.requestAnimationFrame(() => {
+        tooltip.classList.add('tonic--show')
+      })
+
+      window.addEventListener('mousewheel', e => {
+        this.hide()
+      }, { once: true })
+    }, 256)
+  }
+
+  hide () {
+    clearTimeout(this.timer)
+    if (!this.root) return
+
+    const tooltip = this.root.querySelector('.tonic--tooltip')
+    tooltip.classList.remove('tonic--show')
+  }
+
+  styles () {
+    const {
+      width,
+      height
+    } = this.props
+
+    return {
+      tooltip: {
+        width,
+        height
+      }
+    }
+  }
+
+  render () {
+    if (this.props.theme) {
+      this.root.classList.add(`tonic--theme--${this.props.theme}`)
+    }
+
+    return this.html`
+      <div class="tonic--tooltip" styles="tooltip">
+        ${this.childNodes}
+        <span class="tonic--tooltip-arrow"></span>
+      </div>
+    `
+  }
+}
+
+Tonic.add(TonicTooltip)
+
+class TonicPopover extends Tonic { /* global Tonic */
+  constructor () {
+    super()
+
+    const target = this.getAttribute('for')
+    const el = document.getElementById(target)
+
+    el.addEventListener('click', e => this.show(el))
+  }
+
+  defaults (props) {
+    return {
+      width: 'auto',
+      height: 'auto',
+      padding: '15px',
+      margin: 10,
+      position: 'bottomleft'
+    }
+  }
+
+  stylesheet () {
+    return `
+      tonic-popover .tonic--overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0;
+        display: none;
+        z-index: 0;
+        background-color: rgba(0,0,0,0);
+      }
+
+      tonic-popover .tonic--popover {
+        position: absolute;
+        top: 30px;
+        background: var(--tonic-window);
+        border: 1px solid var(--tonic-border);
+        border-radius: 2px;
+        visibility: hidden;
+        z-index: -1;
+        opacity: 0;
+        -webkit-transform: scale(0.75);
+        ms-transform: scale(0.75);
+        transform: scale(0.75);
+        transition: transform 0.1s ease-in-out, opacity 0s ease 0.1s, visibility 0s ease 0.1s, z-index 0s ease 0.1s;
+      }
+
+      tonic-popover .tonic--popover.tonic--show {
+        box-shadow: 0px 30px 90px -20px rgba(0, 0, 0, 0.3);
+        -webkit-transform: scale(1);
+        -ms-transform: scale(1);
+        transform: scale(1);
+        visibility: visible;
+        transition: transform 0.15s ease-in-out;
+        opacity: 1;
+        z-index: 1;
+      }
+
+      tonic-popover .tonic--show ~ .tonic--overlay {
+        display: block;
+        opacity: 1;
+      }
+
+      tonic-popover .tonic--popover--top {
+        transform-origin: bottom center;
+      }
+
+      tonic-popover .tonic--popover--topleft {
+        transform-origin: bottom left;
+      }
+
+      tonic-popover .tonic--popover--topright {
+        transform-origin: bottom right;
+      }
+
+      tonic-popover .tonic--popover--bottom {
+        transform-origin: top center;
+      }
+
+      tonic-popover .tonic--popover--bottomleft {
+        transform-origin: top left;
+      }
+
+      tonic-popover .tonic--popover--bottomright {
+        transform-origin: top right;
+      }
+
+    `
+  }
+
+  styles () {
+    const {
+      width,
+      height,
+      padding,
+      margin,
+      position
+    } = this.props
+
+    return {
+      popover: {
+        width,
+        height,
+        padding,
+        margin,
+        position
+      }
+    }
+  }
+
+  show (triggerNode) {
+    const popover = this.root.querySelector('.tonic--popover')
+    let scrollableArea = triggerNode.parentNode
+
+    while (true) {
+      if (!scrollableArea || scrollableArea.tagName === 'BODY') break
+      if (window.getComputedStyle(scrollableArea).overflow === 'scroll') break
+      scrollableArea = scrollableArea.parentNode
+    }
+
+    const margin = parseInt(this.props.margin, 10)
+    let { top, left } = triggerNode.getBoundingClientRect()
+    let pos = top + scrollableArea.scrollTop
+    left -= scrollableArea.offsetLeft
+
+    switch (this.props.position) {
+      case 'topleft':
+        pos -= popover.offsetHeight + margin
+        break
+      case 'topright':
+        pos -= popover.offsetHeight + margin
+        left += (triggerNode.offsetWidth - popover.offsetWidth)
+        break
+      case 'top':
+        pos -= popover.offsetHeight + margin
+        left += (triggerNode.offsetWidth / 2) - (popover.offsetWidth / 2)
+        break
+      case 'bottomleft':
+        pos += triggerNode.offsetHeight + margin
+        break
+      case 'bottomright':
+        pos += triggerNode.offsetHeight + margin
+        left += triggerNode.offsetWidth - popover.offsetWidth
+        break
+      case 'bottom':
+        pos += triggerNode.offsetHeight + margin
+        left += (triggerNode.offsetWidth / 2) - (popover.offsetWidth / 2)
+        break
+    }
+
+    popover.style.top = `${pos}px`
+    popover.style.left = `${left}px`
+
+    window.requestAnimationFrame(() => {
+      popover.className = `tonic--popover tonic--show tonic--popover--${this.props.position}`
+      const event = new window.Event('show')
+      this.root.dispatchEvent(event)
+    })
+  }
+
+  hide () {
+    const popover = this.root.querySelector('.tonic--popover')
+    if (popover) popover.classList.remove('tonic--show')
+  }
+
+  connected () {
+    if (!this.props.open) return
+    const target = this.root.getAttribute('for')
+    this.show(document.getElementById(target))
+  }
+
+  click (e) {
+    if (Tonic.match(e.target, '.tonic--overlay')) {
+      return this.hide()
+    }
+  }
+
+  render () {
+    const {
+      theme
+    } = this.props
+
+    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+
+    return this.html`
+      <div class="tonic--popover" styles="popover">
+        ${this.childNodes}
+      </div>
+      <div class="tonic--overlay"></div>
+    `
+  }
+}
+
+Tonic.add(TonicPopover)
 
 class TonicBadge extends Tonic { /* global Tonic */
   defaults () {
@@ -874,215 +2591,6 @@ TonicCheckbox.svg.iconOff = () => TonicCheckbox.svg.toURL(`
 
 Tonic.add(TonicCheckbox)
 
-class Dialog extends Tonic { /* global Tonic */
-  constructor () {
-    super()
-
-    this.addEventListener('click', e => {
-      const el = Tonic.match(e.target, '.tonic--close')
-      if (el) this.hide()
-
-      const overlay = e.target.matches('.tonic--overlay')
-      if (overlay) this.hide()
-    })
-  }
-
-  getPropertyValue (s) {
-    const computed = window.getComputedStyle(this.root)
-    return computed.getPropertyValue(`--${s}`).trim()
-  }
-
-  defaults () {
-    return {
-      width: '450px',
-      height: 'auto',
-      overlay: true,
-      closeIcon: Dialog.svg.closeIcon(this.getPropertyValue('primary')),
-      backgroundColor: 'rgba(0,0,0,0.5)'
-    }
-  }
-
-  stylesheet () {
-    return `
-      .tonic--dialog .tonic--dialog--wrapper {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        display: flex;
-        z-index: 100;
-        visibility: hidden;
-        transition: visibility 0s ease 0.5s;
-      }
-
-      .tonic--dialog .tonic--dialog--wrapper.tonic--show {
-        visibility: visible;
-        transition: visibility 0s ease 0s;
-      }
-
-      .tonic--dialog .tonic--dialog--wrapper.tonic--show .tonic--overlay {
-        opacity: 1;
-      }
-
-      .tonic--dialog .tonic--dialog--wrapper.tonic--show .tonic--dialog--content {
-        color: var(--tonic-primary);
-        opacity: 1;
-        -webkit-transform: scale(1);
-        -ms-transform: scale(1);
-        transform: scale(1);
-      }
-
-      .tonic--dialog .tonic--overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        opacity: 0;
-        transition: opacity 0.3s ease-in-out;
-      }
-
-      .tonic--dialog .tonic--dialog--content {
-        min-width: 350px;
-        min-height: 250px;
-        height: auto;
-        width: auto;
-        margin: auto;
-        position: relative;
-        background-color: var(--tonic-window);
-        z-index: 1;
-        opacity: 0;
-        -webkit-transform: scale(0.8);
-        -ms-transform: scale(0.8);
-        transform: scale(0.8);
-        transition: all 0.3s ease-in-out;
-      }
-
-      .tonic--dialog .tonic--dialog--content > .tonic--close {
-        width: 25px;
-        height: 25px;
-        position: absolute;
-        top: 25px;
-        right: 25px;
-        cursor: pointer;
-      }
-    `
-  }
-
-  show () {
-    const that = this
-
-    return new Promise((resolve) => {
-      if (!this.root) return
-      const node = this.root.querySelector('.tonic--dialog--wrapper')
-      node.classList.add('tonic--show')
-      node.addEventListener('transitionend', resolve, { once: true })
-
-      this._escapeHandler = e => {
-        if (e.keyCode === 27) that.hide()
-      }
-
-      document.addEventListener('keyup', that._escapeHandler)
-    })
-  }
-
-  hide () {
-    const that = this
-
-    return new Promise((resolve) => {
-      if (!this.root) return
-      const node = this.root.querySelector('.tonic--dialog--wrapper')
-      node.classList.remove('tonic--show')
-      node.addEventListener('transitionend', resolve, { once: true })
-      document.removeEventListener('keyup', that._escapeHandler)
-    })
-  }
-
-  event (eventName) {
-    const that = this
-
-    return {
-      then (resolve) {
-        const listener = event => {
-          const close = Tonic.match(event.target, '.tonic--close')
-          const value = Tonic.match(event.target, '[value]')
-
-          if (close || value) {
-            that.root.removeEventListener(eventName, listener)
-          }
-
-          if (close) return resolve({})
-          if (value) resolve({ [event.target.value]: true })
-        }
-
-        that.root.addEventListener(eventName, listener)
-      }
-    }
-  }
-
-  wrap (render) {
-    const {
-      width,
-      height,
-      overlay,
-      theme,
-      color,
-      backgroundColor
-    } = this.props
-
-    this.root.classList.add('tonic--dialog')
-
-    const template = document.createElement('template')
-    const wrapper = document.createElement('div')
-
-    const isOpen = !!this.root.querySelector('.tonic--dialog--wrapper.tonic--show')
-    wrapper.className = isOpen ? 'tonic--dialog--wrapper tonic--show' : 'tonic--dialog--wrapper'
-
-    const content = render()
-
-    typeof content === 'string'
-      ? (template.innerHTML = content)
-      : [...content.childNodes].forEach(el => template.appendChild(el))
-
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
-
-    if (overlay !== 'false') {
-      const overlayElement = document.createElement('div')
-      overlayElement.className = 'tonic--overlay'
-      overlayElement.style.backgroundColor = backgroundColor
-      wrapper.appendChild(overlayElement)
-    }
-
-    const dialog = document.createElement('div')
-    dialog.className = 'tonic--dialog--content'
-    if (width) dialog.style.width = width
-    if (height) dialog.style.height = height
-
-    const close = document.createElement('div')
-    close.className = 'tonic--close'
-
-    const iconColor = color || this.getPropertyValue('primary')
-    const url = Dialog.svg.closeIcon(iconColor)
-    close.style.backgroundImage = `url("${url}")`
-
-    wrapper.appendChild(dialog)
-    dialog.appendChild(template.content)
-    dialog.appendChild(close)
-    return wrapper
-  }
-}
-
-Dialog.svg = {}
-Dialog.svg.toURL = s => `data:image/svg+xml;base64,${window.btoa(s)}`
-Dialog.svg.closeIcon = color => Dialog.svg.toURL(`
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path fill="${color}" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
-  </svg>
-`)
-
-Tonic.Dialog = Dialog
-
 class TonicIcon extends Tonic { /* global Tonic */
   defaults () {
     return {
@@ -1471,17 +2979,57 @@ class TonicInput extends Tonic { /* global Tonic */
 
 Tonic.add(TonicInput)
 
-class Panel extends Tonic { /* global Tonic */
-  constructor () {
-    super()
+class TonicProgressBar extends Tonic { /* global Tonic */
+  set value (value) {
+    this.setProgress(value)
+  }
 
-    this.addEventListener('click', e => {
-      const el = Tonic.match(e.target, '.tonic--close')
-      if (el) this.hide()
+  get value () {
+    if (typeof this.state.progress !== 'undefined') {
+      return this.state.progress
+    }
 
-      const overlay = Tonic.match(e.target, '.tonic--overlay')
-      if (overlay) this.hide()
-    })
+    return this.props.progress
+  }
+
+  defaults () {
+    return {
+      width: '280px',
+      height: '15px',
+      progress: 0
+    }
+  }
+
+  stylesheet () {
+    return `
+      tonic-progress-bar {
+        display: inline-block;
+        user-select: none;
+      }
+
+      tonic-progress-bar .tonic--wrapper {
+        position: relative;
+        background-color: var(--tonic-background);
+      }
+
+      tonic-progress-bar .tonic--wrapper .tonic--progress {
+        background-color: var(--tonic-accent);
+        width: 0%;
+        height: 100%;
+      }
+    `
+  }
+
+  styles () {
+    return {
+      wrapper: {
+        width: this.props.width,
+        height: this.props.height
+      },
+      progress: {
+        backgroundColor: this.props.color || 'var(--tonic-accent)'
+      }
+    }
   }
 
   getPropertyValue (s) {
@@ -1489,384 +3037,46 @@ class Panel extends Tonic { /* global Tonic */
     return computed.getPropertyValue(`--${s}`).trim()
   }
 
-  defaults () {
-    return {
-      position: 'right',
-      overlay: false,
-      closeIcon: Panel.svg.closeIcon,
-      backgroundColor: 'rgba(0,0,0,0.5)'
-    }
+  setProgress (progress) {
+    this.setState(state => Object.assign({}, state, {
+      progress
+    }))
+
+    this.reRender()
   }
 
-  stylesheet () {
-    return `
-      .tonic--panel .tonic--panel--inner {
-        color: var(--tonic-primary);
-        width: 500px;
-        position: fixed;
-        bottom: 0;
-        top: 0;
-        background-color: var(--tonic-window);
-        box-shadow: 0px 0px 28px 0 rgba(0,0,0,0.05);
-        transition: transform 0.3s ease-in-out, visibility 0.3s ease;
-        z-index: 100;
-      }
-
-      @media (max-width: 500px) .tonic--panel .tonic--panel--inner {
-        width: 100%;
-      }
-
-      .tonic--panel .tonic--left .tonic--panel--inner {
-        left: 0;
-        -webkit-transform: translateX(-500px);
-        -ms-transform: translateX(-500px);
-        transform: translateX(-500px);
-        border-right: 1px solid var(--tonic-border);
-        visibility: hidden;
-      }
-
-      .tonic--panel .tonic--right .tonic--panel--inner {
-        right: 0;
-        -webkit-transform: translateX(500px);
-        -ms-transform: translateX(500px);
-        transform: translateX(500px);
-        border-left: 1px solid var(--tonic-border);
-        visibility: hidden;
-      }
-
-      .tonic--panel .tonic--show.tonic--right .tonic--panel--inner,
-      .tonic--panel .tonic--show.tonic--left .tonic--panel--inner {
-        -webkit-transform: translateX(0);
-        -ms-transform: translateX(0);
-        transform: translateX(0);
-        visibility: visible;
-      }
-
-      .tonic--panel .tonic--show[overlay="true"] .tonic--overlay {
-        opacity: 1;
-        visibility: visible;
-        transition: opacity 0.3s ease-in-out, visibility 0s ease 0s;
-      }
-
-      .tonic--panel .tonic--overlay {
-        opacity: 0;
-        visibility: hidden;
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        transition: opacity 0.3s ease-in-out, visibility 0s ease 1s;
-        z-index: 1;
-      }
-
-      .tonic--panel .tonic--close {
-        width: 25px;
-        height: 25px;
-        position: absolute;
-        top: 30px;
-        right: 30px;
-        cursor: pointer;
-      }
-    `
-  }
-
-  show () {
-    const that = this
-
-    return new Promise((resolve) => {
-      if (!this.root) return
-      const node = this.root.querySelector('.tonic--wrapper')
-      node.classList.add('tonic--show')
-      node.addEventListener('transitionend', resolve, { once: true })
-
-      this._escapeHandler = e => {
-        if (e.keyCode === 27) that.hide()
-      }
-
-      document.addEventListener('keyup', that._escapeHandler)
-    })
-  }
-
-  hide () {
-    const that = this
-
-    return new Promise((resolve) => {
-      if (!this.root) return
-      const node = this.root.querySelector('.tonic--wrapper')
-      node.classList.remove('tonic--show')
-      node.addEventListener('transitionend', resolve, { once: true })
-      document.removeEventListener('keyup', that._escapeHandler)
-    })
-  }
-
-  wrap (render) {
-    const {
-      name,
-      position,
-      overlay,
-      theme,
-      color,
-      backgroundColor
-    } = this.props
-
-    this.root.classList.add('tonic--panel')
-
-    const wrapper = document.createElement('div')
-    const template = document.createElement('template')
-
-    const content = render()
-
-    typeof content === 'string'
-      ? (template.innerHTML = content)
-      : [...content.childNodes].forEach(el => template.appendChild(el))
-
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
-
-    const isOpen = !!this.root.querySelector('.tonic--wrapper.tonic--show')
-    wrapper.className = isOpen ? 'tonic--wrapper tonic--show' : 'tonic--wrapper'
-    wrapper.id = 'wrapper'
-    const positionAttr = position ? `tonic--${position}` : ''
-    wrapper.classList.add(positionAttr)
-
-    if (overlay) wrapper.setAttribute('overlay', true)
-    if (name) wrapper.setAttribute('name', name)
-
-    // create panel
-    const panel = document.createElement('div')
-    panel.className = 'tonic--panel--inner'
-
-    if (overlay !== 'false') {
-      const overlayElement = document.createElement('div')
-      overlayElement.className = 'tonic--overlay'
-      overlayElement.style.backgroundColor = backgroundColor
-      wrapper.appendChild(overlayElement)
-    }
-
-    // create template
-    const close = document.createElement('div')
-    close.className = 'tonic--close'
-
-    const iconColor = color || this.getPropertyValue('primary')
-    const url = Panel.svg.closeIcon(iconColor)
-    close.style.backgroundImage = `url("${url}")`
-
-    // append everything
-    wrapper.appendChild(panel)
-    wrapper.appendChild(panel)
-    panel.appendChild(template.content)
-    panel.appendChild(close)
-
-    return wrapper
-  }
-}
-
-Panel.svg = {}
-Panel.svg.toURL = s => `data:image/svg+xml;base64,${window.btoa(s)}`
-Panel.svg.closeIcon = color => Panel.svg.toURL(`
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path fill="${color}" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
-  </svg>
-`)
-
-Tonic.Panel = Panel
-
-class TonicPopover extends Tonic { /* global Tonic */
-  constructor () {
-    super()
-
-    const target = this.getAttribute('for')
-    const el = document.getElementById(target)
-
-    el.addEventListener('click', e => this.show(el))
-  }
-
-  defaults (props) {
-    return {
-      width: 'auto',
-      height: 'auto',
-      padding: '15px',
-      margin: 10,
-      position: 'bottomleft'
-    }
-  }
-
-  stylesheet () {
-    return `
-      tonic-popover .tonic--overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        opacity: 0;
-        display: none;
-        z-index: 0;
-        background-color: rgba(0,0,0,0);
-      }
-
-      tonic-popover .tonic--popover {
-        position: absolute;
-        top: 30px;
-        background: var(--tonic-window);
-        border: 1px solid var(--tonic-border);
-        border-radius: 2px;
-        visibility: hidden;
-        z-index: -1;
-        opacity: 0;
-        -webkit-transform: scale(0.75);
-        ms-transform: scale(0.75);
-        transform: scale(0.75);
-        transition: transform 0.1s ease-in-out, opacity 0s ease 0.1s, visibility 0s ease 0.1s, z-index 0s ease 0.1s;
-      }
-
-      tonic-popover .tonic--popover.tonic--show {
-        box-shadow: 0px 30px 90px -20px rgba(0, 0, 0, 0.3);
-        -webkit-transform: scale(1);
-        -ms-transform: scale(1);
-        transform: scale(1);
-        visibility: visible;
-        transition: transform 0.15s ease-in-out;
-        opacity: 1;
-        z-index: 1;
-      }
-
-      tonic-popover .tonic--show ~ .tonic--overlay {
-        display: block;
-        opacity: 1;
-      }
-
-      tonic-popover .tonic--popover--top {
-        transform-origin: bottom center;
-      }
-
-      tonic-popover .tonic--popover--topleft {
-        transform-origin: bottom left;
-      }
-
-      tonic-popover .tonic--popover--topright {
-        transform-origin: bottom right;
-      }
-
-      tonic-popover .tonic--popover--bottom {
-        transform-origin: top center;
-      }
-
-      tonic-popover .tonic--popover--bottomleft {
-        transform-origin: top left;
-      }
-
-      tonic-popover .tonic--popover--bottomright {
-        transform-origin: top right;
-      }
-
-    `
-  }
-
-  styles () {
-    const {
-      width,
-      height,
-      padding,
-      margin,
-      position
-    } = this.props
-
-    return {
-      popover: {
-        width,
-        height,
-        padding,
-        margin,
-        position
-      }
-    }
-  }
-
-  show (triggerNode) {
-    const popover = this.root.querySelector('.tonic--popover')
-    let scrollableArea = triggerNode.parentNode
-
-    while (true) {
-      if (!scrollableArea || scrollableArea.tagName === 'BODY') break
-      if (window.getComputedStyle(scrollableArea).overflow === 'scroll') break
-      scrollableArea = scrollableArea.parentNode
-    }
-
-    const margin = parseInt(this.props.margin, 10)
-    let { top, left } = triggerNode.getBoundingClientRect()
-    let pos = top + scrollableArea.scrollTop
-    left -= scrollableArea.offsetLeft
-
-    switch (this.props.position) {
-      case 'topleft':
-        pos -= popover.offsetHeight + margin
-        break
-      case 'topright':
-        pos -= popover.offsetHeight + margin
-        left += (triggerNode.offsetWidth - popover.offsetWidth)
-        break
-      case 'top':
-        pos -= popover.offsetHeight + margin
-        left += (triggerNode.offsetWidth / 2) - (popover.offsetWidth / 2)
-        break
-      case 'bottomleft':
-        pos += triggerNode.offsetHeight + margin
-        break
-      case 'bottomright':
-        pos += triggerNode.offsetHeight + margin
-        left += triggerNode.offsetWidth - popover.offsetWidth
-        break
-      case 'bottom':
-        pos += triggerNode.offsetHeight + margin
-        left += (triggerNode.offsetWidth / 2) - (popover.offsetWidth / 2)
-        break
-    }
-
-    popover.style.top = `${pos}px`
-    popover.style.left = `${left}px`
-
+  updated () {
     window.requestAnimationFrame(() => {
-      popover.className = `tonic--popover tonic--show tonic--popover--${this.props.position}`
-      const event = new window.Event('show')
-      this.root.dispatchEvent(event)
+      const progressBar = this.root.querySelector('.tonic--progress')
+      let progress = this.props.progress
+
+      if (typeof this.state.progress !== 'undefined') {
+        progress = this.state.progress
+      }
+
+      if (progressBar) {
+        progressBar.style.width = `${progress}%`
+      }
     })
-  }
-
-  hide () {
-    const popover = this.root.querySelector('.tonic--popover')
-    if (popover) popover.classList.remove('tonic--show')
-  }
-
-  connected () {
-    if (!this.props.open) return
-    const target = this.root.getAttribute('for')
-    this.show(document.getElementById(target))
-  }
-
-  click (e) {
-    if (Tonic.match(e.target, '.tonic--overlay')) {
-      return this.hide()
-    }
   }
 
   render () {
-    const {
-      theme
-    } = this.props
+    if (this.props.theme) {
+      this.root.classList.add(`tonic--theme--${this.props.theme}`)
+    }
 
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    this.root.style.width = this.props.width
+    this.root.style.height = this.props.height
 
     return this.html`
-      <div class="tonic--popover" styles="popover">
-        ${this.childNodes}
+      <div class="tonic--wrapper" styles="wrapper">
+        <div class="tonic--progress" styles="progress"></div>
       </div>
-      <div class="tonic--overlay"></div>
     `
   }
 }
 
-Tonic.add(TonicPopover)
+Tonic.add(TonicProgressBar)
 
 class TonicProfileImage extends Tonic { /* global Tonic */
   constructor (args) {
@@ -2079,105 +3289,6 @@ TonicProfileImage.svg.edit = () => TonicProfileImage.svg.toURL(`
 
 Tonic.add(TonicProfileImage)
 
-class TonicProgressBar extends Tonic { /* global Tonic */
-  set value (value) {
-    this.setProgress(value)
-  }
-
-  get value () {
-    if (typeof this.state.progress !== 'undefined') {
-      return this.state.progress
-    }
-
-    return this.props.progress
-  }
-
-  defaults () {
-    return {
-      width: '280px',
-      height: '15px',
-      progress: 0
-    }
-  }
-
-  stylesheet () {
-    return `
-      tonic-progress-bar {
-        display: inline-block;
-        user-select: none;
-      }
-
-      tonic-progress-bar .tonic--wrapper {
-        position: relative;
-        background-color: var(--tonic-background);
-      }
-
-      tonic-progress-bar .tonic--wrapper .tonic--progress {
-        background-color: var(--tonic-accent);
-        width: 0%;
-        height: 100%;
-      }
-    `
-  }
-
-  styles () {
-    return {
-      wrapper: {
-        width: this.props.width,
-        height: this.props.height
-      },
-      progress: {
-        backgroundColor: this.props.color || 'var(--tonic-accent)'
-      }
-    }
-  }
-
-  getPropertyValue (s) {
-    const computed = window.getComputedStyle(this.root)
-    return computed.getPropertyValue(`--${s}`).trim()
-  }
-
-  setProgress (progress) {
-    this.setState(state => Object.assign({}, state, {
-      progress
-    }))
-
-    this.reRender()
-  }
-
-  updated () {
-    window.requestAnimationFrame(() => {
-      const progressBar = this.root.querySelector('.tonic--progress')
-      let progress = this.props.progress
-
-      if (typeof this.state.progress !== 'undefined') {
-        progress = this.state.progress
-      }
-
-      if (progressBar) {
-        progressBar.style.width = `${progress}%`
-      }
-    })
-  }
-
-  render () {
-    if (this.props.theme) {
-      this.root.classList.add(`tonic--theme--${this.props.theme}`)
-    }
-
-    this.root.style.width = this.props.width
-    this.root.style.height = this.props.height
-
-    return this.html`
-      <div class="tonic--wrapper" styles="wrapper">
-        <div class="tonic--progress" styles="progress"></div>
-      </div>
-    `
-  }
-}
-
-Tonic.add(TonicProgressBar)
-
 class TonicRange extends Tonic { /* global Tonic */
   defaults () {
     return {
@@ -2387,291 +3498,6 @@ class TonicRange extends Tonic { /* global Tonic */
 }
 
 Tonic.add(TonicRange)
-
-class TonicRouter extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
-
-    const that = this
-
-    if (TonicRouter.patched) return
-    TonicRouter.patched = true
-
-    const createEvent = function (type) {
-      const orig = window.history[type]
-      return function (...args) {
-        that.reset()
-
-        const value = orig.call(this, ...args)
-        window.dispatchEvent(new window.Event(type.toLowerCase()))
-
-        const nodes = document.getElementsByTagName('tonic-router')
-        for (const node of nodes) node.reRender()
-        return value
-      }
-    }
-
-    window.addEventListener('popstate', e => this.reRender(p => p))
-
-    window.history.pushState = createEvent('pushState')
-    window.history.replaceState = createEvent('replaceState')
-  }
-
-  stylesheet () {
-    return `
-      tonic-router {
-        display: none;
-      }
-
-      tonic-router.tonic--show {
-        display: block;
-      }
-    `
-  }
-
-  reset () {
-    TonicRouter.matches = false
-    const contentTags = document.getElementsByTagName('tonic-router')
-    Array.from(contentTags).forEach(tag => tag.classList.remove('tonic--show'))
-  }
-
-  willConnect () {
-    this.template = document.createElement('template')
-    this.template.innerHTML = this.root.innerHTML
-  }
-
-  updated () {
-    if (!this.root.classList.contains('tonic--show')) return
-    const event = new window.Event('match')
-    this.root.dispatchEvent(event)
-  }
-
-  render () {
-    const none = this.root.hasAttribute('none')
-
-    if (none) {
-      if (TonicRouter.matches) return
-      this.root.classList.add('tonic--show')
-      return this.template.content
-    }
-
-    const path = this.root.getAttribute('path')
-    const keys = []
-    const matcher = TonicRouter.matcher(path, keys)
-    const match = matcher.exec(window.location.pathname)
-
-    if (match) {
-      TonicRouter.matches = true
-
-      match.slice(1).forEach((m, i) => {
-        this.props[keys[i].name] = m
-      })
-
-      this.root.classList.add('tonic--show')
-      return this.template.content
-    }
-
-    return ''
-  }
-}
-
-TonicRouter.matches = false
-TonicRouter.matcher = (() => {
-  //
-  // Most of this was lifted from the path-to-regex project which can
-  // be found here -> https://github.com/pillarjs/path-to-regexp
-  //
-  const DEFAULT_DELIMITER = '/'
-  const DEFAULT_DELIMITERS = './'
-
-  const PATH_REGEXP = new RegExp([
-    '(\\\\.)',
-    '(?:\\:(\\w+)(?:\\(((?:\\\\.|[^\\\\()])+)\\))?|\\(((?:\\\\.|[^\\\\()])+)\\))([+*?])?'
-  ].join('|'), 'g')
-
-  function parse (str, options) {
-    let tokens = []
-    let key = 0
-    let index = 0
-    let path = ''
-    let defaultDelimiter = (options && options.delimiter) || DEFAULT_DELIMITER
-    let delimiters = (options && options.delimiters) || DEFAULT_DELIMITERS
-    let pathEscaped = false
-    let res
-
-    while ((res = PATH_REGEXP.exec(str)) !== null) {
-      let m = res[0]
-      let escaped = res[1]
-      let offset = res.index
-      path += str.slice(index, offset)
-      index = offset + m.length
-
-      // Ignore already escaped sequences.
-      if (escaped) {
-        path += escaped[1]
-        pathEscaped = true
-        continue
-      }
-
-      let prev = ''
-      let next = str[index]
-      let name = res[2]
-      let capture = res[3]
-      let group = res[4]
-      let modifier = res[5]
-
-      if (!pathEscaped && path.length) {
-        let k = path.length - 1
-
-        if (delimiters.indexOf(path[k]) > -1) {
-          prev = path[k]
-          path = path.slice(0, k)
-        }
-      }
-
-      if (path) {
-        tokens.push(path)
-        path = ''
-        pathEscaped = false
-      }
-
-      let partial = prev !== '' && next !== undefined && next !== prev
-      let repeat = modifier === '+' || modifier === '*'
-      let optional = modifier === '?' || modifier === '*'
-      let delimiter = prev || defaultDelimiter
-      let pattern = capture || group
-
-      tokens.push({
-        name: name || key++,
-        prefix: prev,
-        delimiter: delimiter,
-        optional: optional,
-        repeat: repeat,
-        partial: partial,
-        pattern: pattern ? escapeGroup(pattern) : '[^' + escapeString(delimiter) + ']+?'
-      })
-    }
-
-    if (path || index < str.length) {
-      tokens.push(path + str.substr(index))
-    }
-
-    return tokens
-  }
-
-  function escapeString (str) {
-    return str.replace(/([.+*?=^!:${}()[\]|/\\])/g, '\\$1')
-  }
-
-  function escapeGroup (group) {
-    return group.replace(/([=!:$/()])/g, '\\$1')
-  }
-
-  function flags (options) {
-    return options && options.sensitive ? '' : 'i'
-  }
-
-  function regexpToRegexp (path, keys) {
-    if (!keys) return path
-
-    const groups = path.source.match(/\((?!\?)/g)
-
-    if (groups) {
-      for (let i = 0; i < groups.length; i++) {
-        keys.push({
-          name: i,
-          prefix: null,
-          delimiter: null,
-          optional: false,
-          repeat: false,
-          partial: false,
-          pattern: null
-        })
-      }
-    }
-
-    return path
-  }
-
-  function arrayToRegexp (path, keys, options) {
-    let parts = []
-
-    for (let i = 0; i < path.length; i++) {
-      parts.push(pathToRegexp(path[i], keys, options).source)
-    }
-
-    return new RegExp('(?:' + parts.join('|') + ')', flags(options))
-  }
-
-  function stringToRegexp (path, keys, options) {
-    return tokensToRegExp(parse(path, options), keys, options)
-  }
-
-  function tokensToRegExp (tokens, keys, options) {
-    options = options || {}
-
-    let strict = options.strict
-    let end = options.end !== false
-    let delimiter = escapeString(options.delimiter || DEFAULT_DELIMITER)
-    let delimiters = options.delimiters || DEFAULT_DELIMITERS
-    let endsWith = [].concat(options.endsWith || []).map(escapeString).concat('$').join('|')
-    let route = ''
-    let isEndDelimited = tokens.length === 0
-
-    for (let i = 0; i < tokens.length; i++) {
-      let token = tokens[i]
-
-      if (typeof token === 'string') {
-        route += escapeString(token)
-        isEndDelimited = i === tokens.length - 1 && delimiters.indexOf(token[token.length - 1]) > -1
-      } else {
-        let prefix = escapeString(token.prefix)
-        let capture = token.repeat
-          ? '(?:' + token.pattern + ')(?:' + prefix + '(?:' + token.pattern + '))*'
-          : token.pattern
-
-        if (keys) keys.push(token)
-
-        if (token.optional) {
-          if (token.partial) {
-            route += prefix + '(' + capture + ')?'
-          } else {
-            route += '(?:' + prefix + '(' + capture + '))?'
-          }
-        } else {
-          route += prefix + '(' + capture + ')'
-        }
-      }
-    }
-
-    if (end) {
-      if (!strict) route += '(?:' + delimiter + ')?'
-
-      route += endsWith === '$' ? '$' : '(?=' + endsWith + ')'
-    } else {
-      if (!strict) route += '(?:' + delimiter + '(?=' + endsWith + '))?'
-      if (!isEndDelimited) route += '(?=' + delimiter + '|' + endsWith + ')'
-    }
-
-    return new RegExp('^' + route, flags(options))
-  }
-
-  function pathToRegexp (path, keys, options) {
-    if (path instanceof RegExp) {
-      return regexpToRegexp(path, keys)
-    }
-
-    if (Array.isArray(path)) {
-      return arrayToRegexp(/** @type {!Array} */ (path), keys, options)
-    }
-
-    return stringToRegexp(/** @type {string} */ (path), keys, options)
-  }
-
-  return pathToRegexp
-})()
-
-Tonic.add(TonicRouter)
 
 class TonicSelect extends Tonic { /* global Tonic */
   defaults () {
@@ -2897,13 +3723,11 @@ class TonicSelect extends Tonic { /* global Tonic */
       tabAttr
     ].join(' ')
 
-    const options = this.root.innerHTML
-
-    return `
+    return this.html`
       <div class="tonic--wrapper" styles="wrapper">
         ${this.renderLabel()}
         <select styles="select" ${attributes}>
-          ${options}
+          ${this.childNodes}
         </select>
       </div>
     `
@@ -2919,111 +3743,6 @@ TonicSelect.svg.default = () => TonicSelect.svg.toURL(`
 `)
 
 Tonic.add(TonicSelect)
-
-class TonicTabs extends Tonic { /* global Tonic */
-  defaults () {
-    return {}
-  }
-
-  stylesheet () {
-    return `
-      tonic-tabs .tonic--tab {
-        -webkit-appearance: none;
-        border: 0;
-        border-bottom: 2px solid transparent;
-        user-select: none;
-      }
-
-      tonic-tabs .tonic--tab[aria-selected="true"] {
-        border-bottom: 2px solid var(--tonic-accent);
-      }
-    `
-  }
-
-  click (e) {
-    const tab = Tonic.match(e.target, '.tonic--tab')
-    if (!tab) return
-
-    e.preventDefault()
-
-    const tabs = this.root.querySelectorAll(`.tonic--tab`)
-
-    tabs.forEach(tab => {
-      tab.setAttribute('aria-selected', 'false')
-
-      const control = tab.getAttribute('for')
-      const panel = document.querySelector(`tonic-tab-panel[id="${control}"]`)
-      panel.setAttribute('hidden', '')
-    })
-
-    tab.setAttribute('aria-selected', 'true')
-
-    const id = tab.getAttribute('aria-controls')
-    const currentPanel = document.querySelector(`tonic-tab-panel[id="${id}"]`)
-    currentPanel.removeAttribute('hidden')
-  }
-
-  render () {
-    this.root.setAttribute('role', 'tablist')
-
-    return [...this.root.childElements].map(node => {
-      const ariaControls = node.getAttribute('for')
-      const ariaSelected = node.getAttribute('selected')
-
-      return this.html`
-        <a
-          ...${node.attributes}
-          class="tonic--tab"
-          href="#"
-          role="tab"
-          aria-controls="${ariaControls}"
-          aria-selected="${ariaSelected}">
-          ${node.childNodes}
-        </a>
-      `
-    }).join('')
-  }
-}
-
-Tonic.add(TonicTabs)
-
-class TonicTabPanel extends Tonic { /* global Tonic */
-  defaults () {
-    return {}
-  }
-
-  stylesheet () {
-    return `
-      tonic-tab-panel {
-        display: block;
-      }
-
-      tonic-tab-panel[hidden] {
-        display: none;
-      }
-    `
-  }
-
-  click (e) {}
-
-  render () {
-    const {
-      id
-    } = this.props
-
-    this.root.setAttribute('role', 'tabpanel')
-
-    const tab = document.querySelector(`.tonic--tab[for="${id}"]`)
-    const tabid = tab.getAttribute('id')
-    this.root.setAttribute('aria-labelledby', tabid)
-
-    return this.html`
-      ${this.childNodes}
-    `
-  }
-}
-
-Tonic.add(TonicTabPanel)
 
 class TonicTextarea extends Tonic { /* global Tonic */
   defaults () {
@@ -3926,469 +4645,6 @@ class TonicToggle extends Tonic { /* global Tonic */
 
 Tonic.add(TonicToggle)
 
-class TonicTooltip extends Tonic { /* global Tonic */
-  connected () {
-    const target = this.props['for']
-    const el = document.getElementById(target)
-    let timer = null
-
-    const leave = e => {
-      clearTimeout(timer)
-      timer = setTimeout(() => {
-        this.hide()
-      }, 256)
-    }
-
-    el.addEventListener('mouseenter', e => {
-      this.show(el)
-    })
-
-    this.root.addEventListener('mouseenter', e => clearTimeout(timer))
-    this.root.addEventListener('mouseleave', leave)
-    el.addEventListener('mouseleave', leave)
-  }
-
-  defaults (props) {
-    return {
-      width: 'auto',
-      height: 'auto'
-    }
-  }
-
-  stylesheet () {
-    return `
-      tonic-tooltip .tonic--tooltip {
-        color: var(--tonic-primary);
-        position: fixed;
-        background: var(--tonic-window);
-        visibility: hidden;
-        z-index: -1;
-        opacity: 0;
-        border: 1px solid var(--tonic-border);
-        border-radius: 2px;
-        transition: visibility 0.2s ease-in-out, opacity 0.2s ease-in-out, z-index 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-      }
-
-      tonic-tooltip .tonic--tooltip.tonic--show {
-        visibility: visible;
-        opacity: 1;
-        z-index: 1;
-        box-shadow: 0px 30px 90px -20px rgba(0, 0, 0, 0.3);
-      }
-
-      tonic-tooltip .tonic--tooltip .tonic--tooltip-arrow {
-        width: 12px;
-        height: 12px;
-        position: absolute;
-        z-index: -1;
-        background-color: var(--tonic-window);
-        -webkit-transform: rotate(45deg);
-        -ms-transform: rotate(45deg);
-        transform: rotate(45deg);
-        left: 50%;
-      }
-
-      tonic-tooltip .tonic--tooltip .tonic--tooltip-arrow {
-        border: 1px solid transparent;
-        border-radius: 2px;
-        pointer-events: none;
-      }
-
-      tonic-tooltip .tonic--top .tonic--tooltip-arrow {
-        margin-bottom: -6px;
-        bottom: 100%;
-        border-top-color: var(--tonic-border);
-        border-left-color: var(--tonic-border);
-      }
-
-      tonic-tooltip .tonic--bottom .tonic--tooltip-arrow {
-        margin-top: -6px;
-        position: absolute;
-        top: 100%;
-        border-bottom-color: var(--tonic-border);
-        border-right-color: var(--tonic-border);
-      }
-    `
-  }
-
-  show (triggerNode) {
-    clearTimeout(this.timer)
-    this.timer = setTimeout(() => {
-      const tooltip = this.root.querySelector('.tonic--tooltip')
-      const arrow = this.root.querySelector('.tonic--tooltip-arrow')
-
-      let { top, left } = triggerNode.getBoundingClientRect()
-
-      left += triggerNode.offsetWidth / 2
-      left -= tooltip.offsetWidth / 2
-
-      const offset = triggerNode.offsetHeight + (arrow.offsetHeight / 2)
-
-      if (top < (window.innerHeight / 2)) {
-        tooltip.classList.remove('tonic--bottom')
-        tooltip.classList.add('tonic--top')
-        top += offset
-      } else {
-        tooltip.classList.remove('tonic--top')
-        tooltip.classList.add('tonic--bottom')
-        top -= offset + tooltip.offsetHeight
-      }
-
-      tooltip.style.top = `${top}px`
-      tooltip.style.left = `${left}px`
-
-      window.requestAnimationFrame(() => {
-        tooltip.classList.add('tonic--show')
-      })
-
-      window.addEventListener('mousewheel', e => {
-        this.hide()
-      }, { once: true })
-    }, 256)
-  }
-
-  hide () {
-    clearTimeout(this.timer)
-    if (!this.root) return
-
-    const tooltip = this.root.querySelector('.tonic--tooltip')
-    tooltip.classList.remove('tonic--show')
-  }
-
-  styles () {
-    const {
-      width,
-      height
-    } = this.props
-
-    return {
-      tooltip: {
-        width,
-        height
-      }
-    }
-  }
-
-  render () {
-    if (this.props.theme) {
-      this.root.classList.add(`tonic--theme--${this.props.theme}`)
-    }
-
-    return this.html`
-      <div class="tonic--tooltip" styles="tooltip">
-        ${this.childNodes}
-        <span class="tonic--tooltip-arrow"></span>
-      </div>
-    `
-  }
-}
-
-Tonic.add(TonicTooltip)
-
-class Windowed extends Tonic { /* global Tonic */
-  get length () {
-    return this.rows.length
-  }
-
-  defaults () {
-    return {
-      page: 100,
-      rowsPerPage: 100,
-      rowPadding: 50,
-      rowHeight: 30,
-      debug: false
-    }
-  }
-
-  styles () {
-    return {
-      inner: {
-        position: 'relative'
-      },
-
-      outer: {
-        width: '100%',
-        height: 'inherit',
-        overflow: 'auto'
-      }
-    }
-  }
-
-  getRows () {
-    return this.rows
-  }
-
-  push (o) {
-    this.rows = this.rows || []
-    this.rows.push(o)
-  }
-
-  unshift (o) {
-    this.rows = this.rows || []
-    this.rows.unshift(o)
-  }
-
-  pop () {
-    this.rows = this.rows || []
-    this.rows.pop()
-  }
-
-  shift () {
-    this.rows = this.rows || []
-    this.rows.shift()
-  }
-
-  find (fn) {
-    if (!this.rows) return -1
-    return this.rows.find(fn)
-  }
-
-  findIndex (fn) {
-    if (!this.rows) return -1
-    return this.rows.findIndex(fn)
-  }
-
-  splice (...args) {
-    if (!this.rows) return null
-    return this.rows.splice(...args)
-  }
-
-  async getRow (idx) {
-    const el = this.rows[idx]
-    return typeof el === 'function' ? el() : el
-  }
-
-  load (rows = []) {
-    if (!this.root) return
-
-    this.rows = rows
-    this.reRender()
-
-    const outer = this.root.querySelector('.tonic--windowed--outer')
-    if (!outer) return
-
-    this.outerHeight = outer.offsetHeight
-
-    this.numPages = Math.ceil(this.rows.length / this.props.rowsPerPage)
-
-    this.pages = {}
-    this.pagesAvailable = this.pagesAvailable || []
-    this.rowHeight = parseInt(this.props.rowHeight, 10)
-
-    const inner = this.root.querySelector('.tonic--windowed--inner')
-    inner.innerHTML = ''
-    inner.style.height = `${this.rowHeight * this.rows.length}px`
-    this.pageHeight = this.props.rowsPerPage * this.rowHeight
-    this.padding = this.props.rowPadding * this.rowHeight
-
-    this.rePaint()
-  }
-
-  setHeight (height, { render } = {}) {
-    if (!this.root) return
-
-    const outer = this.root.querySelector('.tonic--windowed--outer')
-    if (!outer) return
-
-    outer.style.height = height
-    this.outerHeight = outer.offsetHeight
-
-    if (render !== false) {
-      this.rePaint()
-    }
-  }
-
-  getPage (i) {
-    let page, state
-
-    ;[page, state] = this.pages[i]
-      ? [this.pages[i], 'ok']
-      : this.pagesAvailable.length
-        ? [this.getAvailablePage(i), 'old']
-        : [this.createNewPage(i), 'fresh']
-
-    this.pages[i] = page
-
-    page.style.height = i < this.numPages - 1
-      ? `${this.pageHeight}px`
-      : this.getLastPageHeight()
-
-    page.style.top = this.getPageTop(i)
-    return [page, state]
-  }
-
-  getAvailablePage (i) {
-    const page = this.pagesAvailable.pop()
-    const inner = this.root.querySelector('.tonic--windowed--inner')
-    inner.appendChild(page)
-    return page
-  }
-
-  createNewPage (i) {
-    const page = document.createElement('div')
-
-    Object.assign(page.style, {
-      position: 'absolute',
-      minWidth: '100%',
-      className: 'tonic--windowed--page'
-    })
-
-    if (this.props.debug) {
-      const random = Math.random() * 356
-      page.style.backgroundColor = `hsla(${random}, 100%, 50%, 0.5)`
-    }
-
-    const inner = this.root.querySelector('.tonic--windowed--inner')
-    inner.appendChild(page)
-    return page
-  }
-
-  async rePaint ({ refresh, load } = {}) {
-    if (!this.root) return
-
-    if (refresh && load !== false) this.load(this.rows)
-
-    const outer = this.root.querySelector('.tonic--windowed--outer')
-    if (!outer) return
-
-    const viewStart = outer.scrollTop
-    const viewEnd = viewStart + this.outerHeight
-
-    const _start = Math.floor((viewStart - this.padding) / this.pageHeight)
-    const start = Math.max(_start, 0) || 0
-
-    const _end = Math.floor((viewEnd + this.padding) / this.pageHeight)
-    const end = Math.min(_end, this.numPages - 1)
-    const pagesRendered = {}
-
-    for (let i = start; i <= end; i++) {
-      const [page, state] = this.getPage(i)
-
-      if (state === 'fresh') {
-        await this.fillPage(i)
-      } else if (refresh || state === 'old') {
-        if (this.updateRow) {
-          await this.updatePage(i)
-        } else {
-          page.innerHTML = ''
-          await this.fillPage(i)
-        }
-      }
-      pagesRendered[i] = true
-    }
-
-    const inner = this.root.querySelector('.tonic--windowed--inner')
-
-    for (const i of Object.keys(this.pages)) {
-      if (pagesRendered[i]) continue
-
-      this.pagesAvailable.push(this.pages[i])
-      inner.removeChild(this.pages[i])
-      delete this.pages[i]
-    }
-
-    if (this.state.scrollTop) {
-      outer.scrollTop = this.state.scrollTop
-    }
-  }
-
-  getPageTop (i) {
-    return `${i * this.pageHeight}px`
-  }
-
-  getLastPageHeight (i) {
-    return `${(this.rows.length % this.props.rowsPerPage) * this.rowHeight}px`
-  }
-
-  async fillPage (i) {
-    const page = this.pages[i]
-    const frag = document.createDocumentFragment()
-    const limit = Math.min((i + 1) * this.props.rowsPerPage, this.rows.length)
-
-    for (let j = i * this.props.rowsPerPage; j < limit; j++) {
-      const data = await this.getRow(j)
-      if (!data) continue
-
-      const div = document.createElement('div')
-      div.innerHTML = this.renderRow(data, j)
-      frag.appendChild(div.firstElementChild)
-    }
-
-    window.requestAnimationFrame(() => page.appendChild(frag))
-  }
-
-  async updatePage (i) {
-    const page = this.pages[i]
-    const start = i * this.props.rowsPerPage
-    const limit = Math.min((i + 1) * this.props.rowsPerPage, this.rows.length)
-
-    const inner = this.root.querySelector('.tonic--windowed--inner')
-
-    if (start > limit) {
-      inner.removeChild(page)
-      delete this.pages[i]
-      return
-    }
-
-    for (let j = start, rowIdx = 0; j < limit; j++, rowIdx++) {
-      if (page.children[rowIdx] && this.updateRow) {
-        this.updateRow(await this.getRow(j), page.children[rowIdx])
-      } else {
-        const div = document.createElement('div')
-        div.innerHTML = this.renderRow(await this.getRow(j))
-        page.appendChild(div.firstElementChild)
-      }
-    }
-
-    while (page.children.length > limit - start) {
-      page.removeChild(page.lastChild)
-    }
-  }
-
-  connected () {
-    if (!this.props.data || !this.props.data.length) return
-    this.load(this.props.data)
-  }
-
-  updated () {
-    if (!this.root) return
-
-    const outer = this.root.querySelector('.tonic--windowed--outer')
-
-    outer && outer.addEventListener('scroll', () => {
-      this.state.scrollTop = outer.scrollTop
-      this.rePaint()
-    }, { passive: true })
-  }
-
-  renderLoadingState () {
-    return `<div class="tonic--windowed--loader"></div>`
-  }
-
-  renderEmptyState () {
-    return `<div class="tonic--windowed--empty"></div>`
-  }
-
-  render () {
-    if (!this.rows) {
-      return this.renderLoadingState()
-    }
-
-    if (!this.rows.length) {
-      return this.renderEmptyState()
-    }
-
-    return `
-      <div class="tonic--windowed--outer" styles="outer">
-        <div class="tonic--windowed--inner" styles="inner">
-        </div>
-      </div>
-    `
-  }
-}
-
-Tonic.Windowed = Windowed
-
     }
   
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
@@ -4405,7 +4661,7 @@ class Tonic extends window.HTMLElement {
   }
 
   static _createId () {
-    return Math.random().toString(16).slice(2, 8)
+    return Math.random().toString(16).slice(2)
   }
 
   static match (el, s) {
@@ -4518,7 +4774,7 @@ class Tonic extends window.HTMLElement {
         }).join(' ')
       })
 
-      target.innerHTML = content.trim()
+      target.innerHTML = content
 
       if (this.styles) {
         const styles = this.styles()
@@ -4529,14 +4785,27 @@ class Tonic extends window.HTMLElement {
         }
       }
 
-      for (const node of target.querySelectorAll('tonic-children')) {
-        for (const child of Tonic._children[this._id][node.id]) {
-          node.parentNode.insertBefore(child, node)
-        }
+      const children = Tonic._children[this._id]
 
-        delete Tonic._children[node.id]
-        node.parentNode.removeChild(node)
+      const walk = (node, fn) => {
+        if (node.nodeType === 3) {
+          const id = node.textContent.trim()
+          if (children[id]) return fn(node, children[id])
+        }
+        node = node.firstChild
+        while (node) {
+          walk(node, fn)
+          node = node.nextSibling
+        }
       }
+
+      walk(target, (node, children) => {
+        for (const child of children) {
+          node.parentNode.appendChild(child)
+        }
+        delete Tonic._children[this._id][node.id]
+        node.parentNode.removeChild(node)
+      })
     } else {
       target.innerHTML = ''
       target.appendChild(content.cloneNode(true))
@@ -4559,9 +4828,9 @@ class Tonic extends window.HTMLElement {
   }
 
   _placehold (r) {
-    const ref = Tonic._createId()
+    const ref = `__${Tonic._createId()}__`
     Tonic._children[this._id][ref] = r
-    return `<tonic-children id="${ref}"></tonic-children>`
+    return ref
   }
 
   connectedCallback () {
@@ -4618,6 +4887,7 @@ Object.assign(Tonic, {
   _states: {},
   _children: {},
   _reg: {},
+  _index: 0,
   SPREAD: /\.\.\.(__\w+__\w+__)/g,
   ESC: /["&'<>`]/g,
   MAP: { '"': '&quot;', '&': '&amp;', '\'': '&#x27;', '<': '&lt;', '>': '&gt;', '`': '&#x60;' }
@@ -13996,6 +14266,7 @@ const progressBarThemeDark = document.getElementById('progress-bar-theme-dark')
 progressBarThemeDark.value = 60
 
 let percentage = 0
+let reps = 0
 let interval = null
 
 const progressBarAuto = document.getElementById('progress-bar-auto')
@@ -14004,6 +14275,7 @@ clearInterval(interval)
 interval = setInterval(() => {
   progressBarAuto.setProgress(percentage++)
   if (progressBarAuto.value >= 100) percentage = 0
+  if (++reps === 2) clearInterval(interval)
 }, 128)
 
 },{}],77:[function(require,module,exports){
@@ -14557,27 +14829,27 @@ const components = require('..')
 components(Tonic)
 
 function ready () {
+  require('../src/router/test')
+  require('../src/panel/test')
+  require('../src/dialog/test')
+  require('../src/tabs/test')
+  require('../src/windowed/test')
+  require('../src/tooltip/test')
+  require('../src/popover/test')
   require('../src/badge/test')
   require('../src/button/test')
   require('../src/charts/test')
   require('../src/checkbox/test')
-  require('../src/dialog/test')
   require('../src/icon/test')
   require('../src/input/test')
-  require('../src/panel/test')
-  require('../src/popover/test')
   require('../src/progress-bar/test')
   require('../src/profile-image/test')
   require('../src/range/test')
-  require('../src/router/test')
   require('../src/select/test')
-  require('../src/tabs/test')
   require('../src/textarea/test')
   require('../src/toaster/test')
   require('../src/toaster-inline/test')
   require('../src/toggle/test')
-  require('../src/tooltip/test')
-  require('../src/windowed/test')
 
   document.addEventListener('keydown', e => {
     if (e.keyCode === 9) {

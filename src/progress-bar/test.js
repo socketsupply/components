@@ -20,6 +20,7 @@ const progressBarThemeDark = document.getElementById('progress-bar-theme-dark')
 progressBarThemeDark.value = 60
 
 let percentage = 0
+let reps = 0
 let interval = null
 
 const progressBarAuto = document.getElementById('progress-bar-auto')
@@ -28,4 +29,5 @@ clearInterval(interval)
 interval = setInterval(() => {
   progressBarAuto.setProgress(percentage++)
   if (progressBarAuto.value >= 100) percentage = 0
+  if (++reps === 2) clearInterval(interval)
 }, 128)

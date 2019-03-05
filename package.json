@@ -1,6 +1,6 @@
 {
   "name": "@conductorlab/components",
-  "version": "5.0.2",
+  "version": "5.0.3",
   "description": "Example components",
   "bin": "bin/components",
   "directories": {
@@ -37,7 +37,7 @@
     "tape-run": "^4.0.0"
   },
   "dependencies": {
-    "@conductorlab/tonic": "^9.0.0",
+    "@conductorlab/tonic": "^9.0.1",
     "autoprefixer-stylus": "^0.14.0",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",

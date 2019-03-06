@@ -31,6 +31,9 @@
   font-family: 'Source Code Pro';
   src: url("/fonts/SourceCodePro-Regular.ttf");
 }
+tonic-accordion {
+  width: 100%;
+}
 tonic-badge {
   display: inline-block;
 }

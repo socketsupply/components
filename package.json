@@ -37,7 +37,7 @@
     "tape-run": "^4.0.0"
   },
   "dependencies": {
-    "@conductorlab/tonic": "^9.0.1",
+    "@conductorlab/tonic": "^9.0.2",
     "autoprefixer-stylus": "^0.14.0",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",

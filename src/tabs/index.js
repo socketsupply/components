@@ -1,8 +1,4 @@
 class TonicTabs extends Tonic { /* global Tonic */
-  defaults () {
-    return {}
-  }
-
   stylesheet () {
     return `
       tonic-tabs .tonic--tab {
@@ -55,7 +51,7 @@ class TonicTabs extends Tonic { /* global Tonic */
           role="tab"
           aria-controls="${ariaControls}"
           aria-selected="${ariaSelected}">
-          ${node.innerHTML}
+          ${node.childNodes}
         </a>
       `
     }).join('')
@@ -65,10 +61,6 @@ class TonicTabs extends Tonic { /* global Tonic */
 Tonic.add(TonicTabs)
 
 class TonicTabPanel extends Tonic { /* global Tonic */
-  defaults () {
-    return {}
-  }
-
   stylesheet () {
     return `
       tonic-tab-panel {
@@ -79,8 +71,6 @@ class TonicTabPanel extends Tonic { /* global Tonic */
       }
     `
   }
-
-  click (e) {}
 
   render () {
     const {

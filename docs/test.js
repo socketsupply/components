@@ -1,5 +1,5 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-(function (global){
+(function (global,setImmediate){
 
     //
     // DO NOT EDIT! USE 'npm run build'!
@@ -726,38 +726,43 @@ class TonicTabs extends Tonic { /* global Tonic */
     if (tab) tab.click()
   }
 
-  setPanelVisibility (id) {
+  setVisibility (id) {
     const tabs = this.root.querySelectorAll(`.tonic--tab`)
 
-    tabs.forEach(tab => {
+    console.log('SET VISIBILITY', tabs)
+
+    for (const tab of tabs) {
       const control = tab.getAttribute('for')
       if (!control) return
 
-      const panel = document.querySelector(`tonic-tab-panel[id="${control}"]`)
+      const panel = document.getElementById(control)
+      console.log('PANEL', panel)
       if (!panel) return
 
       if (tab.id === id) {
         panel.removeAttribute('hidden')
         tab.setAttribute('aria-selected', 'true')
+        this.state.selected = id
+        console.log('SET STATE', id)
       } else {
         panel.setAttribute('hidden', '')
         tab.setAttribute('aria-selected', 'false')
       }
-    })
+    }
   }
 
   click (e) {
     const tab = Tonic.match(e.target, '.tonic--tab')
     if (!tab) return
-
-    e.preventDefault()
-    this.setPanelVisibility(tab.id)
-    tab.setAttribute('aria-selected', 'true')
+    this.setVisibility(tab.id)
   }
 
   connected () {
-    const id = this.props.selected
-    this.setPanelVisibility(id)
+    const id = this.state.selected || this.props.selected
+    console.log('CONNECTED', this.state)
+    setImmediate(() => {
+      this.setVisibility(id)
+    })
   }
 
   render () {
@@ -2829,16 +2834,9 @@ class TonicProgressBar extends Tonic { /* global Tonic */
 Tonic.add(TonicProgressBar)
 
 class TonicProfileImage extends Tonic { /* global Tonic */
-  constructor (args) {
-    super(args)
-
-    const that = this
-    Object.defineProperty(this.root, 'value', {
-      get () {
-        const state = that.getState()
-        return state.data || that.props.src
-      }
-    })
+  get value () {
+    const state = this.getState()
+    return state.data || this.props.src
   }
 
   defaults () {
@@ -4397,8 +4395,8 @@ Tonic.add(TonicToggle)
 
     }
   
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],2:[function(require,module,exports){
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
+},{"timers":64}],2:[function(require,module,exports){
 class Tonic extends window.HTMLElement {
   constructor () {
     super()
@@ -4406,7 +4404,6 @@ class Tonic extends window.HTMLElement {
     delete Tonic._states[this.id]
     this.state = state || {}
     this.props = {}
-    this.root = this.shadowRoot || this
     this._events()
   }
 
@@ -4419,7 +4416,7 @@ class Tonic extends window.HTMLElement {
     return el.matches(s) ? el : el.closest(s)
   }
 
-  static add (c, root) {
+  static add (c) {
     c.prototype._props = Object.getOwnPropertyNames(c.prototype)
 
     if (!c.name || c.name.length === 1) {
@@ -4483,9 +4480,8 @@ class Tonic extends window.HTMLElement {
   }
 
   reRender (o = this.props) {
-    if (!this.root) return
     this.props = Tonic.sanitize(typeof o === 'function' ? o(this.props) : o)
-    this._set(this.root, this.render())
+    this._set(this, this.render())
 
     if (this.updated) {
       const oldProps = JSON.parse(JSON.stringify(this.props))
@@ -4505,7 +4501,7 @@ class Tonic extends window.HTMLElement {
     const hp = Object.getOwnPropertyNames(window.HTMLElement.prototype)
     for (const p of this._props) {
       if (hp.indexOf('on' + p) === -1) continue
-      this.root.addEventListener(p, this)
+      this.addEventListener(p, this)
     }
   }
 
@@ -4566,8 +4562,6 @@ class Tonic extends window.HTMLElement {
       styleNode.appendChild(document.createTextNode(this.stylesheet()))
       target.insertBefore(styleNode, target.firstChild)
     }
-
-    this.root = target
   }
 
   _prop (o) {
@@ -4584,13 +4578,8 @@ class Tonic extends window.HTMLElement {
   }
 
   connectedCallback () {
-    if (this._id) return
-
-    this.root = (this.shadowRoot || this)
+    this.root = this
     this.childElements = this.children
-    this._id = Tonic._createId()
-    Tonic._data[this._id] = {}
-    Tonic._children[this._id] = {}
 
     if (this.wrap) {
       const render = this.render
@@ -4618,8 +4607,18 @@ class Tonic extends window.HTMLElement {
       (this.defaults && this.defaults()) || {},
       Tonic.sanitize(this.props))
 
+    if (!this._id) {
+      this.source = this.innerHTML
+    } else {
+      this.innerHTML = this.source
+    }
+
+    this._id = Tonic._createId()
+    Tonic._data[this._id] = {}
+    Tonic._children[this._id] = {}
+
     this.willConnect && this.willConnect()
-    this._set(this.root, this.render())
+    this._set(this, this.render())
     this.connected && this.connected()
   }
 
@@ -4627,7 +4626,6 @@ class Tonic extends window.HTMLElement {
     this.disconnected && this.disconnected()
     delete Tonic._data[this._id]
     delete Tonic._children[this._id]
-    delete this.root
     Tonic._refs.splice(index, 1)
   }
 }
@@ -14051,8 +14049,34 @@ page2.addEventListener('match', () => {
 },{}],79:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
 },{"dup":4}],80:[function(require,module,exports){
-arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],81:[function(require,module,exports){
+const Tonic = require('@conductorlab/tonic')
+const tape = require('../../test/tape')
+const { qs } = require('qs')
+
+class ComponentContainer extends Tonic {
+  click () {
+    console.log('COMPONENT CONTAINER CLICK')
+    this.reRender()
+  }
+
+  render () {
+    return this.html`
+      ${this.childNodes}
+    `
+  }
+}
+
+Tonic.add(ComponentContainer)
+
+tape('{{tabs-3}} has correct default state', t => {
+  const container = qs('component-container')
+
+  t.ok(container, 'rendered')
+  console.log(container)
+  t.end()
+})
+
+},{"../../test/tape":87,"@conductorlab/tonic":2,"qs":37}],81:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
 },{"dup":4}],82:[function(require,module,exports){
 // Default inline toaster

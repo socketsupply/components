@@ -724,38 +724,43 @@ class TonicTabs extends Tonic { /* global Tonic */
     if (tab) tab.click()
   }
 
-  setPanelVisibility (id) {
+  setVisibility (id) {
     const tabs = this.root.querySelectorAll(`.tonic--tab`)
 
-    tabs.forEach(tab => {
+    console.log('SET VISIBILITY', tabs)
+
+    for (const tab of tabs) {
       const control = tab.getAttribute('for')
       if (!control) return
 
-      const panel = document.querySelector(`tonic-tab-panel[id="${control}"]`)
+      const panel = document.getElementById(control)
+      console.log('PANEL', panel)
       if (!panel) return
 
       if (tab.id === id) {
         panel.removeAttribute('hidden')
         tab.setAttribute('aria-selected', 'true')
+        this.state.selected = id
+        console.log('SET STATE', id)
       } else {
         panel.setAttribute('hidden', '')
         tab.setAttribute('aria-selected', 'false')
       }
-    })
+    }
   }
 
   click (e) {
     const tab = Tonic.match(e.target, '.tonic--tab')
     if (!tab) return
-
-    e.preventDefault()
-    this.setPanelVisibility(tab.id)
-    tab.setAttribute('aria-selected', 'true')
+    this.setVisibility(tab.id)
   }
 
   connected () {
-    const id = this.props.selected
-    this.setPanelVisibility(id)
+    const id = this.state.selected || this.props.selected
+    console.log('CONNECTED', this.state)
+    setImmediate(() => {
+      this.setVisibility(id)
+    })
   }
 
   render () {
@@ -2827,16 +2832,9 @@ class TonicProgressBar extends Tonic { /* global Tonic */
 Tonic.add(TonicProgressBar)
 
 class TonicProfileImage extends Tonic { /* global Tonic */
-  constructor (args) {
-    super(args)
-
-    const that = this
-    Object.defineProperty(this.root, 'value', {
-      get () {
-        const state = that.getState()
-        return state.data || that.props.src
-      }
-    })
+  get value () {
+    const state = this.getState()
+    return state.data || this.props.src
   }
 
   defaults () {

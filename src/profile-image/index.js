@@ -1,14 +1,7 @@
 class TonicProfileImage extends Tonic { /* global Tonic */
-  constructor (args) {
-    super(args)
-
-    const that = this
-    Object.defineProperty(this.root, 'value', {
-      get () {
-        const state = that.getState()
-        return state.data || that.props.src
-      }
-    })
+  get value () {
+    const state = this.getState()
+    return state.data || this.props.src
   }
 
   defaults () {

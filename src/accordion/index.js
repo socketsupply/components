@@ -35,24 +35,20 @@ class TonicAccordion extends Tonic { /* global Tonic */
       const triggers = this.qsa('.tonic--accordion-header')
       const panels = this.qsa('.tonic--accordion-panel')
 
-      triggers.forEach(trigger => {
-        trigger.setAttribute('aria-expanded', 'false')
-      })
-
-      panels.forEach(panel => {
-        panel.setAttribute('hidden', '')
-      })
+      triggers.forEach(el => el.setAttribute('aria-expanded', 'false'))
+      panels.forEach(el => el.setAttribute('hidden', ''))
     }
 
     const id = trigger.getAttribute('aria-controls')
 
     if (isExpanded) {
       trigger.setAttribute('aria-expanded', 'false')
-      const currentPanel = this.qs(`#${id}`)
+      const currentPanel = document.getElementById(id)
       currentPanel.setAttribute('hidden', '')
     } else {
       trigger.setAttribute('aria-expanded', 'true')
-      const currentPanel = this.qs(`#${id}`)
+      const currentPanel = document.getElementById(id)
+      this.state.selected = id
       currentPanel.removeAttribute('hidden')
     }
   }
@@ -93,6 +89,11 @@ class TonicAccordion extends Tonic { /* global Tonic */
       }
       e.preventDefault()
     }
+  }
+
+  connected () {
+    const id = this.state.selected || this.props.selected
+    setImmediate(() => this.setVisibility(id))
   }
 
   render () {

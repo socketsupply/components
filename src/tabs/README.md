@@ -6,11 +6,10 @@ The `tonic-tabs` and `tonic-tab-panel` components create a tab list that activat
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
-    <tonic-tabs>
+    <tonic-tabs selected="tab-2">
       <tonic-tab
         id="tab-1"
-        for="tab-panel-1"
-        selected="true">One</tonic-tab>
+        for="tab-panel-1">One</tonic-tab>
       <tonic-tab
         id="tab-2"
         for="tab-panel-2">Two</tonic-tab>
@@ -21,10 +20,10 @@ The `tonic-tabs` and `tonic-tab-panel` components create a tab list that activat
     <tonic-tab-panel id="tab-panel-1">
       Content One
     </tonic-tab-panel>
-    <tonic-tab-panel id="tab-panel-2" hidden>
+    <tonic-tab-panel id="tab-panel-2">
       Content Two
     </tonic-tab-panel>
-    <tonic-tab-panel id="tab-panel-3" hidden>
+    <tonic-tab-panel id="tab-panel-3">
       Content Three
     </tonic-tab-panel>
   </div>
@@ -32,18 +31,20 @@ The `tonic-tabs` and `tonic-tab-panel` components create a tab list that activat
 
 ## Code
 
-The tabs are grouped under the `tonic-tabs` component. Each tab should be a `tonic-tab` element, and it is associated to a `tonic-tab-panel` id with the `for` element.
+The tabs are grouped under the `tonic-tabs` component. Each tab should be a
+`tonic-tab` element, and is associated to a `tonic-tab-panel` id with the
+`for` element.
 
-The default selected tab should have the `selected` attribute.
+The selected tab should specified by providing an `id` as the value
+for the `selected` attribute on the `tonic-tabs` component.
 
 #### HTML
 ```html
-<tonic-tabs>
+<tonic-tabs selected="tab-2">
 
   <tonic-tab
     id="tab-1"
-    for="tab-panel-1"
-    selected="true">
+    for="tab-panel-1">
     One
   </tonic-tab>
 
@@ -64,26 +65,31 @@ The default selected tab should have the `selected` attribute.
 
 ---
 
-Specify which `tonic-tab-panel` should be showing by marking the other panels as `hidden` by default.
-
 #### HTML
+
 ```html
 <tonic-tab-panel id="tab-panel-1">
   Content One
 </tonic-tab-panel>
 
-<tonic-tab-panel id="tab-panel-2" hidden>
+<tonic-tab-panel id="tab-panel-2">
   Content Two
 </tonic-tab-panel>
 
-<tonic-tab-panel id="tab-panel-3" hidden>
+<tonic-tab-panel id="tab-panel-3">
   Content Three
 </tonic-tab-panel>
 ```
 
-## Api
+## API
 
 ### Properties
+
+*for `tonic-tabs`*
+
+| Property | Type | Description | Default |
+| :--- | :--- | :--- | :--- |
+| `selected` | *string* | Adds the `id` attribute. | |
 
 *for `tonic-tab`*
 
@@ -91,7 +97,6 @@ Specify which `tonic-tab-panel` should be showing by marking the other panels as
 | :--- | :--- | :--- | :--- |
 | `id` | *string* | Adds the `id` attribute. <span class="req">required</span> | |
 | `for` | *string* | Adds the `id` attribute. <span class="req">required</span> | |
-| `selected` | *boolean* | Adds the `id` attribute. | |
 
 *for `tonic-tab-panel`*
 
@@ -101,8 +106,10 @@ Specify which `tonic-tab-panel` should be showing by marking the other panels as
 
 ### Instance Methods & Members
 
-*for `tonic-tab`*
+*for `tonic-tabs`*
 
 | Method | Description |
 | :--- | :--- |
 | `click()` | Click event. |
+| `get value` | Get the currently selected tab. |
+| `set selected(String)` | Set the currently selected tab. |

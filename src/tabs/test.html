@@ -5,11 +5,10 @@
   <div id="tabs-1" class="test-container">
     <span>Default Tabs</span>
 
-    <tonic-tabs>
+    <tonic-tabs selected="tab-2">
       <tonic-tab
         id="tab-1"
-        for="tab-panel-1"
-        selected="true">One</tonic-tab>
+        for="tab-panel-1">One</tonic-tab>
       <tonic-tab
         id="tab-2"
         for="tab-panel-2">Two</tonic-tab>
@@ -19,19 +18,18 @@
     </tonic-tabs>
 
     <tonic-tab-panel id="tab-panel-1">Content One</tonic-tab-panel>
-    <tonic-tab-panel id="tab-panel-2" hidden>Content Two</tonic-tab-panel>
-    <tonic-tab-panel id="tab-panel-3" hidden>Content Three</tonic-tab-panel>
+    <tonic-tab-panel id="tab-panel-2">Content Two</tonic-tab-panel>
+    <tonic-tab-panel id="tab-panel-3">Content Three</tonic-tab-panel>
   </div>
 
   <!-- Default tabs -->
   <div id="tabs-2" class="test-container">
     <span>Tabs with nesting</span>
 
-    <tonic-tabs>
+    <tonic-tabs selected="tab-4">
       <tonic-tab
         id="tab-4"
-        for="tab-panel-4"
-        selected="true">One</tonic-tab>
+        for="tab-panel-4">One</tonic-tab>
       <tonic-tab
         id="tab-5"
         for="tab-panel-5">Two</tonic-tab>
@@ -47,7 +45,7 @@
         <option value="c">c</option>
       </tonic-select>
     </tonic-tab-panel>
-    <tonic-tab-panel id="tab-panel-5" hidden>
+    <tonic-tab-panel id="tab-panel-5">
       <tonic-accordion>
         <tonic-accordion-section
           name="accordion-test-4"
@@ -70,6 +68,6 @@
         </tonic-accordion-section>
       </tonic-accordion>
     </tonic-tab-panel>
-    <tonic-tab-panel id="tab-panel-6" hidden>Content Three</tonic-tab-panel>
+    <tonic-tab-panel id="tab-panel-6">Content Three</tonic-tab-panel>
   </div>
 </section>

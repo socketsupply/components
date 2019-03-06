@@ -1147,35 +1147,55 @@ class TonicTabs extends Tonic { /* global Tonic */
     `
   }
 
+  get value () {
+    const currentTab = this.root.querySelector('[aria-selected="true"]')
+    if (currentTab) return currentTab.id
+  }
+
+  set selected (value) {
+    const tab = this.root.getElementById(value)
+    if (tab) tab.click()
+  }
+
+  setPanelVisibility (id) {
+    const tabs = this.root.querySelectorAll(`.tonic--tab`)
+
+    tabs.forEach(tab => {
+      const control = tab.getAttribute('for')
+      if (!control) return
+
+      const panel = document.querySelector(`tonic-tab-panel[id="${control}"]`)
+      if (!panel) return
+
+      if (tab.id === id) {
+        panel.removeAttribute('hidden')
+        tab.setAttribute('aria-selected', 'true')
+      } else {
+        panel.setAttribute('hidden', '')
+        tab.setAttribute('aria-selected', 'false')
+      }
+    })
+  }
+
   click (e) {
     const tab = Tonic.match(e.target, '.tonic--tab')
     if (!tab) return
 
     e.preventDefault()
-
-    const tabs = this.root.querySelectorAll(`.tonic--tab`)
-
-    tabs.forEach(tab => {
-      tab.setAttribute('aria-selected', 'false')
-
-      const control = tab.getAttribute('for')
-      const panel = document.querySelector(`tonic-tab-panel[id="${control}"]`)
-      panel.setAttribute('hidden', '')
-    })
-
+    this.setPanelVisibility(tab.id)
     tab.setAttribute('aria-selected', 'true')
+  }
 
-    const id = tab.getAttribute('aria-controls')
-    const currentPanel = document.querySelector(`tonic-tab-panel[id="${id}"]`)
-    currentPanel.removeAttribute('hidden')
+  connected () {
+    const id = this.props.selected
+    this.setPanelVisibility(id)
   }
 
   render () {
     this.root.setAttribute('role', 'tablist')
 
-    return [...this.root.childElements].map(node => {
+    return [...this.root.childElements].map((node, index) => {
       const ariaControls = node.getAttribute('for')
-      const ariaSelected = node.getAttribute('selected')
 
       return this.html`
         <a
@@ -1184,7 +1204,7 @@ class TonicTabs extends Tonic { /* global Tonic */
           href="#"
           role="tab"
           aria-controls="${ariaControls}"
-          aria-selected="${ariaSelected}">
+          aria-selected="false">
           ${node.childNodes}
         </a>
       `

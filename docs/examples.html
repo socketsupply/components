@@ -2196,11 +2196,10 @@ select.addEventListener(<span class="hljs-string">'change'</span>, ({ target }) 
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
-    <tonic-tabs>
+    <tonic-tabs selected="tab-2">
       <tonic-tab
         id="tab-1"
-        for="tab-panel-1"
-        selected="true">One</tonic-tab>
+        for="tab-panel-1">One</tonic-tab>
       <tonic-tab
         id="tab-2"
         for="tab-panel-2">Two</tonic-tab>
@@ -2211,25 +2210,27 @@ select.addEventListener(<span class="hljs-string">'change'</span>, ({ target }) 
     <tonic-tab-panel id="tab-panel-1">
       Content One
     </tonic-tab-panel>
-    <tonic-tab-panel id="tab-panel-2" hidden>
+    <tonic-tab-panel id="tab-panel-2">
       Content Two
     </tonic-tab-panel>
-    <tonic-tab-panel id="tab-panel-3" hidden>
+    <tonic-tab-panel id="tab-panel-3">
       Content Three
     </tonic-tab-panel>
   </div>
 </div>
 
 <h2>Code</h2>
-<p>The tabs are grouped under the <code>tonic-tabs</code> component. Each tab should be a <code>tonic-tab</code> element, and it is associated to a <code>tonic-tab-panel</code> id with the <code>for</code> element.</p>
-<p>The default selected tab should have the <code>selected</code> attribute.</p>
+<p>The tabs are grouped under the <code>tonic-tabs</code> component. Each tab should be a
+<code>tonic-tab</code> element, and is associated to a <code>tonic-tab-panel</code> id with the
+<code>for</code> element.</p>
+<p>The selected tab should specified by providing an <code>id</code> as the value
+for the <code>selected</code> attribute on the <code>tonic-tabs</code> component.</p>
 <h4>HTML</h4>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-tabs</span>&gt;</span>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-tabs</span> <span class="hljs-attr">selected</span>=<span class="hljs-string">"tab-2"</span>&gt;</span>
 
   <span class="hljs-tag">&lt;<span class="hljs-name">tonic-tab</span>
     <span class="hljs-attr">id</span>=<span class="hljs-string">"tab-1"</span>
-    <span class="hljs-attr">for</span>=<span class="hljs-string">"tab-panel-1"</span>
-    <span class="hljs-attr">selected</span>=<span class="hljs-string">"true"</span>&gt;</span>
+    <span class="hljs-attr">for</span>=<span class="hljs-string">"tab-panel-1"</span>&gt;</span>
     One
   <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-tab</span>&gt;</span>
 
@@ -2247,21 +2248,37 @@ select.addEventListener(<span class="hljs-string">'change'</span>, ({ target }) 
 
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-tabs</span>&gt;</span></code></pre>
 <hr>
-<p>Specify which <code>tonic-tab-panel</code> should be showing by marking the other panels as <code>hidden</code> by default.</p>
 <h4>HTML</h4>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-tab-panel</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"tab-panel-1"</span>&gt;</span>
   Content One
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-tab-panel</span>&gt;</span>
 
-<span class="hljs-tag">&lt;<span class="hljs-name">tonic-tab-panel</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"tab-panel-2"</span> <span class="hljs-attr">hidden</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">tonic-tab-panel</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"tab-panel-2"</span>&gt;</span>
   Content Two
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-tab-panel</span>&gt;</span>
 
-<span class="hljs-tag">&lt;<span class="hljs-name">tonic-tab-panel</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"tab-panel-3"</span> <span class="hljs-attr">hidden</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">tonic-tab-panel</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"tab-panel-3"</span>&gt;</span>
   Content Three
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-tab-panel</span>&gt;</span></code></pre>
-<h2>Api</h2>
+<h2>API</h2>
 <h3>Properties</h3>
+<p><em>for <code>tonic-tabs</code></em></p>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>selected</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds the <code>id</code> attribute.</td>
+<td align="left"></td>
+</tr>
+</tbody></table>
 <p><em>for <code>tonic-tab</code></em></p>
 <table>
 <thead>
@@ -2284,12 +2301,6 @@ select.addEventListener(<span class="hljs-string">'change'</span>, ({ target }) 
 <td align="left">Adds the <code>id</code> attribute. <span class="req">required</span></td>
 <td align="left"></td>
 </tr>
-<tr>
-<td align="left"><code>selected</code></td>
-<td align="left"><em>boolean</em></td>
-<td align="left">Adds the <code>id</code> attribute.</td>
-<td align="left"></td>
-</tr>
 </tbody></table>
 <p><em>for <code>tonic-tab-panel</code></em></p>
 <table>
@@ -2309,7 +2320,7 @@ select.addEventListener(<span class="hljs-string">'change'</span>, ({ target }) 
 </tr>
 </tbody></table>
 <h3>Instance Methods &amp; Members</h3>
-<p><em>for <code>tonic-tab</code></em></p>
+<p><em>for <code>tonic-tabs</code></em></p>
 <table>
 <thead>
 <tr>
@@ -2320,6 +2331,14 @@ select.addEventListener(<span class="hljs-string">'change'</span>, ({ target }) 
 <tbody><tr>
 <td align="left"><code>click()</code></td>
 <td align="left">Click event.</td>
+</tr>
+<tr>
+<td align="left"><code>get value</code></td>
+<td align="left">Get the currently selected tab.</td>
+</tr>
+<tr>
+<td align="left"><code>set selected(String)</code></td>
+<td align="left">Set the currently selected tab.</td>
 </tr>
 </tbody></table>
 

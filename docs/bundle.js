@@ -1133,10 +1133,6 @@ Dialog.svg.closeIcon = color => Dialog.svg.toURL(`
 Tonic.Dialog = Dialog
 
 class TonicTabs extends Tonic { /* global Tonic */
-  defaults () {
-    return {}
-  }
-
   stylesheet () {
     return `
       tonic-tabs .tonic--tab {
@@ -1199,10 +1195,6 @@ class TonicTabs extends Tonic { /* global Tonic */
 Tonic.add(TonicTabs)
 
 class TonicTabPanel extends Tonic { /* global Tonic */
-  defaults () {
-    return {}
-  }
-
   stylesheet () {
     return `
       tonic-tab-panel {
@@ -1213,8 +1205,6 @@ class TonicTabPanel extends Tonic { /* global Tonic */
       }
     `
   }
-
-  click (e) {}
 
   render () {
     const {

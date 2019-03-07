@@ -748,6 +748,8 @@ class TonicTabs extends Tonic { /* global Tonic */
   click (e) {
     const tab = Tonic.match(e.target, '.tonic--tab')
     if (!tab) return
+
+    e.preventDefault()
     this.setVisibility(tab.id)
   }
 
@@ -836,6 +838,11 @@ class TonicAccordion extends Tonic { /* global Tonic */
 
   setVisibility (id) {
     const trigger = document.getElementById(id)
+    if (!trigger) {
+      console.log('TRIGGER NOT FOUND', id)
+      return
+    }
+
     const allowMultiple = this.root.hasAttribute('data-allow-multiple')
     const isExpanded = trigger.getAttribute('aria-expanded') === 'true'
 
@@ -849,20 +856,23 @@ class TonicAccordion extends Tonic { /* global Tonic */
 
     const panelId = trigger.getAttribute('aria-controls')
 
+    console.log('TRIGGER', trigger, panelId)
+
     if (isExpanded) {
       trigger.setAttribute('aria-expanded', 'false')
       const currentPanel = document.getElementById(panelId)
-      currentPanel.setAttribute('hidden', '')
-    } else {
-      trigger.setAttribute('aria-expanded', 'true')
-      const currentPanel = document.getElementById(panelId)
-      this.state.selected = id
-      currentPanel.removeAttribute('hidden')
+      if (currentPanel) currentPanel.setAttribute('hidden', '')
+      return
     }
+
+    trigger.setAttribute('aria-expanded', 'true')
+    const currentPanel = document.getElementById(panelId)
+    this.state.selected = id
+    if (currentPanel) currentPanel.removeAttribute('hidden')
   }
 
   click (e) {
-    const trigger = Tonic.match(e.target, '.tonic--accordion-header')
+    const trigger = Tonic.match(e.target, 'button')
     if (!trigger) return
 
     e.preventDefault()
@@ -870,7 +880,7 @@ class TonicAccordion extends Tonic { /* global Tonic */
   }
 
   keydown (e) {
-    const trigger = Tonic.match(e.target, 'button.title')
+    const trigger = Tonic.match(e.target, 'button.tonic--title')
     if (!trigger) return
 
     const CTRL = e.ctrlKey
@@ -882,7 +892,7 @@ class TonicAccordion extends Tonic { /* global Tonic */
     const HOME = e.metaKey && e.code === 'ArrowUp'
 
     const ctrlModifier = CTRL && (PAGEUP || PAGEDOWN)
-    const triggers = this.qsa('button.title')
+    const triggers = this.qsa('button.tonic--title')
 
     if ((UPARROW || DOWNARROW) || ctrlModifier) {
       const index = triggers.indexOf(e.target)
@@ -909,6 +919,8 @@ class TonicAccordion extends Tonic { /* global Tonic */
 
   connected () {
     const id = this.state.selected || this.props.selected
+    if (!id) return
+
     setImmediate(() => this.setVisibility(id))
   }
 
@@ -1018,12 +1030,13 @@ class TonicAccordionSection extends Tonic {
     return this.html`
       <h4
         class="tonic--accordion-header"
-        id="tonic--accordion-header-${id}"
-        name="${name}"
-        role="heading"
-        aria-expanded="false"
-        aria-controls="tonic--accordion-panel-${id}">
-        <button class="tonic--title">
+        role="heading">
+        <button
+          class="tonic--title"
+          id="tonic--accordion-header-${id}"
+          name="${name}"
+          aria-expanded="false"
+          aria-controls="tonic--accordion-panel-${id}">
           <span class="tonic--label">${label}</span>
           <span class="tonic--arrow"></span>
         </button>

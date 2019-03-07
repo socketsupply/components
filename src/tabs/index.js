@@ -47,6 +47,8 @@ class TonicTabs extends Tonic { /* global Tonic */
   click (e) {
     const tab = Tonic.match(e.target, '.tonic--tab')
     if (!tab) return
+
+    e.preventDefault()
     this.setVisibility(tab.id)
   }
 

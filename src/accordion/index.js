@@ -22,12 +22,8 @@ class TonicAccordion extends Tonic { /* global Tonic */
     return [...this.root.querySelectorAll(s)]
   }
 
-  click (e) {
-    const trigger = Tonic.match(e.target, '.tonic--accordion-header')
-    if (!trigger) return
-
-    e.preventDefault()
-
+  setVisibility (id) {
+    const trigger = document.getElementById(id)
     const allowMultiple = this.root.hasAttribute('data-allow-multiple')
     const isExpanded = trigger.getAttribute('aria-expanded') === 'true'
 
@@ -39,18 +35,26 @@ class TonicAccordion extends Tonic { /* global Tonic */
       panels.forEach(el => el.setAttribute('hidden', ''))
     }
 
-    const id = trigger.getAttribute('aria-controls')
+    const panelId = trigger.getAttribute('aria-controls')
 
     if (isExpanded) {
       trigger.setAttribute('aria-expanded', 'false')
-      const currentPanel = document.getElementById(id)
+      const currentPanel = document.getElementById(panelId)
       currentPanel.setAttribute('hidden', '')
     } else {
       trigger.setAttribute('aria-expanded', 'true')
-      const currentPanel = document.getElementById(id)
+      const currentPanel = document.getElementById(panelId)
       this.state.selected = id
       currentPanel.removeAttribute('hidden')
     }
+  }
+
+  click (e) {
+    const trigger = Tonic.match(e.target, '.tonic--accordion-header')
+    if (!trigger) return
+
+    e.preventDefault()
+    this.setVisibility(trigger.id)
   }
 
   keydown (e) {

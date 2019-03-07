@@ -1160,21 +1160,17 @@ class TonicTabs extends Tonic { /* global Tonic */
   setVisibility (id) {
     const tabs = this.root.querySelectorAll(`.tonic--tab`)
 
-    console.log('SET VISIBILITY', tabs)
-
     for (const tab of tabs) {
       const control = tab.getAttribute('for')
       if (!control) return
 
       const panel = document.getElementById(control)
-      console.log('PANEL', panel)
       if (!panel) return
 
       if (tab.id === id) {
         panel.removeAttribute('hidden')
         tab.setAttribute('aria-selected', 'true')
         this.state.selected = id
-        console.log('SET STATE', id)
       } else {
         panel.setAttribute('hidden', '')
         tab.setAttribute('aria-selected', 'false')
@@ -1190,10 +1186,7 @@ class TonicTabs extends Tonic { /* global Tonic */
 
   connected () {
     const id = this.state.selected || this.props.selected
-    console.log('CONNECTED', this.state)
-    setImmediate(() => {
-      this.setVisibility(id)
-    })
+    setImmediate(() => this.setVisibility(id))
   }
 
   render () {
@@ -1274,12 +1267,8 @@ class TonicAccordion extends Tonic { /* global Tonic */
     return [...this.root.querySelectorAll(s)]
   }
 
-  click (e) {
-    const trigger = Tonic.match(e.target, '.tonic--accordion-header')
-    if (!trigger) return
-
-    e.preventDefault()
-
+  setVisibility (id) {
+    const trigger = document.getElementById(id)
     const allowMultiple = this.root.hasAttribute('data-allow-multiple')
     const isExpanded = trigger.getAttribute('aria-expanded') === 'true'
 
@@ -1287,26 +1276,30 @@ class TonicAccordion extends Tonic { /* global Tonic */
       const triggers = this.qsa('.tonic--accordion-header')
       const panels = this.qsa('.tonic--accordion-panel')
 
-      triggers.forEach(trigger => {
-        trigger.setAttribute('aria-expanded', 'false')
-      })
-
-      panels.forEach(panel => {
-        panel.setAttribute('hidden', '')
-      })
+      triggers.forEach(el => el.setAttribute('aria-expanded', 'false'))
+      panels.forEach(el => el.setAttribute('hidden', ''))
     }
 
-    const id = trigger.getAttribute('aria-controls')
+    const panelId = trigger.getAttribute('aria-controls')
 
     if (isExpanded) {
       trigger.setAttribute('aria-expanded', 'false')
-      const currentPanel = this.qs(`#${id}`)
+      const currentPanel = document.getElementById(panelId)
       currentPanel.setAttribute('hidden', '')
     } else {
       trigger.setAttribute('aria-expanded', 'true')
-      const currentPanel = this.qs(`#${id}`)
+      const currentPanel = document.getElementById(panelId)
+      this.state.selected = id
       currentPanel.removeAttribute('hidden')
     }
+  }
+
+  click (e) {
+    const trigger = Tonic.match(e.target, '.tonic--accordion-header')
+    if (!trigger) return
+
+    e.preventDefault()
+    this.setVisibility(trigger.id)
   }
 
   keydown (e) {
@@ -1345,6 +1338,11 @@ class TonicAccordion extends Tonic { /* global Tonic */
       }
       e.preventDefault()
     }
+  }
+
+  connected () {
+    const id = this.state.selected || this.props.selected
+    setImmediate(() => this.setVisibility(id))
   }
 
   render () {

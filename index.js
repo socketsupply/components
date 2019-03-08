@@ -764,10 +764,13 @@ class TonicTabs extends Tonic { /* global Tonic */
     return [...this.root.childElements].map((node, index) => {
       const ariaControls = node.getAttribute('for')
 
+      if (node.attributes.class) {
+        node.attributes.class.value += ' tonic--tab'
+      }
+
       return this.html`
         <a
           ...${node.attributes}
-          class="tonic--tab"
           href="#"
           role="tab"
           aria-controls="${ariaControls}"

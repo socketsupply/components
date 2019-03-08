@@ -70,7 +70,6 @@ class TonicTabs extends Tonic { /* global Tonic */
       return this.html`
         <a
           ...${node.attributes}
-          class="tonic--tab"
           href="#"
           role="tab"
           aria-controls="${ariaControls}"

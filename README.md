@@ -58,7 +58,7 @@ body, *[theme="light"] {
 
 ```css
 *[theme="dark"] {
-  --tonoc-window: rgba(45, 47, 49, 1);
+  --tonic-window: rgba(45, 47, 49, 1);
   --tonic-primary: rgba(255, 255, 255, 1);
   --tonic-disabled: rgba(170, 170, 170, 1);
   --tonic-secondary: rgba(195, 195, 195, 1);
@@ -80,4 +80,10 @@ body, *[theme="light"] {
 ```bash
 npm install
 npm run dev
+```
+
+Go to:
+
+```
+https://localhost:8080/
 ```

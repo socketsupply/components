@@ -753,6 +753,37 @@ class TonicTabs extends Tonic { /* global Tonic */
     this.setVisibility(tab.id)
   }
 
+  qsa (s) {
+    return [...this.root.querySelectorAll(s)]
+  }
+
+  keydown (e) {
+    const triggers = this.qsa('.tonic--tab')
+
+    switch (e.code) {
+      case 'ArrowLeft':
+      case 'ArrowRight':
+        const index = triggers.indexOf(e.target)
+        const direction = (e.code === 'ArrowLeft') ? -1 : 1
+        const length = triggers.length
+        const newIndex = (index + length + direction) % length
+
+        triggers[newIndex].focus()
+        e.preventDefault()
+        break
+
+      case 'Space':
+        const isActive = Tonic.match(e.target, '.tonic--tab:focus')
+        if (!isActive) return
+
+        e.preventDefault()
+
+        const id = isActive.getAttribute('id')
+        this.setVisibility(id)
+        break
+    }
+  }
+
   connected () {
     const id = this.state.selected || this.props.selected
     setImmediate(() => this.setVisibility(id))
@@ -771,6 +802,7 @@ class TonicTabs extends Tonic { /* global Tonic */
       return this.html`
         <a
           ...${node.attributes}
+          class="tonic--tab"
           href="#"
           role="tab"
           aria-controls="${ariaControls}"
@@ -796,16 +828,15 @@ class TonicTabPanel extends Tonic { /* global Tonic */
     `
   }
 
-  render () {
-    const {
-      id
-    } = this.props
-
-    this.root.setAttribute('role', 'tabpanel')
-
-    const tab = document.querySelector(`.tonic--tab[for="${id}"]`)
+  connected () {
+    const tab = document.querySelector(`.tonic--tab[for="${this.props.id}"]`)
+    if (!tab) return
     const tabid = tab.getAttribute('id')
     this.root.setAttribute('aria-labelledby', tabid)
+  }
+
+  render () {
+    this.root.setAttribute('role', 'tabpanel')
 
     return this.html`
       ${this.childNodes}

@@ -127,6 +127,10 @@ tonic-tabs .tonic--tab {
   margin-right: 10px;
   display: inline-block;
 }
+tonic-tabs .tonic--tab:focus {
+  border-bottom: 2px solid var(--tonic-accent);
+  outline: none;
+}
 tonic-tab-panel {
   -ms-flex-preferred-size: 100%;
       flex-basis: 100%;

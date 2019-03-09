@@ -724,6 +724,10 @@ class TonicTabs extends Tonic { /* global Tonic */
     if (tab) tab.click()
   }
 
+  qsa (s) {
+    return [...this.root.querySelectorAll(s)]
+  }
+
   setVisibility (id) {
     const tabs = this.root.querySelectorAll(`.tonic--tab`)
 
@@ -751,10 +755,6 @@ class TonicTabs extends Tonic { /* global Tonic */
 
     e.preventDefault()
     this.setVisibility(tab.id)
-  }
-
-  qsa (s) {
-    return [...this.root.querySelectorAll(s)]
   }
 
   keydown (e) {

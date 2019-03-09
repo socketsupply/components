@@ -1157,6 +1157,10 @@ class TonicTabs extends Tonic { /* global Tonic */
     if (tab) tab.click()
   }
 
+  qsa (s) {
+    return [...this.root.querySelectorAll(s)]
+  }
+
   setVisibility (id) {
     const tabs = this.root.querySelectorAll(`.tonic--tab`)
 
@@ -1184,10 +1188,6 @@ class TonicTabs extends Tonic { /* global Tonic */
 
     e.preventDefault()
     this.setVisibility(tab.id)
-  }
-
-  qsa (s) {
-    return [...this.root.querySelectorAll(s)]
   }
 
   keydown (e) {
@@ -5007,7 +5007,7 @@ class Tonic extends window.HTMLElement {
         }
       }
 
-      const children = Tonic._children[this._id]
+      const children = Tonic._children[this._id] || {}
 
       const walk = (node, fn) => {
         if (node.nodeType === 3) {
@@ -5043,12 +5043,14 @@ class Tonic extends window.HTMLElement {
   _prop (o) {
     const id = this._id
     const p = `__${id}__${Tonic._createId()}__`
+    Tonic._data[id] = Tonic._data[id] || {}
     Tonic._data[id][p] = o
     return p
   }
 
   _placehold (r) {
     const ref = `__${Tonic._createId()}__`
+    Tonic._children[this._id] = Tonic._children[this._id] || {}
     Tonic._children[this._id][ref] = r
     return ref
   }
@@ -5089,9 +5091,7 @@ class Tonic extends window.HTMLElement {
       this.innerHTML = this.source
     }
 
-    this._id = Tonic._createId()
-    Tonic._data[this._id] = {}
-    Tonic._children[this._id] = {}
+    this._id = this._id || Tonic._createId()
 
     this.willConnect && this.willConnect()
     this._set(this, this.render())

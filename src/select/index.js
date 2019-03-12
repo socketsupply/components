@@ -199,8 +199,8 @@ class TonicSelect extends Tonic { /* global Tonic */
       disabled,
       required,
       multiple,
-      size,
       theme,
+      size,
       tabindex
     } = this.props
 
@@ -217,8 +217,8 @@ class TonicSelect extends Tonic { /* global Tonic */
     const attributes = [
       disabledAttr,
       multipleAttr,
-      sizeAttr,
       required,
+      sizeAttr,
       tabAttr
     ].join(' ')
 

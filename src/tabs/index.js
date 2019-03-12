@@ -3,7 +3,6 @@ class TonicTabs extends Tonic { /* global Tonic */
     return `
       tonic-tabs .tonic--tab {
         -webkit-appearance: none;
-        border: 0;
         border-bottom: 2px solid transparent;
         user-select: none;
       }

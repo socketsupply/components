@@ -704,7 +704,6 @@ class TonicTabs extends Tonic { /* global Tonic */
     return `
       tonic-tabs .tonic--tab {
         -webkit-appearance: none;
-        border: 0;
         border-bottom: 2px solid transparent;
         user-select: none;
       }
@@ -2199,11 +2198,6 @@ class TonicCheckbox extends Tonic { /* global Tonic */
     this.state.checked = checked
   }
 
-  getPropertyValue (s) {
-    const computed = window.getComputedStyle(document.body)
-    return computed.getPropertyValue(`--${s}`).trim()
-  }
-
   defaults () {
     return {
       disabled: false,
@@ -2263,7 +2257,7 @@ class TonicCheckbox extends Tonic { /* global Tonic */
     let url = ''
 
     const label = this.root.querySelector('label.tonic--icon')
-    const color = this.props.color || this.getPropertyValue('tonic-primary')
+    const color = this.props.color || '#000000'
 
     if (this.props.iconOn && this.props.iconOff) {
       url = this.props[state.checked ? 'iconOn' : 'iconOff']
@@ -2285,7 +2279,7 @@ class TonicCheckbox extends Tonic { /* global Tonic */
       size
     } = this.props
 
-    if (!color) color = this.getPropertyValue('tonic-primary')
+    if (!color) color = '#000000'
     if (!iconOn) iconOn = TonicCheckbox.svg.iconOn()
     if (!iconOff) iconOff = TonicCheckbox.svg.iconOff()
 
@@ -3491,8 +3485,8 @@ class TonicSelect extends Tonic { /* global Tonic */
       disabled,
       required,
       multiple,
-      size,
       theme,
+      size,
       tabindex
     } = this.props
 
@@ -3509,8 +3503,8 @@ class TonicSelect extends Tonic { /* global Tonic */
     const attributes = [
       disabledAttr,
       multipleAttr,
-      sizeAttr,
       required,
+      sizeAttr,
       tabAttr
     ].join(' ')
 

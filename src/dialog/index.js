@@ -11,17 +11,12 @@ class Dialog extends Tonic { /* global Tonic */
     })
   }
 
-  getPropertyValue (s) {
-    const computed = window.getComputedStyle(this.root)
-    return computed.getPropertyValue(`--${s}`).trim()
-  }
-
   defaults () {
     return {
       width: '450px',
       height: 'auto',
       overlay: true,
-      closeIcon: Dialog.svg.closeIcon(this.getPropertyValue('primary')),
+      closeIcon: Dialog.svg.closeIcon(`var(--tonic-primary)`),
       backgroundColor: 'rgba(0,0,0,0.5)'
     }
   }
@@ -186,7 +181,7 @@ class Dialog extends Tonic { /* global Tonic */
     const close = document.createElement('div')
     close.className = 'tonic--close'
 
-    const iconColor = color || this.getPropertyValue('primary')
+    const iconColor = color || `var(--tonic-primary)`
     const url = Dialog.svg.closeIcon(iconColor)
     close.style.backgroundImage = `url("${url}")`
 

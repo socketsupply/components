@@ -11,11 +11,6 @@ class Panel extends Tonic { /* global Tonic */
     })
   }
 
-  getPropertyValue (s) {
-    const computed = window.getComputedStyle(this.root)
-    return computed.getPropertyValue(`--${s}`).trim()
-  }
-
   defaults () {
     return {
       position: 'right',
@@ -174,7 +169,7 @@ class Panel extends Tonic { /* global Tonic */
     const close = document.createElement('div')
     close.className = 'tonic--close'
 
-    const iconColor = color || this.getPropertyValue('primary')
+    const iconColor = color || `var(--tonic-primary)`
     const url = Panel.svg.closeIcon(iconColor)
     close.style.backgroundImage = `url("${url}")`
 

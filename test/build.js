@@ -48,6 +48,7 @@ const index = `
     </head>
     <body data-page="test" id="test">
       <main>
+        <tonic-sprite></tonic-sprite>
         <aside id="test-column">
           <div class="test-summary">
             <div id="passing"><h1 class="value">0</h1><label>Passing</label></div>

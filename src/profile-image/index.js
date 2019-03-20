@@ -13,11 +13,6 @@ class TonicProfileImage extends Tonic { /* global Tonic */
     }
   }
 
-  getPropertyValue (s) {
-    const computed = window.getComputedStyle(this.root)
-    return computed.getPropertyValue(`--${s}`).trim()
-  }
-
   stylesheet () {
     return `
       tonic-profile-image {

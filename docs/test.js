@@ -305,11 +305,6 @@ class Panel extends Tonic { /* global Tonic */
     })
   }
 
-  getPropertyValue (s) {
-    const computed = window.getComputedStyle(this.root)
-    return computed.getPropertyValue(`--${s}`).trim()
-  }
-
   defaults () {
     return {
       position: 'right',
@@ -468,7 +463,7 @@ class Panel extends Tonic { /* global Tonic */
     const close = document.createElement('div')
     close.className = 'tonic--close'
 
-    const iconColor = color || this.getPropertyValue('primary')
+    const iconColor = color || `var(--tonic-primary)`
     const url = Panel.svg.closeIcon(iconColor)
     close.style.backgroundImage = `url("${url}")`
 
@@ -505,17 +500,12 @@ class Dialog extends Tonic { /* global Tonic */
     })
   }
 
-  getPropertyValue (s) {
-    const computed = window.getComputedStyle(this.root)
-    return computed.getPropertyValue(`--${s}`).trim()
-  }
-
   defaults () {
     return {
       width: '450px',
       height: 'auto',
       overlay: true,
-      closeIcon: Dialog.svg.closeIcon(this.getPropertyValue('primary')),
+      closeIcon: Dialog.svg.closeIcon(`var(--tonic-primary)`),
       backgroundColor: 'rgba(0,0,0,0.5)'
     }
   }
@@ -680,7 +670,7 @@ class Dialog extends Tonic { /* global Tonic */
     const close = document.createElement('div')
     close.className = 'tonic--close'
 
-    const iconColor = color || this.getPropertyValue('primary')
+    const iconColor = color || `var(--tonic-primary)`
     const url = Dialog.svg.closeIcon(iconColor)
     close.style.backgroundImage = `url("${url}")`
 
@@ -2395,10 +2385,7 @@ class TonicIcon extends Tonic { /* global Tonic */
 
   stylesheet () {
     return `
-      icon {
-        display: inline-block;
-      }
-      svg path {
+      tonic-icon svg path {
         fill: inherit;
       }
     `
@@ -2826,11 +2813,6 @@ class TonicProgressBar extends Tonic { /* global Tonic */
     }
   }
 
-  getPropertyValue (s) {
-    const computed = window.getComputedStyle(this.root)
-    return computed.getPropertyValue(`--${s}`).trim()
-  }
-
   setProgress (progress) {
     this.setState(state => Object.assign({}, state, {
       progress
@@ -2885,11 +2867,6 @@ class TonicProfileImage extends Tonic { /* global Tonic */
       iconEdit: TonicProfileImage.svg.edit(),
       radius: '5px'
     }
-  }
-
-  getPropertyValue (s) {
-    const computed = window.getComputedStyle(this.root)
-    return computed.getPropertyValue(`--${s}`).trim()
   }
 
   stylesheet () {
@@ -3531,6 +3508,52 @@ TonicSelect.svg.default = () => TonicSelect.svg.toURL(`
 
 Tonic.add(TonicSelect)
 
+class TonicSprite extends Tonic { /* global Tonic */
+  stylesheet () {
+    return `
+      tonic-sprite svg {
+        width: 50px;
+        height: 50px;
+        background: #eee;
+      }
+    `
+  }
+
+  render () {
+    return this.html`
+      <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+
+        <symbol id="close" viewBox="0 0 100 100">
+          <title>Close</title>
+          <desc>Close Icon</desc>
+          <path fill="currentColor" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4
+            l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0
+            l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
+        </symbol>
+
+        <symbol id="danger" viewBox="0 0 100 100">
+          <path fill="currentColor" d="M50.1,6.7C26.3,6.7,6.9,26.2,6.9,50s19.4,43.2,43.2,43.2c23.8,0,43.2-19.5,43.2-43.3C93.3,26.1,74,6.7,50.1,6.7z M53.9,76.4h-7.6V68h7.6V76.4z M53.9,60.5h-7.6V25.6h7.6V60.5z"/>
+        </symbol>
+
+        <symbol id="warning" viewBox="0 0 100 100">
+          <path fill="currentColor" d="M98.6,86.6l-46-79.7c-1.2-2-4-2-5.2,0l-46,79.7c-1.2,2,0.3,4.5,2.6,4.5h92C98.3,91.1,99.8,88.6,98.6,86.6z M53.9,80.4h-7.6V72h7.6V80.4z M53.9,64.5h-7.6V29.6h7.6V64.5z"/>
+        </symbol>
+
+        <symbol id="success" viewBox="0 0 100 100">
+          <path fill="currentColor" d="M50.1,6.7C26.3,6.7,6.9,26.2,6.9,50s19.4,43.2,43.2,43.2c23.8,0,43.2-19.5,43.2-43.3C93.3,26.1,74,6.7,50.1,6.7z M43.4,71.5L22,50.1l4.8-4.8L43.4,62l28.5-28.5l4.8,4.8L43.4,71.5z"/>
+        </symbol>
+
+        <symbol id="info" viewBox="0 0 100 100">
+          <path fill="currentColor" d="M50.1,6.7C26.3,6.7,6.9,26.2,6.9,50s19.4,43.2,43.2,43.2c23.8,0,43.2-19.5,43.2-43.3C93.3,26.1,74,6.7,50.1,6.7z M54.1,75.5h-8.1v-7.8h8.1V75.5z M64.1,47.6c-0.8,1.1-2.4,2.7-4.8,4.5L57,54c-1.4,1.1-2.3,2.3-2.7,3.7c-0.3,0.8-0.4,2-0.4,3.6h-8c0.1-3.4,0.5-5.8,1-7.1c0.5-1.3,2-2.9,4.3-4.7l2.4-1.9c0.8-0.6,1.5-1.3,2-2.1c0.9-1.3,1.4-2.8,1.4-4.3c0-1.8-0.5-3.4-1.6-4.9c-1.1-1.5-3-2.3-5.8-2.3c-2.7,0-4.7,0.9-5.9,2.8c-1,1.6-1.6,3.3-1.7,5.1h-8.6c0.4-5.9,2.5-10.1,6.4-12.6l0,0c2.5-1.6,5.7-2.5,9.4-2.5c4.9,0,9,1.2,12.2,3.5c3.2,2.3,4.8,5.7,4.8,10.3C66.2,43.4,65.5,45.7,64.1,47.6z"/>
+        </symbol>
+
+      </svg>
+    `
+  }
+}
+
+Tonic.add(TonicSprite)
+
 class TonicTextarea extends Tonic { /* global Tonic */
   defaults () {
     return {
@@ -3679,18 +3702,8 @@ class TonicTextarea extends Tonic { /* global Tonic */
 Tonic.add(TonicTextarea)
 
 class TonicToaster extends Tonic { /* global Tonic */
-  getPropertyValue (s) {
-    const computed = window.getComputedStyle(this.root)
-    return computed.getPropertyValue(`--${s}`).trim()
-  }
-
   defaults () {
     return {
-      closeIcon: TonicToaster.svg.closeIcon(this.getPropertyValue('primary')),
-      dangerIcon: TonicToaster.svg.dangerIcon(this.getPropertyValue('danger')),
-      warningIcon: TonicToaster.svg.warningIcon(this.getPropertyValue('warning')),
-      successIcon: TonicToaster.svg.successIcon(this.getPropertyValue('success')),
-      infoIcon: TonicToaster.svg.infoIcon(this.getPropertyValue('info')),
       position: 'center'
     }
   }
@@ -3699,6 +3712,11 @@ class TonicToaster extends Tonic { /* global Tonic */
     return `
       tonic-toaster * {
         box-sizing: border-box;
+      }
+
+      tonic-toaster svg {
+        width: inherit;
+        height: inherit;
       }
 
       tonic-toaster .tonic--wrapper {
@@ -3790,7 +3808,6 @@ class TonicToaster extends Tonic { /* global Tonic */
         position: absolute;
         left: 20px;
         top: 50%;
-        background-size: cover;
         -webkit-transform: translateY(-50%);
         -ms-transform: translateY(-50%);
         transform: translateY(-50%);
@@ -3806,12 +3823,6 @@ class TonicToaster extends Tonic { /* global Tonic */
         -ms-transform: translateY(-50%);
         transform: translateY(-50%);
         cursor: pointer;
-        background-size: cover;
-      }
-
-      tonic-toaster .tonic--notification .tonic--close svg path {
-        fill: var(--tonic-primary);
-        color: var(--tonic-primary);
       }
     `
   }
@@ -3819,6 +3830,7 @@ class TonicToaster extends Tonic { /* global Tonic */
   create ({ message, title, duration, type, dismiss } = {}) {
     const notification = document.createElement('div')
     notification.className = 'tonic--notification'
+
     const main = document.createElement('div')
     main.className = 'tonic--main'
 
@@ -3839,11 +3851,21 @@ class TonicToaster extends Tonic { /* global Tonic */
     }
 
     if (dismiss !== false) {
-      const close = document.createElement('div')
-      close.className = 'tonic--close'
-      close.style.backgroundImage = `url("${this.props.closeIcon}")`
-      notification.appendChild(close)
+      const closeIcon = document.createElement('div')
+      closeIcon.className = 'tonic--close'
+      notification.appendChild(closeIcon)
       notification.classList.add('tonic--close')
+
+      const svg = document.createElement('svg')
+      closeIcon.appendChild(svg)
+
+      const use = document.createElement('use')
+      svg.appendChild(use)
+
+      use.setAttribute('href', '#close')
+      use.setAttribute('xlink:href', '#close')
+      use.setAttribute('color', 'var(--tonic-primary)')
+      use.setAttribute('fill', 'var(--tonic-primary)')
     }
 
     if (type) {
@@ -3851,27 +3873,16 @@ class TonicToaster extends Tonic { /* global Tonic */
       alertIcon.className = 'tonic--icon'
       notification.appendChild(alertIcon)
 
-      switch (type) {
-        case 'danger':
-          alertIcon.style.backgroundImage = `url("${this.props.dangerIcon}")`
-          if (!title && !message) { titleElement.textContent = 'Danger' }
-          break
+      const svg = document.createElement('svg')
+      alertIcon.appendChild(svg)
 
-        case 'warning':
-          alertIcon.style.backgroundImage = `url("${this.props.warningIcon}")`
-          if (!title && !message) { titleElement.textContent = 'Warning' }
-          break
+      const use = document.createElement('use')
+      svg.appendChild(use)
 
-        case 'success':
-          alertIcon.style.backgroundImage = `url("${this.props.successIcon}")`
-          if (!title && !message) { titleElement.textContent = 'Success' }
-          break
-
-        case 'info':
-          alertIcon.style.backgroundImage = `url("${this.props.infoIcon}")`
-          if (!title && !message) { titleElement.textContent = 'Information' }
-          break
-      }
+      use.setAttribute('href', `#${type}`)
+      use.setAttribute('xlink:href', `#${type}`)
+      use.setAttribute('color', `var(--tonic-${type})`)
+      use.setAttribute('fill', `var(--tonic-${type})`)
     }
 
     notification.appendChild(main)
@@ -3928,6 +3939,8 @@ class TonicToaster extends Tonic { /* global Tonic */
       position
     } = this.props
 
+    console.log(this.props)
+
     const positionAttr = position ? `tonic--${position}` : ''
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
@@ -3936,70 +3949,32 @@ class TonicToaster extends Tonic { /* global Tonic */
   }
 }
 
-TonicToaster.svg = {}
-TonicToaster.svg.toURL = s => `data:image/svg+xml;base64,${window.btoa(s)}`
-
-TonicToaster.svg.closeIcon = color => TonicToaster.svg.toURL(`
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path fill="${color}" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
-  </svg>
-`)
-
-TonicToaster.svg.dangerIcon = color => TonicToaster.svg.toURL(`
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path fill="${color}" d="M50.1,6.7C26.3,6.7,6.9,26.2,6.9,50s19.4,43.2,43.2,43.2c23.8,0,43.2-19.5,43.2-43.3C93.3,26.1,74,6.7,50.1,6.7z M53.9,76.4h-7.6V68h7.6V76.4z M53.9,60.5h-7.6V25.6h7.6V60.5z"/>
-  </svg>
-`)
-
-TonicToaster.svg.warningIcon = color => TonicToaster.svg.toURL(`
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path fill="${color}" d="M98.6,86.6l-46-79.7c-1.2-2-4-2-5.2,0l-46,79.7c-1.2,2,0.3,4.5,2.6,4.5h92C98.3,91.1,99.8,88.6,98.6,86.6z M53.9,80.4h-7.6V72h7.6V80.4z M53.9,64.5h-7.6V29.6h7.6V64.5z"/>
-  </svg>
-`)
-
-TonicToaster.svg.successIcon = color => TonicToaster.svg.toURL(`
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path fill="${color}" d="M50.1,6.7C26.3,6.7,6.9,26.2,6.9,50s19.4,43.2,43.2,43.2c23.8,0,43.2-19.5,43.2-43.3C93.3,26.1,74,6.7,50.1,6.7z M43.4,71.5L22,50.1l4.8-4.8L43.4,62l28.5-28.5l4.8,4.8L43.4,71.5z"/>
-  </svg>
-`)
-
-TonicToaster.svg.infoIcon = color => TonicToaster.svg.toURL(`
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path fill="${color}" d="M50.1,6.7C26.3,6.7,6.9,26.2,6.9,50s19.4,43.2,43.2,43.2c23.8,0,43.2-19.5,43.2-43.3C93.3,26.1,74,6.7,50.1,6.7z M54.1,75.5h-8.1v-7.8h8.1V75.5z M64.1,47.6c-0.8,1.1-2.4,2.7-4.8,4.5L57,54c-1.4,1.1-2.3,2.3-2.7,3.7c-0.3,0.8-0.4,2-0.4,3.6h-8c0.1-3.4,0.5-5.8,1-7.1c0.5-1.3,2-2.9,4.3-4.7l2.4-1.9c0.8-0.6,1.5-1.3,2-2.1c0.9-1.3,1.4-2.8,1.4-4.3c0-1.8-0.5-3.4-1.6-4.9c-1.1-1.5-3-2.3-5.8-2.3c-2.7,0-4.7,0.9-5.9,2.8c-1,1.6-1.6,3.3-1.7,5.1h-8.6c0.4-5.9,2.5-10.1,6.4-12.6l0,0c2.5-1.6,5.7-2.5,9.4-2.5c4.9,0,9,1.2,12.2,3.5c3.2,2.3,4.8,5.7,4.8,10.3C66.2,43.4,65.5,45.7,64.1,47.6z"/>
-  </svg>
-`)
-
 Tonic.add(TonicToaster)
 
 class TonicToasterInline extends Tonic { /* global Tonic */
-  getPropertyValue (s) {
-    const computed = window.getComputedStyle(this.root)
-    return computed.getPropertyValue(`--${s}`).trim()
-  }
-
   defaults () {
     return {
-      display: 'true',
-      closeIcon: TonicToasterInline.svg.closeIcon(),
-      dangerIcon: TonicToasterInline.svg.dangerIcon(this.getPropertyValue('danger')),
-      warningIcon: TonicToasterInline.svg.warningIcon(this.getPropertyValue('warning')),
-      successIcon: TonicToasterInline.svg.successIcon(this.getPropertyValue('success')),
-      infoIcon: TonicToasterInline.svg.infoIcon(this.getPropertyValue('info'))
+      display: 'true'
     }
   }
 
   stylesheet () {
     return `
+      tonic-toaster-inline svg {
+        width: inherit;
+        height: inherit;
+      }
+
       tonic-toaster-inline .tonic--notification {
         max-height: 0;
         position: relative;
         background-color: var(--tonic-window);
+        border: 1px solid var(--tonic-border);
         border-radius: 3px;
         -webkit-transform: scale(0.95);
         -ms-transform: scale(0.95);
         transform: scale(0.95);
         transition: opacity 0.2s ease-in-out 0s, transform 0.3s ease-in-out 0s, max-height 0.3s ease-in-out;
-        border: 1px solid var(--tonic-border);
         opacity: 0;
         z-index: 1;
       }
@@ -4014,22 +3989,6 @@ class TonicToasterInline extends Tonic { /* global Tonic */
         opacity: 1;
       }
 
-      tonic-toaster-inline .tonic--warning {
-        border-color: var(--tonic-warning);
-      }
-
-      tonic-toaster-inline .tonic--danger {
-        border-color: var(--tonic-danger);
-      }
-
-      tonic-toaster-inline .tonic--success {
-        border-color: var(--tonic-success);
-      }
-
-      tonic-toaster-inline .tonic--info {
-        border-color: var(--tonic-secondary);
-      }
-
       tonic-toaster-inline .tonic--notification.tonic--close {
         padding-right: 50px;
       }
@@ -4039,7 +3998,11 @@ class TonicToasterInline extends Tonic { /* global Tonic */
       }
 
       tonic-toaster-inline main {
-        padding: 17px 15px 15px 15px;
+        padding: 17px 18px 15px 18px;
+      }
+
+      tonic-toaster-inline.tonic--dismiss main {
+        margin-right: 40px;
       }
 
       tonic-toaster-inline .tonic--title {
@@ -4058,13 +4021,12 @@ class TonicToasterInline extends Tonic { /* global Tonic */
         position: absolute;
         left: 20px;
         top: 50%;
-        background-size: cover;
         -webkit-transform: translateY(-50%);
         -ms-transform: translateY(-50%);
         transform: translateY(-50%);
       }
 
-      tonic-toaster-inline .tonic--notification .tonic--close {
+      tonic-toaster-inline .tonic--close {
         width: 20px;
         height: 20px;
         position: absolute;
@@ -4074,12 +4036,6 @@ class TonicToasterInline extends Tonic { /* global Tonic */
         -ms-transform: translateY(-50%);
         transform: translateY(-50%);
         cursor: pointer;
-        background-size: cover;
-      }
-
-      tonic-toaster-inline .tonic--notification .tonic--close svg path {
-        fill: var(--tonic-primary);
-        color: var(--tonic-primary);
       }
     `
   }
@@ -4120,30 +4076,51 @@ class TonicToasterInline extends Tonic { /* global Tonic */
     }
   }
 
-  styles () {
-    const icon = this.props[this.props.type + 'Icon']
-
-    return {
-      icon: {
-        backgroundImage: `url("${icon}")`
-      },
-      close: {
-        backgroundImage: `url("${this.props.closeIcon}")`
-      }
-    }
-  }
-
   renderClose () {
     if (this.props.dismiss !== 'true') {
       return ''
     }
 
-    return this.html`<div class="tonic--close" styles="close"></div>`
+    this.classList.add('tonic--dismiss')
+
+    return this.html`
+      <div class="tonic--close">
+        <svg>
+          <use
+            href="#close"
+            xlink:href="#close"
+            color="var(--tonic-primary)"
+            fill="var(--tonic-primary)">
+          </use>
+        </svg>
+      </div>
+    `
   }
 
   renderIcon () {
-    if (!this.props.type) return ''
-    return this.html`<div class="tonic--icon" styles="icon"></div>`
+    const type = this.props.type
+
+    if (!type) return ''
+    return this.html`
+      <div class="tonic--icon">
+        <svg>
+          <use
+            href="#${type}"
+            xlink:href="#${type}"
+            color="var(--tonic-${type})"
+            fill="var(--tonic-${type})">
+          </use>
+        </svg>
+      </div>
+    `
+  }
+
+  styles () {
+    return {
+      type: {
+        'border-color': `var(--tonic-${this.props.type})`
+      }
+    }
   }
 
   render () {
@@ -4159,13 +4136,17 @@ class TonicToasterInline extends Tonic { /* global Tonic */
     }
 
     let typeClasses = ''
+    let styles = []
 
     if (type) {
       typeClasses = `tonic--alert tonic--${type}`
+      styles.push('type')
     }
 
+    styles = styles.join('')
+
     return this.html`
-      <div class="tonic--notification ${typeClasses}">
+      <div class="tonic--notification ${typeClasses}" styles="${styles}">
         ${this.renderIcon()}
         ${this.renderClose()}
         <main>
@@ -4180,39 +4161,6 @@ class TonicToasterInline extends Tonic { /* global Tonic */
     `
   }
 }
-
-TonicToasterInline.svg = {}
-TonicToasterInline.svg.toURL = s => `data:image/svg+xml;base64,${window.btoa(s)}`
-
-TonicToasterInline.svg.closeIcon = color => TonicToasterInline.svg.toURL(`
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path fill="${color}" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
-  </svg>
-`)
-
-TonicToasterInline.svg.dangerIcon = color => TonicToasterInline.svg.toURL(`
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path fill="${color}" d="M50.1,6.7C26.3,6.7,6.9,26.2,6.9,50s19.4,43.2,43.2,43.2c23.8,0,43.2-19.5,43.2-43.3C93.3,26.1,74,6.7,50.1,6.7z M53.9,76.4h-7.6V68h7.6V76.4z M53.9,60.5h-7.6V25.6h7.6V60.5z"/>
-  </svg>
-`)
-
-TonicToasterInline.svg.warningIcon = color => TonicToasterInline.svg.toURL(`
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path fill="${color}" d="M98.6,86.6l-46-79.7c-1.2-2-4-2-5.2,0l-46,79.7c-1.2,2,0.3,4.5,2.6,4.5h92C98.3,91.1,99.8,88.6,98.6,86.6z M53.9,80.4h-7.6V72h7.6V80.4z M53.9,64.5h-7.6V29.6h7.6V64.5z"/>
-  </svg>
-`)
-
-TonicToasterInline.svg.successIcon = color => TonicToasterInline.svg.toURL(`
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path fill="${color}" d="M50.1,6.7C26.3,6.7,6.9,26.2,6.9,50s19.4,43.2,43.2,43.2c23.8,0,43.2-19.5,43.2-43.3C93.3,26.1,74,6.7,50.1,6.7z M43.4,71.5L22,50.1l4.8-4.8L43.4,62l28.5-28.5l4.8,4.8L43.4,71.5z"/>
-  </svg>
-`)
-
-TonicToasterInline.svg.infoIcon = color => TonicToasterInline.svg.toURL(`
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path fill="${color}" d="M50.1,6.7C26.3,6.7,6.9,26.2,6.9,50s19.4,43.2,43.2,43.2c23.8,0,43.2-19.5,43.2-43.3C93.3,26.1,74,6.7,50.1,6.7z M54.1,75.5h-8.1v-7.8h8.1V75.5z M64.1,47.6c-0.8,1.1-2.4,2.7-4.8,4.5L57,54c-1.4,1.1-2.3,2.3-2.7,3.7c-0.3,0.8-0.4,2-0.4,3.6h-8c0.1-3.4,0.5-5.8,1-7.1c0.5-1.3,2-2.9,4.3-4.7l2.4-1.9c0.8-0.6,1.5-1.3,2-2.1c0.9-1.3,1.4-2.8,1.4-4.3c0-1.8-0.5-3.4-1.6-4.9c-1.1-1.5-3-2.3-5.8-2.3c-2.7,0-4.7,0.9-5.9,2.8c-1,1.6-1.6,3.3-1.7,5.1h-8.6c0.4-5.9,2.5-10.1,6.4-12.6l0,0c2.5-1.6,5.7-2.5,9.4-2.5c4.9,0,9,1.2,12.2,3.5c3.2,2.3,4.8,5.7,4.8,10.3C66.2,43.4,65.5,45.7,64.1,47.6z"/>
-  </svg>
-`)
 
 Tonic.add(TonicToasterInline)
 
@@ -4435,7 +4383,7 @@ Tonic.add(TonicToggle)
     }
   
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"timers":64}],2:[function(require,module,exports){
+},{"timers":65}],2:[function(require,module,exports){
 class Tonic extends window.HTMLElement {
   constructor () {
     super()
@@ -4570,7 +4518,7 @@ class Tonic extends window.HTMLElement {
         }
       }
 
-      const children = Tonic._children[this._id] || {}
+      const children = Tonic._children[this._id]
 
       const walk = (node, fn) => {
         if (node.nodeType === 3) {
@@ -4606,14 +4554,12 @@ class Tonic extends window.HTMLElement {
   _prop (o) {
     const id = this._id
     const p = `__${id}__${Tonic._createId()}__`
-    Tonic._data[id] = Tonic._data[id] || {}
     Tonic._data[id][p] = o
     return p
   }
 
   _placehold (r) {
     const ref = `__${Tonic._createId()}__`
-    Tonic._children[this._id] = Tonic._children[this._id] || {}
     Tonic._children[this._id][ref] = r
     return ref
   }
@@ -4654,7 +4600,9 @@ class Tonic extends window.HTMLElement {
       this.innerHTML = this.source
     }
 
-    this._id = this._id || Tonic._createId()
+    this._id = Tonic._createId()
+    Tonic._data[this._id] = {}
+    Tonic._children[this._id] = {}
 
     this.willConnect && this.willConnect()
     this._set(this, this.render())
@@ -4890,7 +4838,7 @@ function typedArraySupport () {
   // Can typed array instances can be augmented?
   try {
     var arr = new Uint8Array(1)
-    arr.__proto__ = { __proto__: Uint8Array.prototype, foo: function () { return 42 } }
+    arr.__proto__ = {__proto__: Uint8Array.prototype, foo: function () { return 42 }}
     return arr.foo() === 42
   } catch (e) {
     return false
@@ -6620,7 +6568,7 @@ function numberIsNaN (obj) {
   return obj !== obj // eslint-disable-line no-self-compare
 }
 
-},{"base64-js":3,"ieee754":26}],7:[function(require,module,exports){
+},{"base64-js":3,"ieee754":27}],7:[function(require,module,exports){
 (function (Buffer){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -6731,7 +6679,7 @@ function objectToString(o) {
 }
 
 }).call(this,{"isBuffer":require("../../is-buffer/index.js")})
-},{"../../is-buffer/index.js":28}],8:[function(require,module,exports){
+},{"../../is-buffer/index.js":29}],8:[function(require,module,exports){
 var pSlice = Array.prototype.slice;
 var objectKeys = require('./lib/keys.js');
 var isArguments = require('./lib/is_arguments.js');
@@ -6864,11 +6812,10 @@ function shim (obj) {
 'use strict';
 
 var keys = require('object-keys');
-var hasSymbols = typeof Symbol === 'function' && typeof Symbol('foo') === 'symbol';
+var foreach = require('foreach');
+var hasSymbols = typeof Symbol === 'function' && typeof Symbol() === 'symbol';
 
 var toStr = Object.prototype.toString;
-var concat = Array.prototype.concat;
-var origDefineProperty = Object.defineProperty;
 
 var isFunction = function (fn) {
 	return typeof fn === 'function' && toStr.call(fn) === '[object Function]';
@@ -6877,24 +6824,23 @@ var isFunction = function (fn) {
 var arePropertyDescriptorsSupported = function () {
 	var obj = {};
 	try {
-		origDefineProperty(obj, 'x', { enumerable: false, value: obj });
-		// eslint-disable-next-line no-unused-vars, no-restricted-syntax
-		for (var _ in obj) { // jscs:ignore disallowUnusedVariables
-			return false;
-		}
+		Object.defineProperty(obj, 'x', { enumerable: false, value: obj });
+        /* eslint-disable no-unused-vars, no-restricted-syntax */
+        for (var _ in obj) { return false; }
+        /* eslint-enable no-unused-vars, no-restricted-syntax */
 		return obj.x === obj;
 	} catch (e) { /* this is IE 8. */
 		return false;
 	}
 };
-var supportsDescriptors = origDefineProperty && arePropertyDescriptorsSupported();
+var supportsDescriptors = Object.defineProperty && arePropertyDescriptorsSupported();
 
 var defineProperty = function (object, name, value, predicate) {
 	if (name in object && (!isFunction(predicate) || !predicate())) {
 		return;
 	}
 	if (supportsDescriptors) {
-		origDefineProperty(object, name, {
+		Object.defineProperty(object, name, {
 			configurable: true,
 			enumerable: false,
 			value: value,
@@ -6909,18 +6855,18 @@ var defineProperties = function (object, map) {
 	var predicates = arguments.length > 2 ? arguments[2] : {};
 	var props = keys(map);
 	if (hasSymbols) {
-		props = concat.call(props, Object.getOwnPropertySymbols(map));
+		props = props.concat(Object.getOwnPropertySymbols(map));
 	}
-	for (var i = 0; i < props.length; i += 1) {
-		defineProperty(object, props[i], map[props[i]], predicates[props[i]]);
-	}
+	foreach(props, function (name) {
+		defineProperty(object, name, map[name], predicates[name]);
+	});
 };
 
 defineProperties.supportsDescriptors = !!supportsDescriptors;
 
 module.exports = defineProperties;
 
-},{"object-keys":32}],12:[function(require,module,exports){
+},{"foreach":23,"object-keys":33}],12:[function(require,module,exports){
 module.exports = function () {
     for (var i = 0; i < arguments.length; i++) {
         if (arguments[i] !== undefined) return arguments[i];
@@ -7350,7 +7296,7 @@ var ES5 = {
 
 module.exports = ES5;
 
-},{"./GetIntrinsic":13,"./helpers/isFinite":15,"./helpers/isNaN":16,"./helpers/mod":17,"./helpers/sign":18,"es-to-primitive/es5":19,"has":25,"is-callable":29}],15:[function(require,module,exports){
+},{"./GetIntrinsic":13,"./helpers/isFinite":15,"./helpers/isNaN":16,"./helpers/mod":17,"./helpers/sign":18,"es-to-primitive/es5":19,"has":26,"is-callable":30}],15:[function(require,module,exports){
 var $isNaN = Number.isNaN || function (a) { return a !== a; };
 
 module.exports = Number.isFinite || function (x) { return typeof x === 'number' && !$isNaN(x) && x !== Infinity && x !== -Infinity; };
@@ -7380,15 +7326,10 @@ var isPrimitive = require('./helpers/isPrimitive');
 
 var isCallable = require('is-callable');
 
-// http://ecma-international.org/ecma-262/5.1/#sec-8.12.8
+// https://es5.github.io/#x8.12
 var ES5internalSlots = {
-	'[[DefaultValue]]': function (O) {
-		var actualHint;
-		if (arguments.length > 1) {
-			actualHint = arguments[1];
-		} else {
-			actualHint = toStr.call(O) === '[object Date]' ? String : Number;
-		}
+	'[[DefaultValue]]': function (O, hint) {
+		var actualHint = hint || (toStr.call(O) === '[object Date]' ? String : Number);
 
 		if (actualHint === String || actualHint === Number) {
 			var methods = actualHint === String ? ['toString', 'valueOf'] : ['valueOf', 'toString'];
@@ -7407,18 +7348,15 @@ var ES5internalSlots = {
 	}
 };
 
-// http://ecma-international.org/ecma-262/5.1/#sec-9.1
-module.exports = function ToPrimitive(input) {
+// https://es5.github.io/#x9
+module.exports = function ToPrimitive(input, PreferredType) {
 	if (isPrimitive(input)) {
 		return input;
 	}
-	if (arguments.length > 1) {
-		return ES5internalSlots['[[DefaultValue]]'](input, arguments[1]);
-	}
-	return ES5internalSlots['[[DefaultValue]]'](input);
+	return ES5internalSlots['[[DefaultValue]]'](input, PreferredType);
 };
 
-},{"./helpers/isPrimitive":20,"is-callable":29}],20:[function(require,module,exports){
+},{"./helpers/isPrimitive":20,"is-callable":30}],20:[function(require,module,exports){
 module.exports = function isPrimitive(value) {
 	return value === null || (typeof value !== 'function' && typeof value !== 'object');
 };
@@ -8012,7 +7950,31 @@ var forEach = function forEach(list, iterator, thisArg) {
 
 module.exports = forEach;
 
-},{"is-callable":29}],23:[function(require,module,exports){
+},{"is-callable":30}],23:[function(require,module,exports){
+
+var hasOwn = Object.prototype.hasOwnProperty;
+var toString = Object.prototype.toString;
+
+module.exports = function forEach (obj, fn, ctx) {
+    if (toString.call(fn) !== '[object Function]') {
+        throw new TypeError('iterator must be a function');
+    }
+    var l = obj.length;
+    if (l === +l) {
+        for (var i = 0; i < l; i++) {
+            fn.call(ctx, obj[i], i, obj);
+        }
+    } else {
+        for (var k in obj) {
+            if (hasOwn.call(obj, k)) {
+                fn.call(ctx, obj[k], k, obj);
+            }
+        }
+    }
+};
+
+
+},{}],24:[function(require,module,exports){
 'use strict';
 
 /* eslint no-invalid-this: 1 */
@@ -8066,21 +8028,21 @@ module.exports = function bind(that) {
     return bound;
 };
 
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 'use strict';
 
 var implementation = require('./implementation');
 
 module.exports = Function.prototype.bind || implementation;
 
-},{"./implementation":23}],25:[function(require,module,exports){
+},{"./implementation":24}],26:[function(require,module,exports){
 'use strict';
 
 var bind = require('function-bind');
 
 module.exports = bind.call(Function.call, Object.prototype.hasOwnProperty);
 
-},{"function-bind":24}],26:[function(require,module,exports){
+},{"function-bind":25}],27:[function(require,module,exports){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = (nBytes * 8) - mLen - 1
@@ -8166,7 +8128,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],27:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -8191,7 +8153,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 /*!
  * Determine if an object is a Buffer
  *
@@ -8214,7 +8176,7 @@ function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
 
-},{}],29:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 'use strict';
 
 var fnToStr = Function.prototype.toString;
@@ -8253,14 +8215,14 @@ module.exports = function isCallable(value) {
 	return strClass === fnClass || strClass === genClass;
 };
 
-},{}],30:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 var toString = {}.toString;
 
 module.exports = Array.isArray || function (arr) {
   return toString.call(arr) == '[object Array]';
 };
 
-},{}],31:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 var hasMap = typeof Map === 'function' && Map.prototype;
 var mapSizeDescriptor = Object.getOwnPropertyDescriptor && hasMap ? Object.getOwnPropertyDescriptor(Map.prototype, 'size') : null;
 var mapSize = hasMap && mapSizeDescriptor && typeof mapSizeDescriptor.get === 'function' ? mapSizeDescriptor.get : null;
@@ -8519,7 +8481,7 @@ function arrObjKeys (obj, inspect) {
     return xs;
 }
 
-},{"./util.inspect":4}],32:[function(require,module,exports){
+},{"./util.inspect":4}],33:[function(require,module,exports){
 'use strict';
 
 // modified from https://github.com/es-shims/es5-shim
@@ -8662,7 +8624,7 @@ keysShim.shim = function shimObjectKeys() {
 
 module.exports = keysShim;
 
-},{"./isArguments":33}],33:[function(require,module,exports){
+},{"./isArguments":34}],34:[function(require,module,exports){
 'use strict';
 
 var toStr = Object.prototype.toString;
@@ -8681,7 +8643,7 @@ module.exports = function isArguments(value) {
 	return isArgs;
 };
 
-},{}],34:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 (function (process){
 // .dirname, .basename, and .extname methods are extracted from Node.js v8.11.1,
 // backported and transplited with Babel, with backwards-compat fixes
@@ -8987,7 +8949,7 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require('_process'))
-},{"_process":36}],35:[function(require,module,exports){
+},{"_process":37}],36:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -9035,7 +8997,7 @@ function nextTick(fn, arg1, arg2, arg3) {
 
 
 }).call(this,require('_process'))
-},{"_process":36}],36:[function(require,module,exports){
+},{"_process":37}],37:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -9221,16 +9183,16 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],37:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 const qs = (s, p) => (p || document).querySelector(s)
 const qsa = (s, p) => [...(p || document).querySelectorAll(s)]
 
 module.exports = { qs, qsa }
 
-},{}],38:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 module.exports = require('./lib/_stream_duplex.js');
 
-},{"./lib/_stream_duplex.js":39}],39:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":40}],40:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -9362,7 +9324,7 @@ Duplex.prototype._destroy = function (err, cb) {
 
   pna.nextTick(cb, err);
 };
-},{"./_stream_readable":41,"./_stream_writable":43,"core-util-is":7,"inherits":27,"process-nextick-args":35}],40:[function(require,module,exports){
+},{"./_stream_readable":42,"./_stream_writable":44,"core-util-is":7,"inherits":28,"process-nextick-args":36}],41:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -9410,7 +9372,7 @@ function PassThrough(options) {
 PassThrough.prototype._transform = function (chunk, encoding, cb) {
   cb(null, chunk);
 };
-},{"./_stream_transform":42,"core-util-is":7,"inherits":27}],41:[function(require,module,exports){
+},{"./_stream_transform":43,"core-util-is":7,"inherits":28}],42:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -10432,7 +10394,7 @@ function indexOf(xs, x) {
   return -1;
 }
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./_stream_duplex":39,"./internal/streams/BufferList":44,"./internal/streams/destroy":45,"./internal/streams/stream":46,"_process":36,"core-util-is":7,"events":21,"inherits":27,"isarray":30,"process-nextick-args":35,"safe-buffer":52,"string_decoder/":58,"util":4}],42:[function(require,module,exports){
+},{"./_stream_duplex":40,"./internal/streams/BufferList":45,"./internal/streams/destroy":46,"./internal/streams/stream":47,"_process":37,"core-util-is":7,"events":21,"inherits":28,"isarray":31,"process-nextick-args":36,"safe-buffer":53,"string_decoder/":59,"util":4}],43:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -10647,7 +10609,7 @@ function done(stream, er, data) {
 
   return stream.push(null);
 }
-},{"./_stream_duplex":39,"core-util-is":7,"inherits":27}],43:[function(require,module,exports){
+},{"./_stream_duplex":40,"core-util-is":7,"inherits":28}],44:[function(require,module,exports){
 (function (process,global,setImmediate){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -11337,7 +11299,7 @@ Writable.prototype._destroy = function (err, cb) {
   cb(err);
 };
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"./_stream_duplex":39,"./internal/streams/destroy":45,"./internal/streams/stream":46,"_process":36,"core-util-is":7,"inherits":27,"process-nextick-args":35,"safe-buffer":52,"timers":64,"util-deprecate":65}],44:[function(require,module,exports){
+},{"./_stream_duplex":40,"./internal/streams/destroy":46,"./internal/streams/stream":47,"_process":37,"core-util-is":7,"inherits":28,"process-nextick-args":36,"safe-buffer":53,"timers":65,"util-deprecate":66}],45:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -11417,7 +11379,7 @@ if (util && util.inspect && util.inspect.custom) {
     return this.constructor.name + ' ' + obj;
   };
 }
-},{"safe-buffer":52,"util":4}],45:[function(require,module,exports){
+},{"safe-buffer":53,"util":4}],46:[function(require,module,exports){
 'use strict';
 
 /*<replacement>*/
@@ -11492,13 +11454,13 @@ module.exports = {
   destroy: destroy,
   undestroy: undestroy
 };
-},{"process-nextick-args":35}],46:[function(require,module,exports){
+},{"process-nextick-args":36}],47:[function(require,module,exports){
 module.exports = require('events').EventEmitter;
 
-},{"events":21}],47:[function(require,module,exports){
+},{"events":21}],48:[function(require,module,exports){
 module.exports = require('./readable').PassThrough
 
-},{"./readable":48}],48:[function(require,module,exports){
+},{"./readable":49}],49:[function(require,module,exports){
 exports = module.exports = require('./lib/_stream_readable.js');
 exports.Stream = exports;
 exports.Readable = exports;
@@ -11507,13 +11469,13 @@ exports.Duplex = require('./lib/_stream_duplex.js');
 exports.Transform = require('./lib/_stream_transform.js');
 exports.PassThrough = require('./lib/_stream_passthrough.js');
 
-},{"./lib/_stream_duplex.js":39,"./lib/_stream_passthrough.js":40,"./lib/_stream_readable.js":41,"./lib/_stream_transform.js":42,"./lib/_stream_writable.js":43}],49:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":40,"./lib/_stream_passthrough.js":41,"./lib/_stream_readable.js":42,"./lib/_stream_transform.js":43,"./lib/_stream_writable.js":44}],50:[function(require,module,exports){
 module.exports = require('./readable').Transform
 
-},{"./readable":48}],50:[function(require,module,exports){
+},{"./readable":49}],51:[function(require,module,exports){
 module.exports = require('./lib/_stream_writable.js');
 
-},{"./lib/_stream_writable.js":43}],51:[function(require,module,exports){
+},{"./lib/_stream_writable.js":44}],52:[function(require,module,exports){
 (function (process,setImmediate){
 var through = require('through');
 var nextTick = typeof setImmediate !== 'undefined'
@@ -11546,7 +11508,7 @@ module.exports = function (write, end) {
 };
 
 }).call(this,require('_process'),require("timers").setImmediate)
-},{"_process":36,"through":63,"timers":64}],52:[function(require,module,exports){
+},{"_process":37,"through":64,"timers":65}],53:[function(require,module,exports){
 /* eslint-disable node/no-deprecated-api */
 var buffer = require('buffer')
 var Buffer = buffer.Buffer
@@ -11610,7 +11572,7 @@ SafeBuffer.allocUnsafeSlow = function (size) {
   return buffer.SlowBuffer(size)
 }
 
-},{"buffer":6}],53:[function(require,module,exports){
+},{"buffer":6}],54:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -11739,7 +11701,7 @@ Stream.prototype.pipe = function(dest, options) {
   return dest;
 };
 
-},{"events":21,"inherits":27,"readable-stream/duplex.js":38,"readable-stream/passthrough.js":47,"readable-stream/readable.js":48,"readable-stream/transform.js":49,"readable-stream/writable.js":50}],54:[function(require,module,exports){
+},{"events":21,"inherits":28,"readable-stream/duplex.js":39,"readable-stream/passthrough.js":48,"readable-stream/readable.js":49,"readable-stream/transform.js":50,"readable-stream/writable.js":51}],55:[function(require,module,exports){
 'use strict';
 
 var bind = require('function-bind');
@@ -11754,7 +11716,7 @@ module.exports = function trim() {
 	return replace(replace(S, leftWhitespace, ''), rightWhitespace, '');
 };
 
-},{"es-abstract/es5":14,"function-bind":24}],55:[function(require,module,exports){
+},{"es-abstract/es5":14,"function-bind":25}],56:[function(require,module,exports){
 'use strict';
 
 var bind = require('function-bind');
@@ -11774,7 +11736,7 @@ define(boundTrim, {
 
 module.exports = boundTrim;
 
-},{"./implementation":54,"./polyfill":56,"./shim":57,"define-properties":11,"function-bind":24}],56:[function(require,module,exports){
+},{"./implementation":55,"./polyfill":57,"./shim":58,"define-properties":11,"function-bind":25}],57:[function(require,module,exports){
 'use strict';
 
 var implementation = require('./implementation');
@@ -11788,7 +11750,7 @@ module.exports = function getPolyfill() {
 	return implementation;
 };
 
-},{"./implementation":54}],57:[function(require,module,exports){
+},{"./implementation":55}],58:[function(require,module,exports){
 'use strict';
 
 var define = require('define-properties');
@@ -11800,7 +11762,7 @@ module.exports = function shimStringTrim() {
 	return polyfill;
 };
 
-},{"./polyfill":56,"define-properties":11}],58:[function(require,module,exports){
+},{"./polyfill":57,"define-properties":11}],59:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -12097,7 +12059,7 @@ function simpleWrite(buf) {
 function simpleEnd(buf) {
   return buf && buf.length ? this.write(buf) : '';
 }
-},{"safe-buffer":52}],59:[function(require,module,exports){
+},{"safe-buffer":53}],60:[function(require,module,exports){
 (function (process,setImmediate){
 var defined = require('defined');
 var createDefaultStream = require('./lib/default_stream');
@@ -12260,7 +12222,7 @@ function createHarness (conf_) {
 }
 
 }).call(this,require('_process'),require("timers").setImmediate)
-},{"./lib/default_stream":60,"./lib/results":61,"./lib/test":62,"_process":36,"defined":12,"through":63,"timers":64}],60:[function(require,module,exports){
+},{"./lib/default_stream":61,"./lib/results":62,"./lib/test":63,"_process":37,"defined":12,"through":64,"timers":65}],61:[function(require,module,exports){
 (function (process){
 var through = require('through');
 var fs = require('fs');
@@ -12294,7 +12256,7 @@ module.exports = function () {
 };
 
 }).call(this,require('_process'))
-},{"_process":36,"fs":5,"through":63}],61:[function(require,module,exports){
+},{"_process":37,"fs":5,"through":64}],62:[function(require,module,exports){
 (function (process,setImmediate){
 var defined = require('defined');
 var EventEmitter = require('events').EventEmitter;
@@ -12492,7 +12454,7 @@ function invalidYaml (str) {
 }
 
 }).call(this,require('_process'),require("timers").setImmediate)
-},{"_process":36,"defined":12,"events":21,"function-bind":24,"has":25,"inherits":27,"object-inspect":31,"resumer":51,"through":63,"timers":64}],62:[function(require,module,exports){
+},{"_process":37,"defined":12,"events":21,"function-bind":25,"has":26,"inherits":28,"object-inspect":32,"resumer":52,"through":64,"timers":65}],63:[function(require,module,exports){
 (function (process,setImmediate,__dirname){
 var deepEqual = require('deep-equal');
 var defined = require('defined');
@@ -13047,7 +13009,7 @@ Test.skip = function (name_, _opts, _cb) {
 // vim: set softtabstop=4 shiftwidth=4:
 
 }).call(this,require('_process'),require("timers").setImmediate,"/node_modules/tape/lib")
-},{"_process":36,"deep-equal":8,"defined":12,"events":21,"for-each":22,"function-bind":24,"has":25,"inherits":27,"path":34,"string.prototype.trim":55,"timers":64}],63:[function(require,module,exports){
+},{"_process":37,"deep-equal":8,"defined":12,"events":21,"for-each":22,"function-bind":25,"has":26,"inherits":28,"path":35,"string.prototype.trim":56,"timers":65}],64:[function(require,module,exports){
 (function (process){
 var Stream = require('stream')
 
@@ -13159,7 +13121,7 @@ function through (write, end, opts) {
 
 
 }).call(this,require('_process'))
-},{"_process":36,"stream":53}],64:[function(require,module,exports){
+},{"_process":37,"stream":54}],65:[function(require,module,exports){
 (function (setImmediate,clearImmediate){
 var nextTick = require('process/browser.js').nextTick;
 var apply = Function.prototype.apply;
@@ -13238,7 +13200,7 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
   delete immediateIds[id];
 };
 }).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-},{"process/browser.js":36,"timers":64}],65:[function(require,module,exports){
+},{"process/browser.js":37,"timers":65}],66:[function(require,module,exports){
 (function (global){
 
 /**
@@ -13309,7 +13271,7 @@ function config (name) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],66:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 const tape = require('../../test/tape')
 const { qs } = require('qs')
 
@@ -13337,7 +13299,7 @@ tape('{{badge-2}} shows a count', t => {
   t.end()
 })
 
-},{"../../test/tape":87,"qs":37}],67:[function(require,module,exports){
+},{"../../test/tape":88,"qs":38}],68:[function(require,module,exports){
 const tape = require('../../test/tape')
 const { qs } = require('qs')
 
@@ -13512,9 +13474,9 @@ tape('{{button-10}} has tabindex attribute', t => {
   t.end()
 })
 
-},{"../../test/tape":87,"qs":37}],68:[function(require,module,exports){
+},{"../../test/tape":88,"qs":38}],69:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],69:[function(require,module,exports){
+},{"dup":4}],70:[function(require,module,exports){
 const tape = require('../../test/tape')
 const { qs } = require('qs')
 
@@ -13612,7 +13574,7 @@ tape('{{checkbox-6}} has size attributes', t => {
   t.end()
 })
 
-},{"../../test/tape":87,"qs":37}],70:[function(require,module,exports){
+},{"../../test/tape":88,"qs":38}],71:[function(require,module,exports){
 const Tonic = require('@conductorlab/tonic')
 
 class TonicDialog extends Tonic.Dialog {
@@ -13675,7 +13637,7 @@ tape('{{dialog-1}} is constructed properly, opens and closes properly', async t 
   t.end()
 })
 
-},{"../../test/tape":87,"@conductorlab/tonic":2,"qs":37}],71:[function(require,module,exports){
+},{"../../test/tape":88,"@conductorlab/tonic":2,"qs":38}],72:[function(require,module,exports){
 const tape = require('../../test/tape')
 const { qs } = require('qs')
 
@@ -13756,7 +13718,7 @@ tape('{{icon-5}} has tabindex attribute', t => {
   t.end()
 })
 
-},{"../../test/tape":87,"qs":37}],72:[function(require,module,exports){
+},{"../../test/tape":88,"qs":38}],73:[function(require,module,exports){
 const tape = require('../../test/tape')
 const { qs } = require('qs')
 
@@ -13930,7 +13892,7 @@ tape('{{input-10}} has tabindex', t => {
 //   t.end()
 // })
 
-},{"../../test/tape":87,"qs":37}],73:[function(require,module,exports){
+},{"../../test/tape":88,"qs":38}],74:[function(require,module,exports){
 const Tonic = require('@conductorlab/tonic')
 
 class TonicPanel extends Tonic.Panel {
@@ -14019,7 +13981,7 @@ const panelThemeDark = document.getElementById('tonic-panel-theme-dark')
 
 panelThemeDarkButton.addEventListener('click', e => panelThemeDark.show())
 
-},{"@conductorlab/tonic":2}],74:[function(require,module,exports){
+},{"@conductorlab/tonic":2}],75:[function(require,module,exports){
 //
 // Panel Default
 //
@@ -14030,9 +13992,9 @@ popover.addEventListener('show', event => {
   }, { once: true })
 })
 
-},{}],75:[function(require,module,exports){
+},{}],76:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],76:[function(require,module,exports){
+},{"dup":4}],77:[function(require,module,exports){
 const progressBar30 = document.getElementById('progress-bar-30')
 progressBar30.setProgress(30)
 
@@ -14067,11 +14029,11 @@ interval = setInterval(() => {
   if (++reps === 2) clearInterval(interval)
 }, 128)
 
-},{}],77:[function(require,module,exports){
+},{}],78:[function(require,module,exports){
 const rangeValue = document.getElementById('range-thumb-value-js')
 rangeValue.value = 15
 
-},{}],78:[function(require,module,exports){
+},{}],79:[function(require,module,exports){
 const select = document.getElementById('tonic-router-select')
 const page2 = document.getElementById('page2')
 
@@ -14085,9 +14047,9 @@ page2.addEventListener('match', () => {
   el.textContent = number
 })
 
-},{}],79:[function(require,module,exports){
+},{}],80:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],80:[function(require,module,exports){
+},{"dup":4}],81:[function(require,module,exports){
 const Tonic = require('@conductorlab/tonic')
 const tape = require('../../test/tape')
 const { qs } = require('qs')
@@ -14115,230 +14077,26 @@ tape('{{tabs-3}} has correct default state', t => {
   t.end()
 })
 
-},{"../../test/tape":87,"@conductorlab/tonic":2,"qs":37}],81:[function(require,module,exports){
+},{"../../test/tape":88,"@conductorlab/tonic":2,"qs":38}],82:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],82:[function(require,module,exports){
-// Default inline toaster
-const toasterInlineDefault = document.getElementById('tonic-toasterinline-default')
-const toasterInlineDefaultButton = document.getElementById('tonic-toasterinline-default-button')
+},{"dup":4}],83:[function(require,module,exports){
+const tape = require('../../test/tape')
+const { qs } = require('qs')
 
-toasterInlineDefaultButton.addEventListener('click', e => {
-  toasterInlineDefault.create()
-})
+// tape('{{icon-1}} is constructed properly', t => {
+//   const container = qs('#icon-1')
+//   const component = qs('tonic-icon', container)
+//
+//   t.plan(3)
+//
+//   t.ok(component.firstElementChild, 'the component was constructed')
+//   t.ok(component.hasAttribute('src'), 'the component has a src')
+//   t.ok(component.hasAttribute('symbol-id'), 'the component has a symbol id')
+//
+//   t.end()
+// })
 
-// Inline toaster w/ id
-const toasterInlineId = document.getElementById('tonic-toasterinline-id')
-const toasterInlineIdButton = document.getElementById('tonic-toasterinline-id-button')
-
-toasterInlineIdButton.addEventListener('click', e => {
-  toasterInlineId.create()
-})
-
-// Inline toaster w/ name
-const toasterInlineName = document.getElementById('tonic-toasterinline-name')
-const toasterInlineNameButton = document.getElementById('tonic-toasterinline-name-button')
-
-toasterInlineNameButton.addEventListener('click', e => {
-  toasterInlineName.create()
-})
-
-// Inline toaster w/ title
-const toasterInlineTitle = document.getElementById('tonic-toasterinline-title')
-const toasterInlineTitleButton = document.getElementById('tonic-toasterinline-title-button')
-
-toasterInlineTitleButton.addEventListener('click', e => {
-  toasterInlineTitle.create({
-    title: 'Once upon a time'
-  })
-})
-
-// Inline toaster w/ inline title
-const toasterInlineInlineTitle = document.getElementById('tonic-toasterinline-inline-title')
-const toasterInlineInlineTitleButton = document.getElementById('tonic-toasterinline-inline-title-button')
-
-toasterInlineInlineTitleButton.addEventListener('click', e => {
-  toasterInlineInlineTitle.create()
-})
-
-// Inline toaster w/ message
-const toasterInlineMessage = document.getElementById('tonic-toasterinline-message')
-const toasterInlineMessageButton = document.getElementById('tonic-toasterinline-message-button')
-
-toasterInlineMessageButton.addEventListener('click', e => {
-  toasterInlineMessage.create({
-    message: 'I am a message!'
-  })
-})
-
-// Inline toaster w/ title & message
-const toasterInlineTitleMessage = document.getElementById('tonic-toasterinline-title-message')
-const toasterInlineTitleMessageButton = document.getElementById('tonic-toasterinline-title-message-button')
-
-toasterInlineTitleMessageButton.addEventListener('click', e => {
-  toasterInlineTitleMessage.create({
-    title: 'Hello',
-    message: 'How are you doing today?'
-  })
-})
-
-// Inline toaster w/ type success
-const toasterInlineSuccess = document.getElementById('tonic-toasterinline-type-success')
-const toasterInlineSuccessButton = document.getElementById('tonic-toasterinline-type-success-button')
-
-toasterInlineSuccessButton.addEventListener('click', e => {
-  toasterInlineSuccess.create({
-    type: 'success'
-  })
-})
-
-// Inline toaster w/ type warning
-const toasterInlineWarning = document.getElementById('tonic-toasterinline-type-warning')
-const toasterInlineWarningButton = document.getElementById('tonic-toasterinline-type-warning-button')
-
-toasterInlineWarningButton.addEventListener('click', e => {
-  toasterInlineWarning.create({
-    type: 'warning'
-  })
-})
-
-// Inline toaster w/ type danger
-const toasterInlineDanger = document.getElementById('tonic-toasterinline-type-danger')
-const toasterInlineDangerButton = document.getElementById('tonic-toasterinline-type-danger-button')
-
-toasterInlineDangerButton.addEventListener('click', e => {
-  toasterInlineDanger.create({
-    type: 'danger'
-  })
-})
-
-// Inline toaster w/ type info
-const toasterInlineInfo = document.getElementById('tonic-toasterinline-type-info')
-const toasterInlineInfoButton = document.getElementById('tonic-toasterinline-type-info-button')
-
-toasterInlineInfoButton.addEventListener('click', e => {
-  toasterInlineInfo.create({
-    type: 'info'
-  })
-})
-
-// Inline toaster w/ type & title
-const toasterInlineTypeTitle = document.getElementById('tonic-toasterinline-type-title')
-const toasterInlineTypeTitleButton = document.getElementById('tonic-toasterinline-type-title-button')
-
-toasterInlineTypeTitleButton.addEventListener('click', e => {
-  toasterInlineTypeTitle.create({
-    dismiss: false,
-    type: 'info',
-    title: 'For your information'
-  })
-})
-
-// Inline toaster w/ type & message
-const toasterInlineTypeMessage = document.getElementById('tonic-toasterinline-type-message')
-const toasterInlineTypeMessageButton = document.getElementById('tonic-toasterinline-type-message-button')
-
-toasterInlineTypeMessageButton.addEventListener('click', e => {
-  toasterInlineTypeMessage.create({
-    type: 'success',
-    message: 'You are truly a success!'
-  })
-})
-
-// Inline toaster w/ type & title & message
-const toasterInlineTypeTitleMessage = document.getElementById('tonic-toasterinline-type-title-message')
-const toasterInlineTypeTitleMessageButton = document.getElementById('tonic-toasterinline-type-title-message-button')
-
-toasterInlineTypeTitleMessageButton.addEventListener('click', e => {
-  toasterInlineTypeTitleMessage.create({
-    type: 'danger',
-    title: 'Watch out',
-    message: 'You are in serious danger'
-  })
-})
-
-// Inline toaster w/ duration
-const toasterInlineDuration = document.getElementById('tonic-toasterinline-duration')
-const toasterInlineDurationButton = document.getElementById('tonic-toasterinline-duration-button')
-
-toasterInlineDurationButton.addEventListener('click', e => {
-  toasterInlineDuration.create({
-    duration: 3e3,
-    message: 'Duration 3 seconds'
-  })
-})
-
-// Inline toaster w/out duration
-const toasterInlineNoDuration = document.getElementById('tonic-toasterinline-no-duration')
-const toasterInlineNoDurationButton = document.getElementById('tonic-toasterinline-no-duration-button')
-
-toasterInlineNoDurationButton.addEventListener('click', e => {
-  toasterInlineNoDuration.create({
-    message: 'No Duration'
-  })
-})
-
-// Inline toaster w/ dismiss w/ duration
-const toasterInlineDismissDuration = document.getElementById('tonic-toasterinline-dismiss-duration')
-const toasterInlineDismissDurationButton = document.getElementById('tonic-toasterinline-dismiss-duration-button')
-
-toasterInlineDismissDurationButton.addEventListener('click', e => {
-  toasterInlineDismissDuration.create({
-    dismiss: true,
-    duration: 3e3,
-    message: 'Dismiss me or I will disappear!'
-  })
-})
-
-// Inline toaster w/out dismiss w/ duration
-const toasterInlineNoDismissDuration = document.getElementById('tonic-toasterinline-no-dismiss-duration')
-const toasterInlineNoDismissDurationButton = document.getElementById('tonic-toasterinline-no-dismiss-duration-button')
-
-toasterInlineNoDismissDurationButton.addEventListener('click', e => {
-  toasterInlineNoDismissDuration.create({
-    dismiss: false,
-    duration: 3e3,
-    message: 'I will disappear when I am ready!'
-  })
-})
-
-// Inline toaster w/ theme light
-const toasterInlineThemeLight = document.getElementById('tonic-toasterinline-theme-light')
-const toasterInlineThemeLightButton = document.getElementById('tonic-toasterinline-theme-light-button')
-
-toasterInlineThemeLightButton.addEventListener('click', e => {
-  toasterInlineThemeLight.create({
-    theme: 'light',
-    message: 'I am a light theme'
-  })
-})
-
-// Inline toaster w/ theme dark
-const toasterInlineThemeDark = document.getElementById('tonic-toasterinline-theme-dark')
-const toasterInlineThemeDarkButton = document.getElementById('tonic-toasterinline-theme-dark-button')
-
-toasterInlineThemeDarkButton.addEventListener('click', e => {
-  toasterInlineThemeDark.create({
-    theme: 'dark',
-    message: 'I am a dark theme'
-  })
-})
-
-// Inline toaster w/ all js attributes
-const toasterInlineJs = document.getElementById('tonic-toasterinline-js')
-const toasterInlineJsButton = document.getElementById('tonic-toasterinline-js-button')
-
-toasterInlineJsButton.addEventListener('click', e => {
-  toasterInlineJs.create({
-    title: 'I am the title',
-    message: 'This is the message',
-    type: 'danger',
-    dismiss: false,
-    duration: 3e3,
-    theme: 'dark'
-  })
-})
-
-},{}],83:[function(require,module,exports){
+},{"../../test/tape":88,"qs":38}],84:[function(require,module,exports){
 const notification = document.querySelector('tonic-toaster[position="center"]')
 
 // Toaster Default
@@ -14511,7 +14269,7 @@ toasterThemeDark.addEventListener('click', e => {
   })
 })
 
-},{}],84:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 const tape = require('../../test/tape')
 const { qs } = require('qs')
 
@@ -14547,11 +14305,11 @@ tape('{{toggle-2}} has tabindex attribute', t => {
   t.end()
 })
 
-},{"../../test/tape":87,"qs":37}],85:[function(require,module,exports){
-arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],86:[function(require,module,exports){
+},{"../../test/tape":88,"qs":38}],86:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
 },{"dup":4}],87:[function(require,module,exports){
+arguments[4][4][0].apply(exports,arguments)
+},{"dup":4}],88:[function(require,module,exports){
 const tape = require('tape')
 const stream = tape.createStream({ objectMode: true })
 
@@ -14620,7 +14378,7 @@ stream.on('data', data => {
 
 module.exports = tape
 
-},{"tape":59}],88:[function(require,module,exports){
+},{"tape":60}],89:[function(require,module,exports){
 const Tonic = require('@conductorlab/tonic')
 const components = require('..')
 
@@ -14662,4 +14420,4 @@ function ready () {
 
 document.addEventListener('DOMContentLoaded', ready)
 
-},{"..":1,"../src/badge/test":66,"../src/button/test":67,"../src/charts/test":68,"../src/checkbox/test":69,"../src/dialog/test":70,"../src/icon/test":71,"../src/input/test":72,"../src/panel/test":73,"../src/popover/test":74,"../src/profile-image/test":75,"../src/progress-bar/test":76,"../src/range/test":77,"../src/router/test":78,"../src/select/test":79,"../src/tabs/test":80,"../src/textarea/test":81,"../src/toaster-inline/test":82,"../src/toaster/test":83,"../src/toggle/test":84,"../src/tooltip/test":85,"../src/windowed/test":86,"@conductorlab/tonic":2}]},{},[88]);
+},{"..":1,"../src/badge/test":67,"../src/button/test":68,"../src/charts/test":69,"../src/checkbox/test":70,"../src/dialog/test":71,"../src/icon/test":72,"../src/input/test":73,"../src/panel/test":74,"../src/popover/test":75,"../src/profile-image/test":76,"../src/progress-bar/test":77,"../src/range/test":78,"../src/router/test":79,"../src/select/test":80,"../src/tabs/test":81,"../src/textarea/test":82,"../src/toaster-inline/test":83,"../src/toaster/test":84,"../src/toggle/test":85,"../src/tooltip/test":86,"../src/windowed/test":87,"@conductorlab/tonic":2}]},{},[89]);

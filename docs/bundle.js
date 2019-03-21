@@ -1144,11 +1144,11 @@ class TonicTabs extends Tonic { /* global Tonic */
     return `
       tonic-tabs .tonic--tab {
         -webkit-appearance: none;
+<<<<<<< HEAD
         border-bottom: 2px solid transparent;
+=======
+>>>>>>> build
         user-select: none;
-      }
-      tonic-tabs .tonic--tab[aria-selected="true"] {
-        border-bottom: 2px solid var(--tonic-accent);
       }
     `
   }
@@ -1172,10 +1172,16 @@ class TonicTabs extends Tonic { /* global Tonic */
 
     for (const tab of tabs) {
       const control = tab.getAttribute('for')
-      if (!control) return
+
+      if (!control) {
+        throw new Error(`No "for" attribute found for (${tab.id})`)
+      }
 
       const panel = document.getElementById(control)
-      if (!panel) return
+
+      if (!panel) {
+        throw new Error(`No panel found that matches the id (${control})`)
+      }
 
       if (tab.id === id) {
         panel.removeAttribute('hidden')

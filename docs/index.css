@@ -83,7 +83,7 @@ tonic-badge {
 tonic-panel h3 {
   margin: 0;
 }
-tonic-panel header {
+tonic-panel .tonic--header {
   padding: 20px;
   position: absolute;
   top: 0;
@@ -91,7 +91,7 @@ tonic-panel header {
   right: 0;
   height: 90px;
 }
-tonic-panel main {
+tonic-panel .tonic--main {
   padding: 20px;
   position: absolute;
   top: 90px;
@@ -100,7 +100,7 @@ tonic-panel main {
   bottom: 70px;
   overflow: scroll;
 }
-tonic-panel footer {
+tonic-panel .tonic--footer {
   position: absolute;
   left: 0;
   right: 0;

@@ -3,26 +3,17 @@ const notification = document.querySelector('tonic-toaster[position="center"]')
 // Toaster Default
 const toasterDefault = document.getElementById('tonic-toaster-default')
 toasterDefault.addEventListener('click', e => {
-  notification.create()
-})
-
-// Toaster w/ id
-const toasterId = document.getElementById('tonic-toaster-id')
-toasterId.addEventListener('click', e => {
-  notification.create()
-})
-
-// Toaster w/ name
-const toasterName = document.getElementById('tonic-toaster-name')
-toasterName.addEventListener('click', e => {
-  notification.create()
+  notification.create({
+    message: 'You have been notified.'
+  })
 })
 
 // Toaster Type Success
 const toasterSuccess = document.getElementById('tonic-toaster-type-success')
 toasterSuccess.addEventListener('click', e => {
   notification.create({
-    type: 'success'
+    type: 'success',
+    message: 'Success!'
   })
 })
 
@@ -30,7 +21,8 @@ toasterSuccess.addEventListener('click', e => {
 const toasterWarning = document.getElementById('tonic-toaster-type-warning')
 toasterWarning.addEventListener('click', e => {
   notification.create({
-    type: 'warning'
+    type: 'warning',
+    message: 'This is a warning!'
   })
 })
 
@@ -38,7 +30,8 @@ toasterWarning.addEventListener('click', e => {
 const toasterDanger = document.getElementById('tonic-toaster-type-danger')
 toasterDanger.addEventListener('click', e => {
   notification.create({
-    type: 'danger'
+    type: 'danger',
+    message: 'Danger zone!'
   })
 })
 
@@ -46,7 +39,8 @@ toasterDanger.addEventListener('click', e => {
 const toasterInfo = document.getElementById('tonic-toaster-type-info')
 toasterInfo.addEventListener('click', e => {
   notification.create({
-    type: 'info'
+    type: 'info',
+    message: 'For Your Information...'
   })
 })
 

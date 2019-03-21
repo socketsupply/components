@@ -44,11 +44,11 @@ class TonicToasterInline extends Tonic { /* global Tonic */
         padding-left: 35px;
       }
 
-      tonic-toaster-inline main {
+      tonic-toaster-inline .tonic--main {
         padding: 17px 18px 15px 18px;
       }
 
-      tonic-toaster-inline.tonic--dismiss main {
+      tonic-toaster-inline.tonic--dismiss .tonic--main {
         margin-right: 40px;
       }
 
@@ -196,14 +196,14 @@ class TonicToasterInline extends Tonic { /* global Tonic */
       <div class="tonic--notification ${typeClasses}" styles="${styles}">
         ${this.renderIcon()}
         ${this.renderClose()}
-        <main>
+        <div class="tonic--main">
           <div class="tonic--title">
             ${title}
           </div>
           <div class="tonic--message">
             ${message || this.childNodes}
           </div>
-        </main>
+        </div>
       </div>
     `
   }

@@ -16,7 +16,6 @@ class Dialog extends Tonic { /* global Tonic */
       width: '450px',
       height: 'auto',
       overlay: true,
-      closeIcon: Dialog.svg.closeIcon(`var(--tonic-primary)`),
       backgroundColor: 'rgba(0,0,0,0.5)'
     }
   }
@@ -85,6 +84,11 @@ class Dialog extends Tonic { /* global Tonic */
         top: 25px;
         right: 25px;
         cursor: pointer;
+      }
+
+      .tonic--dialog .tonic--close svg {
+        width: inherit;
+        height: inherit;
       }
     `
   }
@@ -178,26 +182,31 @@ class Dialog extends Tonic { /* global Tonic */
     if (width) dialog.style.width = width
     if (height) dialog.style.height = height
 
-    const close = document.createElement('div')
-    close.className = 'tonic--close'
+    // create template
+    const closeIcon = document.createElement('div')
+    closeIcon.className = 'tonic--close'
+
+    // create SVG
+    const svgns = 'http://www.w3.org/2000/svg'
+    const xlinkns = 'http://www.w3.org/1999/xlink'
+    const svg = document.createElementNS(svgns, 'svg')
+    const use = document.createElementNS(svgns, 'use')
+
+    closeIcon.appendChild(svg)
+    svg.appendChild(use)
 
     const iconColor = color || `var(--tonic-primary)`
-    const url = Dialog.svg.closeIcon(iconColor)
-    close.style.backgroundImage = `url("${url}")`
+
+    use.setAttributeNS(xlinkns, 'href', '#close')
+    use.setAttributeNS(xlinkns, 'xlink:href', '#close')
+    use.setAttribute('color', iconColor)
+    use.setAttribute('fill', iconColor)
 
     wrapper.appendChild(dialog)
     dialog.appendChild(template.content)
-    dialog.appendChild(close)
+    dialog.appendChild(closeIcon)
     return wrapper
   }
 }
-
-Dialog.svg = {}
-Dialog.svg.toURL = s => `data:image/svg+xml;base64,${window.btoa(s)}`
-Dialog.svg.closeIcon = color => Dialog.svg.toURL(`
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path fill="${color}" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
-  </svg>
-`)
 
 Tonic.Dialog = Dialog

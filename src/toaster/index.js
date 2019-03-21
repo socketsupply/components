@@ -153,14 +153,16 @@ class TonicToaster extends Tonic { /* global Tonic */
       notification.appendChild(closeIcon)
       notification.classList.add('tonic--close')
 
-      const svg = document.createElement('svg')
-      closeIcon.appendChild(svg)
+      const svgns = 'http://www.w3.org/2000/svg'
+      const xlinkns = 'http://www.w3.org/1999/xlink'
+      const svg = document.createElementNS(svgns, 'svg')
+      const use = document.createElementNS(svgns, 'use')
 
-      const use = document.createElement('use')
+      closeIcon.appendChild(svg)
       svg.appendChild(use)
 
-      use.setAttribute('href', '#close')
-      use.setAttribute('xlink:href', '#close')
+      use.setAttributeNS(xlinkns, 'href', '#close')
+      use.setAttributeNS(xlinkns, 'xlink:href', '#close')
       use.setAttribute('color', 'var(--tonic-primary)')
       use.setAttribute('fill', 'var(--tonic-primary)')
     }
@@ -170,14 +172,16 @@ class TonicToaster extends Tonic { /* global Tonic */
       alertIcon.className = 'tonic--icon'
       notification.appendChild(alertIcon)
 
-      const svg = document.createElement('svg')
-      alertIcon.appendChild(svg)
+      const svgns = 'http://www.w3.org/2000/svg'
+      const xlinkns = 'http://www.w3.org/1999/xlink'
+      const svg = document.createElementNS(svgns, 'svg')
+      const use = document.createElementNS(svgns, 'use')
 
-      const use = document.createElement('use')
+      alertIcon.appendChild(svg)
       svg.appendChild(use)
 
-      use.setAttribute('href', `#${type}`)
-      use.setAttribute('xlink:href', `#${type}`)
+      use.setAttributeNS(xlinkns, 'href', `#${type}`)
+      use.setAttributeNS(xlinkns, 'xlink:href', `#${type}`)
       use.setAttribute('color', `var(--tonic-${type})`)
       use.setAttribute('fill', `var(--tonic-${type})`)
     }

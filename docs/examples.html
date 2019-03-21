@@ -1329,15 +1329,15 @@ link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; dialog.s
 
   render () {
     <span class="hljs-keyword">return</span> <span class="hljs-string">`
-      &lt;header&gt;&lt;/header&gt;
-      &lt;main&gt;
+      &lt;div class="tonic--header"&gt;Panel Example&lt;/div&gt;
+      &lt;div class="tonic--main"&gt;
         &lt;h3&gt;<span class="hljs-subst">${<span class="hljs-keyword">this</span>.props.title || <span class="hljs-string">'Hello'</span>}</span>
         &lt;p&gt;<span class="hljs-subst">${<span class="hljs-keyword">this</span>.props.extract || <span class="hljs-string">'Click "get" to fetch the content from Wikipedia.'</span>}</span>&lt;/p&gt;
-      &lt;/main&gt;
-      &lt;footer&gt;
+      &lt;/div&gt;
+      &lt;div class="tonic--footer"&gt;
         &lt;tonic-button value="close"&gt;Close&lt;/tonic-button&gt;
         &lt;tonic-button value="get" async="true"&gt;Get&lt;/tonic-button&gt;
-      &lt;/footer&gt;
+      &lt;/div&gt;
     `</span>
   }
 }

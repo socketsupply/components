@@ -9,13 +9,13 @@ class TonicPanel extends Tonic.Panel {
 
   render () {
     return `
-      <header></header>
-      <main>
+      <div class="tonic--header">Panel Example</div>
+      <div class="tonic--main">
         <h3>${this.props.title || 'Hello'}
-      </main>
-      <footer>
+      </div>
+      <div class="tonic--footer">
         <tonic-button value="close">Close</tonic-button>
-      </footer>
+      </div>
     `
   }
 }

@@ -1,165 +1,133 @@
-const notification = document.querySelector('tonic-toaster[position="center"]')
+const tape = require('../../test/tape')
+const { qs } = require('qs')
 
-// Toaster Default
-const toasterDefault = document.getElementById('tonic-toaster-default')
-toasterDefault.addEventListener('click', e => {
+const notification = qs('tonic-toaster[position="center"]')
+const sleep = n => new Promise(resolve => setTimeout(resolve, n))
+
+tape('{{toaster}} is created and destroyed', async t => {
   notification.create({
     message: 'You have been notified.'
   })
+
+  await sleep(512)
+
+  const toaster = qs('.tonic--notification', notification)
+  const toasterMain = qs('.tonic--main', toaster)
+  const toasterMessage = qs('.tonic--message', toasterMain)
+  const toasterTitle = qs('.tonic--title', toasterMain)
+  const dismiss = toaster.classList.contains('tonic--close')
+  const closeIcon = qs('.tonic--close', toaster)
+
+  t.plan(6)
+
+  t.ok(toaster, 'Toaster was created')
+  t.ok(toasterMain, 'Toaster main div was created')
+  t.ok(toasterMessage, 'Toaster message div was created')
+  t.ok(toasterTitle, 'Toaster title div was created')
+
+  t.equal(!dismiss, !closeIcon, 'Only if toaster has dismiss class, is close icon also created')
+
+  notification.destroy(toaster)
+
+  await sleep(512)
+
+  const toasterB = qs('.tonic--notification', notification)
+  t.ok(!toasterB, 'Toaster was destroyed')
+
+  t.end()
 })
 
-// Toaster Type Success
-const toasterSuccess = document.getElementById('tonic-toaster-type-success')
-toasterSuccess.addEventListener('click', e => {
+tape('{{toaster}} with dismiss false is created without close icon', async t => {
+  notification.create({
+    message: 'I will stay open',
+    dismiss: 'false'
+  })
+
+  await sleep(512)
+
+  const toaster = qs('.tonic--notification', notification)
+  const dismiss = toaster.classList.contains('tonic--close')
+  const closeIcon = qs('.tonic--close', toaster)
+
+  t.equal(!dismiss, !closeIcon, 'Only if toaster has dismiss class, is close icon also created')
+
+  notification.destroy(toaster)
+  t.end()
+})
+
+tape('{{toaster}} with type success is created', async t => {
   notification.create({
     type: 'success',
     message: 'Success!'
   })
+
+  await sleep(512)
+
+  const toaster = qs('.tonic--notification', notification)
+  const toasterMessage = qs('.tonic--message', toaster)
+
+  const alert = toaster.classList.contains('tonic--alert')
+  const alertIcon = qs('.tonic--icon', toaster)
+
+  t.ok(toaster, 'Toaster was created')
+  t.equal(toasterMessage.textContent, 'Success!', 'Toaster textContent matches message')
+  t.equal(!alert, !alertIcon, 'If toaster does not have alert class, alert icon is not created')
+
+  notification.destroy(toaster)
+  t.end()
 })
 
-// Toaster Type Warning
-const toasterWarning = document.getElementById('tonic-toaster-type-warning')
-toasterWarning.addEventListener('click', e => {
+tape('{{toaster}} is created and destroyed after duration', async t => {
   notification.create({
-    type: 'warning',
-    message: 'This is a warning!'
-  })
-})
-
-// Toaster Type Danger
-const toasterDanger = document.getElementById('tonic-toaster-type-danger')
-toasterDanger.addEventListener('click', e => {
-  notification.create({
-    type: 'danger',
-    message: 'Danger zone!'
-  })
-})
-
-// Toaster Type Info
-const toasterInfo = document.getElementById('tonic-toaster-type-info')
-toasterInfo.addEventListener('click', e => {
-  notification.create({
-    type: 'info',
-    message: 'For Your Information...'
-  })
-})
-
-// Toaster w/ Title
-const toasterTitle = document.getElementById('tonic-toaster-title')
-toasterTitle.addEventListener('click', e => {
-  notification.create({
-    title: 'Hello!'
-  })
-})
-
-// Toaster w/ Message
-const toasterMessage = document.getElementById('tonic-toaster-message')
-toasterMessage.addEventListener('click', e => {
-  notification.create({
-    message: 'Hello World'
-  })
-})
-
-// Toaster w/ Title & Message
-const toasterTitleMessage = document.getElementById('tonic-toaster-title-message')
-toasterTitleMessage.addEventListener('click', e => {
-  notification.create({
-    title: 'Hello',
-    message: 'How are you doing today?'
-  })
-})
-
-// Toaster w/ Type, Title & Message
-const toasterTypeTitleMessage = document.getElementById('tonic-toaster-type-title-message')
-toasterTypeTitleMessage.addEventListener('click', e => {
-  notification.create({
-    title: 'Hello',
-    message: 'How are you doing today?'
-  })
-})
-
-// Toaster w/ Dismiss
-const toasterDismiss = document.getElementById('tonic-toaster-dismiss')
-toasterDismiss.addEventListener('click', e => {
-  notification.create({
-    title: 'Hello',
-    message: 'How are you doing today?',
-    dismiss: true
-  })
-})
-
-// Toaster w/out Dismiss
-const toasterDismissFalse = document.getElementById('tonic-toaster-dismiss-false')
-toasterDismissFalse.addEventListener('click', e => {
-  notification.create({
-    title: 'Hello',
-    message: 'How are you doing today?',
-    dismiss: false
-  })
-})
-
-// Toaster w/ Dismiss w/ duration
-const toasterDismissDuration = document.getElementById('tonic-toaster-dismiss-duration')
-toasterDismissDuration.addEventListener('click', e => {
-  notification.create({
-    title: 'Hello',
-    message: 'How are you doing today?',
-    dismiss: true,
+    message: 'Short and sweet',
     duration: 3e3
   })
+
+  await sleep(512)
+
+  const toaster = qs('.tonic--notification', notification)
+  t.ok(toaster, 'Toaster was created')
+
+  await sleep(3e3)
+
+  const toasterB = qs('.tonic--notification', notification)
+  t.ok(!toasterB, 'Toaster was destroyed')
+
+  t.end()
 })
 
-// Toaster w/out Dismiss w/ duration
-const toasterDismissFalseDuration = document.getElementById('tonic-toaster-dismiss-false-duration')
-toasterDismissFalseDuration.addEventListener('click', e => {
-  notification.create({
-    title: 'Hello',
-    message: 'How are you doing today?',
-    dismiss: false,
-    duration: 3e3
-  })
-})
+tape('{{toaster}} is created on the left', async t => {
+  const notificationLeft = qs('tonic-toaster[position="left"]')
+  const wrapper = qs('.tonic--left', notificationLeft)
+  const toaster = qs('.tonic--notification', wrapper)
 
-const notificationLeft = document.querySelector('tonic-toaster[position="left"]')
-const notificationRight = document.querySelector('tonic-toaster[position="right"]')
-
-// Toaster w/ Left Notification
-const toasterPositionLeft = document.getElementById('tonic-toaster-position-left')
-toasterPositionLeft.addEventListener('click', e => {
   notificationLeft.create({
-    title: 'Toaster',
-    message: 'Hi, I am on the left',
+    message: 'Left toaster',
     duration: 3e3
   })
+
+  await sleep(128)
+
+  t.ok(wrapper, 'Wrapper was created with the tonic--left class')
+  t.ok(toaster, 'Toaster was created')
+
+  t.end()
 })
 
-// Toaster w/ Right Notification
-const toasterPositionRight = document.getElementById('tonic-toaster-position-right')
-toasterPositionRight.addEventListener('click', e => {
+tape('{{toaster}} is created on the right', async t => {
+  const notificationRight = qs('tonic-toaster[position="right"]')
+  const wrapper = qs('.tonic--right', notificationRight)
+  const toaster = qs('.tonic--notification', wrapper)
+
   notificationRight.create({
-    title: 'Toaster',
-    message: 'Hi, I am on the right',
+    message: 'Right toaster',
     duration: 3e3
   })
-})
 
-const notificationLight = document.querySelector('tonic-toaster[theme="light"]')
-const notificationDark = document.querySelector('tonic-toaster[theme="dark"]')
+  await sleep(128)
 
-// Toaster w/ theme light
-const toasterThemeLight = document.getElementById('tonic-toaster-theme-light')
-toasterThemeLight.addEventListener('click', e => {
-  notificationLight.create({
-    title: 'Light',
-    message: 'Step lightly now'
-  })
-})
+  t.ok(wrapper, 'Wrapper was created with the tonic--right class')
+  t.ok(toaster, 'Toaster was created')
 
-// Toaster w/ theme dark
-const toasterThemeDark = document.getElementById('tonic-toaster-theme-dark')
-toasterThemeDark.addEventListener('click', e => {
-  notificationDark.create({
-    title: 'Dark',
-    message: 'These are dark times we live in'
-  })
+  t.end()
 })

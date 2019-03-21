@@ -4843,9 +4843,6 @@ class Tonic extends window.HTMLElement {
     delete Tonic._states[this.id]
     this.state = state || {}
     this.props = {}
-    this.originalNodes = [...this.childNodes].map(el => el.cloneNode(true))
-    this.originalNodes.__children__ = true
-    console.log(this.tagName, '>>>', this.children)
     this._events()
   }
 
@@ -4897,9 +4894,6 @@ class Tonic extends window.HTMLElement {
 
   html ([s, ...strings], ...values) {
     const refs = o => {
-      if (o.__children__) {
-        return this._placehold(o)
-      }
       switch (({}).toString.call(o)) {
         case '[object HTMLCollection]':
         case '[object NodeList]': return this._placehold([...o])

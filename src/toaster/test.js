@@ -80,15 +80,15 @@ tape('{{toaster}} with type success is created', async t => {
 tape('{{toaster}} is created and destroyed after duration', async t => {
   notification.create({
     message: 'Short and sweet',
-    duration: 3e3
+    duration: 512
   })
 
-  await sleep(512)
+  await sleep(128)
 
   const toaster = qs('.tonic--notification', notification)
   t.ok(toaster, 'Toaster was created')
 
-  await sleep(3e3)
+  await sleep(1024)
 
   const toasterB = qs('.tonic--notification', notification)
   t.ok(!toasterB, 'Toaster was destroyed')
@@ -99,7 +99,6 @@ tape('{{toaster}} is created and destroyed after duration', async t => {
 tape('{{toaster}} is created on the left', async t => {
   const notificationLeft = qs('tonic-toaster[position="left"]')
   const wrapper = qs('.tonic--left', notificationLeft)
-  const toaster = qs('.tonic--notification', wrapper)
 
   notificationLeft.create({
     message: 'Left toaster',
@@ -107,6 +106,8 @@ tape('{{toaster}} is created on the left', async t => {
   })
 
   await sleep(128)
+
+  const toaster = qs('.tonic--notification', wrapper)
 
   t.ok(wrapper, 'Wrapper was created with the tonic--left class')
   t.ok(toaster, 'Toaster was created')
@@ -117,7 +118,6 @@ tape('{{toaster}} is created on the left', async t => {
 tape('{{toaster}} is created on the right', async t => {
   const notificationRight = qs('tonic-toaster[position="right"]')
   const wrapper = qs('.tonic--right', notificationRight)
-  const toaster = qs('.tonic--notification', wrapper)
 
   notificationRight.create({
     message: 'Right toaster',
@@ -125,6 +125,8 @@ tape('{{toaster}} is created on the right', async t => {
   })
 
   await sleep(128)
+
+  const toaster = qs('.tonic--notification', wrapper)
 
   t.ok(wrapper, 'Wrapper was created with the tonic--right class')
   t.ok(toaster, 'Toaster was created')

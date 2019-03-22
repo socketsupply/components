@@ -3507,16 +3507,6 @@ TonicSelect.svg.default = () => TonicSelect.svg.toURL(`
 Tonic.add(TonicSelect)
 
 class TonicSprite extends Tonic { /* global Tonic */
-  stylesheet () {
-    return `
-      tonic-sprite svg {
-        width: 50px;
-        height: 50px;
-        background: #eee;
-      }
-    `
-  }
-
   render () {
     return this.html`
       <svg version="1.1" xmlns="http://www.w3.org/2000/svg">

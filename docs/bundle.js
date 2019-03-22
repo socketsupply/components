@@ -2742,7 +2742,7 @@ class TonicCheckbox extends Tonic { /* global Tonic */
     } = this.props
 
     if (!this.props.label) {
-      label = this.originalNodes
+      label = this.initialChildNodes
     }
 
     return this.html`<label styles="label" for="tonic--checkbox--${id}">${label}</label>`
@@ -3234,6 +3234,7 @@ class TonicProgressBar extends Tonic { /* global Tonic */
         height: this.props.height
       },
       progress: {
+        width: this.state.progress + '%',
         backgroundColor: this.props.color || 'var(--tonic-accent)'
       }
     }
@@ -3247,28 +3248,13 @@ class TonicProgressBar extends Tonic { /* global Tonic */
     this.reRender()
   }
 
-  updated () {
-    window.requestAnimationFrame(() => {
-      const progressBar = this.root.querySelector('.tonic--progress')
-      let progress = this.props.progress
-
-      if (typeof this.state.progress !== 'undefined') {
-        progress = this.state.progress
-      }
-
-      if (progressBar) {
-        progressBar.style.width = `${progress}%`
-      }
-    })
-  }
-
   render () {
     if (this.props.theme) {
-      this.root.classList.add(`tonic--theme--${this.props.theme}`)
+      this.classList.add(`tonic--theme--${this.props.theme}`)
     }
 
-    this.root.style.width = this.props.width
-    this.root.style.height = this.props.height
+    this.style.width = this.props.width
+    this.style.height = this.props.height
 
     return this.html`
       <div class="tonic--wrapper" styles="wrapper">
@@ -3938,6 +3924,15 @@ TonicSelect.svg.default = () => TonicSelect.svg.toURL(`
 Tonic.add(TonicSelect)
 
 class TonicSprite extends Tonic { /* global Tonic */
+  stylesheet () {
+    return `
+      tonic-sprite svg {
+        visibility: hidden;
+        height: 0;
+      }
+    `
+  }
+
   render () {
     return this.html`
       <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -4833,6 +4828,10 @@ class Tonic extends window.HTMLElement {
     delete Tonic._states[this.id]
     this.state = state || {}
     this.props = {}
+    this.initialChildElements = [...this.children].map(el => el.cloneNode(true))
+    this.initialChildElements.__children__ = true
+    this.initialChildNodes = [...this.childNodes].map(el => el.cloneNode(true))
+    this.initialChildNodes.__children__ = true
     this._events()
   }
 
@@ -4884,6 +4883,7 @@ class Tonic extends window.HTMLElement {
 
   html ([s, ...strings], ...values) {
     const refs = o => {
+      if (o && o.__children__) return this._placehold(o)
       switch (({}).toString.call(o)) {
         case '[object HTMLCollection]':
         case '[object NodeList]': return this._placehold([...o])
@@ -5053,6 +5053,8 @@ class Tonic extends window.HTMLElement {
 
   disconnectedCallback (index) {
     this.disconnected && this.disconnected()
+    this.initialChildElements.length = 0
+    this.initialChildNodes.length = 0
     delete Tonic._data[this._id]
     delete Tonic._children[this._id]
     Tonic._refs.splice(index, 1)
@@ -5075,17 +5077,31 @@ Object.assign(Tonic, {
 if (typeof module === 'object') module.exports = Tonic
 
 },{}],6:[function(require,module,exports){
+(function (global){
 "use strict";
 
-module.exports = exports = self.fetch;
+// ref: https://github.com/tc39/proposal-global
+var getGlobal = function () {
+	// the only reliable means to get the global object is
+	// `Function('return this')()`
+	// However, this causes CSP violations in Chrome apps.
+	if (typeof self !== 'undefined') { return self; }
+	if (typeof window !== 'undefined') { return window; }
+	if (typeof global !== 'undefined') { return global; }
+	throw new Error('unable to locate global object');
+}
+
+var global = getGlobal();
+
+module.exports = exports = global.fetch;
 
 // Needed for TypeScript and Webpack.
-exports.default = self.fetch.bind(self);
+exports.default = global.fetch.bind(global);
 
-exports.Headers = self.Headers;
-exports.Request = self.Request;
-exports.Response = self.Response;
-
+exports.Headers = global.Headers;
+exports.Request = global.Request;
+exports.Response = global.Response;
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],7:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};

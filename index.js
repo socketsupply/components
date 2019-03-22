@@ -2309,7 +2309,7 @@ class TonicCheckbox extends Tonic { /* global Tonic */
     } = this.props
 
     if (!this.props.label) {
-      label = this.originalNodes
+      label = this.initialChildNodes
     }
 
     return this.html`<label styles="label" for="tonic--checkbox--${id}">${label}</label>`
@@ -2801,6 +2801,7 @@ class TonicProgressBar extends Tonic { /* global Tonic */
         height: this.props.height
       },
       progress: {
+        width: this.state.progress + '%',
         backgroundColor: this.props.color || 'var(--tonic-accent)'
       }
     }
@@ -2814,28 +2815,13 @@ class TonicProgressBar extends Tonic { /* global Tonic */
     this.reRender()
   }
 
-  updated () {
-    window.requestAnimationFrame(() => {
-      const progressBar = this.root.querySelector('.tonic--progress')
-      let progress = this.props.progress
-
-      if (typeof this.state.progress !== 'undefined') {
-        progress = this.state.progress
-      }
-
-      if (progressBar) {
-        progressBar.style.width = `${progress}%`
-      }
-    })
-  }
-
   render () {
     if (this.props.theme) {
-      this.root.classList.add(`tonic--theme--${this.props.theme}`)
+      this.classList.add(`tonic--theme--${this.props.theme}`)
     }
 
-    this.root.style.width = this.props.width
-    this.root.style.height = this.props.height
+    this.style.width = this.props.width
+    this.style.height = this.props.height
 
     return this.html`
       <div class="tonic--wrapper" styles="wrapper">
@@ -3505,6 +3491,15 @@ TonicSelect.svg.default = () => TonicSelect.svg.toURL(`
 Tonic.add(TonicSelect)
 
 class TonicSprite extends Tonic { /* global Tonic */
+  stylesheet () {
+    return `
+      tonic-sprite svg {
+        visibility: hidden;
+        height: 0;
+      }
+    `
+  }
+
   render () {
     return this.html`
       <svg version="1.1" xmlns="http://www.w3.org/2000/svg">

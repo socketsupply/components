@@ -1,5 +1,8 @@
 # Panel
-A `Panel` is not a component, it is a base class. You can extend it to create your own panel class which can be registered and then used as a tag.
+A `Panel` is not a component, it is a base class. You can extend it to create
+your own panel class which can be registered and then used as a tag.
+
+> *__Note:__ This component requires the `tonic-sprite` component.*
 
 ## Demo
 

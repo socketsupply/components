@@ -142,6 +142,11 @@
   
 
     <li>
+      <a href="#sprite" class="">Sprite</a>
+    </li>
+  
+
+    <li>
       <a href="#tabs" class="">Tabs</a>
     </li>
   
@@ -193,10 +198,19 @@
       <h1>Examples</h1>
 <h3>Intro</h3>
 <p>
-  These components are mostly complete <b>examples</b> (depending on your use-cases)
-  that can be used as a starting point to build your own components or apps.
+  Component <b>examples</b> can be used as a starting point for your own
+  component library or app.
 </p>
-<p>See the <a href="./docs.html">docs</a> page for more details.</p>
+ 
+  <pre><code>npm install <b>@conductorlab/tonic</b>
+npm install <b>@conductorlab/components</b></code></pre>
+
+  <pre><code class="language-js"><span class="hljs-keyword">const</span> Tonic = require(<span class="hljs-string">'@conductorlab/tonic'</span>)
+<span class="hljs-keyword">const</span> attachComponents = require(<span class="hljs-string">'@conductorlab/components'</span>)
+
+attachComponents(Tonic) <span class="hljs-comment">// registers all the components for you</span></code></pre>
+
+<p>See the github link in each example and the <a href="./docs.html">docs</a> page for more details.</p>
 
     </section>
   
@@ -700,7 +714,11 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
     </div>
   
       <h1 id="checkbox">Checkbox</h1>
-<p>The <code>Checkbox</code> component is used to create a styled checkbox, with or without a label. You can also create a custom checkbox using SVG icons.</p>
+<p>The <code>Checkbox</code> component is used to create a styled checkbox, with or without a
+label. You can also create a custom checkbox using SVG icons.</p>
+<blockquote>
+<p><em><strong>Note:</strong> This component requires the <code>tonic-sprite</code> component.</em></p>
+</blockquote>
 <h2>Demo</h2>
 <div class="example">
   <div class="header">Example</div>
@@ -713,49 +731,12 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
   </div>
 </div>
 
-<!--
-### Custom Checkbox
-
-<div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-checkbox
-      id="custom-checkbox-example"
-      size="40px"
-      color="red"
-      checked="false"
-      icon-on="/sprite.svg#custom_on"
-      icon-off="/sprite.svg#custom_off">
-    </tonic-checkbox>
-  </div>
-</div>
-
-## Code
-
-#### HTML
-```html
-<tonic-checkbox
-  id="tonic-checkbox-example"
-  label="Checkbox with Label">
-</tonic-checkbox>
-```
-
---- -->
-
-<!-- To create a custom SVG checkbox, pass in the properties `icon-on` and `icon-off` to set  different icons for each checked state.
-
-#### HTML
-
-```html
-<tonic-checkbox
-  id="custom-checkbox-example"
-  size="40px"
-  color="red"
-  icon-on="./sprite.svg#custom_on"
-  icon-off="./sprite.svg#custom_off">
-</tonic-checkbox>
-``` -->
-
+<h2>Code</h2>
+<h4>HTML</h4>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-checkbox</span>
+  <span class="hljs-attr">id</span>=<span class="hljs-string">"tonic-checkbox-example"</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">"Checkbox with Label"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">tonic-checkbox</span>&gt;</span></code></pre>
 <h2>Api</h2>
 <h3>Properties</h3>
 <table>
@@ -796,18 +777,6 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
 <td align="left"><em>string</em></td>
 <td align="left">Changes the <code>width</code> and <code>height</code> of the icon.</td>
 <td align="left"><code>18px</code></td>
-</tr>
-<tr>
-<td align="left"><code>icon-on</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Add a custom SVG icon <code>on</code> state.</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left"><code>icon-off</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Add a custom SVG icon for the <code>off</code> state.</td>
-<td align="left"></td>
 </tr>
 <tr>
 <td align="left"><code>color</code></td>
@@ -865,7 +834,11 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
     </div>
   
       <h1 id="dialog">Dialog</h1>
-<p>A <code>Dialog</code> is not a component, it is a base class. You can extend it to create your own dialog class which can be registered and then used as a tag.</p>
+<p>A <code>Dialog</code> is not a component, it is a base class. You can extend it to create
+your own dialog class which can be registered and then used as a tag.</p>
+<blockquote>
+<p><em><strong>Note:</strong> This component requires the <code>tonic-sprite</code> component.</em></p>
+</blockquote>
 <h2>Demo</h2>
 <tonic-dialog id="example-dialog" message="Click update for timestamp">
 </tonic-dialog>
@@ -1058,7 +1031,7 @@ link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; dialog.s
 <tr>
 <td align="left"><code>src</code></td>
 <td align="left"><em>string</em></td>
-<td align="left">Allow a custom icon from a sprite.</td>
+<td align="left">Optional, a custom file to use as the the source.</td>
 <td align="left"><code>./sprite.svg</code></td>
 </tr>
 <tr>
@@ -1276,7 +1249,11 @@ link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; dialog.s
     </div>
   
       <h1 id="panel">Panel</h1>
-<p>A <code>Panel</code> is not a component, it is a base class. You can extend it to create your own panel class which can be registered and then used as a tag.</p>
+<p>A <code>Panel</code> is not a component, it is a base class. You can extend it to create
+your own panel class which can be registered and then used as a tag.</p>
+<blockquote>
+<p><em><strong>Note:</strong> This component requires the <code>tonic-sprite</code> component.</em></p>
+</blockquote>
 <h2>Demo</h2>
 <p><tonic-panel
   id="content-panel-example"
@@ -1563,7 +1540,11 @@ panelLink.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; pan
     </div>
   
       <h1 id="profileimage">ProfileImage</h1>
-<p>The <code>ProfileImage</code> component is used to create an SVG icon with a custom size and color.</p>
+<p>The <code>ProfileImage</code> component is used to create an SVG icon with a custom size
+and color.</p>
+<blockquote>
+<p><em><strong>Note:</strong> This component requires the <code>tonic-sprite</code> component.</em></p>
+</blockquote>
 <h2>Demo</h2>
 <div class="example">
   <div class="header">Example</div>
@@ -2182,6 +2163,34 @@ select.addEventListener(<span class="hljs-string">'change'</span>, ({ target }) 
     </section>
   
 
+    <section id="sprite">
+      
+    <div class="component-github-link">
+      <a href="https://github.com/heapwolf/components/tree/master/src/sprite/">Github</a>
+    </div>
+  
+      <h1 id="sprite">Sprite</h1>
+<p>The <code>Sprite</code> component produces an inline svg that contains symbols
+which can be referred to by other components.</p>
+<p>You should include the <code>tonic-sprite</code> once, somewhere in the body, but before
+other components that use it.</p>
+<h4>HTML</h4>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-sprite</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">tonic-sprite</span>&gt;</span></code></pre>
+<hr>
+<p>To use a symbol from another component, you can refer to the symbol by its <code>id</code>
+property, for example...</p>
+<h4>JS</h4>
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+  render () {
+    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.html<span class="hljs-string">`
+      &lt;tonic-icon symbol-id="close" size="40px"&gt;&lt;/tonic-icon&gt;
+    `</span>
+  }
+}</code></pre>
+
+    </section>
+  
+
     <section id="tabs">
       
     <div class="component-github-link">
@@ -2512,6 +2521,9 @@ for the <code>selected</code> attribute on the <code>tonic-tabs</code> component
   
       <h1 id="toaster">Toaster</h1>
 <p>The <code>Toaster</code> component creates a container for all toaster items to be added to.</p>
+<blockquote>
+<p><em><strong>Note:</strong> This component requires the <code>tonic-sprite</code> component.</em></p>
+</blockquote>
 <h2>Demo</h2>
 <p><tonic-toaster></tonic-toaster></p>
 <div class="example">
@@ -2641,7 +2653,11 @@ for the <code>selected</code> attribute on the <code>tonic-tabs</code> component
     </div>
   
       <h1 id="toasterinline">ToasterInline</h1>
-<p>The <code>ToasterInline</code> component creates an inline toaster item that appears on the screen either for a duration or until the user acknowledges it.</p>
+<p>The <code>ToasterInline</code> component creates an inline toaster item that appears on the
+screen either for a duration or until the user acknowledges it.</p>
+<blockquote>
+<p><em><strong>Note:</strong> This component requires the <code>tonic-sprite</code> component.</em></p>
+</blockquote>
 <h2>Demo</h2>
 <div class="example">
   <div class="header">Example</div>

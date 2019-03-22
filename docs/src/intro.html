@@ -1,7 +1,16 @@
 <h1>Examples</h1>
 <h3>Intro</h3>
 <p>
-  These components are mostly complete <b>examples</b> (depending on your use-cases)
-  that can be used as a starting point to build your own components or apps.
+  Component <b>examples</b> can be used as a starting point for your own
+  component library or app.
 </p>
-<p>See the <a href="./docs.html">docs</a> page for more details.</p>
+ 
+  <pre><code>npm install <b>@conductorlab/tonic</b>
+npm install <b>@conductorlab/components</b></code></pre>
+
+  <pre><code class="language-js"><span class="hljs-keyword">const</span> Tonic = require(<span class="hljs-string">'@conductorlab/tonic'</span>)
+<span class="hljs-keyword">const</span> attachComponents = require(<span class="hljs-string">'@conductorlab/components'</span>)
+
+attachComponents(Tonic) <span class="hljs-comment">// registers all the components for you</span></code></pre>
+
+<p>See the github link in each example and the <a href="./docs.html">docs</a> page for more details.</p>

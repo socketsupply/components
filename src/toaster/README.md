@@ -1,6 +1,8 @@
 # Toaster
 The `Toaster` component creates a container for all toaster items to be added to.
 
+> *__Note:__ This component requires the `tonic-sprite` component.*
+
 ## Demo
 
 <tonic-toaster></tonic-toaster>

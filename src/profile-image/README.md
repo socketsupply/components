@@ -1,5 +1,8 @@
 # ProfileImage
-The `ProfileImage` component is used to create an SVG icon with a custom size and color.
+The `ProfileImage` component is used to create an SVG icon with a custom size
+and color.
+
+> *__Note:__ This component requires the `tonic-sprite` component.*
 
 ## Demo
 

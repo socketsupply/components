@@ -1,6 +1,9 @@
 # Checkbox
 
-The `Checkbox` component is used to create a styled checkbox, with or without a label. You can also create a custom checkbox using SVG icons.
+The `Checkbox` component is used to create a styled checkbox, with or without a
+label. You can also create a custom checkbox using SVG icons.
+
+> *__Note:__ This component requires the `tonic-sprite` component.*
 
 ## Demo
 
@@ -15,23 +18,6 @@ The `Checkbox` component is used to create a styled checkbox, with or without a 
   </div>
 </div>
 
-<!--
-### Custom Checkbox
-
-<div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-checkbox
-      id="custom-checkbox-example"
-      size="40px"
-      color="red"
-      checked="false"
-      icon-on="/sprite.svg#custom_on"
-      icon-off="/sprite.svg#custom_off">
-    </tonic-checkbox>
-  </div>
-</div>
-
 ## Code
 
 #### HTML
@@ -41,22 +27,6 @@ The `Checkbox` component is used to create a styled checkbox, with or without a 
   label="Checkbox with Label">
 </tonic-checkbox>
 ```
-
---- -->
-
-<!-- To create a custom SVG checkbox, pass in the properties `icon-on` and `icon-off` to set  different icons for each checked state.
-
-#### HTML
-
-```html
-<tonic-checkbox
-  id="custom-checkbox-example"
-  size="40px"
-  color="red"
-  icon-on="./sprite.svg#custom_on"
-  icon-off="./sprite.svg#custom_off">
-</tonic-checkbox>
-``` -->
 
 ## Api
 
@@ -69,9 +39,7 @@ The `Checkbox` component is used to create a styled checkbox, with or without a 
 | `disabled` | *boolean* | Adds `disabled` attribute. | `false` |
 | `checked` | *boolean* | Adds `checked` attribute. | `false` |
 | `size` | *string* | Changes the `width` and `height` of the icon. | `18px` |
-| `icon-on` | *string* | Add a custom SVG icon `on` state. |  |
-| `icon-off` | *string* | Add a custom SVG icon for the `off` state. |  |
-| `color` | *string* | Changes the color of the icon. | `--primary` |
+| `color` | *string* | Changes the color of the icon. | <code>--primary</code> |
 | `tabindex` | *number* | Add a `tabindex` for the checkbox. | |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 

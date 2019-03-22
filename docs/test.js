@@ -2419,8 +2419,8 @@ class TonicIcon extends Tonic { /* global Tonic */
         ${tabAttr}
         styles="icon">
         <use
-          href="${src}#${symbolId}"
-          xlink:href="${src}#${symbolId}"
+          href="${src || ''}#${symbolId}"
+          xlink:href="${src || ''}#${symbolId}"
           width="${size}"
           ${fill ? `fill="${fill}" color="${fill}"` : ''}
           height="${size}">

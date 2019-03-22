@@ -1,5 +1,8 @@
 # ToasterInline
-The `ToasterInline` component creates an inline toaster item that appears on the screen either for a duration or until the user acknowledges it.
+The `ToasterInline` component creates an inline toaster item that appears on the
+screen either for a duration or until the user acknowledges it.
+
+> *__Note:__ This component requires the `tonic-sprite` component.*
 
 ## Demo
 

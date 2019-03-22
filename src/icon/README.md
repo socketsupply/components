@@ -44,5 +44,5 @@ Your single SVG sprite file should have the following base structure, using `<sy
 | :--- | :--- | :--- | :--- |
 | `size` | *string* | Changes the width and height of the icon. | `25px` |
 | `fill` | *string* | Changes the color of the icon. | `var(--tonic-primary)` |
-| `src` | *string* | Allow a custom icon from a sprite. | `./sprite.svg` |
+| `src` | *string* | Optional, a custom file to use as the the source. | `./sprite.svg` |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |

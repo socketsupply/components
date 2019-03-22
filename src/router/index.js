@@ -1,6 +1,6 @@
 class TonicRouter extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
+  constructor () {
+    super()
 
     const that = this
 

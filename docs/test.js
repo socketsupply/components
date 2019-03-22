@@ -880,16 +880,13 @@ class TonicAccordion extends Tonic { /* global Tonic */
 
   setVisibility (id) {
     const trigger = document.getElementById(id)
-    if (!trigger) {
-      console.log('TRIGGER NOT FOUND', id)
-      return
-    }
+    if (!trigger) return
 
     const allowMultiple = this.root.hasAttribute('data-allow-multiple')
     const isExpanded = trigger.getAttribute('aria-expanded') === 'true'
 
     if (!isExpanded && !allowMultiple) {
-      const triggers = this.qsa('.tonic--accordion-header')
+      const triggers = this.qsa('.tonic--accordion-header button')
       const panels = this.qsa('.tonic--accordion-panel')
 
       triggers.forEach(el => el.setAttribute('aria-expanded', 'false'))
@@ -897,8 +894,6 @@ class TonicAccordion extends Tonic { /* global Tonic */
     }
 
     const panelId = trigger.getAttribute('aria-controls')
-
-    console.log('TRIGGER', trigger, panelId)
 
     if (isExpanded) {
       trigger.setAttribute('aria-expanded', 'false')
@@ -917,7 +912,6 @@ class TonicAccordion extends Tonic { /* global Tonic */
     const trigger = Tonic.match(e.target, 'button')
     if (!trigger) return
 
-    e.preventDefault()
     this.setVisibility(trigger.id)
   }
 

@@ -4397,6 +4397,10 @@ class Tonic extends window.HTMLElement {
     delete Tonic._states[this.id]
     this.state = state || {}
     this.props = {}
+    this.initialChildElements = [...this.children].map(el => el.cloneNode(true))
+    this.initialChildElements.__children__ = true
+    this.initialChildNodes = [...this.childNodes].map(el => el.cloneNode(true))
+    this.initialChildNodes.__children__ = true
     this._events()
   }
 
@@ -4448,6 +4452,7 @@ class Tonic extends window.HTMLElement {
 
   html ([s, ...strings], ...values) {
     const refs = o => {
+      if (o && o.__children__) return this._placehold(o)
       switch (({}).toString.call(o)) {
         case '[object HTMLCollection]':
         case '[object NodeList]': return this._placehold([...o])
@@ -4617,6 +4622,8 @@ class Tonic extends window.HTMLElement {
 
   disconnectedCallback (index) {
     this.disconnected && this.disconnected()
+    this.initialChildElements.length = 0
+    this.initialChildNodes.length = 0
     delete Tonic._data[this._id]
     delete Tonic._children[this._id]
     Tonic._refs.splice(index, 1)

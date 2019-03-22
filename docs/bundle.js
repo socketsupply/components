@@ -439,8 +439,8 @@ overlay.addEventListener('click', e => {
       if (nonce) Tonic.nonce = nonce
 
       class TonicRouter extends Tonic { /* global Tonic */
-  constructor (node) {
-    super(node)
+  constructor () {
+    super()
 
     const that = this
 
@@ -2748,7 +2748,7 @@ class TonicCheckbox extends Tonic { /* global Tonic */
     } = this.props
 
     if (!this.props.label) {
-      label = this.originalNodes
+      label = this.initialChildNodes
     }
 
     return this.html`<label styles="label" for="tonic--checkbox--${id}">${label}</label>`

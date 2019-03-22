@@ -36,6 +36,7 @@
     </head>
     <body data-page="test" id="test">
       <main>
+        <tonic-sprite></tonic-sprite>
         <aside id="test-column">
           <div class="test-summary">
             <div id="passing"><h1 class="value">0</h1><label>Passing</label></div>
@@ -1154,6 +1155,16 @@
 
 </section>
 
+      <section id="sprite">
+  <h2>Sprite</h2>
+
+  <!-- Default inline toaster -->
+  <div class="test-container">
+    <span>Sprite</span>
+  </div>
+
+</section>
+
       <section id="tabs">
   <h2>Tabs</h2>
 
@@ -1426,50 +1437,21 @@
   <tonic-toaster theme="light"></tonic-toaster>
   <tonic-toaster theme="dark"></tonic-toaster>
 
-  <!-- Default toaster -->
-  <div class="test-container">
-    <span>Default Toaster</span>
-    <tonic-button id="tonic-toaster-default">
-      Toast
-    </tonic-button>
-  </div>
-
-  <!-- Toaster w/ id -->
-  <div class="test-container">
-    <span>Toaster w/ id</span>
-    <tonic-button id="tonic-toaster-id">
-      Toast
-    </tonic-button>
-  </div>
-
-  <!-- Toaster w/ name -->
-  <div class="test-container">
-    <span>Toaster w/ name</span>
-    <tonic-button
-      id="tonic-toaster-name"
-      name="tonic-toaster-name">
-      Toast
-    </tonic-button>
-  </div>
-
-  <!-- Toaster w/ type success -->
-  <div class="test-container">
+  <div id="toaster-2" class="test-container">
     <span>Toaster w/ Type Success</span>
     <tonic-button id="tonic-toaster-type-success">
-      Toast
+      Success
     </tonic-button>
   </div>
 
-  <!-- Toaster w/ type warning -->
-  <div class="test-container">
+  <div id="toaster-3" class="test-container">
     <span>Toaster w/ Type warning</span>
     <tonic-button id="tonic-toaster-type-warning">
-      Toast
+      Warning
     </tonic-button>
   </div>
 
-  <!-- Toaster w/ type danger -->
-  <div class="test-container">
+  <div id="toaster-4" class="test-container">
     <span>Toaster w/ Type danger</span>
     <tonic-button id="tonic-toaster-type-danger">
       Toast
@@ -1586,15 +1568,16 @@
   <h2>ToasterInline</h2>
 
   <!-- Default inline toaster -->
-  <div class="test-container">
+  <div id="inline-toaster-1" class="test-container">
     <span>Default Inline Toaster</span>
-    <tonic-button id="tonic-toasterinline-default-button">Toast
-    </tonic-button>
-    <tonic-toaster-inline id="tonic-toasterinline-default"></tonic-toaster-inline>
+    <tonic-toaster-inline
+      id="tonic-toasterinline-default">
+      Message
+    </tonic-toaster-inline>
   </div>
 
   <!-- Toaster inline displayed initially -->
-  <div class="test-container">
+  <div id="inline-toaster-2" class="test-container">
     <span>Toaster inline displayed initially</span>
     <div>
       <tonic-toaster-inline
@@ -1604,48 +1587,20 @@
     </div>
   </div>
 
-  <!-- Inline toaster w/ id -->
-  <div class="test-container">
-    <span>Toaster inline w/ id</span>
-    <tonic-button id="tonic-toasterinline-id-button">Toast
-    </tonic-button>
-    <div>
-      <tonic-toaster-inline
-        title="I have an id"
-        id="tonic-toasterinline-id">
-      </tonic-toaster-inline>
-    </div>
-  </div>
-
-  <!-- Inline toaster w/ name -->
-  <div class="test-container">
-    <span>Toaster inline w/ name</span>
-    <tonic-button id="tonic-toasterinline-name-button">Toast
-    </tonic-button>
-    <div>
-      <tonic-toaster-inline
-        title="I have a name"
-        id="tonic-toasterinline-name">
-      </tonic-toaster-inline>
-    </div>
-  </div>
-
   <!-- Inline toaster w/ title -->
-  <div class="test-container">
+  <div id="inline-toaster-5" class="test-container">
     <span>Toaster inline w/ title</span>
-    <tonic-button id="tonic-toasterinline-title-button">Toast
-    </tonic-button>
     <div>
       <tonic-toaster-inline
-        id="tonic-toasterinline-title"></tonic-toaster-inline>
+        id="tonic-toasterinline-title">
+        Message
+      </tonic-toaster-inline>
     </div>
   </div>
 
   <!-- Inline toaster w/ inline HTML title -->
-  <div class="test-container">
+  <div id="inline-toaster-6" class="test-container">
     <span>Toaster inline w/ inline HTML title</span>
-    <tonic-button id="tonic-toasterinline-inline-title-button">Toast
-    </tonic-button>
     <div>
       <tonic-toaster-inline
         title="I am a title!"
@@ -1654,42 +1609,42 @@
   </div>
 
   <!-- Inline toaster w/ message -->
-  <div class="test-container">
+  <div id="inline-toaster-7" class="test-container">
     <span>Toaster inline w/ message</span>
-    <tonic-button id="tonic-toasterinline-message-button">Toast
-    </tonic-button>
     <div>
       <tonic-toaster-inline
         id="tonic-toasterinline-message">
+        Message
       </tonic-toaster-inline>
     </div>
   </div>
 
   <!-- Inline toaster w/ message (initial) -->
-  <div class="test-container">
+  <div id="inline-toaster-8" class="test-container">
     <span>Toaster inline w/ message (initial)</span>
     <div>
       <tonic-toaster-inline
         display="true"
         message="I am a message!"
-        id="tonic-toasterinline-message-2"></tonic-toaster-inline>
+        id="tonic-toasterinline-message-2">
+        Message
+      </tonic-toaster-inline>
     </div>
   </div>
 
   <!-- Inline toaster w/ title & message -->
-  <div class="test-container">
+  <div id="inline-toaster-9" class="test-container">
     <span>Toaster inline w/ title & message</span>
-    <tonic-button id="tonic-toasterinline-title-message-button">Toast
-    </tonic-button>
     <div>
       <tonic-toaster-inline
         id="tonic-toasterinline-title-message">
+        Message
       </tonic-toaster-inline>
     </div>
   </div>
 
   <!-- Inline toaster w/ innerHTML message (must be initial)-->
-  <div class="test-container">
+  <div id="inline-toaster-10" class="test-container">
     <span>Toaster inline w/ innerHTML message (must be initial)</span>
     <div>
       <tonic-toaster-inline
@@ -1701,167 +1656,122 @@
   </div>
 
   <!-- Inline toaster w/ type success -->
-  <div class="test-container">
+  <div id="inline-toaster-11" class="test-container">
     <span>Toaster inline w/ type success</span>
-    <tonic-button id="tonic-toasterinline-type-success-button">Toast
-    </tonic-button>
     <div>
       <tonic-toaster-inline
         type="success"
-        id="tonic-toasterinline-type-success"></tonic-toaster-inline>
-    </div>
-  </div>
-
-  <!-- Inline toaster w/ type success (initial) -->
-  <div class="test-container">
-    <span>Toaster inline w/ type success (initial)</span>
-    <div>
-      <tonic-toaster-inline
-        display="true"
-        type="success"
-        id="tonic-toasterinline-type-success-2"></tonic-toaster-inline>
+        id="tonic-toasterinline-type-success">
+        It's a success
+      </tonic-toaster-inline>
     </div>
   </div>
 
   <!-- Inline toaster w/ type warning -->
-  <div class="test-container">
+  <div id="inline-toaster-12" class="test-container">
     <span>Toaster inline w/ type warning</span>
-    <tonic-button id="tonic-toasterinline-type-warning-button">Toast
-    </tonic-button>
     <div>
-      <tonic-toaster-inline id="tonic-toasterinline-type-warning">
+      <tonic-toaster-inline
+        type="warning"
+        id="tonic-toasterinline-type-warning">
+        You've been warned.
       </tonic-toaster-inline>
     </div>
   </div>
 
   <!-- Inline toaster w/ type danger -->
-  <div class="test-container">
+  <div id="inline-toaster-13" class="test-container">
     <span>Toaster inline w/ type danger</span>
-    <tonic-button id="tonic-toasterinline-type-danger-button">Toast
-    </tonic-button>
     <div>
-      <tonic-toaster-inline id="tonic-toasterinline-type-danger">
+      <tonic-toaster-inline
+        type="danger"
+        id="tonic-toasterinline-type-danger">
+        Watch out!
       </tonic-toaster-inline>
     </div>
   </div>
 
   <!-- Inline toaster w/ type info -->
-  <div class="test-container">
+  <div id="inline-toaster-14" class="test-container">
     <span>Toaster inline w/ type info</span>
-    <tonic-button id="tonic-toasterinline-type-info-button">Toast
-    </tonic-button>
     <div>
-      <tonic-toaster-inline id="tonic-toasterinline-type-info">
+      <tonic-toaster-inline
+        type="info"
+        id="tonic-toasterinline-type-info">
+        For your information
       </tonic-toaster-inline>
     </div>
   </div>
 
   <!-- Inline toaster w/ type & title -->
-  <div class="test-container">
+  <div id="inline-toaster-15" class="test-container">
     <span>Toaster inline w/ type & title</span>
-    <tonic-button id="tonic-toasterinline-type-title-button">Toast
-    </tonic-button>
     <div>
       <tonic-toaster-inline id="tonic-toasterinline-type-title">
+        Message
       </tonic-toaster-inline>
     </div>
   </div>
 
   <!-- Inline toaster w/ type & message -->
-  <div class="test-container">
+  <div id="inline-toaster-16" class="test-container">
     <span>Toaster inline w/ type & message</span>
-    <tonic-button id="tonic-toasterinline-type-message-button">Toast
-    </tonic-button>
     <div>
       <tonic-toaster-inline id="tonic-toasterinline-type-message">
+        Message
       </tonic-toaster-inline>
     </div>
   </div>
 
   <!-- Inline toaster w/ type & title & message -->
-  <div class="test-container">
+  <div id="inline-toaster-17" class="test-container">
     <span>Toaster inline w/ type & title & message</span>
-    <tonic-button id="tonic-toasterinline-type-title-message-button">Toast
-    </tonic-button>
     <div>
       <tonic-toaster-inline id="tonic-toasterinline-type-title-message">
+        Message
       </tonic-toaster-inline>
     </div>
   </div>
 
   <!-- Inline toaster w/ duration -->
-  <div class="test-container">
+  <div id="inline-toaster-18" class="test-container">
     <span>Toaster inline w/ duration</span>
-    <tonic-button id="tonic-toasterinline-duration-button">Toast
-    </tonic-button>
     <div>
       <tonic-toaster-inline id="tonic-toasterinline-duration">
+        Message
       </tonic-toaster-inline>
     </div>
   </div>
 
   <!-- Inline toaster w/out duration -->
-  <div class="test-container">
+  <div id="inline-toaster-19" class="test-container">
     <span>Toaster inline w/out duration</span>
-    <tonic-button id="tonic-toasterinline-no-duration-button">Toast
-    </tonic-button>
     <div>
       <tonic-toaster-inline id="tonic-toasterinline-no-duration">
+        Message
       </tonic-toaster-inline>
     </div>
   </div>
 
   <!-- Inline toaster w/ dismiss w/ duration -->
-  <div class="test-container">
+  <div id="inline-toaster-20" class="test-container">
     <span>Toaster inline w/ dismiss w/ duration</span>
-    <tonic-button id="tonic-toasterinline-dismiss-duration-button">Toast
-    </tonic-button>
     <div>
-      <tonic-toaster-inline id="tonic-toasterinline-dismiss-duration">
+      <tonic-toaster-inline
+        id="tonic-toasterinline-dismiss-duration"
+        dismiss="true"
+        message="Dismiss me or I will disappear!">
       </tonic-toaster-inline>
     </div>
   </div>
 
   <!-- Inline toaster w/out dismiss w/ duration -->
-  <div class="test-container">
+  <div id="inline-toaster-21" class="test-container">
     <span>Toaster inline w/out dismiss w/ duration</span>
-    <tonic-button id="tonic-toasterinline-no-dismiss-duration-button">Toast
-    </tonic-button>
     <div>
       <tonic-toaster-inline id="tonic-toasterinline-no-dismiss-duration">
+        Message
       </tonic-toaster-inline>
-    </div>
-  </div>
-
-  <!-- Inline toaster w/ theme light -->
-  <div class="test-container">
-    <span>Toaster inline w/ light theme</span>
-    <tonic-button id="tonic-toasterinline-theme-light-button">Toast
-    </tonic-button>
-    <div>
-      <tonic-toaster-inline id="tonic-toasterinline-theme-light">
-      </tonic-toaster-inline>
-    </div>
-  </div>
-
-  <!-- Inline toaster w/ theme dark -->
-  <div class="test-container dark">
-    <span>Toaster inline w/ dark theme</span>
-    <tonic-button theme="dark" id="tonic-toasterinline-theme-dark-button">Toast
-    </tonic-button>
-    <div>
-      <tonic-toaster-inline id="tonic-toasterinline-theme-dark">
-      </tonic-toaster-inline>
-    </div>
-  </div>
-
-  <!-- Inline toaster w/ all js attributes -->
-  <div class="test-container dark">
-    <span>Toaster inline w/ all js attributes</span>
-    <tonic-button theme="dark" id="tonic-toasterinline-js-button">Toast
-    </tonic-button>
-    <div>
-      <tonic-toaster-inline id="tonic-toasterinline-js"></tonic-toaster-inline>
     </div>
   </div>
 

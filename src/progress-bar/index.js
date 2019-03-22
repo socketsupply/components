@@ -51,11 +51,6 @@ class TonicProgressBar extends Tonic { /* global Tonic */
     }
   }
 
-  getPropertyValue (s) {
-    const computed = window.getComputedStyle(this.root)
-    return computed.getPropertyValue(`--${s}`).trim()
-  }
-
   setProgress (progress) {
     this.setState(state => Object.assign({}, state, {
       progress

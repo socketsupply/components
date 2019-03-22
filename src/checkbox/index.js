@@ -64,6 +64,11 @@ class TonicCheckbox extends Tonic { /* global Tonic */
         background-size: contain;
       }
 
+      tonic-checkbox .tonic--icon svg {
+        width: inherit;
+        height: inherit;
+      }
+
       tonic-checkbox label:nth-of-type(2) {
         padding-top: 2px;
         margin-left: 10px;
@@ -76,46 +81,14 @@ class TonicCheckbox extends Tonic { /* global Tonic */
       checked: !state.checked
     }))
 
-    const state = this.getState()
-
-    let url = ''
-
-    const label = this.root.querySelector('label.tonic--icon')
-    const color = this.props.color || '#000000'
-
-    if (this.props.iconOn && this.props.iconOff) {
-      url = this.props[state.checked ? 'iconOn' : 'iconOff']
-    } else {
-      url = TonicCheckbox.svg[state.checked ? 'iconOn' : 'iconOff']()
-    }
-
-    label.style['-webkit-mask-image'] = label.style.maskImage = `url("${url}")`
-
-    label.backgroundColor = color
+    this.reRender()
   }
 
   styles () {
-    let {
-      color,
-      iconOn,
-      iconOff,
-      checked,
-      size
-    } = this.props
-
-    if (!color) color = '#000000'
-    if (!iconOn) iconOn = TonicCheckbox.svg.iconOn()
-    if (!iconOff) iconOff = TonicCheckbox.svg.iconOff()
-
-    let url = checked === 'true' ? iconOn : iconOff
-
     return {
       icon: {
-        width: size,
-        height: size,
-        '-webkit-mask-image': `url('${url}')`,
-        maskImage: `url('${url}')`,
-        backgroundColor: color
+        width: this.props.size,
+        height: this.props.size
       }
     }
   }
@@ -126,6 +99,26 @@ class TonicCheckbox extends Tonic { /* global Tonic */
     }
   }
 
+  renderIcon () {
+    let checked = this.state.checked
+    if (typeof checked === 'undefined') {
+      checked = this.state.checked = this.props.checked
+    }
+
+    const iconState = checked ? 'checked' : 'unchecked'
+
+    return this.html`
+      <svg>
+        <use
+          href="#${iconState}"
+          xlink:href="#${iconState}"
+          color="var(--tonic-primary)"
+          fill="var(--tonic-primary)">
+        </use>
+      </svg>
+    `
+  }
+
   renderLabel () {
     let {
       id,
@@ -133,7 +126,7 @@ class TonicCheckbox extends Tonic { /* global Tonic */
     } = this.props
 
     if (!this.props.label) {
-      label = this.childNodes
+      label = this.initialChildNodes
     }
 
     return this.html`<label styles="label" for="tonic--checkbox--${id}">${label}</label>`
@@ -182,27 +175,12 @@ class TonicCheckbox extends Tonic { /* global Tonic */
           for="tonic--checkbox--${id}"
           styles="icon"
           class="tonic--icon">
+          ${this.renderIcon()}
         </label>
         ${this.renderLabel()}
       </div>
     `
   }
 }
-
-TonicCheckbox.svg = {}
-TonicCheckbox.svg.toURL = s => `data:image/svg+xml;base64,${window.btoa(s)}`
-
-TonicCheckbox.svg.iconOn = () => TonicCheckbox.svg.toURL(`
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path d="M79.7,1H21.3C10.4,1,1.5,9.9,1.5,20.8v58.4C1.5,90.1,10.4,99,21.3,99h58.4c10.9,0,19.8-8.9,19.8-19.8V20.8C99.5,9.9,90.6,1,79.7,1z M93.3,79.3c0,7.5-6.1,13.6-13.6,13.6H21.3c-7.5,0-13.6-6.1-13.6-13.6V20.9c0-7.5,6.1-13.6,13.6-13.6V7.2h58.4c7.5,0,13.6,6.1,13.6,13.6V79.3z"/>
-    <polygon points="44,61.7 23.4,41.1 17.5,47 44,73.5 85.1,32.4 79.2,26.5 "/>
-  </svg>
-`)
-
-TonicCheckbox.svg.iconOff = () => TonicCheckbox.svg.toURL(`
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path d="M79.7,99H21.3C10.4,99,1.5,90.1,1.5,79.2V20.8C1.5,9.9,10.4,1,21.3,1h58.4c10.9,0,19.8,8.9,19.8,19.8v58.4C99.5,90.1,90.6,99,79.7,99z M21.3,7.3c-7.5,0-13.6,6.1-13.6,13.6v58.4c0,7.5,6.1,13.6,13.6,13.6h58.4c7.5,0,13.6-6.1,13.6-13.6V20.8c0-7.5-6.1-13.6-13.6-13.6H21.3V7.3z"/>
-  </svg>
-`)
 
 Tonic.add(TonicCheckbox)

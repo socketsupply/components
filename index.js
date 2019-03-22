@@ -303,16 +303,10 @@ class Panel extends Tonic { /* global Tonic */
     })
   }
 
-  getPropertyValue (s) {
-    const computed = window.getComputedStyle(this.root)
-    return computed.getPropertyValue(`--${s}`).trim()
-  }
-
   defaults () {
     return {
       position: 'right',
       overlay: false,
-      closeIcon: Panel.svg.closeIcon,
       backgroundColor: 'rgba(0,0,0,0.5)'
     }
   }
@@ -386,6 +380,11 @@ class Panel extends Tonic { /* global Tonic */
         top: 30px;
         right: 30px;
         cursor: pointer;
+      }
+
+      .tonic--panel .tonic--close svg {
+        width: inherit;
+        height: inherit;
       }
     `
   }
@@ -463,30 +462,34 @@ class Panel extends Tonic { /* global Tonic */
     }
 
     // create template
-    const close = document.createElement('div')
-    close.className = 'tonic--close'
+    const closeIcon = document.createElement('div')
+    closeIcon.className = 'tonic--close'
 
-    const iconColor = color || this.getPropertyValue('primary')
-    const url = Panel.svg.closeIcon(iconColor)
-    close.style.backgroundImage = `url("${url}")`
+    // create SVG
+    const svgns = 'http://www.w3.org/2000/svg'
+    const xlinkns = 'http://www.w3.org/1999/xlink'
+    const svg = document.createElementNS(svgns, 'svg')
+    const use = document.createElementNS(svgns, 'use')
+
+    closeIcon.appendChild(svg)
+    svg.appendChild(use)
+
+    const iconColor = color || `var(--tonic-primary)`
+
+    use.setAttributeNS(xlinkns, 'href', '#close')
+    use.setAttributeNS(xlinkns, 'xlink:href', '#close')
+    use.setAttribute('color', iconColor)
+    use.setAttribute('fill', iconColor)
 
     // append everything
     wrapper.appendChild(panel)
     wrapper.appendChild(panel)
     panel.appendChild(template.content)
-    panel.appendChild(close)
+    panel.appendChild(closeIcon)
 
     return wrapper
   }
 }
-
-Panel.svg = {}
-Panel.svg.toURL = s => `data:image/svg+xml;base64,${window.btoa(s)}`
-Panel.svg.closeIcon = color => Panel.svg.toURL(`
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path fill="${color}" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
-  </svg>
-`)
 
 Tonic.Panel = Panel
 
@@ -503,17 +506,11 @@ class Dialog extends Tonic { /* global Tonic */
     })
   }
 
-  getPropertyValue (s) {
-    const computed = window.getComputedStyle(this.root)
-    return computed.getPropertyValue(`--${s}`).trim()
-  }
-
   defaults () {
     return {
       width: '450px',
       height: 'auto',
       overlay: true,
-      closeIcon: Dialog.svg.closeIcon(this.getPropertyValue('primary')),
       backgroundColor: 'rgba(0,0,0,0.5)'
     }
   }
@@ -582,6 +579,11 @@ class Dialog extends Tonic { /* global Tonic */
         top: 25px;
         right: 25px;
         cursor: pointer;
+      }
+
+      .tonic--dialog .tonic--close svg {
+        width: inherit;
+        height: inherit;
       }
     `
   }
@@ -675,27 +677,32 @@ class Dialog extends Tonic { /* global Tonic */
     if (width) dialog.style.width = width
     if (height) dialog.style.height = height
 
-    const close = document.createElement('div')
-    close.className = 'tonic--close'
+    // create template
+    const closeIcon = document.createElement('div')
+    closeIcon.className = 'tonic--close'
 
-    const iconColor = color || this.getPropertyValue('primary')
-    const url = Dialog.svg.closeIcon(iconColor)
-    close.style.backgroundImage = `url("${url}")`
+    // create SVG
+    const svgns = 'http://www.w3.org/2000/svg'
+    const xlinkns = 'http://www.w3.org/1999/xlink'
+    const svg = document.createElementNS(svgns, 'svg')
+    const use = document.createElementNS(svgns, 'use')
+
+    closeIcon.appendChild(svg)
+    svg.appendChild(use)
+
+    const iconColor = color || `var(--tonic-primary)`
+
+    use.setAttributeNS(xlinkns, 'href', '#close')
+    use.setAttributeNS(xlinkns, 'xlink:href', '#close')
+    use.setAttribute('color', iconColor)
+    use.setAttribute('fill', iconColor)
 
     wrapper.appendChild(dialog)
     dialog.appendChild(template.content)
-    dialog.appendChild(close)
+    dialog.appendChild(closeIcon)
     return wrapper
   }
 }
-
-Dialog.svg = {}
-Dialog.svg.toURL = s => `data:image/svg+xml;base64,${window.btoa(s)}`
-Dialog.svg.closeIcon = color => Dialog.svg.toURL(`
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path fill="${color}" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
-  </svg>
-`)
 
 Tonic.Dialog = Dialog
 
@@ -2240,6 +2247,11 @@ class TonicCheckbox extends Tonic { /* global Tonic */
         background-size: contain;
       }
 
+      tonic-checkbox .tonic--icon svg {
+        width: inherit;
+        height: inherit;
+      }
+
       tonic-checkbox label:nth-of-type(2) {
         padding-top: 2px;
         margin-left: 10px;
@@ -2252,46 +2264,14 @@ class TonicCheckbox extends Tonic { /* global Tonic */
       checked: !state.checked
     }))
 
-    const state = this.getState()
-
-    let url = ''
-
-    const label = this.root.querySelector('label.tonic--icon')
-    const color = this.props.color || '#000000'
-
-    if (this.props.iconOn && this.props.iconOff) {
-      url = this.props[state.checked ? 'iconOn' : 'iconOff']
-    } else {
-      url = TonicCheckbox.svg[state.checked ? 'iconOn' : 'iconOff']()
-    }
-
-    label.style['-webkit-mask-image'] = label.style.maskImage = `url("${url}")`
-
-    label.backgroundColor = color
+    this.reRender()
   }
 
   styles () {
-    let {
-      color,
-      iconOn,
-      iconOff,
-      checked,
-      size
-    } = this.props
-
-    if (!color) color = '#000000'
-    if (!iconOn) iconOn = TonicCheckbox.svg.iconOn()
-    if (!iconOff) iconOff = TonicCheckbox.svg.iconOff()
-
-    let url = checked === 'true' ? iconOn : iconOff
-
     return {
       icon: {
-        width: size,
-        height: size,
-        '-webkit-mask-image': `url('${url}')`,
-        maskImage: `url('${url}')`,
-        backgroundColor: color
+        width: this.props.size,
+        height: this.props.size
       }
     }
   }
@@ -2302,6 +2282,26 @@ class TonicCheckbox extends Tonic { /* global Tonic */
     }
   }
 
+  renderIcon () {
+    let checked = this.state.checked
+    if (typeof checked === 'undefined') {
+      checked = this.state.checked = this.props.checked
+    }
+
+    const iconState = checked ? 'checked' : 'unchecked'
+
+    return this.html`
+      <svg>
+        <use
+          href="#${iconState}"
+          xlink:href="#${iconState}"
+          color="var(--tonic-primary)"
+          fill="var(--tonic-primary)">
+        </use>
+      </svg>
+    `
+  }
+
   renderLabel () {
     let {
       id,
@@ -2309,7 +2309,7 @@ class TonicCheckbox extends Tonic { /* global Tonic */
     } = this.props
 
     if (!this.props.label) {
-      label = this.childNodes
+      label = this.originalNodes
     }
 
     return this.html`<label styles="label" for="tonic--checkbox--${id}">${label}</label>`
@@ -2358,28 +2358,13 @@ class TonicCheckbox extends Tonic { /* global Tonic */
           for="tonic--checkbox--${id}"
           styles="icon"
           class="tonic--icon">
+          ${this.renderIcon()}
         </label>
         ${this.renderLabel()}
       </div>
     `
   }
 }
-
-TonicCheckbox.svg = {}
-TonicCheckbox.svg.toURL = s => `data:image/svg+xml;base64,${window.btoa(s)}`
-
-TonicCheckbox.svg.iconOn = () => TonicCheckbox.svg.toURL(`
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path d="M79.7,1H21.3C10.4,1,1.5,9.9,1.5,20.8v58.4C1.5,90.1,10.4,99,21.3,99h58.4c10.9,0,19.8-8.9,19.8-19.8V20.8C99.5,9.9,90.6,1,79.7,1z M93.3,79.3c0,7.5-6.1,13.6-13.6,13.6H21.3c-7.5,0-13.6-6.1-13.6-13.6V20.9c0-7.5,6.1-13.6,13.6-13.6V7.2h58.4c7.5,0,13.6,6.1,13.6,13.6V79.3z"/>
-    <polygon points="44,61.7 23.4,41.1 17.5,47 44,73.5 85.1,32.4 79.2,26.5 "/>
-  </svg>
-`)
-
-TonicCheckbox.svg.iconOff = () => TonicCheckbox.svg.toURL(`
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path d="M79.7,99H21.3C10.4,99,1.5,90.1,1.5,79.2V20.8C1.5,9.9,10.4,1,21.3,1h58.4c10.9,0,19.8,8.9,19.8,19.8v58.4C99.5,90.1,90.6,99,79.7,99z M21.3,7.3c-7.5,0-13.6,6.1-13.6,13.6v58.4c0,7.5,6.1,13.6,13.6,13.6h58.4c7.5,0,13.6-6.1,13.6-13.6V20.8c0-7.5-6.1-13.6-13.6-13.6H21.3V7.3z"/>
-  </svg>
-`)
 
 Tonic.add(TonicCheckbox)
 
@@ -2393,10 +2378,7 @@ class TonicIcon extends Tonic { /* global Tonic */
 
   stylesheet () {
     return `
-      icon {
-        display: inline-block;
-      }
-      svg path {
+      tonic-icon svg path {
         fill: inherit;
       }
     `
@@ -2824,11 +2806,6 @@ class TonicProgressBar extends Tonic { /* global Tonic */
     }
   }
 
-  getPropertyValue (s) {
-    const computed = window.getComputedStyle(this.root)
-    return computed.getPropertyValue(`--${s}`).trim()
-  }
-
   setProgress (progress) {
     this.setState(state => Object.assign({}, state, {
       progress
@@ -2878,16 +2855,10 @@ class TonicProfileImage extends Tonic { /* global Tonic */
 
   defaults () {
     return {
-      size: '50px',
       src: TonicProfileImage.svg.default(),
-      iconEdit: TonicProfileImage.svg.edit(),
+      size: '50px',
       radius: '5px'
     }
-  }
-
-  getPropertyValue (s) {
-    const computed = window.getComputedStyle(this.root)
-    return computed.getPropertyValue(`--${s}`).trim()
   }
 
   stylesheet () {
@@ -2925,15 +2896,20 @@ class TonicProfileImage extends Tonic { /* global Tonic */
         display: flex;
       }
 
-      tonic-profile-image .tonic--overlay div {
+      tonic-profile-image .tonic--overlay .tonic--icon {
+        width: 30px;
+        height: 30px;
         position: absolute;
-        top: 0;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        background-size: 40px 40px;
-        background-repeat: no-repeat;
-        background-position: center center;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translateX(-50%) translateY(-50%);
+        -moz-transform: translateX(-50%) translateY(-50%);
+        transform: translateX(-50%) translateY(-50%);
+      }
+
+      tonic-profile-image .tonic--overlay .tonic--icon svg {
+        width: inherit;
+        height: inherit;
       }
 
       tonic-profile-image .tonic--wrapper.tonic--editable:hover .tonic--overlay {
@@ -2946,7 +2922,6 @@ class TonicProfileImage extends Tonic { /* global Tonic */
 
   styles () {
     const {
-      iconEdit,
       src,
       size,
       border,
@@ -2954,9 +2929,6 @@ class TonicProfileImage extends Tonic { /* global Tonic */
     } = this.props
 
     return {
-      icon: {
-        backgroundImage: `url('${iconEdit}')`
-      },
       background: {
         backgroundImage: `url('${src}')`
       },
@@ -3049,7 +3021,16 @@ class TonicProfileImage extends Tonic { /* global Tonic */
         <input type="file" styles="hidden"/>
 
         <div class="tonic--overlay">
-          <div styles="icon"></div>
+          <div class="tonic--icon">
+            <svg>
+              <use
+                href="#edit"
+                xlink:href="#edit"
+                color="#fff"
+                fill="#fff">
+              </use>
+            </svg>
+          </div>
         </div>
       </div>
     `
@@ -3063,12 +3044,6 @@ TonicProfileImage.svg.default = () => TonicProfileImage.svg.toURL(`
     <rect fill="#F0F0F0" width="100" height="100"></rect>
     <circle fill="#D6D6D6" cx="49.3" cy="41.3" r="21.1"></circle>
     <path fill="#D6D6D6" d="M48.6,69.5c-18.1,0-33.1,13.2-36,30.5h72C81.8,82.7,66.7,69.5,48.6,69.5z"></path>
-  </svg>
-`)
-
-TonicProfileImage.svg.edit = () => TonicProfileImage.svg.toURL(`
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path fill="#fff" d="M79.8,32.8L67.5,20.5c-0.2-0.2-0.5-0.2-0.7,0L25.2,62.1c-0.1,0.1-0.1,0.1-0.1,0.2L20.8,79c0,0.2,0,0.4,0.1,0.5c0.1,0.1,0.2,0.1,0.4,0.1c0,0,0.1,0,0.1,0l16.6-4.4c0.1,0,0.2-0.1,0.2-0.1l41.6-41.6C79.9,33.3,79.9,33,79.8,32.8z M67.1,25.8l7.3,7.3L36.9,70.7l-7.3-7.3L67.1,25.8z M33,72.4l-6.8,1.8l1.8-6.9L33,72.4z"/>
   </svg>
 `)
 
@@ -3529,6 +3504,61 @@ TonicSelect.svg.default = () => TonicSelect.svg.toURL(`
 
 Tonic.add(TonicSelect)
 
+class TonicSprite extends Tonic { /* global Tonic */
+  render () {
+    return this.html`
+      <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+
+        <symbol id="close" viewBox="0 0 100 100">
+          <title>Close</title>
+          <desc>Close Icon</desc>
+          <path fill="currentColor" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4
+            l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0
+            l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
+        </symbol>
+
+        <symbol id="danger" viewBox="0 0 100 100">
+          <path fill="currentColor" d="M50.1,6.7C26.3,6.7,6.9,26.2,6.9,50s19.4,43.2,43.2,43.2c23.8,0,43.2-19.5,43.2-43.3C93.3,26.1,74,6.7,50.1,6.7z M53.9,76.4h-7.6V68h7.6V76.4z M53.9,60.5h-7.6V25.6h7.6V60.5z"/>
+        </symbol>
+
+        <symbol id="warning" viewBox="0 0 100 100">
+          <path fill="currentColor" d="M98.6,86.6l-46-79.7c-1.2-2-4-2-5.2,0l-46,79.7c-1.2,2,0.3,4.5,2.6,4.5h92C98.3,91.1,99.8,88.6,98.6,86.6z M53.9,80.4h-7.6V72h7.6V80.4z M53.9,64.5h-7.6V29.6h7.6V64.5z"/>
+        </symbol>
+
+        <symbol id="success" viewBox="0 0 100 100">
+          <path fill="currentColor" d="M50.1,6.7C26.3,6.7,6.9,26.2,6.9,50s19.4,43.2,43.2,43.2c23.8,0,43.2-19.5,43.2-43.3C93.3,26.1,74,6.7,50.1,6.7z M43.4,71.5L22,50.1l4.8-4.8L43.4,62l28.5-28.5l4.8,4.8L43.4,71.5z"/>
+        </symbol>
+
+        <symbol id="info" viewBox="0 0 100 100">
+          <path fill="currentColor" d="M50.1,6.7C26.3,6.7,6.9,26.2,6.9,50s19.4,43.2,43.2,43.2c23.8,0,43.2-19.5,43.2-43.3C93.3,26.1,74,6.7,50.1,6.7z M54.1,75.5h-8.1v-7.8h8.1V75.5z M64.1,47.6c-0.8,1.1-2.4,2.7-4.8,4.5L57,54c-1.4,1.1-2.3,2.3-2.7,3.7c-0.3,0.8-0.4,2-0.4,3.6h-8c0.1-3.4,0.5-5.8,1-7.1c0.5-1.3,2-2.9,4.3-4.7l2.4-1.9c0.8-0.6,1.5-1.3,2-2.1c0.9-1.3,1.4-2.8,1.4-4.3c0-1.8-0.5-3.4-1.6-4.9c-1.1-1.5-3-2.3-5.8-2.3c-2.7,0-4.7,0.9-5.9,2.8c-1,1.6-1.6,3.3-1.7,5.1h-8.6c0.4-5.9,2.5-10.1,6.4-12.6l0,0c2.5-1.6,5.7-2.5,9.4-2.5c4.9,0,9,1.2,12.2,3.5c3.2,2.3,4.8,5.7,4.8,10.3C66.2,43.4,65.5,45.7,64.1,47.6z"/>
+        </symbol>
+
+        <symbol id="profileimage" viewBox="0 0 100 100">
+          <rect fill="#F0F0F0" width="100" height="100"></rect>
+          <circle fill="#D6D6D6" cx="49.3" cy="41.3" r="21.1"></circle>
+          <path fill="#D6D6D6" d="M48.6,69.5c-18.1,0-33.1,13.2-36,30.5h72C81.8,82.7,66.7,69.5,48.6,69.5z"></path>
+        </symbol>
+
+        <symbol id="edit" viewBox="0 0 100 100">
+          <path fill="currentColor" d="M79.8,32.8L67.5,20.5c-0.2-0.2-0.5-0.2-0.7,0L25.2,62.1c-0.1,0.1-0.1,0.1-0.1,0.2L20.8,79c0,0.2,0,0.4,0.1,0.5c0.1,0.1,0.2,0.1,0.4,0.1c0,0,0.1,0,0.1,0l16.6-4.4c0.1,0,0.2-0.1,0.2-0.1l41.6-41.6C79.9,33.3,79.9,33,79.8,32.8z M67.1,25.8l7.3,7.3L36.9,70.7l-7.3-7.3L67.1,25.8z M33,72.4l-6.8,1.8l1.8-6.9L33,72.4z"/>
+        </symbol>
+
+        <symbol id="checked" viewBox="0 0 100 100">
+          <path fill="currentColor" d="M79.7,1H21.3C10.4,1,1.5,9.9,1.5,20.8v58.4C1.5,90.1,10.4,99,21.3,99h58.4c10.9,0,19.8-8.9,19.8-19.8V20.8C99.5,9.9,90.6,1,79.7,1z M93.3,79.3c0,7.5-6.1,13.6-13.6,13.6H21.3c-7.5,0-13.6-6.1-13.6-13.6V20.9c0-7.5,6.1-13.6,13.6-13.6V7.2h58.4c7.5,0,13.6,6.1,13.6,13.6V79.3z"/>
+          <polygon points="44,61.7 23.4,41.1 17.5,47 44,73.5 85.1,32.4 79.2,26.5 "/>
+        </symbol>
+
+        <symbol id="unchecked" viewBox="0 0 100 100">
+          <path fill="currentColor" d="M79.7,99H21.3C10.4,99,1.5,90.1,1.5,79.2V20.8C1.5,9.9,10.4,1,21.3,1h58.4c10.9,0,19.8,8.9,19.8,19.8v58.4C99.5,90.1,90.6,99,79.7,99z M21.3,7.3c-7.5,0-13.6,6.1-13.6,13.6v58.4c0,7.5,6.1,13.6,13.6,13.6h58.4c7.5,0,13.6-6.1,13.6-13.6V20.8c0-7.5-6.1-13.6-13.6-13.6H21.3V7.3z"/>
+        </symbol>
+
+      </svg>
+    `
+  }
+}
+
+Tonic.add(TonicSprite)
+
 class TonicTextarea extends Tonic { /* global Tonic */
   defaults () {
     return {
@@ -3677,18 +3707,8 @@ class TonicTextarea extends Tonic { /* global Tonic */
 Tonic.add(TonicTextarea)
 
 class TonicToaster extends Tonic { /* global Tonic */
-  getPropertyValue (s) {
-    const computed = window.getComputedStyle(this.root)
-    return computed.getPropertyValue(`--${s}`).trim()
-  }
-
   defaults () {
     return {
-      closeIcon: TonicToaster.svg.closeIcon(this.getPropertyValue('primary')),
-      dangerIcon: TonicToaster.svg.dangerIcon(this.getPropertyValue('danger')),
-      warningIcon: TonicToaster.svg.warningIcon(this.getPropertyValue('warning')),
-      successIcon: TonicToaster.svg.successIcon(this.getPropertyValue('success')),
-      infoIcon: TonicToaster.svg.infoIcon(this.getPropertyValue('info')),
       position: 'center'
     }
   }
@@ -3697,6 +3717,11 @@ class TonicToaster extends Tonic { /* global Tonic */
     return `
       tonic-toaster * {
         box-sizing: border-box;
+      }
+
+      tonic-toaster svg {
+        width: inherit;
+        height: inherit;
       }
 
       tonic-toaster .tonic--wrapper {
@@ -3788,7 +3813,6 @@ class TonicToaster extends Tonic { /* global Tonic */
         position: absolute;
         left: 20px;
         top: 50%;
-        background-size: cover;
         -webkit-transform: translateY(-50%);
         -ms-transform: translateY(-50%);
         transform: translateY(-50%);
@@ -3804,12 +3828,6 @@ class TonicToaster extends Tonic { /* global Tonic */
         -ms-transform: translateY(-50%);
         transform: translateY(-50%);
         cursor: pointer;
-        background-size: cover;
-      }
-
-      tonic-toaster .tonic--notification .tonic--close svg path {
-        fill: var(--tonic-primary);
-        color: var(--tonic-primary);
       }
     `
   }
@@ -3817,6 +3835,7 @@ class TonicToaster extends Tonic { /* global Tonic */
   create ({ message, title, duration, type, dismiss } = {}) {
     const notification = document.createElement('div')
     notification.className = 'tonic--notification'
+
     const main = document.createElement('div')
     main.className = 'tonic--main'
 
@@ -3837,11 +3856,23 @@ class TonicToaster extends Tonic { /* global Tonic */
     }
 
     if (dismiss !== false) {
-      const close = document.createElement('div')
-      close.className = 'tonic--close'
-      close.style.backgroundImage = `url("${this.props.closeIcon}")`
-      notification.appendChild(close)
+      const closeIcon = document.createElement('div')
+      closeIcon.className = 'tonic--close'
+      notification.appendChild(closeIcon)
       notification.classList.add('tonic--close')
+
+      const svgns = 'http://www.w3.org/2000/svg'
+      const xlinkns = 'http://www.w3.org/1999/xlink'
+      const svg = document.createElementNS(svgns, 'svg')
+      const use = document.createElementNS(svgns, 'use')
+
+      closeIcon.appendChild(svg)
+      svg.appendChild(use)
+
+      use.setAttributeNS(xlinkns, 'href', '#close')
+      use.setAttributeNS(xlinkns, 'xlink:href', '#close')
+      use.setAttribute('color', 'var(--tonic-primary)')
+      use.setAttribute('fill', 'var(--tonic-primary)')
     }
 
     if (type) {
@@ -3849,27 +3880,18 @@ class TonicToaster extends Tonic { /* global Tonic */
       alertIcon.className = 'tonic--icon'
       notification.appendChild(alertIcon)
 
-      switch (type) {
-        case 'danger':
-          alertIcon.style.backgroundImage = `url("${this.props.dangerIcon}")`
-          if (!title && !message) { titleElement.textContent = 'Danger' }
-          break
+      const svgns = 'http://www.w3.org/2000/svg'
+      const xlinkns = 'http://www.w3.org/1999/xlink'
+      const svg = document.createElementNS(svgns, 'svg')
+      const use = document.createElementNS(svgns, 'use')
 
-        case 'warning':
-          alertIcon.style.backgroundImage = `url("${this.props.warningIcon}")`
-          if (!title && !message) { titleElement.textContent = 'Warning' }
-          break
+      alertIcon.appendChild(svg)
+      svg.appendChild(use)
 
-        case 'success':
-          alertIcon.style.backgroundImage = `url("${this.props.successIcon}")`
-          if (!title && !message) { titleElement.textContent = 'Success' }
-          break
-
-        case 'info':
-          alertIcon.style.backgroundImage = `url("${this.props.infoIcon}")`
-          if (!title && !message) { titleElement.textContent = 'Information' }
-          break
-      }
+      use.setAttributeNS(xlinkns, 'href', `#${type}`)
+      use.setAttributeNS(xlinkns, 'xlink:href', `#${type}`)
+      use.setAttribute('color', `var(--tonic-${type})`)
+      use.setAttribute('fill', `var(--tonic-${type})`)
     }
 
     notification.appendChild(main)
@@ -3926,6 +3948,8 @@ class TonicToaster extends Tonic { /* global Tonic */
       position
     } = this.props
 
+    console.log(this.props)
+
     const positionAttr = position ? `tonic--${position}` : ''
 
     if (theme) this.root.classList.add(`tonic--theme--${theme}`)
@@ -3934,70 +3958,32 @@ class TonicToaster extends Tonic { /* global Tonic */
   }
 }
 
-TonicToaster.svg = {}
-TonicToaster.svg.toURL = s => `data:image/svg+xml;base64,${window.btoa(s)}`
-
-TonicToaster.svg.closeIcon = color => TonicToaster.svg.toURL(`
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path fill="${color}" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
-  </svg>
-`)
-
-TonicToaster.svg.dangerIcon = color => TonicToaster.svg.toURL(`
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path fill="${color}" d="M50.1,6.7C26.3,6.7,6.9,26.2,6.9,50s19.4,43.2,43.2,43.2c23.8,0,43.2-19.5,43.2-43.3C93.3,26.1,74,6.7,50.1,6.7z M53.9,76.4h-7.6V68h7.6V76.4z M53.9,60.5h-7.6V25.6h7.6V60.5z"/>
-  </svg>
-`)
-
-TonicToaster.svg.warningIcon = color => TonicToaster.svg.toURL(`
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path fill="${color}" d="M98.6,86.6l-46-79.7c-1.2-2-4-2-5.2,0l-46,79.7c-1.2,2,0.3,4.5,2.6,4.5h92C98.3,91.1,99.8,88.6,98.6,86.6z M53.9,80.4h-7.6V72h7.6V80.4z M53.9,64.5h-7.6V29.6h7.6V64.5z"/>
-  </svg>
-`)
-
-TonicToaster.svg.successIcon = color => TonicToaster.svg.toURL(`
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path fill="${color}" d="M50.1,6.7C26.3,6.7,6.9,26.2,6.9,50s19.4,43.2,43.2,43.2c23.8,0,43.2-19.5,43.2-43.3C93.3,26.1,74,6.7,50.1,6.7z M43.4,71.5L22,50.1l4.8-4.8L43.4,62l28.5-28.5l4.8,4.8L43.4,71.5z"/>
-  </svg>
-`)
-
-TonicToaster.svg.infoIcon = color => TonicToaster.svg.toURL(`
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path fill="${color}" d="M50.1,6.7C26.3,6.7,6.9,26.2,6.9,50s19.4,43.2,43.2,43.2c23.8,0,43.2-19.5,43.2-43.3C93.3,26.1,74,6.7,50.1,6.7z M54.1,75.5h-8.1v-7.8h8.1V75.5z M64.1,47.6c-0.8,1.1-2.4,2.7-4.8,4.5L57,54c-1.4,1.1-2.3,2.3-2.7,3.7c-0.3,0.8-0.4,2-0.4,3.6h-8c0.1-3.4,0.5-5.8,1-7.1c0.5-1.3,2-2.9,4.3-4.7l2.4-1.9c0.8-0.6,1.5-1.3,2-2.1c0.9-1.3,1.4-2.8,1.4-4.3c0-1.8-0.5-3.4-1.6-4.9c-1.1-1.5-3-2.3-5.8-2.3c-2.7,0-4.7,0.9-5.9,2.8c-1,1.6-1.6,3.3-1.7,5.1h-8.6c0.4-5.9,2.5-10.1,6.4-12.6l0,0c2.5-1.6,5.7-2.5,9.4-2.5c4.9,0,9,1.2,12.2,3.5c3.2,2.3,4.8,5.7,4.8,10.3C66.2,43.4,65.5,45.7,64.1,47.6z"/>
-  </svg>
-`)
-
 Tonic.add(TonicToaster)
 
 class TonicToasterInline extends Tonic { /* global Tonic */
-  getPropertyValue (s) {
-    const computed = window.getComputedStyle(this.root)
-    return computed.getPropertyValue(`--${s}`).trim()
-  }
-
   defaults () {
     return {
-      display: 'true',
-      closeIcon: TonicToasterInline.svg.closeIcon(),
-      dangerIcon: TonicToasterInline.svg.dangerIcon(this.getPropertyValue('danger')),
-      warningIcon: TonicToasterInline.svg.warningIcon(this.getPropertyValue('warning')),
-      successIcon: TonicToasterInline.svg.successIcon(this.getPropertyValue('success')),
-      infoIcon: TonicToasterInline.svg.infoIcon(this.getPropertyValue('info'))
+      display: 'true'
     }
   }
 
   stylesheet () {
     return `
+      tonic-toaster-inline svg {
+        width: inherit;
+        height: inherit;
+      }
+
       tonic-toaster-inline .tonic--notification {
         max-height: 0;
         position: relative;
         background-color: var(--tonic-window);
+        border: 1px solid var(--tonic-border);
         border-radius: 3px;
         -webkit-transform: scale(0.95);
         -ms-transform: scale(0.95);
         transform: scale(0.95);
         transition: opacity 0.2s ease-in-out 0s, transform 0.3s ease-in-out 0s, max-height 0.3s ease-in-out;
-        border: 1px solid var(--tonic-border);
         opacity: 0;
         z-index: 1;
       }
@@ -4012,22 +3998,6 @@ class TonicToasterInline extends Tonic { /* global Tonic */
         opacity: 1;
       }
 
-      tonic-toaster-inline .tonic--warning {
-        border-color: var(--tonic-warning);
-      }
-
-      tonic-toaster-inline .tonic--danger {
-        border-color: var(--tonic-danger);
-      }
-
-      tonic-toaster-inline .tonic--success {
-        border-color: var(--tonic-success);
-      }
-
-      tonic-toaster-inline .tonic--info {
-        border-color: var(--tonic-secondary);
-      }
-
       tonic-toaster-inline .tonic--notification.tonic--close {
         padding-right: 50px;
       }
@@ -4036,8 +4006,12 @@ class TonicToasterInline extends Tonic { /* global Tonic */
         padding-left: 35px;
       }
 
-      tonic-toaster-inline main {
-        padding: 17px 15px 15px 15px;
+      tonic-toaster-inline .tonic--main {
+        padding: 17px 18px 15px 18px;
+      }
+
+      tonic-toaster-inline.tonic--dismiss .tonic--main {
+        margin-right: 40px;
       }
 
       tonic-toaster-inline .tonic--title {
@@ -4056,13 +4030,12 @@ class TonicToasterInline extends Tonic { /* global Tonic */
         position: absolute;
         left: 20px;
         top: 50%;
-        background-size: cover;
         -webkit-transform: translateY(-50%);
         -ms-transform: translateY(-50%);
         transform: translateY(-50%);
       }
 
-      tonic-toaster-inline .tonic--notification .tonic--close {
+      tonic-toaster-inline .tonic--close {
         width: 20px;
         height: 20px;
         position: absolute;
@@ -4072,12 +4045,6 @@ class TonicToasterInline extends Tonic { /* global Tonic */
         -ms-transform: translateY(-50%);
         transform: translateY(-50%);
         cursor: pointer;
-        background-size: cover;
-      }
-
-      tonic-toaster-inline .tonic--notification .tonic--close svg path {
-        fill: var(--tonic-primary);
-        color: var(--tonic-primary);
       }
     `
   }
@@ -4118,30 +4085,51 @@ class TonicToasterInline extends Tonic { /* global Tonic */
     }
   }
 
-  styles () {
-    const icon = this.props[this.props.type + 'Icon']
-
-    return {
-      icon: {
-        backgroundImage: `url("${icon}")`
-      },
-      close: {
-        backgroundImage: `url("${this.props.closeIcon}")`
-      }
-    }
-  }
-
   renderClose () {
     if (this.props.dismiss !== 'true') {
       return ''
     }
 
-    return this.html`<div class="tonic--close" styles="close"></div>`
+    this.classList.add('tonic--dismiss')
+
+    return this.html`
+      <div class="tonic--close">
+        <svg>
+          <use
+            href="#close"
+            xlink:href="#close"
+            color="var(--tonic-primary)"
+            fill="var(--tonic-primary)">
+          </use>
+        </svg>
+      </div>
+    `
   }
 
   renderIcon () {
-    if (!this.props.type) return ''
-    return this.html`<div class="tonic--icon" styles="icon"></div>`
+    const type = this.props.type
+
+    if (!type) return ''
+    return this.html`
+      <div class="tonic--icon">
+        <svg>
+          <use
+            href="#${type}"
+            xlink:href="#${type}"
+            color="var(--tonic-${type})"
+            fill="var(--tonic-${type})">
+          </use>
+        </svg>
+      </div>
+    `
+  }
+
+  styles () {
+    return {
+      type: {
+        'border-color': `var(--tonic-${this.props.type})`
+      }
+    }
   }
 
   render () {
@@ -4157,60 +4145,31 @@ class TonicToasterInline extends Tonic { /* global Tonic */
     }
 
     let typeClasses = ''
+    let styles = []
 
     if (type) {
       typeClasses = `tonic--alert tonic--${type}`
+      styles.push('type')
     }
 
+    styles = styles.join('')
+
     return this.html`
-      <div class="tonic--notification ${typeClasses}">
+      <div class="tonic--notification ${typeClasses}" styles="${styles}">
         ${this.renderIcon()}
         ${this.renderClose()}
-        <main>
+        <div class="tonic--main">
           <div class="tonic--title">
             ${title}
           </div>
           <div class="tonic--message">
             ${message || this.childNodes}
           </div>
-        </main>
+        </div>
       </div>
     `
   }
 }
-
-TonicToasterInline.svg = {}
-TonicToasterInline.svg.toURL = s => `data:image/svg+xml;base64,${window.btoa(s)}`
-
-TonicToasterInline.svg.closeIcon = color => TonicToasterInline.svg.toURL(`
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path fill="${color}" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
-  </svg>
-`)
-
-TonicToasterInline.svg.dangerIcon = color => TonicToasterInline.svg.toURL(`
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path fill="${color}" d="M50.1,6.7C26.3,6.7,6.9,26.2,6.9,50s19.4,43.2,43.2,43.2c23.8,0,43.2-19.5,43.2-43.3C93.3,26.1,74,6.7,50.1,6.7z M53.9,76.4h-7.6V68h7.6V76.4z M53.9,60.5h-7.6V25.6h7.6V60.5z"/>
-  </svg>
-`)
-
-TonicToasterInline.svg.warningIcon = color => TonicToasterInline.svg.toURL(`
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path fill="${color}" d="M98.6,86.6l-46-79.7c-1.2-2-4-2-5.2,0l-46,79.7c-1.2,2,0.3,4.5,2.6,4.5h92C98.3,91.1,99.8,88.6,98.6,86.6z M53.9,80.4h-7.6V72h7.6V80.4z M53.9,64.5h-7.6V29.6h7.6V64.5z"/>
-  </svg>
-`)
-
-TonicToasterInline.svg.successIcon = color => TonicToasterInline.svg.toURL(`
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path fill="${color}" d="M50.1,6.7C26.3,6.7,6.9,26.2,6.9,50s19.4,43.2,43.2,43.2c23.8,0,43.2-19.5,43.2-43.3C93.3,26.1,74,6.7,50.1,6.7z M43.4,71.5L22,50.1l4.8-4.8L43.4,62l28.5-28.5l4.8,4.8L43.4,71.5z"/>
-  </svg>
-`)
-
-TonicToasterInline.svg.infoIcon = color => TonicToasterInline.svg.toURL(`
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path fill="${color}" d="M50.1,6.7C26.3,6.7,6.9,26.2,6.9,50s19.4,43.2,43.2,43.2c23.8,0,43.2-19.5,43.2-43.3C93.3,26.1,74,6.7,50.1,6.7z M54.1,75.5h-8.1v-7.8h8.1V75.5z M64.1,47.6c-0.8,1.1-2.4,2.7-4.8,4.5L57,54c-1.4,1.1-2.3,2.3-2.7,3.7c-0.3,0.8-0.4,2-0.4,3.6h-8c0.1-3.4,0.5-5.8,1-7.1c0.5-1.3,2-2.9,4.3-4.7l2.4-1.9c0.8-0.6,1.5-1.3,2-2.1c0.9-1.3,1.4-2.8,1.4-4.3c0-1.8-0.5-3.4-1.6-4.9c-1.1-1.5-3-2.3-5.8-2.3c-2.7,0-4.7,0.9-5.9,2.8c-1,1.6-1.6,3.3-1.7,5.1h-8.6c0.4-5.9,2.5-10.1,6.4-12.6l0,0c2.5-1.6,5.7-2.5,9.4-2.5c4.9,0,9,1.2,12.2,3.5c3.2,2.3,4.8,5.7,4.8,10.3C66.2,43.4,65.5,45.7,64.1,47.6z"/>
-  </svg>
-`)
 
 Tonic.add(TonicToasterInline)
 

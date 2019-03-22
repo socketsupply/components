@@ -8,10 +8,7 @@ class TonicIcon extends Tonic { /* global Tonic */
 
   stylesheet () {
     return `
-      icon {
-        display: inline-block;
-      }
-      svg path {
+      tonic-icon svg path {
         fill: inherit;
       }
     `

@@ -6,16 +6,10 @@ class TonicProfileImage extends Tonic { /* global Tonic */
 
   defaults () {
     return {
-      size: '50px',
       src: TonicProfileImage.svg.default(),
-      iconEdit: TonicProfileImage.svg.edit(),
+      size: '50px',
       radius: '5px'
     }
-  }
-
-  getPropertyValue (s) {
-    const computed = window.getComputedStyle(this.root)
-    return computed.getPropertyValue(`--${s}`).trim()
   }
 
   stylesheet () {
@@ -53,15 +47,20 @@ class TonicProfileImage extends Tonic { /* global Tonic */
         display: flex;
       }
 
-      tonic-profile-image .tonic--overlay div {
+      tonic-profile-image .tonic--overlay .tonic--icon {
+        width: 30px;
+        height: 30px;
         position: absolute;
-        top: 0;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        background-size: 40px 40px;
-        background-repeat: no-repeat;
-        background-position: center center;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translateX(-50%) translateY(-50%);
+        -moz-transform: translateX(-50%) translateY(-50%);
+        transform: translateX(-50%) translateY(-50%);
+      }
+
+      tonic-profile-image .tonic--overlay .tonic--icon svg {
+        width: inherit;
+        height: inherit;
       }
 
       tonic-profile-image .tonic--wrapper.tonic--editable:hover .tonic--overlay {
@@ -74,7 +73,6 @@ class TonicProfileImage extends Tonic { /* global Tonic */
 
   styles () {
     const {
-      iconEdit,
       src,
       size,
       border,
@@ -82,9 +80,6 @@ class TonicProfileImage extends Tonic { /* global Tonic */
     } = this.props
 
     return {
-      icon: {
-        backgroundImage: `url('${iconEdit}')`
-      },
       background: {
         backgroundImage: `url('${src}')`
       },
@@ -177,7 +172,16 @@ class TonicProfileImage extends Tonic { /* global Tonic */
         <input type="file" styles="hidden"/>
 
         <div class="tonic--overlay">
-          <div styles="icon"></div>
+          <div class="tonic--icon">
+            <svg>
+              <use
+                href="#edit"
+                xlink:href="#edit"
+                color="#fff"
+                fill="#fff">
+              </use>
+            </svg>
+          </div>
         </div>
       </div>
     `
@@ -191,12 +195,6 @@ TonicProfileImage.svg.default = () => TonicProfileImage.svg.toURL(`
     <rect fill="#F0F0F0" width="100" height="100"></rect>
     <circle fill="#D6D6D6" cx="49.3" cy="41.3" r="21.1"></circle>
     <path fill="#D6D6D6" d="M48.6,69.5c-18.1,0-33.1,13.2-36,30.5h72C81.8,82.7,66.7,69.5,48.6,69.5z"></path>
-  </svg>
-`)
-
-TonicProfileImage.svg.edit = () => TonicProfileImage.svg.toURL(`
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path fill="#fff" d="M79.8,32.8L67.5,20.5c-0.2-0.2-0.5-0.2-0.7,0L25.2,62.1c-0.1,0.1-0.1,0.1-0.1,0.2L20.8,79c0,0.2,0,0.4,0.1,0.5c0.1,0.1,0.2,0.1,0.4,0.1c0,0,0.1,0,0.1,0l16.6-4.4c0.1,0,0.2-0.1,0.2-0.1l41.6-41.6C79.9,33.3,79.9,33,79.8,32.8z M67.1,25.8l7.3,7.3L36.9,70.7l-7.3-7.3L67.1,25.8z M33,72.4l-6.8,1.8l1.8-6.9L33,72.4z"/>
   </svg>
 `)
 

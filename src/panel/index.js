@@ -11,16 +11,10 @@ class Panel extends Tonic { /* global Tonic */
     })
   }
 
-  getPropertyValue (s) {
-    const computed = window.getComputedStyle(this.root)
-    return computed.getPropertyValue(`--${s}`).trim()
-  }
-
   defaults () {
     return {
       position: 'right',
       overlay: false,
-      closeIcon: Panel.svg.closeIcon,
       backgroundColor: 'rgba(0,0,0,0.5)'
     }
   }
@@ -94,6 +88,11 @@ class Panel extends Tonic { /* global Tonic */
         top: 30px;
         right: 30px;
         cursor: pointer;
+      }
+
+      .tonic--panel .tonic--close svg {
+        width: inherit;
+        height: inherit;
       }
     `
   }
@@ -171,29 +170,33 @@ class Panel extends Tonic { /* global Tonic */
     }
 
     // create template
-    const close = document.createElement('div')
-    close.className = 'tonic--close'
+    const closeIcon = document.createElement('div')
+    closeIcon.className = 'tonic--close'
 
-    const iconColor = color || this.getPropertyValue('primary')
-    const url = Panel.svg.closeIcon(iconColor)
-    close.style.backgroundImage = `url("${url}")`
+    // create SVG
+    const svgns = 'http://www.w3.org/2000/svg'
+    const xlinkns = 'http://www.w3.org/1999/xlink'
+    const svg = document.createElementNS(svgns, 'svg')
+    const use = document.createElementNS(svgns, 'use')
+
+    closeIcon.appendChild(svg)
+    svg.appendChild(use)
+
+    const iconColor = color || `var(--tonic-primary)`
+
+    use.setAttributeNS(xlinkns, 'href', '#close')
+    use.setAttributeNS(xlinkns, 'xlink:href', '#close')
+    use.setAttribute('color', iconColor)
+    use.setAttribute('fill', iconColor)
 
     // append everything
     wrapper.appendChild(panel)
     wrapper.appendChild(panel)
     panel.appendChild(template.content)
-    panel.appendChild(close)
+    panel.appendChild(closeIcon)
 
     return wrapper
   }
 }
-
-Panel.svg = {}
-Panel.svg.toURL = s => `data:image/svg+xml;base64,${window.btoa(s)}`
-Panel.svg.closeIcon = color => Panel.svg.toURL(`
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path fill="${color}" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
-  </svg>
-`)
 
 Tonic.Panel = Panel

@@ -143,15 +143,15 @@ class TonicPanel extends Tonic.Panel {
 
   render () {
     return `
-      <header></header>
-      <main>
+      <div class="tonic--header">Panel Example</div>
+      <div class="tonic--main">
         <h3>${this.props.title || 'Hello'}
         <p>${this.props.extract || 'Click "get" to fetch the content from Wikipedia.'}</p>
-      </main>
-      <footer>
+      </div>
+      <div class="tonic--footer">
         <tonic-button value="close">Close</tonic-button>
         <tonic-button value="get" async="true">Get</tonic-button>
-      </footer>
+      </div>
     `
   }
 }

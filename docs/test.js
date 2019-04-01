@@ -2259,11 +2259,24 @@ class TonicCheckbox extends Tonic { /* global Tonic */
   }
 
   change (e) {
+    if (this.state._changing) return
+
+    e.stopPropagation()
+
     this.setState(state => Object.assign({}, state, {
-      checked: !state.checked
+      checked: !state.checked,
+      _changing: true
     }))
 
     this.reRender()
+  }
+
+  updated () {
+    if (this.state._changing) {
+      const e = new window.Event('change', { bubbles: true })
+      this.dispatchEvent(e)
+      delete this.state._changing
+    }
   }
 
   styles () {
@@ -2331,9 +2344,9 @@ class TonicCheckbox extends Tonic { /* global Tonic */
     const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
 
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
-    if (tabindex) this.root.removeAttribute('tabindex')
+    if (tabindex) this.removeAttribute('tabindex')
 
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
 
     const attributes = [
       disabledAttr,

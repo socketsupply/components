@@ -2198,11 +2198,8 @@ class TonicCheckbox extends Tonic { /* global Tonic */
   set value (value) {
     const checked = (value === true) || (value === 'true')
 
-    this.reRender(props => Object.assign(props, {
-      checked
-    }))
-
     this.state.checked = checked
+    this.reRender()
   }
 
   defaults () {
@@ -2273,12 +2270,6 @@ class TonicCheckbox extends Tonic { /* global Tonic */
         width: this.props.size,
         height: this.props.size
       }
-    }
-  }
-
-  updated (oldProps) {
-    if (oldProps.checked !== this.props.checked) {
-      this.root.dispatchEvent(new window.Event('change'))
     }
   }
 

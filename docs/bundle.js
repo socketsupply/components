@@ -2410,7 +2410,15 @@ class TonicButton extends Tonic { /* global Tonic */
       this.loading(true)
     }
 
-    if (href) window.open(href)
+    if (href) {
+      const target = this.getAttribute('target')
+
+      if (target && target !== '_self') {
+        window.open(href)
+      } else {
+        window.open(href, '_self')
+      }
+    }
   }
 
   styles () {
@@ -5081,17 +5089,31 @@ Object.assign(Tonic, {
 if (typeof module === 'object') module.exports = Tonic
 
 },{}],6:[function(require,module,exports){
+(function (global){
 "use strict";
 
-module.exports = exports = self.fetch;
+// ref: https://github.com/tc39/proposal-global
+var getGlobal = function () {
+	// the only reliable means to get the global object is
+	// `Function('return this')()`
+	// However, this causes CSP violations in Chrome apps.
+	if (typeof self !== 'undefined') { return self; }
+	if (typeof window !== 'undefined') { return window; }
+	if (typeof global !== 'undefined') { return global; }
+	throw new Error('unable to locate global object');
+}
+
+var global = getGlobal();
+
+module.exports = exports = global.fetch;
 
 // Needed for TypeScript and Webpack.
-exports.default = self.fetch.bind(self);
+exports.default = global.fetch.bind(global);
 
-exports.Headers = self.Headers;
-exports.Request = self.Request;
-exports.Response = self.Response;
-
+exports.Headers = global.Headers;
+exports.Request = global.Request;
+exports.Response = global.Response;
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],7:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};

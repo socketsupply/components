@@ -50,6 +50,7 @@ The `Button` component creates a button.
 | `fill` | *string* | Filled button. |  |
 | `text-color` | *string* | TextColor of the button. |  |
 | `href` | *string* | Add a location (url) for click event. | |
+| `target` | *string* | If you specify target, it will open an href in a new window, unless target is `_self` | `_self` |
 | `tabindex` | *number* | Add a `tabindex` for the button. | |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 

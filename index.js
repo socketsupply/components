@@ -1977,7 +1977,15 @@ class TonicButton extends Tonic { /* global Tonic */
       this.loading(true)
     }
 
-    if (href) window.open(href)
+    if (href) {
+      const target = this.getAttribute('target')
+
+      if (target && target !== '_self') {
+        window.open(href)
+      } else {
+        window.open(href, '_self')
+      }
+    }
   }
 
   styles () {

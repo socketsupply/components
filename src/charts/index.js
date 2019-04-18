@@ -14,7 +14,7 @@ class TonicChart extends Tonic { /* global Tonic */
   }
 
   draw (data, options = this.props.options) {
-    const root = this.root.querySelector('canvas')
+    const root = this.querySelector('canvas')
 
     //
     // Add a few sensible defaults, but allow the user to
@@ -107,8 +107,8 @@ class TonicChart extends Tonic { /* global Tonic */
       height
     } = this.props
 
-    this.root.style.width = width
-    this.root.style.height = height
+    this.style.width = width
+    this.style.height = height
 
     return `
       <canvas width="${width}" height="${height}">

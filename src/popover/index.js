@@ -111,7 +111,7 @@ class TonicPopover extends Tonic { /* global Tonic */
   }
 
   show (triggerNode) {
-    const popover = this.root.querySelector('.tonic--popover')
+    const popover = this.querySelector('.tonic--popover')
     let scrollableArea = triggerNode.parentNode
 
     while (true) {
@@ -156,18 +156,18 @@ class TonicPopover extends Tonic { /* global Tonic */
     window.requestAnimationFrame(() => {
       popover.className = `tonic--popover tonic--show tonic--popover--${this.props.position}`
       const event = new window.Event('show')
-      this.root.dispatchEvent(event)
+      this.dispatchEvent(event)
     })
   }
 
   hide () {
-    const popover = this.root.querySelector('.tonic--popover')
+    const popover = this.querySelector('.tonic--popover')
     if (popover) popover.classList.remove('tonic--show')
   }
 
   connected () {
     if (!this.props.open) return
-    const target = this.root.getAttribute('for')
+    const target = this.getAttribute('for')
     this.show(document.getElementById(target))
   }
 
@@ -182,7 +182,7 @@ class TonicPopover extends Tonic { /* global Tonic */
       theme
     } = this.props
 
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
 
     return this.html`
       <div class="tonic--popover" styles="popover">

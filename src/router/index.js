@@ -47,25 +47,25 @@ class TonicRouter extends Tonic { /* global Tonic */
 
   willConnect () {
     this.template = document.createElement('template')
-    this.template.innerHTML = this.root.innerHTML
+    this.template.innerHTML = this.innerHTML
   }
 
   updated () {
-    if (!this.root.classList.contains('tonic--show')) return
+    if (!this.classList.contains('tonic--show')) return
     const event = new window.Event('match')
-    this.root.dispatchEvent(event)
+    this.dispatchEvent(event)
   }
 
   render () {
-    const none = this.root.hasAttribute('none')
+    const none = this.hasAttribute('none')
 
     if (none) {
       if (TonicRouter.matches) return
-      this.root.classList.add('tonic--show')
+      this.classList.add('tonic--show')
       return this.template.content
     }
 
-    const path = this.root.getAttribute('path')
+    const path = this.getAttribute('path')
     const keys = []
     const matcher = TonicRouter.matcher(path, keys)
     const match = matcher.exec(window.location.pathname)
@@ -77,7 +77,7 @@ class TonicRouter extends Tonic { /* global Tonic */
         this.props[keys[i].name] = m
       })
 
-      this.root.classList.add('tonic--show')
+      this.classList.add('tonic--show')
       return this.template.content
     }
 

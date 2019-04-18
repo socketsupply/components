@@ -56,25 +56,25 @@
 
   willConnect () {
     this.template = document.createElement('template')
-    this.template.innerHTML = this.root.innerHTML
+    this.template.innerHTML = this.innerHTML
   }
 
   updated () {
-    if (!this.root.classList.contains('tonic--show')) return
+    if (!this.classList.contains('tonic--show')) return
     const event = new window.Event('match')
-    this.root.dispatchEvent(event)
+    this.dispatchEvent(event)
   }
 
   render () {
-    const none = this.root.hasAttribute('none')
+    const none = this.hasAttribute('none')
 
     if (none) {
       if (TonicRouter.matches) return
-      this.root.classList.add('tonic--show')
+      this.classList.add('tonic--show')
       return this.template.content
     }
 
-    const path = this.root.getAttribute('path')
+    const path = this.getAttribute('path')
     const keys = []
     const matcher = TonicRouter.matcher(path, keys)
     const match = matcher.exec(window.location.pathname)
@@ -86,7 +86,7 @@
         this.props[keys[i].name] = m
       })
 
-      this.root.classList.add('tonic--show')
+      this.classList.add('tonic--show')
       return this.template.content
     }
 
@@ -395,8 +395,9 @@ class Panel extends Tonic { /* global Tonic */
     const that = this
 
     return new Promise((resolve) => {
-      if (!this.root) return
-      const node = this.root.querySelector('.tonic--wrapper')
+      if (!that) return
+
+      const node = that.querySelector('.tonic--wrapper')
       node.classList.add('tonic--show')
       node.addEventListener('transitionend', resolve, { once: true })
 
@@ -412,8 +413,8 @@ class Panel extends Tonic { /* global Tonic */
     const that = this
 
     return new Promise((resolve) => {
-      if (!this.root) return
-      const node = this.root.querySelector('.tonic--wrapper')
+      if (!that) return
+      const node = this.querySelector('.tonic--wrapper')
       node.classList.remove('tonic--show')
       node.addEventListener('transitionend', resolve, { once: true })
       document.removeEventListener('keyup', that._escapeHandler)
@@ -430,7 +431,7 @@ class Panel extends Tonic { /* global Tonic */
       backgroundColor
     } = this.props
 
-    this.root.classList.add('tonic--panel')
+    this.classList.add('tonic--panel')
 
     const wrapper = document.createElement('div')
     const template = document.createElement('template')
@@ -441,9 +442,9 @@ class Panel extends Tonic { /* global Tonic */
       ? (template.innerHTML = content)
       : [...content.childNodes].forEach(el => template.appendChild(el))
 
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
 
-    const isOpen = !!this.root.querySelector('.tonic--wrapper.tonic--show')
+    const isOpen = !!this.querySelector('.tonic--wrapper.tonic--show')
     wrapper.className = isOpen ? 'tonic--wrapper tonic--show' : 'tonic--wrapper'
     wrapper.id = 'wrapper'
     const positionAttr = position ? `tonic--${position}` : ''
@@ -594,7 +595,7 @@ class Dialog extends Tonic { /* global Tonic */
     const that = this
 
     return new Promise((resolve) => {
-      const node = this.root.querySelector('.tonic--dialog--wrapper')
+      const node = this.querySelector('.tonic--dialog--wrapper')
       node.classList.add('tonic--show')
       node.addEventListener('transitionend', resolve, { once: true })
 
@@ -610,7 +611,7 @@ class Dialog extends Tonic { /* global Tonic */
     const that = this
 
     return new Promise((resolve) => {
-      const node = this.root.querySelector('.tonic--dialog--wrapper')
+      const node = this.querySelector('.tonic--dialog--wrapper')
       node.classList.remove('tonic--show')
       node.addEventListener('transitionend', resolve, { once: true })
       document.removeEventListener('keyup', that._escapeHandler)
@@ -627,14 +628,14 @@ class Dialog extends Tonic { /* global Tonic */
           const value = Tonic.match(event.target, '[value]')
 
           if (close || value) {
-            that.root.removeEventListener(eventName, listener)
+            that.removeEventListener(eventName, listener)
           }
 
           if (close) return resolve({})
           if (value) resolve({ [event.target.value]: true })
         }
 
-        that.root.addEventListener(eventName, listener)
+        that.addEventListener(eventName, listener)
       }
     }
   }
@@ -649,12 +650,12 @@ class Dialog extends Tonic { /* global Tonic */
       backgroundColor
     } = this.props
 
-    this.root.classList.add('tonic--dialog')
+    this.classList.add('tonic--dialog')
 
     const template = document.createElement('template')
     const wrapper = document.createElement('div')
 
-    const isOpen = !!this.root.querySelector('.tonic--dialog--wrapper.tonic--show')
+    const isOpen = !!this.querySelector('.tonic--dialog--wrapper.tonic--show')
     wrapper.className = isOpen ? 'tonic--dialog--wrapper tonic--show' : 'tonic--dialog--wrapper'
 
     const content = render()
@@ -663,7 +664,7 @@ class Dialog extends Tonic { /* global Tonic */
       ? (template.innerHTML = content)
       : [...content.childNodes].forEach(el => template.appendChild(el))
 
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
 
     if (overlay !== 'false') {
       const overlayElement = document.createElement('div')
@@ -711,31 +712,27 @@ class TonicTabs extends Tonic { /* global Tonic */
     return `
       tonic-tabs .tonic--tab {
         -webkit-appearance: none;
-<<<<<<< HEAD
-        border-bottom: 2px solid transparent;
-=======
->>>>>>> build
         user-select: none;
       }
     `
   }
 
   get value () {
-    const currentTab = this.root.querySelector('[aria-selected="true"]')
+    const currentTab = this.querySelector('[aria-selected="true"]')
     if (currentTab) return currentTab.id
   }
 
   set selected (value) {
-    const tab = this.root.getElementById(value)
+    const tab = this.getElementById(value)
     if (tab) tab.click()
   }
 
   qsa (s) {
-    return [...this.root.querySelectorAll(s)]
+    return [...this.querySelectorAll(s)]
   }
 
   setVisibility (id) {
-    const tabs = this.root.querySelectorAll(`.tonic--tab`)
+    const tabs = this.querySelectorAll(`.tonic--tab`)
 
     for (const tab of tabs) {
       const control = tab.getAttribute('for')
@@ -802,9 +799,9 @@ class TonicTabs extends Tonic { /* global Tonic */
   }
 
   render () {
-    this.root.setAttribute('role', 'tablist')
+    this.setAttribute('role', 'tablist')
 
-    return [...this.root.childElements].map((node, index) => {
+    return [...this.childElements].map((node, index) => {
       const ariaControls = node.getAttribute('for')
 
       if (node.attributes.class) {
@@ -844,11 +841,11 @@ class TonicTabPanel extends Tonic { /* global Tonic */
     const tab = document.querySelector(`.tonic--tab[for="${this.props.id}"]`)
     if (!tab) return
     const tabid = tab.getAttribute('id')
-    this.root.setAttribute('aria-labelledby', tabid)
+    this.setAttribute('aria-labelledby', tabid)
   }
 
   render () {
-    this.root.setAttribute('role', 'tabpanel')
+    this.setAttribute('role', 'tabpanel')
 
     return this.html`
       ${this.childNodes}
@@ -875,18 +872,18 @@ class TonicAccordion extends Tonic { /* global Tonic */
   }
 
   qs (s) {
-    return this.root.querySelector(s)
+    return this.querySelector(s)
   }
 
   qsa (s) {
-    return [...this.root.querySelectorAll(s)]
+    return [...this.querySelectorAll(s)]
   }
 
   setVisibility (id) {
     const trigger = document.getElementById(id)
     if (!trigger) return
 
-    const allowMultiple = this.root.hasAttribute('data-allow-multiple')
+    const allowMultiple = this.hasAttribute('data-allow-multiple')
     const isExpanded = trigger.getAttribute('aria-expanded') === 'true'
 
     if (!isExpanded && !allowMultiple) {
@@ -969,7 +966,7 @@ class TonicAccordion extends Tonic { /* global Tonic */
       multiple
     } = this.props
 
-    if (multiple) this.root.setAttribute('data-allow-multiple', '')
+    if (multiple) this.setAttribute('data-allow-multiple', '')
 
     return this.html`
       ${this.childNodes}
@@ -1169,12 +1166,10 @@ class Windowed extends Tonic { /* global Tonic */
   }
 
   load (rows = []) {
-    if (!this.root) return
-
     this.rows = rows
     this.reRender()
 
-    const outer = this.root.querySelector('.tonic--windowed--outer')
+    const outer = this.querySelector('.tonic--windowed--outer')
     if (!outer) return
 
     this.outerHeight = outer.offsetHeight
@@ -1185,7 +1180,7 @@ class Windowed extends Tonic { /* global Tonic */
     this.pagesAvailable = this.pagesAvailable || []
     this.rowHeight = parseInt(this.props.rowHeight, 10)
 
-    const inner = this.root.querySelector('.tonic--windowed--inner')
+    const inner = this.querySelector('.tonic--windowed--inner')
     inner.innerHTML = ''
     inner.style.height = `${this.rowHeight * this.rows.length}px`
     this.pageHeight = this.props.rowsPerPage * this.rowHeight
@@ -1195,9 +1190,7 @@ class Windowed extends Tonic { /* global Tonic */
   }
 
   setHeight (height, { render } = {}) {
-    if (!this.root) return
-
-    const outer = this.root.querySelector('.tonic--windowed--outer')
+    const outer = this.querySelector('.tonic--windowed--outer')
     if (!outer) return
 
     outer.style.height = height
@@ -1229,7 +1222,7 @@ class Windowed extends Tonic { /* global Tonic */
 
   getAvailablePage (i) {
     const page = this.pagesAvailable.pop()
-    const inner = this.root.querySelector('.tonic--windowed--inner')
+    const inner = this.querySelector('.tonic--windowed--inner')
     inner.appendChild(page)
     return page
   }
@@ -1248,17 +1241,15 @@ class Windowed extends Tonic { /* global Tonic */
       page.style.backgroundColor = `hsla(${random}, 100%, 50%, 0.5)`
     }
 
-    const inner = this.root.querySelector('.tonic--windowed--inner')
+    const inner = this.querySelector('.tonic--windowed--inner')
     inner.appendChild(page)
     return page
   }
 
   async rePaint ({ refresh, load } = {}) {
-    if (!this.root) return
-
     if (refresh && load !== false) this.load(this.rows)
 
-    const outer = this.root.querySelector('.tonic--windowed--outer')
+    const outer = this.querySelector('.tonic--windowed--outer')
     if (!outer) return
 
     const viewStart = outer.scrollTop
@@ -1287,7 +1278,7 @@ class Windowed extends Tonic { /* global Tonic */
       pagesRendered[i] = true
     }
 
-    const inner = this.root.querySelector('.tonic--windowed--inner')
+    const inner = this.querySelector('.tonic--windowed--inner')
 
     for (const i of Object.keys(this.pages)) {
       if (pagesRendered[i]) continue
@@ -1332,7 +1323,7 @@ class Windowed extends Tonic { /* global Tonic */
     const start = i * this.props.rowsPerPage
     const limit = Math.min((i + 1) * this.props.rowsPerPage, this.rows.length)
 
-    const inner = this.root.querySelector('.tonic--windowed--inner')
+    const inner = this.querySelector('.tonic--windowed--inner')
 
     if (start > limit) {
       inner.removeChild(page)
@@ -1361,9 +1352,7 @@ class Windowed extends Tonic { /* global Tonic */
   }
 
   updated () {
-    if (!this.root) return
-
-    const outer = this.root.querySelector('.tonic--windowed--outer')
+    const outer = this.querySelector('.tonic--windowed--outer')
 
     outer && outer.addEventListener('scroll', () => {
       this.state.scrollTop = outer.scrollTop
@@ -1416,8 +1405,8 @@ class TonicTooltip extends Tonic { /* global Tonic */
       this.show(el)
     })
 
-    this.root.addEventListener('mouseenter', e => clearTimeout(timer))
-    this.root.addEventListener('mouseleave', leave)
+    this.addEventListener('mouseenter', e => clearTimeout(timer))
+    this.addEventListener('mouseleave', leave)
     el.addEventListener('mouseleave', leave)
   }
 
@@ -1487,8 +1476,8 @@ class TonicTooltip extends Tonic { /* global Tonic */
   show (triggerNode) {
     clearTimeout(this.timer)
     this.timer = setTimeout(() => {
-      const tooltip = this.root.querySelector('.tonic--tooltip')
-      const arrow = this.root.querySelector('.tonic--tooltip-arrow')
+      const tooltip = this.querySelector('.tonic--tooltip')
+      const arrow = this.querySelector('.tonic--tooltip-arrow')
 
       let { top, left } = triggerNode.getBoundingClientRect()
 
@@ -1522,9 +1511,7 @@ class TonicTooltip extends Tonic { /* global Tonic */
 
   hide () {
     clearTimeout(this.timer)
-    if (!this.root) return
-
-    const tooltip = this.root.querySelector('.tonic--tooltip')
+    const tooltip = this.querySelector('.tonic--tooltip')
     tooltip.classList.remove('tonic--show')
   }
 
@@ -1544,7 +1531,7 @@ class TonicTooltip extends Tonic { /* global Tonic */
 
   render () {
     if (this.props.theme) {
-      this.root.classList.add(`tonic--theme--${this.props.theme}`)
+      this.classList.add(`tonic--theme--${this.props.theme}`)
     }
 
     return this.html`
@@ -1671,7 +1658,7 @@ class TonicPopover extends Tonic { /* global Tonic */
   }
 
   show (triggerNode) {
-    const popover = this.root.querySelector('.tonic--popover')
+    const popover = this.querySelector('.tonic--popover')
     let scrollableArea = triggerNode.parentNode
 
     while (true) {
@@ -1716,18 +1703,18 @@ class TonicPopover extends Tonic { /* global Tonic */
     window.requestAnimationFrame(() => {
       popover.className = `tonic--popover tonic--show tonic--popover--${this.props.position}`
       const event = new window.Event('show')
-      this.root.dispatchEvent(event)
+      this.dispatchEvent(event)
     })
   }
 
   hide () {
-    const popover = this.root.querySelector('.tonic--popover')
+    const popover = this.querySelector('.tonic--popover')
     if (popover) popover.classList.remove('tonic--show')
   }
 
   connected () {
     if (!this.props.open) return
-    const target = this.root.getAttribute('for')
+    const target = this.getAttribute('for')
     this.show(document.getElementById(target))
   }
 
@@ -1742,7 +1729,7 @@ class TonicPopover extends Tonic { /* global Tonic */
       theme
     } = this.props
 
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
 
     return this.html`
       <div class="tonic--popover" styles="popover">
@@ -1828,7 +1815,7 @@ class TonicBadge extends Tonic { /* global Tonic */
       count = this.props.count
     }
 
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
 
     const countAttr = (count > 99) ? '99' : count
 
@@ -1962,8 +1949,7 @@ class TonicButton extends Tonic { /* global Tonic */
   }
 
   loading (state) {
-    if (!this.root) return
-    const button = this.root.querySelector('button')
+    const button = this.querySelector('button')
     const method = state ? 'add' : 'remove'
     if (button) button.classList[method]('tonic--loading')
   }
@@ -2041,9 +2027,9 @@ class TonicButton extends Tonic { /* global Tonic */
     if (active) classes.push(`tonic--active`)
     classes = classes.join(' ')
 
-    if (tabindex) this.root.removeAttribute('tabindex')
+    if (tabindex) this.removeAttribute('tabindex')
 
-    const label = this.root.textContent || type || 'Button'
+    const label = this.textContent || type || 'Button'
 
     const attributes = [
       valueAttr,
@@ -2084,7 +2070,7 @@ class TonicChart extends Tonic { /* global Tonic */
   }
 
   draw (data, options = this.props.options) {
-    const root = this.root.querySelector('canvas')
+    const root = this.querySelector('canvas')
 
     //
     // Add a few sensible defaults, but allow the user to
@@ -2177,8 +2163,8 @@ class TonicChart extends Tonic { /* global Tonic */
       height
     } = this.props
 
-    this.root.style.width = width
-    this.root.style.height = height
+    this.style.width = width
+    this.style.height = height
 
     return `
       <canvas width="${width}" height="${height}">
@@ -2420,9 +2406,9 @@ class TonicIcon extends Tonic { /* global Tonic */
     } = this.props
 
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
-    if (tabindex) this.root.removeAttribute('tabindex')
+    if (tabindex) this.removeAttribute('tabindex')
 
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
 
     return this.html`
       <svg
@@ -2464,7 +2450,7 @@ class TonicInput extends Tonic { /* global Tonic */
   }
 
   set value (value) {
-    this.root.querySelector('input').value = value
+    this.querySelector('input').value = value
     this.state.value = value
   }
 
@@ -2614,15 +2600,14 @@ class TonicInput extends Tonic { /* global Tonic */
   }
 
   setupEvents () {
-    if (!this.root) return
-    const input = this.root.querySelector('input')
+    const input = this.querySelector('input')
 
     const set = (k, v, event) => {
       this.setState(state => Object.assign({}, state, { [k]: v }))
     }
 
     const relay = name => {
-      this.root && this.root.dispatchEvent(new window.Event(name))
+      this.dispatchEvent(new window.Event(name))
     }
 
     input.addEventListener('focus', e => {
@@ -2654,8 +2639,7 @@ class TonicInput extends Tonic { /* global Tonic */
   }
 
   updated () {
-    if (!this.root) return
-    const input = this.root.querySelector('input')
+    const input = this.querySelector('input')
 
     setTimeout(() => {
       if (this.props.invalid) {
@@ -2726,11 +2710,11 @@ class TonicInput extends Tonic { /* global Tonic */
     const maxAttr = max ? `max="${max}"` : ''
 
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
-    if (tabindex) this.root.removeAttribute('tabindex')
+    if (tabindex) this.removeAttribute('tabindex')
 
-    if (width) this.root.style.width = width
-    if (height) this.root.style.width = height
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (width) this.style.width = width
+    if (height) this.style.width = height
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
 
     const value = this.state.value || this.props.value
     const valueAttr = value && value !== 'undefined' ? `value="${value}"` : ''
@@ -2953,13 +2937,13 @@ class TonicProfileImage extends Tonic { /* global Tonic */
   click (e) {
     if (this.props.editable) {
       if (this.props.editable === 'false') return
-      const fileInput = this.root.getElementsByTagName('input')[0]
+      const fileInput = this.getElementsByTagName('input')[0]
       fileInput.click()
     }
   }
 
   change (e) {
-    const fileInput = this.root.getElementsByTagName('input')[0]
+    const fileInput = this.getElementsByTagName('input')[0]
     const data = fileInput.files[0]
     if (e.data) return
     e.stopPropagation()
@@ -2972,16 +2956,14 @@ class TonicProfileImage extends Tonic { /* global Tonic */
     } = data
 
     this.getPictureData(data, (err, data) => {
-      if (!this.root) return
-
       if (err) {
         const event = new window.Event('error')
         event.message = err.message
-        this.root.dispatchEvent(event)
+        this.dispatchEvent(event)
         return
       }
 
-      const slot = this.root && this.root.querySelector('.tonic--image')
+      const slot = this.querySelector('.tonic--image')
 
       this.setState(state => Object.assign({}, state, {
         size,
@@ -2994,7 +2976,7 @@ class TonicProfileImage extends Tonic { /* global Tonic */
       slot.style.backgroundImage = 'url("' + data + '")'
       const event = new window.Event('change', { bubbles: true })
       event.data = true // prevent recursion
-      this.root.dispatchEvent(event)
+      this.dispatchEvent(event)
     })
   }
 
@@ -3004,7 +2986,7 @@ class TonicProfileImage extends Tonic { /* global Tonic */
       editable
     } = this.props
 
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
     const editableAttr = editable && (editable === 'true') ? 'tonic--editable' : ''
 
     return `
@@ -3064,23 +3046,18 @@ class TonicRange extends Tonic { /* global Tonic */
   }
 
   set value (value) {
-    if (!this.root) return
-
-    this.root.querySelector('input').value = value
+    this.querySelector('input').value = value
     this.setValue(value)
   }
 
   setValue (value) {
-    const root = this.root
-    if (!root) return
-
     const min = this.props.min
     const max = this.props.max
 
-    const input = root.querySelector('input')
+    const input = this.querySelector('input')
 
     if (this.props.label) {
-      const label = root.querySelector('label')
+      const label = this.querySelector('label')
       label.textContent = this.getLabelValue(value)
     }
 
@@ -3227,10 +3204,10 @@ class TonicRange extends Tonic { /* global Tonic */
     const maxAttr = max ? `max="${max}"` : ''
     const stepAttr = step ? `step="${step}"` : ''
 
-    if (width) this.root.style.width = width
-    if (height) this.root.style.width = height
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
-    if (tabindex) this.root.removeAttribute('tabindex')
+    if (width) this.style.width = width
+    if (height) this.style.width = height
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
+    if (tabindex) this.removeAttribute('tabindex')
 
     const value = this.props.value || this.state.value
     const valueAttr = value && value !== 'undefined' ? `value="${value}"` : ''
@@ -3360,8 +3337,7 @@ class TonicSelect extends Tonic { /* global Tonic */
   }
 
   get value () {
-    if (!this.root) return
-    const el = this.root.querySelector('select')
+    const el = this.querySelector('select')
 
     if (this.props.multiple === 'true') {
       const value = [...el.options]
@@ -3374,8 +3350,7 @@ class TonicSelect extends Tonic { /* global Tonic */
   }
 
   selectOptions (value) {
-    if (!this.root) return
-    const el = this.root.querySelector('select')
+    const el = this.querySelector('select')
     const options = [...el.options]
 
     options.forEach(el => {
@@ -3387,31 +3362,30 @@ class TonicSelect extends Tonic { /* global Tonic */
     if (this.props.multiple === 'true' && Array.isArray(value)) {
       this.selectOptions(value)
     } else {
-      const el = this.root.querySelector('select')
+      const el = this.querySelector('select')
       if (!value) value = el.selectedIndex
       el.selectedIndex = 0
     }
   }
 
   get option () {
-    const node = this.root.querySelector('select')
+    const node = this.querySelector('select')
     return node.options[node.selectedIndex]
   }
 
   get selectedIndex () {
-    const node = this.root.querySelector('select')
+    const node = this.querySelector('select')
     return node.selectedIndex
   }
 
   set selectedIndex (index) {
-    const node = this.root.querySelector('select')
+    const node = this.querySelector('select')
     node.selectedIndex = index
   }
 
   loading (state) {
-    if (!this.root) return
     const method = state ? 'add' : 'remove'
-    this.root.classList[method]('tonic--loading')
+    this.classList[method]('tonic--loading')
   }
 
   renderLabel () {
@@ -3448,7 +3422,7 @@ class TonicSelect extends Tonic { /* global Tonic */
     if (Array.isArray(value)) {
       this.selectOptions(value)
     } else if (value) {
-      const option = this.root.querySelector(`option[value="${value}"]`)
+      const option = this.querySelector(`option[value="${value}"]`)
       if (option) option.setAttribute('selected', true)
     }
   }
@@ -3470,10 +3444,10 @@ class TonicSelect extends Tonic { /* global Tonic */
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
     const sizeAttr = size ? `size="${size}"` : ''
 
-    if (width) this.root.style.width = width
-    if (height) this.root.style.width = height
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
-    if (tabindex) this.root.removeAttribute('tabindex')
+    if (width) this.style.width = width
+    if (height) this.style.width = height
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
+    if (tabindex) this.removeAttribute('tabindex')
 
     const attributes = [
       disabledAttr,
@@ -3638,11 +3612,11 @@ class TonicTextarea extends Tonic { /* global Tonic */
   }
 
   get value () {
-    return this.root.querySelector('textarea').value
+    return this.querySelector('textarea').value
   }
 
   set value (value) {
-    this.root.querySelector('textarea').value = value
+    this.querySelector('textarea').value = value
   }
 
   renderLabel () {
@@ -3651,7 +3625,7 @@ class TonicTextarea extends Tonic { /* global Tonic */
   }
 
   willConnect () {
-    this.props.value = this.props.value || this.root.textContent
+    this.props.value = this.props.value || this.textContent
   }
 
   render () {
@@ -3681,11 +3655,11 @@ class TonicTextarea extends Tonic { /* global Tonic */
     const maxAttr = maxlength ? `maxlength="${maxlength}"` : ''
 
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
-    if (tabindex) this.root.removeAttribute('tabindex')
+    if (tabindex) this.removeAttribute('tabindex')
 
-    if (width) this.root.style.width = width
-    if (height) this.root.style.height = height
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (width) this.style.width = width
+    if (height) this.style.height = height
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
 
     if (this.props.value === 'undefined') this.props.value = ''
 
@@ -3906,7 +3880,7 @@ class TonicToaster extends Tonic { /* global Tonic */
     notification.appendChild(main)
     main.appendChild(titleElement)
     main.appendChild(messageElement)
-    this.root.querySelector('.tonic--wrapper').appendChild(notification)
+    this.querySelector('.tonic--wrapper').appendChild(notification)
     this.show()
 
     setTimeout(() => {
@@ -3932,14 +3906,12 @@ class TonicToaster extends Tonic { /* global Tonic */
   }
 
   show () {
-    if (!this.root) return
-    const node = this.root.querySelector('.tonic--wrapper')
+    const node = this.querySelector('.tonic--wrapper')
     node.classList.add('tonic--show')
   }
 
   hide () {
-    if (!this.root) return
-    const node = this.root.querySelector('.tonic--wrapper')
+    const node = this.querySelector('.tonic--wrapper')
     node.classList.remove('tonic--show')
   }
 
@@ -3961,7 +3933,7 @@ class TonicToaster extends Tonic { /* global Tonic */
 
     const positionAttr = position ? `tonic--${position}` : ''
 
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
 
     return `<div class="tonic--wrapper ${positionAttr}"></div>`
   }
@@ -4059,14 +4031,12 @@ class TonicToasterInline extends Tonic { /* global Tonic */
   }
 
   show () {
-    if (!this.root) return
-    const node = this.root.querySelector('.tonic--notification')
+    const node = this.querySelector('.tonic--notification')
     node.classList.add('tonic--show')
   }
 
   hide () {
-    if (!this.root) return
-    const node = this.root.querySelector('.tonic--notification')
+    const node = this.querySelector('.tonic--notification')
     node.classList.remove('tonic--show')
   }
 
@@ -4078,8 +4048,6 @@ class TonicToasterInline extends Tonic { /* global Tonic */
   }
 
   connected () {
-    if (!this.root) return
-
     const {
       display,
       duration
@@ -4150,7 +4118,7 @@ class TonicToasterInline extends Tonic { /* global Tonic */
     } = this.props
 
     if (theme) {
-      this.root.setAttribute('theme', theme)
+      this.setAttribute('theme', theme)
     }
 
     let typeClasses = ''
@@ -4359,9 +4327,9 @@ class TonicToggle extends Tonic { /* global Tonic */
     const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
 
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
-    if (tabindex) this.root.removeAttribute('tabindex')
+    if (tabindex) this.removeAttribute('tabindex')
 
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
 
     let checked
 
@@ -4401,7 +4369,7 @@ Tonic.add(TonicToggle)
     }
   
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"timers":66}],2:[function(require,module,exports){
+},{"timers":64}],2:[function(require,module,exports){
 class Tonic extends window.HTMLElement {
   constructor () {
     super()
@@ -4815,7 +4783,6 @@ function fromByteArray (uint8) {
 },{}],5:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
 },{"dup":4}],6:[function(require,module,exports){
-(function (Buffer){
 /*!
  * The buffer module from node.js, for the browser.
  *
@@ -6594,8 +6561,7 @@ function numberIsNaN (obj) {
   return obj !== obj // eslint-disable-line no-self-compare
 }
 
-}).call(this,require("buffer").Buffer)
-},{"base64-js":3,"buffer":6,"ieee754":27}],7:[function(require,module,exports){
+},{"base64-js":3,"ieee754":26}],7:[function(require,module,exports){
 (function (Buffer){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -6706,7 +6672,7 @@ function objectToString(o) {
 }
 
 }).call(this,{"isBuffer":require("../../is-buffer/index.js")})
-},{"../../is-buffer/index.js":29}],8:[function(require,module,exports){
+},{"../../is-buffer/index.js":28}],8:[function(require,module,exports){
 var pSlice = Array.prototype.slice;
 var objectKeys = require('./lib/keys.js');
 var isArguments = require('./lib/is_arguments.js');
@@ -6895,7 +6861,7 @@ defineProperties.supportsDescriptors = !!supportsDescriptors;
 
 module.exports = defineProperties;
 
-},{"object-keys":34}],12:[function(require,module,exports){
+},{"object-keys":32}],12:[function(require,module,exports){
 module.exports = function () {
     for (var i = 0; i < arguments.length; i++) {
         if (arguments[i] !== undefined) return arguments[i];
@@ -7090,7 +7056,6 @@ var $Object = GetIntrinsic('%Object%');
 var $TypeError = GetIntrinsic('%TypeError%');
 var $String = GetIntrinsic('%String%');
 
-var assertRecord = require('./helpers/assertRecord');
 var $isNaN = require('./helpers/isNaN');
 var $isFinite = require('./helpers/isFinite');
 
@@ -7188,13 +7153,13 @@ var ES5 = {
 			'[[Value]]': true,
 			'[[Writable]]': true
 		};
-
+		// jscs:disable
 		for (var key in Desc) { // eslint-disable-line
 			if (has(Desc, key) && !allowed[key]) {
 				return false;
 			}
 		}
-
+		// jscs:enable
 		var isData = has(Desc, '[[Value]]');
 		var IsAccessor = has(Desc, '[[Get]]') || has(Desc, '[[Set]]');
 		if (isData && IsAccessor) {
@@ -7209,7 +7174,9 @@ var ES5 = {
 			return false;
 		}
 
-		assertRecord(this, 'Property Descriptor', 'Desc', Desc);
+		if (!this.IsPropertyDescriptor(Desc)) {
+			throw new $TypeError('Desc must be a Property Descriptor');
+		}
 
 		if (!has(Desc, '[[Get]]') && !has(Desc, '[[Set]]')) {
 			return false;
@@ -7224,7 +7191,9 @@ var ES5 = {
 			return false;
 		}
 
-		assertRecord(this, 'Property Descriptor', 'Desc', Desc);
+		if (!this.IsPropertyDescriptor(Desc)) {
+			throw new $TypeError('Desc must be a Property Descriptor');
+		}
 
 		if (!has(Desc, '[[Value]]') && !has(Desc, '[[Writable]]')) {
 			return false;
@@ -7239,7 +7208,9 @@ var ES5 = {
 			return false;
 		}
 
-		assertRecord(this, 'Property Descriptor', 'Desc', Desc);
+		if (!this.IsPropertyDescriptor(Desc)) {
+			throw new $TypeError('Desc must be a Property Descriptor');
+		}
 
 		if (!this.IsAccessorDescriptor(Desc) && !this.IsDataDescriptor(Desc)) {
 			return true;
@@ -7254,7 +7225,9 @@ var ES5 = {
 			return Desc;
 		}
 
-		assertRecord(this, 'Property Descriptor', 'Desc', Desc);
+		if (!this.IsPropertyDescriptor(Desc)) {
+			throw new $TypeError('Desc must be a Property Descriptor');
+		}
 
 		if (this.IsDataDescriptor(Desc)) {
 			return {
@@ -7318,79 +7291,28 @@ var ES5 = {
 
 module.exports = ES5;
 
-},{"./GetIntrinsic":13,"./helpers/assertRecord":15,"./helpers/isFinite":16,"./helpers/isNaN":17,"./helpers/mod":18,"./helpers/sign":19,"es-to-primitive/es5":20,"has":26,"is-callable":30}],15:[function(require,module,exports){
-'use strict';
-
-var GetIntrinsic = require('../GetIntrinsic');
-
-var $TypeError = GetIntrinsic('%TypeError%');
-var $SyntaxError = GetIntrinsic('%SyntaxError%');
-
-var has = require('has');
-
-var predicates = {
-  // https://ecma-international.org/ecma-262/6.0/#sec-property-descriptor-specification-type
-  'Property Descriptor': function isPropertyDescriptor(ES, Desc) {
-    if (ES.Type(Desc) !== 'Object') {
-      return false;
-    }
-    var allowed = {
-      '[[Configurable]]': true,
-      '[[Enumerable]]': true,
-      '[[Get]]': true,
-      '[[Set]]': true,
-      '[[Value]]': true,
-      '[[Writable]]': true
-    };
-
-    for (var key in Desc) { // eslint-disable-line
-      if (has(Desc, key) && !allowed[key]) {
-        return false;
-      }
-    }
-
-    var isData = has(Desc, '[[Value]]');
-    var IsAccessor = has(Desc, '[[Get]]') || has(Desc, '[[Set]]');
-    if (isData && IsAccessor) {
-      throw new $TypeError('Property Descriptors may not be both accessor and data descriptors');
-    }
-    return true;
-  }
-};
-
-module.exports = function assertRecord(ES, recordType, argumentName, value) {
-  var predicate = predicates[recordType];
-  if (typeof predicate !== 'function') {
-    throw new $SyntaxError('unknown record type: ' + recordType);
-  }
-  if (!predicate(ES, value)) {
-    throw new $TypeError(argumentName + ' must be a ' + recordType);
-  }
-  console.log(predicate(ES, value), value);
-};
-
-},{"../GetIntrinsic":13,"has":26}],16:[function(require,module,exports){
+},{"./GetIntrinsic":13,"./helpers/isFinite":15,"./helpers/isNaN":16,"./helpers/mod":17,"./helpers/sign":18,"es-to-primitive/es5":19,"has":25,"is-callable":29}],15:[function(require,module,exports){
 var $isNaN = Number.isNaN || function (a) { return a !== a; };
 
 module.exports = Number.isFinite || function (x) { return typeof x === 'number' && !$isNaN(x) && x !== Infinity && x !== -Infinity; };
 
-},{}],17:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 module.exports = Number.isNaN || function isNaN(a) {
 	return a !== a;
 };
 
-},{}],18:[function(require,module,exports){
+},{}],17:[function(require,module,exports){
 module.exports = function mod(number, modulo) {
 	var remain = number % modulo;
 	return Math.floor(remain >= 0 ? remain : remain + modulo);
 };
 
-},{}],19:[function(require,module,exports){
+},{}],18:[function(require,module,exports){
 module.exports = function sign(number) {
 	return number >= 0 ? 1 : -1;
 };
 
-},{}],20:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 'use strict';
 
 var toStr = Object.prototype.toString;
@@ -7437,12 +7359,12 @@ module.exports = function ToPrimitive(input) {
 	return ES5internalSlots['[[DefaultValue]]'](input);
 };
 
-},{"./helpers/isPrimitive":21,"is-callable":30}],21:[function(require,module,exports){
+},{"./helpers/isPrimitive":20,"is-callable":29}],20:[function(require,module,exports){
 module.exports = function isPrimitive(value) {
 	return value === null || (typeof value !== 'function' && typeof value !== 'object');
 };
 
-},{}],22:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -7967,7 +7889,7 @@ function functionBindPolyfill(context) {
   };
 }
 
-},{}],23:[function(require,module,exports){
+},{}],22:[function(require,module,exports){
 'use strict';
 
 var isCallable = require('is-callable');
@@ -8031,7 +7953,7 @@ var forEach = function forEach(list, iterator, thisArg) {
 
 module.exports = forEach;
 
-},{"is-callable":30}],24:[function(require,module,exports){
+},{"is-callable":29}],23:[function(require,module,exports){
 'use strict';
 
 /* eslint no-invalid-this: 1 */
@@ -8085,21 +8007,21 @@ module.exports = function bind(that) {
     return bound;
 };
 
-},{}],25:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 'use strict';
 
 var implementation = require('./implementation');
 
 module.exports = Function.prototype.bind || implementation;
 
-},{"./implementation":24}],26:[function(require,module,exports){
+},{"./implementation":23}],25:[function(require,module,exports){
 'use strict';
 
 var bind = require('function-bind');
 
 module.exports = bind.call(Function.call, Object.prototype.hasOwnProperty);
 
-},{"function-bind":25}],27:[function(require,module,exports){
+},{"function-bind":24}],26:[function(require,module,exports){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = (nBytes * 8) - mLen - 1
@@ -8185,7 +8107,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],28:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -8210,7 +8132,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],29:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 /*!
  * Determine if an object is a Buffer
  *
@@ -8233,7 +8155,7 @@ function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
 
-},{}],30:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 'use strict';
 
 var fnToStr = Function.prototype.toString;
@@ -8272,14 +8194,14 @@ module.exports = function isCallable(value) {
 	return strClass === fnClass || strClass === genClass;
 };
 
-},{}],31:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 var toString = {}.toString;
 
 module.exports = Array.isArray || function (arr) {
   return toString.call(arr) == '[object Array]';
 };
 
-},{}],32:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 var hasMap = typeof Map === 'function' && Map.prototype;
 var mapSizeDescriptor = Object.getOwnPropertyDescriptor && hasMap ? Object.getOwnPropertyDescriptor(Map.prototype, 'size') : null;
 var mapSize = hasMap && mapSizeDescriptor && typeof mapSizeDescriptor.get === 'function' ? mapSizeDescriptor.get : null;
@@ -8538,152 +8460,139 @@ function arrObjKeys (obj, inspect) {
     return xs;
 }
 
-},{"./util.inspect":4}],33:[function(require,module,exports){
+},{"./util.inspect":4}],32:[function(require,module,exports){
 'use strict';
 
-var keysShim;
-if (!Object.keys) {
-	// modified from https://github.com/es-shims/es5-shim
-	var has = Object.prototype.hasOwnProperty;
-	var toStr = Object.prototype.toString;
-	var isArgs = require('./isArguments'); // eslint-disable-line global-require
-	var isEnumerable = Object.prototype.propertyIsEnumerable;
-	var hasDontEnumBug = !isEnumerable.call({ toString: null }, 'toString');
-	var hasProtoEnumBug = isEnumerable.call(function () {}, 'prototype');
-	var dontEnums = [
-		'toString',
-		'toLocaleString',
-		'valueOf',
-		'hasOwnProperty',
-		'isPrototypeOf',
-		'propertyIsEnumerable',
-		'constructor'
-	];
-	var equalsConstructorPrototype = function (o) {
-		var ctor = o.constructor;
-		return ctor && ctor.prototype === o;
-	};
-	var excludedKeys = {
-		$applicationCache: true,
-		$console: true,
-		$external: true,
-		$frame: true,
-		$frameElement: true,
-		$frames: true,
-		$innerHeight: true,
-		$innerWidth: true,
-		$outerHeight: true,
-		$outerWidth: true,
-		$pageXOffset: true,
-		$pageYOffset: true,
-		$parent: true,
-		$scrollLeft: true,
-		$scrollTop: true,
-		$scrollX: true,
-		$scrollY: true,
-		$self: true,
-		$webkitIndexedDB: true,
-		$webkitStorageInfo: true,
-		$window: true
-	};
-	var hasAutomationEqualityBug = (function () {
-		/* global window */
-		if (typeof window === 'undefined') { return false; }
-		for (var k in window) {
-			try {
-				if (!excludedKeys['$' + k] && has.call(window, k) && window[k] !== null && typeof window[k] === 'object') {
-					try {
-						equalsConstructorPrototype(window[k]);
-					} catch (e) {
-						return true;
-					}
-				}
-			} catch (e) {
-				return true;
-			}
-		}
-		return false;
-	}());
-	var equalsConstructorPrototypeIfNotBuggy = function (o) {
-		/* global window */
-		if (typeof window === 'undefined' || !hasAutomationEqualityBug) {
-			return equalsConstructorPrototype(o);
-		}
-		try {
-			return equalsConstructorPrototype(o);
-		} catch (e) {
-			return false;
-		}
-	};
-
-	keysShim = function keys(object) {
-		var isObject = object !== null && typeof object === 'object';
-		var isFunction = toStr.call(object) === '[object Function]';
-		var isArguments = isArgs(object);
-		var isString = isObject && toStr.call(object) === '[object String]';
-		var theKeys = [];
-
-		if (!isObject && !isFunction && !isArguments) {
-			throw new TypeError('Object.keys called on a non-object');
-		}
-
-		var skipProto = hasProtoEnumBug && isFunction;
-		if (isString && object.length > 0 && !has.call(object, 0)) {
-			for (var i = 0; i < object.length; ++i) {
-				theKeys.push(String(i));
-			}
-		}
-
-		if (isArguments && object.length > 0) {
-			for (var j = 0; j < object.length; ++j) {
-				theKeys.push(String(j));
-			}
-		} else {
-			for (var name in object) {
-				if (!(skipProto && name === 'prototype') && has.call(object, name)) {
-					theKeys.push(String(name));
-				}
-			}
-		}
-
-		if (hasDontEnumBug) {
-			var skipConstructor = equalsConstructorPrototypeIfNotBuggy(object);
-
-			for (var k = 0; k < dontEnums.length; ++k) {
-				if (!(skipConstructor && dontEnums[k] === 'constructor') && has.call(object, dontEnums[k])) {
-					theKeys.push(dontEnums[k]);
-				}
-			}
-		}
-		return theKeys;
-	};
-}
-module.exports = keysShim;
-
-},{"./isArguments":35}],34:[function(require,module,exports){
-'use strict';
-
+// modified from https://github.com/es-shims/es5-shim
+var has = Object.prototype.hasOwnProperty;
+var toStr = Object.prototype.toString;
 var slice = Array.prototype.slice;
 var isArgs = require('./isArguments');
+var isEnumerable = Object.prototype.propertyIsEnumerable;
+var hasDontEnumBug = !isEnumerable.call({ toString: null }, 'toString');
+var hasProtoEnumBug = isEnumerable.call(function () {}, 'prototype');
+var dontEnums = [
+	'toString',
+	'toLocaleString',
+	'valueOf',
+	'hasOwnProperty',
+	'isPrototypeOf',
+	'propertyIsEnumerable',
+	'constructor'
+];
+var equalsConstructorPrototype = function (o) {
+	var ctor = o.constructor;
+	return ctor && ctor.prototype === o;
+};
+var excludedKeys = {
+	$applicationCache: true,
+	$console: true,
+	$external: true,
+	$frame: true,
+	$frameElement: true,
+	$frames: true,
+	$innerHeight: true,
+	$innerWidth: true,
+	$outerHeight: true,
+	$outerWidth: true,
+	$pageXOffset: true,
+	$pageYOffset: true,
+	$parent: true,
+	$scrollLeft: true,
+	$scrollTop: true,
+	$scrollX: true,
+	$scrollY: true,
+	$self: true,
+	$webkitIndexedDB: true,
+	$webkitStorageInfo: true,
+	$window: true
+};
+var hasAutomationEqualityBug = (function () {
+	/* global window */
+	if (typeof window === 'undefined') { return false; }
+	for (var k in window) {
+		try {
+			if (!excludedKeys['$' + k] && has.call(window, k) && window[k] !== null && typeof window[k] === 'object') {
+				try {
+					equalsConstructorPrototype(window[k]);
+				} catch (e) {
+					return true;
+				}
+			}
+		} catch (e) {
+			return true;
+		}
+	}
+	return false;
+}());
+var equalsConstructorPrototypeIfNotBuggy = function (o) {
+	/* global window */
+	if (typeof window === 'undefined' || !hasAutomationEqualityBug) {
+		return equalsConstructorPrototype(o);
+	}
+	try {
+		return equalsConstructorPrototype(o);
+	} catch (e) {
+		return false;
+	}
+};
 
-var origKeys = Object.keys;
-var keysShim = origKeys ? function keys(o) { return origKeys(o); } : require('./implementation');
+var keysShim = function keys(object) {
+	var isObject = object !== null && typeof object === 'object';
+	var isFunction = toStr.call(object) === '[object Function]';
+	var isArguments = isArgs(object);
+	var isString = isObject && toStr.call(object) === '[object String]';
+	var theKeys = [];
 
-var originalKeys = Object.keys;
+	if (!isObject && !isFunction && !isArguments) {
+		throw new TypeError('Object.keys called on a non-object');
+	}
+
+	var skipProto = hasProtoEnumBug && isFunction;
+	if (isString && object.length > 0 && !has.call(object, 0)) {
+		for (var i = 0; i < object.length; ++i) {
+			theKeys.push(String(i));
+		}
+	}
+
+	if (isArguments && object.length > 0) {
+		for (var j = 0; j < object.length; ++j) {
+			theKeys.push(String(j));
+		}
+	} else {
+		for (var name in object) {
+			if (!(skipProto && name === 'prototype') && has.call(object, name)) {
+				theKeys.push(String(name));
+			}
+		}
+	}
+
+	if (hasDontEnumBug) {
+		var skipConstructor = equalsConstructorPrototypeIfNotBuggy(object);
+
+		for (var k = 0; k < dontEnums.length; ++k) {
+			if (!(skipConstructor && dontEnums[k] === 'constructor') && has.call(object, dontEnums[k])) {
+				theKeys.push(dontEnums[k]);
+			}
+		}
+	}
+	return theKeys;
+};
 
 keysShim.shim = function shimObjectKeys() {
 	if (Object.keys) {
 		var keysWorksWithArguments = (function () {
 			// Safari 5.0 bug
-			var args = Object.keys(arguments);
-			return args && args.length === arguments.length;
+			return (Object.keys(arguments) || '').length === 2;
 		}(1, 2));
 		if (!keysWorksWithArguments) {
+			var originalKeys = Object.keys;
 			Object.keys = function keys(object) { // eslint-disable-line func-name-matching
 				if (isArgs(object)) {
 					return originalKeys(slice.call(object));
+				} else {
+					return originalKeys(object);
 				}
-				return originalKeys(object);
 			};
 		}
 	} else {
@@ -8694,7 +8603,7 @@ keysShim.shim = function shimObjectKeys() {
 
 module.exports = keysShim;
 
-},{"./implementation":33,"./isArguments":35}],35:[function(require,module,exports){
+},{"./isArguments":33}],33:[function(require,module,exports){
 'use strict';
 
 var toStr = Object.prototype.toString;
@@ -8713,7 +8622,7 @@ module.exports = function isArguments(value) {
 	return isArgs;
 };
 
-},{}],36:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 (function (process){
 // .dirname, .basename, and .extname methods are extracted from Node.js v8.11.1,
 // backported and transplited with Babel, with backwards-compat fixes
@@ -9019,7 +8928,7 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require('_process'))
-},{"_process":38}],37:[function(require,module,exports){
+},{"_process":36}],35:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -9067,7 +8976,7 @@ function nextTick(fn, arg1, arg2, arg3) {
 
 
 }).call(this,require('_process'))
-},{"_process":38}],38:[function(require,module,exports){
+},{"_process":36}],36:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -9253,16 +9162,16 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],39:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 const qs = (s, p) => (p || document).querySelector(s)
 const qsa = (s, p) => [...(p || document).querySelectorAll(s)]
 
 module.exports = { qs, qsa }
 
-},{}],40:[function(require,module,exports){
+},{}],38:[function(require,module,exports){
 module.exports = require('./lib/_stream_duplex.js');
 
-},{"./lib/_stream_duplex.js":41}],41:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":39}],39:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -9394,7 +9303,7 @@ Duplex.prototype._destroy = function (err, cb) {
 
   pna.nextTick(cb, err);
 };
-},{"./_stream_readable":43,"./_stream_writable":45,"core-util-is":7,"inherits":28,"process-nextick-args":37}],42:[function(require,module,exports){
+},{"./_stream_readable":41,"./_stream_writable":43,"core-util-is":7,"inherits":27,"process-nextick-args":35}],40:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -9442,7 +9351,7 @@ function PassThrough(options) {
 PassThrough.prototype._transform = function (chunk, encoding, cb) {
   cb(null, chunk);
 };
-},{"./_stream_transform":44,"core-util-is":7,"inherits":28}],43:[function(require,module,exports){
+},{"./_stream_transform":42,"core-util-is":7,"inherits":27}],41:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -10464,7 +10373,7 @@ function indexOf(xs, x) {
   return -1;
 }
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./_stream_duplex":41,"./internal/streams/BufferList":46,"./internal/streams/destroy":47,"./internal/streams/stream":48,"_process":38,"core-util-is":7,"events":22,"inherits":28,"isarray":31,"process-nextick-args":37,"safe-buffer":55,"string_decoder/":49,"util":4}],44:[function(require,module,exports){
+},{"./_stream_duplex":39,"./internal/streams/BufferList":44,"./internal/streams/destroy":45,"./internal/streams/stream":46,"_process":36,"core-util-is":7,"events":21,"inherits":27,"isarray":30,"process-nextick-args":35,"safe-buffer":52,"string_decoder/":58,"util":4}],42:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -10679,7 +10588,7 @@ function done(stream, er, data) {
 
   return stream.push(null);
 }
-},{"./_stream_duplex":41,"core-util-is":7,"inherits":28}],45:[function(require,module,exports){
+},{"./_stream_duplex":39,"core-util-is":7,"inherits":27}],43:[function(require,module,exports){
 (function (process,global,setImmediate){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -11369,7 +11278,7 @@ Writable.prototype._destroy = function (err, cb) {
   cb(err);
 };
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"./_stream_duplex":41,"./internal/streams/destroy":47,"./internal/streams/stream":48,"_process":38,"core-util-is":7,"inherits":28,"process-nextick-args":37,"safe-buffer":55,"timers":66,"util-deprecate":67}],46:[function(require,module,exports){
+},{"./_stream_duplex":39,"./internal/streams/destroy":45,"./internal/streams/stream":46,"_process":36,"core-util-is":7,"inherits":27,"process-nextick-args":35,"safe-buffer":52,"timers":64,"util-deprecate":65}],44:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -11449,7 +11358,7 @@ if (util && util.inspect && util.inspect.custom) {
     return this.constructor.name + ' ' + obj;
   };
 }
-},{"safe-buffer":55,"util":4}],47:[function(require,module,exports){
+},{"safe-buffer":52,"util":4}],45:[function(require,module,exports){
 'use strict';
 
 /*<replacement>*/
@@ -11524,10 +11433,315 @@ module.exports = {
   destroy: destroy,
   undestroy: undestroy
 };
-},{"process-nextick-args":37}],48:[function(require,module,exports){
+},{"process-nextick-args":35}],46:[function(require,module,exports){
 module.exports = require('events').EventEmitter;
 
-},{"events":22}],49:[function(require,module,exports){
+},{"events":21}],47:[function(require,module,exports){
+module.exports = require('./readable').PassThrough
+
+},{"./readable":48}],48:[function(require,module,exports){
+exports = module.exports = require('./lib/_stream_readable.js');
+exports.Stream = exports;
+exports.Readable = exports;
+exports.Writable = require('./lib/_stream_writable.js');
+exports.Duplex = require('./lib/_stream_duplex.js');
+exports.Transform = require('./lib/_stream_transform.js');
+exports.PassThrough = require('./lib/_stream_passthrough.js');
+
+},{"./lib/_stream_duplex.js":39,"./lib/_stream_passthrough.js":40,"./lib/_stream_readable.js":41,"./lib/_stream_transform.js":42,"./lib/_stream_writable.js":43}],49:[function(require,module,exports){
+module.exports = require('./readable').Transform
+
+},{"./readable":48}],50:[function(require,module,exports){
+module.exports = require('./lib/_stream_writable.js');
+
+},{"./lib/_stream_writable.js":43}],51:[function(require,module,exports){
+(function (process,setImmediate){
+var through = require('through');
+var nextTick = typeof setImmediate !== 'undefined'
+    ? setImmediate
+    : process.nextTick
+;
+
+module.exports = function (write, end) {
+    var tr = through(write, end);
+    tr.pause();
+    var resume = tr.resume;
+    var pause = tr.pause;
+    var paused = false;
+    
+    tr.pause = function () {
+        paused = true;
+        return pause.apply(this, arguments);
+    };
+    
+    tr.resume = function () {
+        paused = false;
+        return resume.apply(this, arguments);
+    };
+    
+    nextTick(function () {
+        if (!paused) tr.resume();
+    });
+    
+    return tr;
+};
+
+}).call(this,require('_process'),require("timers").setImmediate)
+},{"_process":36,"through":63,"timers":64}],52:[function(require,module,exports){
+/* eslint-disable node/no-deprecated-api */
+var buffer = require('buffer')
+var Buffer = buffer.Buffer
+
+// alternative to using Object.keys for old browsers
+function copyProps (src, dst) {
+  for (var key in src) {
+    dst[key] = src[key]
+  }
+}
+if (Buffer.from && Buffer.alloc && Buffer.allocUnsafe && Buffer.allocUnsafeSlow) {
+  module.exports = buffer
+} else {
+  // Copy properties from require('buffer')
+  copyProps(buffer, exports)
+  exports.Buffer = SafeBuffer
+}
+
+function SafeBuffer (arg, encodingOrOffset, length) {
+  return Buffer(arg, encodingOrOffset, length)
+}
+
+// Copy static methods from Buffer
+copyProps(Buffer, SafeBuffer)
+
+SafeBuffer.from = function (arg, encodingOrOffset, length) {
+  if (typeof arg === 'number') {
+    throw new TypeError('Argument must not be a number')
+  }
+  return Buffer(arg, encodingOrOffset, length)
+}
+
+SafeBuffer.alloc = function (size, fill, encoding) {
+  if (typeof size !== 'number') {
+    throw new TypeError('Argument must be a number')
+  }
+  var buf = Buffer(size)
+  if (fill !== undefined) {
+    if (typeof encoding === 'string') {
+      buf.fill(fill, encoding)
+    } else {
+      buf.fill(fill)
+    }
+  } else {
+    buf.fill(0)
+  }
+  return buf
+}
+
+SafeBuffer.allocUnsafe = function (size) {
+  if (typeof size !== 'number') {
+    throw new TypeError('Argument must be a number')
+  }
+  return Buffer(size)
+}
+
+SafeBuffer.allocUnsafeSlow = function (size) {
+  if (typeof size !== 'number') {
+    throw new TypeError('Argument must be a number')
+  }
+  return buffer.SlowBuffer(size)
+}
+
+},{"buffer":6}],53:[function(require,module,exports){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+module.exports = Stream;
+
+var EE = require('events').EventEmitter;
+var inherits = require('inherits');
+
+inherits(Stream, EE);
+Stream.Readable = require('readable-stream/readable.js');
+Stream.Writable = require('readable-stream/writable.js');
+Stream.Duplex = require('readable-stream/duplex.js');
+Stream.Transform = require('readable-stream/transform.js');
+Stream.PassThrough = require('readable-stream/passthrough.js');
+
+// Backwards-compat with node 0.4.x
+Stream.Stream = Stream;
+
+
+
+// old-style streams.  Note that the pipe method (the only relevant
+// part of this class) is overridden in the Readable class.
+
+function Stream() {
+  EE.call(this);
+}
+
+Stream.prototype.pipe = function(dest, options) {
+  var source = this;
+
+  function ondata(chunk) {
+    if (dest.writable) {
+      if (false === dest.write(chunk) && source.pause) {
+        source.pause();
+      }
+    }
+  }
+
+  source.on('data', ondata);
+
+  function ondrain() {
+    if (source.readable && source.resume) {
+      source.resume();
+    }
+  }
+
+  dest.on('drain', ondrain);
+
+  // If the 'end' option is not supplied, dest.end() will be called when
+  // source gets the 'end' or 'close' events.  Only dest.end() once.
+  if (!dest._isStdio && (!options || options.end !== false)) {
+    source.on('end', onend);
+    source.on('close', onclose);
+  }
+
+  var didOnEnd = false;
+  function onend() {
+    if (didOnEnd) return;
+    didOnEnd = true;
+
+    dest.end();
+  }
+
+
+  function onclose() {
+    if (didOnEnd) return;
+    didOnEnd = true;
+
+    if (typeof dest.destroy === 'function') dest.destroy();
+  }
+
+  // don't leave dangling pipes when there are errors.
+  function onerror(er) {
+    cleanup();
+    if (EE.listenerCount(this, 'error') === 0) {
+      throw er; // Unhandled stream error in pipe.
+    }
+  }
+
+  source.on('error', onerror);
+  dest.on('error', onerror);
+
+  // remove all the event listeners that were added.
+  function cleanup() {
+    source.removeListener('data', ondata);
+    dest.removeListener('drain', ondrain);
+
+    source.removeListener('end', onend);
+    source.removeListener('close', onclose);
+
+    source.removeListener('error', onerror);
+    dest.removeListener('error', onerror);
+
+    source.removeListener('end', cleanup);
+    source.removeListener('close', cleanup);
+
+    dest.removeListener('close', cleanup);
+  }
+
+  source.on('end', cleanup);
+  source.on('close', cleanup);
+
+  dest.on('close', cleanup);
+
+  dest.emit('pipe', source);
+
+  // Allow for unix-like usage: A.pipe(B).pipe(C)
+  return dest;
+};
+
+},{"events":21,"inherits":27,"readable-stream/duplex.js":38,"readable-stream/passthrough.js":47,"readable-stream/readable.js":48,"readable-stream/transform.js":49,"readable-stream/writable.js":50}],54:[function(require,module,exports){
+'use strict';
+
+var bind = require('function-bind');
+var ES = require('es-abstract/es5');
+var replace = bind.call(Function.call, String.prototype.replace);
+
+var leftWhitespace = /^[\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF]+/;
+var rightWhitespace = /[\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF]+$/;
+
+module.exports = function trim() {
+	var S = ES.ToString(ES.CheckObjectCoercible(this));
+	return replace(replace(S, leftWhitespace, ''), rightWhitespace, '');
+};
+
+},{"es-abstract/es5":14,"function-bind":24}],55:[function(require,module,exports){
+'use strict';
+
+var bind = require('function-bind');
+var define = require('define-properties');
+
+var implementation = require('./implementation');
+var getPolyfill = require('./polyfill');
+var shim = require('./shim');
+
+var boundTrim = bind.call(Function.call, getPolyfill());
+
+define(boundTrim, {
+	getPolyfill: getPolyfill,
+	implementation: implementation,
+	shim: shim
+});
+
+module.exports = boundTrim;
+
+},{"./implementation":54,"./polyfill":56,"./shim":57,"define-properties":11,"function-bind":24}],56:[function(require,module,exports){
+'use strict';
+
+var implementation = require('./implementation');
+
+var zeroWidthSpace = '\u200b';
+
+module.exports = function getPolyfill() {
+	if (String.prototype.trim && zeroWidthSpace.trim() === zeroWidthSpace) {
+		return String.prototype.trim;
+	}
+	return implementation;
+};
+
+},{"./implementation":54}],57:[function(require,module,exports){
+'use strict';
+
+var define = require('define-properties');
+var getPolyfill = require('./polyfill');
+
+module.exports = function shimStringTrim() {
+	var polyfill = getPolyfill();
+	define(String.prototype, { trim: polyfill }, { trim: function () { return String.prototype.trim !== polyfill; } });
+	return polyfill;
+};
+
+},{"./polyfill":56,"define-properties":11}],58:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -11824,312 +12038,7 @@ function simpleWrite(buf) {
 function simpleEnd(buf) {
   return buf && buf.length ? this.write(buf) : '';
 }
-},{"safe-buffer":55}],50:[function(require,module,exports){
-module.exports = require('./readable').PassThrough
-
-},{"./readable":51}],51:[function(require,module,exports){
-exports = module.exports = require('./lib/_stream_readable.js');
-exports.Stream = exports;
-exports.Readable = exports;
-exports.Writable = require('./lib/_stream_writable.js');
-exports.Duplex = require('./lib/_stream_duplex.js');
-exports.Transform = require('./lib/_stream_transform.js');
-exports.PassThrough = require('./lib/_stream_passthrough.js');
-
-},{"./lib/_stream_duplex.js":41,"./lib/_stream_passthrough.js":42,"./lib/_stream_readable.js":43,"./lib/_stream_transform.js":44,"./lib/_stream_writable.js":45}],52:[function(require,module,exports){
-module.exports = require('./readable').Transform
-
-},{"./readable":51}],53:[function(require,module,exports){
-module.exports = require('./lib/_stream_writable.js');
-
-},{"./lib/_stream_writable.js":45}],54:[function(require,module,exports){
-(function (process,setImmediate){
-var through = require('through');
-var nextTick = typeof setImmediate !== 'undefined'
-    ? setImmediate
-    : process.nextTick
-;
-
-module.exports = function (write, end) {
-    var tr = through(write, end);
-    tr.pause();
-    var resume = tr.resume;
-    var pause = tr.pause;
-    var paused = false;
-    
-    tr.pause = function () {
-        paused = true;
-        return pause.apply(this, arguments);
-    };
-    
-    tr.resume = function () {
-        paused = false;
-        return resume.apply(this, arguments);
-    };
-    
-    nextTick(function () {
-        if (!paused) tr.resume();
-    });
-    
-    return tr;
-};
-
-}).call(this,require('_process'),require("timers").setImmediate)
-},{"_process":38,"through":65,"timers":66}],55:[function(require,module,exports){
-/* eslint-disable node/no-deprecated-api */
-var buffer = require('buffer')
-var Buffer = buffer.Buffer
-
-// alternative to using Object.keys for old browsers
-function copyProps (src, dst) {
-  for (var key in src) {
-    dst[key] = src[key]
-  }
-}
-if (Buffer.from && Buffer.alloc && Buffer.allocUnsafe && Buffer.allocUnsafeSlow) {
-  module.exports = buffer
-} else {
-  // Copy properties from require('buffer')
-  copyProps(buffer, exports)
-  exports.Buffer = SafeBuffer
-}
-
-function SafeBuffer (arg, encodingOrOffset, length) {
-  return Buffer(arg, encodingOrOffset, length)
-}
-
-// Copy static methods from Buffer
-copyProps(Buffer, SafeBuffer)
-
-SafeBuffer.from = function (arg, encodingOrOffset, length) {
-  if (typeof arg === 'number') {
-    throw new TypeError('Argument must not be a number')
-  }
-  return Buffer(arg, encodingOrOffset, length)
-}
-
-SafeBuffer.alloc = function (size, fill, encoding) {
-  if (typeof size !== 'number') {
-    throw new TypeError('Argument must be a number')
-  }
-  var buf = Buffer(size)
-  if (fill !== undefined) {
-    if (typeof encoding === 'string') {
-      buf.fill(fill, encoding)
-    } else {
-      buf.fill(fill)
-    }
-  } else {
-    buf.fill(0)
-  }
-  return buf
-}
-
-SafeBuffer.allocUnsafe = function (size) {
-  if (typeof size !== 'number') {
-    throw new TypeError('Argument must be a number')
-  }
-  return Buffer(size)
-}
-
-SafeBuffer.allocUnsafeSlow = function (size) {
-  if (typeof size !== 'number') {
-    throw new TypeError('Argument must be a number')
-  }
-  return buffer.SlowBuffer(size)
-}
-
-},{"buffer":6}],56:[function(require,module,exports){
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-module.exports = Stream;
-
-var EE = require('events').EventEmitter;
-var inherits = require('inherits');
-
-inherits(Stream, EE);
-Stream.Readable = require('readable-stream/readable.js');
-Stream.Writable = require('readable-stream/writable.js');
-Stream.Duplex = require('readable-stream/duplex.js');
-Stream.Transform = require('readable-stream/transform.js');
-Stream.PassThrough = require('readable-stream/passthrough.js');
-
-// Backwards-compat with node 0.4.x
-Stream.Stream = Stream;
-
-
-
-// old-style streams.  Note that the pipe method (the only relevant
-// part of this class) is overridden in the Readable class.
-
-function Stream() {
-  EE.call(this);
-}
-
-Stream.prototype.pipe = function(dest, options) {
-  var source = this;
-
-  function ondata(chunk) {
-    if (dest.writable) {
-      if (false === dest.write(chunk) && source.pause) {
-        source.pause();
-      }
-    }
-  }
-
-  source.on('data', ondata);
-
-  function ondrain() {
-    if (source.readable && source.resume) {
-      source.resume();
-    }
-  }
-
-  dest.on('drain', ondrain);
-
-  // If the 'end' option is not supplied, dest.end() will be called when
-  // source gets the 'end' or 'close' events.  Only dest.end() once.
-  if (!dest._isStdio && (!options || options.end !== false)) {
-    source.on('end', onend);
-    source.on('close', onclose);
-  }
-
-  var didOnEnd = false;
-  function onend() {
-    if (didOnEnd) return;
-    didOnEnd = true;
-
-    dest.end();
-  }
-
-
-  function onclose() {
-    if (didOnEnd) return;
-    didOnEnd = true;
-
-    if (typeof dest.destroy === 'function') dest.destroy();
-  }
-
-  // don't leave dangling pipes when there are errors.
-  function onerror(er) {
-    cleanup();
-    if (EE.listenerCount(this, 'error') === 0) {
-      throw er; // Unhandled stream error in pipe.
-    }
-  }
-
-  source.on('error', onerror);
-  dest.on('error', onerror);
-
-  // remove all the event listeners that were added.
-  function cleanup() {
-    source.removeListener('data', ondata);
-    dest.removeListener('drain', ondrain);
-
-    source.removeListener('end', onend);
-    source.removeListener('close', onclose);
-
-    source.removeListener('error', onerror);
-    dest.removeListener('error', onerror);
-
-    source.removeListener('end', cleanup);
-    source.removeListener('close', cleanup);
-
-    dest.removeListener('close', cleanup);
-  }
-
-  source.on('end', cleanup);
-  source.on('close', cleanup);
-
-  dest.on('close', cleanup);
-
-  dest.emit('pipe', source);
-
-  // Allow for unix-like usage: A.pipe(B).pipe(C)
-  return dest;
-};
-
-},{"events":22,"inherits":28,"readable-stream/duplex.js":40,"readable-stream/passthrough.js":50,"readable-stream/readable.js":51,"readable-stream/transform.js":52,"readable-stream/writable.js":53}],57:[function(require,module,exports){
-'use strict';
-
-var bind = require('function-bind');
-var ES = require('es-abstract/es5');
-var replace = bind.call(Function.call, String.prototype.replace);
-
-var leftWhitespace = /^[\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF]+/;
-var rightWhitespace = /[\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF]+$/;
-
-module.exports = function trim() {
-	var S = ES.ToString(ES.CheckObjectCoercible(this));
-	return replace(replace(S, leftWhitespace, ''), rightWhitespace, '');
-};
-
-},{"es-abstract/es5":14,"function-bind":25}],58:[function(require,module,exports){
-'use strict';
-
-var bind = require('function-bind');
-var define = require('define-properties');
-
-var implementation = require('./implementation');
-var getPolyfill = require('./polyfill');
-var shim = require('./shim');
-
-var boundTrim = bind.call(Function.call, getPolyfill());
-
-define(boundTrim, {
-	getPolyfill: getPolyfill,
-	implementation: implementation,
-	shim: shim
-});
-
-module.exports = boundTrim;
-
-},{"./implementation":57,"./polyfill":59,"./shim":60,"define-properties":11,"function-bind":25}],59:[function(require,module,exports){
-'use strict';
-
-var implementation = require('./implementation');
-
-var zeroWidthSpace = '\u200b';
-
-module.exports = function getPolyfill() {
-	if (String.prototype.trim && zeroWidthSpace.trim() === zeroWidthSpace) {
-		return String.prototype.trim;
-	}
-	return implementation;
-};
-
-},{"./implementation":57}],60:[function(require,module,exports){
-'use strict';
-
-var define = require('define-properties');
-var getPolyfill = require('./polyfill');
-
-module.exports = function shimStringTrim() {
-	var polyfill = getPolyfill();
-	define(String.prototype, { trim: polyfill }, { trim: function () { return String.prototype.trim !== polyfill; } });
-	return polyfill;
-};
-
-},{"./polyfill":59,"define-properties":11}],61:[function(require,module,exports){
+},{"safe-buffer":52}],59:[function(require,module,exports){
 (function (process,setImmediate){
 var defined = require('defined');
 var createDefaultStream = require('./lib/default_stream');
@@ -12173,7 +12082,7 @@ exports = module.exports = (function () {
         return getHarness().onFinish.apply(this, arguments);
     };
 
-    lazyLoad.onFailure = function () {
+    lazyLoad.onFailure = function() {
         return getHarness().onFailure.apply(this, arguments);
     };
 
@@ -12181,7 +12090,7 @@ exports = module.exports = (function () {
 
     return lazyLoad
 
-    function getHarness(opts) {
+    function getHarness (opts) {
         if (!opts) opts = {};
         opts.autoclose = !canEmitExit;
         if (!harness) harness = createExitHarness(opts);
@@ -12189,7 +12098,7 @@ exports = module.exports = (function () {
     }
 })();
 
-function createExitHarness(conf) {
+function createExitHarness (conf) {
     if (!conf) conf = {};
     var harness = createHarness({
         autoclose: defined(conf.autoclose, false)
@@ -12237,7 +12146,7 @@ exports.test.skip = Test.skip;
 
 var exitInterval;
 
-function createHarness(conf_) {
+function createHarness (conf_) {
     if (!conf_) conf_ = {};
     var results = createResult();
     if (conf_.autoclose !== false) {
@@ -12248,8 +12157,8 @@ function createHarness(conf_) {
         var t = new Test(name, conf, cb);
         test._tests.push(t);
 
-        (function inspectCode(st) {
-            st.on('test', function sub(st_) {
+        (function inspectCode (st) {
+            st.on('test', function sub (st_) {
                 inspectCode(st_);
             });
             st.on('result', function (r) {
@@ -12292,7 +12201,7 @@ function createHarness(conf_) {
 }
 
 }).call(this,require('_process'),require("timers").setImmediate)
-},{"./lib/default_stream":62,"./lib/results":63,"./lib/test":64,"_process":38,"defined":12,"through":65,"timers":66}],62:[function(require,module,exports){
+},{"./lib/default_stream":60,"./lib/results":61,"./lib/test":62,"_process":36,"defined":12,"through":63,"timers":64}],60:[function(require,module,exports){
 (function (process){
 var through = require('through');
 var fs = require('fs');
@@ -12302,7 +12211,7 @@ module.exports = function () {
     var stream = through(write, flush);
     return stream;
 
-    function write(buf) {
+    function write (buf) {
         for (var i = 0; i < buf.length; i++) {
             var c = typeof buf === 'string'
                 ? buf.charAt(i)
@@ -12313,7 +12222,7 @@ module.exports = function () {
         }
     }
 
-    function flush() {
+    function flush () {
         if (fs.writeSync && /^win/.test(process.platform)) {
             try { fs.writeSync(1, line + '\n'); }
             catch (e) { stream.emit('error', e) }
@@ -12326,7 +12235,7 @@ module.exports = function () {
 };
 
 }).call(this,require('_process'))
-},{"_process":38,"fs":5,"through":65}],63:[function(require,module,exports){
+},{"_process":36,"fs":5,"through":63}],61:[function(require,module,exports){
 (function (process,setImmediate){
 var defined = require('defined');
 var EventEmitter = require('events').EventEmitter;
@@ -12346,16 +12255,14 @@ var nextTick = typeof setImmediate !== 'undefined'
 module.exports = Results;
 inherits(Results, EventEmitter);
 
-function Results() {
+function Results () {
     if (!(this instanceof Results)) return new Results;
     this.count = 0;
     this.fail = 0;
     this.pass = 0;
-    this.todo = 0;
     this._stream = through();
     this.tests = [];
     this._only = null;
-    this._isRunning = false;
 }
 
 Results.prototype.createStream = function (opts) {
@@ -12364,7 +12271,7 @@ Results.prototype.createStream = function (opts) {
     var output, testId = 0;
     if (opts.objectMode) {
         output = through();
-        self.on('_push', function ontest(t, extra) {
+        self.on('_push', function ontest (t, extra) {
             if (!extra) extra = {};
             var id = testId++;
             t.once('prerun', function () {
@@ -12397,17 +12304,14 @@ Results.prototype.createStream = function (opts) {
         self._stream.pipe(output);
     }
 
-    if (!this._isRunning) {
-        this._isRunning = true;
-        nextTick(function next() {
-            var t;
-            while (t = getNextTest(self)) {
-                t.run();
-                if (!t.ended) return t.once('end', function () { nextTick(next); });
-            }
-            self.emit('done');
-        });
-    }
+    nextTick(function next() {
+        var t;
+        while (t = getNextTest(self)) {
+            t.run();
+            if (!t.ended) return t.once('end', function(){ nextTick(next); });
+        }
+        self.emit('done');
+    });
 
     return output;
 };
@@ -12438,7 +12342,7 @@ Results.prototype._watch = function (t) {
         write(encodeResult(res, self.count + 1));
         self.count ++;
 
-        if (res.ok || res.todo) self.pass ++
+        if (res.ok) self.pass ++
         else {
             self.fail ++;
             self.emit('fail');
@@ -12456,15 +12360,14 @@ Results.prototype.close = function () {
 
     write('\n1..' + self.count + '\n');
     write('# tests ' + self.count + '\n');
-    write('# pass  ' + (self.pass + self.todo) + '\n');
-    if (self.todo) write('# todo  ' + self.todo + '\n');
-    if (self.fail) write('# fail  ' + self.fail + '\n');
-    else write('\n# ok\n');
+    write('# pass  ' + self.pass + '\n');
+    if (self.fail) write('# fail  ' + self.fail + '\n')
+    else write('\n# ok\n')
 
     self._stream.queue(null);
 };
 
-function encodeResult(res, count) {
+function encodeResult (res, count) {
     var output = '';
     output += (res.ok ? 'ok ' : 'not ok ') + count;
     output += res.name ? ' ' + res.name.toString().replace(/\s+/g, ' ') : '';
@@ -12511,7 +12414,7 @@ function encodeResult(res, count) {
     return output;
 }
 
-function getNextTest(results) {
+function getNextTest (results) {
     if (!results._only) {
         return results.tests.shift();
     }
@@ -12525,12 +12428,12 @@ function getNextTest(results) {
     } while (results.tests.length !== 0)
 }
 
-function invalidYaml(str) {
+function invalidYaml (str) {
     return regexpTest(yamlIndicators, str);
 }
 
 }).call(this,require('_process'),require("timers").setImmediate)
-},{"_process":38,"defined":12,"events":22,"function-bind":25,"has":26,"inherits":28,"object-inspect":32,"resumer":54,"through":65,"timers":66}],64:[function(require,module,exports){
+},{"_process":36,"defined":12,"events":21,"function-bind":24,"has":25,"inherits":27,"object-inspect":31,"resumer":51,"through":63,"timers":64}],62:[function(require,module,exports){
 (function (process,setImmediate,__dirname){
 var deepEqual = require('deep-equal');
 var defined = require('defined');
@@ -12573,7 +12476,7 @@ var getTestArgs = function (name_, opts_, cb_) {
     return { name: name, opts: opts, cb: cb };
 };
 
-function Test(name_, opts_, cb_) {
+function Test (name_, opts_, cb_) {
     if (! (this instanceof Test)) {
         return new Test(name_, opts_, cb_);
     }
@@ -12585,7 +12488,6 @@ function Test(name_, opts_, cb_) {
     this.assertCount = 0;
     this.pendingCount = 0;
     this._skip = args.opts.skip || false;
-    this._todo = args.opts.todo || false;
     this._timeout = args.opts.timeout;
     this._plan = undefined;
     this._cb = args.cb;
@@ -12647,7 +12549,7 @@ Test.prototype.test = function (name, opts, cb) {
         });
     }
 
-    nextTick(function () {
+    nextTick(function() {
         if (!self._plan && self.pendingCount == self._progeny.length) {
             self._end();
         }
@@ -12666,14 +12568,14 @@ Test.prototype.plan = function (n) {
     this.emit('plan', n);
 };
 
-Test.prototype.timeoutAfter = function (ms) {
+Test.prototype.timeoutAfter = function(ms) {
     if (!ms) throw new Error('timeoutAfter requires a timespan');
     var self = this;
-    var timeout = safeSetTimeout(function () {
+    var timeout = safeSetTimeout(function() {
         self.fail('test timed out after ' + ms + 'ms');
         self.end();
     }, ms);
-    this.once('end', function () {
+    this.once('end', function() {
         safeClearTimeout(timeout);
     });
 }
@@ -12735,18 +12637,17 @@ Test.prototype._pendingAsserts = function () {
     return this._plan - (this._progeny.length + this.assertCount);
 };
 
-Test.prototype._assert = function assert(ok, opts) {
+Test.prototype._assert = function assert (ok, opts) {
     var self = this;
     var extra = opts.extra || {};
 
     var res = {
-        id: self.assertCount++,
-        ok: Boolean(ok),
-        skip: defined(extra.skip, opts.skip),
-        todo: defined(extra.todo, opts.todo, self._todo),
-        name: defined(extra.message, opts.message, '(unnamed assert)'),
-        operator: defined(extra.operator, opts.operator),
-        objectPrintDepth: self._objectPrintDepth
+        id : self.assertCount ++,
+        ok : Boolean(ok),
+        skip : defined(extra.skip, opts.skip),
+        name : defined(extra.message, opts.message, '(unnamed assert)'),
+        operator : defined(extra.operator, opts.operator),
+        objectPrintDepth : self._objectPrintDepth
     };
     if (has(opts, 'actual') || has(extra, 'actual')) {
         res.actual = defined(extra.actual, opts.actual);
@@ -12756,7 +12657,7 @@ Test.prototype._assert = function assert(ok, opts) {
     }
     this._ok = Boolean(this._ok && ok);
 
-    if (!ok && !res.todo) {
+    if (!ok) {
         res.error = defined(extra.error, opts.error, new Error(res.name));
     }
 
@@ -12799,9 +12700,9 @@ Test.prototype._assert = function assert(ok, opts) {
                 Last part captures file path plus line no (and optional
                 column no).
 
-                    /((?:\/|[a-zA-Z]:\\)[^:\)]+:(\d+)(?::(\d+))?)/
+                    /((?:\/|[A-Z]:\\)[^:\)]+:(\d+)(?::(\d+))?)/
             */
-            var re = /^(?:[^\s]*\s*\bat\s+)(?:(.*)\s+\()?((?:\/|[a-zA-Z]:\\)[^:\)]+:(\d+)(?::(\d+))?)/
+            var re = /^(?:[^\s]*\s*\bat\s+)(?:(.*)\s+\()?((?:\/|[A-Z]:\\)[^:\)]+:(\d+)(?::(\d+))?)/
             var m = re.exec(err[i]);
 
             if (!m) {
@@ -12938,7 +12839,7 @@ function notEqual(a, b, msg, extra) {
         message : defined(msg, 'should not be equal'),
         operator : 'notEqual',
         actual : a,
-        expected : b,
+        notExpected : b,
         extra : extra
     });
 }
@@ -12987,12 +12888,11 @@ function notDeepEqual(a, b, msg, extra) {
         message : defined(msg, 'should not be equivalent'),
         operator : 'notDeepEqual',
         actual : a,
-        expected : b,
+        notExpected : b,
         extra : extra
     });
 }
 Test.prototype.notDeepEqual
-= Test.prototype.notDeepEquals
 = Test.prototype.notEquivalent
 = Test.prototype.notDeeply
 = Test.prototype.notSame
@@ -13088,7 +12988,7 @@ Test.skip = function (name_, _opts, _cb) {
 // vim: set softtabstop=4 shiftwidth=4:
 
 }).call(this,require('_process'),require("timers").setImmediate,"/node_modules/tape/lib")
-},{"_process":38,"deep-equal":8,"defined":12,"events":22,"for-each":23,"function-bind":25,"has":26,"inherits":28,"path":36,"string.prototype.trim":58,"timers":66}],65:[function(require,module,exports){
+},{"_process":36,"deep-equal":8,"defined":12,"events":21,"for-each":22,"function-bind":24,"has":25,"inherits":27,"path":34,"string.prototype.trim":55,"timers":64}],63:[function(require,module,exports){
 (function (process){
 var Stream = require('stream')
 
@@ -13200,7 +13100,7 @@ function through (write, end, opts) {
 
 
 }).call(this,require('_process'))
-},{"_process":38,"stream":56}],66:[function(require,module,exports){
+},{"_process":36,"stream":53}],64:[function(require,module,exports){
 (function (setImmediate,clearImmediate){
 var nextTick = require('process/browser.js').nextTick;
 var apply = Function.prototype.apply;
@@ -13279,7 +13179,7 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
   delete immediateIds[id];
 };
 }).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-},{"process/browser.js":38,"timers":66}],67:[function(require,module,exports){
+},{"process/browser.js":36,"timers":64}],65:[function(require,module,exports){
 (function (global){
 
 /**
@@ -13350,7 +13250,7 @@ function config (name) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],68:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 const tape = require('../../test/tape')
 const { qs } = require('qs')
 
@@ -13378,7 +13278,7 @@ tape('{{badge-2}} shows a count', t => {
   t.end()
 })
 
-},{"../../test/tape":89,"qs":39}],69:[function(require,module,exports){
+},{"../../test/tape":87,"qs":37}],67:[function(require,module,exports){
 const tape = require('../../test/tape')
 const { qs } = require('qs')
 
@@ -13550,9 +13450,9 @@ tape('{{button-10}} has tabindex attribute', t => {
   t.end()
 })
 
-},{"../../test/tape":89,"qs":39}],70:[function(require,module,exports){
+},{"../../test/tape":87,"qs":37}],68:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],71:[function(require,module,exports){
+},{"dup":4}],69:[function(require,module,exports){
 const tape = require('../../test/tape')
 const { qs } = require('qs')
 
@@ -13650,7 +13550,7 @@ tape('{{checkbox-6}} has size attributes', t => {
   t.end()
 })
 
-},{"../../test/tape":89,"qs":39}],72:[function(require,module,exports){
+},{"../../test/tape":87,"qs":37}],70:[function(require,module,exports){
 const Tonic = require('@conductorlab/tonic')
 
 class TonicDialog extends Tonic.Dialog {
@@ -13713,7 +13613,7 @@ tape('{{dialog-1}} is constructed properly, opens and closes properly', async t 
   t.end()
 })
 
-},{"../../test/tape":89,"@conductorlab/tonic":2,"qs":39}],73:[function(require,module,exports){
+},{"../../test/tape":87,"@conductorlab/tonic":2,"qs":37}],71:[function(require,module,exports){
 const tape = require('../../test/tape')
 const { qs } = require('qs')
 
@@ -13794,7 +13694,7 @@ tape('{{icon-5}} has tabindex attribute', t => {
   t.end()
 })
 
-},{"../../test/tape":89,"qs":39}],74:[function(require,module,exports){
+},{"../../test/tape":87,"qs":37}],72:[function(require,module,exports){
 const tape = require('../../test/tape')
 const { qs } = require('qs')
 
@@ -13968,7 +13868,7 @@ tape('{{input-10}} has tabindex', t => {
 //   t.end()
 // })
 
-},{"../../test/tape":89,"qs":39}],75:[function(require,module,exports){
+},{"../../test/tape":87,"qs":37}],73:[function(require,module,exports){
 const Tonic = require('@conductorlab/tonic')
 
 class TonicPanel extends Tonic.Panel {
@@ -14057,7 +13957,7 @@ const panelThemeDark = document.getElementById('tonic-panel-theme-dark')
 
 panelThemeDarkButton.addEventListener('click', e => panelThemeDark.show())
 
-},{"@conductorlab/tonic":2}],76:[function(require,module,exports){
+},{"@conductorlab/tonic":2}],74:[function(require,module,exports){
 //
 // Panel Default
 //
@@ -14068,9 +13968,9 @@ popover.addEventListener('show', event => {
   }, { once: true })
 })
 
-},{}],77:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],78:[function(require,module,exports){
+},{"dup":4}],76:[function(require,module,exports){
 const progressBar30 = document.getElementById('progress-bar-30')
 progressBar30.setProgress(30)
 
@@ -14105,11 +14005,11 @@ interval = setInterval(() => {
   if (++reps === 2) clearInterval(interval)
 }, 128)
 
-},{}],79:[function(require,module,exports){
+},{}],77:[function(require,module,exports){
 const rangeValue = document.getElementById('range-thumb-value-js')
 rangeValue.value = 15
 
-},{}],80:[function(require,module,exports){
+},{}],78:[function(require,module,exports){
 const select = document.getElementById('tonic-router-select')
 const page2 = document.getElementById('page2')
 
@@ -14123,9 +14023,9 @@ page2.addEventListener('match', () => {
   el.textContent = number
 })
 
-},{}],81:[function(require,module,exports){
+},{}],79:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],82:[function(require,module,exports){
+},{"dup":4}],80:[function(require,module,exports){
 const Tonic = require('@conductorlab/tonic')
 const tape = require('../../test/tape')
 const { qs } = require('qs')
@@ -14153,9 +14053,9 @@ tape('{{tabs-3}} has correct default state', t => {
   t.end()
 })
 
-},{"../../test/tape":89,"@conductorlab/tonic":2,"qs":39}],83:[function(require,module,exports){
+},{"../../test/tape":87,"@conductorlab/tonic":2,"qs":37}],81:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],84:[function(require,module,exports){
+},{"dup":4}],82:[function(require,module,exports){
 const tape = require('../../test/tape')
 const { qs } = require('qs')
 
@@ -14172,7 +14072,7 @@ const { qs } = require('qs')
 //   t.end()
 // })
 
-},{"../../test/tape":89,"qs":39}],85:[function(require,module,exports){
+},{"../../test/tape":87,"qs":37}],83:[function(require,module,exports){
 const tape = require('../../test/tape')
 const { qs } = require('qs')
 
@@ -14309,7 +14209,7 @@ tape('{{toaster}} is created on the right', async t => {
   t.end()
 })
 
-},{"../../test/tape":89,"qs":39}],86:[function(require,module,exports){
+},{"../../test/tape":87,"qs":37}],84:[function(require,module,exports){
 const tape = require('../../test/tape')
 const { qs } = require('qs')
 
@@ -14345,11 +14245,11 @@ tape('{{toggle-2}} has tabindex attribute', t => {
   t.end()
 })
 
-},{"../../test/tape":89,"qs":39}],87:[function(require,module,exports){
+},{"../../test/tape":87,"qs":37}],85:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],88:[function(require,module,exports){
+},{"dup":4}],86:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],89:[function(require,module,exports){
+},{"dup":4}],87:[function(require,module,exports){
 const tape = require('tape')
 const stream = tape.createStream({ objectMode: true })
 
@@ -14418,7 +14318,7 @@ stream.on('data', data => {
 
 module.exports = tape
 
-},{"tape":61}],90:[function(require,module,exports){
+},{"tape":59}],88:[function(require,module,exports){
 const Tonic = require('@conductorlab/tonic')
 const components = require('..')
 
@@ -14460,4 +14360,4 @@ function ready () {
 
 document.addEventListener('DOMContentLoaded', ready)
 
-},{"..":1,"../src/badge/test":68,"../src/button/test":69,"../src/charts/test":70,"../src/checkbox/test":71,"../src/dialog/test":72,"../src/icon/test":73,"../src/input/test":74,"../src/panel/test":75,"../src/popover/test":76,"../src/profile-image/test":77,"../src/progress-bar/test":78,"../src/range/test":79,"../src/router/test":80,"../src/select/test":81,"../src/tabs/test":82,"../src/textarea/test":83,"../src/toaster-inline/test":84,"../src/toaster/test":85,"../src/toggle/test":86,"../src/tooltip/test":87,"../src/windowed/test":88,"@conductorlab/tonic":2}]},{},[90]);
+},{"..":1,"../src/badge/test":66,"../src/button/test":67,"../src/charts/test":68,"../src/checkbox/test":69,"../src/dialog/test":70,"../src/icon/test":71,"../src/input/test":72,"../src/panel/test":73,"../src/popover/test":74,"../src/profile-image/test":75,"../src/progress-bar/test":76,"../src/range/test":77,"../src/router/test":78,"../src/select/test":79,"../src/tabs/test":80,"../src/textarea/test":81,"../src/toaster-inline/test":82,"../src/toaster/test":83,"../src/toggle/test":84,"../src/tooltip/test":85,"../src/windowed/test":86,"@conductorlab/tonic":2}]},{},[88]);

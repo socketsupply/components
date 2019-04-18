@@ -14,23 +14,18 @@ class TonicRange extends Tonic { /* global Tonic */
   }
 
   set value (value) {
-    if (!this.root) return
-
-    this.root.querySelector('input').value = value
+    this.querySelector('input').value = value
     this.setValue(value)
   }
 
   setValue (value) {
-    const root = this.root
-    if (!root) return
-
     const min = this.props.min
     const max = this.props.max
 
-    const input = root.querySelector('input')
+    const input = this.querySelector('input')
 
     if (this.props.label) {
-      const label = root.querySelector('label')
+      const label = this.querySelector('label')
       label.textContent = this.getLabelValue(value)
     }
 
@@ -177,10 +172,10 @@ class TonicRange extends Tonic { /* global Tonic */
     const maxAttr = max ? `max="${max}"` : ''
     const stepAttr = step ? `step="${step}"` : ''
 
-    if (width) this.root.style.width = width
-    if (height) this.root.style.width = height
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
-    if (tabindex) this.root.removeAttribute('tabindex')
+    if (width) this.style.width = width
+    if (height) this.style.width = height
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
+    if (tabindex) this.removeAttribute('tabindex')
 
     const value = this.props.value || this.state.value
     const valueAttr = value && value !== 'undefined' ? `value="${value}"` : ''

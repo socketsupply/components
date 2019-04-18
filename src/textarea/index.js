@@ -68,11 +68,11 @@ class TonicTextarea extends Tonic { /* global Tonic */
   }
 
   get value () {
-    return this.root.querySelector('textarea').value
+    return this.querySelector('textarea').value
   }
 
   set value (value) {
-    this.root.querySelector('textarea').value = value
+    this.querySelector('textarea').value = value
   }
 
   renderLabel () {
@@ -81,7 +81,7 @@ class TonicTextarea extends Tonic { /* global Tonic */
   }
 
   willConnect () {
-    this.props.value = this.props.value || this.root.textContent
+    this.props.value = this.props.value || this.textContent
   }
 
   render () {
@@ -111,11 +111,11 @@ class TonicTextarea extends Tonic { /* global Tonic */
     const maxAttr = maxlength ? `maxlength="${maxlength}"` : ''
 
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
-    if (tabindex) this.root.removeAttribute('tabindex')
+    if (tabindex) this.removeAttribute('tabindex')
 
-    if (width) this.root.style.width = width
-    if (height) this.root.style.height = height
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (width) this.style.width = width
+    if (height) this.style.height = height
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
 
     if (this.props.value === 'undefined') this.props.value = ''
 

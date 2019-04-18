@@ -101,8 +101,9 @@ class Panel extends Tonic { /* global Tonic */
     const that = this
 
     return new Promise((resolve) => {
-      if (!this.root) return
-      const node = this.root.querySelector('.tonic--wrapper')
+      if (!that) return
+
+      const node = that.querySelector('.tonic--wrapper')
       node.classList.add('tonic--show')
       node.addEventListener('transitionend', resolve, { once: true })
 
@@ -118,8 +119,8 @@ class Panel extends Tonic { /* global Tonic */
     const that = this
 
     return new Promise((resolve) => {
-      if (!this.root) return
-      const node = this.root.querySelector('.tonic--wrapper')
+      if (!that) return
+      const node = this.querySelector('.tonic--wrapper')
       node.classList.remove('tonic--show')
       node.addEventListener('transitionend', resolve, { once: true })
       document.removeEventListener('keyup', that._escapeHandler)
@@ -136,7 +137,7 @@ class Panel extends Tonic { /* global Tonic */
       backgroundColor
     } = this.props
 
-    this.root.classList.add('tonic--panel')
+    this.classList.add('tonic--panel')
 
     const wrapper = document.createElement('div')
     const template = document.createElement('template')
@@ -147,9 +148,9 @@ class Panel extends Tonic { /* global Tonic */
       ? (template.innerHTML = content)
       : [...content.childNodes].forEach(el => template.appendChild(el))
 
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
 
-    const isOpen = !!this.root.querySelector('.tonic--wrapper.tonic--show')
+    const isOpen = !!this.querySelector('.tonic--wrapper.tonic--show')
     wrapper.className = isOpen ? 'tonic--wrapper tonic--show' : 'tonic--wrapper'
     wrapper.id = 'wrapper'
     const positionAttr = position ? `tonic--${position}` : ''

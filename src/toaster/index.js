@@ -189,7 +189,7 @@ class TonicToaster extends Tonic { /* global Tonic */
     notification.appendChild(main)
     main.appendChild(titleElement)
     main.appendChild(messageElement)
-    this.root.querySelector('.tonic--wrapper').appendChild(notification)
+    this.querySelector('.tonic--wrapper').appendChild(notification)
     this.show()
 
     setTimeout(() => {
@@ -215,14 +215,12 @@ class TonicToaster extends Tonic { /* global Tonic */
   }
 
   show () {
-    if (!this.root) return
-    const node = this.root.querySelector('.tonic--wrapper')
+    const node = this.querySelector('.tonic--wrapper')
     node.classList.add('tonic--show')
   }
 
   hide () {
-    if (!this.root) return
-    const node = this.root.querySelector('.tonic--wrapper')
+    const node = this.querySelector('.tonic--wrapper')
     node.classList.remove('tonic--show')
   }
 
@@ -244,7 +242,7 @@ class TonicToaster extends Tonic { /* global Tonic */
 
     const positionAttr = position ? `tonic--${position}` : ''
 
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
 
     return `<div class="tonic--wrapper ${positionAttr}"></div>`
   }

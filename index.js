@@ -54,25 +54,25 @@
 
   willConnect () {
     this.template = document.createElement('template')
-    this.template.innerHTML = this.root.innerHTML
+    this.template.innerHTML = this.innerHTML
   }
 
   updated () {
-    if (!this.root.classList.contains('tonic--show')) return
+    if (!this.classList.contains('tonic--show')) return
     const event = new window.Event('match')
-    this.root.dispatchEvent(event)
+    this.dispatchEvent(event)
   }
 
   render () {
-    const none = this.root.hasAttribute('none')
+    const none = this.hasAttribute('none')
 
     if (none) {
       if (TonicRouter.matches) return
-      this.root.classList.add('tonic--show')
+      this.classList.add('tonic--show')
       return this.template.content
     }
 
-    const path = this.root.getAttribute('path')
+    const path = this.getAttribute('path')
     const keys = []
     const matcher = TonicRouter.matcher(path, keys)
     const match = matcher.exec(window.location.pathname)
@@ -84,7 +84,7 @@
         this.props[keys[i].name] = m
       })
 
-      this.root.classList.add('tonic--show')
+      this.classList.add('tonic--show')
       return this.template.content
     }
 
@@ -393,8 +393,9 @@ class Panel extends Tonic { /* global Tonic */
     const that = this
 
     return new Promise((resolve) => {
-      if (!this.root) return
-      const node = this.root.querySelector('.tonic--wrapper')
+      if (!that) return
+
+      const node = that.querySelector('.tonic--wrapper')
       node.classList.add('tonic--show')
       node.addEventListener('transitionend', resolve, { once: true })
 
@@ -410,8 +411,8 @@ class Panel extends Tonic { /* global Tonic */
     const that = this
 
     return new Promise((resolve) => {
-      if (!this.root) return
-      const node = this.root.querySelector('.tonic--wrapper')
+      if (!that) return
+      const node = this.querySelector('.tonic--wrapper')
       node.classList.remove('tonic--show')
       node.addEventListener('transitionend', resolve, { once: true })
       document.removeEventListener('keyup', that._escapeHandler)
@@ -428,7 +429,7 @@ class Panel extends Tonic { /* global Tonic */
       backgroundColor
     } = this.props
 
-    this.root.classList.add('tonic--panel')
+    this.classList.add('tonic--panel')
 
     const wrapper = document.createElement('div')
     const template = document.createElement('template')
@@ -439,9 +440,9 @@ class Panel extends Tonic { /* global Tonic */
       ? (template.innerHTML = content)
       : [...content.childNodes].forEach(el => template.appendChild(el))
 
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
 
-    const isOpen = !!this.root.querySelector('.tonic--wrapper.tonic--show')
+    const isOpen = !!this.querySelector('.tonic--wrapper.tonic--show')
     wrapper.className = isOpen ? 'tonic--wrapper tonic--show' : 'tonic--wrapper'
     wrapper.id = 'wrapper'
     const positionAttr = position ? `tonic--${position}` : ''
@@ -592,7 +593,7 @@ class Dialog extends Tonic { /* global Tonic */
     const that = this
 
     return new Promise((resolve) => {
-      const node = this.root.querySelector('.tonic--dialog--wrapper')
+      const node = this.querySelector('.tonic--dialog--wrapper')
       node.classList.add('tonic--show')
       node.addEventListener('transitionend', resolve, { once: true })
 
@@ -608,7 +609,7 @@ class Dialog extends Tonic { /* global Tonic */
     const that = this
 
     return new Promise((resolve) => {
-      const node = this.root.querySelector('.tonic--dialog--wrapper')
+      const node = this.querySelector('.tonic--dialog--wrapper')
       node.classList.remove('tonic--show')
       node.addEventListener('transitionend', resolve, { once: true })
       document.removeEventListener('keyup', that._escapeHandler)
@@ -625,14 +626,14 @@ class Dialog extends Tonic { /* global Tonic */
           const value = Tonic.match(event.target, '[value]')
 
           if (close || value) {
-            that.root.removeEventListener(eventName, listener)
+            that.removeEventListener(eventName, listener)
           }
 
           if (close) return resolve({})
           if (value) resolve({ [event.target.value]: true })
         }
 
-        that.root.addEventListener(eventName, listener)
+        that.addEventListener(eventName, listener)
       }
     }
   }
@@ -647,12 +648,12 @@ class Dialog extends Tonic { /* global Tonic */
       backgroundColor
     } = this.props
 
-    this.root.classList.add('tonic--dialog')
+    this.classList.add('tonic--dialog')
 
     const template = document.createElement('template')
     const wrapper = document.createElement('div')
 
-    const isOpen = !!this.root.querySelector('.tonic--dialog--wrapper.tonic--show')
+    const isOpen = !!this.querySelector('.tonic--dialog--wrapper.tonic--show')
     wrapper.className = isOpen ? 'tonic--dialog--wrapper tonic--show' : 'tonic--dialog--wrapper'
 
     const content = render()
@@ -661,7 +662,7 @@ class Dialog extends Tonic { /* global Tonic */
       ? (template.innerHTML = content)
       : [...content.childNodes].forEach(el => template.appendChild(el))
 
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
 
     if (overlay !== 'false') {
       const overlayElement = document.createElement('div')
@@ -709,31 +710,27 @@ class TonicTabs extends Tonic { /* global Tonic */
     return `
       tonic-tabs .tonic--tab {
         -webkit-appearance: none;
-<<<<<<< HEAD
-        border-bottom: 2px solid transparent;
-=======
->>>>>>> build
         user-select: none;
       }
     `
   }
 
   get value () {
-    const currentTab = this.root.querySelector('[aria-selected="true"]')
+    const currentTab = this.querySelector('[aria-selected="true"]')
     if (currentTab) return currentTab.id
   }
 
   set selected (value) {
-    const tab = this.root.getElementById(value)
+    const tab = this.getElementById(value)
     if (tab) tab.click()
   }
 
   qsa (s) {
-    return [...this.root.querySelectorAll(s)]
+    return [...this.querySelectorAll(s)]
   }
 
   setVisibility (id) {
-    const tabs = this.root.querySelectorAll(`.tonic--tab`)
+    const tabs = this.querySelectorAll(`.tonic--tab`)
 
     for (const tab of tabs) {
       const control = tab.getAttribute('for')
@@ -800,9 +797,9 @@ class TonicTabs extends Tonic { /* global Tonic */
   }
 
   render () {
-    this.root.setAttribute('role', 'tablist')
+    this.setAttribute('role', 'tablist')
 
-    return [...this.root.childElements].map((node, index) => {
+    return [...this.childElements].map((node, index) => {
       const ariaControls = node.getAttribute('for')
 
       if (node.attributes.class) {
@@ -842,11 +839,11 @@ class TonicTabPanel extends Tonic { /* global Tonic */
     const tab = document.querySelector(`.tonic--tab[for="${this.props.id}"]`)
     if (!tab) return
     const tabid = tab.getAttribute('id')
-    this.root.setAttribute('aria-labelledby', tabid)
+    this.setAttribute('aria-labelledby', tabid)
   }
 
   render () {
-    this.root.setAttribute('role', 'tabpanel')
+    this.setAttribute('role', 'tabpanel')
 
     return this.html`
       ${this.childNodes}
@@ -873,18 +870,18 @@ class TonicAccordion extends Tonic { /* global Tonic */
   }
 
   qs (s) {
-    return this.root.querySelector(s)
+    return this.querySelector(s)
   }
 
   qsa (s) {
-    return [...this.root.querySelectorAll(s)]
+    return [...this.querySelectorAll(s)]
   }
 
   setVisibility (id) {
     const trigger = document.getElementById(id)
     if (!trigger) return
 
-    const allowMultiple = this.root.hasAttribute('data-allow-multiple')
+    const allowMultiple = this.hasAttribute('data-allow-multiple')
     const isExpanded = trigger.getAttribute('aria-expanded') === 'true'
 
     if (!isExpanded && !allowMultiple) {
@@ -967,7 +964,7 @@ class TonicAccordion extends Tonic { /* global Tonic */
       multiple
     } = this.props
 
-    if (multiple) this.root.setAttribute('data-allow-multiple', '')
+    if (multiple) this.setAttribute('data-allow-multiple', '')
 
     return this.html`
       ${this.childNodes}
@@ -1167,12 +1164,10 @@ class Windowed extends Tonic { /* global Tonic */
   }
 
   load (rows = []) {
-    if (!this.root) return
-
     this.rows = rows
     this.reRender()
 
-    const outer = this.root.querySelector('.tonic--windowed--outer')
+    const outer = this.querySelector('.tonic--windowed--outer')
     if (!outer) return
 
     this.outerHeight = outer.offsetHeight
@@ -1183,7 +1178,7 @@ class Windowed extends Tonic { /* global Tonic */
     this.pagesAvailable = this.pagesAvailable || []
     this.rowHeight = parseInt(this.props.rowHeight, 10)
 
-    const inner = this.root.querySelector('.tonic--windowed--inner')
+    const inner = this.querySelector('.tonic--windowed--inner')
     inner.innerHTML = ''
     inner.style.height = `${this.rowHeight * this.rows.length}px`
     this.pageHeight = this.props.rowsPerPage * this.rowHeight
@@ -1193,9 +1188,7 @@ class Windowed extends Tonic { /* global Tonic */
   }
 
   setHeight (height, { render } = {}) {
-    if (!this.root) return
-
-    const outer = this.root.querySelector('.tonic--windowed--outer')
+    const outer = this.querySelector('.tonic--windowed--outer')
     if (!outer) return
 
     outer.style.height = height
@@ -1227,7 +1220,7 @@ class Windowed extends Tonic { /* global Tonic */
 
   getAvailablePage (i) {
     const page = this.pagesAvailable.pop()
-    const inner = this.root.querySelector('.tonic--windowed--inner')
+    const inner = this.querySelector('.tonic--windowed--inner')
     inner.appendChild(page)
     return page
   }
@@ -1246,17 +1239,15 @@ class Windowed extends Tonic { /* global Tonic */
       page.style.backgroundColor = `hsla(${random}, 100%, 50%, 0.5)`
     }
 
-    const inner = this.root.querySelector('.tonic--windowed--inner')
+    const inner = this.querySelector('.tonic--windowed--inner')
     inner.appendChild(page)
     return page
   }
 
   async rePaint ({ refresh, load } = {}) {
-    if (!this.root) return
-
     if (refresh && load !== false) this.load(this.rows)
 
-    const outer = this.root.querySelector('.tonic--windowed--outer')
+    const outer = this.querySelector('.tonic--windowed--outer')
     if (!outer) return
 
     const viewStart = outer.scrollTop
@@ -1285,7 +1276,7 @@ class Windowed extends Tonic { /* global Tonic */
       pagesRendered[i] = true
     }
 
-    const inner = this.root.querySelector('.tonic--windowed--inner')
+    const inner = this.querySelector('.tonic--windowed--inner')
 
     for (const i of Object.keys(this.pages)) {
       if (pagesRendered[i]) continue
@@ -1330,7 +1321,7 @@ class Windowed extends Tonic { /* global Tonic */
     const start = i * this.props.rowsPerPage
     const limit = Math.min((i + 1) * this.props.rowsPerPage, this.rows.length)
 
-    const inner = this.root.querySelector('.tonic--windowed--inner')
+    const inner = this.querySelector('.tonic--windowed--inner')
 
     if (start > limit) {
       inner.removeChild(page)
@@ -1359,9 +1350,7 @@ class Windowed extends Tonic { /* global Tonic */
   }
 
   updated () {
-    if (!this.root) return
-
-    const outer = this.root.querySelector('.tonic--windowed--outer')
+    const outer = this.querySelector('.tonic--windowed--outer')
 
     outer && outer.addEventListener('scroll', () => {
       this.state.scrollTop = outer.scrollTop
@@ -1414,8 +1403,8 @@ class TonicTooltip extends Tonic { /* global Tonic */
       this.show(el)
     })
 
-    this.root.addEventListener('mouseenter', e => clearTimeout(timer))
-    this.root.addEventListener('mouseleave', leave)
+    this.addEventListener('mouseenter', e => clearTimeout(timer))
+    this.addEventListener('mouseleave', leave)
     el.addEventListener('mouseleave', leave)
   }
 
@@ -1485,8 +1474,8 @@ class TonicTooltip extends Tonic { /* global Tonic */
   show (triggerNode) {
     clearTimeout(this.timer)
     this.timer = setTimeout(() => {
-      const tooltip = this.root.querySelector('.tonic--tooltip')
-      const arrow = this.root.querySelector('.tonic--tooltip-arrow')
+      const tooltip = this.querySelector('.tonic--tooltip')
+      const arrow = this.querySelector('.tonic--tooltip-arrow')
 
       let { top, left } = triggerNode.getBoundingClientRect()
 
@@ -1520,9 +1509,7 @@ class TonicTooltip extends Tonic { /* global Tonic */
 
   hide () {
     clearTimeout(this.timer)
-    if (!this.root) return
-
-    const tooltip = this.root.querySelector('.tonic--tooltip')
+    const tooltip = this.querySelector('.tonic--tooltip')
     tooltip.classList.remove('tonic--show')
   }
 
@@ -1542,7 +1529,7 @@ class TonicTooltip extends Tonic { /* global Tonic */
 
   render () {
     if (this.props.theme) {
-      this.root.classList.add(`tonic--theme--${this.props.theme}`)
+      this.classList.add(`tonic--theme--${this.props.theme}`)
     }
 
     return this.html`
@@ -1669,7 +1656,7 @@ class TonicPopover extends Tonic { /* global Tonic */
   }
 
   show (triggerNode) {
-    const popover = this.root.querySelector('.tonic--popover')
+    const popover = this.querySelector('.tonic--popover')
     let scrollableArea = triggerNode.parentNode
 
     while (true) {
@@ -1714,18 +1701,18 @@ class TonicPopover extends Tonic { /* global Tonic */
     window.requestAnimationFrame(() => {
       popover.className = `tonic--popover tonic--show tonic--popover--${this.props.position}`
       const event = new window.Event('show')
-      this.root.dispatchEvent(event)
+      this.dispatchEvent(event)
     })
   }
 
   hide () {
-    const popover = this.root.querySelector('.tonic--popover')
+    const popover = this.querySelector('.tonic--popover')
     if (popover) popover.classList.remove('tonic--show')
   }
 
   connected () {
     if (!this.props.open) return
-    const target = this.root.getAttribute('for')
+    const target = this.getAttribute('for')
     this.show(document.getElementById(target))
   }
 
@@ -1740,7 +1727,7 @@ class TonicPopover extends Tonic { /* global Tonic */
       theme
     } = this.props
 
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
 
     return this.html`
       <div class="tonic--popover" styles="popover">
@@ -1826,7 +1813,7 @@ class TonicBadge extends Tonic { /* global Tonic */
       count = this.props.count
     }
 
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
 
     const countAttr = (count > 99) ? '99' : count
 
@@ -1960,8 +1947,7 @@ class TonicButton extends Tonic { /* global Tonic */
   }
 
   loading (state) {
-    if (!this.root) return
-    const button = this.root.querySelector('button')
+    const button = this.querySelector('button')
     const method = state ? 'add' : 'remove'
     if (button) button.classList[method]('tonic--loading')
   }
@@ -2039,9 +2025,9 @@ class TonicButton extends Tonic { /* global Tonic */
     if (active) classes.push(`tonic--active`)
     classes = classes.join(' ')
 
-    if (tabindex) this.root.removeAttribute('tabindex')
+    if (tabindex) this.removeAttribute('tabindex')
 
-    const label = this.root.textContent || type || 'Button'
+    const label = this.textContent || type || 'Button'
 
     const attributes = [
       valueAttr,
@@ -2082,7 +2068,7 @@ class TonicChart extends Tonic { /* global Tonic */
   }
 
   draw (data, options = this.props.options) {
-    const root = this.root.querySelector('canvas')
+    const root = this.querySelector('canvas')
 
     //
     // Add a few sensible defaults, but allow the user to
@@ -2175,8 +2161,8 @@ class TonicChart extends Tonic { /* global Tonic */
       height
     } = this.props
 
-    this.root.style.width = width
-    this.root.style.height = height
+    this.style.width = width
+    this.style.height = height
 
     return `
       <canvas width="${width}" height="${height}">
@@ -2418,9 +2404,9 @@ class TonicIcon extends Tonic { /* global Tonic */
     } = this.props
 
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
-    if (tabindex) this.root.removeAttribute('tabindex')
+    if (tabindex) this.removeAttribute('tabindex')
 
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
 
     return this.html`
       <svg
@@ -2462,7 +2448,7 @@ class TonicInput extends Tonic { /* global Tonic */
   }
 
   set value (value) {
-    this.root.querySelector('input').value = value
+    this.querySelector('input').value = value
     this.state.value = value
   }
 
@@ -2612,15 +2598,14 @@ class TonicInput extends Tonic { /* global Tonic */
   }
 
   setupEvents () {
-    if (!this.root) return
-    const input = this.root.querySelector('input')
+    const input = this.querySelector('input')
 
     const set = (k, v, event) => {
       this.setState(state => Object.assign({}, state, { [k]: v }))
     }
 
     const relay = name => {
-      this.root && this.root.dispatchEvent(new window.Event(name))
+      this.dispatchEvent(new window.Event(name))
     }
 
     input.addEventListener('focus', e => {
@@ -2652,8 +2637,7 @@ class TonicInput extends Tonic { /* global Tonic */
   }
 
   updated () {
-    if (!this.root) return
-    const input = this.root.querySelector('input')
+    const input = this.querySelector('input')
 
     setTimeout(() => {
       if (this.props.invalid) {
@@ -2724,11 +2708,11 @@ class TonicInput extends Tonic { /* global Tonic */
     const maxAttr = max ? `max="${max}"` : ''
 
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
-    if (tabindex) this.root.removeAttribute('tabindex')
+    if (tabindex) this.removeAttribute('tabindex')
 
-    if (width) this.root.style.width = width
-    if (height) this.root.style.width = height
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (width) this.style.width = width
+    if (height) this.style.width = height
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
 
     const value = this.state.value || this.props.value
     const valueAttr = value && value !== 'undefined' ? `value="${value}"` : ''
@@ -2951,13 +2935,13 @@ class TonicProfileImage extends Tonic { /* global Tonic */
   click (e) {
     if (this.props.editable) {
       if (this.props.editable === 'false') return
-      const fileInput = this.root.getElementsByTagName('input')[0]
+      const fileInput = this.getElementsByTagName('input')[0]
       fileInput.click()
     }
   }
 
   change (e) {
-    const fileInput = this.root.getElementsByTagName('input')[0]
+    const fileInput = this.getElementsByTagName('input')[0]
     const data = fileInput.files[0]
     if (e.data) return
     e.stopPropagation()
@@ -2970,16 +2954,14 @@ class TonicProfileImage extends Tonic { /* global Tonic */
     } = data
 
     this.getPictureData(data, (err, data) => {
-      if (!this.root) return
-
       if (err) {
         const event = new window.Event('error')
         event.message = err.message
-        this.root.dispatchEvent(event)
+        this.dispatchEvent(event)
         return
       }
 
-      const slot = this.root && this.root.querySelector('.tonic--image')
+      const slot = this.querySelector('.tonic--image')
 
       this.setState(state => Object.assign({}, state, {
         size,
@@ -2992,7 +2974,7 @@ class TonicProfileImage extends Tonic { /* global Tonic */
       slot.style.backgroundImage = 'url("' + data + '")'
       const event = new window.Event('change', { bubbles: true })
       event.data = true // prevent recursion
-      this.root.dispatchEvent(event)
+      this.dispatchEvent(event)
     })
   }
 
@@ -3002,7 +2984,7 @@ class TonicProfileImage extends Tonic { /* global Tonic */
       editable
     } = this.props
 
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
     const editableAttr = editable && (editable === 'true') ? 'tonic--editable' : ''
 
     return `
@@ -3062,23 +3044,18 @@ class TonicRange extends Tonic { /* global Tonic */
   }
 
   set value (value) {
-    if (!this.root) return
-
-    this.root.querySelector('input').value = value
+    this.querySelector('input').value = value
     this.setValue(value)
   }
 
   setValue (value) {
-    const root = this.root
-    if (!root) return
-
     const min = this.props.min
     const max = this.props.max
 
-    const input = root.querySelector('input')
+    const input = this.querySelector('input')
 
     if (this.props.label) {
-      const label = root.querySelector('label')
+      const label = this.querySelector('label')
       label.textContent = this.getLabelValue(value)
     }
 
@@ -3225,10 +3202,10 @@ class TonicRange extends Tonic { /* global Tonic */
     const maxAttr = max ? `max="${max}"` : ''
     const stepAttr = step ? `step="${step}"` : ''
 
-    if (width) this.root.style.width = width
-    if (height) this.root.style.width = height
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
-    if (tabindex) this.root.removeAttribute('tabindex')
+    if (width) this.style.width = width
+    if (height) this.style.width = height
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
+    if (tabindex) this.removeAttribute('tabindex')
 
     const value = this.props.value || this.state.value
     const valueAttr = value && value !== 'undefined' ? `value="${value}"` : ''
@@ -3358,8 +3335,7 @@ class TonicSelect extends Tonic { /* global Tonic */
   }
 
   get value () {
-    if (!this.root) return
-    const el = this.root.querySelector('select')
+    const el = this.querySelector('select')
 
     if (this.props.multiple === 'true') {
       const value = [...el.options]
@@ -3372,8 +3348,7 @@ class TonicSelect extends Tonic { /* global Tonic */
   }
 
   selectOptions (value) {
-    if (!this.root) return
-    const el = this.root.querySelector('select')
+    const el = this.querySelector('select')
     const options = [...el.options]
 
     options.forEach(el => {
@@ -3385,31 +3360,30 @@ class TonicSelect extends Tonic { /* global Tonic */
     if (this.props.multiple === 'true' && Array.isArray(value)) {
       this.selectOptions(value)
     } else {
-      const el = this.root.querySelector('select')
+      const el = this.querySelector('select')
       if (!value) value = el.selectedIndex
       el.selectedIndex = 0
     }
   }
 
   get option () {
-    const node = this.root.querySelector('select')
+    const node = this.querySelector('select')
     return node.options[node.selectedIndex]
   }
 
   get selectedIndex () {
-    const node = this.root.querySelector('select')
+    const node = this.querySelector('select')
     return node.selectedIndex
   }
 
   set selectedIndex (index) {
-    const node = this.root.querySelector('select')
+    const node = this.querySelector('select')
     node.selectedIndex = index
   }
 
   loading (state) {
-    if (!this.root) return
     const method = state ? 'add' : 'remove'
-    this.root.classList[method]('tonic--loading')
+    this.classList[method]('tonic--loading')
   }
 
   renderLabel () {
@@ -3446,7 +3420,7 @@ class TonicSelect extends Tonic { /* global Tonic */
     if (Array.isArray(value)) {
       this.selectOptions(value)
     } else if (value) {
-      const option = this.root.querySelector(`option[value="${value}"]`)
+      const option = this.querySelector(`option[value="${value}"]`)
       if (option) option.setAttribute('selected', true)
     }
   }
@@ -3468,10 +3442,10 @@ class TonicSelect extends Tonic { /* global Tonic */
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
     const sizeAttr = size ? `size="${size}"` : ''
 
-    if (width) this.root.style.width = width
-    if (height) this.root.style.width = height
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
-    if (tabindex) this.root.removeAttribute('tabindex')
+    if (width) this.style.width = width
+    if (height) this.style.width = height
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
+    if (tabindex) this.removeAttribute('tabindex')
 
     const attributes = [
       disabledAttr,
@@ -3636,11 +3610,11 @@ class TonicTextarea extends Tonic { /* global Tonic */
   }
 
   get value () {
-    return this.root.querySelector('textarea').value
+    return this.querySelector('textarea').value
   }
 
   set value (value) {
-    this.root.querySelector('textarea').value = value
+    this.querySelector('textarea').value = value
   }
 
   renderLabel () {
@@ -3649,7 +3623,7 @@ class TonicTextarea extends Tonic { /* global Tonic */
   }
 
   willConnect () {
-    this.props.value = this.props.value || this.root.textContent
+    this.props.value = this.props.value || this.textContent
   }
 
   render () {
@@ -3679,11 +3653,11 @@ class TonicTextarea extends Tonic { /* global Tonic */
     const maxAttr = maxlength ? `maxlength="${maxlength}"` : ''
 
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
-    if (tabindex) this.root.removeAttribute('tabindex')
+    if (tabindex) this.removeAttribute('tabindex')
 
-    if (width) this.root.style.width = width
-    if (height) this.root.style.height = height
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (width) this.style.width = width
+    if (height) this.style.height = height
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
 
     if (this.props.value === 'undefined') this.props.value = ''
 
@@ -3904,7 +3878,7 @@ class TonicToaster extends Tonic { /* global Tonic */
     notification.appendChild(main)
     main.appendChild(titleElement)
     main.appendChild(messageElement)
-    this.root.querySelector('.tonic--wrapper').appendChild(notification)
+    this.querySelector('.tonic--wrapper').appendChild(notification)
     this.show()
 
     setTimeout(() => {
@@ -3930,14 +3904,12 @@ class TonicToaster extends Tonic { /* global Tonic */
   }
 
   show () {
-    if (!this.root) return
-    const node = this.root.querySelector('.tonic--wrapper')
+    const node = this.querySelector('.tonic--wrapper')
     node.classList.add('tonic--show')
   }
 
   hide () {
-    if (!this.root) return
-    const node = this.root.querySelector('.tonic--wrapper')
+    const node = this.querySelector('.tonic--wrapper')
     node.classList.remove('tonic--show')
   }
 
@@ -3959,7 +3931,7 @@ class TonicToaster extends Tonic { /* global Tonic */
 
     const positionAttr = position ? `tonic--${position}` : ''
 
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
 
     return `<div class="tonic--wrapper ${positionAttr}"></div>`
   }
@@ -4057,14 +4029,12 @@ class TonicToasterInline extends Tonic { /* global Tonic */
   }
 
   show () {
-    if (!this.root) return
-    const node = this.root.querySelector('.tonic--notification')
+    const node = this.querySelector('.tonic--notification')
     node.classList.add('tonic--show')
   }
 
   hide () {
-    if (!this.root) return
-    const node = this.root.querySelector('.tonic--notification')
+    const node = this.querySelector('.tonic--notification')
     node.classList.remove('tonic--show')
   }
 
@@ -4076,8 +4046,6 @@ class TonicToasterInline extends Tonic { /* global Tonic */
   }
 
   connected () {
-    if (!this.root) return
-
     const {
       display,
       duration
@@ -4148,7 +4116,7 @@ class TonicToasterInline extends Tonic { /* global Tonic */
     } = this.props
 
     if (theme) {
-      this.root.setAttribute('theme', theme)
+      this.setAttribute('theme', theme)
     }
 
     let typeClasses = ''
@@ -4357,9 +4325,9 @@ class TonicToggle extends Tonic { /* global Tonic */
     const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
 
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
-    if (tabindex) this.root.removeAttribute('tabindex')
+    if (tabindex) this.removeAttribute('tabindex')
 
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
 
     let checked
 

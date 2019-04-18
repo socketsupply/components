@@ -15,18 +15,18 @@ class TonicAccordion extends Tonic { /* global Tonic */
   }
 
   qs (s) {
-    return this.root.querySelector(s)
+    return this.querySelector(s)
   }
 
   qsa (s) {
-    return [...this.root.querySelectorAll(s)]
+    return [...this.querySelectorAll(s)]
   }
 
   setVisibility (id) {
     const trigger = document.getElementById(id)
     if (!trigger) return
 
-    const allowMultiple = this.root.hasAttribute('data-allow-multiple')
+    const allowMultiple = this.hasAttribute('data-allow-multiple')
     const isExpanded = trigger.getAttribute('aria-expanded') === 'true'
 
     if (!isExpanded && !allowMultiple) {
@@ -109,7 +109,7 @@ class TonicAccordion extends Tonic { /* global Tonic */
       multiple
     } = this.props
 
-    if (multiple) this.root.setAttribute('data-allow-multiple', '')
+    if (multiple) this.setAttribute('data-allow-multiple', '')
 
     return this.html`
       ${this.childNodes}

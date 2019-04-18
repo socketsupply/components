@@ -105,13 +105,13 @@ class TonicProfileImage extends Tonic { /* global Tonic */
   click (e) {
     if (this.props.editable) {
       if (this.props.editable === 'false') return
-      const fileInput = this.root.getElementsByTagName('input')[0]
+      const fileInput = this.getElementsByTagName('input')[0]
       fileInput.click()
     }
   }
 
   change (e) {
-    const fileInput = this.root.getElementsByTagName('input')[0]
+    const fileInput = this.getElementsByTagName('input')[0]
     const data = fileInput.files[0]
     if (e.data) return
     e.stopPropagation()
@@ -124,16 +124,14 @@ class TonicProfileImage extends Tonic { /* global Tonic */
     } = data
 
     this.getPictureData(data, (err, data) => {
-      if (!this.root) return
-
       if (err) {
         const event = new window.Event('error')
         event.message = err.message
-        this.root.dispatchEvent(event)
+        this.dispatchEvent(event)
         return
       }
 
-      const slot = this.root && this.root.querySelector('.tonic--image')
+      const slot = this.querySelector('.tonic--image')
 
       this.setState(state => Object.assign({}, state, {
         size,
@@ -146,7 +144,7 @@ class TonicProfileImage extends Tonic { /* global Tonic */
       slot.style.backgroundImage = 'url("' + data + '")'
       const event = new window.Event('change', { bubbles: true })
       event.data = true // prevent recursion
-      this.root.dispatchEvent(event)
+      this.dispatchEvent(event)
     })
   }
 
@@ -156,7 +154,7 @@ class TonicProfileImage extends Tonic { /* global Tonic */
       editable
     } = this.props
 
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
     const editableAttr = editable && (editable === 'true') ? 'tonic--editable' : ''
 
     return `

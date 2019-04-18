@@ -67,11 +67,6 @@
   
 
     <li>
-      <a href="#api" class="">API</a>
-    </li>
-  
-
-    <li>
       <a href="#1.-getting-started" class="">1. Getting Started</a>
     </li>
   
@@ -113,6 +108,11 @@
 
     <li>
       <a href="#9.-csp" class="">9. CSP</a>
+    </li>
+  
+
+    <li>
+      <a href="#api" class="">API</a>
     </li>
   
           </ul>
@@ -168,13 +168,6 @@
     </ul>
   </div>
 </div>
-
-    </section>
-  
-
-    <section id="api">
-      
-      <p>BUILT IN DEV MODE</p>
 
     </section>
   
@@ -344,23 +337,19 @@ receives either an object or a function. For example...</p>
       <h1 id="3-methods">3. Methods</h1>
 <p>A method is a function of a component. It can help to organize the internal
 logic of a component.</p>
-<p>All component methods are private by default. No one else can access them. But
-in some cases you want to provide public access to a method.</p>
 <p>The <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes">constructor</a> is a special method that is called once each time an
-instance of your component is created. Here you can add a method to the root
-element of your component that calls a method from the component.</p>
+instance of your component is created.</p>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
-  <span class="hljs-keyword">constructor</span> (node) {
-    <span class="hljs-keyword">super</span>(node)
-
-    <span class="hljs-keyword">this</span>.root.myMethod = <span class="hljs-function"><span class="hljs-params">n</span> =&gt;</span> <span class="hljs-keyword">this</span>.myMethod(n)
+  <span class="hljs-keyword">constructor</span> () {
+    <span class="hljs-keyword">super</span>()
+    <span class="hljs-comment">// ...</span>
   }
 
   myMethod (n) {
-    <span class="hljs-keyword">this</span>.root.innerHTML = <span class="hljs-string">`The number is <span class="hljs-subst">${n}</span>`</span>
+    <span class="hljs-keyword">this</span>.innerHTML = <span class="hljs-string">`The number is <span class="hljs-subst">${n}</span>`</span>
   }
 }</code></pre>
-<p>After the component is created, the <code>exampleMethod</code> method can be called.</p>
+<p>After the component is created, the method <code>myMethod</code> method can be called.</p>
 <pre><code class="language-js"><span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'foo'</span>).myMethod(<span class="hljs-number">42</span>)</code></pre>
 
     </section>
@@ -627,6 +616,13 @@ to set the <code>Tonic.nonce</code> property. For example, given the above polic
 add the following to your javascript...</p>
 <pre><code class="language-js">Tonic.nonce = <span class="hljs-string">'123'</span></code></pre>
 <p>Note that <code>123</code> is a placeholder, this should be an actual <a href="https://en.wikipedia.org/wiki/Cryptographic_nonce">nonce</a>.</p>
+
+    </section>
+  
+
+    <section id="api">
+      
+      <p>BUILT IN DEV MODE</p>
 
     </section>
   

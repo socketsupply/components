@@ -15,8 +15,8 @@ class TonicTooltip extends Tonic { /* global Tonic */
       this.show(el)
     })
 
-    this.root.addEventListener('mouseenter', e => clearTimeout(timer))
-    this.root.addEventListener('mouseleave', leave)
+    this.addEventListener('mouseenter', e => clearTimeout(timer))
+    this.addEventListener('mouseleave', leave)
     el.addEventListener('mouseleave', leave)
   }
 
@@ -86,8 +86,8 @@ class TonicTooltip extends Tonic { /* global Tonic */
   show (triggerNode) {
     clearTimeout(this.timer)
     this.timer = setTimeout(() => {
-      const tooltip = this.root.querySelector('.tonic--tooltip')
-      const arrow = this.root.querySelector('.tonic--tooltip-arrow')
+      const tooltip = this.querySelector('.tonic--tooltip')
+      const arrow = this.querySelector('.tonic--tooltip-arrow')
 
       let { top, left } = triggerNode.getBoundingClientRect()
 
@@ -121,9 +121,7 @@ class TonicTooltip extends Tonic { /* global Tonic */
 
   hide () {
     clearTimeout(this.timer)
-    if (!this.root) return
-
-    const tooltip = this.root.querySelector('.tonic--tooltip')
+    const tooltip = this.querySelector('.tonic--tooltip')
     tooltip.classList.remove('tonic--show')
   }
 
@@ -143,7 +141,7 @@ class TonicTooltip extends Tonic { /* global Tonic */
 
   render () {
     if (this.props.theme) {
-      this.root.classList.add(`tonic--theme--${this.props.theme}`)
+      this.classList.add(`tonic--theme--${this.props.theme}`)
     }
 
     return this.html`

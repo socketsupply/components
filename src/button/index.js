@@ -116,8 +116,7 @@ class TonicButton extends Tonic { /* global Tonic */
   }
 
   loading (state) {
-    if (!this.root) return
-    const button = this.root.querySelector('button')
+    const button = this.querySelector('button')
     const method = state ? 'add' : 'remove'
     if (button) button.classList[method]('tonic--loading')
   }
@@ -195,9 +194,9 @@ class TonicButton extends Tonic { /* global Tonic */
     if (active) classes.push(`tonic--active`)
     classes = classes.join(' ')
 
-    if (tabindex) this.root.removeAttribute('tabindex')
+    if (tabindex) this.removeAttribute('tabindex')
 
-    const label = this.root.textContent || type || 'Button'
+    const label = this.textContent || type || 'Button'
 
     const attributes = [
       valueAttr,

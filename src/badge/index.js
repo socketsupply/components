@@ -71,7 +71,7 @@ class TonicBadge extends Tonic { /* global Tonic */
       count = this.props.count
     }
 
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
 
     const countAttr = (count > 99) ? '99' : count
 

@@ -21,7 +21,7 @@ class TonicInput extends Tonic { /* global Tonic */
   }
 
   set value (value) {
-    this.root.querySelector('input').value = value
+    this.querySelector('input').value = value
     this.state.value = value
   }
 
@@ -171,15 +171,14 @@ class TonicInput extends Tonic { /* global Tonic */
   }
 
   setupEvents () {
-    if (!this.root) return
-    const input = this.root.querySelector('input')
+    const input = this.querySelector('input')
 
     const set = (k, v, event) => {
       this.setState(state => Object.assign({}, state, { [k]: v }))
     }
 
     const relay = name => {
-      this.root && this.root.dispatchEvent(new window.Event(name))
+      this.dispatchEvent(new window.Event(name))
     }
 
     input.addEventListener('focus', e => {
@@ -211,8 +210,7 @@ class TonicInput extends Tonic { /* global Tonic */
   }
 
   updated () {
-    if (!this.root) return
-    const input = this.root.querySelector('input')
+    const input = this.querySelector('input')
 
     setTimeout(() => {
       if (this.props.invalid) {
@@ -283,11 +281,11 @@ class TonicInput extends Tonic { /* global Tonic */
     const maxAttr = max ? `max="${max}"` : ''
 
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
-    if (tabindex) this.root.removeAttribute('tabindex')
+    if (tabindex) this.removeAttribute('tabindex')
 
-    if (width) this.root.style.width = width
-    if (height) this.root.style.width = height
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (width) this.style.width = width
+    if (height) this.style.width = height
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
 
     const value = this.state.value || this.props.value
     const valueAttr = value && value !== 'undefined' ? `value="${value}"` : ''

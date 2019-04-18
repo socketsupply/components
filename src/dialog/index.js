@@ -97,7 +97,7 @@ class Dialog extends Tonic { /* global Tonic */
     const that = this
 
     return new Promise((resolve) => {
-      const node = this.root.querySelector('.tonic--dialog--wrapper')
+      const node = this.querySelector('.tonic--dialog--wrapper')
       node.classList.add('tonic--show')
       node.addEventListener('transitionend', resolve, { once: true })
 
@@ -113,7 +113,7 @@ class Dialog extends Tonic { /* global Tonic */
     const that = this
 
     return new Promise((resolve) => {
-      const node = this.root.querySelector('.tonic--dialog--wrapper')
+      const node = this.querySelector('.tonic--dialog--wrapper')
       node.classList.remove('tonic--show')
       node.addEventListener('transitionend', resolve, { once: true })
       document.removeEventListener('keyup', that._escapeHandler)
@@ -130,14 +130,14 @@ class Dialog extends Tonic { /* global Tonic */
           const value = Tonic.match(event.target, '[value]')
 
           if (close || value) {
-            that.root.removeEventListener(eventName, listener)
+            that.removeEventListener(eventName, listener)
           }
 
           if (close) return resolve({})
           if (value) resolve({ [event.target.value]: true })
         }
 
-        that.root.addEventListener(eventName, listener)
+        that.addEventListener(eventName, listener)
       }
     }
   }
@@ -152,12 +152,12 @@ class Dialog extends Tonic { /* global Tonic */
       backgroundColor
     } = this.props
 
-    this.root.classList.add('tonic--dialog')
+    this.classList.add('tonic--dialog')
 
     const template = document.createElement('template')
     const wrapper = document.createElement('div')
 
-    const isOpen = !!this.root.querySelector('.tonic--dialog--wrapper.tonic--show')
+    const isOpen = !!this.querySelector('.tonic--dialog--wrapper.tonic--show')
     wrapper.className = isOpen ? 'tonic--dialog--wrapper tonic--show' : 'tonic--dialog--wrapper'
 
     const content = render()
@@ -166,7 +166,7 @@ class Dialog extends Tonic { /* global Tonic */
       ? (template.innerHTML = content)
       : [...content.childNodes].forEach(el => template.appendChild(el))
 
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
 
     if (overlay !== 'false') {
       const overlayElement = document.createElement('div')

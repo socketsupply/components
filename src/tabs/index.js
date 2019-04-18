@@ -3,31 +3,27 @@ class TonicTabs extends Tonic { /* global Tonic */
     return `
       tonic-tabs .tonic--tab {
         -webkit-appearance: none;
-<<<<<<< HEAD
-        border-bottom: 2px solid transparent;
-=======
->>>>>>> build
         user-select: none;
       }
     `
   }
 
   get value () {
-    const currentTab = this.root.querySelector('[aria-selected="true"]')
+    const currentTab = this.querySelector('[aria-selected="true"]')
     if (currentTab) return currentTab.id
   }
 
   set selected (value) {
-    const tab = this.root.getElementById(value)
+    const tab = this.getElementById(value)
     if (tab) tab.click()
   }
 
   qsa (s) {
-    return [...this.root.querySelectorAll(s)]
+    return [...this.querySelectorAll(s)]
   }
 
   setVisibility (id) {
-    const tabs = this.root.querySelectorAll(`.tonic--tab`)
+    const tabs = this.querySelectorAll(`.tonic--tab`)
 
     for (const tab of tabs) {
       const control = tab.getAttribute('for')
@@ -94,9 +90,9 @@ class TonicTabs extends Tonic { /* global Tonic */
   }
 
   render () {
-    this.root.setAttribute('role', 'tablist')
+    this.setAttribute('role', 'tablist')
 
-    return [...this.root.childElements].map((node, index) => {
+    return [...this.childElements].map((node, index) => {
       const ariaControls = node.getAttribute('for')
 
       if (node.attributes.class) {
@@ -136,11 +132,11 @@ class TonicTabPanel extends Tonic { /* global Tonic */
     const tab = document.querySelector(`.tonic--tab[for="${this.props.id}"]`)
     if (!tab) return
     const tabid = tab.getAttribute('id')
-    this.root.setAttribute('aria-labelledby', tabid)
+    this.setAttribute('aria-labelledby', tabid)
   }
 
   render () {
-    this.root.setAttribute('role', 'tabpanel')
+    this.setAttribute('role', 'tabpanel')
 
     return this.html`
       ${this.childNodes}

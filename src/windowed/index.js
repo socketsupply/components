@@ -72,12 +72,10 @@ class Windowed extends Tonic { /* global Tonic */
   }
 
   load (rows = []) {
-    if (!this.root) return
-
     this.rows = rows
     this.reRender()
 
-    const outer = this.root.querySelector('.tonic--windowed--outer')
+    const outer = this.querySelector('.tonic--windowed--outer')
     if (!outer) return
 
     this.outerHeight = outer.offsetHeight
@@ -88,7 +86,7 @@ class Windowed extends Tonic { /* global Tonic */
     this.pagesAvailable = this.pagesAvailable || []
     this.rowHeight = parseInt(this.props.rowHeight, 10)
 
-    const inner = this.root.querySelector('.tonic--windowed--inner')
+    const inner = this.querySelector('.tonic--windowed--inner')
     inner.innerHTML = ''
     inner.style.height = `${this.rowHeight * this.rows.length}px`
     this.pageHeight = this.props.rowsPerPage * this.rowHeight
@@ -98,9 +96,7 @@ class Windowed extends Tonic { /* global Tonic */
   }
 
   setHeight (height, { render } = {}) {
-    if (!this.root) return
-
-    const outer = this.root.querySelector('.tonic--windowed--outer')
+    const outer = this.querySelector('.tonic--windowed--outer')
     if (!outer) return
 
     outer.style.height = height
@@ -132,7 +128,7 @@ class Windowed extends Tonic { /* global Tonic */
 
   getAvailablePage (i) {
     const page = this.pagesAvailable.pop()
-    const inner = this.root.querySelector('.tonic--windowed--inner')
+    const inner = this.querySelector('.tonic--windowed--inner')
     inner.appendChild(page)
     return page
   }
@@ -151,17 +147,15 @@ class Windowed extends Tonic { /* global Tonic */
       page.style.backgroundColor = `hsla(${random}, 100%, 50%, 0.5)`
     }
 
-    const inner = this.root.querySelector('.tonic--windowed--inner')
+    const inner = this.querySelector('.tonic--windowed--inner')
     inner.appendChild(page)
     return page
   }
 
   async rePaint ({ refresh, load } = {}) {
-    if (!this.root) return
-
     if (refresh && load !== false) this.load(this.rows)
 
-    const outer = this.root.querySelector('.tonic--windowed--outer')
+    const outer = this.querySelector('.tonic--windowed--outer')
     if (!outer) return
 
     const viewStart = outer.scrollTop
@@ -190,7 +184,7 @@ class Windowed extends Tonic { /* global Tonic */
       pagesRendered[i] = true
     }
 
-    const inner = this.root.querySelector('.tonic--windowed--inner')
+    const inner = this.querySelector('.tonic--windowed--inner')
 
     for (const i of Object.keys(this.pages)) {
       if (pagesRendered[i]) continue
@@ -235,7 +229,7 @@ class Windowed extends Tonic { /* global Tonic */
     const start = i * this.props.rowsPerPage
     const limit = Math.min((i + 1) * this.props.rowsPerPage, this.rows.length)
 
-    const inner = this.root.querySelector('.tonic--windowed--inner')
+    const inner = this.querySelector('.tonic--windowed--inner')
 
     if (start > limit) {
       inner.removeChild(page)
@@ -264,9 +258,7 @@ class Windowed extends Tonic { /* global Tonic */
   }
 
   updated () {
-    if (!this.root) return
-
-    const outer = this.root.querySelector('.tonic--windowed--outer')
+    const outer = this.querySelector('.tonic--windowed--outer')
 
     outer && outer.addEventListener('scroll', () => {
       this.state.scrollTop = outer.scrollTop

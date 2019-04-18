@@ -100,8 +100,7 @@ class TonicSelect extends Tonic { /* global Tonic */
   }
 
   get value () {
-    if (!this.root) return
-    const el = this.root.querySelector('select')
+    const el = this.querySelector('select')
 
     if (this.props.multiple === 'true') {
       const value = [...el.options]
@@ -114,8 +113,7 @@ class TonicSelect extends Tonic { /* global Tonic */
   }
 
   selectOptions (value) {
-    if (!this.root) return
-    const el = this.root.querySelector('select')
+    const el = this.querySelector('select')
     const options = [...el.options]
 
     options.forEach(el => {
@@ -127,31 +125,30 @@ class TonicSelect extends Tonic { /* global Tonic */
     if (this.props.multiple === 'true' && Array.isArray(value)) {
       this.selectOptions(value)
     } else {
-      const el = this.root.querySelector('select')
+      const el = this.querySelector('select')
       if (!value) value = el.selectedIndex
       el.selectedIndex = 0
     }
   }
 
   get option () {
-    const node = this.root.querySelector('select')
+    const node = this.querySelector('select')
     return node.options[node.selectedIndex]
   }
 
   get selectedIndex () {
-    const node = this.root.querySelector('select')
+    const node = this.querySelector('select')
     return node.selectedIndex
   }
 
   set selectedIndex (index) {
-    const node = this.root.querySelector('select')
+    const node = this.querySelector('select')
     node.selectedIndex = index
   }
 
   loading (state) {
-    if (!this.root) return
     const method = state ? 'add' : 'remove'
-    this.root.classList[method]('tonic--loading')
+    this.classList[method]('tonic--loading')
   }
 
   renderLabel () {
@@ -188,7 +185,7 @@ class TonicSelect extends Tonic { /* global Tonic */
     if (Array.isArray(value)) {
       this.selectOptions(value)
     } else if (value) {
-      const option = this.root.querySelector(`option[value="${value}"]`)
+      const option = this.querySelector(`option[value="${value}"]`)
       if (option) option.setAttribute('selected', true)
     }
   }
@@ -210,10 +207,10 @@ class TonicSelect extends Tonic { /* global Tonic */
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
     const sizeAttr = size ? `size="${size}"` : ''
 
-    if (width) this.root.style.width = width
-    if (height) this.root.style.width = height
-    if (theme) this.root.classList.add(`tonic--theme--${theme}`)
-    if (tabindex) this.root.removeAttribute('tabindex')
+    if (width) this.style.width = width
+    if (height) this.style.width = height
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
+    if (tabindex) this.removeAttribute('tabindex')
 
     const attributes = [
       disabledAttr,

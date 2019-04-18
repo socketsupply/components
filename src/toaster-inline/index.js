@@ -88,14 +88,12 @@ class TonicToasterInline extends Tonic { /* global Tonic */
   }
 
   show () {
-    if (!this.root) return
-    const node = this.root.querySelector('.tonic--notification')
+    const node = this.querySelector('.tonic--notification')
     node.classList.add('tonic--show')
   }
 
   hide () {
-    if (!this.root) return
-    const node = this.root.querySelector('.tonic--notification')
+    const node = this.querySelector('.tonic--notification')
     node.classList.remove('tonic--show')
   }
 
@@ -107,8 +105,6 @@ class TonicToasterInline extends Tonic { /* global Tonic */
   }
 
   connected () {
-    if (!this.root) return
-
     const {
       display,
       duration
@@ -179,7 +175,7 @@ class TonicToasterInline extends Tonic { /* global Tonic */
     } = this.props
 
     if (theme) {
-      this.root.setAttribute('theme', theme)
+      this.setAttribute('theme', theme)
     }
 
     let typeClasses = ''

@@ -122,12 +122,16 @@ class TonicSelect extends Tonic { /* global Tonic */
   }
 
   set value (value) {
-    if (this.props.multiple === 'true' && Array.isArray(value)) {
+    const multiSelect = (this.props.multiple === 'true') && Array.isArray(value)
+    const el = this.root.querySelector('select')
+
+    if (multiSelect) {
       this.selectOptions(value)
-    } else {
-      const el = this.querySelector('select')
-      if (!value) value = el.selectedIndex
+    } else if (!value) {
+      value = el.selectedIndex
       el.selectedIndex = 0
+    } else {
+      el.value = value
     }
   }
 

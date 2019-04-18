@@ -592,7 +592,6 @@ class Dialog extends Tonic { /* global Tonic */
     const that = this
 
     return new Promise((resolve) => {
-      if (!this.root) return
       const node = this.root.querySelector('.tonic--dialog--wrapper')
       node.classList.add('tonic--show')
       node.addEventListener('transitionend', resolve, { once: true })
@@ -609,7 +608,6 @@ class Dialog extends Tonic { /* global Tonic */
     const that = this
 
     return new Promise((resolve) => {
-      if (!this.root) return
       const node = this.root.querySelector('.tonic--dialog--wrapper')
       node.classList.remove('tonic--show')
       node.addEventListener('transitionend', resolve, { once: true })
@@ -2464,6 +2462,7 @@ class TonicInput extends Tonic { /* global Tonic */
   }
 
   set value (value) {
+    this.root.querySelector('input').value = value
     this.state.value = value
   }
 
@@ -3383,27 +3382,28 @@ class TonicSelect extends Tonic { /* global Tonic */
   }
 
   set value (value) {
-    if (!this.root) return
-
     if (this.props.multiple === 'true' && Array.isArray(value)) {
       this.selectOptions(value)
     } else {
-      if (!value) value = 0 // if a falsy value
       const el = this.root.querySelector('select')
-      el.selectedIndex = value
+      if (!value) value = el.selectedIndex
+      el.selectedIndex = 0
     }
   }
 
   get option () {
-    if (!this.root) return
     const node = this.root.querySelector('select')
     return node.options[node.selectedIndex]
   }
 
   get selectedIndex () {
-    if (!this.root) return
     const node = this.root.querySelector('select')
     return node.selectedIndex
+  }
+
+  set selectedIndex (index) {
+    const node = this.root.querySelector('select')
+    node.selectedIndex = index
   }
 
   loading (state) {

@@ -21,6 +21,7 @@ class TonicInput extends Tonic { /* global Tonic */
   }
 
   set value (value) {
+    this.root.querySelector('input').value = value
     this.state.value = value
   }
 

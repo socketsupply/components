@@ -97,7 +97,6 @@ class Dialog extends Tonic { /* global Tonic */
     const that = this
 
     return new Promise((resolve) => {
-      if (!this.root) return
       const node = this.root.querySelector('.tonic--dialog--wrapper')
       node.classList.add('tonic--show')
       node.addEventListener('transitionend', resolve, { once: true })
@@ -114,7 +113,6 @@ class Dialog extends Tonic { /* global Tonic */
     const that = this
 
     return new Promise((resolve) => {
-      if (!this.root) return
       const node = this.root.querySelector('.tonic--dialog--wrapper')
       node.classList.remove('tonic--show')
       node.addEventListener('transitionend', resolve, { once: true })

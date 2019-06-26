@@ -85,10 +85,11 @@ class TonicChart extends Tonic { /* global Tonic */
       const response = await this.fetch(this.props.src)
 
       if (response.err) {
-        return console.error(err)
+        console.error(response.err)
+        data = {}
+      } else {
+        data = response.data
       }
-
-      data = response.data
     }
 
     if ((this.props.src === Object(this.props.src)) && this.props.src.chartData) {

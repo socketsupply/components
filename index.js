@@ -2067,6 +2067,7 @@ class TonicChart extends Tonic { /* global Tonic */
     `
   }
 
+<<<<<<< HEAD
   draw (data, options = this.props.options) {
     const root = this.querySelector('canvas')
 
@@ -2102,6 +2103,12 @@ class TonicChart extends Tonic { /* global Tonic */
 
     //
     // Create the chart by passing the options and data.
+=======
+  draw (data, options) {
+    const root = this.querySelector('canvas')
+    //
+    // Create the chart by passing the data and options..
+>>>>>>> chart customization wip
     //
     if (!window.ChartJS) {
       //
@@ -2114,7 +2121,11 @@ class TonicChart extends Tonic { /* global Tonic */
 
     return new window.ChartJS(root, {
       type: this.props.type,
+<<<<<<< HEAD
       options: mergedOptions,
+=======
+      options,
+>>>>>>> chart customization wip
       data
     })
   }
@@ -2135,6 +2146,7 @@ class TonicChart extends Tonic { /* global Tonic */
     let configuration = null
 
     if (typeof this.props.src === 'string') {
+<<<<<<< HEAD
 
       const response = await this.fetch(this.props.src)
 
@@ -2146,6 +2158,19 @@ class TonicChart extends Tonic { /* global Tonic */
     }
 
     if ((this.props.src === Object(this.props.src)) && this.props.src.chartData) {
+=======
+      const response = await this.fetch(this.props.src)
+
+      if (response.err) {
+        return console.error(response.err)
+      }
+
+      data = response.data.chartData
+      configuration = response.data.options
+    }
+
+    if ((this.props.src === Object(this.props.src))) {
+>>>>>>> chart customization wip
       data = this.props.src.chartData
       configuration = this.props.configuration || {}
     }

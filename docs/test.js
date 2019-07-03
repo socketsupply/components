@@ -2069,48 +2069,10 @@ class TonicChart extends Tonic { /* global Tonic */
     `
   }
 
-<<<<<<< HEAD
-  draw (data, options = this.props.options) {
-    const root = this.querySelector('canvas')
-
-    //
-    // Add a few sensible defaults, but allow the user to
-    // override everything by passing in their own options.
-    //
-    let tooltipEnabled = true
-    let lineWidth = 1
-
-    if (typeof this.props.tooltip !== 'undefined') {
-      tooltipEnabled = this.props.tooltip === 'true'
-    }
-
-    if (typeof this.props.lineWidth !== 'undefined') {
-      lineWidth = parseInt(this.props.lineWidth, 10)
-    }
-
-    const defaults = {
-      tooltips: {
-        enabled: tooltipEnabled
-      },
-      drawTicks: this.props.drawTicks === 'true',
-      drawBorder: this.props.drawBorder === 'true',
-      legend: { display: this.props.legend },
-      title: {
-        display: !!this.props.title,
-        text: this.props.title
-      }
-    }
-
-    const mergedOptions = Object.assign({}, defaults, options)
-
-    //
-    // Create the chart by passing the options and data.
-=======
   draw (data, options) {
     const root = this.querySelector('canvas')
     //
     // Create the chart by passing the data and options..
->>>>>>> chart customization wip
     //
     if (!window.ChartJS) {
       //
@@ -2123,11 +2085,7 @@ class TonicChart extends Tonic { /* global Tonic */
 
     return new window.ChartJS(root, {
       type: this.props.type,
-<<<<<<< HEAD
-      options: mergedOptions,
-=======
       options,
->>>>>>> chart customization wip
       data
     })
   }
@@ -2148,31 +2106,18 @@ class TonicChart extends Tonic { /* global Tonic */
     let configuration = null
 
     if (typeof this.props.src === 'string') {
-<<<<<<< HEAD
-
       const response = await this.fetch(this.props.src)
 
       if (response.err) {
-        return console.error(err)
+        console.error(response.err)
+        data = {}
+      } else {
+        data = response.data.chartData
+        configuration = response.data.options
       }
-
-      data = response.data
-    }
-
-    if ((this.props.src === Object(this.props.src)) && this.props.src.chartData) {
-=======
-      const response = await this.fetch(this.props.src)
-
-      if (response.err) {
-        return console.error(response.err)
-      }
-
-      data = response.data.chartData
-      configuration = response.data.options
     }
 
     if ((this.props.src === Object(this.props.src))) {
->>>>>>> chart customization wip
       data = this.props.src.chartData
       configuration = this.props.configuration || {}
     }
@@ -4398,11 +4343,7 @@ Tonic.add(TonicToggle)
     }
   
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-<<<<<<< HEAD
-},{"timers":64}],2:[function(require,module,exports){
-=======
 },{"timers":66}],2:[function(require,module,exports){
->>>>>>> chart customization wip
 class Tonic extends window.HTMLElement {
   constructor () {
     super()
@@ -4816,10 +4757,7 @@ function fromByteArray (uint8) {
 },{}],5:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
 },{"dup":4}],6:[function(require,module,exports){
-<<<<<<< HEAD
-=======
 (function (Buffer){
->>>>>>> chart customization wip
 /*!
  * The buffer module from node.js, for the browser.
  *
@@ -6598,12 +6536,8 @@ function numberIsNaN (obj) {
   return obj !== obj // eslint-disable-line no-self-compare
 }
 
-<<<<<<< HEAD
-},{"base64-js":3,"ieee754":26}],7:[function(require,module,exports){
-=======
 }).call(this,require("buffer").Buffer)
 },{"base64-js":3,"buffer":6,"ieee754":27}],7:[function(require,module,exports){
->>>>>>> chart customization wip
 (function (Buffer){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -6714,11 +6648,7 @@ function objectToString(o) {
 }
 
 }).call(this,{"isBuffer":require("../../is-buffer/index.js")})
-<<<<<<< HEAD
-},{"../../is-buffer/index.js":28}],8:[function(require,module,exports){
-=======
 },{"../../is-buffer/index.js":29}],8:[function(require,module,exports){
->>>>>>> chart customization wip
 var pSlice = Array.prototype.slice;
 var objectKeys = require('./lib/keys.js');
 var isArguments = require('./lib/is_arguments.js');
@@ -6907,11 +6837,7 @@ defineProperties.supportsDescriptors = !!supportsDescriptors;
 
 module.exports = defineProperties;
 
-<<<<<<< HEAD
-},{"object-keys":32}],12:[function(require,module,exports){
-=======
 },{"object-keys":34}],12:[function(require,module,exports){
->>>>>>> chart customization wip
 module.exports = function () {
     for (var i = 0; i < arguments.length; i++) {
         if (arguments[i] !== undefined) return arguments[i];
@@ -7106,10 +7032,7 @@ var $Object = GetIntrinsic('%Object%');
 var $TypeError = GetIntrinsic('%TypeError%');
 var $String = GetIntrinsic('%String%');
 
-<<<<<<< HEAD
-=======
 var assertRecord = require('./helpers/assertRecord');
->>>>>>> chart customization wip
 var $isNaN = require('./helpers/isNaN');
 var $isFinite = require('./helpers/isFinite');
 
@@ -7207,21 +7130,13 @@ var ES5 = {
 			'[[Value]]': true,
 			'[[Writable]]': true
 		};
-<<<<<<< HEAD
-		// jscs:disable
-=======
 
->>>>>>> chart customization wip
 		for (var key in Desc) { // eslint-disable-line
 			if (has(Desc, key) && !allowed[key]) {
 				return false;
 			}
 		}
-<<<<<<< HEAD
-		// jscs:enable
-=======
 
->>>>>>> chart customization wip
 		var isData = has(Desc, '[[Value]]');
 		var IsAccessor = has(Desc, '[[Get]]') || has(Desc, '[[Set]]');
 		if (isData && IsAccessor) {
@@ -7236,13 +7151,7 @@ var ES5 = {
 			return false;
 		}
 
-<<<<<<< HEAD
-		if (!this.IsPropertyDescriptor(Desc)) {
-			throw new $TypeError('Desc must be a Property Descriptor');
-		}
-=======
 		assertRecord(this, 'Property Descriptor', 'Desc', Desc);
->>>>>>> chart customization wip
 
 		if (!has(Desc, '[[Get]]') && !has(Desc, '[[Set]]')) {
 			return false;
@@ -7257,13 +7166,7 @@ var ES5 = {
 			return false;
 		}
 
-<<<<<<< HEAD
-		if (!this.IsPropertyDescriptor(Desc)) {
-			throw new $TypeError('Desc must be a Property Descriptor');
-		}
-=======
 		assertRecord(this, 'Property Descriptor', 'Desc', Desc);
->>>>>>> chart customization wip
 
 		if (!has(Desc, '[[Value]]') && !has(Desc, '[[Writable]]')) {
 			return false;
@@ -7278,13 +7181,7 @@ var ES5 = {
 			return false;
 		}
 
-<<<<<<< HEAD
-		if (!this.IsPropertyDescriptor(Desc)) {
-			throw new $TypeError('Desc must be a Property Descriptor');
-		}
-=======
 		assertRecord(this, 'Property Descriptor', 'Desc', Desc);
->>>>>>> chart customization wip
 
 		if (!this.IsAccessorDescriptor(Desc) && !this.IsDataDescriptor(Desc)) {
 			return true;
@@ -7299,13 +7196,7 @@ var ES5 = {
 			return Desc;
 		}
 
-<<<<<<< HEAD
-		if (!this.IsPropertyDescriptor(Desc)) {
-			throw new $TypeError('Desc must be a Property Descriptor');
-		}
-=======
 		assertRecord(this, 'Property Descriptor', 'Desc', Desc);
->>>>>>> chart customization wip
 
 		if (this.IsDataDescriptor(Desc)) {
 			return {
@@ -7369,9 +7260,6 @@ var ES5 = {
 
 module.exports = ES5;
 
-<<<<<<< HEAD
-},{"./GetIntrinsic":13,"./helpers/isFinite":15,"./helpers/isNaN":16,"./helpers/mod":17,"./helpers/sign":18,"es-to-primitive/es5":19,"has":25,"is-callable":29}],15:[function(require,module,exports){
-=======
 },{"./GetIntrinsic":13,"./helpers/assertRecord":15,"./helpers/isFinite":16,"./helpers/isNaN":17,"./helpers/mod":18,"./helpers/sign":19,"es-to-primitive/es5":20,"has":26,"is-callable":30}],15:[function(require,module,exports){
 'use strict';
 
@@ -7424,44 +7312,27 @@ module.exports = function assertRecord(ES, recordType, argumentName, value) {
 };
 
 },{"../GetIntrinsic":13,"has":26}],16:[function(require,module,exports){
->>>>>>> chart customization wip
 var $isNaN = Number.isNaN || function (a) { return a !== a; };
 
 module.exports = Number.isFinite || function (x) { return typeof x === 'number' && !$isNaN(x) && x !== Infinity && x !== -Infinity; };
 
-<<<<<<< HEAD
-},{}],16:[function(require,module,exports){
-=======
 },{}],17:[function(require,module,exports){
->>>>>>> chart customization wip
 module.exports = Number.isNaN || function isNaN(a) {
 	return a !== a;
 };
 
-<<<<<<< HEAD
-},{}],17:[function(require,module,exports){
-=======
 },{}],18:[function(require,module,exports){
->>>>>>> chart customization wip
 module.exports = function mod(number, modulo) {
 	var remain = number % modulo;
 	return Math.floor(remain >= 0 ? remain : remain + modulo);
 };
 
-<<<<<<< HEAD
-},{}],18:[function(require,module,exports){
-=======
 },{}],19:[function(require,module,exports){
->>>>>>> chart customization wip
 module.exports = function sign(number) {
 	return number >= 0 ? 1 : -1;
 };
 
-<<<<<<< HEAD
-},{}],19:[function(require,module,exports){
-=======
 },{}],20:[function(require,module,exports){
->>>>>>> chart customization wip
 'use strict';
 
 var toStr = Object.prototype.toString;
@@ -7508,20 +7379,12 @@ module.exports = function ToPrimitive(input) {
 	return ES5internalSlots['[[DefaultValue]]'](input);
 };
 
-<<<<<<< HEAD
-},{"./helpers/isPrimitive":20,"is-callable":29}],20:[function(require,module,exports){
-=======
 },{"./helpers/isPrimitive":21,"is-callable":30}],21:[function(require,module,exports){
->>>>>>> chart customization wip
 module.exports = function isPrimitive(value) {
 	return value === null || (typeof value !== 'function' && typeof value !== 'object');
 };
 
-<<<<<<< HEAD
-},{}],21:[function(require,module,exports){
-=======
 },{}],22:[function(require,module,exports){
->>>>>>> chart customization wip
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -8046,11 +7909,7 @@ function functionBindPolyfill(context) {
   };
 }
 
-<<<<<<< HEAD
-},{}],22:[function(require,module,exports){
-=======
 },{}],23:[function(require,module,exports){
->>>>>>> chart customization wip
 'use strict';
 
 var isCallable = require('is-callable');
@@ -8114,11 +7973,7 @@ var forEach = function forEach(list, iterator, thisArg) {
 
 module.exports = forEach;
 
-<<<<<<< HEAD
-},{"is-callable":29}],23:[function(require,module,exports){
-=======
 },{"is-callable":30}],24:[function(require,module,exports){
->>>>>>> chart customization wip
 'use strict';
 
 /* eslint no-invalid-this: 1 */
@@ -8172,33 +8027,21 @@ module.exports = function bind(that) {
     return bound;
 };
 
-<<<<<<< HEAD
-},{}],24:[function(require,module,exports){
-=======
 },{}],25:[function(require,module,exports){
->>>>>>> chart customization wip
 'use strict';
 
 var implementation = require('./implementation');
 
 module.exports = Function.prototype.bind || implementation;
 
-<<<<<<< HEAD
-},{"./implementation":23}],25:[function(require,module,exports){
-=======
 },{"./implementation":24}],26:[function(require,module,exports){
->>>>>>> chart customization wip
 'use strict';
 
 var bind = require('function-bind');
 
 module.exports = bind.call(Function.call, Object.prototype.hasOwnProperty);
 
-<<<<<<< HEAD
-},{"function-bind":24}],26:[function(require,module,exports){
-=======
 },{"function-bind":25}],27:[function(require,module,exports){
->>>>>>> chart customization wip
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = (nBytes * 8) - mLen - 1
@@ -8284,11 +8127,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-<<<<<<< HEAD
-},{}],27:[function(require,module,exports){
-=======
 },{}],28:[function(require,module,exports){
->>>>>>> chart customization wip
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -8313,11 +8152,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-<<<<<<< HEAD
-},{}],28:[function(require,module,exports){
-=======
 },{}],29:[function(require,module,exports){
->>>>>>> chart customization wip
 /*!
  * Determine if an object is a Buffer
  *
@@ -8340,11 +8175,7 @@ function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
 
-<<<<<<< HEAD
-},{}],29:[function(require,module,exports){
-=======
 },{}],30:[function(require,module,exports){
->>>>>>> chart customization wip
 'use strict';
 
 var fnToStr = Function.prototype.toString;
@@ -8383,22 +8214,14 @@ module.exports = function isCallable(value) {
 	return strClass === fnClass || strClass === genClass;
 };
 
-<<<<<<< HEAD
-},{}],30:[function(require,module,exports){
-=======
 },{}],31:[function(require,module,exports){
->>>>>>> chart customization wip
 var toString = {}.toString;
 
 module.exports = Array.isArray || function (arr) {
   return toString.call(arr) == '[object Array]';
 };
 
-<<<<<<< HEAD
-},{}],31:[function(require,module,exports){
-=======
 },{}],32:[function(require,module,exports){
->>>>>>> chart customization wip
 var hasMap = typeof Map === 'function' && Map.prototype;
 var mapSizeDescriptor = Object.getOwnPropertyDescriptor && hasMap ? Object.getOwnPropertyDescriptor(Map.prototype, 'size') : null;
 var mapSize = hasMap && mapSizeDescriptor && typeof mapSizeDescriptor.get === 'function' ? mapSizeDescriptor.get : null;
@@ -8657,126 +8480,6 @@ function arrObjKeys (obj, inspect) {
     return xs;
 }
 
-<<<<<<< HEAD
-},{"./util.inspect":4}],32:[function(require,module,exports){
-'use strict';
-
-// modified from https://github.com/es-shims/es5-shim
-var has = Object.prototype.hasOwnProperty;
-var toStr = Object.prototype.toString;
-var slice = Array.prototype.slice;
-var isArgs = require('./isArguments');
-var isEnumerable = Object.prototype.propertyIsEnumerable;
-var hasDontEnumBug = !isEnumerable.call({ toString: null }, 'toString');
-var hasProtoEnumBug = isEnumerable.call(function () {}, 'prototype');
-var dontEnums = [
-	'toString',
-	'toLocaleString',
-	'valueOf',
-	'hasOwnProperty',
-	'isPrototypeOf',
-	'propertyIsEnumerable',
-	'constructor'
-];
-var equalsConstructorPrototype = function (o) {
-	var ctor = o.constructor;
-	return ctor && ctor.prototype === o;
-};
-var excludedKeys = {
-	$applicationCache: true,
-	$console: true,
-	$external: true,
-	$frame: true,
-	$frameElement: true,
-	$frames: true,
-	$innerHeight: true,
-	$innerWidth: true,
-	$outerHeight: true,
-	$outerWidth: true,
-	$pageXOffset: true,
-	$pageYOffset: true,
-	$parent: true,
-	$scrollLeft: true,
-	$scrollTop: true,
-	$scrollX: true,
-	$scrollY: true,
-	$self: true,
-	$webkitIndexedDB: true,
-	$webkitStorageInfo: true,
-	$window: true
-};
-var hasAutomationEqualityBug = (function () {
-	/* global window */
-	if (typeof window === 'undefined') { return false; }
-	for (var k in window) {
-		try {
-			if (!excludedKeys['$' + k] && has.call(window, k) && window[k] !== null && typeof window[k] === 'object') {
-				try {
-					equalsConstructorPrototype(window[k]);
-				} catch (e) {
-					return true;
-				}
-			}
-		} catch (e) {
-			return true;
-		}
-	}
-	return false;
-}());
-var equalsConstructorPrototypeIfNotBuggy = function (o) {
-	/* global window */
-	if (typeof window === 'undefined' || !hasAutomationEqualityBug) {
-		return equalsConstructorPrototype(o);
-	}
-	try {
-		return equalsConstructorPrototype(o);
-	} catch (e) {
-		return false;
-	}
-};
-
-var keysShim = function keys(object) {
-	var isObject = object !== null && typeof object === 'object';
-	var isFunction = toStr.call(object) === '[object Function]';
-	var isArguments = isArgs(object);
-	var isString = isObject && toStr.call(object) === '[object String]';
-	var theKeys = [];
-
-	if (!isObject && !isFunction && !isArguments) {
-		throw new TypeError('Object.keys called on a non-object');
-	}
-
-	var skipProto = hasProtoEnumBug && isFunction;
-	if (isString && object.length > 0 && !has.call(object, 0)) {
-		for (var i = 0; i < object.length; ++i) {
-			theKeys.push(String(i));
-		}
-	}
-
-	if (isArguments && object.length > 0) {
-		for (var j = 0; j < object.length; ++j) {
-			theKeys.push(String(j));
-		}
-	} else {
-		for (var name in object) {
-			if (!(skipProto && name === 'prototype') && has.call(object, name)) {
-				theKeys.push(String(name));
-			}
-		}
-	}
-
-	if (hasDontEnumBug) {
-		var skipConstructor = equalsConstructorPrototypeIfNotBuggy(object);
-
-		for (var k = 0; k < dontEnums.length; ++k) {
-			if (!(skipConstructor && dontEnums[k] === 'constructor') && has.call(object, dontEnums[k])) {
-				theKeys.push(dontEnums[k]);
-			}
-		}
-	}
-	return theKeys;
-};
-=======
 },{"./util.inspect":4}],33:[function(require,module,exports){
 'use strict';
 
@@ -8909,24 +8612,11 @@ var origKeys = Object.keys;
 var keysShim = origKeys ? function keys(o) { return origKeys(o); } : require('./implementation');
 
 var originalKeys = Object.keys;
->>>>>>> chart customization wip
 
 keysShim.shim = function shimObjectKeys() {
 	if (Object.keys) {
 		var keysWorksWithArguments = (function () {
 			// Safari 5.0 bug
-<<<<<<< HEAD
-			return (Object.keys(arguments) || '').length === 2;
-		}(1, 2));
-		if (!keysWorksWithArguments) {
-			var originalKeys = Object.keys;
-			Object.keys = function keys(object) { // eslint-disable-line func-name-matching
-				if (isArgs(object)) {
-					return originalKeys(slice.call(object));
-				} else {
-					return originalKeys(object);
-				}
-=======
 			var args = Object.keys(arguments);
 			return args && args.length === arguments.length;
 		}(1, 2));
@@ -8936,7 +8626,6 @@ keysShim.shim = function shimObjectKeys() {
 					return originalKeys(slice.call(object));
 				}
 				return originalKeys(object);
->>>>>>> chart customization wip
 			};
 		}
 	} else {
@@ -8947,11 +8636,7 @@ keysShim.shim = function shimObjectKeys() {
 
 module.exports = keysShim;
 
-<<<<<<< HEAD
-},{"./isArguments":33}],33:[function(require,module,exports){
-=======
 },{"./implementation":33,"./isArguments":35}],35:[function(require,module,exports){
->>>>>>> chart customization wip
 'use strict';
 
 var toStr = Object.prototype.toString;
@@ -8970,11 +8655,7 @@ module.exports = function isArguments(value) {
 	return isArgs;
 };
 
-<<<<<<< HEAD
-},{}],34:[function(require,module,exports){
-=======
 },{}],36:[function(require,module,exports){
->>>>>>> chart customization wip
 (function (process){
 // .dirname, .basename, and .extname methods are extracted from Node.js v8.11.1,
 // backported and transplited with Babel, with backwards-compat fixes
@@ -9280,11 +8961,7 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require('_process'))
-<<<<<<< HEAD
-},{"_process":36}],35:[function(require,module,exports){
-=======
 },{"_process":38}],37:[function(require,module,exports){
->>>>>>> chart customization wip
 (function (process){
 'use strict';
 
@@ -9332,11 +9009,7 @@ function nextTick(fn, arg1, arg2, arg3) {
 
 
 }).call(this,require('_process'))
-<<<<<<< HEAD
-},{"_process":36}],36:[function(require,module,exports){
-=======
 },{"_process":38}],38:[function(require,module,exports){
->>>>>>> chart customization wip
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -9522,27 +9195,16 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-<<<<<<< HEAD
-},{}],37:[function(require,module,exports){
-=======
 },{}],39:[function(require,module,exports){
->>>>>>> chart customization wip
 const qs = (s, p) => (p || document).querySelector(s)
 const qsa = (s, p) => [...(p || document).querySelectorAll(s)]
 
 module.exports = { qs, qsa }
 
-<<<<<<< HEAD
-},{}],38:[function(require,module,exports){
-module.exports = require('./lib/_stream_duplex.js');
-
-},{"./lib/_stream_duplex.js":39}],39:[function(require,module,exports){
-=======
 },{}],40:[function(require,module,exports){
 module.exports = require('./lib/_stream_duplex.js');
 
 },{"./lib/_stream_duplex.js":41}],41:[function(require,module,exports){
->>>>>>> chart customization wip
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -9674,11 +9336,7 @@ Duplex.prototype._destroy = function (err, cb) {
 
   pna.nextTick(cb, err);
 };
-<<<<<<< HEAD
-},{"./_stream_readable":41,"./_stream_writable":43,"core-util-is":7,"inherits":27,"process-nextick-args":35}],40:[function(require,module,exports){
-=======
 },{"./_stream_readable":43,"./_stream_writable":45,"core-util-is":7,"inherits":28,"process-nextick-args":37}],42:[function(require,module,exports){
->>>>>>> chart customization wip
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -9726,11 +9384,7 @@ function PassThrough(options) {
 PassThrough.prototype._transform = function (chunk, encoding, cb) {
   cb(null, chunk);
 };
-<<<<<<< HEAD
-},{"./_stream_transform":42,"core-util-is":7,"inherits":27}],41:[function(require,module,exports){
-=======
 },{"./_stream_transform":44,"core-util-is":7,"inherits":28}],43:[function(require,module,exports){
->>>>>>> chart customization wip
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -10752,11 +10406,7 @@ function indexOf(xs, x) {
   return -1;
 }
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-<<<<<<< HEAD
-},{"./_stream_duplex":39,"./internal/streams/BufferList":44,"./internal/streams/destroy":45,"./internal/streams/stream":46,"_process":36,"core-util-is":7,"events":21,"inherits":27,"isarray":30,"process-nextick-args":35,"safe-buffer":52,"string_decoder/":58,"util":4}],42:[function(require,module,exports){
-=======
 },{"./_stream_duplex":41,"./internal/streams/BufferList":46,"./internal/streams/destroy":47,"./internal/streams/stream":48,"_process":38,"core-util-is":7,"events":22,"inherits":28,"isarray":31,"process-nextick-args":37,"safe-buffer":55,"string_decoder/":49,"util":4}],44:[function(require,module,exports){
->>>>>>> chart customization wip
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -10971,11 +10621,7 @@ function done(stream, er, data) {
 
   return stream.push(null);
 }
-<<<<<<< HEAD
-},{"./_stream_duplex":39,"core-util-is":7,"inherits":27}],43:[function(require,module,exports){
-=======
 },{"./_stream_duplex":41,"core-util-is":7,"inherits":28}],45:[function(require,module,exports){
->>>>>>> chart customization wip
 (function (process,global,setImmediate){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -11665,11 +11311,7 @@ Writable.prototype._destroy = function (err, cb) {
   cb(err);
 };
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-<<<<<<< HEAD
-},{"./_stream_duplex":39,"./internal/streams/destroy":45,"./internal/streams/stream":46,"_process":36,"core-util-is":7,"inherits":27,"process-nextick-args":35,"safe-buffer":52,"timers":64,"util-deprecate":65}],44:[function(require,module,exports){
-=======
 },{"./_stream_duplex":41,"./internal/streams/destroy":47,"./internal/streams/stream":48,"_process":38,"core-util-is":7,"inherits":28,"process-nextick-args":37,"safe-buffer":55,"timers":66,"util-deprecate":67}],46:[function(require,module,exports){
->>>>>>> chart customization wip
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -11749,11 +11391,7 @@ if (util && util.inspect && util.inspect.custom) {
     return this.constructor.name + ' ' + obj;
   };
 }
-<<<<<<< HEAD
-},{"safe-buffer":52,"util":4}],45:[function(require,module,exports){
-=======
 },{"safe-buffer":55,"util":4}],47:[function(require,module,exports){
->>>>>>> chart customization wip
 'use strict';
 
 /*<replacement>*/
@@ -11828,323 +11466,10 @@ module.exports = {
   destroy: destroy,
   undestroy: undestroy
 };
-<<<<<<< HEAD
-},{"process-nextick-args":35}],46:[function(require,module,exports){
-module.exports = require('events').EventEmitter;
-
-},{"events":21}],47:[function(require,module,exports){
-module.exports = require('./readable').PassThrough
-
-},{"./readable":48}],48:[function(require,module,exports){
-exports = module.exports = require('./lib/_stream_readable.js');
-exports.Stream = exports;
-exports.Readable = exports;
-exports.Writable = require('./lib/_stream_writable.js');
-exports.Duplex = require('./lib/_stream_duplex.js');
-exports.Transform = require('./lib/_stream_transform.js');
-exports.PassThrough = require('./lib/_stream_passthrough.js');
-
-},{"./lib/_stream_duplex.js":39,"./lib/_stream_passthrough.js":40,"./lib/_stream_readable.js":41,"./lib/_stream_transform.js":42,"./lib/_stream_writable.js":43}],49:[function(require,module,exports){
-module.exports = require('./readable').Transform
-
-},{"./readable":48}],50:[function(require,module,exports){
-module.exports = require('./lib/_stream_writable.js');
-
-},{"./lib/_stream_writable.js":43}],51:[function(require,module,exports){
-(function (process,setImmediate){
-var through = require('through');
-var nextTick = typeof setImmediate !== 'undefined'
-    ? setImmediate
-    : process.nextTick
-;
-
-module.exports = function (write, end) {
-    var tr = through(write, end);
-    tr.pause();
-    var resume = tr.resume;
-    var pause = tr.pause;
-    var paused = false;
-    
-    tr.pause = function () {
-        paused = true;
-        return pause.apply(this, arguments);
-    };
-    
-    tr.resume = function () {
-        paused = false;
-        return resume.apply(this, arguments);
-    };
-    
-    nextTick(function () {
-        if (!paused) tr.resume();
-    });
-    
-    return tr;
-};
-
-}).call(this,require('_process'),require("timers").setImmediate)
-},{"_process":36,"through":63,"timers":64}],52:[function(require,module,exports){
-/* eslint-disable node/no-deprecated-api */
-var buffer = require('buffer')
-var Buffer = buffer.Buffer
-
-// alternative to using Object.keys for old browsers
-function copyProps (src, dst) {
-  for (var key in src) {
-    dst[key] = src[key]
-  }
-}
-if (Buffer.from && Buffer.alloc && Buffer.allocUnsafe && Buffer.allocUnsafeSlow) {
-  module.exports = buffer
-} else {
-  // Copy properties from require('buffer')
-  copyProps(buffer, exports)
-  exports.Buffer = SafeBuffer
-}
-
-function SafeBuffer (arg, encodingOrOffset, length) {
-  return Buffer(arg, encodingOrOffset, length)
-}
-
-// Copy static methods from Buffer
-copyProps(Buffer, SafeBuffer)
-
-SafeBuffer.from = function (arg, encodingOrOffset, length) {
-  if (typeof arg === 'number') {
-    throw new TypeError('Argument must not be a number')
-  }
-  return Buffer(arg, encodingOrOffset, length)
-}
-
-SafeBuffer.alloc = function (size, fill, encoding) {
-  if (typeof size !== 'number') {
-    throw new TypeError('Argument must be a number')
-  }
-  var buf = Buffer(size)
-  if (fill !== undefined) {
-    if (typeof encoding === 'string') {
-      buf.fill(fill, encoding)
-    } else {
-      buf.fill(fill)
-    }
-  } else {
-    buf.fill(0)
-  }
-  return buf
-}
-
-SafeBuffer.allocUnsafe = function (size) {
-  if (typeof size !== 'number') {
-    throw new TypeError('Argument must be a number')
-  }
-  return Buffer(size)
-}
-
-SafeBuffer.allocUnsafeSlow = function (size) {
-  if (typeof size !== 'number') {
-    throw new TypeError('Argument must be a number')
-  }
-  return buffer.SlowBuffer(size)
-}
-
-},{"buffer":6}],53:[function(require,module,exports){
-=======
 },{"process-nextick-args":37}],48:[function(require,module,exports){
 module.exports = require('events').EventEmitter;
 
 },{"events":22}],49:[function(require,module,exports){
->>>>>>> chart customization wip
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-<<<<<<< HEAD
-module.exports = Stream;
-
-var EE = require('events').EventEmitter;
-var inherits = require('inherits');
-
-inherits(Stream, EE);
-Stream.Readable = require('readable-stream/readable.js');
-Stream.Writable = require('readable-stream/writable.js');
-Stream.Duplex = require('readable-stream/duplex.js');
-Stream.Transform = require('readable-stream/transform.js');
-Stream.PassThrough = require('readable-stream/passthrough.js');
-
-// Backwards-compat with node 0.4.x
-Stream.Stream = Stream;
-
-
-
-// old-style streams.  Note that the pipe method (the only relevant
-// part of this class) is overridden in the Readable class.
-
-function Stream() {
-  EE.call(this);
-}
-
-Stream.prototype.pipe = function(dest, options) {
-  var source = this;
-
-  function ondata(chunk) {
-    if (dest.writable) {
-      if (false === dest.write(chunk) && source.pause) {
-        source.pause();
-      }
-    }
-  }
-
-  source.on('data', ondata);
-
-  function ondrain() {
-    if (source.readable && source.resume) {
-      source.resume();
-    }
-  }
-
-  dest.on('drain', ondrain);
-
-  // If the 'end' option is not supplied, dest.end() will be called when
-  // source gets the 'end' or 'close' events.  Only dest.end() once.
-  if (!dest._isStdio && (!options || options.end !== false)) {
-    source.on('end', onend);
-    source.on('close', onclose);
-  }
-
-  var didOnEnd = false;
-  function onend() {
-    if (didOnEnd) return;
-    didOnEnd = true;
-
-    dest.end();
-  }
-
-
-  function onclose() {
-    if (didOnEnd) return;
-    didOnEnd = true;
-
-    if (typeof dest.destroy === 'function') dest.destroy();
-  }
-
-  // don't leave dangling pipes when there are errors.
-  function onerror(er) {
-    cleanup();
-    if (EE.listenerCount(this, 'error') === 0) {
-      throw er; // Unhandled stream error in pipe.
-    }
-  }
-
-  source.on('error', onerror);
-  dest.on('error', onerror);
-
-  // remove all the event listeners that were added.
-  function cleanup() {
-    source.removeListener('data', ondata);
-    dest.removeListener('drain', ondrain);
-
-    source.removeListener('end', onend);
-    source.removeListener('close', onclose);
-
-    source.removeListener('error', onerror);
-    dest.removeListener('error', onerror);
-
-    source.removeListener('end', cleanup);
-    source.removeListener('close', cleanup);
-
-    dest.removeListener('close', cleanup);
-  }
-
-  source.on('end', cleanup);
-  source.on('close', cleanup);
-
-  dest.on('close', cleanup);
-
-  dest.emit('pipe', source);
-
-  // Allow for unix-like usage: A.pipe(B).pipe(C)
-  return dest;
-};
-
-},{"events":21,"inherits":27,"readable-stream/duplex.js":38,"readable-stream/passthrough.js":47,"readable-stream/readable.js":48,"readable-stream/transform.js":49,"readable-stream/writable.js":50}],54:[function(require,module,exports){
-'use strict';
-
-var bind = require('function-bind');
-var ES = require('es-abstract/es5');
-var replace = bind.call(Function.call, String.prototype.replace);
-
-var leftWhitespace = /^[\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF]+/;
-var rightWhitespace = /[\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF]+$/;
-
-module.exports = function trim() {
-	var S = ES.ToString(ES.CheckObjectCoercible(this));
-	return replace(replace(S, leftWhitespace, ''), rightWhitespace, '');
-};
-
-},{"es-abstract/es5":14,"function-bind":24}],55:[function(require,module,exports){
-'use strict';
-
-var bind = require('function-bind');
-var define = require('define-properties');
-
-var implementation = require('./implementation');
-var getPolyfill = require('./polyfill');
-var shim = require('./shim');
-
-var boundTrim = bind.call(Function.call, getPolyfill());
-
-define(boundTrim, {
-	getPolyfill: getPolyfill,
-	implementation: implementation,
-	shim: shim
-});
-
-module.exports = boundTrim;
-
-},{"./implementation":54,"./polyfill":56,"./shim":57,"define-properties":11,"function-bind":24}],56:[function(require,module,exports){
-'use strict';
-
-var implementation = require('./implementation');
-
-var zeroWidthSpace = '\u200b';
-
-module.exports = function getPolyfill() {
-	if (String.prototype.trim && zeroWidthSpace.trim() === zeroWidthSpace) {
-		return String.prototype.trim;
-	}
-	return implementation;
-};
-
-},{"./implementation":54}],57:[function(require,module,exports){
-'use strict';
-
-var define = require('define-properties');
-var getPolyfill = require('./polyfill');
-
-module.exports = function shimStringTrim() {
-	var polyfill = getPolyfill();
-	define(String.prototype, { trim: polyfill }, { trim: function () { return String.prototype.trim !== polyfill; } });
-	return polyfill;
-};
-
-},{"./polyfill":56,"define-properties":11}],58:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -12182,24 +11507,6 @@ var isEncoding = Buffer.isEncoding || function (encoding) {
       return false;
   }
 };
-=======
-'use strict';
-
-/*<replacement>*/
-
-var Buffer = require('safe-buffer').Buffer;
-/*</replacement>*/
-
-var isEncoding = Buffer.isEncoding || function (encoding) {
-  encoding = '' + encoding;
-  switch (encoding && encoding.toLowerCase()) {
-    case 'hex':case 'utf8':case 'utf-8':case 'ascii':case 'binary':case 'base64':case 'ucs2':case 'ucs-2':case 'utf16le':case 'utf-16le':case 'raw':
-      return true;
-    default:
-      return false;
-  }
-};
->>>>>>> chart customization wip
 
 function _normalizeEncoding(enc) {
   if (!enc) return 'utf8';
@@ -12459,9 +11766,6 @@ function simpleWrite(buf) {
 function simpleEnd(buf) {
   return buf && buf.length ? this.write(buf) : '';
 }
-<<<<<<< HEAD
-},{"safe-buffer":52}],59:[function(require,module,exports){
-=======
 },{"safe-buffer":55}],50:[function(require,module,exports){
 module.exports = require('./readable').PassThrough
 
@@ -12768,7 +12072,6 @@ module.exports = function shimStringTrim() {
 };
 
 },{"./polyfill":59,"define-properties":11}],61:[function(require,module,exports){
->>>>>>> chart customization wip
 (function (process,setImmediate){
 var defined = require('defined');
 var createDefaultStream = require('./lib/default_stream');
@@ -12812,11 +12115,7 @@ exports = module.exports = (function () {
         return getHarness().onFinish.apply(this, arguments);
     };
 
-<<<<<<< HEAD
-    lazyLoad.onFailure = function() {
-=======
     lazyLoad.onFailure = function () {
->>>>>>> chart customization wip
         return getHarness().onFailure.apply(this, arguments);
     };
 
@@ -12824,11 +12123,7 @@ exports = module.exports = (function () {
 
     return lazyLoad
 
-<<<<<<< HEAD
-    function getHarness (opts) {
-=======
     function getHarness(opts) {
->>>>>>> chart customization wip
         if (!opts) opts = {};
         opts.autoclose = !canEmitExit;
         if (!harness) harness = createExitHarness(opts);
@@ -12836,11 +12131,7 @@ exports = module.exports = (function () {
     }
 })();
 
-<<<<<<< HEAD
-function createExitHarness (conf) {
-=======
 function createExitHarness(conf) {
->>>>>>> chart customization wip
     if (!conf) conf = {};
     var harness = createHarness({
         autoclose: defined(conf.autoclose, false)
@@ -12888,11 +12179,7 @@ exports.test.skip = Test.skip;
 
 var exitInterval;
 
-<<<<<<< HEAD
-function createHarness (conf_) {
-=======
 function createHarness(conf_) {
->>>>>>> chart customization wip
     if (!conf_) conf_ = {};
     var results = createResult();
     if (conf_.autoclose !== false) {
@@ -12903,13 +12190,8 @@ function createHarness(conf_) {
         var t = new Test(name, conf, cb);
         test._tests.push(t);
 
-<<<<<<< HEAD
-        (function inspectCode (st) {
-            st.on('test', function sub (st_) {
-=======
         (function inspectCode(st) {
             st.on('test', function sub(st_) {
->>>>>>> chart customization wip
                 inspectCode(st_);
             });
             st.on('result', function (r) {
@@ -12952,11 +12234,7 @@ function createHarness(conf_) {
 }
 
 }).call(this,require('_process'),require("timers").setImmediate)
-<<<<<<< HEAD
-},{"./lib/default_stream":60,"./lib/results":61,"./lib/test":62,"_process":36,"defined":12,"through":63,"timers":64}],60:[function(require,module,exports){
-=======
 },{"./lib/default_stream":62,"./lib/results":63,"./lib/test":64,"_process":38,"defined":12,"through":65,"timers":66}],62:[function(require,module,exports){
->>>>>>> chart customization wip
 (function (process){
 var through = require('through');
 var fs = require('fs');
@@ -12966,11 +12244,7 @@ module.exports = function () {
     var stream = through(write, flush);
     return stream;
 
-<<<<<<< HEAD
-    function write (buf) {
-=======
     function write(buf) {
->>>>>>> chart customization wip
         for (var i = 0; i < buf.length; i++) {
             var c = typeof buf === 'string'
                 ? buf.charAt(i)
@@ -12981,11 +12255,7 @@ module.exports = function () {
         }
     }
 
-<<<<<<< HEAD
-    function flush () {
-=======
     function flush() {
->>>>>>> chart customization wip
         if (fs.writeSync && /^win/.test(process.platform)) {
             try { fs.writeSync(1, line + '\n'); }
             catch (e) { stream.emit('error', e) }
@@ -12998,11 +12268,7 @@ module.exports = function () {
 };
 
 }).call(this,require('_process'))
-<<<<<<< HEAD
-},{"_process":36,"fs":5,"through":63}],61:[function(require,module,exports){
-=======
 },{"_process":38,"fs":5,"through":65}],63:[function(require,module,exports){
->>>>>>> chart customization wip
 (function (process,setImmediate){
 var defined = require('defined');
 var EventEmitter = require('events').EventEmitter;
@@ -13022,26 +12288,16 @@ var nextTick = typeof setImmediate !== 'undefined'
 module.exports = Results;
 inherits(Results, EventEmitter);
 
-<<<<<<< HEAD
-function Results () {
-=======
 function Results() {
->>>>>>> chart customization wip
     if (!(this instanceof Results)) return new Results;
     this.count = 0;
     this.fail = 0;
     this.pass = 0;
-<<<<<<< HEAD
-    this._stream = through();
-    this.tests = [];
-    this._only = null;
-=======
     this.todo = 0;
     this._stream = through();
     this.tests = [];
     this._only = null;
     this._isRunning = false;
->>>>>>> chart customization wip
 }
 
 Results.prototype.createStream = function (opts) {
@@ -13050,11 +12306,7 @@ Results.prototype.createStream = function (opts) {
     var output, testId = 0;
     if (opts.objectMode) {
         output = through();
-<<<<<<< HEAD
-        self.on('_push', function ontest (t, extra) {
-=======
         self.on('_push', function ontest(t, extra) {
->>>>>>> chart customization wip
             if (!extra) extra = {};
             var id = testId++;
             t.once('prerun', function () {
@@ -13087,16 +12339,6 @@ Results.prototype.createStream = function (opts) {
         self._stream.pipe(output);
     }
 
-<<<<<<< HEAD
-    nextTick(function next() {
-        var t;
-        while (t = getNextTest(self)) {
-            t.run();
-            if (!t.ended) return t.once('end', function(){ nextTick(next); });
-        }
-        self.emit('done');
-    });
-=======
     if (!this._isRunning) {
         this._isRunning = true;
         nextTick(function next() {
@@ -13108,7 +12350,6 @@ Results.prototype.createStream = function (opts) {
             self.emit('done');
         });
     }
->>>>>>> chart customization wip
 
     return output;
 };
@@ -13139,11 +12380,7 @@ Results.prototype._watch = function (t) {
         write(encodeResult(res, self.count + 1));
         self.count ++;
 
-<<<<<<< HEAD
-        if (res.ok) self.pass ++
-=======
         if (res.ok || res.todo) self.pass ++
->>>>>>> chart customization wip
         else {
             self.fail ++;
             self.emit('fail');
@@ -13161,25 +12398,15 @@ Results.prototype.close = function () {
 
     write('\n1..' + self.count + '\n');
     write('# tests ' + self.count + '\n');
-<<<<<<< HEAD
-    write('# pass  ' + self.pass + '\n');
-    if (self.fail) write('# fail  ' + self.fail + '\n')
-    else write('\n# ok\n')
-=======
     write('# pass  ' + (self.pass + self.todo) + '\n');
     if (self.todo) write('# todo  ' + self.todo + '\n');
     if (self.fail) write('# fail  ' + self.fail + '\n');
     else write('\n# ok\n');
->>>>>>> chart customization wip
 
     self._stream.queue(null);
 };
 
-<<<<<<< HEAD
-function encodeResult (res, count) {
-=======
 function encodeResult(res, count) {
->>>>>>> chart customization wip
     var output = '';
     output += (res.ok ? 'ok ' : 'not ok ') + count;
     output += res.name ? ' ' + res.name.toString().replace(/\s+/g, ' ') : '';
@@ -13226,11 +12453,7 @@ function encodeResult(res, count) {
     return output;
 }
 
-<<<<<<< HEAD
-function getNextTest (results) {
-=======
 function getNextTest(results) {
->>>>>>> chart customization wip
     if (!results._only) {
         return results.tests.shift();
     }
@@ -13244,20 +12467,12 @@ function getNextTest(results) {
     } while (results.tests.length !== 0)
 }
 
-<<<<<<< HEAD
-function invalidYaml (str) {
-=======
 function invalidYaml(str) {
->>>>>>> chart customization wip
     return regexpTest(yamlIndicators, str);
 }
 
 }).call(this,require('_process'),require("timers").setImmediate)
-<<<<<<< HEAD
-},{"_process":36,"defined":12,"events":21,"function-bind":24,"has":25,"inherits":27,"object-inspect":31,"resumer":51,"through":63,"timers":64}],62:[function(require,module,exports){
-=======
 },{"_process":38,"defined":12,"events":22,"function-bind":25,"has":26,"inherits":28,"object-inspect":32,"resumer":54,"through":65,"timers":66}],64:[function(require,module,exports){
->>>>>>> chart customization wip
 (function (process,setImmediate,__dirname){
 var deepEqual = require('deep-equal');
 var defined = require('defined');
@@ -13300,11 +12515,7 @@ var getTestArgs = function (name_, opts_, cb_) {
     return { name: name, opts: opts, cb: cb };
 };
 
-<<<<<<< HEAD
-function Test (name_, opts_, cb_) {
-=======
 function Test(name_, opts_, cb_) {
->>>>>>> chart customization wip
     if (! (this instanceof Test)) {
         return new Test(name_, opts_, cb_);
     }
@@ -13316,10 +12527,7 @@ function Test(name_, opts_, cb_) {
     this.assertCount = 0;
     this.pendingCount = 0;
     this._skip = args.opts.skip || false;
-<<<<<<< HEAD
-=======
     this._todo = args.opts.todo || false;
->>>>>>> chart customization wip
     this._timeout = args.opts.timeout;
     this._plan = undefined;
     this._cb = args.cb;
@@ -13381,11 +12589,7 @@ Test.prototype.test = function (name, opts, cb) {
         });
     }
 
-<<<<<<< HEAD
-    nextTick(function() {
-=======
     nextTick(function () {
->>>>>>> chart customization wip
         if (!self._plan && self.pendingCount == self._progeny.length) {
             self._end();
         }
@@ -13404,16 +12608,6 @@ Test.prototype.plan = function (n) {
     this.emit('plan', n);
 };
 
-<<<<<<< HEAD
-Test.prototype.timeoutAfter = function(ms) {
-    if (!ms) throw new Error('timeoutAfter requires a timespan');
-    var self = this;
-    var timeout = safeSetTimeout(function() {
-        self.fail('test timed out after ' + ms + 'ms');
-        self.end();
-    }, ms);
-    this.once('end', function() {
-=======
 Test.prototype.timeoutAfter = function (ms) {
     if (!ms) throw new Error('timeoutAfter requires a timespan');
     var self = this;
@@ -13422,7 +12616,6 @@ Test.prototype.timeoutAfter = function (ms) {
         self.end();
     }, ms);
     this.once('end', function () {
->>>>>>> chart customization wip
         safeClearTimeout(timeout);
     });
 }
@@ -13484,23 +12677,11 @@ Test.prototype._pendingAsserts = function () {
     return this._plan - (this._progeny.length + this.assertCount);
 };
 
-<<<<<<< HEAD
-Test.prototype._assert = function assert (ok, opts) {
-=======
 Test.prototype._assert = function assert(ok, opts) {
->>>>>>> chart customization wip
     var self = this;
     var extra = opts.extra || {};
 
     var res = {
-<<<<<<< HEAD
-        id : self.assertCount ++,
-        ok : Boolean(ok),
-        skip : defined(extra.skip, opts.skip),
-        name : defined(extra.message, opts.message, '(unnamed assert)'),
-        operator : defined(extra.operator, opts.operator),
-        objectPrintDepth : self._objectPrintDepth
-=======
         id: self.assertCount++,
         ok: Boolean(ok),
         skip: defined(extra.skip, opts.skip),
@@ -13508,7 +12689,6 @@ Test.prototype._assert = function assert(ok, opts) {
         name: defined(extra.message, opts.message, '(unnamed assert)'),
         operator: defined(extra.operator, opts.operator),
         objectPrintDepth: self._objectPrintDepth
->>>>>>> chart customization wip
     };
     if (has(opts, 'actual') || has(extra, 'actual')) {
         res.actual = defined(extra.actual, opts.actual);
@@ -13518,11 +12698,7 @@ Test.prototype._assert = function assert(ok, opts) {
     }
     this._ok = Boolean(this._ok && ok);
 
-<<<<<<< HEAD
-    if (!ok) {
-=======
     if (!ok && !res.todo) {
->>>>>>> chart customization wip
         res.error = defined(extra.error, opts.error, new Error(res.name));
     }
 
@@ -13565,15 +12741,9 @@ Test.prototype._assert = function assert(ok, opts) {
                 Last part captures file path plus line no (and optional
                 column no).
 
-<<<<<<< HEAD
-                    /((?:\/|[A-Z]:\\)[^:\)]+:(\d+)(?::(\d+))?)/
-            */
-            var re = /^(?:[^\s]*\s*\bat\s+)(?:(.*)\s+\()?((?:\/|[A-Z]:\\)[^:\)]+:(\d+)(?::(\d+))?)/
-=======
                     /((?:\/|[a-zA-Z]:\\)[^:\)]+:(\d+)(?::(\d+))?)/
             */
             var re = /^(?:[^\s]*\s*\bat\s+)(?:(.*)\s+\()?((?:\/|[a-zA-Z]:\\)[^:\)]+:(\d+)(?::(\d+))?)/
->>>>>>> chart customization wip
             var m = re.exec(err[i]);
 
             if (!m) {
@@ -13710,11 +12880,7 @@ function notEqual(a, b, msg, extra) {
         message : defined(msg, 'should not be equal'),
         operator : 'notEqual',
         actual : a,
-<<<<<<< HEAD
-        notExpected : b,
-=======
         expected : b,
->>>>>>> chart customization wip
         extra : extra
     });
 }
@@ -13763,19 +12929,12 @@ function notDeepEqual(a, b, msg, extra) {
         message : defined(msg, 'should not be equivalent'),
         operator : 'notDeepEqual',
         actual : a,
-<<<<<<< HEAD
-        notExpected : b,
-=======
         expected : b,
->>>>>>> chart customization wip
         extra : extra
     });
 }
 Test.prototype.notDeepEqual
-<<<<<<< HEAD
-=======
 = Test.prototype.notDeepEquals
->>>>>>> chart customization wip
 = Test.prototype.notEquivalent
 = Test.prototype.notDeeply
 = Test.prototype.notSame
@@ -13871,11 +13030,7 @@ Test.skip = function (name_, _opts, _cb) {
 // vim: set softtabstop=4 shiftwidth=4:
 
 }).call(this,require('_process'),require("timers").setImmediate,"/node_modules/tape/lib")
-<<<<<<< HEAD
-},{"_process":36,"deep-equal":8,"defined":12,"events":21,"for-each":22,"function-bind":24,"has":25,"inherits":27,"path":34,"string.prototype.trim":55,"timers":64}],63:[function(require,module,exports){
-=======
 },{"_process":38,"deep-equal":8,"defined":12,"events":22,"for-each":23,"function-bind":25,"has":26,"inherits":28,"path":36,"string.prototype.trim":58,"timers":66}],65:[function(require,module,exports){
->>>>>>> chart customization wip
 (function (process){
 var Stream = require('stream')
 
@@ -13987,11 +13142,7 @@ function through (write, end, opts) {
 
 
 }).call(this,require('_process'))
-<<<<<<< HEAD
-},{"_process":36,"stream":53}],64:[function(require,module,exports){
-=======
 },{"_process":38,"stream":56}],66:[function(require,module,exports){
->>>>>>> chart customization wip
 (function (setImmediate,clearImmediate){
 var nextTick = require('process/browser.js').nextTick;
 var apply = Function.prototype.apply;
@@ -14070,11 +13221,7 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
   delete immediateIds[id];
 };
 }).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-<<<<<<< HEAD
-},{"process/browser.js":36,"timers":64}],65:[function(require,module,exports){
-=======
 },{"process/browser.js":38,"timers":66}],67:[function(require,module,exports){
->>>>>>> chart customization wip
 (function (global){
 
 /**
@@ -14145,11 +13292,7 @@ function config (name) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-<<<<<<< HEAD
-},{}],66:[function(require,module,exports){
-=======
 },{}],68:[function(require,module,exports){
->>>>>>> chart customization wip
 const tape = require('../../test/tape')
 const { qs } = require('qs')
 
@@ -14177,11 +13320,7 @@ tape('{{badge-2}} shows a count', t => {
   t.end()
 })
 
-<<<<<<< HEAD
-},{"../../test/tape":87,"qs":37}],67:[function(require,module,exports){
-=======
 },{"../../test/tape":89,"qs":39}],69:[function(require,module,exports){
->>>>>>> chart customization wip
 const tape = require('../../test/tape')
 const { qs } = require('qs')
 
@@ -14353,15 +13492,9 @@ tape('{{button-10}} has tabindex attribute', t => {
   t.end()
 })
 
-<<<<<<< HEAD
-},{"../../test/tape":87,"qs":37}],68:[function(require,module,exports){
-arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],69:[function(require,module,exports){
-=======
 },{"../../test/tape":89,"qs":39}],70:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
 },{"dup":4}],71:[function(require,module,exports){
->>>>>>> chart customization wip
 const tape = require('../../test/tape')
 const { qs } = require('qs')
 
@@ -14459,11 +13592,7 @@ tape('{{checkbox-6}} has size attributes', t => {
   t.end()
 })
 
-<<<<<<< HEAD
-},{"../../test/tape":87,"qs":37}],70:[function(require,module,exports){
-=======
 },{"../../test/tape":89,"qs":39}],72:[function(require,module,exports){
->>>>>>> chart customization wip
 const Tonic = require('@conductorlab/tonic')
 
 class TonicDialog extends Tonic.Dialog {
@@ -14526,11 +13655,7 @@ tape('{{dialog-1}} is constructed properly, opens and closes properly', async t 
   t.end()
 })
 
-<<<<<<< HEAD
-},{"../../test/tape":87,"@conductorlab/tonic":2,"qs":37}],71:[function(require,module,exports){
-=======
 },{"../../test/tape":89,"@conductorlab/tonic":2,"qs":39}],73:[function(require,module,exports){
->>>>>>> chart customization wip
 const tape = require('../../test/tape')
 const { qs } = require('qs')
 
@@ -14611,11 +13736,7 @@ tape('{{icon-5}} has tabindex attribute', t => {
   t.end()
 })
 
-<<<<<<< HEAD
-},{"../../test/tape":87,"qs":37}],72:[function(require,module,exports){
-=======
 },{"../../test/tape":89,"qs":39}],74:[function(require,module,exports){
->>>>>>> chart customization wip
 const tape = require('../../test/tape')
 const { qs } = require('qs')
 
@@ -14789,11 +13910,7 @@ tape('{{input-10}} has tabindex', t => {
 //   t.end()
 // })
 
-<<<<<<< HEAD
-},{"../../test/tape":87,"qs":37}],73:[function(require,module,exports){
-=======
 },{"../../test/tape":89,"qs":39}],75:[function(require,module,exports){
->>>>>>> chart customization wip
 const Tonic = require('@conductorlab/tonic')
 
 class TonicPanel extends Tonic.Panel {
@@ -14882,11 +13999,7 @@ const panelThemeDark = document.getElementById('tonic-panel-theme-dark')
 
 panelThemeDarkButton.addEventListener('click', e => panelThemeDark.show())
 
-<<<<<<< HEAD
-},{"@conductorlab/tonic":2}],74:[function(require,module,exports){
-=======
 },{"@conductorlab/tonic":2}],76:[function(require,module,exports){
->>>>>>> chart customization wip
 //
 // Panel Default
 //
@@ -14897,15 +14010,9 @@ popover.addEventListener('show', event => {
   }, { once: true })
 })
 
-<<<<<<< HEAD
-},{}],75:[function(require,module,exports){
-arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],76:[function(require,module,exports){
-=======
 },{}],77:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
 },{"dup":4}],78:[function(require,module,exports){
->>>>>>> chart customization wip
 const progressBar30 = document.getElementById('progress-bar-30')
 progressBar30.setProgress(30)
 
@@ -14940,19 +14047,11 @@ interval = setInterval(() => {
   if (++reps === 2) clearInterval(interval)
 }, 128)
 
-<<<<<<< HEAD
-},{}],77:[function(require,module,exports){
-const rangeValue = document.getElementById('range-thumb-value-js')
-rangeValue.value = 15
-
-},{}],78:[function(require,module,exports){
-=======
 },{}],79:[function(require,module,exports){
 const rangeValue = document.getElementById('range-thumb-value-js')
 rangeValue.value = 15
 
 },{}],80:[function(require,module,exports){
->>>>>>> chart customization wip
 const select = document.getElementById('tonic-router-select')
 const page2 = document.getElementById('page2')
 
@@ -14966,15 +14065,9 @@ page2.addEventListener('match', () => {
   el.textContent = number
 })
 
-<<<<<<< HEAD
-},{}],79:[function(require,module,exports){
-arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],80:[function(require,module,exports){
-=======
 },{}],81:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
 },{"dup":4}],82:[function(require,module,exports){
->>>>>>> chart customization wip
 const Tonic = require('@conductorlab/tonic')
 const tape = require('../../test/tape')
 const { qs } = require('qs')
@@ -15002,15 +14095,9 @@ tape('{{tabs-3}} has correct default state', t => {
   t.end()
 })
 
-<<<<<<< HEAD
-},{"../../test/tape":87,"@conductorlab/tonic":2,"qs":37}],81:[function(require,module,exports){
-arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],82:[function(require,module,exports){
-=======
 },{"../../test/tape":89,"@conductorlab/tonic":2,"qs":39}],83:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
 },{"dup":4}],84:[function(require,module,exports){
->>>>>>> chart customization wip
 const tape = require('../../test/tape')
 const { qs } = require('qs')
 
@@ -15027,11 +14114,7 @@ const { qs } = require('qs')
 //   t.end()
 // })
 
-<<<<<<< HEAD
-},{"../../test/tape":87,"qs":37}],83:[function(require,module,exports){
-=======
 },{"../../test/tape":89,"qs":39}],85:[function(require,module,exports){
->>>>>>> chart customization wip
 const tape = require('../../test/tape')
 const { qs } = require('qs')
 
@@ -15168,11 +14251,7 @@ tape('{{toaster}} is created on the right', async t => {
   t.end()
 })
 
-<<<<<<< HEAD
-},{"../../test/tape":87,"qs":37}],84:[function(require,module,exports){
-=======
 },{"../../test/tape":89,"qs":39}],86:[function(require,module,exports){
->>>>>>> chart customization wip
 const tape = require('../../test/tape')
 const { qs } = require('qs')
 
@@ -15208,19 +14287,11 @@ tape('{{toggle-2}} has tabindex attribute', t => {
   t.end()
 })
 
-<<<<<<< HEAD
-},{"../../test/tape":87,"qs":37}],85:[function(require,module,exports){
-arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],86:[function(require,module,exports){
-arguments[4][4][0].apply(exports,arguments)
-},{"dup":4}],87:[function(require,module,exports){
-=======
 },{"../../test/tape":89,"qs":39}],87:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
 },{"dup":4}],88:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
 },{"dup":4}],89:[function(require,module,exports){
->>>>>>> chart customization wip
 const tape = require('tape')
 const stream = tape.createStream({ objectMode: true })
 
@@ -15289,11 +14360,7 @@ stream.on('data', data => {
 
 module.exports = tape
 
-<<<<<<< HEAD
-},{"tape":59}],88:[function(require,module,exports){
-=======
 },{"tape":61}],90:[function(require,module,exports){
->>>>>>> chart customization wip
 const Tonic = require('@conductorlab/tonic')
 const components = require('..')
 
@@ -15335,8 +14402,4 @@ function ready () {
 
 document.addEventListener('DOMContentLoaded', ready)
 
-<<<<<<< HEAD
-},{"..":1,"../src/badge/test":66,"../src/button/test":67,"../src/charts/test":68,"../src/checkbox/test":69,"../src/dialog/test":70,"../src/icon/test":71,"../src/input/test":72,"../src/panel/test":73,"../src/popover/test":74,"../src/profile-image/test":75,"../src/progress-bar/test":76,"../src/range/test":77,"../src/router/test":78,"../src/select/test":79,"../src/tabs/test":80,"../src/textarea/test":81,"../src/toaster-inline/test":82,"../src/toaster/test":83,"../src/toggle/test":84,"../src/tooltip/test":85,"../src/windowed/test":86,"@conductorlab/tonic":2}]},{},[88]);
-=======
 },{"..":1,"../src/badge/test":68,"../src/button/test":69,"../src/charts/test":70,"../src/checkbox/test":71,"../src/dialog/test":72,"../src/icon/test":73,"../src/input/test":74,"../src/panel/test":75,"../src/popover/test":76,"../src/profile-image/test":77,"../src/progress-bar/test":78,"../src/range/test":79,"../src/router/test":80,"../src/select/test":81,"../src/tabs/test":82,"../src/textarea/test":83,"../src/toaster-inline/test":84,"../src/toaster/test":85,"../src/toggle/test":86,"../src/tooltip/test":87,"../src/windowed/test":88,"@conductorlab/tonic":2}]},{},[90]);
->>>>>>> chart customization wip

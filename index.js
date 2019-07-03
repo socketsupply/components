@@ -2067,48 +2067,10 @@ class TonicChart extends Tonic { /* global Tonic */
     `
   }
 
-<<<<<<< HEAD
-  draw (data, options = this.props.options) {
-    const root = this.querySelector('canvas')
-
-    //
-    // Add a few sensible defaults, but allow the user to
-    // override everything by passing in their own options.
-    //
-    let tooltipEnabled = true
-    let lineWidth = 1
-
-    if (typeof this.props.tooltip !== 'undefined') {
-      tooltipEnabled = this.props.tooltip === 'true'
-    }
-
-    if (typeof this.props.lineWidth !== 'undefined') {
-      lineWidth = parseInt(this.props.lineWidth, 10)
-    }
-
-    const defaults = {
-      tooltips: {
-        enabled: tooltipEnabled
-      },
-      drawTicks: this.props.drawTicks === 'true',
-      drawBorder: this.props.drawBorder === 'true',
-      legend: { display: this.props.legend },
-      title: {
-        display: !!this.props.title,
-        text: this.props.title
-      }
-    }
-
-    const mergedOptions = Object.assign({}, defaults, options)
-
-    //
-    // Create the chart by passing the options and data.
-=======
   draw (data, options) {
     const root = this.querySelector('canvas')
     //
     // Create the chart by passing the data and options..
->>>>>>> chart customization wip
     //
     if (!window.ChartJS) {
       //
@@ -2121,11 +2083,7 @@ class TonicChart extends Tonic { /* global Tonic */
 
     return new window.ChartJS(root, {
       type: this.props.type,
-<<<<<<< HEAD
-      options: mergedOptions,
-=======
       options,
->>>>>>> chart customization wip
       data
     })
   }
@@ -2146,31 +2104,18 @@ class TonicChart extends Tonic { /* global Tonic */
     let configuration = null
 
     if (typeof this.props.src === 'string') {
-<<<<<<< HEAD
-
       const response = await this.fetch(this.props.src)
 
       if (response.err) {
-        return console.error(err)
+        console.error(response.err)
+        data = {}
+      } else {
+        data = response.data.chartData
+        configuration = response.data.options
       }
-
-      data = response.data
-    }
-
-    if ((this.props.src === Object(this.props.src)) && this.props.src.chartData) {
-=======
-      const response = await this.fetch(this.props.src)
-
-      if (response.err) {
-        return console.error(response.err)
-      }
-
-      data = response.data.chartData
-      configuration = response.data.options
     }
 
     if ((this.props.src === Object(this.props.src))) {
->>>>>>> chart customization wip
       data = this.props.src.chartData
       configuration = this.props.configuration || {}
     }

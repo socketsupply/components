@@ -13,41 +13,10 @@ class TonicChart extends Tonic { /* global Tonic */
     `
   }
 
-  draw (data, options = this.props.options) {
+  draw (data, options) {
     const root = this.querySelector('canvas')
-
     //
-    // Add a few sensible defaults, but allow the user to
-    // override everything by passing in their own options.
-    //
-    let tooltipEnabled = true
-    let lineWidth = 1
-
-    if (typeof this.props.tooltip !== 'undefined') {
-      tooltipEnabled = this.props.tooltip === 'true'
-    }
-
-    if (typeof this.props.lineWidth !== 'undefined') {
-      lineWidth = parseInt(this.props.lineWidth, 10)
-    }
-
-    const defaults = {
-      tooltips: {
-        enabled: tooltipEnabled
-      },
-      drawTicks: this.props.drawTicks === 'true',
-      drawBorder: this.props.drawBorder === 'true',
-      legend: { display: this.props.legend },
-      title: {
-        display: !!this.props.title,
-        text: this.props.title
-      }
-    }
-
-    const mergedOptions = Object.assign({}, defaults, options)
-
-    //
-    // Create the chart by passing the options and data.
+    // Create the chart by passing the data and options..
     //
     if (!window.ChartJS) {
       //
@@ -60,7 +29,7 @@ class TonicChart extends Tonic { /* global Tonic */
 
     return new window.ChartJS(root, {
       type: this.props.type,
-      options: mergedOptions,
+      options,
       data
     })
   }
@@ -81,18 +50,18 @@ class TonicChart extends Tonic { /* global Tonic */
     let configuration = null
 
     if (typeof this.props.src === 'string') {
-
       const response = await this.fetch(this.props.src)
 
       if (response.err) {
         console.error(response.err)
         data = {}
       } else {
-        data = response.data
+        data = response.data.chartData
+        configuration = response.data.options
       }
     }
 
-    if ((this.props.src === Object(this.props.src)) && this.props.src.chartData) {
+    if ((this.props.src === Object(this.props.src))) {
       data = this.props.src.chartData
       configuration = this.props.configuration || {}
     }

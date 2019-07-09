@@ -27,13 +27,24 @@ An example component that uses [chart.js][0] `2.7.2`.
 
 ```json
 {
-  "labels": ["Foo", "Bar", "Bazz"],
-  "datasets": [
-    {
-      "backgroundColor": ["#c3c3c3", "#f06653", "#8f8f8f"],
-      "data": [478, 267, 34]
-    }
-  ]
+	"chartData": {
+		"labels": ["Foo", "Bar", "Bazz"],
+		"datasets": [{
+			"label": "Quxx (millions)",
+			"backgroundColor": ["#c3c3c3", "#f06653", "#8f8f8f"],
+			"data": [278, 467, 34]
+		}]
+	},
+	"options": {
+    "tooltips": {
+      "enabled": false
+    },
+    "legend": {
+      "display": false
+    },
+    "drawTicks": true,
+    "drawBorder": true
+	}
 }
 ```
 

@@ -646,13 +646,24 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-chart</span>&gt;</span></code></pre>
 <h4>JSON</h4>
 <pre><code class="language-json">{
-  <span class="hljs-attr">"labels"</span>: [<span class="hljs-string">"Foo"</span>, <span class="hljs-string">"Bar"</span>, <span class="hljs-string">"Bazz"</span>],
-  <span class="hljs-attr">"datasets"</span>: [
-    {
-      <span class="hljs-attr">"backgroundColor"</span>: [<span class="hljs-string">"#c3c3c3"</span>, <span class="hljs-string">"#f06653"</span>, <span class="hljs-string">"#8f8f8f"</span>],
-      <span class="hljs-attr">"data"</span>: [<span class="hljs-number">478</span>, <span class="hljs-number">267</span>, <span class="hljs-number">34</span>]
+    <span class="hljs-attr">"chartData"</span>: {
+        <span class="hljs-attr">"labels"</span>: [<span class="hljs-string">"Foo"</span>, <span class="hljs-string">"Bar"</span>, <span class="hljs-string">"Bazz"</span>],
+        <span class="hljs-attr">"datasets"</span>: [{
+            <span class="hljs-attr">"label"</span>: <span class="hljs-string">"Quxx (millions)"</span>,
+            <span class="hljs-attr">"backgroundColor"</span>: [<span class="hljs-string">"#c3c3c3"</span>, <span class="hljs-string">"#f06653"</span>, <span class="hljs-string">"#8f8f8f"</span>],
+            <span class="hljs-attr">"data"</span>: [<span class="hljs-number">278</span>, <span class="hljs-number">467</span>, <span class="hljs-number">34</span>]
+        }]
+    },
+    <span class="hljs-attr">"options"</span>: {
+    <span class="hljs-attr">"tooltips"</span>: {
+      <span class="hljs-attr">"enabled"</span>: <span class="hljs-literal">false</span>
+    },
+    <span class="hljs-attr">"legend"</span>: {
+      <span class="hljs-attr">"display"</span>: <span class="hljs-literal">false</span>
+    },
+    <span class="hljs-attr">"drawTicks"</span>: <span class="hljs-literal">true</span>,
+    <span class="hljs-attr">"drawBorder"</span>: <span class="hljs-literal">true</span>
     }
-  ]
 }</code></pre>
 <h2>Api</h2>
 <h3>Properties</h3>

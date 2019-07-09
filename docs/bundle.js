@@ -2500,41 +2500,10 @@ class TonicChart extends Tonic { /* global Tonic */
     `
   }
 
-  draw (data, options = this.props.options) {
+  draw (data, options) {
     const root = this.querySelector('canvas')
-
     //
-    // Add a few sensible defaults, but allow the user to
-    // override everything by passing in their own options.
-    //
-    let tooltipEnabled = true
-    let lineWidth = 1
-
-    if (typeof this.props.tooltip !== 'undefined') {
-      tooltipEnabled = this.props.tooltip === 'true'
-    }
-
-    if (typeof this.props.lineWidth !== 'undefined') {
-      lineWidth = parseInt(this.props.lineWidth, 10)
-    }
-
-    const defaults = {
-      tooltips: {
-        enabled: tooltipEnabled
-      },
-      drawTicks: this.props.drawTicks === 'true',
-      drawBorder: this.props.drawBorder === 'true',
-      legend: { display: this.props.legend },
-      title: {
-        display: !!this.props.title,
-        text: this.props.title
-      }
-    }
-
-    const mergedOptions = Object.assign({}, defaults, options)
-
-    //
-    // Create the chart by passing the options and data.
+    // Create the chart by passing the data and options..
     //
     if (!window.ChartJS) {
       //
@@ -2547,7 +2516,7 @@ class TonicChart extends Tonic { /* global Tonic */
 
     return new window.ChartJS(root, {
       type: this.props.type,
-      options: mergedOptions,
+      options,
       data
     })
   }
@@ -2568,17 +2537,18 @@ class TonicChart extends Tonic { /* global Tonic */
     let configuration = null
 
     if (typeof this.props.src === 'string') {
-
       const response = await this.fetch(this.props.src)
 
       if (response.err) {
-        return console.error(err)
+        console.error(response.err)
+        data = {}
+      } else {
+        data = response.data.chartData
+        configuration = response.data.options
       }
-
-      data = response.data
     }
 
-    if ((this.props.src === Object(this.props.src)) && this.props.src.chartData) {
+    if ((this.props.src === Object(this.props.src))) {
       data = this.props.src.chartData
       configuration = this.props.configuration || {}
     }
@@ -5061,17 +5031,31 @@ Object.assign(Tonic, {
 if (typeof module === 'object') module.exports = Tonic
 
 },{}],6:[function(require,module,exports){
+(function (global){
 "use strict";
 
-module.exports = exports = self.fetch;
+// ref: https://github.com/tc39/proposal-global
+var getGlobal = function () {
+	// the only reliable means to get the global object is
+	// `Function('return this')()`
+	// However, this causes CSP violations in Chrome apps.
+	if (typeof self !== 'undefined') { return self; }
+	if (typeof window !== 'undefined') { return window; }
+	if (typeof global !== 'undefined') { return global; }
+	throw new Error('unable to locate global object');
+}
+
+var global = getGlobal();
+
+module.exports = exports = global.fetch;
 
 // Needed for TypeScript and Webpack.
-exports.default = self.fetch.bind(self);
+exports.default = global.fetch.bind(global);
 
-exports.Headers = self.Headers;
-exports.Request = self.Request;
-exports.Response = self.Response;
-
+exports.Headers = global.Headers;
+exports.Request = global.Request;
+exports.Response = global.Response;
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],7:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};

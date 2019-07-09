@@ -8131,24 +8131,28 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    ctor.prototype = Object.create(superCtor.prototype, {
-      constructor: {
-        value: ctor,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
+    if (superCtor) {
+      ctor.super_ = superCtor
+      ctor.prototype = Object.create(superCtor.prototype, {
+        constructor: {
+          value: ctor,
+          enumerable: false,
+          writable: true,
+          configurable: true
+        }
+      })
+    }
   };
 } else {
   // old school shim for old browsers
   module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    var TempCtor = function () {}
-    TempCtor.prototype = superCtor.prototype
-    ctor.prototype = new TempCtor()
-    ctor.prototype.constructor = ctor
+    if (superCtor) {
+      ctor.super_ = superCtor
+      var TempCtor = function () {}
+      TempCtor.prototype = superCtor.prototype
+      ctor.prototype = new TempCtor()
+      ctor.prototype.constructor = ctor
+    }
   }
 }
 
@@ -8514,6 +8518,8 @@ if (!Object.keys) {
 		$frames: true,
 		$innerHeight: true,
 		$innerWidth: true,
+		$onmozfullscreenchange: true,
+		$onmozfullscreenerror: true,
 		$outerHeight: true,
 		$outerWidth: true,
 		$pageXOffset: true,
@@ -8965,7 +8971,8 @@ var substr = 'ab'.substr(-1) === 'b'
 (function (process){
 'use strict';
 
-if (!process.version ||
+if (typeof process === 'undefined' ||
+    !process.version ||
     process.version.indexOf('v0.') === 0 ||
     process.version.indexOf('v1.') === 0 && process.version.indexOf('v1.8.') !== 0) {
   module.exports = { nextTick: nextTick };
@@ -12149,8 +12156,6 @@ function createExitHarness(conf) {
     if (conf.exit === false) return harness;
     if (!canEmitExit || !canExit) return harness;
 
-    var inErrorState = false;
-
     process.on('exit', function (code) {
         // let the process exit cleanly.
         if (code !== 0) {
@@ -12195,7 +12200,7 @@ function createHarness(conf_) {
                 inspectCode(st_);
             });
             st.on('result', function (r) {
-                if (!r.ok && typeof r !== 'string') test._exitCode = 1
+                if (!r.todo && !r.ok && typeof r !== 'string') test._exitCode = 1
             });
         })(t);
 

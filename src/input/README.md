@@ -59,6 +59,7 @@ setInvalid.addEventListener('click', (e) => {
 | `name` | *string* | Input with `name` attribute. | |
 | `type` | *string* | Type of input (text, password, email). | `text` |
 | `required` | *boolean* | Makes the input `required`. | `false` |
+| `readonly` | *boolean* | Makes the input `readonly`. | `false` |
 | `disabled` | *boolean* | Makes the input `disabled`. | `false` |
 | `spellcheck` | *boolean* | Enable `spellcheck` on the input. | `false` |
 | `invalid` | *boolean* | Adds the `invalid` attribute. | `false` |

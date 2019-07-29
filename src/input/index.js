@@ -4,7 +4,6 @@ class TonicInput extends Tonic { /* global Tonic */
       type: 'text',
       value: '',
       placeholder: '',
-      width: '250px',
       color: 'var(--tonic-primary)',
       spellcheck: false,
       ariaInvalid: false,
@@ -240,7 +239,7 @@ class TonicInput extends Tonic { /* global Tonic */
         width
       },
       input: {
-        width,
+        width: '100%',
         height,
         borderRadius: radius,
         padding
@@ -251,7 +250,6 @@ class TonicInput extends Tonic { /* global Tonic */
   render () {
     const {
       id,
-      width,
       height,
       type,
       placeholder,
@@ -285,7 +283,6 @@ class TonicInput extends Tonic { /* global Tonic */
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
     if (tabindex) this.removeAttribute('tabindex')
 
-    if (width) this.style.width = width
     if (height) this.style.width = height
     if (theme) this.classList.add(`tonic--theme--${theme}`)
 

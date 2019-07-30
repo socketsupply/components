@@ -292,7 +292,7 @@ class TonicInput extends Tonic { /* global Tonic */
     if (theme) this.classList.add(`tonic--theme--${theme}`)
 
     const value = this.state.value || this.props.value
-    const valueAttr = value && value !== 'undefined' ? `value="${value}"` : ''
+    const valueAttr = value && value !== 'undefined' ? `value="${value.replace(/"/g, '&quot;')}"` : ''
 
     const attributes = [
       patternAttr,

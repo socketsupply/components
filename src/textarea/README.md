@@ -29,24 +29,26 @@ The `Textarea` component creates a text area.
 
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
-| `id` | *string* | Text area with `id` attribute. | |
+| `id` | *string* | Text area with `id` attribute. <span class="req">required</span> |
+| `ariaLabelledby` | *string* | Sets the `area-labelledby` attribute. |  |
+| `autofocus` | *boolean* | Enable `autofocus` on the text area. | `false` |
+| `cols` | *string* | Set number of columns. |  |
+| `disabled` | *boolean* | Text area with `disabled` attribute. | `false` |
+| `height` | *string* | Set height of text area. | `100%` |
+| `label` | *string* | Creates a label. |  |
+| `maxlength` | *string* | Set the maximum character length. |  |
+| `minlength` | *string* | Set the minimum character length. |  |
 | `name` | *string* | Text area with `name` attribute. | |
 | `placeholder` | *string* | Add placeholder to text area. |  |
-| `spellcheck` | *boolean* | Enable spellcheck. | `true` |
-| `disabled` | *boolean* | Text area with `disabled` attribute. | `false` |
-| `required` | *boolean* | Set text area to `required`. | `false` |
+| `radius` | *string* | Set radius of text area. | `2px` |
 | `readonly` | *boolean* | Set text area to `readonly`. | `false` |
-| `autofocus` | *boolean* | Enable `autofocus` on the text area. | `false` |
+| `required` | *boolean* | Set text area to `required`. | `false` |
 | `resize` | *string* | Set to `none` to disable resize. | |
 | `rows` | *string* | Set number of rows. |  |
-| `cols` | *string* | Set number of columns. |  |
-| `minlength` | *string* | Set the minimum character length. |  |
-| `maxlength` | *string* | Set the maximum character length. |  |
-| `width` | *string* | Set width of text area. |  |
-| `height` | *string* | Set height of text area. | `100%` |
-| `radius` | *string* | Set radius of text area. | `2px` |
+| `spellcheck` | *boolean* | Enable spellcheck. | `true` |
 | `tabindex` | *number* | Add a `tabindex` for the text area. | |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
+| `width` | *string* | Set width of text area. |  |
 
 ### Instance Methods & Members
 

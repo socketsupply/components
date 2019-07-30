@@ -293,6 +293,7 @@ class TonicInput extends Tonic { /* global Tonic */
 
     if (ariaLabelledByAttr) this.removeAttribute('ariaLabelled')
     if (height) this.style.width = height
+    if (name) this.removeAttribute('name')
     if (tabindex) this.removeAttribute('tabindex')
     if (theme) this.classList.add(`tonic--theme--${theme}`)
 

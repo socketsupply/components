@@ -2653,6 +2653,7 @@ class TonicInput extends Tonic { /* global Tonic */
       placeholder,
       spellcheck,
       ariaInvalid,
+      readonly,
       disabled,
       required,
       pattern,
@@ -2668,6 +2669,7 @@ class TonicInput extends Tonic { /* global Tonic */
     const patternAttr = pattern ? `pattern="${pattern}"` : ''
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
+    const readonlyAttr = readonly && readonly === 'true' ? `readonly="true"` : ''
     const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
     const requiredAttr = required && required === 'true' ? `required="true"` : ''
     const ariaInvalidAttr = ariaInvalid ? `aria-invalid="${ariaInvalid}"` : ''
@@ -2697,6 +2699,7 @@ class TonicInput extends Tonic { /* global Tonic */
       maxLengthAttr,
       minAttr,
       maxAttr,
+      readonlyAttr,
       disabledAttr,
       requiredAttr,
       tabAttr

@@ -156,7 +156,7 @@ class TonicInput extends Tonic { /* global Tonic */
 
   renderLabel () {
     if (!this.props.label) return ''
-    return `<label>${this.props.label}</label>`
+    return `<label for="tonic--input_${this.props.id}">${this.props.label}</label>`
   }
 
   renderIcon () {
@@ -250,6 +250,7 @@ class TonicInput extends Tonic { /* global Tonic */
 
   render () {
     const {
+      id,
       width,
       height,
       type,
@@ -270,6 +271,7 @@ class TonicInput extends Tonic { /* global Tonic */
       tabindex
     } = this.props
 
+    const idAttr = id ? `id="tonic--input_${id}"` : ''
     const patternAttr = pattern ? `pattern="${pattern}"` : ''
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
@@ -295,6 +297,7 @@ class TonicInput extends Tonic { /* global Tonic */
     const valueAttr = value && value !== 'undefined' ? `value="${value.replace(/"/g, '&quot;')}"` : ''
 
     const attributes = [
+      idAttr,
       patternAttr,
       valueAttr,
       placeholderAttr,

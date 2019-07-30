@@ -262,6 +262,7 @@ class TonicInput extends Tonic { /* global Tonic */
       required,
       pattern,
       theme,
+      title,
       position,
       minlength,
       maxlength,
@@ -285,6 +286,7 @@ class TonicInput extends Tonic { /* global Tonic */
     const minAttr = min ? `min="${min}"` : ''
     const maxAttr = max ? `max="${max}"` : ''
     const nameAttr = name ? `name="${name}"` : ''
+    const titleAttr = title ? `title="${title}"` : ''
 
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
     if (tabindex) this.removeAttribute('tabindex')
@@ -309,6 +311,7 @@ class TonicInput extends Tonic { /* global Tonic */
       maxAttr,
       readonlyAttr,
       nameAttr,
+      titleAttr,
       disabledAttr,
       requiredAttr,
       tabAttr

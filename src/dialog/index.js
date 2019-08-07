@@ -9,14 +9,6 @@ class Dialog extends Tonic { /* global Tonic */
       const overlay = e.target.matches('.tonic--overlay')
       if (overlay) this.hide()
     })
-
-    const { constructor: AsyncFunction } = async function () {}
-    const { constructor: AsyncFunctionGenerator } = async function * () {}
-
-    this.types = {
-      AsyncFunction,
-      AsyncFunctionGenerator
-    }
   }
 
   defaults () {
@@ -219,28 +211,22 @@ class Dialog extends Tonic { /* global Tonic */
       }
     }
 
-    if (this.wrapped instanceof this.types.AsyncFunction) {
-      console.log('AF')
+    if (this.wrapped instanceof Tonic.AsyncFunction) {
       setContent(await this.wrapped() || '')
       return wrapper
-    } else if (this.wrapped instanceof this.types.AsyncFunctionGenerator) {
-      console.log('ITR')
+    } else if (this.wrapped instanceof Tonic.AsyncFunctionGenerator) {
       const itr = this.wrapped()
       while (true) {
         const { value, done } = await itr.next()
-        console.log('VAL', value)
         setContent(value)
 
         if (done) {
-          console.log('DONE')
           return wrapper
         }
 
-        console.log('YLD')
         yield wrapper
       }
     } else if (this.wrapped instanceof Function) {
-      console.log('FN')
       setContent(this.wrapped() || '')
       return wrapper
     }

@@ -214,6 +214,7 @@ input.addEventListener('focus', listener)
         //
         if (document.body.dataset.page === 'examples') {
           const fetch = require('node-fetch')
+const Tonic = require('@conductorlab/tonic')
 
 class TonicPanel extends Tonic.Panel {
   async getArticle (title) {
@@ -240,7 +241,7 @@ class TonicPanel extends Tonic.Panel {
     }
   }
 
-  render () {
+  async * render () {
     return `
       <div class="tonic--header">Panel Example</div>
       <div class="tonic--main">
@@ -835,7 +836,7 @@ class Panel extends Tonic { /* global Tonic */
   show () {
     const that = this
 
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       if (!that) return
 
       const node = that.querySelector('.tonic--wrapper')
@@ -853,7 +854,7 @@ class Panel extends Tonic { /* global Tonic */
   hide () {
     const that = this
 
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       if (!that) return
       const node = this.querySelector('.tonic--wrapper')
       node.classList.remove('tonic--show')
@@ -875,13 +876,6 @@ class Panel extends Tonic { /* global Tonic */
     this.classList.add('tonic--panel')
 
     const wrapper = document.createElement('div')
-    const template = document.createElement('template')
-
-    const content = 'hi' // render()
-
-    typeof content === 'string'
-      ? (template.innerHTML = content)
-      : [...content.childNodes].forEach(el => template.appendChild(el))
 
     if (theme) this.classList.add(`tonic--theme--${theme}`)
 
@@ -925,11 +919,48 @@ class Panel extends Tonic { /* global Tonic */
     use.setAttribute('color', iconColor)
     use.setAttribute('fill', iconColor)
 
+    const contentContainer = document.createElement('div')
+    contentContainer.className = 'tonic--dialog--content-container'
+
     // append everything
     wrapper.appendChild(panel)
     wrapper.appendChild(panel)
-    panel.appendChild(template.content)
+    panel.appendChild(contentContainer)
     panel.appendChild(closeIcon)
+
+    yield wrapper
+
+    const setContent = content => {
+      if (!content) return
+
+      if (typeof content === 'string') {
+        contentContainer.innerHTML = content
+      } else {
+        [...content.childNodes].forEach(el => contentContainer.appendChild(el))
+      }
+    }
+
+    if (this.wrapped instanceof Tonic.AsyncFunction) {
+      setContent(await this.wrapped() || '')
+      return wrapper
+    }
+
+    if (this.wrapped instanceof Tonic.AsyncFunctionGenerator) {
+      const itr = this.wrapped()
+      while (true) {
+        const { value, done } = await itr.next()
+        setContent(value)
+
+        if (done) {
+          return wrapper
+        }
+
+        yield wrapper
+      }
+    } else if (this.wrapped instanceof Function) {
+      setContent(this.wrapped() || '')
+      return wrapper
+    }
 
     return wrapper
   }
@@ -948,14 +979,6 @@ class Dialog extends Tonic { /* global Tonic */
       const overlay = e.target.matches('.tonic--overlay')
       if (overlay) this.hide()
     })
-
-    const { constructor: AsyncFunction } = async function () {}
-    const { constructor: AsyncFunctionGenerator } = async function * () {}
-
-    this.types = {
-      AsyncFunction,
-      AsyncFunctionGenerator
-    }
   }
 
   defaults () {
@@ -1158,28 +1181,22 @@ class Dialog extends Tonic { /* global Tonic */
       }
     }
 
-    if (this.wrapped instanceof this.types.AsyncFunction) {
-      console.log('AF')
+    if (this.wrapped instanceof Tonic.AsyncFunction) {
       setContent(await this.wrapped() || '')
       return wrapper
-    } else if (this.wrapped instanceof this.types.AsyncFunctionGenerator) {
-      console.log('ITR')
+    } else if (this.wrapped instanceof Tonic.AsyncFunctionGenerator) {
       const itr = this.wrapped()
       while (true) {
         const { value, done } = await itr.next()
-        console.log('VAL', value)
         setContent(value)
 
         if (done) {
-          console.log('DONE')
           return wrapper
         }
 
-        console.log('YLD')
         yield wrapper
       }
     } else if (this.wrapped instanceof Function) {
-      console.log('FN')
       setContent(this.wrapped() || '')
       return wrapper
     }
@@ -2771,6 +2788,7 @@ class TonicCheckbox extends Tonic { /* global Tonic */
       id,
       disabled,
       theme,
+      title,
       tabindex
     } = this.props
 
@@ -2788,6 +2806,8 @@ class TonicCheckbox extends Tonic { /* global Tonic */
     const checkedAttr = checked ? 'checked' : ''
     const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
 
+    const titleAttr = title ? `title="${title}"` : ''
+
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
     if (tabindex) this.removeAttribute('tabindex')
 
@@ -2795,6 +2815,7 @@ class TonicCheckbox extends Tonic { /* global Tonic */
 
     const attributes = [
       disabledAttr,
+      titleAttr,
       tabAttr
     ].join(' ')
 
@@ -2886,7 +2907,6 @@ class TonicInput extends Tonic { /* global Tonic */
       type: 'text',
       value: '',
       placeholder: '',
-      width: '250px',
       color: 'var(--tonic-primary)',
       spellcheck: false,
       ariaInvalid: false,
@@ -3038,7 +3058,7 @@ class TonicInput extends Tonic { /* global Tonic */
 
   renderLabel () {
     if (!this.props.label) return ''
-    return `<label>${this.props.label}</label>`
+    return `<label for="tonic--input_${this.props.id}">${this.props.label}</label>`
   }
 
   renderIcon () {
@@ -3122,7 +3142,7 @@ class TonicInput extends Tonic { /* global Tonic */
         width
       },
       input: {
-        width,
+        width: '100%',
         height,
         borderRadius: radius,
         padding
@@ -3132,27 +3152,32 @@ class TonicInput extends Tonic { /* global Tonic */
 
   render () {
     const {
-      width,
+      id,
       height,
       type,
       placeholder,
       spellcheck,
       ariaInvalid,
+      readonly,
       disabled,
       required,
       pattern,
       theme,
+      title,
       position,
       minlength,
       maxlength,
       min,
       max,
+      name,
       tabindex
     } = this.props
 
+    const idAttr = id ? `id="tonic--input_${id}"` : ''
     const patternAttr = pattern ? `pattern="${pattern}"` : ''
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
+    const readonlyAttr = readonly && readonly === 'true' ? `readonly="true"` : ''
     const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
     const requiredAttr = required && required === 'true' ? `required="true"` : ''
     const ariaInvalidAttr = ariaInvalid ? `aria-invalid="${ariaInvalid}"` : ''
@@ -3161,18 +3186,20 @@ class TonicInput extends Tonic { /* global Tonic */
     const maxLengthAttr = maxlength ? `maxlength="${maxlength}"` : ''
     const minAttr = min ? `min="${min}"` : ''
     const maxAttr = max ? `max="${max}"` : ''
+    const nameAttr = name ? `name="${name}"` : ''
+    const titleAttr = title ? `title="${title}"` : ''
 
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
     if (tabindex) this.removeAttribute('tabindex')
 
-    if (width) this.style.width = width
     if (height) this.style.width = height
     if (theme) this.classList.add(`tonic--theme--${theme}`)
 
     const value = this.state.value || this.props.value
-    const valueAttr = value && value !== 'undefined' ? `value="${value}"` : ''
+    const valueAttr = value && value !== 'undefined' ? `value="${value.replace(/"/g, '&quot;')}"` : ''
 
     const attributes = [
+      idAttr,
       patternAttr,
       valueAttr,
       placeholderAttr,
@@ -3182,6 +3209,9 @@ class TonicInput extends Tonic { /* global Tonic */
       maxLengthAttr,
       minAttr,
       maxAttr,
+      readonlyAttr,
+      nameAttr,
+      titleAttr,
       disabledAttr,
       requiredAttr,
       tabAttr
@@ -4842,7 +4872,6 @@ class Tonic extends window.HTMLElement {
     this.nodes = [...this.childNodes].map(el => el.cloneNode(true))
     this.nodes.__children__ = true
     this._events()
-    this.eventstream = []
   }
 
   static _createId () {
@@ -4942,12 +4971,6 @@ class Tonic extends window.HTMLElement {
       if (hp.indexOf('on' + p) === -1) continue
       this.addEventListener(p, this)
     }
-  }
-
-  once (name) {
-    return new Promise(resolve => {
-      this.addEventListener(name, resolve, { once: true })
-    })
   }
 
   async _set (target, render, content = '') {
@@ -5100,6 +5123,8 @@ Object.assign(Tonic, {
   _index: 0,
   SPREAD: /\.\.\.(__\w+__\w+__)/g,
   ESC: /["&'<>`]/g,
+  AsyncFunctionGenerator,
+  AsyncFunction,
   MAP: { '"': '&quot;', '&': '&amp;', '\'': '&#x27;', '<': '&lt;', '>': '&gt;', '`': '&#x60;' }
 })
 

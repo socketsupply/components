@@ -1141,6 +1141,12 @@ link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; dialog.s
 <td align="left"><code>false</code></td>
 </tr>
 <tr>
+<td align="left"><code>readonly</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Makes the input <code>readonly</code>.</td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
 <td align="left"><code>disabled</code></td>
 <td align="left"><em>boolean</em></td>
 <td align="left">Makes the input <code>disabled</code>.</td>
@@ -1293,6 +1299,7 @@ your own panel class which can be registered and then used as a tag.</p>
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-panel</span>&gt;</span></code></pre>
 <h4>JS</h4>
 <pre><code class="language-js"><span class="hljs-keyword">const</span> fetch = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node-fetch'</span>)
+<span class="hljs-keyword">const</span> Tonic = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@conductorlab/tonic'</span>)
 
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TonicPanel</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span>.<span class="hljs-title">Panel</span> </span>{
   <span class="hljs-keyword">async</span> getArticle (title) {
@@ -1319,7 +1326,7 @@ your own panel class which can be registered and then used as a tag.</p>
     }
   }
 
-  render () {
+  <span class="hljs-keyword">async</span> * render () {
     <span class="hljs-keyword">return</span> <span class="hljs-string">`
       &lt;div class="tonic--header"&gt;Panel Example&lt;/div&gt;
       &lt;div class="tonic--main"&gt;

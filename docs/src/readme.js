@@ -125,6 +125,7 @@ input.addEventListener('focus', listener)
         //
         if (document.body.dataset.page === 'examples') {
           const fetch = require('node-fetch')
+const Tonic = require('@conductorlab/tonic')
 
 class TonicPanel extends Tonic.Panel {
   async getArticle (title) {
@@ -151,7 +152,7 @@ class TonicPanel extends Tonic.Panel {
     }
   }
 
-  render () {
+  async * render () {
     return `
       <div class="tonic--header">Panel Example</div>
       <div class="tonic--main">

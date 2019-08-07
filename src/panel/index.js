@@ -100,7 +100,7 @@ class Panel extends Tonic { /* global Tonic */
   show () {
     const that = this
 
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       if (!that) return
 
       const node = that.querySelector('.tonic--wrapper')
@@ -118,7 +118,7 @@ class Panel extends Tonic { /* global Tonic */
   hide () {
     const that = this
 
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       if (!that) return
       const node = this.querySelector('.tonic--wrapper')
       node.classList.remove('tonic--show')
@@ -140,13 +140,6 @@ class Panel extends Tonic { /* global Tonic */
     this.classList.add('tonic--panel')
 
     const wrapper = document.createElement('div')
-    const template = document.createElement('template')
-
-    const content = 'hi' // render()
-
-    typeof content === 'string'
-      ? (template.innerHTML = content)
-      : [...content.childNodes].forEach(el => template.appendChild(el))
 
     if (theme) this.classList.add(`tonic--theme--${theme}`)
 
@@ -190,11 +183,48 @@ class Panel extends Tonic { /* global Tonic */
     use.setAttribute('color', iconColor)
     use.setAttribute('fill', iconColor)
 
+    const contentContainer = document.createElement('div')
+    contentContainer.className = 'tonic--dialog--content-container'
+
     // append everything
     wrapper.appendChild(panel)
     wrapper.appendChild(panel)
-    panel.appendChild(template.content)
+    panel.appendChild(contentContainer)
     panel.appendChild(closeIcon)
+
+    yield wrapper
+
+    const setContent = content => {
+      if (!content) return
+
+      if (typeof content === 'string') {
+        contentContainer.innerHTML = content
+      } else {
+        [...content.childNodes].forEach(el => contentContainer.appendChild(el))
+      }
+    }
+
+    if (this.wrapped instanceof Tonic.AsyncFunction) {
+      setContent(await this.wrapped() || '')
+      return wrapper
+    }
+
+    if (this.wrapped instanceof Tonic.AsyncFunctionGenerator) {
+      const itr = this.wrapped()
+      while (true) {
+        const { value, done } = await itr.next()
+        setContent(value)
+
+        if (done) {
+          return wrapper
+        }
+
+        yield wrapper
+      }
+    } else if (this.wrapped instanceof Function) {
+      setContent(this.wrapped() || '')
+      return wrapper
+    }
 
     return wrapper
   }

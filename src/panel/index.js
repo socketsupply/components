@@ -127,7 +127,7 @@ class Panel extends Tonic { /* global Tonic */
     })
   }
 
-  wrap (render) {
+  async * wrap (render) {
     const {
       name,
       position,
@@ -142,7 +142,7 @@ class Panel extends Tonic { /* global Tonic */
     const wrapper = document.createElement('div')
     const template = document.createElement('template')
 
-    const content = render()
+    const content = 'hi' // render()
 
     typeof content === 'string'
       ? (template.innerHTML = content)

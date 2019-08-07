@@ -10,7 +10,7 @@ class ComponentContainer extends Tonic {
 
   render () {
     return this.html`
-      ${this.childNodes}
+      ${this.nodes}
     `
   }
 }

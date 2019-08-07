@@ -10,7 +10,9 @@
     <svg>
       <use xlink:href="./logo-sprite.svg#tonic_icon">
     </svg>
-    <div class="label">100% React Free</div>
+    <div class="label">
+      <a href="https://twitter.com/tonicframework">@tonicframework</a>
+    </div>
   </div>
   <p class="intro-copy">Minimalist, Stable Component Framework.</p>
   <div class="github">

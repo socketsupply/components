@@ -419,7 +419,7 @@ class Panel extends Tonic { /* global Tonic */
     })
   }
 
-  wrap (render) {
+  async * wrap (render) {
     const {
       name,
       position,
@@ -434,7 +434,7 @@ class Panel extends Tonic { /* global Tonic */
     const wrapper = document.createElement('div')
     const template = document.createElement('template')
 
-    const content = render()
+    const content = 'hi' // render()
 
     typeof content === 'string'
       ? (template.innerHTML = content)
@@ -505,6 +505,14 @@ class Dialog extends Tonic { /* global Tonic */
       const overlay = e.target.matches('.tonic--overlay')
       if (overlay) this.hide()
     })
+
+    const { constructor: AsyncFunction } = async function () {}
+    const { constructor: AsyncFunctionGenerator } = async function * () {}
+
+    this.types = {
+      AsyncFunction,
+      AsyncFunctionGenerator
+    }
   }
 
   defaults () {
@@ -638,7 +646,7 @@ class Dialog extends Tonic { /* global Tonic */
     }
   }
 
-  wrap (render) {
+  async * wrap () {
     const {
       width,
       height,
@@ -650,17 +658,10 @@ class Dialog extends Tonic { /* global Tonic */
 
     this.classList.add('tonic--dialog')
 
-    const template = document.createElement('template')
     const wrapper = document.createElement('div')
 
     const isOpen = !!this.querySelector('.tonic--dialog--wrapper.tonic--show')
     wrapper.className = isOpen ? 'tonic--dialog--wrapper tonic--show' : 'tonic--dialog--wrapper'
-
-    const content = render()
-
-    typeof content === 'string'
-      ? (template.innerHTML = content)
-      : [...content.childNodes].forEach(el => template.appendChild(el))
 
     if (theme) this.classList.add(`tonic--theme--${theme}`)
 
@@ -697,8 +698,49 @@ class Dialog extends Tonic { /* global Tonic */
     use.setAttribute('fill', iconColor)
 
     wrapper.appendChild(dialog)
-    dialog.appendChild(template.content)
+    const contentContainer = document.createElement('div')
+    contentContainer.className = 'tonic--dialog--content-container'
+    dialog.appendChild(contentContainer)
     dialog.appendChild(closeIcon)
+
+    yield wrapper
+
+    const setContent = content => {
+      if (!content) return
+
+      if (typeof content === 'string') {
+        contentContainer.innerHTML = content
+      } else {
+        [...content.childNodes].forEach(el => contentContainer.appendChild(el))
+      }
+    }
+
+    if (this.wrapped instanceof this.types.AsyncFunction) {
+      console.log('AF')
+      setContent(await this.wrapped() || '')
+      return wrapper
+    } else if (this.wrapped instanceof this.types.AsyncFunctionGenerator) {
+      console.log('ITR')
+      const itr = this.wrapped()
+      while (true) {
+        const { value, done } = await itr.next()
+        console.log('VAL', value)
+        setContent(value)
+
+        if (done) {
+          console.log('DONE')
+          return wrapper
+        }
+
+        console.log('YLD')
+        yield wrapper
+      }
+    } else if (this.wrapped instanceof Function) {
+      console.log('FN')
+      setContent(this.wrapped() || '')
+      return wrapper
+    }
+
     return wrapper
   }
 }
@@ -799,7 +841,7 @@ class TonicTabs extends Tonic { /* global Tonic */
   render () {
     this.setAttribute('role', 'tablist')
 
-    return [...this.childElements].map((node, index) => {
+    return [...this.elements].map((node, index) => {
       const ariaControls = node.getAttribute('for')
 
       if (node.attributes.class) {
@@ -814,7 +856,7 @@ class TonicTabs extends Tonic { /* global Tonic */
           role="tab"
           aria-controls="${ariaControls}"
           aria-selected="false">
-          ${node.childNodes}
+          ${node.nodes}
         </a>
       `
     }).join('')
@@ -846,7 +888,7 @@ class TonicTabPanel extends Tonic { /* global Tonic */
     this.setAttribute('role', 'tabpanel')
 
     return this.html`
-      ${this.childNodes}
+      ${this.nodes}
     `
   }
 }
@@ -967,7 +1009,7 @@ class TonicAccordion extends Tonic { /* global Tonic */
     if (multiple) this.setAttribute('data-allow-multiple', '')
 
     return this.html`
-      ${this.childNodes}
+      ${this.nodes}
     `
   }
 }
@@ -1082,7 +1124,7 @@ class TonicAccordionSection extends Tonic {
         aria-labelledby="tonic--accordion-header-${id}"
         role="region"
         hidden>
-        ${this.childNodes}
+        ${this.nodes}
       </div>
     `
   }
@@ -1534,7 +1576,7 @@ class TonicTooltip extends Tonic { /* global Tonic */
 
     return this.html`
       <div class="tonic--tooltip" styles="tooltip">
-        ${this.childNodes}
+        ${this.nodes}
         <span class="tonic--tooltip-arrow"></span>
       </div>
     `
@@ -1731,7 +1773,7 @@ class TonicPopover extends Tonic { /* global Tonic */
 
     return this.html`
       <div class="tonic--popover" styles="popover">
-        ${this.childNodes}
+        ${this.nodes}
       </div>
       <div class="tonic--overlay"></div>
     `
@@ -3436,7 +3478,7 @@ class TonicSelect extends Tonic { /* global Tonic */
       <div class="tonic--wrapper" styles="wrapper">
         ${this.renderLabel()}
         <select styles="select" ${attributes}>
-          ${this.childNodes}
+          ${this.nodes}
         </select>
       </div>
     `
@@ -4115,7 +4157,7 @@ class TonicToasterInline extends Tonic { /* global Tonic */
             ${title}
           </div>
           <div class="tonic--message">
-            ${message || this.childNodes}
+            ${message || this.nodes}
           </div>
         </div>
       </div>

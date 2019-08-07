@@ -197,7 +197,7 @@ class TonicToasterInline extends Tonic { /* global Tonic */
             ${title}
           </div>
           <div class="tonic--message">
-            ${message || this.childNodes}
+            ${message || this.nodes}
           </div>
         </div>
       </div>

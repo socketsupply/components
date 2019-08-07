@@ -92,7 +92,7 @@ class TonicTabs extends Tonic { /* global Tonic */
   render () {
     this.setAttribute('role', 'tablist')
 
-    return [...this.childElements].map((node, index) => {
+    return [...this.elements].map((node, index) => {
       const ariaControls = node.getAttribute('for')
 
       if (node.attributes.class) {
@@ -107,7 +107,7 @@ class TonicTabs extends Tonic { /* global Tonic */
           role="tab"
           aria-controls="${ariaControls}"
           aria-selected="false">
-          ${node.childNodes}
+          ${node.nodes}
         </a>
       `
     }).join('')
@@ -139,7 +139,7 @@ class TonicTabPanel extends Tonic { /* global Tonic */
     this.setAttribute('role', 'tabpanel')
 
     return this.html`
-      ${this.childNodes}
+      ${this.nodes}
     `
   }
 }

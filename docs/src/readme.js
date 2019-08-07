@@ -52,23 +52,17 @@ button.addEventListener('click', e => {
         // ./src/dialog/readme.js
         //
         if (document.body.dataset.page === 'examples') {
-          class TonicDialog extends Tonic.Dialog {
-  willConnect () {
-    this.state.message = this.props.message
+          const Tonic = require('@conductorlab/tonic')
+
+class TonicDialog extends Tonic.Dialog {
+  async click (e) {
+    if (Tonic.match(e.target, 'tonic-button')) {
+      this.state.message = Date.now()
+      this.reRender()
+    }
   }
 
-  click (e) {
-    if (!Tonic.match(e.target, '#update')) return
-
-    this.setState(state => ({
-      ...state,
-      message: `Date stamp ${Date.now()}`
-    }))
-
-    this.reRender()
-  }
-
-  render () {
+  body () {
     return `
       <header>Dialog</header>
       <main>
@@ -78,6 +72,22 @@ button.addEventListener('click', e => {
         <tonic-button id="update">Update</tonic-button>
       </footer>
     `
+  }
+
+  loading () {
+    this.state.loaded = true
+
+    return `
+      <h3>Loading...</h3>
+    `
+  }
+
+  async * render () {
+    if (!this.state.loaded) {
+      yield this.loading()
+    }
+
+    return this.body()
   }
 }
 

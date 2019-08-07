@@ -15,6 +15,7 @@ renderer.heading = (text, level) => {
 }
 
 const highlight = (code, lang = 'javascript', escaped) => {
+  if (!lang) lang = 'javascript'
   return hl.highlight(lang, code).value
 }
 
@@ -238,7 +239,7 @@ async function compile () {
     // Add the API as a section
     //
     const title = 'API'
-    const url = 'https://raw.githubusercontent.com/hxoht/tonic/master/API.md'
+    const url = 'https://raw.githubusercontent.com/heapwolf/tonic/master/API.md'
 
     const s = process.env.API
       ? await (await fetch(url)).text()

@@ -421,7 +421,7 @@ class Panel extends Tonic { /* global Tonic */
     })
   }
 
-  wrap (render) {
+  async * wrap (render) {
     const {
       name,
       position,
@@ -436,7 +436,7 @@ class Panel extends Tonic { /* global Tonic */
     const wrapper = document.createElement('div')
     const template = document.createElement('template')
 
-    const content = render()
+    const content = 'hi' // render()
 
     typeof content === 'string'
       ? (template.innerHTML = content)
@@ -507,6 +507,14 @@ class Dialog extends Tonic { /* global Tonic */
       const overlay = e.target.matches('.tonic--overlay')
       if (overlay) this.hide()
     })
+
+    const { constructor: AsyncFunction } = async function () {}
+    const { constructor: AsyncFunctionGenerator } = async function * () {}
+
+    this.types = {
+      AsyncFunction,
+      AsyncFunctionGenerator
+    }
   }
 
   defaults () {
@@ -640,7 +648,7 @@ class Dialog extends Tonic { /* global Tonic */
     }
   }
 
-  wrap (render) {
+  async * wrap () {
     const {
       width,
       height,
@@ -652,17 +660,10 @@ class Dialog extends Tonic { /* global Tonic */
 
     this.classList.add('tonic--dialog')
 
-    const template = document.createElement('template')
     const wrapper = document.createElement('div')
 
     const isOpen = !!this.querySelector('.tonic--dialog--wrapper.tonic--show')
     wrapper.className = isOpen ? 'tonic--dialog--wrapper tonic--show' : 'tonic--dialog--wrapper'
-
-    const content = render()
-
-    typeof content === 'string'
-      ? (template.innerHTML = content)
-      : [...content.childNodes].forEach(el => template.appendChild(el))
 
     if (theme) this.classList.add(`tonic--theme--${theme}`)
 
@@ -699,8 +700,49 @@ class Dialog extends Tonic { /* global Tonic */
     use.setAttribute('fill', iconColor)
 
     wrapper.appendChild(dialog)
-    dialog.appendChild(template.content)
+    const contentContainer = document.createElement('div')
+    contentContainer.className = 'tonic--dialog--content-container'
+    dialog.appendChild(contentContainer)
     dialog.appendChild(closeIcon)
+
+    yield wrapper
+
+    const setContent = content => {
+      if (!content) return
+
+      if (typeof content === 'string') {
+        contentContainer.innerHTML = content
+      } else {
+        [...content.childNodes].forEach(el => contentContainer.appendChild(el))
+      }
+    }
+
+    if (this.wrapped instanceof this.types.AsyncFunction) {
+      console.log('AF')
+      setContent(await this.wrapped() || '')
+      return wrapper
+    } else if (this.wrapped instanceof this.types.AsyncFunctionGenerator) {
+      console.log('ITR')
+      const itr = this.wrapped()
+      while (true) {
+        const { value, done } = await itr.next()
+        console.log('VAL', value)
+        setContent(value)
+
+        if (done) {
+          console.log('DONE')
+          return wrapper
+        }
+
+        console.log('YLD')
+        yield wrapper
+      }
+    } else if (this.wrapped instanceof Function) {
+      console.log('FN')
+      setContent(this.wrapped() || '')
+      return wrapper
+    }
+
     return wrapper
   }
 }
@@ -801,7 +843,7 @@ class TonicTabs extends Tonic { /* global Tonic */
   render () {
     this.setAttribute('role', 'tablist')
 
-    return [...this.childElements].map((node, index) => {
+    return [...this.elements].map((node, index) => {
       const ariaControls = node.getAttribute('for')
 
       if (node.attributes.class) {
@@ -816,7 +858,7 @@ class TonicTabs extends Tonic { /* global Tonic */
           role="tab"
           aria-controls="${ariaControls}"
           aria-selected="false">
-          ${node.childNodes}
+          ${node.nodes}
         </a>
       `
     }).join('')
@@ -848,7 +890,7 @@ class TonicTabPanel extends Tonic { /* global Tonic */
     this.setAttribute('role', 'tabpanel')
 
     return this.html`
-      ${this.childNodes}
+      ${this.nodes}
     `
   }
 }
@@ -969,7 +1011,7 @@ class TonicAccordion extends Tonic { /* global Tonic */
     if (multiple) this.setAttribute('data-allow-multiple', '')
 
     return this.html`
-      ${this.childNodes}
+      ${this.nodes}
     `
   }
 }
@@ -1084,7 +1126,7 @@ class TonicAccordionSection extends Tonic {
         aria-labelledby="tonic--accordion-header-${id}"
         role="region"
         hidden>
-        ${this.childNodes}
+        ${this.nodes}
       </div>
     `
   }
@@ -1536,7 +1578,7 @@ class TonicTooltip extends Tonic { /* global Tonic */
 
     return this.html`
       <div class="tonic--tooltip" styles="tooltip">
-        ${this.childNodes}
+        ${this.nodes}
         <span class="tonic--tooltip-arrow"></span>
       </div>
     `
@@ -1733,7 +1775,7 @@ class TonicPopover extends Tonic { /* global Tonic */
 
     return this.html`
       <div class="tonic--popover" styles="popover">
-        ${this.childNodes}
+        ${this.nodes}
       </div>
       <div class="tonic--overlay"></div>
     `
@@ -3435,7 +3477,7 @@ class TonicSelect extends Tonic { /* global Tonic */
       <div class="tonic--wrapper" styles="wrapper">
         ${this.renderLabel()}
         <select styles="select" ${attributes}>
-          ${this.childNodes}
+          ${this.nodes}
         </select>
       </div>
     `
@@ -4114,7 +4156,7 @@ class TonicToasterInline extends Tonic { /* global Tonic */
             ${title}
           </div>
           <div class="tonic--message">
-            ${message || this.childNodes}
+            ${message || this.nodes}
           </div>
         </div>
       </div>
@@ -4344,6 +4386,9 @@ Tonic.add(TonicToggle)
   
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
 },{"timers":66}],2:[function(require,module,exports){
+const { constructor: AsyncFunction } = async function () {}
+const { constructor: AsyncFunctionGenerator } = async function * () {}
+
 class Tonic extends window.HTMLElement {
   constructor () {
     super()
@@ -4351,11 +4396,12 @@ class Tonic extends window.HTMLElement {
     delete Tonic._states[this.id]
     this.state = state || {}
     this.props = {}
-    this.initialChildElements = [...this.children].map(el => el.cloneNode(true))
-    this.initialChildElements.__children__ = true
-    this.initialChildNodes = [...this.childNodes].map(el => el.cloneNode(true))
-    this.initialChildNodes.__children__ = true
+    this.elements = [...this.children].map(el => el.cloneNode(true))
+    this.elements.__children__ = true
+    this.nodes = [...this.childNodes].map(el => el.cloneNode(true))
+    this.nodes.__children__ = true
     this._events()
+    this.eventstream = []
   }
 
   static _createId () {
@@ -4433,7 +4479,7 @@ class Tonic extends window.HTMLElement {
 
   reRender (o = this.props) {
     this.props = Tonic.sanitize(typeof o === 'function' ? o(this.props) : o)
-    this._set(this, this.render())
+    this._set(this, this.render)
 
     if (this.updated) {
       const oldProps = JSON.parse(JSON.stringify(this.props))
@@ -4457,7 +4503,27 @@ class Tonic extends window.HTMLElement {
     }
   }
 
-  _set (target, content = '') {
+  once (name) {
+    return new Promise(resolve => {
+      this.addEventListener(name, resolve, { once: true })
+    })
+  }
+
+  async _set (target, render, content = '') {
+    if (render instanceof AsyncFunction) {
+      content = await render.call(this) || ''
+    } else if (render instanceof AsyncFunctionGenerator) {
+      const itr = render.call(this)
+      while (true) {
+        const { value, done } = await itr.next()
+        this._set(target, null, value)
+        if (done) break
+      }
+      return
+    } else if (render instanceof Function) {
+      content = render.call(this) || ''
+    }
+
     for (const node of target.querySelectorAll(Tonic._tags)) {
       if (Tonic._refs.findIndex(ref => ref === node) === -1) continue
       Tonic._states[node.id] = node.getState()
@@ -4533,11 +4599,10 @@ class Tonic extends window.HTMLElement {
 
   connectedCallback () {
     this.root = this.shadowRoot || this
-    this.childElements = this.children
 
     if (this.wrap) {
-      const render = this.render
-      this.render = () => this.wrap(render.bind(this))
+      this.wrapped = this.render
+      this.render = this.wrap
     }
 
     Tonic._refs.push(this)
@@ -4570,14 +4635,14 @@ class Tonic extends window.HTMLElement {
     this._id = this._id || Tonic._createId()
 
     this.willConnect && this.willConnect()
-    this._set(this, this.render())
+    this._set(this, this.render)
     this.connected && this.connected()
   }
 
   disconnectedCallback (index) {
     this.disconnected && this.disconnected()
-    this.initialChildElements.length = 0
-    this.initialChildNodes.length = 0
+    this.elements.length = 0
+    this.nodes.length = 0
     delete Tonic._data[this._id]
     delete Tonic._children[this._id]
     Tonic._refs.splice(index, 1)
@@ -13599,17 +13664,14 @@ tape('{{checkbox-6}} has size attributes', t => {
 
 },{"../../test/tape":89,"qs":39}],72:[function(require,module,exports){
 const Tonic = require('@conductorlab/tonic')
+const sleep = n => new Promise(resolve => setTimeout(resolve, n))
 
 class TonicDialog extends Tonic.Dialog {
-  click (e) {
-    if (!Tonic.match(e.target, '#close')) {
-      this.reRender(props => ({
-        ...props
-      }))
-    }
+  async click (e) {
+    return Tonic.match(e.target, 'tonic-button')
   }
 
-  render () {
+  body () {
     return `
       <header>Dialog</header>
       <main>
@@ -13620,6 +13682,20 @@ class TonicDialog extends Tonic.Dialog {
       </footer>
     `
   }
+
+  async * render () {
+    yield `Loading...`
+
+    await sleep(250)
+
+    yield this.body()
+
+    while (true) {
+      if (await this.click) {
+        yield this.body()
+      }
+    }
+  }
 }
 
 Tonic.add(TonicDialog)
@@ -13629,8 +13705,6 @@ Tonic.add(TonicDialog)
 //
 const tape = require('../../test/tape')
 const { qs } = require('qs')
-
-const sleep = n => new Promise(resolve => setTimeout(resolve, n))
 
 tape('{{dialog-1}} is constructed properly, opens and closes properly', async t => {
   const container = qs('#dialog-1')
@@ -14085,7 +14159,7 @@ class ComponentContainer extends Tonic {
 
   render () {
     return this.html`
-      ${this.childNodes}
+      ${this.nodes}
     `
   }
 }

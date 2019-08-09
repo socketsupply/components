@@ -796,9 +796,7 @@ class TonicTabs extends Tonic { /* global Tonic */
       const control = tab.getAttribute('for')
 
       if (!control) {
-        console.log('NO FOR', tab)
-        // throw new Error(`No "for" attribute found for tab id "${tab.id}".`)
-        continue
+        throw new Error(`No "for" attribute found for tab id "${tab.id}".`)
       }
 
       const panel = document.getElementById(control)
@@ -4038,7 +4036,7 @@ class TonicToasterInline extends Tonic { /* global Tonic */
         transform: scale(0.95);
         transition: opacity 0.2s ease-in-out 0s, transform 0.3s ease-in-out 0s, max-height 0.3s ease-in-out;
         opacity: 0;
-        z-index: 1;
+        z-index: -1;
       }
 
       tonic-toaster-inline .tonic--notification.tonic--show {
@@ -4049,6 +4047,7 @@ class TonicToasterInline extends Tonic { /* global Tonic */
         transform: scale(1);
         transition: opacity 0.2s ease-in-out, transform 0.3s ease-in-out, max-height 0.3s ease-in-out;
         opacity: 1;
+        z-index: 1;
       }
 
       tonic-toaster-inline .tonic--notification.tonic--close {
@@ -13714,8 +13713,6 @@ tape('{{checkbox-6}} has size attributes', t => {
 })
 
 },{"../../test/tape":89,"qs":39}],72:[function(require,module,exports){
-/*
-
 const Tonic = require('@conductorlab/tonic')
 const sleep = n => new Promise(resolve => setTimeout(resolve, n))
 
@@ -13724,30 +13721,16 @@ class TonicDialog extends Tonic.Dialog {
     return Tonic.match(e.target, 'tonic-button')
   }
 
-  body () {
+  render () {
     return `
       <header>Dialog</header>
       <main>
-        ${this.props.message}
+        ${this.props.message || 'Ready'}
       </main>
       <footer>
         <tonic-button class="tonic--close" id="close">Close</tonic-button>
       </footer>
     `
-  }
-
-  async * render () {
-    yield `Loading...`
-
-    await sleep(250)
-
-    yield this.body()
-
-    while (true) {
-      if (await this.click) {
-        yield this.body()
-      }
-    }
   }
 }
 
@@ -13787,9 +13770,7 @@ tape('{{dialog-1}} is constructed properly, opens and closes properly', async t 
   t.end()
 })
 
-*/
-
-},{}],73:[function(require,module,exports){
+},{"../../test/tape":89,"@conductorlab/tonic":2,"qs":39}],73:[function(require,module,exports){
 const tape = require('../../test/tape')
 const { qs } = require('qs')
 
@@ -14044,7 +14025,7 @@ tape('{{input-10}} has tabindex', t => {
 // })
 
 },{"../../test/tape":89,"qs":39}],75:[function(require,module,exports){
-/* const Tonic = require('@conductorlab/tonic')
+const Tonic = require('@conductorlab/tonic')
 
 class TonicPanel extends Tonic.Panel {
   async click (e) {
@@ -14132,10 +14113,7 @@ const panelThemeDark = document.getElementById('tonic-panel-theme-dark')
 
 panelThemeDarkButton.addEventListener('click', e => panelThemeDark.show())
 
-
-*/
-
-},{}],76:[function(require,module,exports){
+},{"@conductorlab/tonic":2}],76:[function(require,module,exports){
 //
 // Panel Default
 //

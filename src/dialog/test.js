@@ -1,5 +1,3 @@
-/*
-
 const Tonic = require('@conductorlab/tonic')
 const sleep = n => new Promise(resolve => setTimeout(resolve, n))
 
@@ -8,30 +6,16 @@ class TonicDialog extends Tonic.Dialog {
     return Tonic.match(e.target, 'tonic-button')
   }
 
-  body () {
+  render () {
     return `
       <header>Dialog</header>
       <main>
-        ${this.props.message}
+        ${this.props.message || 'Ready'}
       </main>
       <footer>
         <tonic-button class="tonic--close" id="close">Close</tonic-button>
       </footer>
     `
-  }
-
-  async * render () {
-    yield `Loading...`
-
-    await sleep(250)
-
-    yield this.body()
-
-    while (true) {
-      if (await this.click) {
-        yield this.body()
-      }
-    }
   }
 }
 
@@ -70,5 +54,3 @@ tape('{{dialog-1}} is constructed properly, opens and closes properly', async t 
 
   t.end()
 })
-
-*/

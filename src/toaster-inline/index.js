@@ -23,7 +23,7 @@ class TonicToasterInline extends Tonic { /* global Tonic */
         transform: scale(0.95);
         transition: opacity 0.2s ease-in-out 0s, transform 0.3s ease-in-out 0s, max-height 0.3s ease-in-out;
         opacity: 0;
-        z-index: 1;
+        z-index: -1;
       }
 
       tonic-toaster-inline .tonic--notification.tonic--show {
@@ -34,6 +34,7 @@ class TonicToasterInline extends Tonic { /* global Tonic */
         transform: scale(1);
         transition: opacity 0.2s ease-in-out, transform 0.3s ease-in-out, max-height 0.3s ease-in-out;
         opacity: 1;
+        z-index: 1;
       }
 
       tonic-toaster-inline .tonic--notification.tonic--close {

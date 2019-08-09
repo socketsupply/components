@@ -87,3 +87,17 @@ Go to:
 ```
 https://localhost:8080/
 ```
+
+
+# TEST
+
+```bash
+npm run build:test
+npm run dev
+```
+
+Go to:
+
+```
+https://localhost:8080/test.html
+```

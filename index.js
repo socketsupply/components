@@ -864,8 +864,6 @@ class TonicTabs extends Tonic { /* global Tonic */
         node.attributes.class.value += ' tonic--tab'
       }
 
-      console.log(node)
-
       return this.html`
         <a
           ...${node.attributes}
@@ -3973,8 +3971,6 @@ class TonicToaster extends Tonic { /* global Tonic */
       theme,
       position
     } = this.props
-
-    console.log(this.props)
 
     const positionAttr = position ? `tonic--${position}` : ''
 

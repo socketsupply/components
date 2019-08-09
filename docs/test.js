@@ -866,8 +866,6 @@ class TonicTabs extends Tonic { /* global Tonic */
         node.attributes.class.value += ' tonic--tab'
       }
 
-      console.log(node)
-
       return this.html`
         <a
           ...${node.attributes}
@@ -3975,8 +3973,6 @@ class TonicToaster extends Tonic { /* global Tonic */
       theme,
       position
     } = this.props
-
-    console.log(this.props)
 
     const positionAttr = position ? `tonic--${position}` : ''
 
@@ -13902,7 +13898,6 @@ tape('{{input-4}} is required', t => {
   t.ok(input, 'the component was constructed with an input')
   t.equal(component.getAttribute('required'), 'true', 'component contains required attribute')
   t.equal(input.required, true, 'input is required')
-  console.log(component.getAttribute('required'), input.required)
 
   t.end()
 })
@@ -14179,7 +14174,6 @@ const { qs } = require('qs')
 
 class ComponentContainer extends Tonic {
   click () {
-    console.log('COMPONENT CONTAINER CLICK')
     this.reRender()
   }
 
@@ -14196,7 +14190,6 @@ tape('{{tabs-3}} has correct default state', t => {
   const container = qs('component-container')
 
   t.ok(container, 'rendered')
-  console.log(container)
   t.end()
 })
 

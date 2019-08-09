@@ -155,7 +155,7 @@ class TonicDialog extends Tonic.Dialog {
     return `
       <header>Dialog</header>
       <main>
-        ${this.state.message}
+        ${this.state.message || 'Ready'}
       </main>
       <footer>
         <tonic-button id="update">Update</tonic-button>
@@ -1307,8 +1307,6 @@ class TonicTabs extends Tonic { /* global Tonic */
       if (node.attributes.class) {
         node.attributes.class.value += ' tonic--tab'
       }
-
-      console.log(node)
 
       return this.html`
         <a
@@ -4417,8 +4415,6 @@ class TonicToaster extends Tonic { /* global Tonic */
       theme,
       position
     } = this.props
-
-    console.log(this.props)
 
     const positionAttr = position ? `tonic--${position}` : ''
 

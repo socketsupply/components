@@ -12,7 +12,7 @@ class TonicDialog extends Tonic.Dialog {
     return `
       <header>Dialog</header>
       <main>
-        ${this.state.message}
+        ${this.state.message || 'Ready'}
       </main>
       <footer>
         <tonic-button id="update">Update</tonic-button>

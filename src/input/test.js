@@ -58,7 +58,6 @@ tape('{{input-4}} is required', t => {
   t.ok(input, 'the component was constructed with an input')
   t.equal(component.getAttribute('required'), 'true', 'component contains required attribute')
   t.equal(input.required, true, 'input is required')
-  console.log(component.getAttribute('required'), input.required)
 
   t.end()
 })

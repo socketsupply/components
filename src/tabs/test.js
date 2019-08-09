@@ -4,7 +4,6 @@ const { qs } = require('qs')
 
 class ComponentContainer extends Tonic {
   click () {
-    console.log('COMPONENT CONTAINER CLICK')
     this.reRender()
   }
 
@@ -21,6 +20,5 @@ tape('{{tabs-3}} has correct default state', t => {
   const container = qs('component-container')
 
   t.ok(container, 'rendered')
-  console.log(container)
   t.end()
 })

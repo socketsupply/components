@@ -107,7 +107,7 @@ class TonicTabs extends Tonic { /* global Tonic */
           role="tab"
           aria-controls="${ariaControls}"
           aria-selected="false">
-          ${node.nodes}
+          ${node.childNodes}
         </a>
       `
     }).join('')

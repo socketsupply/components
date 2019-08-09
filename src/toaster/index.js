@@ -238,8 +238,6 @@ class TonicToaster extends Tonic { /* global Tonic */
       position
     } = this.props
 
-    console.log(this.props)
-
     const positionAttr = position ? `tonic--${position}` : ''
 
     if (theme) this.classList.add(`tonic--theme--${theme}`)

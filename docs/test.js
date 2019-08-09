@@ -866,6 +866,8 @@ class TonicTabs extends Tonic { /* global Tonic */
         node.attributes.class.value += ' tonic--tab'
       }
 
+      console.log(node)
+
       return this.html`
         <a
           ...${node.attributes}
@@ -874,7 +876,7 @@ class TonicTabs extends Tonic { /* global Tonic */
           role="tab"
           aria-controls="${ariaControls}"
           aria-selected="false">
-          ${node.nodes}
+          ${node.childNodes}
         </a>
       `
     }).join('')

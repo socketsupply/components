@@ -55,25 +55,26 @@ setInvalid.addEventListener('click', (e) => {
 
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
-| `id` | *string* | Input with `id` attribute. | |
+| `id` | *string* | Input with `id` attribute. <span class="req">required</span> | |
+| `aria-invalid` | *boolean* | Adds `aria-invalid` attribute. | `false` |
+| `aria-labelledby` | *string* | Adds `aria-labelledby` attribute. | `false` |
+| `disabled` | *boolean* | Makes the input `disabled`. | `false` |
+| `error-message` | *string* | Changes error message text. | |
+| `invalid` | *boolean* | Adds the `invalid` attribute. | `false` |
+| `label` | *string* | Adds a label to the input. | |
 | `name` | *string* | Input with `name` attribute. | |
-| `type` | *string* | Type of input (text, password, email). | `text` |
+| `pattern` | *string* | Regex for checking value. | |
+| `placeholder` | *string* | Inserts `placeholder` text. | |
+| `position` | *string* | The position of an icon, if specified. | |
+| `radius` | *string* | Radius of the input. | `3px` |
 | `required` | *boolean* | Makes the input `required`. | `false` |
 | `readonly` | *boolean* | Makes the input `readonly`. | `false` |
-| `disabled` | *boolean* | Makes the input `disabled`. | `false` |
 | `spellcheck` | *boolean* | Enable `spellcheck` on the input. | `false` |
-| `invalid` | *boolean* | Adds the `invalid` attribute. | `false` |
-| `aria-invalid` | *boolean* | Adds `aria-invalid` attribute. | `false` |
-| `placeholder` | *string* | Inserts `placeholder` text. | |
-| `error-message` | *string* | Changes error message text. | |
-| `label` | *string* | Adds a label to the input. | |
 | `src` | *string* | Adds an icon to the input. | |
-| `position` | *string* | The position of an icon, if specified. | |
-| `pattern` | *string* | Regex for checking value. | |
-| `width` | *string* | Width of the input. | `250px` |
-| `radius` | *string* | Radius of the input. | `3px` |
 | `tabindex` | *number* | Add a `tabindex` for the input. | |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
+| `type` | *string* | Type of input (text, password, email). | `text` |
+| `width` | *string* | Width of the input. | `250px` |
 
 ### Instance Methods
 

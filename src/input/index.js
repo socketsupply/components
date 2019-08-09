@@ -249,69 +249,72 @@ class TonicInput extends Tonic { /* global Tonic */
 
   render () {
     const {
-      id,
-      height,
-      type,
-      placeholder,
-      spellcheck,
       ariaInvalid,
-      readonly,
+      ariaLabelledby,
       disabled,
-      required,
-      pattern,
-      theme,
-      title,
-      position,
-      minlength,
+      height,
+      label,
+      max,
       maxlength,
       min,
-      max,
+      minlength,
       name,
-      tabindex
+      pattern,
+      placeholder,
+      position,
+      readonly,
+      required,
+      spellcheck,
+      tabindex,
+      theme,
+      title,
+      type
     } = this.props
 
-    const idAttr = id ? `id="tonic--input_${id}"` : ''
-    const patternAttr = pattern ? `pattern="${pattern}"` : ''
-    const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
-    const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
-    const readonlyAttr = readonly && readonly === 'true' ? `readonly="true"` : ''
-    const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
-    const requiredAttr = required && required === 'true' ? `required="true"` : ''
     const ariaInvalidAttr = ariaInvalid ? `aria-invalid="${ariaInvalid}"` : ''
-    const positionAttr = position ? `tonic--${position}` : ''
-    const minLengthAttr = minlength ? `minlength="${minlength}"` : ''
+    const ariaLabelAttr = label ? `aria-label=${label}` : ''
+    const ariaLabelledByAttr = ariaLabelledby ? `aria-labelledby="${ariaLabelledby}"` : ''
+    const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
+    const maxAttr = max ? `max="${max}"` : ''
     const maxLengthAttr = maxlength ? `maxlength="${maxlength}"` : ''
     const minAttr = min ? `min="${min}"` : ''
-    const maxAttr = max ? `max="${max}"` : ''
+    const minLengthAttr = minlength ? `minlength="${minlength}"` : ''
     const nameAttr = name ? `name="${name}"` : ''
-    const titleAttr = title ? `title="${title}"` : ''
-
+    const patternAttr = pattern ? `pattern="${pattern}"` : ''
+    const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
+    const positionAttr = position ? `tonic--${position}` : ''
+    const readonlyAttr = readonly && readonly === 'true' ? `readonly="true"` : ''
+    const requiredAttr = required && required === 'true' ? `required="true"` : ''
+    const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
-    if (tabindex) this.removeAttribute('tabindex')
-
-    if (height) this.style.width = height
-    if (theme) this.classList.add(`tonic--theme--${theme}`)
-
+    const titleAttr = title ? `title="${title}"` : ''
     const value = this.state.value || this.props.value
     const valueAttr = value && value !== 'undefined' ? `value="${value.replace(/"/g, '&quot;')}"` : ''
 
+    if (ariaLabelledByAttr) this.removeAttribute('ariaLabelled')
+    if (height) this.style.width = height
+    if (name) this.removeAttribute('name')
+    if (tabindex) this.removeAttribute('tabindex')
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
+
     const attributes = [
-      idAttr,
-      patternAttr,
-      valueAttr,
-      placeholderAttr,
-      spellcheckAttr,
       ariaInvalidAttr,
-      minLengthAttr,
+      ariaLabelAttr,
+      ariaLabelledByAttr,
+      disabledAttr,
+      maxAttr,
       maxLengthAttr,
       minAttr,
-      maxAttr,
-      readonlyAttr,
+      minLengthAttr,
       nameAttr,
-      titleAttr,
-      disabledAttr,
+      patternAttr,
+      placeholderAttr,
+      readonlyAttr,
       requiredAttr,
-      tabAttr
+      spellcheckAttr,
+      tabAttr,
+      titleAttr,
+      valueAttr
     ].join(' ')
 
     return `
@@ -319,9 +322,13 @@ class TonicInput extends Tonic { /* global Tonic */
         ${this.renderLabel()}
         ${this.renderIcon()}
 
-        <input styles="input" type="${type}" ${attributes}/>
+        <input
+          styles="input"
+          type="${type}"
+          id="tonic--input_${this.props.id}"
+          ${attributes}/>
         <div class="tonic--invalid">
-          <span>${this.props.errorMessage}</span>
+          <span id="tonic--error-${this.props.id}">${this.props.errorMessage}</span>
         </div>
       </div>
     `

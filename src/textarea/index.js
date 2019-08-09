@@ -77,7 +77,7 @@ class TonicTextarea extends Tonic { /* global Tonic */
 
   renderLabel () {
     if (!this.props.label) return ''
-    return `<label>${this.props.label}</label>`
+    return `<label for="tonic--textarea_${this.props.id}">${this.props.label}</label>`
   }
 
   willConnect () {
@@ -86,58 +86,70 @@ class TonicTextarea extends Tonic { /* global Tonic */
 
   render () {
     const {
-      width,
-      height,
-      placeholder,
-      spellcheck,
-      disabled,
-      required,
-      readonly,
+      ariaLabelledby,
       autofocus,
-      rows,
       cols,
-      minlength,
+      height,
+      disabled,
+      label,
       maxlength,
+      minlength,
+      name,
+      placeholder,
+      readonly,
+      required,
+      rows,
+      spellcheck,
       tabindex,
-      theme
+      theme,
+      width
     } = this.props
 
-    const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
-    const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
-    const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
-    const rowsAttr = rows ? `rows="${rows}"` : ''
+    const ariaLabelAttr = label ? `aria-label=${label}` : ''
+    const ariaLabelledByAttr = ariaLabelledby ? `aria-labelledby="${ariaLabelledby}"` : ''
     const colsAttr = cols ? `cols="${cols}"` : ''
-    const minAttr = minlength ? `minlength="${minlength}"` : ''
+    const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
     const maxAttr = maxlength ? `maxlength="${maxlength}"` : ''
-
+    const minAttr = minlength ? `minlength="${minlength}"` : ''
+    const nameAttr = name ? `name="${name}"` : ''
+    const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
+    const rowsAttr = rows ? `rows="${rows}"` : ''
+    const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
-    if (tabindex) this.removeAttribute('tabindex')
 
+    if (ariaLabelledByAttr) this.removeAttribute('ariaLabelled')
     if (width) this.style.width = width
     if (height) this.style.height = height
+    if (tabindex) this.removeAttribute('tabindex')
     if (theme) this.classList.add(`tonic--theme--${theme}`)
+    if (name) this.removeAttribute('name')
 
     if (this.props.value === 'undefined') this.props.value = ''
 
     const attributes = [
-      placeholderAttr,
-      spellcheckAttr,
-      disabled,
-      required,
-      readonly,
+      ariaLabelAttr,
+      ariaLabelledByAttr,
       autofocus,
-      rowsAttr,
       colsAttr,
-      minAttr,
-      maxAttr,
       disabledAttr,
+      maxAttr,
+      minAttr,
+      nameAttr,
+      placeholderAttr,
+      readonly,
+      required,
+      rowsAttr,
+      spellcheckAttr,
       tabAttr
     ].join(' ')
 
     return `
       <div class="tonic--wrapper">
         ${this.renderLabel()}
-        <textarea styles="textarea" ${attributes}>${this.props.value}</textarea>
+        <textarea
+          styles="textarea"
+          id="tonic--textarea_${this.props.id}"
+          ${attributes}>${this.props.value}</textarea>
       </div>
     `
   }

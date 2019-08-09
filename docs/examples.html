@@ -206,9 +206,9 @@
 npm install <b>@conductorlab/components</b></code></pre>
 
   <pre><code class="language-js"><span class="hljs-keyword">const</span> Tonic = require(<span class="hljs-string">'@conductorlab/tonic'</span>)
-<span class="hljs-keyword">const</span> attachComponents = require(<span class="hljs-string">'@conductorlab/components'</span>)
+<span class="hljs-keyword">const</span> registerComponents = require(<span class="hljs-string">'@conductorlab/components'</span>)
 
-attachComponents(Tonic) <span class="hljs-comment">// registers all the components for you</span></code></pre>
+registerComponents(Tonic) <span class="hljs-comment">// registers all the components for you</span></code></pre>
 
 <p>See the github link in each example and the <a href="./docs.html">docs</a> page for more details.</p>
 
@@ -1119,7 +1119,43 @@ link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; dialog.s
 <tbody><tr>
 <td align="left"><code>id</code></td>
 <td align="left"><em>string</em></td>
-<td align="left">Input with <code>id</code> attribute.</td>
+<td align="left">Input with <code>id</code> attribute. <span class="req">required</span></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>aria-invalid</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Adds <code>aria-invalid</code> attribute.</td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left"><code>aria-labelledby</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds <code>aria-labelledby</code> attribute.</td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left"><code>disabled</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Makes the input <code>disabled</code>.</td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left"><code>error-message</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Changes error message text.</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>invalid</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Adds the <code>invalid</code> attribute.</td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left"><code>label</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Adds a label to the input.</td>
 <td align="left"></td>
 </tr>
 <tr>
@@ -1129,10 +1165,28 @@ link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; dialog.s
 <td align="left"></td>
 </tr>
 <tr>
-<td align="left"><code>type</code></td>
+<td align="left"><code>pattern</code></td>
 <td align="left"><em>string</em></td>
-<td align="left">Type of input (text, password, email).</td>
-<td align="left"><code>text</code></td>
+<td align="left">Regex for checking value.</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>placeholder</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Inserts <code>placeholder</code> text.</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>position</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">The position of an icon, if specified.</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>radius</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Radius of the input.</td>
+<td align="left"><code>3px</code></td>
 </tr>
 <tr>
 <td align="left"><code>required</code></td>
@@ -1147,76 +1201,16 @@ link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; dialog.s
 <td align="left"><code>false</code></td>
 </tr>
 <tr>
-<td align="left"><code>disabled</code></td>
-<td align="left"><em>boolean</em></td>
-<td align="left">Makes the input <code>disabled</code>.</td>
-<td align="left"><code>false</code></td>
-</tr>
-<tr>
 <td align="left"><code>spellcheck</code></td>
 <td align="left"><em>boolean</em></td>
 <td align="left">Enable <code>spellcheck</code> on the input.</td>
 <td align="left"><code>false</code></td>
 </tr>
 <tr>
-<td align="left"><code>invalid</code></td>
-<td align="left"><em>boolean</em></td>
-<td align="left">Adds the <code>invalid</code> attribute.</td>
-<td align="left"><code>false</code></td>
-</tr>
-<tr>
-<td align="left"><code>aria-invalid</code></td>
-<td align="left"><em>boolean</em></td>
-<td align="left">Adds <code>aria-invalid</code> attribute.</td>
-<td align="left"><code>false</code></td>
-</tr>
-<tr>
-<td align="left"><code>placeholder</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Inserts <code>placeholder</code> text.</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left"><code>error-message</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Changes error message text.</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left"><code>label</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Adds a label to the input.</td>
-<td align="left"></td>
-</tr>
-<tr>
 <td align="left"><code>src</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">Adds an icon to the input.</td>
 <td align="left"></td>
-</tr>
-<tr>
-<td align="left"><code>position</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">The position of an icon, if specified.</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left"><code>pattern</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Regex for checking value.</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left"><code>width</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Width of the input.</td>
-<td align="left"><code>250px</code></td>
-</tr>
-<tr>
-<td align="left"><code>radius</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Radius of the input.</td>
-<td align="left"><code>3px</code></td>
 </tr>
 <tr>
 <td align="left"><code>tabindex</code></td>
@@ -1229,6 +1223,18 @@ link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; dialog.s
 <td align="left"><em>string</em></td>
 <td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
 <td align="left"><code>light</code></td>
+</tr>
+<tr>
+<td align="left"><code>type</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Type of input (text, password, email).</td>
+<td align="left"><code>text</code></td>
+</tr>
+<tr>
+<td align="left"><code>width</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Width of the input.</td>
+<td align="left"><code>250px</code></td>
 </tr>
 </tbody></table>
 <h3>Instance Methods</h3>
@@ -2414,7 +2420,55 @@ for the <code>selected</code> attribute on the <code>tonic-tabs</code> component
 <tbody><tr>
 <td align="left"><code>id</code></td>
 <td align="left"><em>string</em></td>
-<td align="left">Text area with <code>id</code> attribute.</td>
+<td align="left">Text area with <code>id</code> attribute. <span class="req">required</span></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>ariaLabelledby</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Sets the <code>area-labelledby</code> attribute.</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>autofocus</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Enable <code>autofocus</code> on the text area.</td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left"><code>cols</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Set number of columns.</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>disabled</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Text area with <code>disabled</code> attribute.</td>
+<td align="left"><code>false</code></td>
+</tr>
+<tr>
+<td align="left"><code>height</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Set height of text area.</td>
+<td align="left"><code>100%</code></td>
+</tr>
+<tr>
+<td align="left"><code>label</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Creates a label.</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>maxlength</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Set the maximum character length.</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>minlength</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Set the minimum character length.</td>
 <td align="left"></td>
 </tr>
 <tr>
@@ -2430,22 +2484,10 @@ for the <code>selected</code> attribute on the <code>tonic-tabs</code> component
 <td align="left"></td>
 </tr>
 <tr>
-<td align="left"><code>spellcheck</code></td>
-<td align="left"><em>boolean</em></td>
-<td align="left">Enable spellcheck.</td>
-<td align="left"><code>true</code></td>
-</tr>
-<tr>
-<td align="left"><code>disabled</code></td>
-<td align="left"><em>boolean</em></td>
-<td align="left">Text area with <code>disabled</code> attribute.</td>
-<td align="left"><code>false</code></td>
-</tr>
-<tr>
-<td align="left"><code>required</code></td>
-<td align="left"><em>boolean</em></td>
-<td align="left">Set text area to <code>required</code>.</td>
-<td align="left"><code>false</code></td>
+<td align="left"><code>radius</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Set radius of text area.</td>
+<td align="left"><code>2px</code></td>
 </tr>
 <tr>
 <td align="left"><code>readonly</code></td>
@@ -2454,9 +2496,9 @@ for the <code>selected</code> attribute on the <code>tonic-tabs</code> component
 <td align="left"><code>false</code></td>
 </tr>
 <tr>
-<td align="left"><code>autofocus</code></td>
+<td align="left"><code>required</code></td>
 <td align="left"><em>boolean</em></td>
-<td align="left">Enable <code>autofocus</code> on the text area.</td>
+<td align="left">Set text area to <code>required</code>.</td>
 <td align="left"><code>false</code></td>
 </tr>
 <tr>
@@ -2472,40 +2514,10 @@ for the <code>selected</code> attribute on the <code>tonic-tabs</code> component
 <td align="left"></td>
 </tr>
 <tr>
-<td align="left"><code>cols</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Set number of columns.</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left"><code>minlength</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Set the minimum character length.</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left"><code>maxlength</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Set the maximum character length.</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left"><code>width</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Set width of text area.</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td align="left"><code>height</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Set height of text area.</td>
-<td align="left"><code>100%</code></td>
-</tr>
-<tr>
-<td align="left"><code>radius</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Set radius of text area.</td>
-<td align="left"><code>2px</code></td>
+<td align="left"><code>spellcheck</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Enable spellcheck.</td>
+<td align="left"><code>true</code></td>
 </tr>
 <tr>
 <td align="left"><code>tabindex</code></td>
@@ -2518,6 +2530,12 @@ for the <code>selected</code> attribute on the <code>tonic-tabs</code> component
 <td align="left"><em>string</em></td>
 <td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
 <td align="left"><code>light</code></td>
+</tr>
+<tr>
+<td align="left"><code>width</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Set width of text area.</td>
+<td align="left"></td>
 </tr>
 </tbody></table>
 <h3>Instance Methods &amp; Members</h3>

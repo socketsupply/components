@@ -1,3 +1,5 @@
+/*
+
 const Tonic = require('@conductorlab/tonic')
 const sleep = n => new Promise(resolve => setTimeout(resolve, n))
 
@@ -68,3 +70,5 @@ tape('{{dialog-1}} is constructed properly, opens and closes properly', async t 
 
   t.end()
 })
+
+*/

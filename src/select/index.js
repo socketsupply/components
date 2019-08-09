@@ -228,7 +228,7 @@ class TonicSelect extends Tonic { /* global Tonic */
       <div class="tonic--wrapper" styles="wrapper">
         ${this.renderLabel()}
         <select styles="select" ${attributes}>
-          ${this.nodes}
+          ${this.childNodes}
         </select>
       </div>
     `

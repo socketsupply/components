@@ -29,7 +29,7 @@ class TonicTabs extends Tonic { /* global Tonic */
       const control = tab.getAttribute('for')
 
       if (!control) {
-        throw new Error(`No "for" attribute found for (${tab.id})`)
+        throw new Error(`No "for" attribute found for tab id "${tab.id}".`)
       }
 
       const panel = document.getElementById(control)
@@ -92,8 +92,14 @@ class TonicTabs extends Tonic { /* global Tonic */
   render () {
     this.setAttribute('role', 'tablist')
 
-    return [...this.elements].map((node, index) => {
+    return [...this.childNodes].map((node, index) => {
+      if (node.nodeType !== 1) return ''
+
       const ariaControls = node.getAttribute('for')
+
+      if (!ariaControls) {
+        return ''
+      }
 
       if (node.attributes.class) {
         node.attributes.class.value += ' tonic--tab'
@@ -139,7 +145,7 @@ class TonicTabPanel extends Tonic { /* global Tonic */
     this.setAttribute('role', 'tabpanel')
 
     return this.html`
-      ${this.nodes}
+      ${this.childNodes}
     `
   }
 }

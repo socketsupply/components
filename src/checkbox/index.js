@@ -130,7 +130,7 @@ class TonicCheckbox extends Tonic { /* global Tonic */
     } = this.props
 
     if (!this.props.label) {
-      label = this.initialChildNodes
+      label = this.nodes
     }
 
     return this.html`<label styles="label" for="tonic--checkbox--${id}">${label}</label>`

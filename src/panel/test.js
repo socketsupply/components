@@ -1,4 +1,4 @@
-const Tonic = require('@conductorlab/tonic')
+/* const Tonic = require('@conductorlab/tonic')
 
 class TonicPanel extends Tonic.Panel {
   async click (e) {
@@ -85,3 +85,6 @@ const panelThemeDarkButton = document.getElementById('tonic-panel-theme-dark-but
 const panelThemeDark = document.getElementById('tonic-panel-theme-dark')
 
 panelThemeDarkButton.addEventListener('click', e => panelThemeDark.show())
+
+
+*/

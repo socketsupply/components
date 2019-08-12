@@ -1,3 +1,4 @@
+const Tonic = require('@conductorlab/tonic')
 const sleep = n => new Promise(resolve => setTimeout(resolve, n))
 
 class TonicDialog extends Tonic.Dialog { /* global Tonic */

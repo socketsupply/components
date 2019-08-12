@@ -1,7 +1,8 @@
+const Tonic = require('@conductorlab/tonic')
 const tape = require('../../test/tape')
 const { qs } = require('qs')
 
-class ComponentContainer extends Tonic { /* global Tonic */
+class ComponentContainer extends Tonic {
   click () {
     this.reRender()
   }

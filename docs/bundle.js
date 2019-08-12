@@ -141,9 +141,7 @@ button.addEventListener('click', e => {
         // ./src/dialog/readme.js
         //
         if (document.body.dataset.page === 'examples') {
-          const Tonic = require('@conductorlab/tonic')
-
-class TonicDialog extends Tonic.Dialog {
+          class TonicDialog extends Tonic.Dialog { /* global Tonic */
   async click (e) {
     if (Tonic.match(e.target, 'tonic-button')) {
       this.state.message = Date.now()
@@ -214,9 +212,8 @@ input.addEventListener('focus', listener)
         //
         if (document.body.dataset.page === 'examples') {
           const fetch = require('node-fetch')
-const Tonic = require('@conductorlab/tonic')
 
-class TonicPanel extends Tonic.Panel {
+class TonicPanel extends Tonic.Panel { /* global Tonic */
   async getArticle (title) {
     try {
       const res = await fetch(`https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=${title}&origin=*`)
@@ -378,9 +375,7 @@ toasterLink1.addEventListener('click', e => toaster1.show())
         // ./src/windowed/readme.js
         //
         if (document.body.dataset.page === 'examples') {
-          const Tonic = require('@conductorlab/tonic')
-
-class TonicWindowed extends Tonic.Windowed {
+          class TonicWindowed extends Tonic.Windowed { /* global Tonic */
   async click (e) {
     const row = Tonic.match(e.target, '[data-id]')
 
@@ -440,7 +435,7 @@ overlay.addEventListener('click', e => {
       
     }
   
-},{"@conductorlab/tonic":5,"node-fetch":6}],4:[function(require,module,exports){
+},{"node-fetch":6}],4:[function(require,module,exports){
 (function (global,setImmediate){
 
     //
@@ -2618,8 +2613,6 @@ class TonicChart extends Tonic { /* global Tonic */
       ...this.props,
       ...this.props.options
     }
-
-    console.log(options)
 
     const src = this.props.src
 

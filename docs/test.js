@@ -2177,8 +2177,6 @@ class TonicChart extends Tonic { /* global Tonic */
       ...this.props.options
     }
 
-    console.log(options)
-
     const src = this.props.src
 
     if (typeof src === 'string') {
@@ -13725,10 +13723,9 @@ tape('{{checkbox-6}} has size attributes', t => {
 })
 
 },{"../../test/tape":89,"qs":39}],72:[function(require,module,exports){
-const Tonic = require('@conductorlab/tonic')
 const sleep = n => new Promise(resolve => setTimeout(resolve, n))
 
-class TonicDialog extends Tonic.Dialog {
+class TonicDialog extends Tonic.Dialog { /* global Tonic */
   async click (e) {
     return Tonic.match(e.target, 'tonic-button')
   }
@@ -13782,7 +13779,7 @@ tape('{{dialog-1}} is constructed properly, opens and closes properly', async t 
   t.end()
 })
 
-},{"../../test/tape":89,"@conductorlab/tonic":2,"qs":39}],73:[function(require,module,exports){
+},{"../../test/tape":89,"qs":39}],73:[function(require,module,exports){
 const tape = require('../../test/tape')
 const { qs } = require('qs')
 
@@ -14037,9 +14034,7 @@ tape('{{input-10}} has tabindex', t => {
 // })
 
 },{"../../test/tape":89,"qs":39}],75:[function(require,module,exports){
-const Tonic = require('@conductorlab/tonic')
-
-class TonicPanel extends Tonic.Panel {
+class TonicPanel extends Tonic.Panel { /* global Tonic */
   async click (e) {
     if (e.target.value === 'close') {
       return this.hide()
@@ -14125,7 +14120,7 @@ const panelThemeDark = document.getElementById('tonic-panel-theme-dark')
 
 panelThemeDarkButton.addEventListener('click', e => panelThemeDark.show())
 
-},{"@conductorlab/tonic":2}],76:[function(require,module,exports){
+},{}],76:[function(require,module,exports){
 //
 // Panel Default
 //
@@ -14194,11 +14189,10 @@ page2.addEventListener('match', () => {
 },{}],81:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
 },{"dup":4}],82:[function(require,module,exports){
-const Tonic = require('@conductorlab/tonic')
 const tape = require('../../test/tape')
 const { qs } = require('qs')
 
-class ComponentContainer extends Tonic {
+class ComponentContainer extends Tonic { /* global Tonic */
   click () {
     this.reRender()
   }
@@ -14219,7 +14213,7 @@ tape('{{tabs-3}} has correct default state', t => {
   t.end()
 })
 
-},{"../../test/tape":89,"@conductorlab/tonic":2,"qs":39}],83:[function(require,module,exports){
+},{"../../test/tape":89,"qs":39}],83:[function(require,module,exports){
 arguments[4][4][0].apply(exports,arguments)
 },{"dup":4}],84:[function(require,module,exports){
 const tape = require('../../test/tape')

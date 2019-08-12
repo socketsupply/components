@@ -2175,8 +2175,6 @@ class TonicChart extends Tonic { /* global Tonic */
       ...this.props.options
     }
 
-    console.log(options)
-
     const src = this.props.src
 
     if (typeof src === 'string') {

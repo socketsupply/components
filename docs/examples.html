@@ -1309,9 +1309,8 @@ your own panel class which can be registered and then used as a tag.</p>
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-panel</span>&gt;</span></code></pre>
 <h4>JS</h4>
 <pre><code class="language-js"><span class="hljs-keyword">const</span> fetch = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node-fetch'</span>)
-<span class="hljs-keyword">const</span> Tonic = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@conductorlab/tonic'</span>)
 
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TonicPanel</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span>.<span class="hljs-title">Panel</span> </span>{
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TonicPanel</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span>.<span class="hljs-title">Panel</span> </span>{ <span class="hljs-comment">/* global Tonic */</span>
   <span class="hljs-keyword">async</span> getArticle (title) {
     <span class="hljs-keyword">try</span> {
       <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> fetch(<span class="hljs-string">`https://en.wikipedia.org/w/api.php?format=json&amp;action=query&amp;prop=extracts&amp;exintro=&amp;explaintext=&amp;titles=<span class="hljs-subst">${title}</span>&amp;origin=*`</span>)
@@ -3061,9 +3060,7 @@ has been rendered.</p>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-windowed</span> <span class="hljs-attr">row-height</span>=<span class="hljs-string">30</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-windowed</span>&gt;</span></code></pre>
 <h4>JS</h4>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> Tonic = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@conductorlab/tonic'</span>)
-
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TonicWindowed</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span>.<span class="hljs-title">Windowed</span> </span>{
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TonicWindowed</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span>.<span class="hljs-title">Windowed</span> </span>{ <span class="hljs-comment">/* global Tonic */</span>
   <span class="hljs-keyword">async</span> click (e) {
     <span class="hljs-keyword">const</span> row = Tonic.match(e.target, <span class="hljs-string">'[data-id]'</span>)
 

@@ -1,20 +1,8 @@
 {
-	"chartData": {
-		"labels": ["Foo", "Bar", "Bazz"],
-		"datasets": [{
-			"label": "Quxx (millions)",
-			"backgroundColor": ["#c3c3c3", "#f06653", "#8f8f8f"],
-			"data": [278, 467, 34]
-		}]
-	},
-	"options": {
-    "tooltips": {
-      "enabled": false
-    },
-    "legend": {
-      "display": false
-    },
-    "drawTicks": true,
-    "drawBorder": true
-	}
+  "labels": ["Foo", "Bar", "Bazz"],
+  "datasets": [{
+    "label": "Quxx",
+    "backgroundColor": ["#c3c3c3", "#f06653", "#8f8f8f"],
+    "data": [278, 367, 134]
+  }]
 }

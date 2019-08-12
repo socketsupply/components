@@ -2131,7 +2131,7 @@ class TonicChart extends Tonic { /* global Tonic */
     `
   }
 
-  draw (data, options) {
+  draw (data = {}, options = {}) {
     const root = this.querySelector('canvas')
     //
     // Create the chart by passing the data and options..
@@ -2147,8 +2147,10 @@ class TonicChart extends Tonic { /* global Tonic */
       window.ChartJS = window.Chart
     }
 
+    const type = this.props.type || options.type
+
     return new window.ChartJS(root, {
-      type: this.props.type,
+      type,
       options,
       data
     })
@@ -2167,27 +2169,37 @@ class TonicChart extends Tonic { /* global Tonic */
 
   async connected () {
     let data = null
-    let configuration = null
 
-    if (typeof this.props.src === 'string') {
-      const response = await this.fetch(this.props.src)
+    const options = {
+      ...this.props,
+      ...this.props.options
+    }
+
+    console.log(options)
+
+    const src = this.props.src
+
+    if (typeof src === 'string') {
+      const response = await this.fetch(src)
 
       if (response.err) {
         console.error(response.err)
         data = {}
       } else {
-        data = response.data.chartData
-        configuration = response.data.options
+        data = response.data
       }
     }
 
-    if ((this.props.src === Object(this.props.src))) {
-      data = this.props.src.chartData
-      configuration = this.props.configuration || {}
+    if (src === Object(src)) {
+      data = src
+    }
+
+    if (data.chartData) {
+      throw new Error('chartData propery deprecated')
     }
 
     if (data) {
-      this.draw(data, configuration)
+      this.draw(data, options)
     }
   }
 

@@ -627,43 +627,41 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
     </div>
   
       <h1 id="chart">Chart</h1>
-<p>An example component that uses <a href="https://www.chartjs.org/">chart.js</a> <code>2.7.2</code>.</p>
+<p>An example component that uses <a href="https://www.chartjs.org/">chart.js</a> <code>2.8.0</code>.</p>
 <p><tonic-chart
   type="horizontalBar"
   width="300px"
   height="150px"
-  tooltip="false"
   src="/chartdata.json">
 </tonic-chart></p>
 <h2>Code</h2>
 <h4>HTML</h4>
+<p>Options is optional and contains any valid chartjs configuration options.</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> opts = {
+  <span class="hljs-attr">tooltips</span>: {
+    <span class="hljs-attr">enabled</span>: <span class="hljs-literal">false</span>
+  },
+  <span class="hljs-attr">legend</span>: {
+    <span class="hljs-attr">display</span>: <span class="hljs-literal">false</span>
+  },
+  <span class="hljs-attr">drawTicks</span>: <span class="hljs-literal">true</span>,
+  <span class="hljs-attr">drawBorder</span>: <span class="hljs-literal">true</span>
+}</code></pre>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-chart</span>
   <span class="hljs-attr">type</span>=<span class="hljs-string">"horizontalBar"</span>
   <span class="hljs-attr">width</span>=<span class="hljs-string">"300"</span>
   <span class="hljs-attr">height</span>=<span class="hljs-string">"150px"</span>
-  <span class="hljs-attr">tooltip</span>=<span class="hljs-string">"false"</span>
+  <span class="hljs-attr">options</span>=<span class="hljs-string">${opts}</span>
   <span class="hljs-attr">src</span>=<span class="hljs-string">"/chartdata.json"</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-chart</span>&gt;</span></code></pre>
 <h4>JSON</h4>
 <pre><code class="language-json">{
-    <span class="hljs-attr">"chartData"</span>: {
-        <span class="hljs-attr">"labels"</span>: [<span class="hljs-string">"Foo"</span>, <span class="hljs-string">"Bar"</span>, <span class="hljs-string">"Bazz"</span>],
-        <span class="hljs-attr">"datasets"</span>: [{
-            <span class="hljs-attr">"label"</span>: <span class="hljs-string">"Quxx (millions)"</span>,
-            <span class="hljs-attr">"backgroundColor"</span>: [<span class="hljs-string">"#c3c3c3"</span>, <span class="hljs-string">"#f06653"</span>, <span class="hljs-string">"#8f8f8f"</span>],
-            <span class="hljs-attr">"data"</span>: [<span class="hljs-number">278</span>, <span class="hljs-number">467</span>, <span class="hljs-number">34</span>]
-        }]
-    },
-    <span class="hljs-attr">"options"</span>: {
-    <span class="hljs-attr">"tooltips"</span>: {
-      <span class="hljs-attr">"enabled"</span>: <span class="hljs-literal">false</span>
-    },
-    <span class="hljs-attr">"legend"</span>: {
-      <span class="hljs-attr">"display"</span>: <span class="hljs-literal">false</span>
-    },
-    <span class="hljs-attr">"drawTicks"</span>: <span class="hljs-literal">true</span>,
-    <span class="hljs-attr">"drawBorder"</span>: <span class="hljs-literal">true</span>
-    }
+  <span class="hljs-attr">"labels"</span>: [<span class="hljs-string">"Foo"</span>, <span class="hljs-string">"Bar"</span>, <span class="hljs-string">"Bazz"</span>],
+  <span class="hljs-attr">"datasets"</span>: [{
+    <span class="hljs-attr">"label"</span>: <span class="hljs-string">"Quxx (millions)"</span>,
+    <span class="hljs-attr">"backgroundColor"</span>: [<span class="hljs-string">"#c3c3c3"</span>, <span class="hljs-string">"#f06653"</span>, <span class="hljs-string">"#8f8f8f"</span>],
+    <span class="hljs-attr">"data"</span>: [<span class="hljs-number">278</span>, <span class="hljs-number">467</span>, <span class="hljs-number">34</span>]
+  }]
 }</code></pre>
 <h2>Api</h2>
 <h3>Properties</h3>
@@ -686,6 +684,12 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
 <td align="left"><code>type</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">The type of the bar chart.</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>src</code></td>
+<td align="left"><em>object</em> or <em>string</em></td>
+<td align="left">The data for the chart. A url or an object.</td>
 <td align="left"></td>
 </tr>
 <tr>

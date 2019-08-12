@@ -169,7 +169,7 @@ async function compile () {
     if (!s) continue
 
     if (file === 'intro.md') {
-      const version = pkg.dependencies['@conductorlab/tonic']
+      const version = pkg.devDependencies['@conductorlab/tonic']
       s = s.replace('{{version}}', version.slice(1))
     }
 

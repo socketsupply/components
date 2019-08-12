@@ -1,7 +1,6 @@
 const fetch = require('node-fetch')
-const Tonic = require('@conductorlab/tonic')
 
-class TonicPanel extends Tonic.Panel {
+class TonicPanel extends Tonic.Panel { /* global Tonic */
   async getArticle (title) {
     try {
       const res = await fetch(`https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=${title}&origin=*`)

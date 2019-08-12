@@ -1,6 +1,4 @@
-const Tonic = require('@conductorlab/tonic')
-
-class TonicWindowed extends Tonic.Windowed {
+class TonicWindowed extends Tonic.Windowed { /* global Tonic */
   async click (e) {
     const row = Tonic.match(e.target, '[data-id]')
 

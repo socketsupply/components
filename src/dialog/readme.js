@@ -1,6 +1,4 @@
-const Tonic = require('@conductorlab/tonic')
-
-class TonicDialog extends Tonic.Dialog {
+class TonicDialog extends Tonic.Dialog { /* global Tonic */
   async click (e) {
     if (Tonic.match(e.target, 'tonic-button')) {
       this.state.message = Date.now()

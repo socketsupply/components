@@ -13,9 +13,9 @@ npm install @conductorlab/components
 
 ```js
 const Tonic = require('@conductorlab/tonic')
-const attachComponents = require('@conductorlab/components')
+const registerComponents = require('@conductorlab/components')
 
-attachComponents(Tonic)
+registerComponents(Tonic)
 ```
 
 ### THEME

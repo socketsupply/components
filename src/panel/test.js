@@ -1,6 +1,4 @@
-const Tonic = require('@conductorlab/tonic')
-
-class TonicPanel extends Tonic.Panel {
+class TonicPanel extends Tonic.Panel { /* global Tonic */
   async click (e) {
     if (e.target.value === 'close') {
       return this.hide()

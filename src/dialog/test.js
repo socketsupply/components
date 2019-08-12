@@ -1,7 +1,6 @@
-const Tonic = require('@conductorlab/tonic')
 const sleep = n => new Promise(resolve => setTimeout(resolve, n))
 
-class TonicDialog extends Tonic.Dialog {
+class TonicDialog extends Tonic.Dialog { /* global Tonic */
   async click (e) {
     return Tonic.match(e.target, 'tonic-button')
   }

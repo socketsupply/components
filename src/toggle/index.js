@@ -172,7 +172,7 @@ class TonicToggle extends Tonic { /* global Tonic */
       tabindex
     } = this.props
 
-    const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
+    const disabledAttr = disabled && disabled === 'true' ? `disabled` : ''
 
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
     if (tabindex) this.removeAttribute('tabindex')

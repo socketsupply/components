@@ -448,47 +448,65 @@ overlay.addEventListener('click', e => {
   constructor () {
     super()
 
-    const that = this
-
     if (TonicRouter.patched) return
     TonicRouter.patched = true
 
-    const createEvent = function (type) {
+    const patchEvent = function (type) {
       const orig = window.history[type]
       return function (...args) {
-        that.reset()
-
         const value = orig.call(this, ...args)
         window.dispatchEvent(new window.Event(type.toLowerCase()))
 
-        const nodes = document.getElementsByTagName('tonic-router')
-        for (const node of nodes) node.reRender()
+        TonicRouter.reset()
         return value
       }
     }
 
-    window.addEventListener('popstate', e => this.reRender(p => p))
-
-    window.history.pushState = createEvent('pushState')
-    window.history.replaceState = createEvent('replaceState')
+    window.addEventListener('popstate', e => TonicRouter.reset())
+    window.history.pushState = patchEvent('pushState')
+    window.history.replaceState = patchEvent('replaceState')
   }
 
-  stylesheet () {
-    return `
-      tonic-router {
-        display: none;
+  static reset () {
+    const routes = [...document.getElementsByTagName('tonic-router')]
+    const keys = []
+    let defaultRoute = null
+    let hasMatch = false
+
+    for (const route of routes) {
+      const props = route.getProps()
+      const path = route.getAttribute('path')
+
+      route.state.updated = false
+
+      if (!path) {
+        defaultRoute = route
+        defaultRoute.state.match = false
+        defaultRoute.reRender()
+        continue
       }
 
-      tonic-router.tonic--show {
-        display: block;
-      }
-    `
-  }
+      const matcher = TonicRouter.matcher(path, keys)
+      const match = matcher.exec(window.location.pathname)
 
-  reset () {
-    TonicRouter.matches = false
-    const contentTags = document.getElementsByTagName('tonic-router')
-    Array.from(contentTags).forEach(tag => tag.classList.remove('tonic--show'))
+      if (match) {
+        route.state.match = true
+        hasMatch = true
+
+        match.slice(1).forEach((m, i) => {
+          props[keys[i].name] = m
+        })
+      } else {
+        route.state.match = false
+      }
+
+      route.reRender(props)
+    }
+
+    if (!hasMatch && defaultRoute) {
+      defaultRoute.state.match = true
+      defaultRoute.reRender()
+    }
   }
 
   willConnect () {
@@ -497,33 +515,17 @@ overlay.addEventListener('click', e => {
   }
 
   updated () {
-    if (!this.classList.contains('tonic--show')) return
-    const event = new window.Event('match')
-    this.dispatchEvent(event)
+    if (this.state.updated) return
+
+    if (this.state.match) {
+      this.dispatchEvent(new window.Event('match'))
+    }
+
+    this.state.updated = true
   }
 
   render () {
-    const none = this.hasAttribute('none')
-
-    if (none) {
-      if (TonicRouter.matches) return
-      this.classList.add('tonic--show')
-      return this.template.content
-    }
-
-    const path = this.getAttribute('path')
-    const keys = []
-    const matcher = TonicRouter.matcher(path, keys)
-    const match = matcher.exec(window.location.pathname)
-
-    if (match) {
-      TonicRouter.matches = true
-
-      match.slice(1).forEach((m, i) => {
-        this.props[keys[i].name] = m
-      })
-
-      this.classList.add('tonic--show')
+    if (this.state.match) {
       return this.template.content
     }
 
@@ -531,7 +533,6 @@ overlay.addEventListener('click', e => {
   }
 }
 
-TonicRouter.matches = false
 TonicRouter.matcher = (() => {
   //
   // Most of this was lifted from the path-to-regex project which can

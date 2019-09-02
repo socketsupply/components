@@ -20,7 +20,7 @@ The `Router` component will render its children components if the browser's curr
     <tonic-router id="page2" path="/bar/:number">
       <b>number</b> prop has the value <b id="page2-number"></b>.
     </tonic-router>
-    <tonic-router none>
+    <tonic-router>
       404
     </tonic-router>
   </div>

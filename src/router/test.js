@@ -8,5 +8,6 @@ select.addEventListener('change', e => {
 page2.addEventListener('match', () => {
   const { number } = page2.getProps()
   const el = document.getElementById('page2-number')
+  if (!el) return
   el.textContent = number
 })

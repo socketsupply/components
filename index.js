@@ -35,15 +35,15 @@
     let hasMatch = false
 
     for (const route of routes) {
-      const props = route.getProps()
+      const props = {}
       const path = route.getAttribute('path')
 
-      route.state.updated = false
+      route.removeAttribute('match')
 
       if (!path) {
         defaultRoute = route
-        defaultRoute.state.match = false
-        defaultRoute.reRender()
+        defaultRoute.removeAttribute('match')
+        defaultRoute.reRender && defaultRoute.reRender()
         continue
       }
 
@@ -51,22 +51,22 @@
       const match = matcher.exec(window.location.pathname)
 
       if (match) {
-        route.state.match = true
+        route.setAttribute('match', true)
         hasMatch = true
 
         match.slice(1).forEach((m, i) => {
           props[keys[i].name] = m
         })
       } else {
-        route.state.match = false
+        route.removeAttribute('match')
       }
 
-      route.reRender(props)
+      route.reRender && route.reRender(props)
     }
 
     if (!hasMatch && defaultRoute) {
-      defaultRoute.state.match = true
-      defaultRoute.reRender()
+      defaultRoute.setAttribute('match', true)
+      defaultRoute.reRender && defaultRoute.reRender()
     }
   }
 

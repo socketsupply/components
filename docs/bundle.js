@@ -457,18 +457,18 @@ overlay.addEventListener('click', e => {
         const value = orig.call(this, ...args)
         window.dispatchEvent(new window.Event(type.toLowerCase()))
 
-        TonicRouter.reset()
+        TonicRouter.route()
         return value
       }
     }
 
-    window.addEventListener('popstate', e => TonicRouter.reset())
+    window.addEventListener('popstate', e => TonicRouter.route())
     window.history.pushState = patchEvent('pushState')
     window.history.replaceState = patchEvent('replaceState')
   }
 
-  static reset () {
-    const routes = [...document.getElementsByTagName('tonic-router')]
+  static route (routes, reset) {
+    routes = routes || [...document.getElementsByTagName('tonic-router')]
     const keys = []
     let defaultRoute = null
     let hasMatch = false
@@ -503,7 +503,7 @@ overlay.addEventListener('click', e => {
       route.reRender && route.reRender(props)
     }
 
-    if (!hasMatch && defaultRoute) {
+    if (!reset && !hasMatch && defaultRoute) {
       defaultRoute.setAttribute('match', true)
       defaultRoute.reRender && defaultRoute.reRender()
     }
@@ -512,12 +512,13 @@ overlay.addEventListener('click', e => {
   willConnect () {
     this.template = document.createElement('template')
     this.template.innerHTML = this.innerHTML
+    TonicRouter.route([this], true)
   }
 
   updated () {
     if (this.state.updated) return
 
-    if (this.state.match) {
+    if (this.hasAttribute('match')) {
       this.dispatchEvent(new window.Event('match'))
     }
 
@@ -525,7 +526,7 @@ overlay.addEventListener('click', e => {
   }
 
   render () {
-    if (this.state.match) {
+    if (this.hasAttribute('match')) {
       return this.template.content
     }
 

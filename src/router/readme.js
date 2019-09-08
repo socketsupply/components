@@ -6,7 +6,7 @@ select.addEventListener('change', e => {
 })
 
 page2.addEventListener('match', () => {
-  const { number } = page2.getProps()
+  const { number } = page2.getState()
   const el = document.getElementById('page2-number')
   el.textContent = number
 })

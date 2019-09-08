@@ -18,9 +18,10 @@
       const orig = window.history[type]
       return function (...args) {
         const value = orig.call(this, ...args)
-        window.dispatchEvent(new window.Event(type.toLowerCase()))
 
+        window.dispatchEvent(new window.Event(type.toLowerCase()))
         TonicRouter.route()
+
         return value
       }
     }
@@ -35,16 +36,15 @@
     const keys = []
     let defaultRoute = null
     let hasMatch = false
+    TonicRouter.props = {}
 
     for (const route of routes) {
-      const props = {}
       const path = route.getAttribute('path')
 
       route.removeAttribute('match')
 
       if (!path) {
         defaultRoute = route
-        defaultRoute.removeAttribute('match')
         defaultRoute.reRender && defaultRoute.reRender()
         continue
       }
@@ -57,13 +57,15 @@
         hasMatch = true
 
         match.slice(1).forEach((m, i) => {
-          props[keys[i].name] = m
+          TonicRouter.props[keys[i].name] = m
         })
       } else {
         route.removeAttribute('match')
       }
 
-      route.reRender && route.reRender(props)
+      if (!reset) {
+        route.reRender && route.reRender()
+      }
     }
 
     if (!reset && !hasMatch && defaultRoute) {
@@ -79,17 +81,14 @@
   }
 
   updated () {
-    if (this.state.updated) return
-
     if (this.hasAttribute('match')) {
       this.dispatchEvent(new window.Event('match'))
     }
-
-    this.state.updated = true
   }
 
   render () {
     if (this.hasAttribute('match')) {
+      this.setState(TonicRouter.props)
       return this.template.content
     }
 
@@ -14186,7 +14185,7 @@ select.addEventListener('change', e => {
 })
 
 page2.addEventListener('match', () => {
-  const { number } = page2.getProps()
+  const { number } = page2.getState()
   const el = document.getElementById('page2-number')
   if (!el) return
   el.textContent = number

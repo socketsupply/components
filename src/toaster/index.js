@@ -205,12 +205,12 @@ class TonicToaster extends Tonic { /* global Tonic */
     }
   }
 
-  destroy (notification) {
-    notification.classList.remove('tonic--show')
-    notification.addEventListener('transitionend', e => {
-      if (!notification) return
-
-      notification.parentNode.removeChild(notification)
+  destroy (el) {
+    el.classList.remove('tonic--show')
+    el.addEventListener('transitionend', e => {
+      if (el && el.parentNode) {
+        el.parentNode.removeChild(el)
+      }
     })
   }
 

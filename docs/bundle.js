@@ -4416,12 +4416,12 @@ class TonicToaster extends Tonic { /* global Tonic */
     }
   }
 
-  destroy (notification) {
-    notification.classList.remove('tonic--show')
-    notification.addEventListener('transitionend', e => {
-      if (!notification) return
-
-      notification.parentNode.removeChild(notification)
+  destroy (el) {
+    el.classList.remove('tonic--show')
+    el.addEventListener('transitionend', e => {
+      if (el && el.parentNode) {
+        el.parentNode.removeChild(el)
+      }
     })
   }
 
@@ -4659,7 +4659,7 @@ class TonicToasterInline extends Tonic { /* global Tonic */
             ${title}
           </div>
           <div class="tonic--message">
-            ${message || this.nodes}
+            ${message || this.childNodes}
           </div>
         </div>
       </div>
@@ -4889,9 +4889,6 @@ Tonic.add(TonicToggle)
   
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
 },{"timers":10}],5:[function(require,module,exports){
-const { constructor: AsyncFunction } = async function () {}
-const { constructor: AsyncFunctionGenerator } = async function * () {}
-
 class Tonic extends window.HTMLElement {
   constructor () {
     super()
@@ -5006,9 +5003,9 @@ class Tonic extends window.HTMLElement {
   }
 
   async _set (target, render, content = '') {
-    if (render instanceof AsyncFunction) {
+    if (render instanceof Tonic.AsyncFunction) {
       content = await render.call(this) || ''
-    } else if (render instanceof AsyncFunctionGenerator) {
+    } else if (render instanceof Tonic.AsyncFunctionGenerator) {
       const itr = render.call(this)
       while (true) {
         const { value, done } = await itr.next()
@@ -5155,8 +5152,8 @@ Object.assign(Tonic, {
   _index: 0,
   SPREAD: /\.\.\.(__\w+__\w+__)/g,
   ESC: /["&'<>`]/g,
-  AsyncFunctionGenerator,
-  AsyncFunction,
+  AsyncFunctionGenerator: async function * () {}.constructor,
+  AsyncFunction: async function () {}.constructor,
   MAP: { '"': '&quot;', '&': '&amp;', '\'': '&#x27;', '<': '&lt;', '>': '&gt;', '`': '&#x60;' }
 })
 

@@ -1,6 +1,6 @@
 {
   "name": "@conductorlab/components",
-  "version": "6.1.4",
+  "version": "6.1.5",
   "description": "Example components",
   "bin": "bin/components",
   "directories": {
@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/conductorlab/components#readme",
   "devDependencies": {
-    "@conductorlab/tonic": "^10.0.3",
+    "@conductorlab/tonic": "^10.0.4",
     "autoprefixer-stylus": "^0.14.0",
     "browserify": "^16.2.2",
     "highlight.js": "^9.12.0",

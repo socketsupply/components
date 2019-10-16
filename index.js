@@ -9,82 +9,84 @@
   constructor () {
     super()
 
-    const that = this
-
     if (TonicRouter.patched) return
     TonicRouter.patched = true
 
-    const createEvent = function (type) {
+    const patchEvent = function (type) {
       const orig = window.history[type]
       return function (...args) {
-        that.reset()
-
         const value = orig.call(this, ...args)
-        window.dispatchEvent(new window.Event(type.toLowerCase()))
 
-        const nodes = document.getElementsByTagName('tonic-router')
-        for (const node of nodes) node.reRender()
+        window.dispatchEvent(new window.Event(type.toLowerCase()))
+        TonicRouter.route()
+
         return value
       }
     }
 
-    window.addEventListener('popstate', e => this.reRender(p => p))
-
-    window.history.pushState = createEvent('pushState')
-    window.history.replaceState = createEvent('replaceState')
+    window.addEventListener('popstate', e => TonicRouter.route())
+    window.history.pushState = patchEvent('pushState')
+    window.history.replaceState = patchEvent('replaceState')
   }
 
-  stylesheet () {
-    return `
-      tonic-router {
-        display: none;
+  static route (routes, reset) {
+    routes = routes || [...document.getElementsByTagName('tonic-router')]
+    const keys = []
+    let defaultRoute = null
+    let hasMatch = false
+    TonicRouter.props = {}
+
+    for (const route of routes) {
+      const path = route.getAttribute('path')
+
+      route.removeAttribute('match')
+
+      if (!path) {
+        defaultRoute = route
+        defaultRoute.reRender && defaultRoute.reRender()
+        continue
       }
 
-      tonic-router.tonic--show {
-        display: block;
-      }
-    `
-  }
+      const matcher = TonicRouter.matcher(path, keys)
+      const match = matcher.exec(window.location.pathname)
 
-  reset () {
-    TonicRouter.matches = false
-    const contentTags = document.getElementsByTagName('tonic-router')
-    Array.from(contentTags).forEach(tag => tag.classList.remove('tonic--show'))
+      if (match) {
+        route.setAttribute('match', true)
+        hasMatch = true
+
+        match.slice(1).forEach((m, i) => {
+          TonicRouter.props[keys[i].name] = m
+        })
+      } else {
+        route.removeAttribute('match')
+      }
+
+      if (!reset) {
+        route.reRender && route.reRender()
+      }
+    }
+
+    if (!reset && !hasMatch && defaultRoute) {
+      defaultRoute.setAttribute('match', true)
+      defaultRoute.reRender && defaultRoute.reRender()
+    }
   }
 
   willConnect () {
     this.template = document.createElement('template')
     this.template.innerHTML = this.innerHTML
+    TonicRouter.route([this], true)
   }
 
   updated () {
-    if (!this.classList.contains('tonic--show')) return
-    const event = new window.Event('match')
-    this.dispatchEvent(event)
+    if (this.hasAttribute('match')) {
+      this.dispatchEvent(new window.Event('match'))
+    }
   }
 
   render () {
-    const none = this.hasAttribute('none')
-
-    if (none) {
-      if (TonicRouter.matches) return
-      this.classList.add('tonic--show')
-      return this.template.content
-    }
-
-    const path = this.getAttribute('path')
-    const keys = []
-    const matcher = TonicRouter.matcher(path, keys)
-    const match = matcher.exec(window.location.pathname)
-
-    if (match) {
-      TonicRouter.matches = true
-
-      match.slice(1).forEach((m, i) => {
-        this.props[keys[i].name] = m
-      })
-
-      this.classList.add('tonic--show')
+    if (this.hasAttribute('match')) {
+      this.setState(TonicRouter.props)
       return this.template.content
     }
 
@@ -92,7 +94,6 @@
   }
 }
 
-TonicRouter.matches = false
 TonicRouter.matcher = (() => {
   //
   // Most of this was lifted from the path-to-regex project which can
@@ -3976,12 +3977,12 @@ class TonicToaster extends Tonic { /* global Tonic */
     }
   }
 
-  destroy (notification) {
-    notification.classList.remove('tonic--show')
-    notification.addEventListener('transitionend', e => {
-      if (!notification) return
-
-      notification.parentNode.removeChild(notification)
+  destroy (el) {
+    el.classList.remove('tonic--show')
+    el.addEventListener('transitionend', e => {
+      if (el && el.parentNode) {
+        el.parentNode.removeChild(el)
+      }
     })
   }
 
@@ -4219,7 +4220,7 @@ class TonicToasterInline extends Tonic { /* global Tonic */
             ${title}
           </div>
           <div class="tonic--message">
-            ${message || this.nodes}
+            ${message || this.childNodes}
           </div>
         </div>
       </div>

@@ -5,9 +5,6 @@
 ::-webkit-input-placeholder {
   color: var(--tonic-medium);
 }
-::-moz-placeholder {
-  color: var(--tonic-medium);
-}
 :-ms-input-placeholder {
   color: var(--tonic-medium);
 }

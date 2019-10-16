@@ -2379,7 +2379,7 @@ class TonicCheckbox extends Tonic { /* global Tonic */
     }
 
     const checkedAttr = checked ? 'checked' : ''
-    const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
+    const disabledAttr = disabled && disabled === 'true' ? `disabled` : ''
 
     const titleAttr = title ? `title="${title}"` : ''
 
@@ -2752,7 +2752,7 @@ class TonicInput extends Tonic { /* global Tonic */
     const ariaInvalidAttr = ariaInvalid ? `aria-invalid="${ariaInvalid}"` : ''
     const ariaLabelAttr = label ? `aria-label=${label}` : ''
     const ariaLabelledByAttr = ariaLabelledby ? `aria-labelledby="${ariaLabelledby}"` : ''
-    const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
+    const disabledAttr = disabled && disabled === 'true' ? `disabled` : ''
     const maxAttr = max ? `max="${max}"` : ''
     const maxLengthAttr = maxlength ? `maxlength="${maxlength}"` : ''
     const minAttr = min ? `min="${min}"` : ''
@@ -2761,8 +2761,8 @@ class TonicInput extends Tonic { /* global Tonic */
     const patternAttr = pattern ? `pattern="${pattern}"` : ''
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
     const positionAttr = position ? `tonic--${position}` : ''
-    const readonlyAttr = readonly && readonly === 'true' ? `readonly="true"` : ''
-    const requiredAttr = required && required === 'true' ? `required="true"` : ''
+    const readonlyAttr = readonly && readonly === 'true' ? `readonly` : ''
+    const requiredAttr = required && required === 'true' ? `required` : ''
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
     const titleAttr = title ? `title="${title}"` : ''
@@ -4404,7 +4404,7 @@ class TonicToggle extends Tonic { /* global Tonic */
       tabindex
     } = this.props
 
-    const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
+    const disabledAttr = disabled && disabled === 'true' ? `disabled` : ''
 
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
     if (tabindex) this.removeAttribute('tabindex')

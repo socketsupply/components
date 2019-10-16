@@ -2381,7 +2381,7 @@ class TonicCheckbox extends Tonic { /* global Tonic */
     }
 
     const checkedAttr = checked ? 'checked' : ''
-    const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
+    const disabledAttr = disabled && disabled === 'true' ? `disabled` : ''
 
     const titleAttr = title ? `title="${title}"` : ''
 
@@ -2754,7 +2754,7 @@ class TonicInput extends Tonic { /* global Tonic */
     const ariaInvalidAttr = ariaInvalid ? `aria-invalid="${ariaInvalid}"` : ''
     const ariaLabelAttr = label ? `aria-label=${label}` : ''
     const ariaLabelledByAttr = ariaLabelledby ? `aria-labelledby="${ariaLabelledby}"` : ''
-    const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
+    const disabledAttr = disabled && disabled === 'true' ? `disabled` : ''
     const maxAttr = max ? `max="${max}"` : ''
     const maxLengthAttr = maxlength ? `maxlength="${maxlength}"` : ''
     const minAttr = min ? `min="${min}"` : ''
@@ -2763,8 +2763,8 @@ class TonicInput extends Tonic { /* global Tonic */
     const patternAttr = pattern ? `pattern="${pattern}"` : ''
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
     const positionAttr = position ? `tonic--${position}` : ''
-    const readonlyAttr = readonly && readonly === 'true' ? `readonly="true"` : ''
-    const requiredAttr = required && required === 'true' ? `required="true"` : ''
+    const readonlyAttr = readonly && readonly === 'true' ? `readonly` : ''
+    const requiredAttr = required && required === 'true' ? `required` : ''
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
     const titleAttr = title ? `title="${title}"` : ''
@@ -4406,7 +4406,7 @@ class TonicToggle extends Tonic { /* global Tonic */
       tabindex
     } = this.props
 
-    const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
+    const disabledAttr = disabled && disabled === 'true' ? `disabled` : ''
 
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
     if (tabindex) this.removeAttribute('tabindex')
@@ -8254,28 +8254,24 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
-    if (superCtor) {
-      ctor.super_ = superCtor
-      ctor.prototype = Object.create(superCtor.prototype, {
-        constructor: {
-          value: ctor,
-          enumerable: false,
-          writable: true,
-          configurable: true
-        }
-      })
-    }
+    ctor.super_ = superCtor
+    ctor.prototype = Object.create(superCtor.prototype, {
+      constructor: {
+        value: ctor,
+        enumerable: false,
+        writable: true,
+        configurable: true
+      }
+    });
   };
 } else {
   // old school shim for old browsers
   module.exports = function inherits(ctor, superCtor) {
-    if (superCtor) {
-      ctor.super_ = superCtor
-      var TempCtor = function () {}
-      TempCtor.prototype = superCtor.prototype
-      ctor.prototype = new TempCtor()
-      ctor.prototype.constructor = ctor
-    }
+    ctor.super_ = superCtor
+    var TempCtor = function () {}
+    TempCtor.prototype = superCtor.prototype
+    ctor.prototype = new TempCtor()
+    ctor.prototype.constructor = ctor
   }
 }
 
@@ -8641,8 +8637,6 @@ if (!Object.keys) {
 		$frames: true,
 		$innerHeight: true,
 		$innerWidth: true,
-		$onmozfullscreenchange: true,
-		$onmozfullscreenerror: true,
 		$outerHeight: true,
 		$outerWidth: true,
 		$pageXOffset: true,
@@ -9094,8 +9088,7 @@ var substr = 'ab'.substr(-1) === 'b'
 (function (process){
 'use strict';
 
-if (typeof process === 'undefined' ||
-    !process.version ||
+if (!process.version ||
     process.version.indexOf('v0.') === 0 ||
     process.version.indexOf('v1.') === 0 && process.version.indexOf('v1.8.') !== 0) {
   module.exports = { nextTick: nextTick };
@@ -12279,6 +12272,8 @@ function createExitHarness(conf) {
     if (conf.exit === false) return harness;
     if (!canEmitExit || !canExit) return harness;
 
+    var inErrorState = false;
+
     process.on('exit', function (code) {
         // let the process exit cleanly.
         if (code !== 0) {
@@ -12323,7 +12318,7 @@ function createHarness(conf_) {
                 inspectCode(st_);
             });
             st.on('result', function (r) {
-                if (!r.todo && !r.ok && typeof r !== 'string') test._exitCode = 1
+                if (!r.ok && typeof r !== 'string') test._exitCode = 1
             });
         })(t);
 
@@ -13863,11 +13858,8 @@ tape('{{icon-5}} has tabindex attribute', t => {
 const tape = require('../../test/tape')
 const { qs } = require('qs')
 
-// const sleep = n => new Promise(resolve => setTimeout(resolve, n))
-
 tape('{{input-1}} default state is constructed', t => {
-  const container = qs('#input-1')
-  const component = qs('tonic-input', container)
+  const component = qs('tonic-input#input-1')
   const wrapper = qs('.tonic--wrapper', component)
   const input = qs('input', wrapper)
   const invalid = qs('.tonic--invalid', wrapper)
@@ -13877,14 +13869,13 @@ tape('{{input-1}} default state is constructed', t => {
   t.ok(wrapper, 'the component was constructed, has a wrapper')
   t.ok(input, 'the component contains an input')
   t.ok(invalid, 'the component contains a tonic invalid div')
-  t.equal(input.disabled, false, 'the input is not disabled by default')
+  t.ok(!input.hasAttribute('disabled'), 'the input is not disabled by default')
 
   t.end()
 })
 
 tape('{{input-2}} contains a default value', t => {
-  const container = qs('#input-2')
-  const component = qs('tonic-input', container)
+  const component = qs('tonic-input#input-2')
   const input = qs('input', component)
   const value = component.getAttribute('value')
 
@@ -13897,8 +13888,7 @@ tape('{{input-2}} contains a default value', t => {
 })
 
 tape('{{input-3}} contains a type', t => {
-  const container = qs('#input-3')
-  const component = qs('tonic-input', container)
+  const component = qs('tonic-input#input-3')
   const input = qs('input', component)
 
   t.plan(3)
@@ -13911,8 +13901,7 @@ tape('{{input-3}} contains a type', t => {
 })
 
 tape('{{input-4}} is required', t => {
-  const container = qs('#input-4')
-  const component = qs('tonic-input', container)
+  const component = qs('tonic-input#input-4')
   const input = qs('input', component)
 
   t.plan(3)
@@ -13925,22 +13914,20 @@ tape('{{input-4}} is required', t => {
 })
 
 tape('{{input-5}} is disabled', t => {
-  const container = qs('#input-5')
-  const component = qs('tonic-input', container)
+  const component = qs('tonic-input#input-5')
   const input = qs('input', component)
 
   t.plan(3)
 
   t.ok(input, 'the component was constructed with an input')
-  t.equal(component.getAttribute('disabled'), 'true', 'component contains disabled attribute')
-  t.equal(input.disabled, true, 'input is disabled')
+  t.equal(component.getAttribute('disabled'), 'true', 'component contains disabled="true" attribute')
+  t.ok(input.hasAttribute('disabled'), 'input has disabled attribute')
 
   t.end()
 })
 
 tape('{{input-6}} has spellcheck attribute', t => {
-  const container = qs('#input-6')
-  const component = qs('tonic-input', container)
+  const component = qs('tonic-input#input-6')
   const input = qs('input', component)
 
   t.plan(3)
@@ -13953,8 +13940,7 @@ tape('{{input-6}} has spellcheck attribute', t => {
 })
 
 tape('{{input-7}} shows error message', t => {
-  const container = qs('#input-7')
-  const component = qs('tonic-input', container)
+  const component = qs('tonic-input#input-7')
   const input = qs('input', component)
   const error = qs('.tonic--invalid', component)
   const errorMessage = qs('span', error)
@@ -13970,8 +13956,7 @@ tape('{{input-7}} shows error message', t => {
 })
 
 tape('{{input-8}} has placeholder', t => {
-  const container = qs('#input-8')
-  const component = qs('tonic-input', container)
+  const component = qs('tonic-input#input-8')
   const input = qs('input', component)
 
   t.plan(2)
@@ -13983,8 +13968,7 @@ tape('{{input-8}} has placeholder', t => {
 })
 
 tape('{{input-9}} has label', t => {
-  const container = qs('#input-9')
-  const component = qs('tonic-input', container)
+  const component = qs('tonic-input#input-9')
   const input = qs('input', component)
   const label = qs('label:not(.tonic--icon)', component)
 
@@ -13998,8 +13982,7 @@ tape('{{input-9}} has label', t => {
 })
 
 tape('{{input-10}} has tabindex', t => {
-  const container = qs('#input-10')
-  const component = qs('tonic-input', container)
+  const component = qs('tonic-input#input-10')
   const input = qs('input', component)
 
   t.plan(3)
@@ -14011,26 +13994,18 @@ tape('{{input-10}} has tabindex', t => {
   t.end()
 })
 
-// tape('{{input-11}} has min length', t => {
-//   const container = qs('#input-11')
-//   const component = qs('tonic-input', container)
-//   const input = qs('input', component)
-//
-//   t.plan(3)
-//
-//   t.ok(input, 'the component was constructed with an input')
-//   t.equal(component.getAttribute('minlength'), input.getAttribute('minlength'), 'component minlength attribute matches input')
-//
-//   sleep(128)
-//
-//   component.focus()
-//   component.value = 'two'
-//
-//   const error = qs('.tonic--invalid', component)
-//   t.ok(error.classList.contains('.tonic--show'), 'error is showing')
-//
-//   t.end()
-// })
+tape('{{input-11}} has readonly attribute', t => {
+  const component = qs('tonic-input#input-11')
+  const input = qs('input', component)
+
+  t.plan(3)
+
+  t.ok(input, 'the component was constructed with an input')
+  t.equal(component.hasAttribute('readonly'), true, 'component has a readonly="true" attribute')
+  t.ok(input.hasAttribute('readonly'), 'input has a readonly attribute')
+
+  t.end()
+})
 
 },{"../../test/tape":89,"qs":39}],75:[function(require,module,exports){
 const Tonic = require('@conductorlab/tonic')

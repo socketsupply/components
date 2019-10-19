@@ -2094,7 +2094,13 @@ class TonicButton extends Tonic { /* global Tonic */
 
     if (tabindex) this.removeAttribute('tabindex')
 
-    const label = this.textContent || type || 'Button'
+    let label = ''
+
+    if (this.querySelector('style')) {
+      label = this.querySelector('button').textContent
+    } else {
+      label = this.textContent || type || 'Button'
+    }
 
     const attributes = [
       valueAttr,

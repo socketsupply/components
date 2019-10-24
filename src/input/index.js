@@ -10,8 +10,7 @@ class TonicInput extends Tonic { /* global Tonic */
       invalid: false,
       radius: '3px',
       disabled: false,
-      position: 'left',
-      errorMessage: 'Invalid'
+      position: 'left'
     }
   }
 
@@ -223,7 +222,7 @@ class TonicInput extends Tonic { /* global Tonic */
   }
 
   connected () {
-    this.setupEvents()
+    this.updated()
   }
 
   styles () {
@@ -272,7 +271,7 @@ class TonicInput extends Tonic { /* global Tonic */
     } = this.props
 
     const ariaInvalidAttr = ariaInvalid ? `aria-invalid="${ariaInvalid}"` : ''
-    const ariaLabelAttr = label ? `aria-label=${label}` : ''
+    const ariaLabelAttr = label ? `aria-label="${label}"` : ''
     const ariaLabelledByAttr = ariaLabelledby ? `aria-labelledby="${ariaLabelledby}"` : ''
     const disabledAttr = disabled && disabled === 'true' ? `disabled` : ''
     const maxAttr = max ? `max="${max}"` : ''
@@ -317,6 +316,9 @@ class TonicInput extends Tonic { /* global Tonic */
       valueAttr
     ].join(' ')
 
+    const errorMessage = this.props.errorMessage ||
+      this.props.errormessage || 'Invalid'
+
     return `
       <div class="tonic--wrapper ${positionAttr}" styles="wrapper">
         ${this.renderLabel()}
@@ -328,7 +330,7 @@ class TonicInput extends Tonic { /* global Tonic */
           id="tonic--input_${this.props.id}"
           ${attributes}/>
         <div class="tonic--invalid">
-          <span id="tonic--error-${this.props.id}">${this.props.errorMessage}</span>
+          <span id="tonic--error-${this.props.id}">${errorMessage}</span>
         </div>
       </div>
     `

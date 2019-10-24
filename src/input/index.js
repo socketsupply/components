@@ -272,7 +272,7 @@ class TonicInput extends Tonic { /* global Tonic */
     } = this.props
 
     const ariaInvalidAttr = ariaInvalid ? `aria-invalid="${ariaInvalid}"` : ''
-    const ariaLabelAttr = label ? `aria-label=${label}` : ''
+    const ariaLabelAttr = label ? `aria-label="${label}"` : ''
     const ariaLabelledByAttr = ariaLabelledby ? `aria-labelledby="${ariaLabelledby}"` : ''
     const disabledAttr = disabled && disabled === 'true' ? `disabled` : ''
     const maxAttr = max ? `max="${max}"` : ''

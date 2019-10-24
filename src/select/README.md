@@ -7,7 +7,7 @@ The `Select` component creates a select input.
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
-    <tonic-select label="Select an Option" id="options-example-1">
+    <tonic-select name="select" label="Select an Option" id="options-example-1">
       <option value="a">Option A</option>
       <option value="b">Option B</option>
       <option value="c">Option C</option>
@@ -19,7 +19,7 @@ The `Select` component creates a select input.
 
 #### HTML
 ```html
-<tonic-select>
+<tonic-select name="select">
   <option value="a">Option A</option>
   <option value="b">Option B</option>
   <option value="c">Option C</option>

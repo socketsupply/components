@@ -202,12 +202,14 @@ class TonicSelect extends Tonic { /* global Tonic */
       required,
       multiple,
       theme,
+      name,
       size,
       tabindex
     } = this.props
 
     const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
     const multipleAttr = multiple && multiple === 'true' ? `multiple="true"` : ''
+    const nameAttr = name ? `name="${name}"` : ''
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
     const sizeAttr = size ? `size="${size}"` : ''
 
@@ -219,6 +221,7 @@ class TonicSelect extends Tonic { /* global Tonic */
     const attributes = [
       disabledAttr,
       multipleAttr,
+      nameAttr,
       required,
       sizeAttr,
       tabAttr

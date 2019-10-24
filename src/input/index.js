@@ -223,7 +223,7 @@ class TonicInput extends Tonic { /* global Tonic */
   }
 
   connected () {
-    this.setupEvents()
+    this.updated()
   }
 
   styles () {

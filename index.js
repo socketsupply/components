@@ -2756,7 +2756,7 @@ class TonicInput extends Tonic { /* global Tonic */
     } = this.props
 
     const ariaInvalidAttr = ariaInvalid ? `aria-invalid="${ariaInvalid}"` : ''
-    const ariaLabelAttr = label ? `aria-label=${label}` : ''
+    const ariaLabelAttr = label ? `aria-label="${label}"` : ''
     const ariaLabelledByAttr = ariaLabelledby ? `aria-labelledby="${ariaLabelledby}"` : ''
     const disabledAttr = disabled && disabled === 'true' ? `disabled` : ''
     const maxAttr = max ? `max="${max}"` : ''
@@ -3510,12 +3510,14 @@ class TonicSelect extends Tonic { /* global Tonic */
       required,
       multiple,
       theme,
+      name,
       size,
       tabindex
     } = this.props
 
     const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
     const multipleAttr = multiple && multiple === 'true' ? `multiple="true"` : ''
+    const nameAttr = name ? `name="${name}"` : ''
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
     const sizeAttr = size ? `size="${size}"` : ''
 
@@ -3527,6 +3529,7 @@ class TonicSelect extends Tonic { /* global Tonic */
     const attributes = [
       disabledAttr,
       multipleAttr,
+      nameAttr,
       required,
       sizeAttr,
       tabAttr

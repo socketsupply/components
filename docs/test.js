@@ -2709,7 +2709,7 @@ class TonicInput extends Tonic { /* global Tonic */
   }
 
   connected () {
-    this.setupEvents()
+    this.updated()
   }
 
   styles () {
@@ -2803,6 +2803,9 @@ class TonicInput extends Tonic { /* global Tonic */
       valueAttr
     ].join(' ')
 
+    const errorMessage = this.props.errormessage ||
+      this.props.errorMessage
+
     return `
       <div class="tonic--wrapper ${positionAttr}" styles="wrapper">
         ${this.renderLabel()}
@@ -2814,7 +2817,7 @@ class TonicInput extends Tonic { /* global Tonic */
           id="tonic--input_${this.props.id}"
           ${attributes}/>
         <div class="tonic--invalid">
-          <span id="tonic--error-${this.props.id}">${this.props.errorMessage}</span>
+          <span id="tonic--error-${this.props.id}">${errorMessage}</span>
         </div>
       </div>
     `

@@ -40,13 +40,14 @@ class TonicProgressBar extends Tonic { /* global Tonic */
   }
 
   styles () {
+    let progress = this.state.progress || this.props.progress
     return {
       wrapper: {
         width: this.props.width,
         height: this.props.height
       },
       progress: {
-        width: this.state.progress + '%',
+        width: progress + '%',
         backgroundColor: this.props.color || 'var(--tonic-accent)'
       }
     }

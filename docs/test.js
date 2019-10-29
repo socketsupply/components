@@ -2496,8 +2496,7 @@ class TonicInput extends Tonic { /* global Tonic */
       invalid: false,
       radius: '3px',
       disabled: false,
-      position: 'left',
-      errorMessage: 'Invalid'
+      position: 'left'
     }
   }
 
@@ -2803,8 +2802,8 @@ class TonicInput extends Tonic { /* global Tonic */
       valueAttr
     ].join(' ')
 
-    const errorMessage = this.props.errormessage ||
-      this.props.errorMessage
+    const errorMessage = this.props.errorMessage ||
+      this.props.errormessage || 'Invalid'
 
     return `
       <div class="tonic--wrapper ${positionAttr}" styles="wrapper">
@@ -2868,13 +2867,14 @@ class TonicProgressBar extends Tonic { /* global Tonic */
   }
 
   styles () {
+    let progress = this.state.progress || this.props.progress
     return {
       wrapper: {
         width: this.props.width,
         height: this.props.height
       },
       progress: {
-        width: this.state.progress + '%',
+        width: progress + '%',
         backgroundColor: this.props.color || 'var(--tonic-accent)'
       }
     }
@@ -4464,6 +4464,7 @@ Tonic.add(TonicToggle)
   
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
 },{"timers":72}],2:[function(require,module,exports){
+(function (setImmediate){
 class Tonic extends window.HTMLElement {
   constructor () {
     super()
@@ -4553,12 +4554,15 @@ class Tonic extends window.HTMLElement {
 
   reRender (o = this.props) {
     this.props = Tonic.sanitize(typeof o === 'function' ? o(this.props) : o)
-    this._set(this, this.render)
 
-    if (this.updated) {
-      const oldProps = JSON.parse(JSON.stringify(this.props))
-      this.updated(oldProps)
-    }
+    requestAnimationFrame(() => {
+      this._set(this, this.render)
+
+      if (this.updated) {
+        const oldProps = JSON.parse(JSON.stringify(this.props))
+        this.updated(oldProps)
+      }
+    })
   }
 
   getProps () {
@@ -4566,7 +4570,12 @@ class Tonic extends window.HTMLElement {
   }
 
   handleEvent (e) {
-    this[e.type](e)
+    const p = this[e.type](e)
+    if (p && typeof p.then === 'function' && typeof p.catch === 'function') {
+      p.catch((err) => {
+        setImmediate(() => { throw err })
+      })
+    }
   }
 
   _events () {
@@ -4734,7 +4743,8 @@ Object.assign(Tonic, {
 
 if (typeof module === 'object') module.exports = Tonic
 
-},{}],3:[function(require,module,exports){
+}).call(this,require("timers").setImmediate)
+},{"timers":72}],3:[function(require,module,exports){
 'use strict'
 
 exports.byteLength = byteLength

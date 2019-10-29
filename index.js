@@ -2494,8 +2494,7 @@ class TonicInput extends Tonic { /* global Tonic */
       invalid: false,
       radius: '3px',
       disabled: false,
-      position: 'left',
-      errorMessage: 'Invalid'
+      position: 'left'
     }
   }
 
@@ -2801,8 +2800,8 @@ class TonicInput extends Tonic { /* global Tonic */
       valueAttr
     ].join(' ')
 
-    const errorMessage = this.props.errormessage ||
-      this.props.errorMessage
+    const errorMessage = this.props.errorMessage ||
+      this.props.errormessage || 'Invalid'
 
     return `
       <div class="tonic--wrapper ${positionAttr}" styles="wrapper">
@@ -2866,13 +2865,14 @@ class TonicProgressBar extends Tonic { /* global Tonic */
   }
 
   styles () {
+    let progress = this.state.progress || this.props.progress
     return {
       wrapper: {
         width: this.props.width,
         height: this.props.height
       },
       progress: {
-        width: this.state.progress + '%',
+        width: progress + '%',
         backgroundColor: this.props.color || 'var(--tonic-accent)'
       }
     }

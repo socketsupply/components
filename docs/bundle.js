@@ -4182,6 +4182,8 @@ class TonicTextarea extends Tonic { /* global Tonic */
     const rowsAttr = rows ? `rows="${rows}"` : ''
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
+    const autofocusAttr = autofocus ? 'autofocus' : ''
+    const requiredAttr = required ? 'required' : ''
 
     if (ariaLabelledByAttr) this.removeAttribute('ariaLabelled')
     if (width) this.style.width = width
@@ -4195,7 +4197,7 @@ class TonicTextarea extends Tonic { /* global Tonic */
     const attributes = [
       ariaLabelAttr,
       ariaLabelledByAttr,
-      autofocus,
+      autofocusAttr,
       colsAttr,
       disabledAttr,
       maxAttr,
@@ -4203,7 +4205,7 @@ class TonicTextarea extends Tonic { /* global Tonic */
       nameAttr,
       placeholderAttr,
       readonly,
-      required,
+      requiredAttr,
       rowsAttr,
       spellcheckAttr,
       tabAttr

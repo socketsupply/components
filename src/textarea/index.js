@@ -105,7 +105,7 @@ class TonicTextarea extends Tonic { /* global Tonic */
       width
     } = this.props
 
-    const ariaLabelAttr = label ? `aria-label=${label}` : ''
+    const ariaLabelAttr = label ? `aria-label="${label}"` : ''
     const ariaLabelledByAttr = ariaLabelledby ? `aria-labelledby="${ariaLabelledby}"` : ''
     const colsAttr = cols ? `cols="${cols}"` : ''
     const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''

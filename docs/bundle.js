@@ -4184,6 +4184,7 @@ class TonicTextarea extends Tonic { /* global Tonic */
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
     const autofocusAttr = autofocus ? 'autofocus' : ''
     const requiredAttr = required ? 'required' : ''
+    const readonlyAttr = readonly ? 'readonly' : ''
 
     if (ariaLabelledByAttr) this.removeAttribute('ariaLabelled')
     if (width) this.style.width = width
@@ -4204,7 +4205,7 @@ class TonicTextarea extends Tonic { /* global Tonic */
       minAttr,
       nameAttr,
       placeholderAttr,
-      readonly,
+      readonlyAttr,
       requiredAttr,
       rowsAttr,
       spellcheckAttr,

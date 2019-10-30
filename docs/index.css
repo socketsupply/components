@@ -5,9 +5,6 @@
 ::-webkit-input-placeholder {
   color: var(--tonic-medium);
 }
-::-moz-placeholder {
-  color: var(--tonic-medium);
-}
 :-ms-input-placeholder {
   color: var(--tonic-medium);
 }
@@ -658,7 +655,6 @@ body > main > footer > div {
   vertical-align: middle;
 }
 body > main > footer > div:first-of-type {
-  border-right: 1px solid var(--tonic-border);
   padding-right: 40px;
   margin-right: 40px;
 }

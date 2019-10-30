@@ -322,7 +322,8 @@ class Panel extends Tonic { /* global Tonic */
         top: 0;
         background-color: var(--tonic-window);
         box-shadow: 0px 0px 28px 0 rgba(0,0,0,0.05);
-        transition: transform 0.3s ease-in-out, visibility 0.3s ease;
+        transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, visibility 0.3s ease;
+        opacity: 0;
         z-index: 100;
       }
 
@@ -353,6 +354,7 @@ class Panel extends Tonic { /* global Tonic */
         -webkit-transform: translateX(0);
         -ms-transform: translateX(0);
         transform: translateX(0);
+        opacity: 1;
         visibility: visible;
       }
 

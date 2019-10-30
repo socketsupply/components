@@ -1,4 +1,4 @@
-const Tonic = require('@conductorlab/tonic')
+const Tonic = require('@optoolco/tonic')
 const tape = require('../../test/tape')
 const { qs } = require('qs')
 

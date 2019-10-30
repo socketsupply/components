@@ -99,11 +99,6 @@ function createPage (nonce, data, className) {
 
           <footer>
             <div>
-              <span>Made by</span>
-              <svg>
-                <use xlink:href="./logo-sprite.svg#cl_logo">
-              </svg>
-            </div>
             <div>
               <span>Supported by</span>
               <svg>
@@ -136,7 +131,7 @@ function wrapLink (title) {
 function githubLink (title) {
   return `
     <div class="component-github-link">
-      <a href="https://github.com/heapwolf/components/tree/master/src/${title.toLowerCase()}/">Github</a>
+      <a href="https://github.com/optoolco/components/tree/master/src/${title.toLowerCase()}/">Github</a>
     </div>
   `
 }
@@ -169,7 +164,7 @@ async function compile () {
     if (!s) continue
 
     if (file === 'intro.md') {
-      const version = pkg.devDependencies['@conductorlab/tonic']
+      const version = pkg.devDependencies['@optoolco/tonic']
       s = s.replace('{{version}}', version.slice(1))
     }
 
@@ -239,7 +234,7 @@ async function compile () {
     // Add the API as a section
     //
     const title = 'API'
-    const url = 'https://raw.githubusercontent.com/heapwolf/tonic/master/API.md'
+    const url = 'https://raw.githubusercontent.com/optoolco/tonic/master/API.md'
 
     const s = process.env.API
       ? await (await fetch(url)).text()

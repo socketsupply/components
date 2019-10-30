@@ -1,7 +1,7 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 const scrollToY = require('scrolltoy')
 const { qs, qsa } = require('qs')
-const Tonic = require('@conductorlab/tonic')
+const Tonic = require('@optoolco/tonic')
 const nonce = require('./nonce')
 
 const components = require('../..')
@@ -82,7 +82,7 @@ function ready () {
 
 document.addEventListener('DOMContentLoaded', ready)
 
-},{"../..":4,"./nonce":2,"./readme":3,"@conductorlab/tonic":5,"qs":8,"scrolltoy":9}],2:[function(require,module,exports){
+},{"../..":4,"./nonce":2,"./readme":3,"@optoolco/tonic":5,"qs":8,"scrolltoy":9}],2:[function(require,module,exports){
 
     module.exports = 'U29tZSBzdXBlciBzZWNyZXQ='
   
@@ -761,7 +761,8 @@ class Panel extends Tonic { /* global Tonic */
         top: 0;
         background-color: var(--tonic-window);
         box-shadow: 0px 0px 28px 0 rgba(0,0,0,0.05);
-        transition: transform 0.3s ease-in-out, visibility 0.3s ease;
+        transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, visibility 0.3s ease;
+        opacity: 0;
         z-index: 100;
       }
 
@@ -792,6 +793,7 @@ class Panel extends Tonic { /* global Tonic */
         -webkit-transform: translateX(0);
         -ms-transform: translateX(0);
         transform: translateX(0);
+        opacity: 1;
         visibility: visible;
       }
 
@@ -4907,6 +4909,7 @@ class Tonic extends window.HTMLElement {
     super()
     const state = Tonic._states[this.id]
     delete Tonic._states[this.id]
+    this.isTonicComponent = true
     this.state = state || {}
     this.props = {}
     this.elements = [...this.children].map(el => el.cloneNode(true))
@@ -4918,6 +4921,12 @@ class Tonic extends window.HTMLElement {
 
   static _createId () {
     return Math.random().toString(16).slice(2)
+  }
+
+  static _handleMaybePromise (p) {
+    if (p && typeof p.then === 'function' && typeof p.catch === 'function') {
+      p.catch(err => setImmediate(() => { throw err }))
+    }
   }
 
   static match (el, s) {
@@ -4943,6 +4952,7 @@ class Tonic extends window.HTMLElement {
   static sanitize (o) {
     if (!o) return o
     for (const [k, v] of Object.entries(o)) {
+      if (({}).toString.call(v) === '[object HTMLElement]') continue
       if (typeof v === 'object') o[k] = Tonic.sanitize(v)
       if (typeof v === 'string') o[k] = Tonic.escape(v)
     }
@@ -4974,6 +4984,8 @@ class Tonic extends window.HTMLElement {
         case '[object NamedNodeMap]': return this._prop(Tonic._normalizeAttrs(o))
         case '[object Number]': return `${o}__float`
         case '[object Boolean]': return `${o}__boolean`
+        case '[object HTMLElement]':
+          return o.isTonicComponent ? this._prop(o) : o
       }
       return o
     }
@@ -4992,7 +5004,7 @@ class Tonic extends window.HTMLElement {
   reRender (o = this.props) {
     this.props = Tonic.sanitize(typeof o === 'function' ? o(this.props) : o)
 
-    requestAnimationFrame(() => {
+    window.requestAnimationFrame(() => {
       this._set(this, this.render)
 
       if (this.updated) {
@@ -5008,11 +5020,7 @@ class Tonic extends window.HTMLElement {
 
   handleEvent (e) {
     const p = this[e.type](e)
-    if (p && typeof p.then === 'function' && typeof p.catch === 'function') {
-      p.catch((err) => {
-        setImmediate(() => { throw err })
-      })
-    }
+    Tonic._handleMaybePromise(p)
   }
 
   _events () {
@@ -5150,11 +5158,13 @@ class Tonic extends window.HTMLElement {
 
     this.willConnect && this.willConnect()
     this._set(this, this.render)
-    this.connected && this.connected()
+    const p = (this.connected && this.connected())
+    Tonic._handleMaybePromise(p)
   }
 
   disconnectedCallback (index) {
-    this.disconnected && this.disconnected()
+    const p = (this.disconnected && this.disconnected())
+    Tonic._handleMaybePromise(p)
     this.elements.length = 0
     this.nodes.length = 0
     delete Tonic._data[this._id]
@@ -5182,31 +5192,17 @@ if (typeof module === 'object') module.exports = Tonic
 
 }).call(this,require("timers").setImmediate)
 },{"timers":10}],6:[function(require,module,exports){
-(function (global){
 "use strict";
 
-// ref: https://github.com/tc39/proposal-global
-var getGlobal = function () {
-	// the only reliable means to get the global object is
-	// `Function('return this')()`
-	// However, this causes CSP violations in Chrome apps.
-	if (typeof self !== 'undefined') { return self; }
-	if (typeof window !== 'undefined') { return window; }
-	if (typeof global !== 'undefined') { return global; }
-	throw new Error('unable to locate global object');
-}
-
-var global = getGlobal();
-
-module.exports = exports = global.fetch;
+module.exports = exports = self.fetch;
 
 // Needed for TypeScript and Webpack.
-exports.default = global.fetch.bind(global);
+exports.default = self.fetch.bind(self);
 
-exports.Headers = global.Headers;
-exports.Request = global.Request;
-exports.Response = global.Response;
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+exports.Headers = self.Headers;
+exports.Request = self.Request;
+exports.Response = self.Response;
+
 },{}],7:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};

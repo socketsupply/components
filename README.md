@@ -7,13 +7,13 @@ module once from your bundle. This will attach all the components to Tonic. Then
 require tonic wherever you want to use it.
 
 ```bash
-npm install @conductorlab/tonic
-npm install @conductorlab/components
+npm install @optoolco/tonic
+npm install @optoolco/components
 ```
 
 ```js
-const Tonic = require('@conductorlab/tonic')
-const registerComponents = require('@conductorlab/components')
+const Tonic = require('@optoolco/tonic')
+const registerComponents = require('@optoolco/components')
 
 registerComponents(Tonic)
 ```

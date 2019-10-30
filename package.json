@@ -1,5 +1,5 @@
 {
-  "name": "@conductorlab/components",
+  "name": "@optoolco/components",
   "version": "6.1.6",
   "description": "Example components",
   "bin": "bin/components",
@@ -19,16 +19,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/conductorlab/components.git"
+    "url": "git+ssh://git@github.com/optoolco/components.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/conductorlab/components/issues"
+    "url": "https://github.com/optoolco/components/issues"
   },
-  "homepage": "https://github.com/conductorlab/components#readme",
+  "homepage": "https://github.com/optoolco/components#readme",
   "devDependencies": {
-    "@conductorlab/tonic": "^10.0.4",
+    "@optoolco/tonic": "^10.1.0",
     "autoprefixer-stylus": "^0.14.0",
     "browserify": "^16.2.2",
     "highlight.js": "^9.12.0",

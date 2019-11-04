@@ -1232,9 +1232,9 @@ class Windowed extends Tonic { /* global Tonic */
     return typeof el === 'function' ? el() : el
   }
 
-  load (rows = []) {
+  async load (rows = []) {
     this.rows = rows
-    this.reRender()
+    await this.reRender()
 
     const outer = this.querySelector('.tonic--windowed--outer')
     if (!outer) return
@@ -4570,14 +4570,15 @@ class Tonic extends window.HTMLElement {
   reRender (o = this.props) {
     this.props = Tonic.sanitize(typeof o === 'function' ? o(this.props) : o)
 
-    window.requestAnimationFrame(() => {
+    return new Promise(resolve => window.requestAnimationFrame(() => {
       this._set(this, this.render)
 
       if (this.updated) {
         const oldProps = JSON.parse(JSON.stringify(this.props))
         this.updated(oldProps)
       }
-    })
+      resolve()
+    }))
   }
 
   getProps () {

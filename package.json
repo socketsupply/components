@@ -1,6 +1,6 @@
 {
   "name": "@optoolco/components",
-  "version": "6.2.3",
+  "version": "6.2.4",
   "description": "Example components",
   "bin": "bin/components",
   "directories": {
@@ -28,7 +28,7 @@
   },
   "homepage": "https://github.com/optoolco/components#readme",
   "devDependencies": {
-    "@optoolco/tonic": "^10.1.0",
+    "@optoolco/tonic": "^10.1.1",
     "autoprefixer-stylus": "^0.14.0",
     "browserify": "^16.2.2",
     "highlight.js": "^9.12.0",

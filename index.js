@@ -1230,9 +1230,9 @@ class Windowed extends Tonic { /* global Tonic */
     return typeof el === 'function' ? el() : el
   }
 
-  load (rows = []) {
+  async load (rows = []) {
     this.rows = rows
-    this.reRender()
+    await this.reRender()
 
     const outer = this.querySelector('.tonic--windowed--outer')
     if (!outer) return

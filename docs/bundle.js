@@ -384,7 +384,12 @@ toasterLink1.addEventListener('click', e => toaster1.show())
     }
   }
 
-  renderRow (row) {
+  updateRow (row, index, element) {
+    element.setAttribute('data-updated', true)
+    return element
+  }
+
+  renderRow (row, index) {
     return `
       <div class="tr" data-id="${row.id}">
         <div class="td">${row.title}</div>
@@ -1837,7 +1842,7 @@ class Windowed extends Tonic { /* global Tonic */
 
     for (let j = start, rowIdx = 0; j < limit; j++, rowIdx++) {
       if (page.children[rowIdx] && this.updateRow) {
-        this.updateRow(await this.getRow(j), page.children[rowIdx])
+        this.updateRow(await this.getRow(j), rowIdx, page.children[rowIdx])
       } else {
         const div = document.createElement('div')
         div.innerHTML = this.renderRow(await this.getRow(j))

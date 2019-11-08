@@ -295,7 +295,12 @@ toasterLink1.addEventListener('click', e => toaster1.show())
     }
   }
 
-  renderRow (row) {
+  updateRow (row, index, element) {
+    element.setAttribute('data-updated', true)
+    return element
+  }
+
+  renderRow (row, index) {
     return `
       <div class="tr" data-id="${row.id}">
         <div class="td">${row.title}</div>

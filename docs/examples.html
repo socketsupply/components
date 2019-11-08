@@ -3069,7 +3069,12 @@ has been rendered.</p>
     }
   }
 
-  renderRow (row) {
+  updateRow (row, index, element) {
+    element.setAttribute(<span class="hljs-string">'data-updated'</span>, <span class="hljs-literal">true</span>)
+    <span class="hljs-keyword">return</span> element
+  }
+
+  renderRow (row, index) {
     <span class="hljs-keyword">return</span> <span class="hljs-string">`
       &lt;div class="tr" data-id="<span class="hljs-subst">${row.id}</span>"&gt;
         &lt;div class="td"&gt;<span class="hljs-subst">${row.title}</span>&lt;/div&gt;

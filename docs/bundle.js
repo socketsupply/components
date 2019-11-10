@@ -5010,16 +5010,17 @@ class Tonic extends window.HTMLElement {
   }
 
   reRender (o = this.props) {
+    const oldProps = { ...this.props }
     this.props = Tonic.sanitize(typeof o === 'function' ? o(this.props) : o)
 
-    window.requestAnimationFrame(() => {
+    return new Promise(resolve => window.requestAnimationFrame(() => {
       this._set(this, this.render)
 
       if (this.updated) {
-        const oldProps = JSON.parse(JSON.stringify(this.props))
         this.updated(oldProps)
       }
-    })
+      resolve()
+    }))
   }
 
   getProps () {
@@ -5040,6 +5041,11 @@ class Tonic extends window.HTMLElement {
   }
 
   async _set (target, render, content = '') {
+    for (const node of target.querySelectorAll(Tonic._tags)) {
+      if (!node.id || !Tonic._refIds.includes(node.id)) continue
+      Tonic._states[node.id] = node.getState()
+    }
+
     if (render instanceof Tonic.AsyncFunction) {
       content = await render.call(this) || ''
     } else if (render instanceof Tonic.AsyncFunctionGenerator) {
@@ -5052,11 +5058,6 @@ class Tonic extends window.HTMLElement {
       return
     } else if (render instanceof Function) {
       content = render.call(this) || ''
-    }
-
-    for (const node of target.querySelectorAll(Tonic._tags)) {
-      if (Tonic._refs.findIndex(ref => ref === node) === -1) continue
-      Tonic._states[node.id] = node.getState()
     }
 
     if (typeof content === 'string') {
@@ -5135,7 +5136,9 @@ class Tonic extends window.HTMLElement {
       this.render = this.wrap
     }
 
-    Tonic._refs.push(this)
+    if (this.id && !Tonic._refIds.includes(this.id)) {
+      Tonic._refIds.push(this.id)
+    }
     const cc = s => s.replace(/-(.)/g, (_, m) => m.toUpperCase())
 
     for (const { name: _name, value } of this.attributes) {
@@ -5170,20 +5173,19 @@ class Tonic extends window.HTMLElement {
     Tonic._handleMaybePromise(p)
   }
 
-  disconnectedCallback (index) {
+  disconnectedCallback () {
     const p = (this.disconnected && this.disconnected())
     Tonic._handleMaybePromise(p)
     this.elements.length = 0
     this.nodes.length = 0
     delete Tonic._data[this._id]
     delete Tonic._children[this._id]
-    Tonic._refs.splice(index, 1)
   }
 }
 
 Object.assign(Tonic, {
   _tags: '',
-  _refs: [],
+  _refIds: [],
   _data: {},
   _states: {},
   _children: {},
@@ -5200,17 +5202,31 @@ if (typeof module === 'object') module.exports = Tonic
 
 }).call(this,require("timers").setImmediate)
 },{"timers":10}],6:[function(require,module,exports){
+(function (global){
 "use strict";
 
-module.exports = exports = self.fetch;
+// ref: https://github.com/tc39/proposal-global
+var getGlobal = function () {
+	// the only reliable means to get the global object is
+	// `Function('return this')()`
+	// However, this causes CSP violations in Chrome apps.
+	if (typeof self !== 'undefined') { return self; }
+	if (typeof window !== 'undefined') { return window; }
+	if (typeof global !== 'undefined') { return global; }
+	throw new Error('unable to locate global object');
+}
+
+var global = getGlobal();
+
+module.exports = exports = global.fetch;
 
 // Needed for TypeScript and Webpack.
-exports.default = self.fetch.bind(self);
+exports.default = global.fetch.bind(global);
 
-exports.Headers = self.Headers;
-exports.Request = self.Request;
-exports.Response = self.Response;
-
+exports.Headers = global.Headers;
+exports.Request = global.Request;
+exports.Response = global.Response;
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],7:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};

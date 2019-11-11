@@ -1,15 +1,14 @@
 {
   "name": "@optoolco/components",
-  "version": "6.2.5",
+  "version": "7.0.0",
   "description": "Example components",
-  "bin": "bin/components",
   "directories": {
     "doc": "docs"
   },
   "scripts": {
     "dev": "npm run build && ./bin/server",
     "prepublish": "API=true npm run build",
-    "build": "./bin/components ./index.js && npm run build:styl && npm run build:docs && npm run build:test",
+    "build": "npm run build:js && npm run build:styl && npm run build:docs && npm run build:test",
     "build:test": "node test/build.js && browserify ./test/test.js > ./docs/test.js",
     "build:docs": "./bin/build-docs && npm run build:docs:js",
     "build:docs:js": "browserify ./docs/src/index.js > ./docs/bundle.js",
@@ -21,7 +20,7 @@
     "type": "git",
     "url": "git+ssh://git@github.com/optoolco/components.git"
   },
-  "author": "",
+  "author": "optoolco",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/optoolco/components/issues"
@@ -42,5 +41,8 @@
     "stylus": "^0.54.5",
     "tape": "^4.9.1",
     "tape-run": "^4.0.0"
+  },
+  "dependencies": {
+    "chart.js": "^2.9.2"
   }
 }

@@ -156,7 +156,7 @@ function parseHeading (s) {
 }
 
 async function compile () {
-  const markdownDir = path.join(docsDir, '..', 'markdown')
+  const markdownDir = path.join(docsDir, 'src', 'markdown')
   const customFiles = fs.readdirSync(markdownDir)
 
   for (const file of customFiles) {

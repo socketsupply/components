@@ -1,10 +1,11 @@
+const Tonic = require('@optoolco/tonic')
 const scrollToY = require('scrolltoy')
 const { qs, qsa } = require('qs')
-const Tonic = require('@optoolco/tonic')
-const nonce = require('./nonce')
-
 const components = require('../..')
+const nonce = require('./nonce')
 const readme = require('./readme')
+
+components(Tonic)
 
 function setupNavigation () {
   qsa(`a[name="${document.body.dataset.page}"]`).forEach(el => {

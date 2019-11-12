@@ -26,8 +26,9 @@ Tonic.add(TonicIcon)
 
 ```js
 const Tonic = require('@optoolco/tonic')
-const addBundle = require('@optoolco/components')
-addBundle(Tonic)
+const bundle = require('@optoolco/components')
+
+bundle(Tonic)
 ```
 
 ### THEME

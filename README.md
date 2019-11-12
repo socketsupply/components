@@ -13,9 +13,11 @@ npm install @optoolco/components
 
 ```js
 const Tonic = require('@optoolco/tonic')
-const registerComponents = require('@optoolco/components')
+const { TonicInput } = require('@optoolco/components/input')
+const { TonicIcon } = require('@optoolco/components/icon')
 
-registerComponents(Tonic)
+Tonic.add(TonicInput)
+Tonic.add(TonicIcon)
 ```
 
 ### THEME

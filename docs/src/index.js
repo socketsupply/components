@@ -1,10 +1,34 @@
+const Tonic = require('@optoolco/tonic')
 const scrollToY = require('scrolltoy')
 const { qs, qsa } = require('qs')
-const Tonic = require('@optoolco/tonic')
+const components = require('../..')
 const nonce = require('./nonce')
 
-const components = require('../..')
-const readme = require('./readme')
+components(Tonic)
+
+if (window.location.pathname === '/examples.html') {
+  require('../../router/readme')
+  require('../../panel/readme')
+  require('../../dialog/readme')
+  require('../../tabs/readme')
+  require('../../windowed/readme')
+  require('../../tooltip/readme')
+  require('../../popover/readme')
+  require('../../badge/readme')
+  require('../../button/readme')
+  require('../../chart/readme')
+  require('../../checkbox/readme')
+  require('../../icon/readme')
+  require('../../input/readme')
+  require('../../progress-bar/readme')
+  require('../../profile-image/readme')
+  require('../../range/readme')
+  require('../../select/readme')
+  require('../../textarea/readme')
+  require('../../toaster/readme')
+  require('../../toaster-inline/readme')
+  require('../../toggle/readme')
+}
 
 function setupNavigation () {
   qsa(`a[name="${document.body.dataset.page}"]`).forEach(el => {
@@ -76,7 +100,6 @@ function ready () {
   clearFocus()
 
   components(Tonic, nonce)
-  readme(Tonic)
 }
 
 document.addEventListener('DOMContentLoaded', ready)

@@ -1,7 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 
-const root = `${__dirname}/..`
+const root = `${__dirname}/../..`
 
 const components = fs
   .readFileSync(path.join(root, 'components.txt'), 'utf8')
@@ -69,4 +69,4 @@ const index = `
   </html>
 `
 
-fs.writeFileSync(path.join(__dirname, '..', 'docs', 'test.html'), index)
+fs.writeFileSync(path.join(__dirname, '..', '..', 'docs', 'test.html'), index)

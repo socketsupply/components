@@ -769,9 +769,18 @@ tape('{{button-10}} has tabindex attribute', t => {
 
 },{"../test/tape":100,"qs":54}],6:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
-const Chart = require('chart.js')
 
 class TonicChart extends Tonic {
+  constructor (o) {
+    super(o)
+
+    try {
+      this.Chart = require('chart.js')
+    } catch (err) {
+      console.error('could not find "chart.js" dependency. npm install?')
+    }
+  }
+
   stylesheet () {
     return `
       tonic-chart {
@@ -790,7 +799,7 @@ class TonicChart extends Tonic {
     const root = this.querySelector('canvas')
     const type = this.props.type || options.type
 
-    return new Chart(root, {
+    return new this.Chart(root, {
       type,
       options,
       data
@@ -1605,6 +1614,12 @@ tape('{{icon-5}} has tabindex attribute', t => {
 })
 
 },{"../test/tape":100,"qs":54}],14:[function(require,module,exports){
+try {
+  require('@optoolco/tonic')
+} catch (err) {
+  console.error('Missing dependency. Try `npm isntall @optoolco/tonic`.')
+}
+
 const { TonicAccordion, TonicAccordionSection } = require('./accordion')
 const { TonicBadge } = require('./badge')
 const { TonicButton } = require('./button')
@@ -1654,7 +1669,7 @@ module.exports = Tonic => {
   Tonic.add(TonicToggle)
 }
 
-},{"./accordion":1,"./badge":2,"./button":4,"./chart":6,"./checkbox":8,"./icon":12,"./input":15,"./popover":85,"./profile-image":87,"./progress-bar":89,"./range":91,"./router":93,"./select":95,"./sprite":97,"./tabs":98,"./textarea":102,"./toaster":106,"./toaster-inline":104,"./toggle":108,"./tooltip":110}],15:[function(require,module,exports){
+},{"./accordion":1,"./badge":2,"./button":4,"./chart":6,"./checkbox":8,"./icon":12,"./input":15,"./popover":85,"./profile-image":87,"./progress-bar":89,"./range":91,"./router":93,"./select":95,"./sprite":97,"./tabs":98,"./textarea":102,"./toaster":106,"./toaster-inline":104,"./toggle":108,"./tooltip":110,"@optoolco/tonic":17}],15:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicInput extends Tonic {

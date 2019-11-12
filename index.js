@@ -1,3 +1,9 @@
+try {
+  require('@optoolco/tonic')
+} catch (err) {
+  console.error('Missing dependency. Try `npm isntall @optoolco/tonic`.')
+}
+
 const { TonicAccordion, TonicAccordionSection } = require('./accordion')
 const { TonicBadge } = require('./badge')
 const { TonicButton } = require('./button')

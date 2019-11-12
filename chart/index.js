@@ -1,7 +1,16 @@
 const Tonic = require('@optoolco/tonic')
-const Chart = require('chart.js')
 
 class TonicChart extends Tonic {
+  constructor (o) {
+    super(o)
+
+    try {
+      this.Chart = require('chart.js')
+    } catch (err) {
+      console.error('could not find "chart.js" dependency. npm install?')
+    }
+  }
+
   stylesheet () {
     return `
       tonic-chart {
@@ -20,7 +29,7 @@ class TonicChart extends Tonic {
     const root = this.querySelector('canvas')
     const type = this.props.type || options.type
 
-    return new Chart(root, {
+    return new this.Chart(root, {
       type,
       options,
       data

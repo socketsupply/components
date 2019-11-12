@@ -604,9 +604,18 @@ button.addEventListener('click', e => {
 
 },{}],6:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
-const Chart = require('chart.js')
 
 class TonicChart extends Tonic {
+  constructor (o) {
+    super(o)
+
+    try {
+      this.Chart = require('chart.js')
+    } catch (err) {
+      console.error('could not find "chart.js" dependency. npm install?')
+    }
+  }
+
   stylesheet () {
     return `
       tonic-chart {
@@ -625,7 +634,7 @@ class TonicChart extends Tonic {
     const root = this.querySelector('canvas')
     const type = this.props.type || options.type
 
-    return new Chart(root, {
+    return new this.Chart(root, {
       type,
       options,
       data
@@ -1365,6 +1374,12 @@ module.exports = { TonicIcon }
 },{"@optoolco/tonic":19}],15:[function(require,module,exports){
 arguments[4][7][0].apply(exports,arguments)
 },{"dup":7}],16:[function(require,module,exports){
+try {
+  require('@optoolco/tonic')
+} catch (err) {
+  console.error('Missing dependency. Try `npm isntall @optoolco/tonic`.')
+}
+
 const { TonicAccordion, TonicAccordionSection } = require('./accordion')
 const { TonicBadge } = require('./badge')
 const { TonicButton } = require('./button')
@@ -1414,7 +1429,7 @@ module.exports = Tonic => {
   Tonic.add(TonicToggle)
 }
 
-},{"./accordion":1,"./badge":2,"./button":4,"./chart":6,"./checkbox":8,"./icon":14,"./input":17,"./popover":29,"./profile-image":31,"./progress-bar":33,"./range":35,"./router":37,"./select":39,"./sprite":41,"./tabs":42,"./textarea":44,"./toaster":48,"./toaster-inline":46,"./toggle":50,"./tooltip":52}],17:[function(require,module,exports){
+},{"./accordion":1,"./badge":2,"./button":4,"./chart":6,"./checkbox":8,"./icon":14,"./input":17,"./popover":29,"./profile-image":31,"./progress-bar":33,"./range":35,"./router":37,"./select":39,"./sprite":41,"./tabs":42,"./textarea":44,"./toaster":48,"./toaster-inline":46,"./toggle":50,"./tooltip":52,"@optoolco/tonic":19}],17:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicInput extends Tonic {

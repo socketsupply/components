@@ -25,7 +25,7 @@ Tonic.add(ExampleDialog)
 //
 // Dialog Tests
 //
-const tape = require('../../test/tape')
+const tape = require('../test/tape')
 const { qs } = require('qs')
 
 tape('{{dialog-1}} is constructed properly, opens and closes properly', async t => {

@@ -223,12 +223,12 @@ class Windowed extends Tonic {
       frag.appendChild(div.firstElementChild)
     }
 
-    window.requestAnimationFrame(() => page.appendChild(frag))
+    page.appendChild(frag)
   }
 
   async updatePage (i) {
     const page = this.pages[i]
-    const start = i * this.props.rowsPerPage
+    const start = i * parseInt(this.props.rowsPerPage, 10)
     const limit = Math.min((i + 1) * this.props.rowsPerPage, this.rows.length)
 
     const inner = this.querySelector('.tonic--windowed--inner')
@@ -241,10 +241,10 @@ class Windowed extends Tonic {
 
     for (let j = start, rowIdx = 0; j < limit; j++, rowIdx++) {
       if (page.children[rowIdx] && this.updateRow) {
-        this.updateRow(await this.getRow(j), rowIdx, page.children[rowIdx])
+        this.updateRow(await this.getRow(j), j, page.children[rowIdx])
       } else {
         const div = document.createElement('div')
-        div.innerHTML = this.renderRow(await this.getRow(j))
+        div.innerHTML = this.renderRow(await this.getRow(j), j)
         page.appendChild(div.firstElementChild)
       }
     }

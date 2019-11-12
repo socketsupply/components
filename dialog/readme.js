@@ -1,4 +1,7 @@
-class TonicDialog extends Tonic.Dialog { /* global Tonic */
+const Tonic = require('@optoolco/tonic')
+const { Dialog } = require('./index')
+
+class ExampleDialog extends Dialog {
   async click (e) {
     if (Tonic.match(e.target, 'tonic-button')) {
       this.state.message = Date.now()
@@ -35,7 +38,7 @@ class TonicDialog extends Tonic.Dialog { /* global Tonic */
   }
 }
 
-Tonic.add(TonicDialog)
+Tonic.add(ExampleDialog)
 
 const link = document.getElementById('example-dialog-link')
 const dialog = document.getElementById('example-dialog')

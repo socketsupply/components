@@ -1,4 +1,4 @@
-const tape = require('../../test/tape')
+const tape = require('../test/tape')
 const { qs } = require('qs')
 
 tape('{{toggle-1}} default state renders properly', t => {

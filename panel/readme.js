@@ -1,6 +1,8 @@
 const fetch = require('node-fetch')
+const Tonic = require('@optoolco/tonic')
+const { Panel } = require('./index')
 
-class TonicPanel extends Tonic.Panel { /* global Tonic */
+class TonicPanel extends Panel {
   async getArticle (title) {
     try {
       const res = await fetch(`https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=${title}&origin=*`)

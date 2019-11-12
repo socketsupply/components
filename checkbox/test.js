@@ -1,4 +1,4 @@
-const tape = require('../../test/tape')
+const tape = require('../test/tape')
 const { qs } = require('qs')
 
 tape('{{checkbox-1}} has correct default state', t => {

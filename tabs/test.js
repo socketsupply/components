@@ -1,5 +1,5 @@
 const Tonic = require('@optoolco/tonic')
-const tape = require('../../test/tape')
+const tape = require('../test/tape')
 const { qs } = require('qs')
 
 class ComponentContainer extends Tonic {

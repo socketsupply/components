@@ -5,9 +5,6 @@
 ::-webkit-input-placeholder {
   color: var(--tonic-medium);
 }
-::-moz-placeholder {
-  color: var(--tonic-medium);
-}
 :-ms-input-placeholder {
   color: var(--tonic-medium);
 }
@@ -152,14 +149,14 @@ body > main div.example .content.windowed-example {
   position: relative;
   height: 330px;
 }
-tonic-windowed {
+example-windowed {
   height: 300px;
 }
-tonic-windowed .th {
+example-windowed .th {
   background: var(--tonic-border);
 }
-tonic-windowed .th,
-tonic-windowed .tr {
+example-windowed .th,
+example-windowed .tr {
   height: 30px;
   display: -webkit-box;
   display: -ms-flexbox;
@@ -167,12 +164,12 @@ tonic-windowed .tr {
   overflow: hidden;
   border-bottom: 1px solid var(--tonic-border);
 }
-tonic-windowed .tr:hover {
+example-windowed .tr:hover {
   background: var(--tonic-accent);
   color: #fff;
   cursor: default;
 }
-tonic-windowed .td {
+example-windowed .td {
   white-space: nowrap;
   display: inline-block;
   text-overflow: ellipsis;
@@ -208,72 +205,6 @@ tonic-windowed .td {
 #click-to-load.hidden {
   opacity: 0;
   z-index: -1;
-}
-.hljs {
-  display: block;
-  overflow-x: auto;
-  padding: 0.5em;
-  background: #f0f0f0;
-}
-.hljs,
-.hljs-subst {
-  color: var(--tonic-medium);
-}
-.hljs-comment {
-  color: #aaa;
-}
-.hljs-keyword,
-.hljs-attribute,
-.hljs-selector-tag,
-.hljs-meta-keyword,
-.hljs-doctag,
-.hljs-name {
-  font-weight: bold;
-}
-.hljs-type,
-.hljs-string,
-.hljs-number,
-.hljs-selector-id,
-.hljs-selector-class,
-.hljs-quote,
-.hljs-template-tag,
-.hljs-deletion {
-  color: #f06653;
-}
-.hljs-title,
-.hljs-section {
-  color: #f06653;
-  font-weight: bold;
-}
-.hljs-regexp,
-.hljs-symbol,
-.hljs-variable,
-.hljs-template-variable,
-.hljs-link,
-.hljs-selector-attr,
-.hljs-selector-pseudo {
-  color: #f06653;
-}
-.hljs-literal {
-  color: #f06653;
-}
-.hljs-built_in,
-.hljs-bullet,
-.hljs-code,
-.hljs-addition {
-  color: #f06653;
-}
-.hljs-meta {
-  color: #1f7199;
-}
-.hljs-meta-string {
-  color: #bc6060;
-}
-.hljs-emphasis {
-  font-style: italic;
-}
-.hljs-strong {
-  font-weight: bold;
 }
 body {
   text-rendering: optimizeLegibility;

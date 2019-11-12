@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "npm run build && ./bin/server",
     "prepublish": "API=true npm run build",
-    "build": "npm run build:js && npm run build:styl && npm run build:docs && npm run build:test",
+    "build": "npm run build:styl && npm run build:docs && npm run build:test",
     "build:test": "node test/build.js && browserify ./test/test.js > ./docs/test.js",
     "build:docs": "./bin/build-docs && npm run build:docs:js",
     "build:docs:js": "browserify ./docs/src/index.js > ./docs/bundle.js",

@@ -1,13 +1,17 @@
 const fs = require('fs')
 const path = require('path')
 
-const root = `${__dirname}/../src`
+const root = `${__dirname}/..`
 
-const paths = fs
-  .readdirSync(root)
+const components = fs
+  .readFileSync(path.join(root, 'components.txt'), 'utf8')
+  .split('\n')
+  .filter(Boolean)
 
-const sections = paths
-  .map(f => '      ' + fs.readFileSync(path.join(root, f, 'test.html'), 'utf8'))
+const mapFile = f => fs.readFileSync(path.join(root, f, 'test.html'), 'utf8')
+
+const sections = components
+  .map(mapFile)
   .join('\n')
 
 const index = `

@@ -15,7 +15,7 @@ const { TonicSprite } = require('./sprite')
 const { TonicTabs, TonicTabPanel } = require('./tabs')
 const { TonicTextarea } = require('./textarea')
 const { TonicTooltip } = require('./tooltip')
-const { TonicToasterInline } = require('./toaster')
+const { TonicToasterInline } = require('./toaster-inline')
 const { TonicToaster } = require('./toaster')
 const { TonicToggle } = require('./toggle')
 

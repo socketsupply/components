@@ -1,4 +1,4 @@
-const tape = require('../../test/tape')
+const tape = require('../test/tape')
 const { qs } = require('qs')
 
 tape('{{input-1}} default state is constructed', t => {

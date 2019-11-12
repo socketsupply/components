@@ -478,13 +478,7 @@ registerComponents(Tonic) <span class="hljs-comment">// registers all the compon
   <span class="hljs-attr">value</span>=<span class="hljs-string">"click-me"</span>&gt;</span>Click me
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-button</span>&gt;</span></code></pre>
 <h4>JS</h4>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> button = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'tonic-button-example'</span>)
-button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
-  setTimeout(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
-    button.loading(<span class="hljs-literal">false</span>)
-  }, <span class="hljs-number">3e3</span>)
-})
-</code></pre>
+<pre><code class="language-js">%js%</code></pre>
 <h2>Api</h2>
 <h3>Properties</h3>
 <table>
@@ -623,7 +617,7 @@ button.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
     <section id="chart">
       
     <div class="component-github-link">
-      <a href="https://github.com/optoolco/components/tree/master/src/charts/">Github</a>
+      <a href="https://github.com/optoolco/components/tree/master/src/chart/">Github</a>
     </div>
   
       <h1 id="chart">Chart</h1>
@@ -861,8 +855,8 @@ your own dialog class which can be registered and then used as a tag.</p>
 <p><em><strong>Note:</strong> This component requires the <code>tonic-sprite</code> component.</em></p>
 </blockquote>
 <h2>Demo</h2>
-<tonic-dialog id="example-dialog" message="Click update for timestamp">
-</tonic-dialog>
+<example-dialog id="example-dialog" message="Click update for timestamp">
+</example-dialog>
 
 <div class="example">
   <div class="header">Example</div>
@@ -876,10 +870,12 @@ your own dialog class which can be registered and then used as a tag.</p>
 
 <h2>Code</h2>
 <h4>HTML</h4>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-dialog</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"example-dialog"</span> <span class="hljs-attr">message</span>=<span class="hljs-string">"Click update for timestamp"</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">tonic-dialog</span>&gt;</span></code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">example-dialog</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"example-dialog"</span> <span class="hljs-attr">message</span>=<span class="hljs-string">"Click update for timestamp"</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">example-dialog</span>&gt;</span></code></pre>
 <h4>JS</h4>
-<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TonicDialog</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span>.<span class="hljs-title">Dialog</span> </span>{
+<pre><code class="language-js"><span class="hljs-keyword">const</span> { Dialog } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@optoolco/components/dialog'</span>)
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TonicDialog</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Dialog</span> </span>{
   willConnect () {
     <span class="hljs-keyword">this</span>.state.message = <span class="hljs-keyword">this</span>.props.message
   }
@@ -1006,7 +1002,7 @@ link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; dialog.s
   <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">symbol</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"example"</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">path</span> /&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">symbol</span>&gt;</span></span>
-<span class="xml"><span class="hljs-tag">&lt;/<span class="hljs-name">svg</span>&gt;</span></span></code></pre><h2>Demo</h2>
+&lt;<span class="hljs-regexp">/svg&gt;</span></code></pre><h2>Demo</h2>
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
@@ -1308,59 +1304,7 @@ your own panel class which can be registered and then used as a tag.</p>
   <span class="hljs-attr">overlay</span>=<span class="hljs-string">"true"</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-panel</span>&gt;</span></code></pre>
 <h4>JS</h4>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> fetch = <span class="hljs-built_in">require</span>(<span class="hljs-string">'node-fetch'</span>)
-
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TonicPanel</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span>.<span class="hljs-title">Panel</span> </span>{ <span class="hljs-comment">/* global Tonic */</span>
-  <span class="hljs-keyword">async</span> getArticle (title) {
-    <span class="hljs-keyword">try</span> {
-      <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> fetch(<span class="hljs-string">`https://en.wikipedia.org/w/api.php?format=json&amp;action=query&amp;prop=extracts&amp;exintro=&amp;explaintext=&amp;titles=<span class="hljs-subst">${title}</span>&amp;origin=*`</span>)
-      <span class="hljs-keyword">return</span> <span class="hljs-built_in">Object</span>.values((<span class="hljs-keyword">await</span> res.json()).query.pages)[<span class="hljs-number">0</span>]
-    } <span class="hljs-keyword">catch</span> (err) {
-      <span class="hljs-keyword">return</span> { <span class="hljs-attr">title</span>: <span class="hljs-string">'Error'</span>, <span class="hljs-attr">extract</span>: err.message }
-    }
-  }
-
-  <span class="hljs-keyword">async</span> click (e) {
-    <span class="hljs-keyword">if</span> (e.target.value === <span class="hljs-string">'close'</span>) {
-      <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.hide()
-    }
-
-    <span class="hljs-keyword">if</span> (e.target.value === <span class="hljs-string">'get'</span>) {
-      <span class="hljs-keyword">const</span> page = <span class="hljs-keyword">await</span> <span class="hljs-keyword">this</span>.getArticle(<span class="hljs-string">'HTML'</span>)
-
-      <span class="hljs-keyword">this</span>.reRender(<span class="hljs-function"><span class="hljs-params">props</span> =&gt;</span> ({
-        ...props,
-        ...page
-      }))
-    }
-  }
-
-  <span class="hljs-keyword">async</span> * render () {
-    <span class="hljs-keyword">return</span> <span class="hljs-string">`
-      &lt;div class="tonic--header"&gt;Panel Example&lt;/div&gt;
-      &lt;div class="tonic--main"&gt;
-        &lt;h3&gt;<span class="hljs-subst">${<span class="hljs-keyword">this</span>.props.title || <span class="hljs-string">'Hello'</span>}</span>
-        &lt;p&gt;<span class="hljs-subst">${<span class="hljs-keyword">this</span>.props.extract || <span class="hljs-string">'Click "get" to fetch the content from Wikipedia.'</span>}</span>&lt;/p&gt;
-      &lt;/div&gt;
-      &lt;div class="tonic--footer"&gt;
-        &lt;tonic-button value="close"&gt;Close&lt;/tonic-button&gt;
-        &lt;tonic-button value="get" async="true"&gt;Get&lt;/tonic-button&gt;
-      &lt;/div&gt;
-    `</span>
-  }
-}
-
-Tonic.add(TonicPanel)
-
-<span class="hljs-comment">//</span>
-<span class="hljs-comment">// For this example, a button element will trigger the</span>
-<span class="hljs-comment">// `.show()` method on the panel when it is clicked.</span>
-<span class="hljs-comment">//</span>
-<span class="hljs-keyword">const</span> panelLink = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'content-panel-link-example'</span>)
-<span class="hljs-keyword">const</span> panel = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'content-panel-example'</span>)
-
-panelLink.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; panel.show())
-</code></pre>
+<pre><code class="language-js">%js%</code></pre>
 <h2>Api</h2>
 <h3>Properties</h3>
 <table>
@@ -1598,11 +1542,7 @@ and color.</p>
   <span class="hljs-attr">editable</span>=<span class="hljs-string">"true"</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-profile-image</span>&gt;</span></code></pre>
 <h4>JS</h4>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> profile = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'profile-image-example-editable'</span>)
-
-profile.addEventListener(<span class="hljs-string">'change'</span>, e =&gt; <span class="hljs-built_in">console</span>.log(e.data))
-profile.addEventListener(<span class="hljs-string">'error'</span>, e =&gt; <span class="hljs-built_in">console</span>.log(e.message))
-</code></pre>
+<pre><code class="language-js">%js%</code></pre>
 <h2>Api</h2>
 <h3>Properties</h3>
 <table>
@@ -1964,19 +1904,7 @@ profile.addEventListener(<span class="hljs-string">'error'</span>, e =&gt; <span
 
 <span class="hljs-tag">&lt;<span class="hljs-name">tonic-router</span> <span class="hljs-attr">none</span>&gt;</span>404<span class="hljs-tag">&lt;/<span class="hljs-name">tonic-router</span>&gt;</span></code></pre>
 <h4>JS</h4>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> select = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'tonic-router-select'</span>)
-<span class="hljs-keyword">const</span> page2 = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'page2'</span>)
-
-select.addEventListener(<span class="hljs-string">'change'</span>, e =&gt; {
-  <span class="hljs-built_in">window</span>.history.pushState({}, <span class="hljs-string">''</span>, select.value)
-})
-
-page2.addEventListener(<span class="hljs-string">'match'</span>, () =&gt; {
-  <span class="hljs-keyword">const</span> { number } = page2.getState()
-  <span class="hljs-keyword">const</span> el = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'page2-number'</span>)
-  el.textContent = number
-})
-</code></pre>
+<pre><code class="language-js">%js%</code></pre>
 <h2>Api</h2>
 <h3>Properties</h3>
 <table>
@@ -2052,18 +1980,7 @@ page2.addEventListener(<span class="hljs-string">'match'</span>, () =&gt; {
   <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"c"</span>&gt;</span>Option C<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-select</span>&gt;</span></code></pre>
 <h4>JS</h4>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> select = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'options-example-1'</span>)
-<span class="hljs-keyword">const</span> notification = <span class="hljs-built_in">document</span>.getElementsByTagName(<span class="hljs-string">'tonic-toaster'</span>)[<span class="hljs-number">0</span>]
-
-select.addEventListener(<span class="hljs-string">'change'</span>, ({ target }) =&gt; {
-  notification.create({
-    <span class="hljs-attr">type</span>: <span class="hljs-string">'success'</span>,
-    <span class="hljs-attr">message</span>: <span class="hljs-string">`Selected option was "<span class="hljs-subst">${select.value}</span>".`</span>,
-    <span class="hljs-attr">title</span>: <span class="hljs-string">'Selection'</span>,
-    <span class="hljs-attr">duration</span>: <span class="hljs-number">2000</span>
-  })
-})
-</code></pre>
+<pre><code class="language-js">%js%</code></pre>
 <h2>Api</h2>
 <h3>Properties</h3>
 <table>
@@ -3050,77 +2967,17 @@ has been rendered.</p>
     <div id="click-to-load">
       <span>Click to Load</span>
     </div>
-    <tonic-windowed id="windowed" row-height=30>
-    </tonic-windowed>
+    <example-windowed id="windowed" row-height=30>
+    </example-windowed>
   </div>
 </div>
 
 <h2>Code</h2>
 <h4>HTML</h4>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-windowed</span> <span class="hljs-attr">row-height</span>=<span class="hljs-string">30</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">tonic-windowed</span>&gt;</span></code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">example-windowed</span> <span class="hljs-attr">row-height</span>=<span class="hljs-string">30</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">example-windowed</span>&gt;</span></code></pre>
 <h4>JS</h4>
-<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TonicWindowed</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span>.<span class="hljs-title">Windowed</span> </span>{ <span class="hljs-comment">/* global Tonic */</span>
-  <span class="hljs-keyword">async</span> click (e) {
-    <span class="hljs-keyword">const</span> row = Tonic.match(e.target, <span class="hljs-string">'[data-id]'</span>)
-
-    <span class="hljs-keyword">if</span> (row) {
-      <span class="hljs-built_in">console</span>.log(<span class="hljs-keyword">await</span> <span class="hljs-keyword">this</span>.getRow(+row.dataset.id))
-    }
-  }
-
-  updateRow (row, index, element) {
-    element.setAttribute(<span class="hljs-string">'data-updated'</span>, <span class="hljs-literal">true</span>)
-    <span class="hljs-keyword">return</span> element
-  }
-
-  renderRow (row, index) {
-    <span class="hljs-keyword">return</span> <span class="hljs-string">`
-      &lt;div class="tr" data-id="<span class="hljs-subst">${row.id}</span>"&gt;
-        &lt;div class="td"&gt;<span class="hljs-subst">${row.title}</span>&lt;/div&gt;
-        &lt;div class="td"&gt;<span class="hljs-subst">${row.date}</span>&lt;/div&gt;
-        &lt;div class="td"&gt;<span class="hljs-subst">${row.random}</span>&lt;/div&gt;
-      &lt;/div&gt;
-    `</span>
-  }
-
-  render () {
-    <span class="hljs-keyword">return</span> <span class="hljs-string">`
-      &lt;div class="th"&gt;
-        &lt;div class="td"&gt;Title&lt;/div&gt;
-        &lt;div class="td"&gt;Date&lt;/div&gt;
-        &lt;div class="td"&gt;Random&lt;/div&gt;
-      &lt;/div&gt;
-      <span class="hljs-subst">${<span class="hljs-keyword">super</span>.render()}</span>
-    `</span>
-  }
-}
-
-Tonic.add(TonicWindowed)
-
-<span class="hljs-comment">//</span>
-<span class="hljs-comment">// This demo generates the data after you click the overlay instead of</span>
-<span class="hljs-comment">// on page load since 500K rows of data can take a few seconds to create.</span>
-<span class="hljs-comment">//</span>
-<span class="hljs-keyword">const</span> windowed = <span class="hljs-built_in">document</span>.getElementsByTagName(<span class="hljs-string">'tonic-windowed'</span>)[<span class="hljs-number">0</span>]
-<span class="hljs-keyword">const</span> overlay = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'click-to-load'</span>)
-
-overlay.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
-  <span class="hljs-keyword">const</span> rows = []
-
-  <span class="hljs-keyword">for</span> (<span class="hljs-keyword">let</span> i = <span class="hljs-number">1</span>; i &lt; <span class="hljs-number">500001</span>; i++) {
-    rows.push({
-      <span class="hljs-attr">id</span>: i - <span class="hljs-number">1</span>,
-      <span class="hljs-attr">title</span>: <span class="hljs-string">`Row #<span class="hljs-subst">${i}</span>`</span>,
-      <span class="hljs-attr">date</span>: <span class="hljs-built_in">String</span>(<span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>()),
-      <span class="hljs-attr">random</span>: <span class="hljs-built_in">Math</span>.random().toString(<span class="hljs-number">16</span>).slice(<span class="hljs-number">2</span>)
-    })
-  }
-
-  overlay.classList.add(<span class="hljs-string">'hidden'</span>)
-  windowed.load(rows)
-})
-</code></pre>
+<pre><code class="language-js">%js%</code></pre>
 <h2>Api</h2>
 <h3>Properties</h3>
 <table>

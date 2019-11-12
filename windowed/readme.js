@@ -1,4 +1,7 @@
-class TonicWindowed extends Tonic.Windowed { /* global Tonic */
+const Tonic = require('@optoolco/tonic')
+const { Windowed } = require('./index')
+
+class ExampleWindowed extends Windowed {
   async click (e) {
     const row = Tonic.match(e.target, '[data-id]')
 
@@ -7,11 +10,18 @@ class TonicWindowed extends Tonic.Windowed { /* global Tonic */
     }
   }
 
+  //
+  // Reuses the same DOM structure
+  //
   updateRow (row, index, element) {
-    element.setAttribute('data-updated', true)
-    return element
+    element.children[0].textContent = row.title
+    element.children[1].textContent = row.date
+    element.children[2].textContent = row.random
   }
 
+  //
+  // Creates a new DOM structure
+  //
   renderRow (row, index) {
     return `
       <div class="tr" data-id="${row.id}">
@@ -34,13 +44,13 @@ class TonicWindowed extends Tonic.Windowed { /* global Tonic */
   }
 }
 
-Tonic.add(TonicWindowed)
+Tonic.add(ExampleWindowed)
 
 //
 // This demo generates the data after you click the overlay instead of
 // on page load since 500K rows of data can take a few seconds to create.
 //
-const windowed = document.getElementsByTagName('tonic-windowed')[0]
+const windowed = document.getElementsByTagName('example-windowed')[0]
 const overlay = document.getElementById('click-to-load')
 
 overlay.addEventListener('click', e => {

@@ -6,8 +6,8 @@ your own dialog class which can be registered and then used as a tag.
 
 ## Demo
 
-<tonic-dialog id="example-dialog" message="Click update for timestamp">
-</tonic-dialog>
+<example-dialog id="example-dialog" message="Click update for timestamp">
+</example-dialog>
 
 <div class="example">
   <div class="header">Example</div>
@@ -23,13 +23,15 @@ your own dialog class which can be registered and then used as a tag.
 
 #### HTML
 ```html
-<tonic-dialog id="example-dialog" message="Click update for timestamp">
-</tonic-dialog>
+<example-dialog id="example-dialog" message="Click update for timestamp">
+</example-dialog>
 ```
 
 #### JS
 ```js
-class TonicDialog extends Tonic.Dialog {
+const { Dialog } = require('@optoolco/components/dialog')
+
+class TonicDialog extends Dialog {
   willConnect () {
     this.state.message = this.props.message
   }

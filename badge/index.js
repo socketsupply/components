@@ -87,4 +87,6 @@ class TonicBadge extends Tonic {
   }
 }
 
-module.exports = { TonicBadge }
+module.exports = {
+  TonicBadge
+}

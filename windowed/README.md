@@ -14,8 +14,8 @@ This demo generates the data after you click the overlay. Generating 500000 rows
     <div id="click-to-load">
       <span>Click to Load</span>
     </div>
-    <tonic-windowed id="windowed" row-height=30>
-    </tonic-windowed>
+    <example-windowed id="windowed" row-height=30>
+    </example-windowed>
   </div>
 </div>
 
@@ -24,8 +24,8 @@ This demo generates the data after you click the overlay. Generating 500000 rows
 #### HTML
 
 ```html
-<tonic-windowed row-height=30>
-</tonic-windowed>
+<example-windowed row-height=30>
+</example-windowed>
 ```
 
 #### JS

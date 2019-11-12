@@ -1,8 +1,7 @@
 const Tonic = require('@optoolco/tonic')
-const { Dialog } = require('./index')
 const sleep = n => new Promise(resolve => setTimeout(resolve, n))
 
-class ExampleDialog extends Dialog {
+class TonicDialog extends Tonic.Dialog { /* global Tonic */
   async click (e) {
     return Tonic.match(e.target, 'tonic-button')
   }
@@ -20,17 +19,17 @@ class ExampleDialog extends Dialog {
   }
 }
 
-Tonic.add(ExampleDialog)
+Tonic.add(TonicDialog)
 
 //
 // Dialog Tests
 //
-const tape = require('../test/tape')
+const tape = require('tape')
 const { qs } = require('qs')
 
 tape('{{dialog-1}} is constructed properly, opens and closes properly', async t => {
   const container = qs('#dialog-1')
-  const component = qs('example-dialog', container)
+  const component = qs('tonic-dialog', container)
   const wrapper = qs('.tonic--dialog--wrapper', component)
   const close = qs('.tonic--close', component)
   const isShowingInitialState = wrapper.classList.contains('tonic--show')

@@ -9,11 +9,11 @@
     "dev": "npm run build && ./bin/server",
     "prepublish": "API=true npm run build",
     "build": "npm run build:styl && npm run build:docs && npm run build:test",
-    "build:test": "node test/build.js && browserify ./test/test.js > ./docs/test.js",
+    "build:test": "node test/old/build.js && browserify ./test/old/test.js > ./docs/test.js",
     "build:docs": "./bin/build-docs && npm run build:docs:js",
     "build:docs:js": "browserify ./docs/src/index.js > ./docs/bundle.js",
     "build:styl": "cp ./theme.css ./docs && npm run build:styl:test && npm run build:styl:docs",
-    "build:styl:test": "stylus -u autoprefixer-stylus ./test/index.styl -o ./docs/test.css",
+    "build:styl:test": "stylus -u autoprefixer-stylus ./test/old/index.styl -o ./docs/test.css",
     "build:styl:docs": "stylus -u autoprefixer-stylus ./docs/src/index.styl -o ./docs"
   },
   "repository": {

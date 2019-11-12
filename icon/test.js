@@ -1,4 +1,4 @@
-const tape = require('../test/tape')
+const tape = require('tape')
 const { qs } = require('qs')
 
 tape('{{icon-1}} is constructed properly', t => {

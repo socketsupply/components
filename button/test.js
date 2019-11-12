@@ -1,4 +1,4 @@
-const tape = require('../test/tape')
+const tape = require('tape')
 const { qs } = require('qs')
 
 const sleep = n => new Promise(resolve => setTimeout(resolve, n))

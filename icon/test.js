@@ -1,6 +1,57 @@
 const tape = require('tape')
 const { qs } = require('qs')
 
+document.body.appendChild(html`
+<section id="icon">
+  <h2>Icon</h2>
+
+  <div id="icon-1" class="test-container">
+    <span>Default Icon</span>
+    <tonic-icon
+      tabindex="0"
+      symbol-id="example"
+      src="/sprite.svg">
+    </tonic-icon>
+  </div>
+
+  <div id="icon-2" class="test-container">
+    <span>size="40px"</span>
+    <tonic-icon
+      symbol-id="example"
+      src="/sprite.svg"
+      size="40px">
+    </tonic-icon>
+  </div>
+
+  <div id="icon-3" class="test-container">
+    <span>fill="cyan"</span>
+    <tonic-icon
+      symbol-id="example"
+      src="/sprite.svg"
+      fill="cyan">
+    </tonic-icon>
+  </div>
+
+  <div id="icon-4" class="test-container">
+    <span>symbol-id="custom_off"</span>
+    <tonic-icon
+      symbol-id="custom_off"
+      src="/sprite.svg">
+    </tonic-icon>
+  </div>
+
+  <div id="icon-5" class="test-container">
+    <span>tabindex="0"</span>
+    <tonic-icon
+      tabindex="0"
+      symbol-id="example"
+      src="/sprite.svg">
+    </tonic-icon>
+  </div>
+
+</section>
+`)
+
 tape('{{icon-1}} is constructed properly', t => {
   const container = qs('#icon-1')
   const component = qs('tonic-icon', container)
@@ -77,3 +128,14 @@ tape('{{icon-5}} has tabindex attribute', t => {
 
   t.end()
 })
+
+function html ([str, ...strings], ...values) {
+  let text = str
+  for (let i = 0; i < values.length; i++) {
+    text += values[i] + strings[i]
+  }
+
+  const tmpl = document.createElement('template')
+  tmpl.innerHTML = text
+  return tmpl.content.firstElementChild
+}

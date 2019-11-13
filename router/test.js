@@ -1,3 +1,38 @@
+
+document.body.appendChild(html`
+<section id="router">
+  <h2>Router</h2>
+
+  <div class="test-container">
+    <span>Router examples</span>
+    <tonic-select
+      id="tonic-router-select"
+      value="/"
+      label="Select a URL">
+      <option value="/">/</option>
+      <option value="/bar/100">/bar/100</option>
+      <option value="/beepboop">/beepboop</option>
+    </tonic-select>
+
+    <!-- Router w/ path -->
+    <tonic-router id="page1" path="/">
+      <i>Hello, World</i>
+    </tonic-router>
+
+    <!-- Router w/ id -->
+    <tonic-router id="page2" path="/bar/:number">
+      <b>number</b> prop has the value <b id="page2-number"></b>.
+    </tonic-router>
+
+    <!-- Router w/ none -->
+    <tonic-router>
+      404
+    </tonic-router>
+  </div>
+
+</section>
+`)
+
 const select = document.getElementById('tonic-router-select')
 const page2 = document.getElementById('page2')
 
@@ -11,3 +46,16 @@ page2.addEventListener('match', () => {
   if (!el) return
   el.textContent = number
 })
+
+// TODO: convert to tape tests
+
+function html ([str, ...strings], ...values) {
+  let text = str
+  for (let i = 0; i < values.length; i++) {
+    text += values[i] + strings[i]
+  }
+
+  const tmpl = document.createElement('template')
+  tmpl.innerHTML = text
+  return tmpl.content.firstElementChild
+}

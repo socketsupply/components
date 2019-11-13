@@ -1,6 +1,90 @@
 const tape = require('tape')
 const { qs } = require('qs')
 
+document.body.appendChild(html`
+<section id="checkbox">
+  <h2>Checkbox</h2>
+
+  <div id="checkbox-1" class="test-container">
+    <span>Default</span>
+    <tonic-checkbox
+      id="tonic-checkbox">
+    </tonic-checkbox>
+  </div>
+
+  <div id="checkbox-2" class="test-container">
+    <span>label="label"</span>
+    <tonic-checkbox
+      id="tonic-checkbox-label"
+      label="Label">
+    </tonic-checkbox>
+  </div>
+
+  <div id="checkbox-3" class="test-container">
+    <span>checked="true"</span>
+    <tonic-checkbox
+      id="tonic-checkbox-checked"
+      checked="true">
+    </tonic-checkbox>
+  </div>
+
+  <div id="checkbox-4" class="test-container">
+    <span>disabled="true"</span>
+    <tonic-checkbox
+      id="tonic-checkbox-disabled"
+      disabled="true">
+    </tonic-checkbox>
+  </div>
+
+  <div id="checkbox-5" class="test-container">
+    <span>size="30px"</span>
+    <tonic-checkbox
+      id="tonic-checkbox-size"
+      size="30px">
+    </tonic-checkbox>
+  </div>
+
+  <div id="checkbox-6" class="test-container">
+    <span>tabindex="0"</span>
+    <tonic-checkbox
+      tabindex="0"
+      id="tonic-checkbox-tabindex">
+    </tonic-checkbox>
+  </div>
+
+  <div id="checkbox-7" class="test-container">
+    <span>child elements</span>
+    <tonic-checkbox
+      tabindex="0"
+      id="tonic-checkbox-children">
+      This is a <a href="https://google.com" target="blank">label</a>!
+    </tonic-checkbox>
+  </div>
+
+  <!-- need to fix with new tonic-icon method -->
+
+  <!-- <div id="checkbox-6" class="test-container">
+    <span>Custom</span>
+    <tonic-checkbox
+      id="tonic-checkbox-custom"
+      icon-on="./sprite.svg#custom_on"
+      icon-off="./sprite.svg#custom_off">
+    </tonic-checkbox>
+  </div>
+
+  <div id="checkbox-7" class="test-container">
+    <span>Custom, checked</span>
+    <tonic-checkbox
+      id="tonic-checkbox-custom-2"
+      checked="true"
+      icon-on="./sprite.svg#custom_on"
+      icon-off="./sprite.svg#custom_off">
+    </tonic-checkbox>
+  </div> -->
+
+</section>
+`)
+
 tape('{{checkbox-1}} has correct default state', t => {
   const container = qs('#checkbox-1')
   const component = qs('tonic-checkbox', container)
@@ -94,3 +178,14 @@ tape('{{checkbox-6}} has size attributes', t => {
 
   t.end()
 })
+
+function html ([str, ...strings], ...values) {
+  let text = str
+  for (let i = 0; i < values.length; i++) {
+    text += values[i] + strings[i]
+  }
+
+  const tmpl = document.createElement('template')
+  tmpl.innerHTML = text
+  return tmpl.content.firstElementChild
+}

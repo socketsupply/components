@@ -1,6 +1,33 @@
 const tape = require('tape')
 const { qs } = require('qs')
 
+document.body.appendChild(html`
+<section id="badge">
+  <h2>Badge</h2>
+
+  <div id="badge-1" class="test-container">
+    <span>Default</span>
+    <tonic-badge></tonic-badge>
+  </div>
+
+  <div id="badge-2" class="test-container">
+    <span>count="6"</span>
+    <tonic-badge count="6"></tonic-badge>
+  </div>
+
+  <div id="badge-3" class="test-container">
+    <span>theme="light"</span>
+    <tonic-badge count="1" theme="light"></tonic-badge>
+  </div>
+
+  <div id="badge-4" class="dark test-container">
+    <span>theme="dark"</span>
+    <tonic-badge count="1" theme="dark"></tonic-badge>
+  </div>
+
+</section>
+`)
+
 tape('{{badge-1}} has correct default state', t => {
   const container = qs('#badge-1')
   const component = qs('tonic-badge', container)
@@ -24,3 +51,14 @@ tape('{{badge-2}} shows a count', t => {
 
   t.end()
 })
+
+function html ([str, ...strings], ...values) {
+  let text = str
+  for (let i = 0; i < values.length; i++) {
+    text += values[i] + strings[i]
+  }
+
+  const tmpl = document.createElement('template')
+  tmpl.innerHTML = text
+  return tmpl.content.firstElementChild
+}

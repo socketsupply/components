@@ -1,5 +1,8 @@
 const Tonic = require('@optoolco/tonic')
 
+const components = require('..')
+components(require('@optoolco/tonic'))
+
 const { Dialog } = require('./index')
 
 const sleep = n => new Promise(resolve => setTimeout(resolve, n))

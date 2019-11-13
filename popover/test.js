@@ -1,3 +1,6 @@
+const components = require('..')
+components(require('@optoolco/tonic'))
+
 document.body.appendChild(html`
 <section id="popover">
   <h2>Popover</h2>

@@ -1,3 +1,6 @@
+const components = require('..')
+components(require('@optoolco/tonic'))
+
 document.body.appendChild(html`
 <section id="progress-bar">
   <h2>Progress Bar</h2>

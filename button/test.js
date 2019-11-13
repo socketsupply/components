@@ -1,6 +1,9 @@
 const tape = require('tape')
 const { qs } = require('qs')
 
+const components = require('..')
+components(require('@optoolco/tonic'))
+
 const sleep = n => new Promise(resolve => setTimeout(resolve, n))
 
 document.body.appendChild(html`

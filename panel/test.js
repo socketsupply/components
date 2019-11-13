@@ -1,6 +1,9 @@
 const Tonic = require('@optoolco/tonic')
 const { Panel } = require('./index')
 
+const components = require('..')
+components(require('@optoolco/tonic'))
+
 class ExamplePanel extends Panel {
   async click (e) {
     if (e.target.value === 'close') {

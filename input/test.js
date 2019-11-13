@@ -1,6 +1,9 @@
 const tape = require('tape')
 const { qs } = require('qs')
 
+const components = require('..')
+components(require('@optoolco/tonic'))
+
 document.body.appendChild(html`
 <section id="input">
   <h2>Input</h2>

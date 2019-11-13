@@ -1,3 +1,6 @@
+const components = require('..')
+components(require('@optoolco/tonic'))
+
 document.body.appendChild(html`
 <section id="range">
   <h2>Range</h2>

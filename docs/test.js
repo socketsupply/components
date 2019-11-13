@@ -307,7 +307,7 @@ class TonicBadge extends Tonic {
   }
 
   render () {
-    let {
+    const {
       theme
     } = this.props
 
@@ -338,6 +338,9 @@ module.exports = {
 },{"@optoolco/tonic":17}],3:[function(require,module,exports){
 const tape = require('tape')
 const { qs } = require('qs')
+
+const components = require('..')
+components(require('@optoolco/tonic'))
 
 document.body.appendChild(html`
 <section id="badge">
@@ -401,7 +404,7 @@ function html ([str, ...strings], ...values) {
   return tmpl.content.firstElementChild
 }
 
-},{"qs":54,"tape":76}],4:[function(require,module,exports){
+},{"..":14,"@optoolco/tonic":17,"qs":54,"tape":76}],4:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicButton extends Tonic {
@@ -597,7 +600,7 @@ class TonicButton extends Tonic {
 
     let classes = []
 
-    if (active) classes.push(`tonic--active`)
+    if (active) classes.push('tonic--active')
     classes = classes.join(' ')
 
     if (tabindex) this.removeAttribute('tabindex')
@@ -636,6 +639,9 @@ module.exports = { TonicButton }
 },{"@optoolco/tonic":17}],5:[function(require,module,exports){
 const tape = require('tape')
 const { qs } = require('qs')
+
+const components = require('..')
+components(require('@optoolco/tonic'))
 
 const sleep = n => new Promise(resolve => setTimeout(resolve, n))
 
@@ -676,18 +682,18 @@ document.body.appendChild(html`
   </div>
 
   <div id="button-6" class="test-container">
-    <span>fill="var(--tonic-accent)"</span>
+    <span>fill="rgb(240, 102, 83)"</span>
     <tonic-button
-      fill="var(--tonic-accent)"
+      fill="rgb(240, 102, 83)"
       text-color="white">Button</tonic-button>
   </div>
 
   <div id="button-7" class="test-container">
     <span>border-color, border-width, text-color</span>
     <tonic-button
-      border-color="var(--tonic-accent)"
+      border-color="rgb(240, 102, 83)"
       border-width="3px"
-      text-color="var(--tonic-accent)">Button</tonic-button>
+      text-color="rgb(240, 102, 83)">Button</tonic-button>
   </div>
 
   <div id="button-8" class="test-container">
@@ -892,7 +898,7 @@ function html ([str, ...strings], ...values) {
   return tmpl.content.firstElementChild
 }
 
-},{"qs":54,"tape":76}],6:[function(require,module,exports){
+},{"..":14,"@optoolco/tonic":17,"qs":54,"tape":76}],6:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicChart extends Tonic {
@@ -1158,7 +1164,7 @@ class TonicCheckbox extends Tonic {
     }
 
     const checkedAttr = checked ? 'checked' : ''
-    const disabledAttr = disabled && disabled === 'true' ? `disabled` : ''
+    const disabledAttr = disabled && disabled === 'true' ? 'disabled' : ''
 
     const titleAttr = title ? `title="${title}"` : ''
 
@@ -1197,6 +1203,9 @@ module.exports = { TonicCheckbox }
 },{"@optoolco/tonic":17}],9:[function(require,module,exports){
 const tape = require('tape')
 const { qs } = require('qs')
+
+const components = require('..')
+components(require('@optoolco/tonic'))
 
 document.body.appendChild(html`
 <section id="checkbox">
@@ -1387,7 +1396,7 @@ function html ([str, ...strings], ...values) {
   return tmpl.content.firstElementChild
 }
 
-},{"qs":54,"tape":76}],10:[function(require,module,exports){
+},{"..":14,"@optoolco/tonic":17,"qs":54,"tape":76}],10:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class Dialog extends Tonic {
@@ -1578,7 +1587,7 @@ class Dialog extends Tonic {
     closeIcon.appendChild(svg)
     svg.appendChild(use)
 
-    const iconColor = color || `var(--tonic-primary)`
+    const iconColor = color || 'var(--tonic-primary)'
 
     use.setAttributeNS(xlinkns, 'href', '#close')
     use.setAttributeNS(xlinkns, 'xlink:href', '#close')
@@ -1632,11 +1641,14 @@ module.exports = { Dialog }
 },{"@optoolco/tonic":17}],11:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
+const components = require('..')
+components(require('@optoolco/tonic'))
+
 const { Dialog } = require('./index')
 
 const sleep = n => new Promise(resolve => setTimeout(resolve, n))
 
-class ExampleDialog extends Dialog { /* global Tonic */
+class ExampleDialog extends Dialog {
   async click (e) {
     return Tonic.match(e.target, 'tonic-button')
   }
@@ -1756,7 +1768,7 @@ function html ([str, ...strings], ...values) {
   return tmpl.content.firstElementChild
 }
 
-},{"./index":10,"@optoolco/tonic":17,"qs":54,"tape":76}],12:[function(require,module,exports){
+},{"..":14,"./index":10,"@optoolco/tonic":17,"qs":54,"tape":76}],12:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicIcon extends Tonic {
@@ -1776,7 +1788,7 @@ class TonicIcon extends Tonic {
   }
 
   styles () {
-    let {
+    const {
       size
     } = this.props
 
@@ -1789,7 +1801,7 @@ class TonicIcon extends Tonic {
   }
 
   render () {
-    let {
+    const {
       symbolId,
       size,
       fill,
@@ -1823,6 +1835,9 @@ module.exports = { TonicIcon }
 },{"@optoolco/tonic":17}],13:[function(require,module,exports){
 const tape = require('tape')
 const { qs } = require('qs')
+
+const components = require('..')
+components(require('@optoolco/tonic'))
 
 document.body.appendChild(html`
 <section id="icon">
@@ -1963,7 +1978,7 @@ function html ([str, ...strings], ...values) {
   return tmpl.content.firstElementChild
 }
 
-},{"qs":54,"tape":76}],14:[function(require,module,exports){
+},{"..":14,"@optoolco/tonic":17,"qs":54,"tape":76}],14:[function(require,module,exports){
 try {
   require('@optoolco/tonic')
 } catch (err) {
@@ -2297,7 +2312,7 @@ class TonicInput extends Tonic {
     const ariaInvalidAttr = ariaInvalid ? `aria-invalid="${ariaInvalid}"` : ''
     const ariaLabelAttr = label ? `aria-label="${label}"` : ''
     const ariaLabelledByAttr = ariaLabelledby ? `aria-labelledby="${ariaLabelledby}"` : ''
-    const disabledAttr = disabled && disabled === 'true' ? `disabled` : ''
+    const disabledAttr = disabled && disabled === 'true' ? 'disabled' : ''
     const maxAttr = max ? `max="${max}"` : ''
     const maxLengthAttr = maxlength ? `maxlength="${maxlength}"` : ''
     const minAttr = min ? `min="${min}"` : ''
@@ -2306,8 +2321,8 @@ class TonicInput extends Tonic {
     const patternAttr = pattern ? `pattern="${pattern}"` : ''
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
     const positionAttr = position ? `tonic--${position}` : ''
-    const readonlyAttr = readonly && readonly === 'true' ? `readonly` : ''
-    const requiredAttr = required && required === 'true' ? `required` : ''
+    const readonlyAttr = readonly && readonly === 'true' ? 'readonly' : ''
+    const requiredAttr = required && required === 'true' ? 'required' : ''
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
     const titleAttr = title ? `title="${title}"` : ''
@@ -2366,6 +2381,9 @@ module.exports = { TonicInput }
 },{"@optoolco/tonic":17}],16:[function(require,module,exports){
 const tape = require('tape')
 const { qs } = require('qs')
+
+const components = require('..')
+components(require('@optoolco/tonic'))
 
 document.body.appendChild(html`
 <section id="input">
@@ -2678,7 +2696,7 @@ function html ([str, ...strings], ...values) {
   return tmpl.content.firstElementChild
 }
 
-},{"qs":54,"tape":76}],17:[function(require,module,exports){
+},{"..":14,"@optoolco/tonic":17,"qs":54,"tape":76}],17:[function(require,module,exports){
 (function (setImmediate){
 class Tonic extends window.HTMLElement {
   constructor () {
@@ -32535,7 +32553,7 @@ class Panel extends Tonic {
     closeIcon.appendChild(svg)
     svg.appendChild(use)
 
-    const iconColor = color || `var(--tonic-primary)`
+    const iconColor = color || 'var(--tonic-primary)'
 
     use.setAttributeNS(xlinkns, 'href', '#close')
     use.setAttributeNS(xlinkns, 'xlink:href', '#close')
@@ -32594,6 +32612,9 @@ module.exports = { Panel }
 },{"@optoolco/tonic":17}],84:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 const { Panel } = require('./index')
+
+const components = require('..')
+components(require('@optoolco/tonic'))
 
 class ExamplePanel extends Panel {
   async click (e) {
@@ -32805,7 +32826,7 @@ function html ([str, ...strings], ...values) {
   return tmpl.content.firstElementChild
 }
 
-},{"./index":83,"@optoolco/tonic":17}],85:[function(require,module,exports){
+},{"..":14,"./index":83,"@optoolco/tonic":17}],85:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicPopover extends Tonic {
@@ -33006,6 +33027,9 @@ class TonicPopover extends Tonic {
 module.exports = { TonicPopover }
 
 },{"@optoolco/tonic":17}],86:[function(require,module,exports){
+const components = require('..')
+components(require('@optoolco/tonic'))
+
 document.body.appendChild(html`
 <section id="popover">
   <h2>Popover</h2>
@@ -33053,7 +33077,7 @@ function html ([str, ...strings], ...values) {
   return tmpl.content.firstElementChild
 }
 
-},{}],87:[function(require,module,exports){
+},{"..":14,"@optoolco/tonic":17}],87:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicProfileImage extends Tonic {
@@ -33207,7 +33231,7 @@ class TonicProfileImage extends Tonic {
   }
 
   render () {
-    let {
+    const {
       theme,
       editable
     } = this.props
@@ -33427,7 +33451,7 @@ class TonicProgressBar extends Tonic {
   }
 
   styles () {
-    let progress = this.state.progress || this.props.progress
+    const progress = this.state.progress || this.props.progress
     return {
       wrapper: {
         width: this.props.width,
@@ -33467,6 +33491,9 @@ class TonicProgressBar extends Tonic {
 module.exports = { TonicProgressBar }
 
 },{"@optoolco/tonic":17}],90:[function(require,module,exports){
+const components = require('..')
+components(require('@optoolco/tonic'))
+
 document.body.appendChild(html`
 <section id="progress-bar">
   <h2>Progress Bar</h2>
@@ -33599,7 +33626,7 @@ function html ([str, ...strings], ...values) {
   return tmpl.content.firstElementChild
 }
 
-},{}],91:[function(require,module,exports){
+},{"..":14,"@optoolco/tonic":17}],91:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicRange extends Tonic {
@@ -33771,7 +33798,7 @@ class TonicRange extends Tonic {
       tabindex
     } = this.props
 
-    const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
+    const disabledAttr = disabled && disabled === 'true' ? 'disabled="true"' : ''
     const minAttr = min ? `min="${min}"` : ''
     const maxAttr = max ? `max="${max}"` : ''
     const stepAttr = step ? `step="${step}"` : ''
@@ -33808,6 +33835,9 @@ class TonicRange extends Tonic {
 module.exports = { TonicRange }
 
 },{"@optoolco/tonic":17}],92:[function(require,module,exports){
+const components = require('..')
+components(require('@optoolco/tonic'))
+
 document.body.appendChild(html`
 <section id="range">
   <h2>Range</h2>
@@ -33951,7 +33981,7 @@ function html ([str, ...strings], ...values) {
   return tmpl.content.firstElementChild
 }
 
-},{}],93:[function(require,module,exports){
+},{"..":14,"@optoolco/tonic":17}],93:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicRouter extends Tonic {
@@ -34057,19 +34087,19 @@ TonicRouter.matcher = (() => {
   ].join('|'), 'g')
 
   function parse (str, options) {
-    let tokens = []
+    const tokens = []
     let key = 0
     let index = 0
     let path = ''
-    let defaultDelimiter = (options && options.delimiter) || DEFAULT_DELIMITER
-    let delimiters = (options && options.delimiters) || DEFAULT_DELIMITERS
+    const defaultDelimiter = (options && options.delimiter) || DEFAULT_DELIMITER
+    const delimiters = (options && options.delimiters) || DEFAULT_DELIMITERS
     let pathEscaped = false
     let res
 
     while ((res = PATH_REGEXP.exec(str)) !== null) {
-      let m = res[0]
-      let escaped = res[1]
-      let offset = res.index
+      const m = res[0]
+      const escaped = res[1]
+      const offset = res.index
       path += str.slice(index, offset)
       index = offset + m.length
 
@@ -34081,14 +34111,14 @@ TonicRouter.matcher = (() => {
       }
 
       let prev = ''
-      let next = str[index]
-      let name = res[2]
-      let capture = res[3]
-      let group = res[4]
-      let modifier = res[5]
+      const next = str[index]
+      const name = res[2]
+      const capture = res[3]
+      const group = res[4]
+      const modifier = res[5]
 
       if (!pathEscaped && path.length) {
-        let k = path.length - 1
+        const k = path.length - 1
 
         if (delimiters.indexOf(path[k]) > -1) {
           prev = path[k]
@@ -34102,11 +34132,11 @@ TonicRouter.matcher = (() => {
         pathEscaped = false
       }
 
-      let partial = prev !== '' && next !== undefined && next !== prev
-      let repeat = modifier === '+' || modifier === '*'
-      let optional = modifier === '?' || modifier === '*'
-      let delimiter = prev || defaultDelimiter
-      let pattern = capture || group
+      const partial = prev !== '' && next !== undefined && next !== prev
+      const repeat = modifier === '+' || modifier === '*'
+      const optional = modifier === '?' || modifier === '*'
+      const delimiter = prev || defaultDelimiter
+      const pattern = capture || group
 
       tokens.push({
         name: name || key++,
@@ -34161,7 +34191,7 @@ TonicRouter.matcher = (() => {
   }
 
   function arrayToRegexp (path, keys, options) {
-    let parts = []
+    const parts = []
 
     for (let i = 0; i < path.length; i++) {
       parts.push(pathToRegexp(path[i], keys, options).source)
@@ -34177,23 +34207,23 @@ TonicRouter.matcher = (() => {
   function tokensToRegExp (tokens, keys, options) {
     options = options || {}
 
-    let strict = options.strict
-    let end = options.end !== false
-    let delimiter = escapeString(options.delimiter || DEFAULT_DELIMITER)
-    let delimiters = options.delimiters || DEFAULT_DELIMITERS
-    let endsWith = [].concat(options.endsWith || []).map(escapeString).concat('$').join('|')
+    const strict = options.strict
+    const end = options.end !== false
+    const delimiter = escapeString(options.delimiter || DEFAULT_DELIMITER)
+    const delimiters = options.delimiters || DEFAULT_DELIMITERS
+    const endsWith = [].concat(options.endsWith || []).map(escapeString).concat('$').join('|')
     let route = ''
     let isEndDelimited = tokens.length === 0
 
     for (let i = 0; i < tokens.length; i++) {
-      let token = tokens[i]
+      const token = tokens[i]
 
       if (typeof token === 'string') {
         route += escapeString(token)
         isEndDelimited = i === tokens.length - 1 && delimiters.indexOf(token[token.length - 1]) > -1
       } else {
-        let prefix = escapeString(token.prefix)
-        let capture = token.repeat
+        const prefix = escapeString(token.prefix)
+        const capture = token.repeat
           ? '(?:' + token.pattern + ')(?:' + prefix + '(?:' + token.pattern + '))*'
           : token.pattern
 
@@ -34241,6 +34271,8 @@ TonicRouter.matcher = (() => {
 module.exports = { TonicRouter }
 
 },{"@optoolco/tonic":17}],94:[function(require,module,exports){
+const components = require('..')
+components(require('@optoolco/tonic'))
 
 document.body.appendChild(html`
 <section id="router">
@@ -34303,7 +34335,7 @@ function html ([str, ...strings], ...values) {
   return tmpl.content.firstElementChild
 }
 
-},{}],95:[function(require,module,exports){
+},{"..":14,"@optoolco/tonic":17}],95:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicSelect extends Tonic {
@@ -34515,8 +34547,8 @@ class TonicSelect extends Tonic {
       tabindex
     } = this.props
 
-    const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
-    const multipleAttr = multiple && multiple === 'true' ? `multiple="true"` : ''
+    const disabledAttr = disabled && disabled === 'true' ? 'disabled="true"' : ''
+    const multipleAttr = multiple && multiple === 'true' ? 'multiple="true"' : ''
     const nameAttr = name ? `name="${name}"` : ''
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
     const sizeAttr = size ? `size="${size}"` : ''
@@ -34855,7 +34887,7 @@ class TonicTabs extends Tonic {
   }
 
   setVisibility (id) {
-    const tabs = this.querySelectorAll(`.tonic--tab`)
+    const tabs = this.querySelectorAll('.tonic--tab')
 
     for (const tab of tabs) {
       const control = tab.getAttribute('for')
@@ -34894,7 +34926,7 @@ class TonicTabs extends Tonic {
 
     switch (e.code) {
       case 'ArrowLeft':
-      case 'ArrowRight':
+      case 'ArrowRight': {
         const index = triggers.indexOf(e.target)
         const direction = (e.code === 'ArrowLeft') ? -1 : 1
         const length = triggers.length
@@ -34903,8 +34935,8 @@ class TonicTabs extends Tonic {
         triggers[newIndex].focus()
         e.preventDefault()
         break
-
-      case 'Space':
+      }
+      case 'Space': {
         const isActive = Tonic.match(e.target, '.tonic--tab:focus')
         if (!isActive) return
 
@@ -34913,6 +34945,7 @@ class TonicTabs extends Tonic {
         const id = isActive.getAttribute('id')
         this.setVisibility(id)
         break
+      }
     }
   }
 
@@ -34990,6 +35023,9 @@ module.exports = {
 const Tonic = require('@optoolco/tonic')
 const tape = require('tape')
 const { qs } = require('qs')
+
+const components = require('..')
+components(require('@optoolco/tonic'))
 
 document.body.appendChild(html`
 <section id="tabs">
@@ -35153,7 +35189,7 @@ function html ([str, ...strings], ...values) {
   return tmpl.content.firstElementChild
 }
 
-},{"@optoolco/tonic":17,"qs":54,"tape":76}],100:[function(require,module,exports){
+},{"..":14,"@optoolco/tonic":17,"qs":54,"tape":76}],100:[function(require,module,exports){
 const tape = require('tape')
 const stream = tape.createStream({ objectMode: true })
 
@@ -35189,7 +35225,7 @@ stream.on('data', data => {
     ++count
     incTotal()
 
-    let status = data.ok ? 'OK' : 'FAIL'
+    const status = data.ok ? 'OK' : 'FAIL'
     output.innerHTML += `<span class="result ${status}">${status} ${data.id} ${data.name}</span>`
 
     if (!data.ok) {
@@ -35379,7 +35415,7 @@ class TonicTextarea extends Tonic {
     const ariaLabelAttr = label ? `aria-label="${label}"` : ''
     const ariaLabelledByAttr = ariaLabelledby ? `aria-labelledby="${ariaLabelledby}"` : ''
     const colsAttr = cols ? `cols="${cols}"` : ''
-    const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
+    const disabledAttr = disabled && disabled === 'true' ? 'disabled="true"' : ''
     const maxAttr = maxlength ? `maxlength="${maxlength}"` : ''
     const minAttr = minlength ? `minlength="${minlength}"` : ''
     const nameAttr = name ? `name="${name}"` : ''
@@ -35806,9 +35842,6 @@ class TonicToasterInline extends Tonic {
 module.exports = { TonicToasterInline }
 
 },{"@optoolco/tonic":17}],105:[function(require,module,exports){
-const tape = require('tape')
-const { qs } = require('qs')
-
 document.body.appendChild(html`
 <section id="toaster-inline">
   <h2>ToasterInline</h2>
@@ -36036,7 +36069,7 @@ function html ([str, ...strings], ...values) {
   return tmpl.content.firstElementChild
 }
 
-},{"qs":54,"tape":76}],106:[function(require,module,exports){
+},{}],106:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicToaster extends Tonic {
@@ -36292,6 +36325,9 @@ module.exports = { TonicToaster }
 },{"@optoolco/tonic":17}],107:[function(require,module,exports){
 const tape = require('tape')
 const { qs } = require('qs')
+
+const components = require('..')
+components(require('@optoolco/tonic'))
 
 document.body.appendChild(html`
 <section id="toaster">
@@ -36575,7 +36611,7 @@ function html ([str, ...strings], ...values) {
   return tmpl.content.firstElementChild
 }
 
-},{"qs":54,"tape":76}],108:[function(require,module,exports){
+},{"..":14,"@optoolco/tonic":17,"qs":54,"tape":76}],108:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicToggle extends Tonic {
@@ -36752,7 +36788,7 @@ class TonicToggle extends Tonic {
       tabindex
     } = this.props
 
-    const disabledAttr = disabled && disabled === 'true' ? `disabled` : ''
+    const disabledAttr = disabled && disabled === 'true' ? 'disabled' : ''
 
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
     if (tabindex) this.removeAttribute('tabindex')
@@ -36797,6 +36833,9 @@ module.exports = { TonicToggle }
 },{"@optoolco/tonic":17}],109:[function(require,module,exports){
 const tape = require('tape')
 const { qs } = require('qs')
+
+const components = require('..')
+components(require('@optoolco/tonic'))
 
 document.body.appendChild(html`
 <section id="toggle">
@@ -36923,12 +36962,12 @@ function html ([str, ...strings], ...values) {
   return tmpl.content.firstElementChild
 }
 
-},{"qs":54,"tape":76}],110:[function(require,module,exports){
+},{"..":14,"@optoolco/tonic":17,"qs":54,"tape":76}],110:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicTooltip extends Tonic {
   connected () {
-    const target = this.props['for']
+    const target = this.props.for
     const el = document.getElementById(target)
     let timer = null
 

@@ -336,8 +336,35 @@ module.exports = {
 }
 
 },{"@optoolco/tonic":17}],3:[function(require,module,exports){
-const tape = require('../test/tape')
+const tape = require('tape')
 const { qs } = require('qs')
+
+document.body.appendChild(html`
+<section id="badge">
+  <h2>Badge</h2>
+
+  <div id="badge-1" class="test-container">
+    <span>Default</span>
+    <tonic-badge></tonic-badge>
+  </div>
+
+  <div id="badge-2" class="test-container">
+    <span>count="6"</span>
+    <tonic-badge count="6"></tonic-badge>
+  </div>
+
+  <div id="badge-3" class="test-container">
+    <span>theme="light"</span>
+    <tonic-badge count="1" theme="light"></tonic-badge>
+  </div>
+
+  <div id="badge-4" class="dark test-container">
+    <span>theme="dark"</span>
+    <tonic-badge count="1" theme="dark"></tonic-badge>
+  </div>
+
+</section>
+`)
 
 tape('{{badge-1}} has correct default state', t => {
   const container = qs('#badge-1')
@@ -363,7 +390,18 @@ tape('{{badge-2}} shows a count', t => {
   t.end()
 })
 
-},{"../test/tape":100,"qs":54}],4:[function(require,module,exports){
+function html ([str, ...strings], ...values) {
+  let text = str
+  for (let i = 0; i < values.length; i++) {
+    text += values[i] + strings[i]
+  }
+
+  const tmpl = document.createElement('template')
+  tmpl.innerHTML = text
+  return tmpl.content.firstElementChild
+}
+
+},{"qs":54,"tape":76}],4:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicButton extends Tonic {
@@ -596,10 +634,86 @@ class TonicButton extends Tonic {
 module.exports = { TonicButton }
 
 },{"@optoolco/tonic":17}],5:[function(require,module,exports){
-const tape = require('../test/tape')
+const tape = require('tape')
 const { qs } = require('qs')
 
 const sleep = n => new Promise(resolve => setTimeout(resolve, n))
+
+document.body.appendChild(html`
+<section id="button">
+  <h2>Button</h2>
+
+  <div id="button-1" class="test-container">
+    <span>Default Button</span>
+    <tonic-button></tonic-button>
+  </div>
+
+  <div id="button-2" class="test-container">
+    <span>Button has text content</span>
+    <tonic-button>Text Content</tonic-button>
+  </div>
+
+  <div id="button-3" class="test-container">
+    <span>disabled="true"</span>
+    <tonic-button disabled="true">Button</tonic-button>
+  </div>
+
+  <div id="button-4" class="test-container">
+    <span>disabled="false"</span>
+    <tonic-button disabled="false">Button</tonic-button>
+  </div>
+
+  <div id="button-5" class="test-container">
+    <span>Has all attributes</span>
+    <tonic-button
+      margin="10px"
+      type="reset"
+      autofocus="true"
+      width="200px"
+      height="50px"
+      tabindex="1"
+      radius="5px"></tonic-button>
+  </div>
+
+  <div id="button-6" class="test-container">
+    <span>fill="var(--tonic-accent)"</span>
+    <tonic-button
+      fill="var(--tonic-accent)"
+      text-color="white">Button</tonic-button>
+  </div>
+
+  <div id="button-7" class="test-container">
+    <span>border-color, border-width, text-color</span>
+    <tonic-button
+      border-color="var(--tonic-accent)"
+      border-width="3px"
+      text-color="var(--tonic-accent)">Button</tonic-button>
+  </div>
+
+  <div id="button-8" class="test-container">
+    <span>async="true"</span>
+    <tonic-button async="true">Button</tonic-button>
+  </div>
+
+  <div id="button-9" class="test-container">
+    <span>async="false"</span>
+    <tonic-button async="false">Button</tonic-button>
+  </div>
+
+  <div id="button-10" class="test-container">
+    <span>tabindex="0"</span>
+    <tonic-button tabindex="0">Button</tonic-button>
+  </div>
+
+  <div id="button-11" class="test-container">
+    <span>href and target</span>
+    <tonic-button target="_blank" href="https://google.com">target="_blank"</tonic-button>
+    <tonic-button target="_self" href="https://google.com">target="_self"</tonic-button>
+    <tonic-button href="https://google.com">No target</tonic-button>
+  </div>
+
+</section>
+`)
 
 tape('{{button-1}} has correct default state', t => {
   const container = qs('#button-1')
@@ -767,7 +881,18 @@ tape('{{button-10}} has tabindex attribute', t => {
   t.end()
 })
 
-},{"../test/tape":100,"qs":54}],6:[function(require,module,exports){
+function html ([str, ...strings], ...values) {
+  let text = str
+  for (let i = 0; i < values.length; i++) {
+    text += values[i] + strings[i]
+  }
+
+  const tmpl = document.createElement('template')
+  tmpl.innerHTML = text
+  return tmpl.content.firstElementChild
+}
+
+},{"qs":54,"tape":76}],6:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicChart extends Tonic {
@@ -1070,8 +1195,92 @@ class TonicCheckbox extends Tonic {
 module.exports = { TonicCheckbox }
 
 },{"@optoolco/tonic":17}],9:[function(require,module,exports){
-const tape = require('../test/tape')
+const tape = require('tape')
 const { qs } = require('qs')
+
+document.body.appendChild(html`
+<section id="checkbox">
+  <h2>Checkbox</h2>
+
+  <div id="checkbox-1" class="test-container">
+    <span>Default</span>
+    <tonic-checkbox
+      id="tonic-checkbox">
+    </tonic-checkbox>
+  </div>
+
+  <div id="checkbox-2" class="test-container">
+    <span>label="label"</span>
+    <tonic-checkbox
+      id="tonic-checkbox-label"
+      label="Label">
+    </tonic-checkbox>
+  </div>
+
+  <div id="checkbox-3" class="test-container">
+    <span>checked="true"</span>
+    <tonic-checkbox
+      id="tonic-checkbox-checked"
+      checked="true">
+    </tonic-checkbox>
+  </div>
+
+  <div id="checkbox-4" class="test-container">
+    <span>disabled="true"</span>
+    <tonic-checkbox
+      id="tonic-checkbox-disabled"
+      disabled="true">
+    </tonic-checkbox>
+  </div>
+
+  <div id="checkbox-5" class="test-container">
+    <span>size="30px"</span>
+    <tonic-checkbox
+      id="tonic-checkbox-size"
+      size="30px">
+    </tonic-checkbox>
+  </div>
+
+  <div id="checkbox-6" class="test-container">
+    <span>tabindex="0"</span>
+    <tonic-checkbox
+      tabindex="0"
+      id="tonic-checkbox-tabindex">
+    </tonic-checkbox>
+  </div>
+
+  <div id="checkbox-7" class="test-container">
+    <span>child elements</span>
+    <tonic-checkbox
+      tabindex="0"
+      id="tonic-checkbox-children">
+      This is a <a href="https://google.com" target="blank">label</a>!
+    </tonic-checkbox>
+  </div>
+
+  <!-- need to fix with new tonic-icon method -->
+
+  <!-- <div id="checkbox-6" class="test-container">
+    <span>Custom</span>
+    <tonic-checkbox
+      id="tonic-checkbox-custom"
+      icon-on="./sprite.svg#custom_on"
+      icon-off="./sprite.svg#custom_off">
+    </tonic-checkbox>
+  </div>
+
+  <div id="checkbox-7" class="test-container">
+    <span>Custom, checked</span>
+    <tonic-checkbox
+      id="tonic-checkbox-custom-2"
+      checked="true"
+      icon-on="./sprite.svg#custom_on"
+      icon-off="./sprite.svg#custom_off">
+    </tonic-checkbox>
+  </div> -->
+
+</section>
+`)
 
 tape('{{checkbox-1}} has correct default state', t => {
   const container = qs('#checkbox-1')
@@ -1167,7 +1376,18 @@ tape('{{checkbox-6}} has size attributes', t => {
   t.end()
 })
 
-},{"../test/tape":100,"qs":54}],10:[function(require,module,exports){
+function html ([str, ...strings], ...values) {
+  let text = str
+  for (let i = 0; i < values.length; i++) {
+    text += values[i] + strings[i]
+  }
+
+  const tmpl = document.createElement('template')
+  tmpl.innerHTML = text
+  return tmpl.content.firstElementChild
+}
+
+},{"qs":54,"tape":76}],10:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class Dialog extends Tonic {
@@ -1411,10 +1631,12 @@ module.exports = { Dialog }
 
 },{"@optoolco/tonic":17}],11:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
+
 const { Dialog } = require('./index')
+
 const sleep = n => new Promise(resolve => setTimeout(resolve, n))
 
-class ExampleDialog extends Dialog {
+class ExampleDialog extends Dialog { /* global Tonic */
   async click (e) {
     return Tonic.match(e.target, 'tonic-button')
   }
@@ -1434,10 +1656,65 @@ class ExampleDialog extends Dialog {
 
 Tonic.add(ExampleDialog)
 
+document.body.appendChild(html`
+<section id="dialog">
+  <h2>Dialog</h2>
+
+  <div id="dialog-1" class="test-container">
+    <span>Default Dialog</span>
+    <tonic-button id="dialog-default-button">Open</tonic-button>
+    <example-dialog message="Hello!" id="dialog-default"></example-dialog>
+  </div>
+
+  <!-- <div class="test-container">
+    <span>width="150px"</span>
+    <tonic-button id="dialog-width-button">Open</tonic-button>
+    <example-dialog message="width: 150px" width="150px" id="dialog-width"></example-dialog>
+  </div>
+
+  <div class="test-container">
+    <span>width="100%"</span>
+    <tonic-button id="dialog-full-width-button">Open</tonic-button>
+    <example-dialog message="width: 100%" width="100%" id="dialog-full-width"></example-dialog>
+  </div>
+
+  <div class="test-container">
+    <span>height="700px"</span>
+    <tonic-button id="dialog-height-button">Open</tonic-button>
+    <example-dialog message="height: 700px" height="700px" id="dialog-height"></example-dialog>
+  </div>
+
+  <div class="test-container">
+    <span>height="100%"</span>
+    <tonic-button id="dialog-full-height-button">Open</tonic-button>
+    <example-dialog message="height: 100%" height="100%" id="dialog-full-height"></example-dialog>
+  </div>
+
+  <div class="test-container">
+    <span>overlay="true"</span>
+    <tonic-button id="dialog-overlay-button">Open</tonic-button>
+    <example-dialog message="overlay: true" overlay="true" id="dialog-overlay"></example-dialog>
+  </div>
+
+  <div class="test-container">
+    <span>overlay="false"</span>
+    <tonic-button id="dialog-no-overlay-button">Open</tonic-button>
+    <example-dialog message="overlay: false" overlay="false" id="dialog-no-overlay"></example-dialog>
+  </div>
+
+  <div class="test-container">
+    <span>background-color="red"</span>
+    <tonic-button id="dialog-background-button">Open</tonic-button>
+    <example-dialog message="background-color: red" background-color="red" id="dialog-background"></example-dialog>
+  </div> -->
+
+</section>
+`)
+
 //
 // Dialog Tests
 //
-const tape = require('../test/tape')
+const tape = require('tape')
 const { qs } = require('qs')
 
 tape('{{dialog-1}} is constructed properly, opens and closes properly', async t => {
@@ -1468,7 +1745,18 @@ tape('{{dialog-1}} is constructed properly, opens and closes properly', async t 
   t.end()
 })
 
-},{"../test/tape":100,"./index":10,"@optoolco/tonic":17,"qs":54}],12:[function(require,module,exports){
+function html ([str, ...strings], ...values) {
+  let text = str
+  for (let i = 0; i < values.length; i++) {
+    text += values[i] + strings[i]
+  }
+
+  const tmpl = document.createElement('template')
+  tmpl.innerHTML = text
+  return tmpl.content.firstElementChild
+}
+
+},{"./index":10,"@optoolco/tonic":17,"qs":54,"tape":76}],12:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicIcon extends Tonic {
@@ -1533,8 +1821,59 @@ class TonicIcon extends Tonic {
 module.exports = { TonicIcon }
 
 },{"@optoolco/tonic":17}],13:[function(require,module,exports){
-const tape = require('../test/tape')
+const tape = require('tape')
 const { qs } = require('qs')
+
+document.body.appendChild(html`
+<section id="icon">
+  <h2>Icon</h2>
+
+  <div id="icon-1" class="test-container">
+    <span>Default Icon</span>
+    <tonic-icon
+      tabindex="0"
+      symbol-id="example"
+      src="/sprite.svg">
+    </tonic-icon>
+  </div>
+
+  <div id="icon-2" class="test-container">
+    <span>size="40px"</span>
+    <tonic-icon
+      symbol-id="example"
+      src="/sprite.svg"
+      size="40px">
+    </tonic-icon>
+  </div>
+
+  <div id="icon-3" class="test-container">
+    <span>fill="cyan"</span>
+    <tonic-icon
+      symbol-id="example"
+      src="/sprite.svg"
+      fill="cyan">
+    </tonic-icon>
+  </div>
+
+  <div id="icon-4" class="test-container">
+    <span>symbol-id="custom_off"</span>
+    <tonic-icon
+      symbol-id="custom_off"
+      src="/sprite.svg">
+    </tonic-icon>
+  </div>
+
+  <div id="icon-5" class="test-container">
+    <span>tabindex="0"</span>
+    <tonic-icon
+      tabindex="0"
+      symbol-id="example"
+      src="/sprite.svg">
+    </tonic-icon>
+  </div>
+
+</section>
+`)
 
 tape('{{icon-1}} is constructed properly', t => {
   const container = qs('#icon-1')
@@ -1613,7 +1952,18 @@ tape('{{icon-5}} has tabindex attribute', t => {
   t.end()
 })
 
-},{"../test/tape":100,"qs":54}],14:[function(require,module,exports){
+function html ([str, ...strings], ...values) {
+  let text = str
+  for (let i = 0; i < values.length; i++) {
+    text += values[i] + strings[i]
+  }
+
+  const tmpl = document.createElement('template')
+  tmpl.innerHTML = text
+  return tmpl.content.firstElementChild
+}
+
+},{"qs":54,"tape":76}],14:[function(require,module,exports){
 try {
   require('@optoolco/tonic')
 } catch (err) {
@@ -2014,8 +2364,159 @@ class TonicInput extends Tonic {
 module.exports = { TonicInput }
 
 },{"@optoolco/tonic":17}],16:[function(require,module,exports){
-const tape = require('../test/tape')
+const tape = require('tape')
 const { qs } = require('qs')
+
+document.body.appendChild(html`
+<section id="input">
+  <h2>Input</h2>
+
+  <div class="test-container">
+    <span>Default Input</span>
+    <tonic-input id="input-1">
+    </tonic-input>
+  </div>
+
+  <div class="test-container">
+    <span>value="I'm a value"</span>
+    <tonic-input
+      id="input-2"
+      value="I'm a value">
+    </tonic-input>
+  </div>
+
+  <div class="test-container">
+    <span>type="email"</span>
+    <tonic-input
+      id="input-3"
+      type="email">
+    </tonic-input>
+  </div>
+
+  <div class="test-container">
+    <span>required="true"</span>
+    <tonic-input
+      id="input-4"
+      required="true">
+    </tonic-input>
+  </div>
+
+  <div class="test-container">
+    <span>disabled="true"</span>
+    <tonic-input
+     id="input-5"
+     disabled="true">
+   </tonic-input>
+  </div>
+
+  <div class="test-container">
+    <span>spellcheck="false"</span>
+    <tonic-input
+      id="input-6"
+      spellcheck="false">
+    </tonic-input>
+  </div>
+
+  <div class="test-container">
+    <span>error-message="nope"</span>
+    <tonic-input
+      id="input-7"
+      value="test"
+      type="email"
+      error-message="nope">
+    </tonic-input>
+  </div>
+
+  <div class="test-container">
+    <span>placeholder="test"</span>
+    <tonic-input
+      id="input-8"
+      placeholder="test">
+    </tonic-input>
+  </div>
+
+  <div class="test-container">
+    <span>label="Label"</span>
+    <tonic-input
+      id="input-9"
+      label="Label">
+    </tonic-input>
+  </div>
+
+  <div class="test-container">
+    <span>tabindex="0"</span>
+    <tonic-input
+      id="input-10"
+      tabindex="0">
+    </tonic-input>
+  </div>
+
+  <div class="test-container">
+    <span>readonly="true"</span>
+    <tonic-input
+      id="input-11"
+      readonly="true">
+    </tonic-input>
+  </div>
+
+  <!-- <div class="test-container">
+    <span>src="somePath"</span>
+    <tonic-input src="./sprite.svg#custom_off"></tonic-input>
+  </div> -->
+
+  <!-- <div class="test-container">
+    <span>position="left"</span>
+    <tonic-input position="left" src="./sprite.svg#custom_off"></tonic-input>
+  </div> -->
+
+  <!-- <div class="test-container">
+    <span>position="right"</span>
+    <tonic-input position="right" src="./sprite.svg#custom_off"></tonic-input>
+  </div> -->
+
+  <!-- <div class="test-container">
+    <span>pattern="[A-Za-z\s]+"</span>
+    <tonic-input pattern="[A-Za-z\s]+"></tonic-input>
+  </div> -->
+
+
+  <!-- <div id="input-11" class="test-container">
+    <span>minlength="5"</span>
+    <tonic-input minlength="5"></tonic-input>
+  </div>
+
+  <div class="test-container">
+    <span>maxlength="10"</span>
+    <tonic-input maxlength="10"></tonic-input>
+  </div>
+
+  <div class="test-container">
+    <span>type="number", min="5"</span>
+    <tonic-input type="number" min="5"></tonic-input>
+  </div>
+
+  <div class="test-container">
+    <span>type="number", max="10"</span>
+    <tonic-input type="number" max="10"></tonic-input>
+  </div>
+
+  <div class="test-container">
+    <span>width="60px"</span>
+    <tonic-input width="60px"></tonic-input>
+  </div>
+
+  <div class="test-container">
+    <span>width="100%"</span>
+    <tonic-input width="100%"></tonic-input>
+  </div>
+
+  <div class="test-container">
+    <span>radius="8px"</span>
+    <tonic-input radius="8px"></tonic-input>
+  </div> -->
+
+</section>
+`)
 
 tape('{{input-1}} default state is constructed', t => {
   const component = qs('tonic-input#input-1')
@@ -2166,7 +2667,18 @@ tape('{{input-11}} has readonly attribute', t => {
   t.end()
 })
 
-},{"../test/tape":100,"qs":54}],17:[function(require,module,exports){
+function html ([str, ...strings], ...values) {
+  let text = str
+  for (let i = 0; i < values.length; i++) {
+    text += values[i] + strings[i]
+  }
+
+  const tmpl = document.createElement('template')
+  tmpl.innerHTML = text
+  return tmpl.content.firstElementChild
+}
+
+},{"qs":54,"tape":76}],17:[function(require,module,exports){
 (function (setImmediate){
 class Tonic extends window.HTMLElement {
   constructor () {
@@ -32105,6 +32617,119 @@ class ExamplePanel extends Panel {
 
 Tonic.add(ExamplePanel)
 
+document.body.appendChild(html`
+<section id="panel">
+  <h2>Panel</h2>
+
+  <div class="test-container">
+    <span>Default Panel</span>
+    <tonic-button id="example-panel-default-button">
+      Open Panel
+    </tonic-button>
+  </div>
+
+  <example-panel id="example-panel-default">
+  </example-panel>
+
+  <!-- Panel Default -->
+  <div class="test-container">
+    <span>name="panel-name"</span>
+    <tonic-button id="example-panel-name-button">
+      Open Panel
+    </tonic-button>
+  </div>
+
+  <example-panel
+    id="example-panel-name"
+    name="panel-name">
+  </example-panel>
+
+  <!-- Panel Overlay -->
+  <div class="test-container">
+    <span>overlay="true"</span>
+    <tonic-button id="example-panel-overlay-button">
+      Open Panel
+    </tonic-button>
+  </div>
+
+  <example-panel
+    id="example-panel-overlay"
+    overlay="true">
+  </example-panel>
+
+  <!-- Panel w/ Position Right -->
+  <div class="test-container">
+    <span>position="right"</span>
+    <tonic-button id="example-panel-position-right-button">
+      Open Panel
+    </tonic-button>
+  </div>
+
+  <example-panel
+    id="example-panel-position-right"
+    overlay="true"
+    position="right">
+  </example-panel>
+
+  <!-- Panel w/ Position Left -->
+  <div class="test-container">
+    <span>position="left"</span>
+    <tonic-button id="example-panel-position-button">
+      Open Panel
+    </tonic-button>
+  </div>
+
+  <example-panel
+    id="example-panel-position"
+    overlay="true"
+    position="left">
+  </example-panel>
+
+  <!-- Panel w/ Background Color -->
+  <div class="test-container">
+    <span>background-color="rgba(255,255,255,0.8)"</span>
+    <tonic-button id="example-panel-background-button">
+      Open Panel
+    </tonic-button>
+  </div>
+
+  <example-panel
+    id="example-panel-background"
+    overlay="true"
+    background-color="rgba(255,255,255,0.8)">
+  </example-panel>
+
+  <!-- Panel w/ Theme Light -->
+  <div class="test-container">
+    <span>theme="light"</span>
+    <tonic-button id="example-panel-theme-button">
+      Open Panel
+    </tonic-button>
+  </div>
+
+  <example-panel
+    id="example-panel-theme"
+    overlay="true"
+    theme="light">
+  </example-panel>
+
+  <!-- Panel w/ Theme Dark -->
+  <div class="test-container dark">
+    <span>theme="dark"</span>
+    <tonic-button id="example-panel-theme-dark-button">
+      Open Panel
+    </tonic-button>
+  </div>
+
+  <example-panel
+    id="example-panel-theme-dark"
+    overlay="true"
+    theme="dark">
+  </example-panel>
+
+</section>
+`)
+
 //
 // Panel Default
 //
@@ -32168,6 +32793,17 @@ const panelThemeDarkButton = document.getElementById('example-panel-theme-dark-b
 const panelThemeDark = document.getElementById('example-panel-theme-dark')
 
 panelThemeDarkButton.addEventListener('click', e => panelThemeDark.show())
+
+function html ([str, ...strings], ...values) {
+  let text = str
+  for (let i = 0; i < values.length; i++) {
+    text += values[i] + strings[i]
+  }
+
+  const tmpl = document.createElement('template')
+  tmpl.innerHTML = text
+  return tmpl.content.firstElementChild
+}
 
 },{"./index":83,"@optoolco/tonic":17}],85:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
@@ -32370,6 +33006,30 @@ class TonicPopover extends Tonic {
 module.exports = { TonicPopover }
 
 },{"@optoolco/tonic":17}],86:[function(require,module,exports){
+document.body.appendChild(html`
+<section id="popover">
+  <h2>Popover</h2>
+
+  <!-- Popover Default -->
+  <div class="test-container">
+    <span>Default Popover</span>
+    <tonic-button id="tonic-popover-default-button">
+      Open Popover
+    </tonic-button>
+  </div>
+
+  <tonic-popover
+    id="tonic-popover-default"
+    width="175px"
+    for="tonic-popover-default-button">
+    <div>Item 1</div>
+    <div>Item 2</div>
+    <div>Item 3</div>
+  </tonic-popover>
+
+</section>
+`)
+
 //
 // Panel Default
 //
@@ -32379,6 +33039,19 @@ popover.addEventListener('show', event => {
     popover.hide()
   }, { once: true })
 })
+
+// TODO: write tests for popover.
+
+function html ([str, ...strings], ...values) {
+  let text = str
+  for (let i = 0; i < values.length; i++) {
+    text += values[i] + strings[i]
+  }
+
+  const tmpl = document.createElement('template')
+  tmpl.innerHTML = text
+  return tmpl.content.firstElementChild
+}
 
 },{}],87:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
@@ -32584,8 +33257,132 @@ TonicProfileImage.svg.default = () => TonicProfileImage.svg.toURL(`
 module.exports = { TonicProfileImage }
 
 },{"@optoolco/tonic":17}],88:[function(require,module,exports){
-arguments[4][7][0].apply(exports,arguments)
-},{"dup":7}],89:[function(require,module,exports){
+
+document.body.appendChild(html`
+<section id="profile-image">
+  <h2>Profile Image</h2>
+
+  <!-- Profile Image Default -->
+  <div class="test-container">
+    <span>Default Profile Image</span>
+    <tonic-profile-image
+      id="profile-image-default">
+    </tonic-profile-image>
+  </div>
+
+  <!-- Profile with id -->
+  <div class="test-container">
+    <span>id="profile-image-id"</span>
+    <tonic-profile-image
+      id="profile-image-id">
+    </tonic-profile-image>
+  </div>
+
+  <!-- Profile with name -->
+  <div class="test-container">
+    <span>name="profile-name"</span>
+    <tonic-profile-image
+      id="profile-image-name"
+      name="profile-name">
+    </tonic-profile-image>
+  </div>
+
+  <!-- Profile with src -->
+  <div class="test-container">
+    <span>src="/sampleprofile.jpg"</span>
+    <tonic-profile-image
+      id="profile-image-src"
+      src="/sampleprofile.jpg"
+      size="100px">
+    </tonic-profile-image>
+  </div>
+
+  <!-- Profile with size -->
+  <div class="test-container">
+    <span>size="100px"</span>
+    <tonic-profile-image
+      id="profile-image-size"
+      size="100px">
+    </tonic-profile-image>
+  </div>
+
+  <!-- Profile with radius -->
+  <div class="test-container">
+    <span>radius="50%"</span>
+    <tonic-profile-image
+      id="profile-image-radius"
+      radius="50%"
+      size="100px">
+    </tonic-profile-image>
+  </div>
+
+  <!-- Profile with border -->
+  <div class="test-container">
+    <span>border="3px solid black"</span>
+    <tonic-profile-image
+      id="profile-image-border"
+      border="3px solid black"
+      size="100px">
+    </tonic-profile-image>
+  </div>
+
+  <!-- Profile editable -->
+  <div class="test-container">
+    <span>editable="true"</span>
+    <tonic-profile-image
+      id="profile-image-editable"
+      editable="true"
+      size="100px">
+    </tonic-profile-image>
+  </div>
+
+  <!-- Profile not editable -->
+  <div class="test-container">
+    <span>editable="false"</span>
+    <tonic-profile-image
+      id="profile-image-editable-false"
+      editable="false"
+      size="100px">
+    </tonic-profile-image>
+  </div>
+
+  <!-- Profile theme light -->
+  <div class="test-container">
+    <span>theme="light"</span>
+    <tonic-profile-image
+      id="profile-image-theme-light"
+      theme="light"
+      size="100px">
+    </tonic-profile-image>
+  </div>
+
+  <!-- Profile theme dark -->
+  <div class="test-container dark">
+    <span>theme="dark"</span>
+    <tonic-profile-image
+      id="profile-image-theme-dark"
+      theme="dark"
+      size="100px">
+    </tonic-profile-image>
+  </div>
+
+</section>
+`)
+
+// TODO: write tests for profile-image
+
+function html ([str, ...strings], ...values) {
+  let text = str
+  for (let i = 0; i < values.length; i++) {
+    text += values[i] + strings[i]
+  }
+
+  const tmpl = document.createElement('template')
+  tmpl.innerHTML = text
+  return tmpl.content.firstElementChild
+}
+
+},{}],89:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicProgressBar extends Tonic {
@@ -32670,6 +33467,91 @@ class TonicProgressBar extends Tonic {
 module.exports = { TonicProgressBar }
 
 },{"@optoolco/tonic":17}],90:[function(require,module,exports){
+document.body.appendChild(html`
+<section id="progress-bar">
+  <h2>Progress Bar</h2>
+
+  <!-- Progress Bar Default -->
+  <div class="test-container">
+    <span>Default Progress Bar</span>
+    <tonic-progress-bar
+      id="progress-bar-default">
+    </tonic-progress-bar>
+  </div>
+
+  <!-- Progress Bar Auto -->
+  <div class="test-container">
+    <span>Progress Bar (automatic with js)</span>
+    <tonic-progress-bar
+      id="progress-bar-auto">
+    </tonic-progress-bar>
+  </div>
+
+  <!-- Progress Bar Default -->
+  <div class="test-container">
+    <span>Progress Bar - 30%</span>
+    <tonic-progress-bar
+      id="progress-bar-30">
+    </tonic-progress-bar>
+  </div>
+
+  <!-- Progress Bar Width px -->
+  <div class="test-container">
+    <span>width="150px"</span>
+    <tonic-progress-bar
+      id="progress-bar-width"
+      width="150px">
+    </tonic-progress-bar>
+  </div>
+
+  <!-- Progress Bar Width % -->
+  <div class="test-container">
+    <span>width="100%"</span>
+    <tonic-progress-bar
+      id="progress-bar-width-100"
+      width="100%">
+    </tonic-progress-bar>
+  </div>
+
+  <!-- Progress Bar Height -->
+  <div class="test-container">
+    <span>height="40px"</span>
+    <tonic-progress-bar
+      id="progress-bar-height"
+      height="40px">
+    </tonic-progress-bar>
+  </div>
+
+  <!-- Progress Bar Color -->
+  <div class="test-container">
+    <span>color="purple"</span>
+    <tonic-progress-bar
+      id="progress-bar-color"
+      color="purple">
+    </tonic-progress-bar>
+  </div>
+
+  <!-- Progress Bar Theme Light -->
+  <div class="test-container">
+    <span>theme="light"</span>
+    <tonic-progress-bar
+      id="progress-bar-theme-light"
+      theme="light">
+    </tonic-progress-bar>
+  </div>
+
+  <!-- Progress Bar Theme Dark -->
+  <div class="test-container flex-half dark">
+    <span>theme="dark"</span>
+    <tonic-progress-bar
+      id="progress-bar-theme-dark"
+      theme="dark">
+    </tonic-progress-bar>
+  </div>
+
+</section>
+`)
+
 const progressBar30 = document.getElementById('progress-bar-30')
 progressBar30.setProgress(30)
 
@@ -32703,6 +33585,19 @@ interval = setInterval(() => {
   if (progressBarAuto.value >= 100) percentage = 0
   if (++reps === 2) clearInterval(interval)
 }, 128)
+
+// TODO: convert to tape tests.
+
+function html ([str, ...strings], ...values) {
+  let text = str
+  for (let i = 0; i < values.length; i++) {
+    text += values[i] + strings[i]
+  }
+
+  const tmpl = document.createElement('template')
+  tmpl.innerHTML = text
+  return tmpl.content.firstElementChild
+}
 
 },{}],91:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
@@ -32913,8 +33808,148 @@ class TonicRange extends Tonic {
 module.exports = { TonicRange }
 
 },{"@optoolco/tonic":17}],92:[function(require,module,exports){
+document.body.appendChild(html`
+<section id="range">
+  <h2>Range</h2>
+
+  <!-- Range Default -->
+  <div class="test-container">
+    <span>Default Range Input</span>
+    <tonic-range id="range-default"></tonic-range>
+  </div>
+
+  <!-- Range w/ id -->
+  <div class="test-container">
+    <span>id="range-id"</span>
+    <tonic-range id="range-id"></tonic-range>
+  </div>
+
+  <!-- Range w/ name -->
+  <div class="test-container">
+    <span>name="range-name"</span>
+    <tonic-range id="range-name" name="range-name"></tonic-range>
+  </div>
+
+  <!-- Disabled range -->
+  <div class="test-container">
+    <span>disabled="true"</span>
+    <tonic-range id="range-disabled-true" disabled="true"></tonic-range>
+  </div>
+
+  <!-- Non-disabled range -->
+  <div class="test-container">
+    <span>disabled="false"</span>
+    <tonic-range id="range-disabled-false" disabled="false"></tonic-range>
+  </div>
+
+  <!-- Range w/ Width px -->
+  <div class="test-container">
+    <span>width="100px"</span>
+    <tonic-range id="range-width" width="100px"></tonic-range>
+  </div>
+
+  <!-- Range w/ Width % -->
+  <div class="test-container">
+    <span>width="100%"</span>
+    <tonic-range id="range-width-full" width="100%"></tonic-range>
+  </div>
+
+  <!-- Range w/ Height px -->
+  <div class="test-container">
+    <span class="fail">height="10px"</span>
+    <tonic-range id="range-height" width="10px"></tonic-range>
+  </div>
+
+  <!-- Range w/ Height % -->
+  <div class="test-container">
+    <span>height="100%"</span>
+    <tonic-range id="range-height-full" height="100%"></tonic-range>
+  </div>
+
+  <!-- Range w/ Radius -->
+  <div class="test-container">
+    <span>radius="2px"</span>
+    <tonic-range id="range-radius" height="2px"></tonic-range>
+  </div>
+
+  <!-- Range w/ min -->
+  <div class="test-container">
+    <span>min="15"</span>
+    <tonic-range id="range-min" label="%i%" min="15"></tonic-range>
+  </div>
+
+  <!-- Range w/ max -->
+  <div class="test-container">
+    <span>max="120"</span>
+    <tonic-range id="range-max" label="%i%" max="120"></tonic-range>
+  </div>
+
+  <!-- Range w/ step -->
+  <div class="test-container">
+    <span>step="25"</span>
+    <tonic-range id="range-step" label="%i%" step="25"></tonic-range>
+  </div>
+
+  <!-- Range w/ label -->
+  <div class="test-container">
+    <span>label="%i%"</span>
+    <tonic-range id="range-label" label="%i%"></tonic-range>
+  </div>
+
+  <!-- Range w/ thumb color -->
+  <div class="test-container">
+    <span>thumb-color="red"</span>
+    <tonic-range id="range-thumb-color" thumb-color="red"></tonic-range>
+  </div>
+
+  <!-- Range w/ thumb radius -->
+  <div class="test-container">
+    <span>thumb-radius="0px"</span>
+    <tonic-range id="range-thumb-radius" thumb-radius="0px"></tonic-range>
+  </div>
+
+  <!-- Range w/ value -->
+  <div class="test-container">
+    <span>value="90"</span>
+    <tonic-range id="range-thumb-value" value="90"></tonic-range>
+  </div>
+
+  <!-- Range w/ value (js) -->
+  <div class="test-container">
+    <span>js (value = 15)</span>
+    <tonic-range id="range-thumb-value-js"></tonic-range>
+  </div>
+
+  <!-- Range w/ theme light -->
+  <div class="test-container">
+    <span>theme="light"</span>
+    <tonic-range id="range-theme-light" theme="light"></tonic-range>
+  </div>
+
+  <!-- Range w/ theme dark -->
+  <div class="test-container flex-half dark">
+    <span>theme="dark"</span>
+    <tonic-range id="range-theme-dark" theme="dark"></tonic-range>
+  </div>
+
+</section>
+`)
+
 const rangeValue = document.getElementById('range-thumb-value-js')
 rangeValue.value = 15
+
+// TODO: convert to tape tests
+
+function html ([str, ...strings], ...values) {
+  let text = str
+  for (let i = 0; i < values.length; i++) {
+    text += values[i] + strings[i]
+  }
+
+  const tmpl = document.createElement('template')
+  tmpl.innerHTML = text
+  return tmpl.content.firstElementChild
+}
 
 },{}],93:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
@@ -33206,6 +34241,41 @@ TonicRouter.matcher = (() => {
 module.exports = { TonicRouter }
 
 },{"@optoolco/tonic":17}],94:[function(require,module,exports){
+
+document.body.appendChild(html`
+<section id="router">
+  <h2>Router</h2>
+
+  <div class="test-container">
+    <span>Router examples</span>
+    <tonic-select
+      id="tonic-router-select"
+      value="/"
+      label="Select a URL">
+      <option value="/">/</option>
+      <option value="/bar/100">/bar/100</option>
+      <option value="/beepboop">/beepboop</option>
+    </tonic-select>
+
+    <!-- Router w/ path -->
+    <tonic-router id="page1" path="/">
+      <i>Hello, World</i>
+    </tonic-router>
+
+    <!-- Router w/ id -->
+    <tonic-router id="page2" path="/bar/:number">
+      <b>number</b> prop has the value <b id="page2-number"></b>.
+    </tonic-router>
+
+    <!-- Router w/ none -->
+    <tonic-router>
+      404
+    </tonic-router>
+  </div>
+
+</section>
+`)
+
 const select = document.getElementById('tonic-router-select')
 const page2 = document.getElementById('page2')
 
@@ -33219,6 +34289,19 @@ page2.addEventListener('match', () => {
   if (!el) return
   el.textContent = number
 })
+
+// TODO: convert to tape tests
+
+function html ([str, ...strings], ...values) {
+  let text = str
+  for (let i = 0; i < values.length; i++) {
+    text += values[i] + strings[i]
+  }
+
+  const tmpl = document.createElement('template')
+  tmpl.innerHTML = text
+  return tmpl.content.firstElementChild
+}
 
 },{}],95:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
@@ -33474,8 +34557,209 @@ TonicSelect.svg.default = () => TonicSelect.svg.toURL(`
 module.exports = { TonicSelect }
 
 },{"@optoolco/tonic":17}],96:[function(require,module,exports){
-arguments[4][7][0].apply(exports,arguments)
-},{"dup":7}],97:[function(require,module,exports){
+document.body.appendChild(html`
+<section id="select">
+  <h2>Select</h2>
+
+  <!-- Default select -->
+  <div class="test-container">
+    <span>Default Select</span>
+    <tonic-select>
+      <option value="a">Option A</option>
+      <option value="b">Option B</option>
+      <option value="c">Option C</option>
+    </tonic-select>
+  </div>
+
+  <!-- Empty select -->
+  <div class="test-container">
+    <span>Empty Select</span>
+    <tonic-select></tonic-select>
+  </div>
+
+  <!-- Select w/ id -->
+  <div class="test-container">
+    <span>id="select-id"</span>
+    <tonic-select id="select-id">
+      <option value="a">Option A</option>
+      <option value="b">Option B</option>
+      <option value="c">Option C</option>
+    </tonic-select>
+  </div>
+
+  <!-- Select w/ name -->
+  <div class="test-container">
+    <span>name="select-name"</span>
+    <tonic-select name="select-name">
+      <option value="a">Option A</option>
+      <option value="b">Option B</option>
+      <option value="c">Option C</option>
+    </tonic-select>
+  </div>
+
+  <!-- Required select -->
+  <div class="test-container">
+    <span>required="true"</span>
+    <tonic-select required="true">
+      <option value="a">Option A</option>
+      <option value="b">Option B</option>
+      <option value="c">Option C</option>
+    </tonic-select>
+  </div>
+
+  <!-- Non-required select -->
+  <div class="test-container">
+    <span>required="false"</span>
+    <tonic-select required="false">
+      <option value="a">Option A</option>
+      <option value="b">Option B</option>
+      <option value="c">Option C</option>
+    </tonic-select>
+  </div>
+
+  <!-- Disabled select -->
+  <div class="test-container">
+    <span>disabled="true"</span>
+    <tonic-select disabled="true">
+      <option value="a">Option A</option>
+      <option value="b">Option B</option>
+      <option value="c">Option C</option>
+    </tonic-select>
+  </div>
+
+  <!-- Non-disabled select -->
+  <div class="test-container">
+    <span>disabled="false"</span>
+    <tonic-select disabled="false">
+      <option value="a">Option A</option>
+      <option value="b">Option B</option>
+      <option value="c">Option C</option>
+    </tonic-select>
+  </div>
+
+  <!-- Select with label -->
+  <div class="test-container">
+    <span>label="Label"</span>
+    <tonic-select label="Label">
+      <option value="a">Option A</option>
+      <option value="b">Option B</option>
+      <option value="c">Option C</option>
+    </tonic-select>
+  </div>
+
+  <!-- Select with width % -->
+  <div class="test-container">
+    <span>width="100%"</span>
+    <tonic-select width="100%">
+      <option value="a">Option A</option>
+      <option value="b">Option B</option>
+      <option value="c">Option C</option>
+    </tonic-select>
+  </div>
+
+  <!-- Select with height -->
+  <div class="test-container">
+    <span>height="60px"</span>
+    <tonic-select height="60px">
+      <option value="a">Option A</option>
+      <option value="b">Option B</option>
+      <option value="c">Option C</option>
+    </tonic-select>
+  </div>
+
+  <!-- Select with radius -->
+  <div class="test-container">
+    <span>radius="8px"</span>
+    <tonic-select radius="8px">
+      <option value="a">Option A</option>
+      <option value="b">Option B</option>
+      <option value="c">Option C</option>
+    </tonic-select>
+  </div>
+
+  <!-- Select with value -->
+  <div class="test-container">
+    <span>value="c"</span>
+    <tonic-select value="c">
+      <option value="a">Option A</option>
+      <option value="b">Option B</option>
+      <option value="c">Option C</option>
+    </tonic-select>
+  </div>
+
+  <!-- Select with theme light -->
+  <div class="test-container">
+    <span>theme="light"</span>
+    <tonic-select theme="light">
+      <option value="a">Option A</option>
+      <option value="b">Option B</option>
+      <option value="c">Option C</option>
+    </tonic-select>
+  </div>
+
+  <!-- Select with theme dark -->
+  <div class="test-container flex-half dark">
+    <span>theme="dark"</span>
+    <tonic-select theme="dark">
+      <option value="a">Option A</option>
+      <option value="b">Option B</option>
+      <option value="c">Option C</option>
+    </tonic-select>
+  </div>
+
+  <!-- Multiple select -->
+  <div class="test-container">
+    <span>multiple="true"</span>
+    <tonic-select multiple="true">
+      <option value="a">Option A</option>
+      <option value="b">Option B</option>
+      <option value="c">Option C</option>
+      <option value="d">Option D</option>
+      <option value="e">Option E</option>
+    </tonic-select>
+  </div>
+
+  <!-- Multiple select, width % -->
+  <div class="test-container">
+    <span>multiple="true", width="100%"</span>
+    <tonic-select multiple="true" width="100%">
+      <option value="a">Option A</option>
+      <option value="b">Option B</option>
+      <option value="c">Option C</option>
+      <option value="d">Option D</option>
+      <option value="e">Option E</option>
+    </tonic-select>
+  </div>
+
+  <!-- Multiple select, size -->
+  <div class="test-container">
+    <span>multiple="true", size="3"</span>
+    <tonic-select multiple="true" size="3">
+      <option value="a">Option A</option>
+      <option value="b">Option B</option>
+      <option value="c">Option C</option>
+      <option value="d">Option D</option>
+      <option value="e">Option E</option>
+    </tonic-select>
+  </div>
+
+</section>
+`)
+
+// TODO: write tests
+
+function html ([str, ...strings], ...values) {
+  let text = str
+  for (let i = 0; i < values.length; i++) {
+    text += values[i] + strings[i]
+  }
+
+  const tmpl = document.createElement('template')
+  tmpl.innerHTML = text
+  return tmpl.content.firstElementChild
+}
+
+},{}],97:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicSprite extends Tonic {
@@ -33704,8 +34988,138 @@ module.exports = {
 }).call(this,require("timers").setImmediate)
 },{"@optoolco/tonic":17,"timers":81}],99:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
-const tape = require('../test/tape')
+const tape = require('tape')
 const { qs } = require('qs')
+
+document.body.appendChild(html`
+<section id="tabs">
+  <h2>Tabs</h2>
+
+  <!-- Default tabs -->
+  <div id="tabs-1" class="test-container">
+    <span>Default Tabs</span>
+
+    <tonic-tabs selected="tab-2">
+      <tonic-tab
+        id="tab-1"
+        for="tab-panel-1">One</tonic-tab>
+      <tonic-tab
+        id="tab-2"
+        for="tab-panel-2">Two</tonic-tab>
+      <tonic-tab
+        id="tab-3"
+        for="tab-panel-3">Three</tonic-tab>
+    </tonic-tabs>
+
+    <tonic-tab-panel id="tab-panel-1">Content One</tonic-tab-panel>
+    <tonic-tab-panel id="tab-panel-2">Content Two</tonic-tab-panel>
+    <tonic-tab-panel id="tab-panel-3">Content Three</tonic-tab-panel>
+  </div>
+
+  <!-- Default tabs -->
+  <div id="tabs-2" class="test-container">
+    <span>Tabs with nesting</span>
+
+    <tonic-tabs selected="tab-4">
+      <tonic-tab
+        id="tab-4"
+        for="tab-panel-4">One</tonic-tab>
+      <tonic-tab
+        id="tab-5"
+        for="tab-panel-5">Two</tonic-tab>
+      <tonic-tab
+        id="tab-6"
+        for="tab-panel-6">Three</tonic-tab>
+    </tonic-tabs>
+
+    <tonic-tab-panel id="tab-panel-4">
+      <tonic-select value="b">
+        <option value="a">a</option>
+        <option value="b">b</option>
+        <option value="c">c</option>
+      </tonic-select>
+    </tonic-tab-panel>
+    <tonic-tab-panel id="tab-panel-5">
+
+      <tonic-accordion>
+        <tonic-accordion-section
+          name="accordion-test-4b"
+          id="accordion-test-4b"
+          data="preview"
+          label="Accordion Test 4b">
+          Whatever
+        </tonic-accordion-section>
+        <tonic-accordion-section
+          name="accordion-test-5b"
+          id="accordion-test-5b"
+          label="Accordion Test 5b">
+          Some Content
+        </tonic-accordion-section>
+        <tonic-accordion-section
+          name="accordion-test-6b"
+          id="accordion-test-6b"
+          label="Accordion Test 6b">
+          The visual design includes features intended to help users understand that the accordion provides enhanced keyboard navigation functions. When an accordion header button has keyboard focus, the styling of the accordion container and all its header buttons is changed.
+        </tonic-accordion-section>
+      </tonic-accordion>
+    </tonic-tab-panel>
+    <tonic-tab-panel id="tab-panel-6">Content Three</tonic-tab-panel>
+  </div>
+
+  <!-- Tabs inside another component -->
+  <div id="tabs-3" class="test-container">
+    <component-container id="xxx">
+      <span>Tabs inanother component</span>
+
+      <tonic-tabs id="tabs-7" selected="tab-7">
+        <tonic-tab
+          id="tab-7"
+          for="tab-panel-7">One</tonic-tab>
+        <tonic-tab
+          id="tab-8"
+          for="tab-panel-8">Two</tonic-tab>
+        <tonic-tab
+          id="tab-9"
+          for="tab-panel-9">Three</tonic-tab>
+      </tonic-tabs>
+
+      <tonic-tab-panel id="tab-panel-7">
+        <tonic-select value="b">
+          <option value="a">a</option>
+          <option value="b">b</option>
+          <option value="c">c</option>
+        </tonic-select>
+      </tonic-tab-panel>
+
+      <tonic-tab-panel id="tab-panel-8">
+
+        <tonic-accordion>
+          <tonic-accordion-section
+            name="accordion-test-7"
+            id="accordion-test-7"
+            data="preview"
+            label="Accordion Test 7">
+            Whatever
+          </tonic-accordion-section>
+          <tonic-accordion-section
+            name="accordion-test-8"
+            id="accordion-test-8"
+            label="Accordion Test 8">
+            Some Content
+          </tonic-accordion-section>
+          <tonic-accordion-section
+            name="accordion-test-9"
+            id="accordion-test-9"
+            label="Accordion Test 9">
+            The visual design includes features intended to help users understand that the accordion provides enhanced keyboard navigation functions. When an accordion header button has keyboard focus, the styling of the accordion container and all its header buttons is changed.
+          </tonic-accordion-section>
+        </tonic-accordion>
+      </tonic-tab-panel>
+      <tonic-tab-panel id="tab-panel-9">Content Three</tonic-tab-panel>
+    </component-container>
+  </div>
+</section>
+`)
 
 class ComponentContainer extends Tonic {
   click () {
@@ -33728,7 +35142,18 @@ tape('{{tabs-3}} has correct default state', t => {
   t.end()
 })
 
-},{"../test/tape":100,"@optoolco/tonic":17,"qs":54}],100:[function(require,module,exports){
+function html ([str, ...strings], ...values) {
+  let text = str
+  for (let i = 0; i < values.length; i++) {
+    text += values[i] + strings[i]
+  }
+
+  const tmpl = document.createElement('template')
+  tmpl.innerHTML = text
+  return tmpl.content.firstElementChild
+}
+
+},{"@optoolco/tonic":17,"qs":54,"tape":76}],100:[function(require,module,exports){
 const tape = require('tape')
 const stream = tape.createStream({ objectMode: true })
 
@@ -33799,32 +35224,34 @@ module.exports = tape
 
 },{"tape":76}],101:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
-const components = require('..')
+const components = require('../..')
+
+require('./tape.js')
 
 components(Tonic)
 
 function ready () {
-  require('../router/test')
-  require('../panel/test')
-  require('../dialog/test')
-  require('../tabs/test')
-  require('../windowed/test')
-  require('../tooltip/test')
-  require('../popover/test')
-  require('../badge/test')
-  require('../button/test')
-  require('../chart/test')
-  require('../checkbox/test')
-  require('../icon/test')
-  require('../input/test')
-  require('../progress-bar/test')
-  require('../profile-image/test')
-  require('../range/test')
-  require('../select/test')
-  require('../textarea/test')
-  require('../toaster/test')
-  require('../toaster-inline/test')
-  require('../toggle/test')
+  require('../../router/test')
+  require('../../panel/test')
+  require('../../dialog/test')
+  require('../../tabs/test')
+  require('../../windowed/test')
+  require('../../tooltip/test')
+  require('../../popover/test')
+  require('../../badge/test')
+  require('../../button/test')
+  require('../../chart/test')
+  require('../../checkbox/test')
+  require('../../icon/test')
+  require('../../input/test')
+  require('../../progress-bar/test')
+  require('../../profile-image/test')
+  require('../../range/test')
+  require('../../select/test')
+  require('../../textarea/test')
+  require('../../toaster/test')
+  require('../../toaster-inline/test')
+  require('../../toggle/test')
 
   document.addEventListener('keydown', e => {
     if (e.keyCode === 9) {
@@ -33839,7 +35266,7 @@ function ready () {
 
 document.addEventListener('DOMContentLoaded', ready)
 
-},{"..":14,"../badge/test":3,"../button/test":5,"../chart/test":7,"../checkbox/test":9,"../dialog/test":11,"../icon/test":13,"../input/test":16,"../panel/test":84,"../popover/test":86,"../profile-image/test":88,"../progress-bar/test":90,"../range/test":92,"../router/test":94,"../select/test":96,"../tabs/test":99,"../textarea/test":103,"../toaster-inline/test":105,"../toaster/test":107,"../toggle/test":109,"../tooltip/test":111,"../windowed/test":112,"@optoolco/tonic":17}],102:[function(require,module,exports){
+},{"../..":14,"../../badge/test":3,"../../button/test":5,"../../chart/test":7,"../../checkbox/test":9,"../../dialog/test":11,"../../icon/test":13,"../../input/test":16,"../../panel/test":84,"../../popover/test":86,"../../profile-image/test":88,"../../progress-bar/test":90,"../../range/test":92,"../../router/test":94,"../../select/test":96,"../../tabs/test":99,"../../textarea/test":103,"../../toaster-inline/test":105,"../../toaster/test":107,"../../toggle/test":109,"../../tooltip/test":111,"../../windowed/test":112,"./tape.js":100,"@optoolco/tonic":17}],102:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicTextarea extends Tonic {
@@ -34005,8 +35432,167 @@ class TonicTextarea extends Tonic {
 module.exports = { TonicTextarea }
 
 },{"@optoolco/tonic":17}],103:[function(require,module,exports){
-arguments[4][7][0].apply(exports,arguments)
-},{"dup":7}],104:[function(require,module,exports){
+document.body.appendChild(html`
+<section id="textarea">
+  <h2>Textarea</h2>
+
+  <div class="test-container">
+    <span>Default Textarea</span>
+    <tonic-textarea></tonic-textarea>
+  </div>
+
+  <div class="test-container">
+    <span>With Content</span>
+    <tonic-textarea>It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair, we had everything before us, we had nothing before us, we were all going direct to Heaven, we were all going direct the other way—in short, the period was so far like the present period, that some of its noisiest authorities insisted on its being received, for good or for evil, in the superlative degree of comparison only.</tonic-textarea>
+  </div>
+
+  <div class="test-container">
+    <span>id="textarea-id"</span>
+    <tonic-textarea id="textarea-id"></tonic-textarea>
+  </div>
+
+  <div class="test-container">
+    <span>name="textarea-name"</span>
+    <tonic-textarea name="textarea-name"></tonic-textarea>
+  </div>
+
+  <div class="test-container">
+    <span>placeholder="This is a placeholder"</span>
+    <tonic-textarea placeholder="This is a placeholder"></tonic-textarea>
+  </div>
+
+  <div class="test-container">
+    <span>resize="none"</span>
+    <tonic-textarea resize="none"></tonic-textarea>
+  </div>
+
+  <div class="test-container">
+    <span>spellcheck="true"</span>
+    <tonic-textarea spellcheck="true">fdsfds</tonic-textarea>
+  </div>
+
+  <div class="test-container">
+    <span>spellcheck="false"</span>
+    <tonic-textarea spellcheck="false">fdsfds</tonic-textarea>
+  </div>
+
+  <div class="test-container">
+    <span>disabled="true"</span>
+    <tonic-textarea disabled="true"></tonic-textarea>
+  </div>
+
+  <div class="test-container">
+    <span>disabled="false"</span>
+    <tonic-textarea disabled="false"></tonic-textarea>
+  </div>
+
+  <div class="test-container">
+    <span>required="true"</span>
+    <tonic-textarea required="true"></tonic-textarea>
+  </div>
+
+  <div class="test-container">
+    <span>required="false"</span>
+    <tonic-textarea required="false"></tonic-textarea>
+  </div>
+
+  <div class="test-container">
+    <span>readonly="true"</span>
+    <tonic-textarea readonly="true"></tonic-textarea>
+  </div>
+
+  <div class="test-container">
+    <span>readonly="false"</span>
+    <tonic-textarea readonly="false"></tonic-textarea>
+  </div>
+
+  <div class="test-container">
+    <span>autofocus="true"</span>
+    <tonic-textarea autofocus="true"></tonic-textarea>
+  </div>
+
+  <div class="test-container">
+    <span>autofocus="false"</span>
+    <tonic-textarea autofocus="false"></tonic-textarea>
+  </div>
+
+  <div class="test-container">
+    <span>rows="10"</span>
+    <tonic-textarea rows="10"></tonic-textarea>
+  </div>
+
+  <div class="test-container">
+    <span>cols="10"</span>
+    <tonic-textarea cols="10"></tonic-textarea>
+  </div>
+
+  <div class="test-container">
+    <span>minlength="10"</span>
+    <tonic-textarea minlength="10"></tonic-textarea>
+  </div>
+
+  <div class="test-container">
+    <span>maxlength="100"</span>
+    <tonic-textarea maxlength="100"></tonic-textarea>
+  </div>
+
+  <div class="test-container">
+    <span>width="100%"</span>
+    <tonic-textarea width="100%"></tonic-textarea>
+  </div>
+
+  <div class="test-container">
+    <span>width="200px"</span>
+    <tonic-textarea width="100%"></tonic-textarea>
+  </div>
+
+  <div class="test-container">
+    <span>height="300px"</span>
+    <tonic-textarea height="300px"></tonic-textarea>
+  </div>
+
+  <div class="test-container">
+    <span>radius="10px"</span>
+    <tonic-textarea radius="10px"></tonic-textarea>
+  </div>
+
+  <div class="test-container">
+    <span>theme="light"</span>
+    <tonic-textarea theme="light"></tonic-textarea>
+  </div>
+
+  <div class="test-container flex-half dark">
+    <span>theme="dark"</span>
+    <tonic-textarea theme="dark"></tonic-textarea>
+  </div>
+
+  <div class="test-container">
+    <span>label="Foo Bar Bazz"</span>
+    <tonic-textarea label="Foo Bar Bazz"></tonic-textarea>
+  </div>
+
+  <div class="test-container">
+    <span>autofocus="true"</span>
+    <tonic-textarea autofocus="true"></tonic-textarea>
+  </div>
+
+</section>
+`)
+
+// TODO: write tests
+
+function html ([str, ...strings], ...values) {
+  let text = str
+  for (let i = 0; i < values.length; i++) {
+    text += values[i] + strings[i]
+  }
+
+  const tmpl = document.createElement('template')
+  tmpl.innerHTML = text
+  return tmpl.content.firstElementChild
+}
+
+},{}],104:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicToasterInline extends Tonic {
@@ -34220,23 +35806,237 @@ class TonicToasterInline extends Tonic {
 module.exports = { TonicToasterInline }
 
 },{"@optoolco/tonic":17}],105:[function(require,module,exports){
-const tape = require('../test/tape')
+const tape = require('tape')
 const { qs } = require('qs')
 
-// tape('{{icon-1}} is constructed properly', t => {
-//   const container = qs('#icon-1')
-//   const component = qs('tonic-icon', container)
-//
-//   t.plan(3)
-//
-//   t.ok(component.firstElementChild, 'the component was constructed')
-//   t.ok(component.hasAttribute('src'), 'the component has a src')
-//   t.ok(component.hasAttribute('symbol-id'), 'the component has a symbol id')
-//
-//   t.end()
-// })
+document.body.appendChild(html`
+<section id="toaster-inline">
+  <h2>ToasterInline</h2>
 
-},{"../test/tape":100,"qs":54}],106:[function(require,module,exports){
+  <!-- Default inline toaster -->
+  <div id="inline-toaster-1" class="test-container">
+    <span>Default Inline Toaster</span>
+    <tonic-toaster-inline
+      id="tonic-toasterinline-default">
+      Message
+    </tonic-toaster-inline>
+  </div>
+
+  <!-- Toaster inline displayed initially -->
+  <div id="inline-toaster-2" class="test-container">
+    <span>Toaster inline displayed initially</span>
+    <div>
+      <tonic-toaster-inline
+        display="true"
+        id="tonic-toasterinline-initial">
+        Displayed initially.</tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/ title -->
+  <div id="inline-toaster-5" class="test-container">
+    <span>Toaster inline w/ title</span>
+    <div>
+      <tonic-toaster-inline
+        id="tonic-toasterinline-title">
+        Message
+      </tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/ inline HTML title -->
+  <div id="inline-toaster-6" class="test-container">
+    <span>Toaster inline w/ inline HTML title</span>
+    <div>
+      <tonic-toaster-inline
+        title="I am a title!"
+        id="tonic-toasterinline-inline-title"></tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/ message -->
+  <div id="inline-toaster-7" class="test-container">
+    <span>Toaster inline w/ message</span>
+    <div>
+      <tonic-toaster-inline
+        id="tonic-toasterinline-message">
+        Message
+      </tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/ message (initial) -->
+  <div id="inline-toaster-8" class="test-container">
+    <span>Toaster inline w/ message (initial)</span>
+    <div>
+      <tonic-toaster-inline
+        display="true"
+        message="I am a message!"
+        id="tonic-toasterinline-message-2">
+        Message
+      </tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/ title & message -->
+  <div id="inline-toaster-9" class="test-container">
+    <span>Toaster inline w/ title & message</span>
+    <div>
+      <tonic-toaster-inline
+        id="tonic-toasterinline-title-message">
+        Message
+      </tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/ innerHTML message (must be initial)-->
+  <div id="inline-toaster-10" class="test-container">
+    <span>Toaster inline w/ innerHTML message (must be initial)</span>
+    <div>
+      <tonic-toaster-inline
+        display="true"
+        id="tonic-toasterinline-innerHTML-message">
+        This is your message.
+      </tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/ type success -->
+  <div id="inline-toaster-11" class="test-container">
+    <span>Toaster inline w/ type success</span>
+    <div>
+      <tonic-toaster-inline
+        type="success"
+        id="tonic-toasterinline-type-success">
+        It's a success
+      </tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/ type warning -->
+  <div id="inline-toaster-12" class="test-container">
+    <span>Toaster inline w/ type warning</span>
+    <div>
+      <tonic-toaster-inline
+        type="warning"
+        id="tonic-toasterinline-type-warning">
+        You've been warned.
+      </tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/ type danger -->
+  <div id="inline-toaster-13" class="test-container">
+    <span>Toaster inline w/ type danger</span>
+    <div>
+      <tonic-toaster-inline
+        type="danger"
+        id="tonic-toasterinline-type-danger">
+        Watch out!
+      </tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/ type info -->
+  <div id="inline-toaster-14" class="test-container">
+    <span>Toaster inline w/ type info</span>
+    <div>
+      <tonic-toaster-inline
+        type="info"
+        id="tonic-toasterinline-type-info">
+        For your information
+      </tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/ type & title -->
+  <div id="inline-toaster-15" class="test-container">
+    <span>Toaster inline w/ type & title</span>
+    <div>
+      <tonic-toaster-inline id="tonic-toasterinline-type-title">
+        Message
+      </tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/ type & message -->
+  <div id="inline-toaster-16" class="test-container">
+    <span>Toaster inline w/ type & message</span>
+    <div>
+      <tonic-toaster-inline id="tonic-toasterinline-type-message">
+        Message
+      </tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/ type & title & message -->
+  <div id="inline-toaster-17" class="test-container">
+    <span>Toaster inline w/ type & title & message</span>
+    <div>
+      <tonic-toaster-inline id="tonic-toasterinline-type-title-message">
+        Message
+      </tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/ duration -->
+  <div id="inline-toaster-18" class="test-container">
+    <span>Toaster inline w/ duration</span>
+    <div>
+      <tonic-toaster-inline id="tonic-toasterinline-duration">
+        Message
+      </tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/out duration -->
+  <div id="inline-toaster-19" class="test-container">
+    <span>Toaster inline w/out duration</span>
+    <div>
+      <tonic-toaster-inline id="tonic-toasterinline-no-duration">
+        Message
+      </tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/ dismiss w/ duration -->
+  <div id="inline-toaster-20" class="test-container">
+    <span>Toaster inline w/ dismiss w/ duration</span>
+    <div>
+      <tonic-toaster-inline
+        id="tonic-toasterinline-dismiss-duration"
+        dismiss="true"
+        message="Dismiss me or I will disappear!">
+      </tonic-toaster-inline>
+    </div>
+  </div>
+
+  <!-- Inline toaster w/out dismiss w/ duration -->
+  <div id="inline-toaster-21" class="test-container">
+    <span>Toaster inline w/out dismiss w/ duration</span>
+    <div>
+      <tonic-toaster-inline id="tonic-toasterinline-no-dismiss-duration">
+        Message
+      </tonic-toaster-inline>
+    </div>
+  </div>
+
+</section>
+`)
+
+// TODO: fix tests
+function html ([str, ...strings], ...values) {
+  let text = str
+  for (let i = 0; i < values.length; i++) {
+    text += values[i] + strings[i]
+  }
+
+  const tmpl = document.createElement('template')
+  tmpl.innerHTML = text
+  return tmpl.content.firstElementChild
+}
+
+},{"qs":54,"tape":76}],106:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicToaster extends Tonic {
@@ -34490,8 +36290,146 @@ class TonicToaster extends Tonic {
 module.exports = { TonicToaster }
 
 },{"@optoolco/tonic":17}],107:[function(require,module,exports){
-const tape = require('../test/tape')
+const tape = require('tape')
 const { qs } = require('qs')
+
+document.body.appendChild(html`
+<section id="toaster">
+  <h2>Toaster</h2>
+
+  <tonic-toaster position="center"></tonic-toaster>
+  <tonic-toaster position="left"></tonic-toaster>
+  <tonic-toaster position="right"></tonic-toaster>
+  <tonic-toaster theme="light"></tonic-toaster>
+  <tonic-toaster theme="dark"></tonic-toaster>
+
+  <div id="toaster-2" class="test-container">
+    <span>Toaster w/ Type Success</span>
+    <tonic-button id="tonic-toaster-type-success">
+      Success
+    </tonic-button>
+  </div>
+
+  <div id="toaster-3" class="test-container">
+    <span>Toaster w/ Type warning</span>
+    <tonic-button id="tonic-toaster-type-warning">
+      Warning
+    </tonic-button>
+  </div>
+
+  <div id="toaster-4" class="test-container">
+    <span>Toaster w/ Type danger</span>
+    <tonic-button id="tonic-toaster-type-danger">
+      Toast
+    </tonic-button>
+  </div>
+
+  <!-- Toaster w/ type info -->
+  <div class="test-container">
+    <span>Toaster w/ Type info</span>
+    <tonic-button id="tonic-toaster-type-info">
+      Toast
+    </tonic-button>
+  </div>
+
+  <!-- Toaster w/ title -->
+  <div class="test-container">
+    <span>Toaster w/ Title</span>
+    <tonic-button id="tonic-toaster-title">
+      Toast
+    </tonic-button>
+  </div>
+
+  <!-- Toaster w/ message -->
+  <div class="test-container">
+    <span>Toaster w/ Message</span>
+    <tonic-button id="tonic-toaster-message">
+      Toast
+    </tonic-button>
+  </div>
+
+  <!-- Toaster w/ title and message -->
+  <div class="test-container">
+    <span>Toaster w/ Title & Message</span>
+    <tonic-button id="tonic-toaster-title-message">
+      Toast
+    </tonic-button>
+  </div>
+
+  <!-- Toaster w/ title and message and type -->
+  <div class="test-container">
+    <span>Toaster w/ Type, Title & Message</span>
+    <tonic-button id="tonic-toaster-type-title-message">
+      Toast
+    </tonic-button>
+  </div>
+
+  <!-- Toaster w/ dismiss -->
+  <div class="test-container">
+    <span>Toaster w/ dismiss</span>
+    <tonic-button id="tonic-toaster-dismiss">
+      Toast
+    </tonic-button>
+  </div>
+
+  <!-- Toaster w/out dismiss -->
+  <div class="test-container">
+    <span>Toaster w/out dismiss</span>
+    <tonic-button id="tonic-toaster-dismiss-false">
+      Toast
+    </tonic-button>
+  </div>
+
+  <!-- Toaster w/ dismiss w/ duration -->
+  <div class="test-container">
+    <span>Toaster w/ dismiss w/ duration</span>
+    <tonic-button id="tonic-toaster-dismiss-duration">
+      Toast
+    </tonic-button>
+  </div>
+
+  <!-- Toaster w/out dismiss w/ duration -->
+  <div class="test-container">
+    <span>Toaster w/out dismiss w/ duration</span>
+    <tonic-button id="tonic-toaster-dismiss-false-duration">
+      Toast
+    </tonic-button>
+  </div>
+
+  <!-- Toaster w/ left position -->
+  <div class="test-container">
+    <span>Toaster w/ left position</span>
+    <tonic-button id="tonic-toaster-position-left">
+      Toast
+    </tonic-button>
+  </div>
+
+  <!-- Toaster w/ right position -->
+  <div class="test-container">
+    <span>Toaster w/ right position</span>
+    <tonic-button id="tonic-toaster-position-right">
+      Toast
+    </tonic-button>
+  </div>
+
+  <!-- Toaster w/ theme light -->
+  <div class="test-container">
+    <span>Toaster w/ theme light</span>
+    <tonic-button id="tonic-toaster-theme-light" theme="light">
+      Toast
+    </tonic-button>
+  </div>
+
+  <!-- Toaster w/ theme dark -->
+  <div class="test-container flex-half dark">
+    <span>Toaster w/ theme dark</span>
+    <tonic-button id="tonic-toaster-theme-dark" theme="dark">
+      Toast
+    </tonic-button>
+  </div>
+
+</section>
+`)
 
 const notification = qs('tonic-toaster[position="center"]')
 const sleep = n => new Promise(resolve => setTimeout(resolve, n))
@@ -34626,7 +36564,18 @@ tape('{{toaster}} is created on the right', async t => {
   t.end()
 })
 
-},{"../test/tape":100,"qs":54}],108:[function(require,module,exports){
+function html ([str, ...strings], ...values) {
+  let text = str
+  for (let i = 0; i < values.length; i++) {
+    text += values[i] + strings[i]
+  }
+
+  const tmpl = document.createElement('template')
+  tmpl.innerHTML = text
+  return tmpl.content.firstElementChild
+}
+
+},{"qs":54,"tape":76}],108:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicToggle extends Tonic {
@@ -34846,8 +36795,90 @@ class TonicToggle extends Tonic {
 module.exports = { TonicToggle }
 
 },{"@optoolco/tonic":17}],109:[function(require,module,exports){
-const tape = require('../test/tape')
+const tape = require('tape')
 const { qs } = require('qs')
+
+document.body.appendChild(html`
+<section id="toggle">
+  <h2>Toggle</h2>
+
+  <div id="toggle-1" class="test-container">
+    <span>Default Toggle</span>
+    <tonic-toggle id="toggle-default"></tonic-toggle>
+  </div>
+
+  <div id="toggle-2" class="test-container">
+    <span>tab-index="0"</span>
+    <tonic-toggle id="toggle-tabindex" tabindex="0"></tonic-toggle>
+  </div>
+
+  <div id="toggle-3" class="test-container">
+    <span>label="label"</span>
+    <tonic-toggle label="label" id="toggle-label"></tonic-toggle>
+  </div>
+
+  <div class="test-container">
+    <span>label="label"</span>
+    <tonic-toggle id="toggle-2" label="label"></tonic-toggle>
+  </div>
+
+  <div class="test-container">
+    <span>id="toggle-3"</span>
+    <tonic-toggle id="toggle-3"></tonic-toggle>
+  </div>
+
+  <div class="test-container">
+    <span>name="toggle-name"</span>
+    <tonic-toggle id="toggle-4" name="toggle-name"></tonic-toggle>
+  </div>
+
+  <div class="test-container">
+    <span>disabled="true"</span>
+    <tonic-toggle id="toggle-5" disabled="true"></tonic-toggle>
+  </div>
+
+  <div class="test-container">
+    <span>disabled="false"</span>
+    <tonic-toggle id="toggle-6" disabled="false"></tonic-toggle>
+  </div>
+
+  <div class="test-container">
+    <span>checked="true"</span>
+    <tonic-toggle id="toggle-7" checked="true"></tonic-toggle>
+  </div>
+
+  <div class="test-container">
+    <span>checked="false"</span>
+    <tonic-toggle id="toggle-8" checked="false"></tonic-toggle>
+  </div>
+
+  <div class="test-container">
+    <span>checked="true", disabled="true"</span>
+    <tonic-toggle id="toggle-9" checked="true" disabled="true"></tonic-toggle>
+  </div>
+
+  <div class="test-container">
+    <span>theme="light"</span>
+    <tonic-toggle id="toggle-10" theme="light"></tonic-toggle>
+  </div>
+
+  <div class="test-container flex-half dark">
+    <span>theme="dark"</span>
+    <tonic-toggle id="toggle-11" theme="dark"></tonic-toggle>
+  </div>
+
+  <div class="test-container flex-half dark">
+    <span>theme="dark", disabled="true"</span>
+    <tonic-toggle id="toggle-12" theme="dark" disabled="true"></tonic-toggle>
+  </div>
+
+  <div class="test-container flex-half dark">
+    <span>theme="dark", checked="true", disabled="true"</span>
+    <tonic-toggle id="toggle-13" theme="dark" checked="true" disabled="true"></tonic-toggle>
+  </div>
+
+</section>
+`)
 
 tape('{{toggle-1}} default state renders properly', t => {
   const container = qs('#toggle-1')
@@ -34881,7 +36912,18 @@ tape('{{toggle-2}} has tabindex attribute', t => {
   t.end()
 })
 
-},{"../test/tape":100,"qs":54}],110:[function(require,module,exports){
+function html ([str, ...strings], ...values) {
+  let text = str
+  for (let i = 0; i < values.length; i++) {
+    text += values[i] + strings[i]
+  }
+
+  const tmpl = document.createElement('template')
+  tmpl.innerHTML = text
+  return tmpl.content.firstElementChild
+}
+
+},{"qs":54,"tape":76}],110:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicTooltip extends Tonic {
@@ -35042,7 +37084,111 @@ class TonicTooltip extends Tonic {
 module.exports = { TonicTooltip }
 
 },{"@optoolco/tonic":17}],111:[function(require,module,exports){
-arguments[4][7][0].apply(exports,arguments)
-},{"dup":7}],112:[function(require,module,exports){
-arguments[4][7][0].apply(exports,arguments)
-},{"dup":7}]},{},[101]);
+document.body.appendChild(html`
+<section id="tooltip">
+  <h2>Tooltip</h2>
+
+  <!-- Default tooltip -->
+  <div class="test-container">
+    <span>Default tooltip</span>
+    <span id="tonic-tooltip-default">Hover!</span>
+    <tonic-tooltip for="tonic-tooltip-default">
+      Hello World
+    </tonic-tooltip>
+  </div>
+
+  <!-- Default tooltip w/ image -->
+  <div class="test-container">
+    <span>Default tooltip w/ image</span>
+    <span id="tonic-tooltip-image">Hover!</span>
+    <tonic-tooltip for="tonic-tooltip-image">
+      <img src="/sampleprofile.jpg" width="100px">
+    </tonic-tooltip>
+  </div>
+
+  <!-- Default tooltip width-->
+  <div class="test-container">
+    <span>width="400px"</span>
+    <span id="tonic-tooltip-width">Hover!</span>
+    <tonic-tooltip
+      for="tonic-tooltip-width"
+      width="400px">
+      Hello World
+    </tonic-tooltip>
+  </div>
+
+  <!-- Default tooltip height -->
+  <div class="test-container">
+    <span>height="250px"</span>
+    <span id="tonic-tooltip-height">Hover!</span>
+    <tonic-tooltip
+      for="tonic-tooltip-height"
+      height="250px">
+      Hello World
+    </tonic-tooltip>
+  </div>
+
+  <!-- Default tooltip theme light -->
+  <div class="test-container">
+    <span>theme="light"</span>
+    <span id="tonic-tooltip-theme-light">Hover!</span>
+    <tonic-tooltip
+      for="tonic-tooltip-theme-light"
+      theme="light">
+      I am a light theme!
+    </tonic-tooltip>
+  </div>
+
+  <!-- Default tooltip theme dark -->
+  <div class="test-container">
+    <span>theme="dark"</span>
+    <span id="tonic-tooltip-theme-dark">Hover!</span>
+    <tonic-tooltip
+      for="tonic-tooltip-theme-dark"
+      theme="dark">
+      I am a dark theme!
+    </tonic-tooltip>
+  </div>
+
+</section>
+`)
+
+// TODO write tests
+
+function html ([str, ...strings], ...values) {
+  let text = str
+  for (let i = 0; i < values.length; i++) {
+    text += values[i] + strings[i]
+  }
+
+  const tmpl = document.createElement('template')
+  tmpl.innerHTML = text
+  return tmpl.content.firstElementChild
+}
+
+},{}],112:[function(require,module,exports){
+document.body.appendChild(html`
+<section id="windowed">
+  <h2>Windowed</h2>
+
+  <div class="test-container">
+    TBD
+  </div>
+
+</section>
+`)
+
+// TODO: tests
+
+function html ([str, ...strings], ...values) {
+  let text = str
+  for (let i = 0; i < values.length; i++) {
+    text += values[i] + strings[i]
+  }
+
+  const tmpl = document.createElement('template')
+  tmpl.innerHTML = text
+  return tmpl.content.firstElementChild
+}
+
+},{}]},{},[101]);

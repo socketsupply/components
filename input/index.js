@@ -16,6 +16,10 @@ class TonicInput extends Tonic {
     }
   }
 
+  get form () {
+    return this.querySelector('input').form
+  }
+
   get value () {
     return this.state.value
   }

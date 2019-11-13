@@ -5,6 +5,10 @@ class TonicButton extends Tonic {
     return this.props.value
   }
 
+  get form () {
+    return this.querySelector('button').form
+  }
+
   get disabled () {
     return this.props.disabled === true
   }

@@ -15,7 +15,7 @@
     "build:styl": "cp ./theme.css ./docs && npm run build:styl:test && npm run build:styl:docs",
     "build:styl:test": "stylus -u autoprefixer-stylus ./test/old/index.styl -o ./docs/test.css",
     "build:styl:docs": "stylus -u autoprefixer-stylus ./docs/src/index.styl -o ./docs",
-    "test": "browserify test/index.js | tape-puppet"
+    "test": "standard && browserify test/index.js | tape-puppet"
   },
   "repository": {
     "type": "git",
@@ -25,6 +25,11 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/optoolco/components/issues"
+  },
+  "standard": {
+    "ignore": [
+      "docs/**/*.js"
+    ]
   },
   "homepage": "https://github.com/optoolco/components#readme",
   "devDependencies": {
@@ -41,6 +46,7 @@
     "raynos-tape-puppet": "0.1.7-raynos2",
     "scrolltoy": "github:voltraco/scrolltoy",
     "send": "^0.16.2",
+    "standard": "14.3.1",
     "stylus": "^0.54.5",
     "tape": "^4.9.1",
     "tape-run": "^4.0.0"

@@ -40,18 +40,18 @@ document.body.appendChild(html`
   </div>
 
   <div id="button-6" class="test-container">
-    <span>fill="var(--tonic-accent)"</span>
+    <span>fill="rgb(240, 102, 83)"</span>
     <tonic-button
-      fill="var(--tonic-accent)"
+      fill="rgb(240, 102, 83)"
       text-color="white">Button</tonic-button>
   </div>
 
   <div id="button-7" class="test-container">
     <span>border-color, border-width, text-color</span>
     <tonic-button
-      border-color="var(--tonic-accent)"
+      border-color="rgb(240, 102, 83)"
       border-width="3px"
-      text-color="var(--tonic-accent)">Button</tonic-button>
+      text-color="rgb(240, 102, 83)">Button</tonic-button>
   </div>
 
   <div id="button-8" class="test-container">

@@ -14,7 +14,8 @@
     "build:docs:js": "browserify ./docs/src/index.js > ./docs/bundle.js",
     "build:styl": "cp ./theme.css ./docs && npm run build:styl:test && npm run build:styl:docs",
     "build:styl:test": "stylus -u autoprefixer-stylus ./test/old/index.styl -o ./docs/test.css",
-    "build:styl:docs": "stylus -u autoprefixer-stylus ./docs/src/index.styl -o ./docs"
+    "build:styl:docs": "stylus -u autoprefixer-stylus ./docs/src/index.styl -o ./docs",
+    "test": "browserify test/index.js | tape-puppet"
   },
   "repository": {
     "type": "git",

@@ -8,10 +8,20 @@ const components = fs
   .split('\n')
   .filter(Boolean)
 
-const mapFile = f => fs.readFileSync(path.join(root, f, 'test.html'), 'utf8')
+const sections = paths
+  .map(f => {
+    let fileName = path.join(root, f, 'test.html')
 
-const sections = components
-  .map(mapFile)
+    let htmlText
+    try {
+      htmlText = fs.readFileSync(fileName, 'utf8')
+    } catch (err) {
+      // Missing file, skip.
+      return ''
+    }
+
+    return '      ' + htmlText
+  })
   .join('\n')
 
 const index = `

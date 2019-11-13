@@ -4,6 +4,7 @@ const components = require('../..')
 require('./tape.js')
 
 components(Tonic)
+components(Tonic)
 
 function ready () {
   require('../../router/test')

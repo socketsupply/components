@@ -8,7 +8,7 @@ const components = fs
   .split('\n')
   .filter(Boolean)
 
-const sections = paths
+const sections = components
   .map(f => {
     let fileName = path.join(root, f, 'test.html')
 

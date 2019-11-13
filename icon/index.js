@@ -17,7 +17,7 @@ class TonicIcon extends Tonic {
   }
 
   styles () {
-    let {
+    const {
       size
     } = this.props
 
@@ -30,7 +30,7 @@ class TonicIcon extends Tonic {
   }
 
   render () {
-    let {
+    const {
       symbolId,
       size,
       fill,

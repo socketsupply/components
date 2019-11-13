@@ -1,6 +1,3 @@
-const tape = require('tape')
-const { qs } = require('qs')
-
 document.body.appendChild(html`
 <section id="toaster-inline">
   <h2>ToasterInline</h2>

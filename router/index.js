@@ -103,19 +103,19 @@ TonicRouter.matcher = (() => {
   ].join('|'), 'g')
 
   function parse (str, options) {
-    let tokens = []
+    const tokens = []
     let key = 0
     let index = 0
     let path = ''
-    let defaultDelimiter = (options && options.delimiter) || DEFAULT_DELIMITER
-    let delimiters = (options && options.delimiters) || DEFAULT_DELIMITERS
+    const defaultDelimiter = (options && options.delimiter) || DEFAULT_DELIMITER
+    const delimiters = (options && options.delimiters) || DEFAULT_DELIMITERS
     let pathEscaped = false
     let res
 
     while ((res = PATH_REGEXP.exec(str)) !== null) {
-      let m = res[0]
-      let escaped = res[1]
-      let offset = res.index
+      const m = res[0]
+      const escaped = res[1]
+      const offset = res.index
       path += str.slice(index, offset)
       index = offset + m.length
 
@@ -127,14 +127,14 @@ TonicRouter.matcher = (() => {
       }
 
       let prev = ''
-      let next = str[index]
-      let name = res[2]
-      let capture = res[3]
-      let group = res[4]
-      let modifier = res[5]
+      const next = str[index]
+      const name = res[2]
+      const capture = res[3]
+      const group = res[4]
+      const modifier = res[5]
 
       if (!pathEscaped && path.length) {
-        let k = path.length - 1
+        const k = path.length - 1
 
         if (delimiters.indexOf(path[k]) > -1) {
           prev = path[k]
@@ -148,11 +148,11 @@ TonicRouter.matcher = (() => {
         pathEscaped = false
       }
 
-      let partial = prev !== '' && next !== undefined && next !== prev
-      let repeat = modifier === '+' || modifier === '*'
-      let optional = modifier === '?' || modifier === '*'
-      let delimiter = prev || defaultDelimiter
-      let pattern = capture || group
+      const partial = prev !== '' && next !== undefined && next !== prev
+      const repeat = modifier === '+' || modifier === '*'
+      const optional = modifier === '?' || modifier === '*'
+      const delimiter = prev || defaultDelimiter
+      const pattern = capture || group
 
       tokens.push({
         name: name || key++,
@@ -207,7 +207,7 @@ TonicRouter.matcher = (() => {
   }
 
   function arrayToRegexp (path, keys, options) {
-    let parts = []
+    const parts = []
 
     for (let i = 0; i < path.length; i++) {
       parts.push(pathToRegexp(path[i], keys, options).source)
@@ -223,23 +223,23 @@ TonicRouter.matcher = (() => {
   function tokensToRegExp (tokens, keys, options) {
     options = options || {}
 
-    let strict = options.strict
-    let end = options.end !== false
-    let delimiter = escapeString(options.delimiter || DEFAULT_DELIMITER)
-    let delimiters = options.delimiters || DEFAULT_DELIMITERS
-    let endsWith = [].concat(options.endsWith || []).map(escapeString).concat('$').join('|')
+    const strict = options.strict
+    const end = options.end !== false
+    const delimiter = escapeString(options.delimiter || DEFAULT_DELIMITER)
+    const delimiters = options.delimiters || DEFAULT_DELIMITERS
+    const endsWith = [].concat(options.endsWith || []).map(escapeString).concat('$').join('|')
     let route = ''
     let isEndDelimited = tokens.length === 0
 
     for (let i = 0; i < tokens.length; i++) {
-      let token = tokens[i]
+      const token = tokens[i]
 
       if (typeof token === 'string') {
         route += escapeString(token)
         isEndDelimited = i === tokens.length - 1 && delimiters.indexOf(token[token.length - 1]) > -1
       } else {
-        let prefix = escapeString(token.prefix)
-        let capture = token.repeat
+        const prefix = escapeString(token.prefix)
+        const capture = token.repeat
           ? '(?:' + token.pattern + ')(?:' + prefix + '(?:' + token.pattern + '))*'
           : token.pattern
 

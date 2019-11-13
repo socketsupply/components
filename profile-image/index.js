@@ -151,7 +151,7 @@ class TonicProfileImage extends Tonic {
   }
 
   render () {
-    let {
+    const {
       theme,
       editable
     } = this.props

@@ -4,7 +4,7 @@ const { Dialog } = require('./index')
 
 const sleep = n => new Promise(resolve => setTimeout(resolve, n))
 
-class ExampleDialog extends Dialog { /* global Tonic */
+class ExampleDialog extends Dialog {
   async click (e) {
     return Tonic.match(e.target, 'tonic-button')
   }

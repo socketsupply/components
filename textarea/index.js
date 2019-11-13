@@ -110,7 +110,7 @@ class TonicTextarea extends Tonic {
     const ariaLabelAttr = label ? `aria-label="${label}"` : ''
     const ariaLabelledByAttr = ariaLabelledby ? `aria-labelledby="${ariaLabelledby}"` : ''
     const colsAttr = cols ? `cols="${cols}"` : ''
-    const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
+    const disabledAttr = disabled && disabled === 'true' ? 'disabled="true"' : ''
     const maxAttr = maxlength ? `maxlength="${maxlength}"` : ''
     const minAttr = minlength ? `minlength="${minlength}"` : ''
     const nameAttr = name ? `name="${name}"` : ''

@@ -159,7 +159,7 @@ class TonicCheckbox extends Tonic {
     }
 
     const checkedAttr = checked ? 'checked' : ''
-    const disabledAttr = disabled && disabled === 'true' ? `disabled` : ''
+    const disabledAttr = disabled && disabled === 'true' ? 'disabled' : ''
 
     const titleAttr = title ? `title="${title}"` : ''
 

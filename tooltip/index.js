@@ -2,7 +2,7 @@ const Tonic = require('@optoolco/tonic')
 
 class TonicTooltip extends Tonic {
   connected () {
-    const target = this.props['for']
+    const target = this.props.for
     const el = document.getElementById(target)
     let timer = null
 

@@ -180,7 +180,7 @@ class Panel extends Tonic {
     closeIcon.appendChild(svg)
     svg.appendChild(use)
 
-    const iconColor = color || `var(--tonic-primary)`
+    const iconColor = color || 'var(--tonic-primary)'
 
     use.setAttributeNS(xlinkns, 'href', '#close')
     use.setAttributeNS(xlinkns, 'xlink:href', '#close')

@@ -169,7 +169,7 @@ class TonicRange extends Tonic {
       tabindex
     } = this.props
 
-    const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
+    const disabledAttr = disabled && disabled === 'true' ? 'disabled="true"' : ''
     const minAttr = min ? `min="${min}"` : ''
     const maxAttr = max ? `max="${max}"` : ''
     const stepAttr = step ? `step="${step}"` : ''

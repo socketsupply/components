@@ -10,7 +10,7 @@ const components = fs
 
 const sections = components
   .map(f => {
-    let fileName = path.join(root, f, 'test.html')
+    const fileName = path.join(root, f, 'test.html')
 
     let htmlText
     try {

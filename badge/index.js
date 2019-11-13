@@ -63,7 +63,7 @@ class TonicBadge extends Tonic {
   }
 
   render () {
-    let {
+    const {
       theme
     } = this.props
 

@@ -37,6 +37,7 @@
     "mkdirp": "^0.5.1",
     "node-fetch": "^2.2.0",
     "qs": "github:hxoht/qs",
+    "raynos-tape-puppet": "0.1.7-raynos2",
     "scrolltoy": "github:voltraco/scrolltoy",
     "send": "^0.16.2",
     "stylus": "^0.54.5",

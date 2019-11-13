@@ -1,6 +1,8 @@
 # SYNOPSIS
 A bundle of example components built with [Tonic](https://github.com/hxoht/tonic).
 
+![](https://github.com/optoolco/components/workflows/ci/badge.svg)
+
 # USAGE
 To use this repo, install the following dependencies, then require the components
 module once from your bundle. This will attach all the components to Tonic. Then,

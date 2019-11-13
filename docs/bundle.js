@@ -25277,6 +25277,10 @@ class TonicToasterInline extends Tonic {
   }
 
   connected () {
+    this.updated()
+  }
+
+  updated () {
     const {
       display,
       duration

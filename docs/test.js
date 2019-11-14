@@ -339,6 +339,7 @@ module.exports = {
 const tape = require('tape')
 const { qs } = require('qs')
 
+const { html } = require('../test/util')
 const components = require('..')
 components(require('@optoolco/tonic'))
 
@@ -393,18 +394,7 @@ tape('{{badge-2}} shows a count', t => {
   t.end()
 })
 
-function html ([str, ...strings], ...values) {
-  let text = str
-  for (let i = 0; i < values.length; i++) {
-    text += values[i] + strings[i]
-  }
-
-  const tmpl = document.createElement('template')
-  tmpl.innerHTML = text
-  return tmpl.content.firstElementChild
-}
-
-},{"..":14,"@optoolco/tonic":17,"qs":54,"tape":76}],4:[function(require,module,exports){
+},{"..":14,"../test/util":102,"@optoolco/tonic":17,"qs":54,"tape":76}],4:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicButton extends Tonic {
@@ -640,6 +630,7 @@ module.exports = { TonicButton }
 const tape = require('tape')
 const { qs } = require('qs')
 
+const { html } = require('../test/util')
 const components = require('..')
 components(require('@optoolco/tonic'))
 
@@ -887,18 +878,7 @@ tape('{{button-10}} has tabindex attribute', t => {
   t.end()
 })
 
-function html ([str, ...strings], ...values) {
-  let text = str
-  for (let i = 0; i < values.length; i++) {
-    text += values[i] + strings[i]
-  }
-
-  const tmpl = document.createElement('template')
-  tmpl.innerHTML = text
-  return tmpl.content.firstElementChild
-}
-
-},{"..":14,"@optoolco/tonic":17,"qs":54,"tape":76}],6:[function(require,module,exports){
+},{"..":14,"../test/util":102,"@optoolco/tonic":17,"qs":54,"tape":76}],6:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicChart extends Tonic {
@@ -1204,6 +1184,7 @@ module.exports = { TonicCheckbox }
 const tape = require('tape')
 const { qs } = require('qs')
 
+const { html } = require('../test/util')
 const components = require('..')
 components(require('@optoolco/tonic'))
 
@@ -1385,18 +1366,7 @@ tape('{{checkbox-6}} has size attributes', t => {
   t.end()
 })
 
-function html ([str, ...strings], ...values) {
-  let text = str
-  for (let i = 0; i < values.length; i++) {
-    text += values[i] + strings[i]
-  }
-
-  const tmpl = document.createElement('template')
-  tmpl.innerHTML = text
-  return tmpl.content.firstElementChild
-}
-
-},{"..":14,"@optoolco/tonic":17,"qs":54,"tape":76}],10:[function(require,module,exports){
+},{"..":14,"../test/util":102,"@optoolco/tonic":17,"qs":54,"tape":76}],10:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class Dialog extends Tonic {
@@ -1641,6 +1611,7 @@ module.exports = { Dialog }
 },{"@optoolco/tonic":17}],11:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
+const { html } = require('../test/util')
 const components = require('..')
 components(require('@optoolco/tonic'))
 
@@ -1757,18 +1728,7 @@ tape('{{dialog-1}} is constructed properly, opens and closes properly', async t 
   t.end()
 })
 
-function html ([str, ...strings], ...values) {
-  let text = str
-  for (let i = 0; i < values.length; i++) {
-    text += values[i] + strings[i]
-  }
-
-  const tmpl = document.createElement('template')
-  tmpl.innerHTML = text
-  return tmpl.content.firstElementChild
-}
-
-},{"..":14,"./index":10,"@optoolco/tonic":17,"qs":54,"tape":76}],12:[function(require,module,exports){
+},{"..":14,"../test/util":102,"./index":10,"@optoolco/tonic":17,"qs":54,"tape":76}],12:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicIcon extends Tonic {
@@ -1836,6 +1796,7 @@ module.exports = { TonicIcon }
 const tape = require('tape')
 const { qs } = require('qs')
 
+const { html } = require('../test/util')
 const components = require('..')
 components(require('@optoolco/tonic'))
 
@@ -1967,18 +1928,7 @@ tape('{{icon-5}} has tabindex attribute', t => {
   t.end()
 })
 
-function html ([str, ...strings], ...values) {
-  let text = str
-  for (let i = 0; i < values.length; i++) {
-    text += values[i] + strings[i]
-  }
-
-  const tmpl = document.createElement('template')
-  tmpl.innerHTML = text
-  return tmpl.content.firstElementChild
-}
-
-},{"..":14,"@optoolco/tonic":17,"qs":54,"tape":76}],14:[function(require,module,exports){
+},{"..":14,"../test/util":102,"@optoolco/tonic":17,"qs":54,"tape":76}],14:[function(require,module,exports){
 try {
   require('@optoolco/tonic')
 } catch (err) {
@@ -2034,7 +1984,7 @@ module.exports = Tonic => {
   Tonic.add(TonicToggle)
 }
 
-},{"./accordion":1,"./badge":2,"./button":4,"./chart":6,"./checkbox":8,"./icon":12,"./input":15,"./popover":85,"./profile-image":87,"./progress-bar":89,"./range":91,"./router":93,"./select":95,"./sprite":97,"./tabs":98,"./textarea":102,"./toaster":106,"./toaster-inline":104,"./toggle":108,"./tooltip":110,"@optoolco/tonic":17}],15:[function(require,module,exports){
+},{"./accordion":1,"./badge":2,"./button":4,"./chart":6,"./checkbox":8,"./icon":12,"./input":15,"./popover":85,"./profile-image":87,"./progress-bar":89,"./range":91,"./router":93,"./select":95,"./sprite":97,"./tabs":98,"./textarea":103,"./toaster":107,"./toaster-inline":105,"./toggle":109,"./tooltip":111,"@optoolco/tonic":17}],15:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicInput extends Tonic {
@@ -2382,6 +2332,7 @@ module.exports = { TonicInput }
 const tape = require('tape')
 const { qs } = require('qs')
 
+const { html } = require('../test/util')
 const components = require('..')
 components(require('@optoolco/tonic'))
 
@@ -2685,18 +2636,7 @@ tape('{{input-11}} has readonly attribute', t => {
   t.end()
 })
 
-function html ([str, ...strings], ...values) {
-  let text = str
-  for (let i = 0; i < values.length; i++) {
-    text += values[i] + strings[i]
-  }
-
-  const tmpl = document.createElement('template')
-  tmpl.innerHTML = text
-  return tmpl.content.firstElementChild
-}
-
-},{"..":14,"@optoolco/tonic":17,"qs":54,"tape":76}],17:[function(require,module,exports){
+},{"..":14,"../test/util":102,"@optoolco/tonic":17,"qs":54,"tape":76}],17:[function(require,module,exports){
 (function (setImmediate){
 class Tonic extends window.HTMLElement {
   constructor () {
@@ -32613,6 +32553,7 @@ module.exports = { Panel }
 const Tonic = require('@optoolco/tonic')
 const { Panel } = require('./index')
 
+const { html } = require('../test/util')
 const components = require('..')
 components(require('@optoolco/tonic'))
 
@@ -32815,18 +32756,7 @@ const panelThemeDark = document.getElementById('example-panel-theme-dark')
 
 panelThemeDarkButton.addEventListener('click', e => panelThemeDark.show())
 
-function html ([str, ...strings], ...values) {
-  let text = str
-  for (let i = 0; i < values.length; i++) {
-    text += values[i] + strings[i]
-  }
-
-  const tmpl = document.createElement('template')
-  tmpl.innerHTML = text
-  return tmpl.content.firstElementChild
-}
-
-},{"..":14,"./index":83,"@optoolco/tonic":17}],85:[function(require,module,exports){
+},{"..":14,"../test/util":102,"./index":83,"@optoolco/tonic":17}],85:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicPopover extends Tonic {
@@ -33027,6 +32957,8 @@ class TonicPopover extends Tonic {
 module.exports = { TonicPopover }
 
 },{"@optoolco/tonic":17}],86:[function(require,module,exports){
+
+const { html } = require('../test/util')
 const components = require('..')
 components(require('@optoolco/tonic'))
 
@@ -33066,18 +32998,7 @@ popover.addEventListener('show', event => {
 
 // TODO: write tests for popover.
 
-function html ([str, ...strings], ...values) {
-  let text = str
-  for (let i = 0; i < values.length; i++) {
-    text += values[i] + strings[i]
-  }
-
-  const tmpl = document.createElement('template')
-  tmpl.innerHTML = text
-  return tmpl.content.firstElementChild
-}
-
-},{"..":14,"@optoolco/tonic":17}],87:[function(require,module,exports){
+},{"..":14,"../test/util":102,"@optoolco/tonic":17}],87:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicProfileImage extends Tonic {
@@ -33281,6 +33202,7 @@ TonicProfileImage.svg.default = () => TonicProfileImage.svg.toURL(`
 module.exports = { TonicProfileImage }
 
 },{"@optoolco/tonic":17}],88:[function(require,module,exports){
+const { html } = require('../test/util')
 
 document.body.appendChild(html`
 <section id="profile-image">
@@ -33395,18 +33317,7 @@ document.body.appendChild(html`
 
 // TODO: write tests for profile-image
 
-function html ([str, ...strings], ...values) {
-  let text = str
-  for (let i = 0; i < values.length; i++) {
-    text += values[i] + strings[i]
-  }
-
-  const tmpl = document.createElement('template')
-  tmpl.innerHTML = text
-  return tmpl.content.firstElementChild
-}
-
-},{}],89:[function(require,module,exports){
+},{"../test/util":102}],89:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicProgressBar extends Tonic {
@@ -33491,6 +33402,7 @@ class TonicProgressBar extends Tonic {
 module.exports = { TonicProgressBar }
 
 },{"@optoolco/tonic":17}],90:[function(require,module,exports){
+const { html } = require('../test/util')
 const components = require('..')
 components(require('@optoolco/tonic'))
 
@@ -33615,18 +33527,7 @@ interval = setInterval(() => {
 
 // TODO: convert to tape tests.
 
-function html ([str, ...strings], ...values) {
-  let text = str
-  for (let i = 0; i < values.length; i++) {
-    text += values[i] + strings[i]
-  }
-
-  const tmpl = document.createElement('template')
-  tmpl.innerHTML = text
-  return tmpl.content.firstElementChild
-}
-
-},{"..":14,"@optoolco/tonic":17}],91:[function(require,module,exports){
+},{"..":14,"../test/util":102,"@optoolco/tonic":17}],91:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicRange extends Tonic {
@@ -33835,6 +33736,7 @@ class TonicRange extends Tonic {
 module.exports = { TonicRange }
 
 },{"@optoolco/tonic":17}],92:[function(require,module,exports){
+const { html } = require('../test/util')
 const components = require('..')
 components(require('@optoolco/tonic'))
 
@@ -33970,18 +33872,7 @@ rangeValue.value = 15
 
 // TODO: convert to tape tests
 
-function html ([str, ...strings], ...values) {
-  let text = str
-  for (let i = 0; i < values.length; i++) {
-    text += values[i] + strings[i]
-  }
-
-  const tmpl = document.createElement('template')
-  tmpl.innerHTML = text
-  return tmpl.content.firstElementChild
-}
-
-},{"..":14,"@optoolco/tonic":17}],93:[function(require,module,exports){
+},{"..":14,"../test/util":102,"@optoolco/tonic":17}],93:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicRouter extends Tonic {
@@ -34271,6 +34162,7 @@ TonicRouter.matcher = (() => {
 module.exports = { TonicRouter }
 
 },{"@optoolco/tonic":17}],94:[function(require,module,exports){
+const { html } = require('../test/util')
 const components = require('..')
 components(require('@optoolco/tonic'))
 
@@ -34324,18 +34216,7 @@ page2.addEventListener('match', () => {
 
 // TODO: convert to tape tests
 
-function html ([str, ...strings], ...values) {
-  let text = str
-  for (let i = 0; i < values.length; i++) {
-    text += values[i] + strings[i]
-  }
-
-  const tmpl = document.createElement('template')
-  tmpl.innerHTML = text
-  return tmpl.content.firstElementChild
-}
-
-},{"..":14,"@optoolco/tonic":17}],95:[function(require,module,exports){
+},{"..":14,"../test/util":102,"@optoolco/tonic":17}],95:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicSelect extends Tonic {
@@ -34589,6 +34470,8 @@ TonicSelect.svg.default = () => TonicSelect.svg.toURL(`
 module.exports = { TonicSelect }
 
 },{"@optoolco/tonic":17}],96:[function(require,module,exports){
+const { html } = require('../test/util')
+
 document.body.appendChild(html`
 <section id="select">
   <h2>Select</h2>
@@ -34780,18 +34663,7 @@ document.body.appendChild(html`
 
 // TODO: write tests
 
-function html ([str, ...strings], ...values) {
-  let text = str
-  for (let i = 0; i < values.length; i++) {
-    text += values[i] + strings[i]
-  }
-
-  const tmpl = document.createElement('template')
-  tmpl.innerHTML = text
-  return tmpl.content.firstElementChild
-}
-
-},{}],97:[function(require,module,exports){
+},{"../test/util":102}],97:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicSprite extends Tonic {
@@ -35024,6 +34896,7 @@ const Tonic = require('@optoolco/tonic')
 const tape = require('tape')
 const { qs } = require('qs')
 
+const { html } = require('../test/util')
 const components = require('..')
 components(require('@optoolco/tonic'))
 
@@ -35178,18 +35051,7 @@ tape('{{tabs-3}} has correct default state', t => {
   t.end()
 })
 
-function html ([str, ...strings], ...values) {
-  let text = str
-  for (let i = 0; i < values.length; i++) {
-    text += values[i] + strings[i]
-  }
-
-  const tmpl = document.createElement('template')
-  tmpl.innerHTML = text
-  return tmpl.content.firstElementChild
-}
-
-},{"..":14,"@optoolco/tonic":17,"qs":54,"tape":76}],100:[function(require,module,exports){
+},{"..":14,"../test/util":102,"@optoolco/tonic":17,"qs":54,"tape":76}],100:[function(require,module,exports){
 const tape = require('tape')
 const stream = tape.createStream({ objectMode: true })
 
@@ -35302,7 +35164,23 @@ function ready () {
 
 document.addEventListener('DOMContentLoaded', ready)
 
-},{"../..":14,"../../badge/test":3,"../../button/test":5,"../../chart/test":7,"../../checkbox/test":9,"../../dialog/test":11,"../../icon/test":13,"../../input/test":16,"../../panel/test":84,"../../popover/test":86,"../../profile-image/test":88,"../../progress-bar/test":90,"../../range/test":92,"../../router/test":94,"../../select/test":96,"../../tabs/test":99,"../../textarea/test":103,"../../toaster-inline/test":105,"../../toaster/test":107,"../../toggle/test":109,"../../tooltip/test":111,"../../windowed/test":112,"./tape.js":100,"@optoolco/tonic":17}],102:[function(require,module,exports){
+},{"../..":14,"../../badge/test":3,"../../button/test":5,"../../chart/test":7,"../../checkbox/test":9,"../../dialog/test":11,"../../icon/test":13,"../../input/test":16,"../../panel/test":84,"../../popover/test":86,"../../profile-image/test":88,"../../progress-bar/test":90,"../../range/test":92,"../../router/test":94,"../../select/test":96,"../../tabs/test":99,"../../textarea/test":104,"../../toaster-inline/test":106,"../../toaster/test":108,"../../toggle/test":110,"../../tooltip/test":112,"../../windowed/test":113,"./tape.js":100,"@optoolco/tonic":17}],102:[function(require,module,exports){
+'use strict'
+
+exports.html = html
+
+function html ([str, ...strings], ...values) {
+  let text = str
+  for (let i = 0; i < values.length; i++) {
+    text += values[i] + strings[i]
+  }
+
+  const tmpl = document.createElement('template')
+  tmpl.innerHTML = text
+  return tmpl.content.firstElementChild
+}
+
+},{}],103:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicTextarea extends Tonic {
@@ -35467,7 +35345,9 @@ class TonicTextarea extends Tonic {
 
 module.exports = { TonicTextarea }
 
-},{"@optoolco/tonic":17}],103:[function(require,module,exports){
+},{"@optoolco/tonic":17}],104:[function(require,module,exports){
+const { html } = require('../test/util')
+
 document.body.appendChild(html`
 <section id="textarea">
   <h2>Textarea</h2>
@@ -35617,18 +35497,7 @@ document.body.appendChild(html`
 
 // TODO: write tests
 
-function html ([str, ...strings], ...values) {
-  let text = str
-  for (let i = 0; i < values.length; i++) {
-    text += values[i] + strings[i]
-  }
-
-  const tmpl = document.createElement('template')
-  tmpl.innerHTML = text
-  return tmpl.content.firstElementChild
-}
-
-},{}],104:[function(require,module,exports){
+},{"../test/util":102}],105:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicToasterInline extends Tonic {
@@ -35841,7 +35710,9 @@ class TonicToasterInline extends Tonic {
 
 module.exports = { TonicToasterInline }
 
-},{"@optoolco/tonic":17}],105:[function(require,module,exports){
+},{"@optoolco/tonic":17}],106:[function(require,module,exports){
+const { html } = require('../test/util')
+
 document.body.appendChild(html`
 <section id="toaster-inline">
   <h2>ToasterInline</h2>
@@ -36057,19 +35928,7 @@ document.body.appendChild(html`
 </section>
 `)
 
-// TODO: fix tests
-function html ([str, ...strings], ...values) {
-  let text = str
-  for (let i = 0; i < values.length; i++) {
-    text += values[i] + strings[i]
-  }
-
-  const tmpl = document.createElement('template')
-  tmpl.innerHTML = text
-  return tmpl.content.firstElementChild
-}
-
-},{}],106:[function(require,module,exports){
+},{"../test/util":102}],107:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicToaster extends Tonic {
@@ -36322,10 +36181,11 @@ class TonicToaster extends Tonic {
 
 module.exports = { TonicToaster }
 
-},{"@optoolco/tonic":17}],107:[function(require,module,exports){
+},{"@optoolco/tonic":17}],108:[function(require,module,exports){
 const tape = require('tape')
 const { qs } = require('qs')
 
+const { html } = require('../test/util')
 const components = require('..')
 components(require('@optoolco/tonic'))
 
@@ -36600,18 +36460,7 @@ tape('{{toaster}} is created on the right', async t => {
   t.end()
 })
 
-function html ([str, ...strings], ...values) {
-  let text = str
-  for (let i = 0; i < values.length; i++) {
-    text += values[i] + strings[i]
-  }
-
-  const tmpl = document.createElement('template')
-  tmpl.innerHTML = text
-  return tmpl.content.firstElementChild
-}
-
-},{"..":14,"@optoolco/tonic":17,"qs":54,"tape":76}],108:[function(require,module,exports){
+},{"..":14,"../test/util":102,"@optoolco/tonic":17,"qs":54,"tape":76}],109:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicToggle extends Tonic {
@@ -36830,10 +36679,11 @@ class TonicToggle extends Tonic {
 
 module.exports = { TonicToggle }
 
-},{"@optoolco/tonic":17}],109:[function(require,module,exports){
+},{"@optoolco/tonic":17}],110:[function(require,module,exports){
 const tape = require('tape')
 const { qs } = require('qs')
 
+const { html } = require('../test/util')
 const components = require('..')
 components(require('@optoolco/tonic'))
 
@@ -36951,18 +36801,7 @@ tape('{{toggle-2}} has tabindex attribute', t => {
   t.end()
 })
 
-function html ([str, ...strings], ...values) {
-  let text = str
-  for (let i = 0; i < values.length; i++) {
-    text += values[i] + strings[i]
-  }
-
-  const tmpl = document.createElement('template')
-  tmpl.innerHTML = text
-  return tmpl.content.firstElementChild
-}
-
-},{"..":14,"@optoolco/tonic":17,"qs":54,"tape":76}],110:[function(require,module,exports){
+},{"..":14,"../test/util":102,"@optoolco/tonic":17,"qs":54,"tape":76}],111:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicTooltip extends Tonic {
@@ -37122,7 +36961,9 @@ class TonicTooltip extends Tonic {
 
 module.exports = { TonicTooltip }
 
-},{"@optoolco/tonic":17}],111:[function(require,module,exports){
+},{"@optoolco/tonic":17}],112:[function(require,module,exports){
+const { html } = require('../test/util')
+
 document.body.appendChild(html`
 <section id="tooltip">
   <h2>Tooltip</h2>
@@ -37194,18 +37035,9 @@ document.body.appendChild(html`
 
 // TODO write tests
 
-function html ([str, ...strings], ...values) {
-  let text = str
-  for (let i = 0; i < values.length; i++) {
-    text += values[i] + strings[i]
-  }
+},{"../test/util":102}],113:[function(require,module,exports){
+const { html } = require('../test/util')
 
-  const tmpl = document.createElement('template')
-  tmpl.innerHTML = text
-  return tmpl.content.firstElementChild
-}
-
-},{}],112:[function(require,module,exports){
 document.body.appendChild(html`
 <section id="windowed">
   <h2>Windowed</h2>
@@ -37219,15 +37051,4 @@ document.body.appendChild(html`
 
 // TODO: tests
 
-function html ([str, ...strings], ...values) {
-  let text = str
-  for (let i = 0; i < values.length; i++) {
-    text += values[i] + strings[i]
-  }
-
-  const tmpl = document.createElement('template')
-  tmpl.innerHTML = text
-  return tmpl.content.firstElementChild
-}
-
-},{}]},{},[101]);
+},{"../test/util":102}]},{},[101]);

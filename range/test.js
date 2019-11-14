@@ -1,3 +1,4 @@
+const { html } = require('../test/util')
 const components = require('..')
 components(require('@optoolco/tonic'))
 
@@ -132,14 +133,3 @@ const rangeValue = document.getElementById('range-thumb-value-js')
 rangeValue.value = 15
 
 // TODO: convert to tape tests
-
-function html ([str, ...strings], ...values) {
-  let text = str
-  for (let i = 0; i < values.length; i++) {
-    text += values[i] + strings[i]
-  }
-
-  const tmpl = document.createElement('template')
-  tmpl.innerHTML = text
-  return tmpl.content.firstElementChild
-}

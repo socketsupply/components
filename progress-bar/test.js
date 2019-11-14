@@ -1,3 +1,4 @@
+const { html } = require('../test/util')
 const components = require('..')
 components(require('@optoolco/tonic'))
 
@@ -121,14 +122,3 @@ interval = setInterval(() => {
 }, 128)
 
 // TODO: convert to tape tests.
-
-function html ([str, ...strings], ...values) {
-  let text = str
-  for (let i = 0; i < values.length; i++) {
-    text += values[i] + strings[i]
-  }
-
-  const tmpl = document.createElement('template')
-  tmpl.innerHTML = text
-  return tmpl.content.firstElementChild
-}

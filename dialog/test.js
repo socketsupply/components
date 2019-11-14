@@ -1,5 +1,6 @@
 const Tonic = require('@optoolco/tonic')
 
+const { html } = require('../test/util')
 const components = require('..')
 components(require('@optoolco/tonic'))
 
@@ -115,14 +116,3 @@ tape('{{dialog-1}} is constructed properly, opens and closes properly', async t 
 
   t.end()
 })
-
-function html ([str, ...strings], ...values) {
-  let text = str
-  for (let i = 0; i < values.length; i++) {
-    text += values[i] + strings[i]
-  }
-
-  const tmpl = document.createElement('template')
-  tmpl.innerHTML = text
-  return tmpl.content.firstElementChild
-}

@@ -1,6 +1,7 @@
 const tape = require('tape')
 const { qs } = require('qs')
 
+const { html } = require('../test/util')
 const components = require('..')
 components(require('@optoolco/tonic'))
 
@@ -64,14 +65,3 @@ tape('{{accordion-1}} has correct default state', t => {
   t.ok(component, 'rendered')
   t.end()
 })
-
-function html ([str, ...strings], ...values) {
-  let text = str
-  for (let i = 0; i < values.length; i++) {
-    text += values[i] + strings[i]
-  }
-
-  const tmpl = document.createElement('template')
-  tmpl.innerHTML = text
-  return tmpl.content.firstElementChild
-}

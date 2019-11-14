@@ -1,6 +1,7 @@
 const Tonic = require('@optoolco/tonic')
 const { Panel } = require('./index')
 
+const { html } = require('../test/util')
 const components = require('..')
 components(require('@optoolco/tonic'))
 
@@ -202,14 +203,3 @@ const panelThemeDarkButton = document.getElementById('example-panel-theme-dark-b
 const panelThemeDark = document.getElementById('example-panel-theme-dark')
 
 panelThemeDarkButton.addEventListener('click', e => panelThemeDark.show())
-
-function html ([str, ...strings], ...values) {
-  let text = str
-  for (let i = 0; i < values.length; i++) {
-    text += values[i] + strings[i]
-  }
-
-  const tmpl = document.createElement('template')
-  tmpl.innerHTML = text
-  return tmpl.content.firstElementChild
-}

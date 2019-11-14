@@ -15,7 +15,8 @@
     "build:styl": "cp ./theme.css ./docs && npm run build:styl:test && npm run build:styl:docs",
     "build:styl:test": "stylus -u autoprefixer-stylus ./test/old/index.styl -o ./docs/test.css",
     "build:styl:docs": "stylus -u autoprefixer-stylus ./docs/src/index.styl -o ./docs",
-    "test": "standard && browserify test/index.js | tape-puppet"
+    "test": "standard && browserify test/index.js | tape-puppet && npm run testcafe",
+    "testcafe": "testcafe chrome:headless ./test/testcafe"
   },
   "repository": {
     "type": "git",

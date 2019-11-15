@@ -28,7 +28,7 @@ document.body.appendChild(html`
     </tonic-router>
 
     <!-- Router w/ none -->
-    <tonic-router>
+    <tonic-router id="404">
       404
     </tonic-router>
   </div>

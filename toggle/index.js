@@ -167,6 +167,15 @@ class TonicToggle extends Tonic {
   }
 
   render () {
+    if (!this.props.id) {
+      console.warn('In tonic the "id" attribute is used to persist state')
+      console.warn('You forgot to supply the "id" attribute.')
+      console.warn('')
+      console.warn('For element : ')
+      console.warn(`${this.outerHTML}`)
+      throw new Error('id attribute is mandatory on tonic-toggle')
+    }
+
     const {
       id,
       disabled,

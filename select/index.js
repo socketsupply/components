@@ -209,8 +209,8 @@ class TonicSelect extends Tonic {
       tabindex
     } = this.props
 
-    const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
-    const multipleAttr = multiple && multiple === 'true' ? `multiple="true"` : ''
+    const disabledAttr = disabled && disabled === 'true' ? 'disabled="true"' : ''
+    const multipleAttr = multiple && multiple === 'true' ? 'multiple="true"' : ''
     const nameAttr = name ? `name="${name}"` : ''
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
     const sizeAttr = size ? `size="${size}"` : ''

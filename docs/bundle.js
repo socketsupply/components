@@ -307,7 +307,7 @@ class TonicBadge extends Tonic {
   }
 
   render () {
-    let {
+    const {
       theme
     } = this.props
 
@@ -558,7 +558,7 @@ class TonicButton extends Tonic {
 
     let classes = []
 
-    if (active) classes.push(`tonic--active`)
+    if (active) classes.push('tonic--active')
     classes = classes.join(' ')
 
     if (tabindex) this.removeAttribute('tabindex')
@@ -868,7 +868,7 @@ class TonicCheckbox extends Tonic {
     }
 
     const checkedAttr = checked ? 'checked' : ''
-    const disabledAttr = disabled && disabled === 'true' ? `disabled` : ''
+    const disabledAttr = disabled && disabled === 'true' ? 'disabled' : ''
 
     const titleAttr = title ? `title="${title}"` : ''
 
@@ -1097,7 +1097,7 @@ class Dialog extends Tonic {
     closeIcon.appendChild(svg)
     svg.appendChild(use)
 
-    const iconColor = color || `var(--tonic-primary)`
+    const iconColor = color || 'var(--tonic-primary)'
 
     use.setAttributeNS(xlinkns, 'href', '#close')
     use.setAttributeNS(xlinkns, 'xlink:href', '#close')
@@ -1327,7 +1327,7 @@ class TonicIcon extends Tonic {
   }
 
   styles () {
-    let {
+    const {
       size
     } = this.props
 
@@ -1340,7 +1340,7 @@ class TonicIcon extends Tonic {
   }
 
   render () {
-    let {
+    const {
       symbolId,
       size,
       fill,
@@ -1707,7 +1707,7 @@ class TonicInput extends Tonic {
     const ariaInvalidAttr = ariaInvalid ? `aria-invalid="${ariaInvalid}"` : ''
     const ariaLabelAttr = label ? `aria-label="${label}"` : ''
     const ariaLabelledByAttr = ariaLabelledby ? `aria-labelledby="${ariaLabelledby}"` : ''
-    const disabledAttr = disabled && disabled === 'true' ? `disabled` : ''
+    const disabledAttr = disabled && disabled === 'true' ? 'disabled' : ''
     const maxAttr = max ? `max="${max}"` : ''
     const maxLengthAttr = maxlength ? `maxlength="${maxlength}"` : ''
     const minAttr = min ? `min="${min}"` : ''
@@ -1716,8 +1716,8 @@ class TonicInput extends Tonic {
     const patternAttr = pattern ? `pattern="${pattern}"` : ''
     const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
     const positionAttr = position ? `tonic--${position}` : ''
-    const readonlyAttr = readonly && readonly === 'true' ? `readonly` : ''
-    const requiredAttr = required && required === 'true' ? `required` : ''
+    const readonlyAttr = readonly && readonly === 'true' ? 'readonly' : ''
+    const requiredAttr = required && required === 'true' ? 'required' : ''
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
     const titleAttr = title ? `title="${title}"` : ''
@@ -23356,7 +23356,7 @@ class Panel extends Tonic {
     closeIcon.appendChild(svg)
     svg.appendChild(use)
 
-    const iconColor = color || `var(--tonic-primary)`
+    const iconColor = color || 'var(--tonic-primary)'
 
     use.setAttributeNS(xlinkns, 'href', '#close')
     use.setAttributeNS(xlinkns, 'xlink:href', '#close')
@@ -23824,7 +23824,7 @@ class TonicProfileImage extends Tonic {
   }
 
   render () {
-    let {
+    const {
       theme,
       editable
     } = this.props
@@ -23924,7 +23924,7 @@ class TonicProgressBar extends Tonic {
   }
 
   styles () {
-    let progress = this.state.progress || this.props.progress
+    const progress = this.state.progress || this.props.progress
     return {
       wrapper: {
         width: this.props.width,
@@ -24153,7 +24153,7 @@ class TonicRange extends Tonic {
       tabindex
     } = this.props
 
-    const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
+    const disabledAttr = disabled && disabled === 'true' ? 'disabled="true"' : ''
     const minAttr = min ? `min="${min}"` : ''
     const maxAttr = max ? `max="${max}"` : ''
     const stepAttr = step ? `step="${step}"` : ''
@@ -24297,19 +24297,19 @@ TonicRouter.matcher = (() => {
   ].join('|'), 'g')
 
   function parse (str, options) {
-    let tokens = []
+    const tokens = []
     let key = 0
     let index = 0
     let path = ''
-    let defaultDelimiter = (options && options.delimiter) || DEFAULT_DELIMITER
-    let delimiters = (options && options.delimiters) || DEFAULT_DELIMITERS
+    const defaultDelimiter = (options && options.delimiter) || DEFAULT_DELIMITER
+    const delimiters = (options && options.delimiters) || DEFAULT_DELIMITERS
     let pathEscaped = false
     let res
 
     while ((res = PATH_REGEXP.exec(str)) !== null) {
-      let m = res[0]
-      let escaped = res[1]
-      let offset = res.index
+      const m = res[0]
+      const escaped = res[1]
+      const offset = res.index
       path += str.slice(index, offset)
       index = offset + m.length
 
@@ -24321,14 +24321,14 @@ TonicRouter.matcher = (() => {
       }
 
       let prev = ''
-      let next = str[index]
-      let name = res[2]
-      let capture = res[3]
-      let group = res[4]
-      let modifier = res[5]
+      const next = str[index]
+      const name = res[2]
+      const capture = res[3]
+      const group = res[4]
+      const modifier = res[5]
 
       if (!pathEscaped && path.length) {
-        let k = path.length - 1
+        const k = path.length - 1
 
         if (delimiters.indexOf(path[k]) > -1) {
           prev = path[k]
@@ -24342,11 +24342,11 @@ TonicRouter.matcher = (() => {
         pathEscaped = false
       }
 
-      let partial = prev !== '' && next !== undefined && next !== prev
-      let repeat = modifier === '+' || modifier === '*'
-      let optional = modifier === '?' || modifier === '*'
-      let delimiter = prev || defaultDelimiter
-      let pattern = capture || group
+      const partial = prev !== '' && next !== undefined && next !== prev
+      const repeat = modifier === '+' || modifier === '*'
+      const optional = modifier === '?' || modifier === '*'
+      const delimiter = prev || defaultDelimiter
+      const pattern = capture || group
 
       tokens.push({
         name: name || key++,
@@ -24401,7 +24401,7 @@ TonicRouter.matcher = (() => {
   }
 
   function arrayToRegexp (path, keys, options) {
-    let parts = []
+    const parts = []
 
     for (let i = 0; i < path.length; i++) {
       parts.push(pathToRegexp(path[i], keys, options).source)
@@ -24417,23 +24417,23 @@ TonicRouter.matcher = (() => {
   function tokensToRegExp (tokens, keys, options) {
     options = options || {}
 
-    let strict = options.strict
-    let end = options.end !== false
-    let delimiter = escapeString(options.delimiter || DEFAULT_DELIMITER)
-    let delimiters = options.delimiters || DEFAULT_DELIMITERS
-    let endsWith = [].concat(options.endsWith || []).map(escapeString).concat('$').join('|')
+    const strict = options.strict
+    const end = options.end !== false
+    const delimiter = escapeString(options.delimiter || DEFAULT_DELIMITER)
+    const delimiters = options.delimiters || DEFAULT_DELIMITERS
+    const endsWith = [].concat(options.endsWith || []).map(escapeString).concat('$').join('|')
     let route = ''
     let isEndDelimited = tokens.length === 0
 
     for (let i = 0; i < tokens.length; i++) {
-      let token = tokens[i]
+      const token = tokens[i]
 
       if (typeof token === 'string') {
         route += escapeString(token)
         isEndDelimited = i === tokens.length - 1 && delimiters.indexOf(token[token.length - 1]) > -1
       } else {
-        let prefix = escapeString(token.prefix)
-        let capture = token.repeat
+        const prefix = escapeString(token.prefix)
+        const capture = token.repeat
           ? '(?:' + token.pattern + ')(?:' + prefix + '(?:' + token.pattern + '))*'
           : token.pattern
 
@@ -24706,8 +24706,8 @@ class TonicSelect extends Tonic {
       tabindex
     } = this.props
 
-    const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
-    const multipleAttr = multiple && multiple === 'true' ? `multiple="true"` : ''
+    const disabledAttr = disabled && disabled === 'true' ? 'disabled="true"' : ''
+    const multipleAttr = multiple && multiple === 'true' ? 'multiple="true"' : ''
     const nameAttr = name ? `name="${name}"` : ''
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
     const sizeAttr = size ? `size="${size}"` : ''
@@ -24856,7 +24856,7 @@ class TonicTabs extends Tonic {
   }
 
   setVisibility (id) {
-    const tabs = this.querySelectorAll(`.tonic--tab`)
+    const tabs = this.querySelectorAll('.tonic--tab')
 
     for (const tab of tabs) {
       const control = tab.getAttribute('for')
@@ -24895,7 +24895,7 @@ class TonicTabs extends Tonic {
 
     switch (e.code) {
       case 'ArrowLeft':
-      case 'ArrowRight':
+      case 'ArrowRight': {
         const index = triggers.indexOf(e.target)
         const direction = (e.code === 'ArrowLeft') ? -1 : 1
         const length = triggers.length
@@ -24904,8 +24904,8 @@ class TonicTabs extends Tonic {
         triggers[newIndex].focus()
         e.preventDefault()
         break
-
-      case 'Space':
+      }
+      case 'Space': {
         const isActive = Tonic.match(e.target, '.tonic--tab:focus')
         if (!isActive) return
 
@@ -24914,6 +24914,7 @@ class TonicTabs extends Tonic {
         const id = isActive.getAttribute('id')
         this.setVisibility(id)
         break
+      }
     }
   }
 
@@ -25102,7 +25103,7 @@ class TonicTextarea extends Tonic {
     const ariaLabelAttr = label ? `aria-label="${label}"` : ''
     const ariaLabelledByAttr = ariaLabelledby ? `aria-labelledby="${ariaLabelledby}"` : ''
     const colsAttr = cols ? `cols="${cols}"` : ''
-    const disabledAttr = disabled && disabled === 'true' ? `disabled="true"` : ''
+    const disabledAttr = disabled && disabled === 'true' ? 'disabled="true"' : ''
     const maxAttr = maxlength ? `maxlength="${maxlength}"` : ''
     const minAttr = minlength ? `minlength="${minlength}"` : ''
     const nameAttr = name ? `name="${name}"` : ''
@@ -25816,7 +25817,7 @@ class TonicToggle extends Tonic {
       tabindex
     } = this.props
 
-    const disabledAttr = disabled && disabled === 'true' ? `disabled` : ''
+    const disabledAttr = disabled && disabled === 'true' ? 'disabled' : ''
 
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
     if (tabindex) this.removeAttribute('tabindex')
@@ -25865,7 +25866,7 @@ const Tonic = require('@optoolco/tonic')
 
 class TonicTooltip extends Tonic {
   connected () {
-    const target = this.props['for']
+    const target = this.props.for
     const el = document.getElementById(target)
     let timer = null
 
@@ -26137,11 +26138,16 @@ class Windowed extends Tonic {
   getPage (i) {
     let page, state
 
-    ;[page, state] = this.pages[i]
-      ? [this.pages[i], 'ok']
-      : this.pagesAvailable.length
-        ? [this.getAvailablePage(i), 'old']
-        : [this.createNewPage(i), 'fresh']
+    if (this.pages[i]) {
+      page = this.pages[i]
+      state = 'ok'
+    } else if (this.pagesAvailable.length) {
+      page = this.getAvailablePage(i)
+      state = 'old'
+    } else {
+      page = this.createNewPage(i)
+      state = 'fresh'
+    }
 
     this.pages[i] = page
 
@@ -26294,11 +26300,11 @@ class Windowed extends Tonic {
   }
 
   renderLoadingState () {
-    return `<div class="tonic--windowed--loader"></div>`
+    return '<div class="tonic--windowed--loader"></div>'
   }
 
   renderEmptyState () {
-    return `<div class="tonic--windowed--empty"></div>`
+    return '<div class="tonic--windowed--empty"></div>'
   }
 
   render () {

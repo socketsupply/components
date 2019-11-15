@@ -42,7 +42,7 @@ class TonicProgressBar extends Tonic {
   }
 
   styles () {
-    let progress = this.state.progress || this.props.progress
+    const progress = this.state.progress || this.props.progress
     return {
       wrapper: {
         width: this.props.width,

@@ -25,7 +25,7 @@ class TonicTabs extends Tonic {
   }
 
   setVisibility (id) {
-    const tabs = this.querySelectorAll(`.tonic--tab`)
+    const tabs = this.querySelectorAll('.tonic--tab')
 
     for (const tab of tabs) {
       const control = tab.getAttribute('for')
@@ -64,7 +64,7 @@ class TonicTabs extends Tonic {
 
     switch (e.code) {
       case 'ArrowLeft':
-      case 'ArrowRight':
+      case 'ArrowRight': {
         const index = triggers.indexOf(e.target)
         const direction = (e.code === 'ArrowLeft') ? -1 : 1
         const length = triggers.length
@@ -73,8 +73,8 @@ class TonicTabs extends Tonic {
         triggers[newIndex].focus()
         e.preventDefault()
         break
-
-      case 'Space':
+      }
+      case 'Space': {
         const isActive = Tonic.match(e.target, '.tonic--tab:focus')
         if (!isActive) return
 
@@ -83,6 +83,7 @@ class TonicTabs extends Tonic {
         const id = isActive.getAttribute('id')
         this.setVisibility(id)
         break
+      }
     }
   }
 

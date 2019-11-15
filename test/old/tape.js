@@ -33,7 +33,7 @@ stream.on('data', data => {
     ++count
     incTotal()
 
-    let status = data.ok ? 'OK' : 'FAIL'
+    const status = data.ok ? 'OK' : 'FAIL'
     output.innerHTML += `<span class="result ${status}">${status} ${data.id} ${data.name}</span>`
 
     if (!data.ok) {

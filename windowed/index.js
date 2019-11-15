@@ -112,11 +112,16 @@ class Windowed extends Tonic {
   getPage (i) {
     let page, state
 
-    ;[page, state] = this.pages[i]
-      ? [this.pages[i], 'ok']
-      : this.pagesAvailable.length
-        ? [this.getAvailablePage(i), 'old']
-        : [this.createNewPage(i), 'fresh']
+    if (this.pages[i]) {
+      page = this.pages[i]
+      state = 'ok'
+    } else if (this.pagesAvailable.length) {
+      page = this.getAvailablePage(i)
+      state = 'old'
+    } else {
+      page = this.createNewPage(i)
+      state = 'fresh'
+    }
 
     this.pages[i] = page
 
@@ -269,11 +274,11 @@ class Windowed extends Tonic {
   }
 
   renderLoadingState () {
-    return `<div class="tonic--windowed--loader"></div>`
+    return '<div class="tonic--windowed--loader"></div>'
   }
 
   renderEmptyState () {
-    return `<div class="tonic--windowed--empty"></div>`
+    return '<div class="tonic--windowed--empty"></div>'
   }
 
   render () {

@@ -193,7 +193,7 @@ class TonicButton extends Tonic {
 
     let classes = []
 
-    if (active) classes.push(`tonic--active`)
+    if (active) classes.push('tonic--active')
     classes = classes.join(' ')
 
     if (tabindex) this.removeAttribute('tabindex')

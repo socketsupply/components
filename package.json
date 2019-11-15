@@ -9,12 +9,13 @@
     "dev": "npm run build && ./bin/server",
     "prepublish": "API=true npm run build",
     "build": "npm run build:styl && npm run build:docs && npm run build:test",
-    "build:test": "node test/build.js && browserify ./test/test.js > ./docs/test.js",
+    "build:test": "node test/old/build.js && browserify ./test/old/test.js > ./docs/test.js",
     "build:docs": "./bin/build-docs && npm run build:docs:js",
     "build:docs:js": "browserify ./docs/src/index.js > ./docs/bundle.js",
     "build:styl": "cp ./theme.css ./docs && npm run build:styl:test && npm run build:styl:docs",
-    "build:styl:test": "stylus -u autoprefixer-stylus ./test/index.styl -o ./docs/test.css",
-    "build:styl:docs": "stylus -u autoprefixer-stylus ./docs/src/index.styl -o ./docs"
+    "build:styl:test": "stylus -u autoprefixer-stylus ./test/old/index.styl -o ./docs/test.css",
+    "build:styl:docs": "stylus -u autoprefixer-stylus ./docs/src/index.styl -o ./docs",
+    "test": "standard && browserify test/index.js | tape-puppet"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,11 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/optoolco/components/issues"
+  },
+  "standard": {
+    "ignore": [
+      "docs/**/*.js"
+    ]
   },
   "homepage": "https://github.com/optoolco/components#readme",
   "devDependencies": {
@@ -37,8 +43,10 @@
     "mkdirp": "^0.5.1",
     "node-fetch": "^2.2.0",
     "qs": "github:hxoht/qs",
+    "raynos-tape-puppet": "0.1.7-raynos2",
     "scrolltoy": "github:voltraco/scrolltoy",
     "send": "^0.16.2",
+    "standard": "14.3.1",
     "stylus": "^0.54.5",
     "tape": "^4.9.1",
     "tape-run": "^4.0.0"

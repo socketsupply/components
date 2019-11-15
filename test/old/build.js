@@ -1,17 +1,27 @@
 const fs = require('fs')
 const path = require('path')
 
-const root = `${__dirname}/..`
+const root = `${__dirname}/../..`
 
 const components = fs
   .readFileSync(path.join(root, 'components.txt'), 'utf8')
   .split('\n')
   .filter(Boolean)
 
-const mapFile = f => fs.readFileSync(path.join(root, f, 'test.html'), 'utf8')
-
 const sections = components
-  .map(mapFile)
+  .map(f => {
+    const fileName = path.join(root, f, 'test.html')
+
+    let htmlText
+    try {
+      htmlText = fs.readFileSync(fileName, 'utf8')
+    } catch (err) {
+      // Missing file, skip.
+      return ''
+    }
+
+    return '      ' + htmlText
+  })
   .join('\n')
 
 const index = `
@@ -69,4 +79,4 @@ const index = `
   </html>
 `
 
-fs.writeFileSync(path.join(__dirname, '..', 'docs', 'test.html'), index)
+fs.writeFileSync(path.join(__dirname, '..', '..', 'docs', 'test.html'), index)

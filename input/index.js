@@ -293,8 +293,8 @@ class TonicInput extends Tonic {
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
     const titleAttr = title ? `title="${title}"` : ''
-    const value = typeof this.state.value === 'string' ?
-      this.state.value : this.props.value
+    const value = typeof this.state.value === 'string'
+      ? this.state.value : this.props.value
     const valueAttr = value && value !== 'undefined' ? `value="${value.replace(/"/g, '&quot;')}"` : ''
 
     if (ariaLabelledByAttr) this.removeAttribute('ariaLabelled')

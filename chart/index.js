@@ -5,7 +5,7 @@ class TonicChart extends Tonic {
     super(o)
 
     try {
-      let dynamicRequire = require
+      const dynamicRequire = require
       this.Chart = dynamicRequire('chart.js')
     } catch (err) {
       console.error('could not find "chart.js" dependency. npm install?')

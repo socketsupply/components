@@ -402,6 +402,10 @@ class TonicButton extends Tonic {
     return this.props.value
   }
 
+  get form () {
+    return this.querySelector('button').form
+  }
+
   get disabled () {
     return this.props.disabled === true
   }
@@ -2003,6 +2007,10 @@ class TonicInput extends Tonic {
     }
   }
 
+  get form () {
+    return this.querySelector('input').form
+  }
+
   get value () {
     return this.state.value
   }
@@ -2178,7 +2186,7 @@ class TonicInput extends Tonic {
       relay('blur')
     })
 
-    input.addEventListener('keyup', e => {
+    input.addEventListener('input', e => {
       set('value', e.target.value)
       set('pos', e.target.selectionStart)
       relay('input')
@@ -2276,7 +2284,8 @@ class TonicInput extends Tonic {
     const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
     const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
     const titleAttr = title ? `title="${title}"` : ''
-    const value = this.state.value || this.props.value
+    const value = typeof this.state.value === 'string' ?
+      this.state.value : this.props.value
     const valueAttr = value && value !== 'undefined' ? `value="${value.replace(/"/g, '&quot;')}"` : ''
 
     if (ariaLabelledByAttr) this.removeAttribute('ariaLabelled')
@@ -35608,6 +35617,10 @@ class TonicToasterInline extends Tonic {
   }
 
   connected () {
+    this.updated()
+  }
+
+  updated () {
     const {
       display,
       duration

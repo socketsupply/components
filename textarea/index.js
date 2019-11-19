@@ -80,12 +80,16 @@ class TonicTextarea extends Tonic {
   }
 
   renderLabel () {
-    if (!this.props.label) return ''
+    if (typeof this.props.label === 'undefined') return ''
     return `<label for="tonic--textarea_${this.props.id}">${this.props.label}</label>`
   }
 
   willConnect () {
-    this.props.value = this.props.value || this.textContent
+    const {
+      value
+    } = this.props
+
+    this.props.value = typeof value === 'undefined' ? this.textContent : value
   }
 
   render () {

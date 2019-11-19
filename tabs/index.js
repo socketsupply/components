@@ -1,5 +1,7 @@
 const Tonic = require('@optoolco/tonic')
 
+const mode = require('../mode')
+
 class TonicTabs extends Tonic {
   stylesheet () {
     return `
@@ -93,6 +95,15 @@ class TonicTabs extends Tonic {
   }
 
   render () {
+    if (mode.strict && !this.props.id) {
+      console.warn('In tonic the "id" attribute is used to persist state')
+      console.warn('You forgot to supply the "id" attribute.')
+      console.warn('')
+      console.warn('For element : ')
+      console.warn(`${this.outerHTML}`)
+      throw new Error('id attribute is mandatory on tonic-tabs')
+    }
+
     this.setAttribute('role', 'tablist')
 
     return [...this.childNodes].map((node, index) => {
@@ -143,6 +154,15 @@ class TonicTabPanel extends Tonic {
   }
 
   render () {
+    if (mode.strict && !this.props.id) {
+      console.warn('In tonic the "id" attribute is used to persist state')
+      console.warn('You forgot to supply the "id" attribute.')
+      console.warn('')
+      console.warn('For element : ')
+      console.warn(`${this.outerHTML}`)
+      throw new Error('id attribute is mandatory on tonic-tab-panel')
+    }
+
     this.setAttribute('role', 'tabpanel')
 
     return this.html`

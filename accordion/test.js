@@ -11,7 +11,7 @@ document.body.appendChild(html`
 
   <div id="accordion-1" class="test-container">
     <span>Default</span>
-    <tonic-accordion>
+    <tonic-accordion id="accordion-parent-1">
       <tonic-accordion-section
         name="accordion-test-1"
         id="accordion-test-1"
@@ -35,7 +35,7 @@ document.body.appendChild(html`
 
   <div id="accordion-2" class="test-container">
     <span>Multiple</span>
-    <tonic-accordion multiple="true">
+    <tonic-accordion multiple="true" id="accordion-parent-2">
       <tonic-accordion-section
         name="accordion-test-4"
         id="accordion-test-4"

@@ -1,6 +1,7 @@
 const components = require('..')
-components(require('@optoolco/tonic'))
+components(require('@optoolco/tonic'), { strict: true })
 
+require('../accordion/test')
 require('../router/test')
 require('../panel/test')
 require('../dialog/test')

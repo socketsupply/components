@@ -1,5 +1,7 @@
 const Tonic = require('@optoolco/tonic')
 
+const mode = require('../mode')
+
 class TonicRouter extends Tonic {
   constructor () {
     super()
@@ -80,6 +82,15 @@ class TonicRouter extends Tonic {
   }
 
   render () {
+    if (mode.strict && !this.props.id) {
+      console.warn('In tonic the "id" attribute is used to persist state')
+      console.warn('You forgot to supply the "id" attribute.')
+      console.warn('')
+      console.warn('For element : ')
+      console.warn(`${this.outerHTML}`)
+      throw new Error('id attribute is mandatory on tonic-router')
+    }
+
     if (this.hasAttribute('match')) {
       this.setState(TonicRouter.props)
       return this.template.content

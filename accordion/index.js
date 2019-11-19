@@ -1,5 +1,7 @@
 const Tonic = require('@optoolco/tonic')
 
+const mode = require('../mode')
+
 class TonicAccordion extends Tonic {
   defaults () {
     return {
@@ -107,6 +109,16 @@ class TonicAccordion extends Tonic {
   }
 
   render () {
+    console.log('what', JSON.stringify(mode.strict), this.props.id)
+    if (mode.strict && !this.props.id) {
+      console.warn('In tonic the "id" attribute is used to persist state')
+      console.warn('You forgot to supply the "id" attribute.')
+      console.warn('')
+      console.warn('For element : ')
+      console.warn(`${this.outerHTML}`)
+      throw new Error('id attribute is mandatory on tonic-accordion')
+    }
+
     const {
       multiple
     } = this.props
@@ -201,6 +213,15 @@ class TonicAccordionSection extends Tonic {
   }
 
   render () {
+    if (mode.strict && !this.props.id) {
+      console.warn('In tonic the "id" attribute is used to persist state')
+      console.warn('You forgot to supply the "id" attribute.')
+      console.warn('')
+      console.warn('For element : ')
+      console.warn(`${this.outerHTML}`)
+      throw new Error('id attribute is mandatory on tonic-accordion-section')
+    }
+
     const {
       id,
       name,

@@ -14,7 +14,7 @@ document.body.appendChild(html`
   <div id="tabs-1" class="test-container">
     <span>Default Tabs</span>
 
-    <tonic-tabs selected="tab-2">
+    <tonic-tabs id="tonic-tabs-1" selected="tab-2">
       <tonic-tab
         id="tab-1"
         for="tab-panel-1">One</tonic-tab>
@@ -35,7 +35,7 @@ document.body.appendChild(html`
   <div id="tabs-2" class="test-container">
     <span>Tabs with nesting</span>
 
-    <tonic-tabs selected="tab-4">
+    <tonic-tabs id="tonic-tabs-2" selected="tab-4">
       <tonic-tab
         id="tab-4"
         for="tab-panel-4">One</tonic-tab>
@@ -56,7 +56,7 @@ document.body.appendChild(html`
     </tonic-tab-panel>
     <tonic-tab-panel id="tab-panel-5">
 
-      <tonic-accordion>
+      <tonic-accordion id="accordion-1">
         <tonic-accordion-section
           name="accordion-test-4b"
           id="accordion-test-4b"
@@ -108,7 +108,7 @@ document.body.appendChild(html`
 
       <tonic-tab-panel id="tab-panel-8">
 
-        <tonic-accordion>
+        <tonic-accordion id="accordion-2">
           <tonic-accordion-section
             name="accordion-test-7"
             id="accordion-test-7"

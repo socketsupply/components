@@ -11,22 +11,22 @@ document.body.appendChild(html`
 
   <div id="badge-1" class="test-container">
     <span>Default</span>
-    <tonic-badge></tonic-badge>
+    <tonic-badge id="tonic-badge-1"></tonic-badge>
   </div>
 
   <div id="badge-2" class="test-container">
     <span>count="6"</span>
-    <tonic-badge count="6"></tonic-badge>
+    <tonic-badge id="tonic-badge-2" count="6"></tonic-badge>
   </div>
 
   <div id="badge-3" class="test-container">
     <span>theme="light"</span>
-    <tonic-badge count="1" theme="light"></tonic-badge>
+    <tonic-badge id="tonic-badge-3" count="1" theme="light"></tonic-badge>
   </div>
 
   <div id="badge-4" class="dark test-container">
     <span>theme="dark"</span>
-    <tonic-badge count="1" theme="dark"></tonic-badge>
+    <tonic-badge id="tonic-badge-4" count="1" theme="dark"></tonic-badge>
   </div>
 
 </section>

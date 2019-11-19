@@ -1,5 +1,7 @@
 const Tonic = require('@optoolco/tonic')
 
+const mode = require('../mode')
+
 class TonicRange extends Tonic {
   defaults () {
     return {
@@ -157,7 +159,7 @@ class TonicRange extends Tonic {
   }
 
   render () {
-    if (!this.props.id) {
+    if (mode.strict && !this.props.id) {
       console.warn('In tonic the "id" attribute is used to persist state')
       console.warn('You forgot to supply the "id" attribute.')
       console.warn('')

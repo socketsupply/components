@@ -1,5 +1,7 @@
 const Tonic = require('@optoolco/tonic')
 
+const mode = require('../mode')
+
 class TonicProgressBar extends Tonic {
   set value (value) {
     this.setProgress(value)
@@ -64,7 +66,7 @@ class TonicProgressBar extends Tonic {
   }
 
   render () {
-    if (!this.props.id) {
+    if (mode.strict && !this.props.id) {
       console.warn('In tonic the "id" attribute is used to persist state')
       console.warn('You forgot to supply the "id" attribute.')
       console.warn('')

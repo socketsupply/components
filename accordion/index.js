@@ -109,7 +109,6 @@ class TonicAccordion extends Tonic {
   }
 
   render () {
-    console.log('what', JSON.stringify(mode.strict), this.props.id)
     if (mode.strict && !this.props.id) {
       console.warn('In tonic the "id" attribute is used to persist state')
       console.warn('You forgot to supply the "id" attribute.')

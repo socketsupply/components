@@ -18,7 +18,7 @@ class TonicTabs extends Tonic {
   }
 
   set selected (value) {
-    const tab = this.getElementById(value)
+    const tab = document.getElementById(value)
     if (tab) tab.click()
   }
 

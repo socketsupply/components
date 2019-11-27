@@ -42,6 +42,7 @@ label. You can also create a custom checkbox using SVG icons.
 | `color` | *string* | Changes the color of the icon. | <code>--primary</code> |
 | `tabindex` | *number* | Add a `tabindex` for the checkbox. | |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
+| `virtual` | *boolean* | Makes the checkbox non-clickable, you need to set the checked state manually | `false` |
 
 ### Instance Properties
 

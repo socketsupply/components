@@ -78,6 +78,12 @@ class TonicCheckbox extends Tonic {
   }
 
   change (e) {
+    if (
+      this.props.virtual === true ||
+      this.props.virtual === 'true'
+    ) {
+      return
+    }
     if (this.state._changing) return
 
     e.stopPropagation()

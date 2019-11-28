@@ -111,7 +111,6 @@ class TonicAccordion extends Tonic {
   }
 
   render () {
-    console.log('what', JSON.stringify(mode.strict), this.props.id)
     if (mode.strict && !this.props.id) {
       console.warn('In tonic the "id" attribute is used to persist state')
       console.warn('You forgot to supply the "id" attribute.')
@@ -1100,6 +1099,12 @@ class TonicCheckbox extends Tonic {
   }
 
   change (e) {
+    if (
+      this.props.virtual === true ||
+      this.props.virtual === 'true'
+    ) {
+      return
+    }
     if (this.state._changing) return
 
     e.stopPropagation()
@@ -14114,7 +14119,7 @@ class TonicTabs extends Tonic {
   }
 
   set selected (value) {
-    const tab = this.getElementById(value)
+    const tab = document.getElementById(value)
     if (tab) tab.click()
   }
 

@@ -167,6 +167,17 @@ class TonicCheckbox extends Tonic {
       tabindex
     } = this.props
 
+    if (typeof this.state.checked === 'undefined') {
+      let checked = this.props.checked
+      if (checked === 'true') {
+        checked = true
+      }
+      if (checked === 'false') {
+        checked = false
+      }
+      this.state.checked = checked
+    }
+
     let checked
     if ('checked' in this.props) {
       checked = (this.props.checked === true) ||

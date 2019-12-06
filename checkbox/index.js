@@ -20,6 +20,7 @@ class TonicCheckbox extends Tonic {
     const checked = (value === true) || (value === 'true')
 
     this.state.checked = checked
+    this.props.checked = checked
     this.reRender()
   }
 

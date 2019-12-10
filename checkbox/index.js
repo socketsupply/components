@@ -159,7 +159,7 @@ class TonicCheckbox extends Tonic {
       tabindex
     } = this.props
 
-    let checked = this.value
+    const checked = this.value
     if (typeof this.state.checked === 'undefined') {
       this.state.checked = checked
     }

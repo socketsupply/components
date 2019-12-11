@@ -1,7 +1,8 @@
+let Tonic
 try {
-  require('@optoolco/tonic')
+  Tonic = require('@optoolco/tonic')
 } catch (err) {
-  console.error('Missing dependency. Try `npm isntall @optoolco/tonic`.')
+  console.error('Missing dependency. Try `npm install @optoolco/tonic`.')
 }
 
 const mode = require('./mode')
@@ -31,6 +32,8 @@ const { TonicToggle } = require('./toggle')
 // An example collection of components.
 //
 module.exports = components
+// For supporting unpkg / dist / jsfiddle.
+components.Tonic = Tonic
 
 function components (Tonic, opts) {
   if (opts && opts.strict === true) {

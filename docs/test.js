@@ -1971,10 +1971,11 @@ tape('{{icon-5}} has tabindex attribute', t => {
 })
 
 },{"..":14,"../test/util":101,"@optoolco/tonic":18,"qs":53,"tape":75}],14:[function(require,module,exports){
+let Tonic
 try {
-  require('@optoolco/tonic')
+  Tonic = require('@optoolco/tonic')
 } catch (err) {
-  console.error('Missing dependency. Try `npm isntall @optoolco/tonic`.')
+  console.error('Missing dependency. Try `npm install @optoolco/tonic`.')
 }
 
 const mode = require('./mode')
@@ -2004,6 +2005,8 @@ const { TonicToggle } = require('./toggle')
 // An example collection of components.
 //
 module.exports = components
+// For supporting unpkg / dist / jsfiddle.
+components.Tonic = Tonic
 
 function components (Tonic, opts) {
   if (opts && opts.strict === true) {

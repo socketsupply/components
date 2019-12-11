@@ -1416,10 +1416,11 @@ module.exports = { TonicIcon }
 },{"@optoolco/tonic":20}],15:[function(require,module,exports){
 arguments[4][7][0].apply(exports,arguments)
 },{"dup":7}],16:[function(require,module,exports){
+let Tonic
 try {
-  require('@optoolco/tonic')
+  Tonic = require('@optoolco/tonic')
 } catch (err) {
-  console.error('Missing dependency. Try `npm isntall @optoolco/tonic`.')
+  console.error('Missing dependency. Try `npm install @optoolco/tonic`.')
 }
 
 const mode = require('./mode')
@@ -1449,6 +1450,8 @@ const { TonicToggle } = require('./toggle')
 // An example collection of components.
 //
 module.exports = components
+// For supporting unpkg / dist / jsfiddle.
+components.Tonic = Tonic
 
 function components (Tonic, opts) {
   if (opts && opts.strict === true) {

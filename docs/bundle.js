@@ -752,10 +752,10 @@ class TonicCheckbox extends Tonic {
     const state = this.getState()
     let value
 
-    if (typeof state.checked !== 'undefined') {
-      value = state.checked
-    } else {
+    if ('checked' in this.props) {
       value = this.props.checked
+    } else {
+      value = state.checked
     }
 
     return (value === true) || (value === 'true')
@@ -765,13 +765,13 @@ class TonicCheckbox extends Tonic {
     const checked = (value === true) || (value === 'true')
 
     this.state.checked = checked
+    this.props.checked = checked
     this.reRender()
   }
 
   defaults () {
     return {
       disabled: false,
-      checked: false,
       size: '18px'
     }
   }
@@ -833,10 +833,9 @@ class TonicCheckbox extends Tonic {
 
     e.stopPropagation()
 
-    this.setState(state => Object.assign({}, state, {
-      checked: !state.checked,
-      _changing: true
-    }))
+    const currentState = this.value
+    this.state._changing = true
+    this.value = !currentState
 
     this.reRender()
   }
@@ -859,14 +858,7 @@ class TonicCheckbox extends Tonic {
   }
 
   renderIcon () {
-    let checked
-    if ('checked' in this.props) {
-      checked = (this.props.checked === true) ||
-        (this.props.checked === 'true')
-    } else {
-      checked = this.state.checked || false
-    }
-
+    const checked = this.value
     const iconState = checked ? 'checked' : 'unchecked'
 
     return this.html`
@@ -912,12 +904,9 @@ class TonicCheckbox extends Tonic {
       tabindex
     } = this.props
 
-    let checked
-    if ('checked' in this.props) {
-      checked = (this.props.checked === true) ||
-        (this.props.checked === 'true')
-    } else {
-      checked = this.state.checked || false
+    const checked = this.value
+    if (typeof this.state.checked === 'undefined') {
+      this.state.checked = checked
     }
 
     const checkedAttr = checked ? 'checked' : ''

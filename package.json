@@ -7,6 +7,7 @@
   },
   "scripts": {
     "dev": "npm run build && ./bin/server",
+    "dist": "browserify -s components index.js > dist/index.js",
     "prepublish": "API=true npm run build",
     "watch": "chokidar \"src/**/*.js\" -c \"npm run build\"",
     "build": "npm run build:styl && npm run build:docs && npm run build:test",

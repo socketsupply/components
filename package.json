@@ -1,6 +1,6 @@
 {
   "name": "@optoolco/components",
-  "version": "7.2.1",
+  "version": "7.2.2",
   "description": "Example components",
   "directories": {
     "doc": "docs"

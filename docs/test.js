@@ -425,7 +425,7 @@ tape('{{badge-2}} shows a count', t => {
   t.end()
 })
 
-},{"..":14,"../test/util":101,"@optoolco/tonic":18,"qs":53,"tape":75}],4:[function(require,module,exports){
+},{"..":14,"../test/util":102,"@optoolco/tonic":18,"qs":53,"tape":75}],4:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicButton extends Tonic {
@@ -913,7 +913,7 @@ tape('{{button-10}} has tabindex attribute', t => {
   t.end()
 })
 
-},{"..":14,"../test/util":101,"@optoolco/tonic":18,"qs":53,"tape":75}],6:[function(require,module,exports){
+},{"..":14,"../test/util":102,"@optoolco/tonic":18,"qs":53,"tape":75}],6:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicChart extends Tonic {
@@ -1408,7 +1408,7 @@ tape('{{checkbox-6}} has size attributes', t => {
   t.end()
 })
 
-},{"..":14,"../test/util":101,"@optoolco/tonic":18,"qs":53,"tape":75}],10:[function(require,module,exports){
+},{"..":14,"../test/util":102,"@optoolco/tonic":18,"qs":53,"tape":75}],10:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class Dialog extends Tonic {
@@ -1770,7 +1770,7 @@ tape('{{dialog-1}} is constructed properly, opens and closes properly', async t 
   t.end()
 })
 
-},{"..":14,"../test/util":101,"./index":10,"@optoolco/tonic":18,"qs":53,"tape":75}],12:[function(require,module,exports){
+},{"..":14,"../test/util":102,"./index":10,"@optoolco/tonic":18,"qs":53,"tape":75}],12:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicIcon extends Tonic {
@@ -1970,7 +1970,7 @@ tape('{{icon-5}} has tabindex attribute', t => {
   t.end()
 })
 
-},{"..":14,"../test/util":101,"@optoolco/tonic":18,"qs":53,"tape":75}],14:[function(require,module,exports){
+},{"..":14,"../test/util":102,"@optoolco/tonic":18,"qs":53,"tape":75}],14:[function(require,module,exports){
 let Tonic
 try {
   Tonic = require('@optoolco/tonic')
@@ -1991,6 +1991,7 @@ const { TonicPopover } = require('./popover')
 const { TonicProfileImage } = require('./profile-image')
 const { TonicProgressBar } = require('./progress-bar')
 const { TonicRange } = require('./range')
+const { TonicRelativeTime } = require('./relative-time')
 const { TonicRouter } = require('./router')
 const { TonicSelect } = require('./select')
 const { TonicSprite } = require('./sprite')
@@ -2025,6 +2026,7 @@ function components (Tonic, opts) {
   Tonic.add(TonicProfileImage)
   Tonic.add(TonicProgressBar)
   Tonic.add(TonicRange)
+  Tonic.add(TonicRelativeTime)
   Tonic.add(TonicRouter)
   Tonic.add(TonicSelect)
   Tonic.add(TonicSprite)
@@ -2037,7 +2039,7 @@ function components (Tonic, opts) {
   Tonic.add(TonicToggle)
 }
 
-},{"./accordion":1,"./badge":2,"./button":4,"./chart":6,"./checkbox":8,"./icon":12,"./input":15,"./mode":17,"./popover":84,"./profile-image":86,"./progress-bar":88,"./range":90,"./router":92,"./select":94,"./sprite":96,"./tabs":97,"./textarea":102,"./toaster":106,"./toaster-inline":104,"./toggle":108,"./tooltip":110,"@optoolco/tonic":18}],15:[function(require,module,exports){
+},{"./accordion":1,"./badge":2,"./button":4,"./chart":6,"./checkbox":8,"./icon":12,"./input":15,"./mode":17,"./popover":84,"./profile-image":86,"./progress-bar":88,"./range":90,"./relative-time":92,"./router":93,"./select":95,"./sprite":97,"./tabs":98,"./textarea":103,"./toaster":107,"./toaster-inline":105,"./toggle":109,"./tooltip":111,"@optoolco/tonic":18}],15:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
@@ -2705,7 +2707,7 @@ tape('{{input-11}} has readonly attribute', t => {
   t.end()
 })
 
-},{"..":14,"../test/util":101,"@optoolco/tonic":18,"qs":53,"tape":75}],17:[function(require,module,exports){
+},{"..":14,"../test/util":102,"@optoolco/tonic":18,"qs":53,"tape":75}],17:[function(require,module,exports){
 module.exports = { strict: false }
 
 },{}],18:[function(require,module,exports){
@@ -12092,7 +12094,7 @@ const panelThemeDark = document.getElementById('example-panel-theme-dark')
 
 panelThemeDarkButton.addEventListener('click', e => panelThemeDark.show())
 
-},{"..":14,"../test/util":101,"./index":82,"@optoolco/tonic":18}],84:[function(require,module,exports){
+},{"..":14,"../test/util":102,"./index":82,"@optoolco/tonic":18}],84:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicPopover extends Tonic {
@@ -12334,7 +12336,7 @@ popover.addEventListener('show', event => {
 
 // TODO: write tests for popover.
 
-},{"..":14,"../test/util":101,"@optoolco/tonic":18}],86:[function(require,module,exports){
+},{"..":14,"../test/util":102,"@optoolco/tonic":18}],86:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
@@ -12664,7 +12666,7 @@ document.body.appendChild(html`
 
 // TODO: write tests for profile-image
 
-},{"../test/util":101}],88:[function(require,module,exports){
+},{"../test/util":102}],88:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
@@ -12885,7 +12887,7 @@ interval = setInterval(() => {
 
 // TODO: convert to tape tests.
 
-},{"..":14,"../test/util":101,"@optoolco/tonic":18}],90:[function(require,module,exports){
+},{"..":14,"../test/util":102,"@optoolco/tonic":18}],90:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
@@ -13241,7 +13243,517 @@ rangeValue.value = 15
 
 // TODO: convert to tape tests
 
-},{"..":14,"../test/util":101,"@optoolco/tonic":18}],92:[function(require,module,exports){
+},{"..":14,"../test/util":102,"@optoolco/tonic":18}],92:[function(require,module,exports){
+const Tonic = require('@optoolco/tonic')
+
+const weekdays = [
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday'
+]
+
+const months = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
+]
+
+function pad (num) {
+  return `0${num}`.slice(-2)
+}
+
+function strftime (time, formatString) {
+  const day = time.getDay()
+  const date = time.getDate()
+  const month = time.getMonth()
+  const year = time.getFullYear()
+  const hour = time.getHours()
+  const minute = time.getMinutes()
+  const second = time.getSeconds()
+
+  return formatString.replace(/%([%aAbBcdeHIlmMpPSwyYZz])/g, (_arg) => {
+    let match
+    const modifier = _arg[1]
+
+    switch (modifier) {
+      case '%':
+        return '%'
+      case 'a':
+        return weekdays[day].slice(0, 3)
+      case 'A':
+        return weekdays[day]
+      case 'b':
+        return months[month].slice(0, 3)
+      case 'B':
+        return months[month]
+      case 'c':
+        return time.toString()
+      case 'd':
+        return pad(date)
+      case 'e':
+        return String(date)
+      case 'H':
+        return pad(hour)
+      case 'I':
+        return pad(strftime(time, '%l'))
+      case 'l':
+        if (hour === 0 || hour === 12) {
+          return String(12)
+        } else {
+          return String((hour + 12) % 12)
+        }
+      case 'm':
+        return pad(month + 1)
+      case 'M':
+        return pad(minute)
+      case 'p':
+        if (hour > 11) {
+          return 'PM'
+        } else {
+          return 'AM'
+        }
+      case 'P':
+        if (hour > 11) {
+          return 'pm'
+        } else {
+          return 'am'
+        }
+      case 'S':
+        return pad(second)
+      case 'w':
+        return String(day)
+      case 'y':
+        return pad(year % 100)
+      case 'Y':
+        return String(year)
+      case 'Z':
+        match = time.toString().match(/\((\w+)\)$/)
+        return match ? match[1] : ''
+      case 'z':
+        match = time.toString().match(/\w([+-]\d\d\d\d) /)
+        return match ? match[1] : ''
+    }
+    return ''
+  })
+}
+
+function makeFormatter (options) {
+  let format
+
+  return function () {
+    if (format) {
+      return format
+    }
+
+    if ('Intl' in window) {
+      try {
+        format = new Intl.DateTimeFormat(undefined, options)
+        return format
+      } catch (e) {
+        if (!(e instanceof RangeError)) {
+          throw e
+        }
+      }
+    }
+  }
+}
+
+let dayFirst = null
+const dayFirstFormatter = makeFormatter({ day: 'numeric', month: 'short' })
+
+// Private: Determine if the day should be formatted before the month name in
+// the user's current locale. For example, `9 Jun` for en-GB and `Jun 9`
+// for en-US.
+//
+// Returns true if the day appears before the month.
+function isDayFirst () {
+  if (dayFirst !== null) {
+    return dayFirst
+  }
+
+  const formatter = dayFirstFormatter()
+  if (formatter) {
+    const output = formatter.format(new Date(0))
+    dayFirst = !!output.match(/^\d/)
+    return dayFirst
+  } else {
+    return false
+  }
+}
+
+let yearSeparator = null
+
+const yearFormatter = makeFormatter({
+  day: 'numeric',
+  month: 'short',
+  year: 'numeric'
+})
+
+// Private: Determine if the year should be separated from the month and day
+// with a comma. For example, `9 Jun 2014` in en-GB and `Jun 9, 2014` in en-US.
+//
+// Returns true if the date needs a separator.
+function isYearSeparator () {
+  if (yearSeparator !== null) {
+    return yearSeparator
+  }
+
+  const formatter = yearFormatter()
+
+  if (formatter) {
+    const output = formatter.format(new Date(0))
+    yearSeparator = !!output.match(/\d,/)
+    return yearSeparator
+  } else {
+    return true
+  }
+}
+
+function isThisYear (date) {
+  const now = new Date()
+  return now.getUTCFullYear() === date.getUTCFullYear()
+}
+
+function makeRelativeFormat (locale, options) {
+  if ('Intl' in window && 'RelativeTimeFormat' in window.Intl) {
+    try {
+      return new Intl.RelativeTimeFormat(locale, options)
+    } catch (e) {
+      if (!(e instanceof RangeError)) {
+        throw e
+      }
+    }
+  }
+}
+
+function localeFromElement (el) {
+  const container = el.closest('[lang]')
+
+  if (container instanceof window.HTMLElement && container.lang) {
+    return container.lang
+  }
+
+  return 'default'
+}
+
+class TonicRelativeTime extends Tonic {
+  render () {
+    this.date = this.props.date || ''
+    this.locale = this.props.locale || localeFromElement(this)
+
+    if (typeof this.date === 'string') {
+      this.date = this.props.date = new Date(this.props.date)
+    }
+
+    if (this.date.toString() === 'Invalid Date') {
+      this.date = new Date()
+    }
+
+    if (this.props.refresh) {
+      this.interval = setInterval(() => {
+        console.log(this.props.date)
+        this.reRender(props => ({
+          ...props,
+          date: this.date
+        }))
+      }, +this.props.refresh)
+    }
+
+    const ago = this.timeElapsed()
+
+    if (ago) {
+      return ago
+    }
+
+    const ahead = this.timeAhead()
+
+    if (ahead) {
+      return ahead
+    } else {
+      return `on ${this.formatDate()}`
+    }
+  }
+
+  get value () {
+    return this.date
+  }
+
+  timeElapsed () {
+    const ms = new Date().getTime() - this.date.getTime()
+    const sec = Math.round(ms / 1000)
+    const min = Math.round(sec / 60)
+    const hr = Math.round(min / 60)
+    const day = Math.round(hr / 24)
+
+    if (ms >= 0 && day < 30) {
+      return this.timeAgoFromMs(ms)
+    } else {
+      return null
+    }
+  }
+
+  timeAhead () {
+    const ms = this.date.getTime() - new Date().getTime()
+    const sec = Math.round(ms / 1000)
+    const min = Math.round(sec / 60)
+    const hr = Math.round(min / 60)
+    const day = Math.round(hr / 24)
+    if (ms >= 0 && day < 30) {
+      return this.timeUntil()
+    } else {
+      return null
+    }
+  }
+
+  timeAgo () {
+    const ms = new Date().getTime() - this.date.getTime()
+    return this.timeAgoFromMs(ms)
+  }
+
+  timeAgoFromMs (ms) {
+    const sec = Math.round(ms / 1000)
+    const min = Math.round(sec / 60)
+    const hr = Math.round(min / 60)
+    const day = Math.round(hr / 24)
+    const month = Math.round(day / 30)
+    const year = Math.round(month / 12)
+
+    if (ms < 0) {
+      return formatRelativeTime(this.locale, 0, 'second')
+    } else if (sec < 10) {
+      return formatRelativeTime(this.locale, 0, 'second')
+    } else if (sec < 45) {
+      return formatRelativeTime(this.locale, -sec, 'second')
+    } else if (sec < 90) {
+      return formatRelativeTime(this.locale, -min, 'minute')
+    } else if (min < 45) {
+      return formatRelativeTime(this.locale, -min, 'minute')
+    } else if (min < 90) {
+      return formatRelativeTime(this.locale, -hr, 'hour')
+    } else if (hr < 24) {
+      return formatRelativeTime(this.locale, -hr, 'hour')
+    } else if (hr < 36) {
+      return formatRelativeTime(this.locale, -day, 'day')
+    } else if (day < 30) {
+      return formatRelativeTime(this.locale, -day, 'day')
+    } else if (month < 12) {
+      return formatRelativeTime(this.locale, -month, 'month')
+    } else if (month < 18) {
+      return formatRelativeTime(this.locale, -year, 'year')
+    } else {
+      return formatRelativeTime(this.locale, -year, 'year')
+    }
+  }
+
+  microTimeAgo () {
+    const ms = new Date().getTime() - this.date.getTime()
+    const sec = Math.round(ms / 1000)
+    const min = Math.round(sec / 60)
+    const hr = Math.round(min / 60)
+    const day = Math.round(hr / 24)
+    const month = Math.round(day / 30)
+    const year = Math.round(month / 12)
+
+    if (min < 1) {
+      return '1m'
+    } else if (min < 60) {
+      return `${min}m`
+    } else if (hr < 24) {
+      return `${hr}h`
+    } else if (day < 365) {
+      return `${day}d`
+    } else {
+      return `${year}y`
+    }
+  }
+
+  timeUntil () {
+    const ms = this.date.getTime() - new Date().getTime()
+    return this.timeUntilFromMs(ms)
+  }
+
+  timeUntilFromMs (ms) {
+    const sec = Math.round(ms / 1000)
+    const min = Math.round(sec / 60)
+    const hr = Math.round(min / 60)
+    const day = Math.round(hr / 24)
+    const month = Math.round(day / 30)
+    const year = Math.round(month / 12)
+    if (month >= 18) {
+      return formatRelativeTime(this.locale, year, 'year')
+    } else if (month >= 12) {
+      return formatRelativeTime(this.locale, year, 'year')
+    } else if (day >= 45) {
+      return formatRelativeTime(this.locale, month, 'month')
+    } else if (day >= 30) {
+      return formatRelativeTime(this.locale, month, 'month')
+    } else if (hr >= 36) {
+      return formatRelativeTime(this.locale, day, 'day')
+    } else if (hr >= 24) {
+      return formatRelativeTime(this.locale, day, 'day')
+    } else if (min >= 90) {
+      return formatRelativeTime(this.locale, hr, 'hour')
+    } else if (min >= 45) {
+      return formatRelativeTime(this.locale, hr, 'hour')
+    } else if (sec >= 90) {
+      return formatRelativeTime(this.locale, min, 'minute')
+    } else if (sec >= 45) {
+      return formatRelativeTime(this.locale, min, 'minute')
+    } else if (sec >= 10) {
+      return formatRelativeTime(this.locale, sec, 'second')
+    } else {
+      return formatRelativeTime(this.locale, 0, 'second')
+    }
+  }
+
+  microTimeUntil () {
+    const ms = this.date.getTime() - new Date().getTime()
+    const sec = Math.round(ms / 1000)
+    const min = Math.round(sec / 60)
+    const hr = Math.round(min / 60)
+    const day = Math.round(hr / 24)
+    const month = Math.round(day / 30)
+    const year = Math.round(month / 12)
+    if (day >= 365) {
+      return `${year}y`
+    } else if (hr >= 24) {
+      return `${day}d`
+    } else if (min >= 60) {
+      return `${hr}h`
+    } else if (min > 1) {
+      return `${min}m`
+    } else {
+      return '1m'
+    }
+  }
+
+  formatDate () {
+    let format = isDayFirst() ? '%e %b' : '%b %e'
+    if (!isThisYear(this.date)) {
+      format += isYearSeparator() ? ', %Y' : ' %Y'
+    }
+    return strftime(this.date, format)
+  }
+
+  formatTime () {
+    const formatter = timeFormatter()
+    if (formatter) {
+      return formatter.format(this.date)
+    } else {
+      return strftime(this.date, '%l:%M%P')
+    }
+  }
+}
+
+module.exports = { TonicRelativeTime }
+
+function formatRelativeTime (locale, value, unit) {
+  const formatter = makeRelativeFormat(locale, { numeric: 'auto' })
+
+  if (formatter) {
+    return formatter.format(value, unit)
+  } else {
+    return formatEnRelativeTime(value, unit)
+  }
+}
+
+// Simplified "en" RelativeTimeFormat.format function
+//
+// Values should roughly match
+//   new Intl.RelativeTimeFormat('en', {numeric: 'auto'}).format(value, unit)
+//
+function formatEnRelativeTime (value, unit) {
+  if (value === 0) {
+    switch (unit) {
+      case 'year':
+      case 'quarter':
+      case 'month':
+      case 'week':
+        return `this ${unit}`
+      case 'day':
+        return 'today'
+      case 'hour':
+      case 'minute':
+        return `in 0 ${unit}s`
+      case 'second':
+        return 'now'
+    }
+  } else if (value === 1) {
+    switch (unit) {
+      case 'year':
+      case 'quarter':
+      case 'month':
+      case 'week':
+        return `next ${unit}`
+      case 'day':
+        return 'tomorrow'
+      case 'hour':
+      case 'minute':
+      case 'second':
+        return `in 1 ${unit}`
+    }
+  } else if (value === -1) {
+    switch (unit) {
+      case 'year':
+      case 'quarter':
+      case 'month':
+      case 'week':
+        return `last ${unit}`
+      case 'day':
+        return 'yesterday'
+      case 'hour':
+      case 'minute':
+      case 'second':
+        return `1 ${unit} ago`
+    }
+  } else if (value > 1) {
+    switch (unit) {
+      case 'year':
+      case 'quarter':
+      case 'month':
+      case 'week':
+      case 'day':
+      case 'hour':
+      case 'minute':
+      case 'second':
+        return `in ${value} ${unit}s`
+    }
+  } else if (value < -1) {
+    switch (unit) {
+      case 'year':
+      case 'quarter':
+      case 'month':
+      case 'week':
+      case 'day':
+      case 'hour':
+      case 'minute':
+      case 'second':
+        return `${-value} ${unit}s ago`
+    }
+  }
+
+  throw new RangeError(`Invalid unit argument for format() '${unit}'`)
+}
+
+const timeFormatter = makeFormatter({
+  hour: 'numeric',
+  minute: '2-digit'
+})
+
+},{"@optoolco/tonic":18}],93:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
@@ -13541,7 +14053,7 @@ TonicRouter.matcher = (() => {
 
 module.exports = { TonicRouter }
 
-},{"../mode":17,"@optoolco/tonic":18}],93:[function(require,module,exports){
+},{"../mode":17,"@optoolco/tonic":18}],94:[function(require,module,exports){
 const { html } = require('../test/util')
 const components = require('..')
 components(require('@optoolco/tonic'))
@@ -13596,7 +14108,7 @@ page2.addEventListener('match', () => {
 
 // TODO: convert to tape tests
 
-},{"..":14,"../test/util":101,"@optoolco/tonic":18}],94:[function(require,module,exports){
+},{"..":14,"../test/util":102,"@optoolco/tonic":18}],95:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicSelect extends Tonic {
@@ -13849,7 +14361,7 @@ TonicSelect.svg.default = () => TonicSelect.svg.toURL(`
 
 module.exports = { TonicSelect }
 
-},{"@optoolco/tonic":18}],95:[function(require,module,exports){
+},{"@optoolco/tonic":18}],96:[function(require,module,exports){
 const { html } = require('../test/util')
 
 document.body.appendChild(html`
@@ -14043,7 +14555,7 @@ document.body.appendChild(html`
 
 // TODO: write tests
 
-},{"../test/util":101}],96:[function(require,module,exports){
+},{"../test/util":102}],97:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicSprite extends Tonic {
@@ -14110,7 +14622,7 @@ class TonicSprite extends Tonic {
 
 module.exports = { TonicSprite }
 
-},{"@optoolco/tonic":18}],97:[function(require,module,exports){
+},{"@optoolco/tonic":18}],98:[function(require,module,exports){
 (function (setImmediate){
 const Tonic = require('@optoolco/tonic')
 
@@ -14291,7 +14803,7 @@ module.exports = {
 }
 
 }).call(this,require("timers").setImmediate)
-},{"../mode":17,"@optoolco/tonic":18,"timers":80}],98:[function(require,module,exports){
+},{"../mode":17,"@optoolco/tonic":18,"timers":80}],99:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 const tape = require('tape')
 const { qs } = require('qs')
@@ -14451,7 +14963,7 @@ tape('{{tabs-3}} has correct default state', t => {
   t.end()
 })
 
-},{"..":14,"../test/util":101,"@optoolco/tonic":18,"qs":53,"tape":75}],99:[function(require,module,exports){
+},{"..":14,"../test/util":102,"@optoolco/tonic":18,"qs":53,"tape":75}],100:[function(require,module,exports){
 const tape = require('tape')
 const stream = tape.createStream({ objectMode: true })
 
@@ -14520,7 +15032,7 @@ stream.on('data', data => {
 
 module.exports = tape
 
-},{"tape":75}],100:[function(require,module,exports){
+},{"tape":75}],101:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 const components = require('../..')
 
@@ -14564,7 +15076,7 @@ function ready () {
 
 document.addEventListener('DOMContentLoaded', ready)
 
-},{"../..":14,"../../badge/test":3,"../../button/test":5,"../../chart/test":7,"../../checkbox/test":9,"../../dialog/test":11,"../../icon/test":13,"../../input/test":16,"../../panel/test":83,"../../popover/test":85,"../../profile-image/test":87,"../../progress-bar/test":89,"../../range/test":91,"../../router/test":93,"../../select/test":95,"../../tabs/test":98,"../../textarea/test":103,"../../toaster-inline/test":105,"../../toaster/test":107,"../../toggle/test":109,"../../tooltip/test":111,"../../windowed/test":112,"./tape.js":99,"@optoolco/tonic":18}],101:[function(require,module,exports){
+},{"../..":14,"../../badge/test":3,"../../button/test":5,"../../chart/test":7,"../../checkbox/test":9,"../../dialog/test":11,"../../icon/test":13,"../../input/test":16,"../../panel/test":83,"../../popover/test":85,"../../profile-image/test":87,"../../progress-bar/test":89,"../../range/test":91,"../../router/test":94,"../../select/test":96,"../../tabs/test":99,"../../textarea/test":104,"../../toaster-inline/test":106,"../../toaster/test":108,"../../toggle/test":110,"../../tooltip/test":112,"../../windowed/test":113,"./tape.js":100,"@optoolco/tonic":18}],102:[function(require,module,exports){
 'use strict'
 
 exports.html = html
@@ -14580,7 +15092,7 @@ function html ([str, ...strings], ...values) {
   return tmpl.content.firstElementChild
 }
 
-},{}],102:[function(require,module,exports){
+},{}],103:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
@@ -14760,7 +15272,7 @@ class TonicTextarea extends Tonic {
 
 module.exports = { TonicTextarea }
 
-},{"../mode":17,"@optoolco/tonic":18}],103:[function(require,module,exports){
+},{"../mode":17,"@optoolco/tonic":18}],104:[function(require,module,exports){
 const { html } = require('../test/util')
 
 document.body.appendChild(html`
@@ -14912,7 +15424,7 @@ document.body.appendChild(html`
 
 // TODO: write tests
 
-},{"../test/util":101}],104:[function(require,module,exports){
+},{"../test/util":102}],105:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicToasterInline extends Tonic {
@@ -15129,7 +15641,7 @@ class TonicToasterInline extends Tonic {
 
 module.exports = { TonicToasterInline }
 
-},{"@optoolco/tonic":18}],105:[function(require,module,exports){
+},{"@optoolco/tonic":18}],106:[function(require,module,exports){
 const { html } = require('../test/util')
 
 document.body.appendChild(html`
@@ -15347,7 +15859,7 @@ document.body.appendChild(html`
 </section>
 `)
 
-},{"../test/util":101}],106:[function(require,module,exports){
+},{"../test/util":102}],107:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicToaster extends Tonic {
@@ -15600,7 +16112,7 @@ class TonicToaster extends Tonic {
 
 module.exports = { TonicToaster }
 
-},{"@optoolco/tonic":18}],107:[function(require,module,exports){
+},{"@optoolco/tonic":18}],108:[function(require,module,exports){
 const tape = require('tape')
 const { qs } = require('qs')
 
@@ -15879,7 +16391,7 @@ tape('{{toaster}} is created on the right', async t => {
   t.end()
 })
 
-},{"..":14,"../test/util":101,"@optoolco/tonic":18,"qs":53,"tape":75}],108:[function(require,module,exports){
+},{"..":14,"../test/util":102,"@optoolco/tonic":18,"qs":53,"tape":75}],109:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
@@ -16109,7 +16621,7 @@ class TonicToggle extends Tonic {
 
 module.exports = { TonicToggle }
 
-},{"../mode":17,"@optoolco/tonic":18}],109:[function(require,module,exports){
+},{"../mode":17,"@optoolco/tonic":18}],110:[function(require,module,exports){
 const tape = require('tape')
 const { qs } = require('qs')
 
@@ -16231,7 +16743,7 @@ tape('{{toggle-2}} has tabindex attribute', t => {
   t.end()
 })
 
-},{"..":14,"../test/util":101,"@optoolco/tonic":18,"qs":53,"tape":75}],110:[function(require,module,exports){
+},{"..":14,"../test/util":102,"@optoolco/tonic":18,"qs":53,"tape":75}],111:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicTooltip extends Tonic {
@@ -16391,7 +16903,7 @@ class TonicTooltip extends Tonic {
 
 module.exports = { TonicTooltip }
 
-},{"@optoolco/tonic":18}],111:[function(require,module,exports){
+},{"@optoolco/tonic":18}],112:[function(require,module,exports){
 const { html } = require('../test/util')
 
 document.body.appendChild(html`
@@ -16465,7 +16977,7 @@ document.body.appendChild(html`
 
 // TODO write tests
 
-},{"../test/util":101}],112:[function(require,module,exports){
+},{"../test/util":102}],113:[function(require,module,exports){
 const { html } = require('../test/util')
 
 document.body.appendChild(html`
@@ -16481,4 +16993,4 @@ document.body.appendChild(html`
 
 // TODO: tests
 
-},{"../test/util":101}]},{},[100]);
+},{"../test/util":102}]},{},[101]);

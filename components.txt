@@ -11,6 +11,7 @@ popover
 profile-image
 progress-bar
 range
+relative-time
 router
 select
 sprite

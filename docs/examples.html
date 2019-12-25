@@ -132,6 +132,11 @@
   
 
     <li>
+      <a href="#relative-time" class="">Relative-Time</a>
+    </li>
+  
+
+    <li>
       <a href="#router" class="">Router</a>
     </li>
   
@@ -1860,6 +1865,62 @@ and color.</p>
 <tbody><tr>
 <td align="left"><code>value</code></td>
 <td align="left">Get the current value of the range input.</td>
+</tr>
+</tbody></table>
+
+    </section>
+  
+
+    <section id="relative-time">
+      
+    <div class="component-github-link">
+      <a href="https://github.com/optoolco/components/tree/master/src/relative-time/">Github</a>
+    </div>
+  
+      <h1 id="relative-time">Relative-Time</h1>
+<p>The <code>Relative-Time</code> component creates a text based relative representation of a
+date value.</p>
+<h2>Demo</h2>
+<div class="example">
+  <div class="header">Example</div>
+  <div class="content">
+    <tonic-relative-time
+      date="${new Date()}"
+      refresh="1e4"
+      locale="en"
+    </tonic-relative-time>
+  </div>
+</div>
+
+<h2>Code</h2>
+<h4>HTML</h4>
+<pre><code class="language-html">&lt;tonic-relative-time
+  date="${new Date()}"
+  refresh="1e4"
+  locale="en"
+&lt;/tonic-relative-time&gt;</code></pre>
+<h2>Api</h2>
+<h3>Properties</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Property</th>
+<th align="left">Type</th>
+<th align="left">Description</th>
+<th align="left">Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>locale</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Represents a Unicode locale identifier.</td>
+<td align="left"><code>default</code></td>
+</tr>
+<tr>
+<td align="left"><code>date</code></td>
+<td align="left"><em>string</em>, <em>Date</em></td>
+<td align="left">A valid javascript date object or a parsable javascript date string.</td>
+<td align="left"><code>new Date()</code></td>
 </tr>
 </tbody></table>
 

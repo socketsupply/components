@@ -1,7 +1,7 @@
 # Relative-Time
 
 The `Relative-Time` component creates a relative text representation of a
-date value.
+date value. This is almost entirely based on Github's [Time Elements][0].
 
 ## Demo
 
@@ -37,3 +37,4 @@ date value.
 | `locale` | *string* | Represents a Unicode locale identifier. | `default` |
 | `date` | *string*, *Date* | A valid javascript date object or a parsable javascript date string. | `new Date()` |
 
+[0]:https://github.com/github/time-elements

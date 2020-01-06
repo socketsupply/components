@@ -4,6 +4,7 @@ const { qs } = require('qs')
 const { html } = require('../test/util')
 const components = require('..')
 components(require('@optoolco/tonic'))
+const { RelativeTime } = require('.')
 
 const NOW_MINUS_5 = new Date()
 NOW_MINUS_5.setMinutes(NOW_MINUS_5.getMinutes() - 5)
@@ -37,5 +38,11 @@ tape('{{relative-time-1}} default state is constructed', t => {
 tape('{{relative-time-2}} default state is constructed', t => {
   const now = qs('#relative-time-then')
   t.equal(now.textContent, '5 minutes ago')
+  t.end()
+})
+
+tape('{{relative-time-3}} stand-alone ctor', t => {
+  const s = new RelativeTime(NOW_MINUS_5)
+  t.equal(s.toString(), '5 minutes ago')
   t.end()
 })

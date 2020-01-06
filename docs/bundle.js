@@ -3768,29 +3768,13 @@ function localeFromElement (el) {
   return 'default'
 }
 
-class TonicRelativeTime extends Tonic {
-  render () {
-    this.date = this.props.date || ''
-    this.locale = this.props.locale || localeFromElement(this)
+class RelativeTime {
+  constructor (date, locale) {
+    this.date = date
+    this.locale = locale
+  }
 
-    if (typeof this.date === 'string') {
-      this.date = this.props.date = new Date(this.props.date)
-    }
-
-    if (this.date.toString() === 'Invalid Date') {
-      this.date = new Date()
-    }
-
-    if (this.props.refresh) {
-      this.interval = setInterval(() => {
-        console.log(this.props.date)
-        this.reRender(props => ({
-          ...props,
-          date: this.date
-        }))
-      }, +this.props.refresh)
-    }
-
+  toString () {
     const ago = this.timeElapsed()
 
     if (ago) {
@@ -3810,39 +3794,39 @@ class TonicRelativeTime extends Tonic {
     return this.date
   }
 
-  timeElapsed () {
-    const ms = new Date().getTime() - this.date.getTime()
+  timeElapsed ({ date = this.date, locale = this.locale } = {}) {
+    const ms = new Date().getTime() - date.getTime()
     const sec = Math.round(ms / 1000)
     const min = Math.round(sec / 60)
     const hr = Math.round(min / 60)
     const day = Math.round(hr / 24)
 
     if (ms >= 0 && day < 30) {
-      return this.timeAgoFromMs(ms)
+      return this.timeAgoFromMs({ ms, date, locale })
     } else {
       return null
     }
   }
 
-  timeAhead () {
-    const ms = this.date.getTime() - new Date().getTime()
+  timeAhead ({ date = this.date, locale = this.locale } = {}) {
+    const ms = date.getTime() - new Date().getTime()
     const sec = Math.round(ms / 1000)
     const min = Math.round(sec / 60)
     const hr = Math.round(min / 60)
     const day = Math.round(hr / 24)
     if (ms >= 0 && day < 30) {
-      return this.timeUntil()
+      return this.timeUntil({ date, locale })
     } else {
       return null
     }
   }
 
-  timeAgo () {
-    const ms = new Date().getTime() - this.date.getTime()
-    return this.timeAgoFromMs(ms)
+  timeAgo ({ date = this.date, locale = this.locale } = {}) {
+    const ms = new Date().getTime() - date.getTime()
+    return this.timeAgoFromMs({ ms, date, locale })
   }
 
-  timeAgoFromMs (ms) {
+  timeAgoFromMs ({ ms, locale = this.locale } = {}) {
     const sec = Math.round(ms / 1000)
     const min = Math.round(sec / 60)
     const hr = Math.round(min / 60)
@@ -3851,34 +3835,38 @@ class TonicRelativeTime extends Tonic {
     const year = Math.round(month / 12)
 
     if (ms < 0) {
-      return formatRelativeTime(this.locale, 0, 'second')
+      return formatRelativeTime(locale, 0, 'second')
     } else if (sec < 10) {
-      return formatRelativeTime(this.locale, 0, 'second')
+      return formatRelativeTime(locale, 0, 'second')
     } else if (sec < 45) {
-      return formatRelativeTime(this.locale, -sec, 'second')
+      return formatRelativeTime(locale, -sec, 'second')
     } else if (sec < 90) {
-      return formatRelativeTime(this.locale, -min, 'minute')
+      return formatRelativeTime(locale, -min, 'minute')
     } else if (min < 45) {
-      return formatRelativeTime(this.locale, -min, 'minute')
+      return formatRelativeTime(locale, -min, 'minute')
     } else if (min < 90) {
-      return formatRelativeTime(this.locale, -hr, 'hour')
+      return formatRelativeTime(locale, -hr, 'hour')
     } else if (hr < 24) {
-      return formatRelativeTime(this.locale, -hr, 'hour')
+      return formatRelativeTime(locale, -hr, 'hour')
     } else if (hr < 36) {
-      return formatRelativeTime(this.locale, -day, 'day')
+      return formatRelativeTime(locale, -day, 'day')
     } else if (day < 30) {
-      return formatRelativeTime(this.locale, -day, 'day')
+      return formatRelativeTime(locale, -day, 'day')
     } else if (month < 12) {
-      return formatRelativeTime(this.locale, -month, 'month')
+      return formatRelativeTime(locale, -month, 'month')
     } else if (month < 18) {
-      return formatRelativeTime(this.locale, -year, 'year')
+      return formatRelativeTime(locale, -year, 'year')
     } else {
-      return formatRelativeTime(this.locale, -year, 'year')
+      return formatRelativeTime(locale, -year, 'year')
     }
   }
 
-  microTimeAgo () {
-    const ms = new Date().getTime() - this.date.getTime()
+  timeUntil ({ date = this.date, locale = this.locale } = {}) {
+    const ms = date.getTime() - new Date().getTime()
+    return this.timeUntilFromMs({ ms, locale })
+  }
+
+  timeUntilFromMs ({ ms, locale = this.locale } = {}) {
     const sec = Math.round(ms / 1000)
     const min = Math.round(sec / 60)
     const hr = Math.round(min / 60)
@@ -3886,98 +3874,53 @@ class TonicRelativeTime extends Tonic {
     const month = Math.round(day / 30)
     const year = Math.round(month / 12)
 
-    if (min < 1) {
-      return '1m'
-    } else if (min < 60) {
-      return `${min}m`
-    } else if (hr < 24) {
-      return `${hr}h`
-    } else if (day < 365) {
-      return `${day}d`
-    } else {
-      return `${year}y`
-    }
-  }
-
-  timeUntil () {
-    const ms = this.date.getTime() - new Date().getTime()
-    return this.timeUntilFromMs(ms)
-  }
-
-  timeUntilFromMs (ms) {
-    const sec = Math.round(ms / 1000)
-    const min = Math.round(sec / 60)
-    const hr = Math.round(min / 60)
-    const day = Math.round(hr / 24)
-    const month = Math.round(day / 30)
-    const year = Math.round(month / 12)
     if (month >= 18) {
-      return formatRelativeTime(this.locale, year, 'year')
+      return formatRelativeTime(locale, year, 'year')
     } else if (month >= 12) {
-      return formatRelativeTime(this.locale, year, 'year')
+      return formatRelativeTime(locale, year, 'year')
     } else if (day >= 45) {
-      return formatRelativeTime(this.locale, month, 'month')
+      return formatRelativeTime(locale, month, 'month')
     } else if (day >= 30) {
-      return formatRelativeTime(this.locale, month, 'month')
+      return formatRelativeTime(locale, month, 'month')
     } else if (hr >= 36) {
-      return formatRelativeTime(this.locale, day, 'day')
+      return formatRelativeTime(locale, day, 'day')
     } else if (hr >= 24) {
-      return formatRelativeTime(this.locale, day, 'day')
+      return formatRelativeTime(locale, day, 'day')
     } else if (min >= 90) {
-      return formatRelativeTime(this.locale, hr, 'hour')
+      return formatRelativeTime(locale, hr, 'hour')
     } else if (min >= 45) {
-      return formatRelativeTime(this.locale, hr, 'hour')
+      return formatRelativeTime(locale, hr, 'hour')
     } else if (sec >= 90) {
-      return formatRelativeTime(this.locale, min, 'minute')
+      return formatRelativeTime(locale, min, 'minute')
     } else if (sec >= 45) {
-      return formatRelativeTime(this.locale, min, 'minute')
+      return formatRelativeTime(locale, min, 'minute')
     } else if (sec >= 10) {
-      return formatRelativeTime(this.locale, sec, 'second')
+      return formatRelativeTime(locale, sec, 'second')
     } else {
-      return formatRelativeTime(this.locale, 0, 'second')
+      return formatRelativeTime(locale, 0, 'second')
     }
   }
 
-  microTimeUntil () {
-    const ms = this.date.getTime() - new Date().getTime()
-    const sec = Math.round(ms / 1000)
-    const min = Math.round(sec / 60)
-    const hr = Math.round(min / 60)
-    const day = Math.round(hr / 24)
-    const month = Math.round(day / 30)
-    const year = Math.round(month / 12)
-    if (day >= 365) {
-      return `${year}y`
-    } else if (hr >= 24) {
-      return `${day}d`
-    } else if (min >= 60) {
-      return `${hr}h`
-    } else if (min > 1) {
-      return `${min}m`
-    } else {
-      return '1m'
-    }
-  }
-
-  formatDate () {
+  formatDate ({ date = this.date } = {}) {
     let format = isDayFirst() ? '%e %b' : '%b %e'
-    if (!isThisYear(this.date)) {
+
+    if (!isThisYear(date)) {
       format += isYearSeparator() ? ', %Y' : ' %Y'
     }
-    return strftime(this.date, format)
+
+    return strftime(date, format)
   }
 
-  formatTime () {
+  formatTime ({ date = this.date } = {}) {
     const formatter = timeFormatter()
+
     if (formatter) {
-      return formatter.format(this.date)
+      return formatter.format(date)
     } else {
-      return strftime(this.date, '%l:%M%P')
+      return strftime(date, '%l:%M%P')
     }
   }
 }
-
-module.exports = { TonicRelativeTime }
 
 function formatRelativeTime (locale, value, unit) {
   const formatter = makeRelativeFormat(locale, { numeric: 'auto' })
@@ -4067,10 +4010,39 @@ function formatEnRelativeTime (value, unit) {
   throw new RangeError(`Invalid unit argument for format() '${unit}'`)
 }
 
+class TonicRelativeTime extends Tonic {
+  render () {
+    let date = this.props.date || ''
+    const locale = this.props.locale || localeFromElement(this)
+
+    if (typeof date === 'string') {
+      date = this.props.date = new Date(this.props.date)
+    }
+
+    if (date.toString() === 'Invalid Date') {
+      date = new Date()
+    }
+
+    if (this.props.refresh) {
+      this.interval = setInterval(() => {
+        this.reRender(props => ({
+          ...props,
+          date
+        }))
+      }, +this.props.refresh)
+    }
+
+    const t = new RelativeTime(date, locale)
+    return t.toString()
+  }
+}
+
 const timeFormatter = makeFormatter({
   hour: 'numeric',
   minute: '2-digit'
 })
+
+module.exports = { TonicRelativeTime, RelativeTime }
 
 },{"@optoolco/tonic":20}],37:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')

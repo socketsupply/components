@@ -73,7 +73,7 @@ class TonicChart extends Tonic {
       data = src
     }
 
-    if (data &&data.chartData) {
+    if (data && data.chartData) {
       throw new Error('chartData propery deprecated')
     }
 

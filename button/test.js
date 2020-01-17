@@ -21,6 +21,11 @@ document.body.appendChild(html`
     <tonic-button>Text Content</tonic-button>
   </div>
 
+  <div id="button-2-5" class="test-container">
+    <span>Button has text content</span>
+    <tonic-button value="v"></tonic-button>
+  </div>
+
   <div id="button-3" class="test-container">
     <span>disabled="true"</span>
     <tonic-button disabled="true">Button</tonic-button>
@@ -102,7 +107,17 @@ tape('{{button-1}} has correct default state', t => {
   t.end()
 })
 
-tape('{{button-2}} has value', t => {
+tape('has styles', t => {
+  const container = qs('#button-1 tonic-button')
+  const button = qs('button', container)
+
+  const styles = window.getComputedStyle(button)
+  t.equal(styles.color, 'rgb(51, 51, 51)')
+
+  t.end()
+})
+
+tape('{{button-2}} has textContent', t => {
   const container = qs('#button-2')
   const component = qs('tonic-button', container)
   const button = qs('button', component)
@@ -113,6 +128,21 @@ tape('{{button-2}} has value', t => {
   t.ok(!component.hasAttribute('value'), 'the component does not have a value attribute')
   t.ok(button.textContent, 'the button has text content')
   t.equal(button.textContent, button.getAttribute('alt'), 'button has alt attribute that matches value')
+
+  t.end()
+})
+
+tape('{{button-2-5}} has value', t => {
+  const container = qs('#button-2-5')
+  const component = qs('tonic-button', container)
+  const button = qs('button', component)
+
+  t.plan(4)
+
+  t.ok(button, 'the component was constructed with a button')
+  t.ok(component.hasAttribute('value'), 'the component has value')
+  t.ok(button.hasAttribute('value'), 'the button has value')
+  t.equal(button.getAttribute('value'), 'v', 'button has Correct value')
 
   t.end()
 })

@@ -22,7 +22,7 @@ class Dialog extends Tonic {
     }
   }
 
-  stylesheet () {
+  static stylesheet () {
     return `
       .tonic--dialog .tonic--dialog--wrapper {
         position: fixed;
@@ -46,7 +46,7 @@ class Dialog extends Tonic {
       }
 
       .tonic--dialog .tonic--dialog--wrapper.tonic--show .tonic--dialog--content {
-        color: var(--tonic-primary);
+        color: var(--tonic-primary, #333);
         opacity: 1;
         -webkit-transform: scale(1);
         -ms-transform: scale(1);
@@ -70,7 +70,7 @@ class Dialog extends Tonic {
         width: auto;
         margin: auto;
         position: relative;
-        background-color: var(--tonic-window);
+        background-color: var(--tonic-window, #fff);
         z-index: 1;
         opacity: 0;
         -webkit-transform: scale(0.8);
@@ -188,7 +188,7 @@ class Dialog extends Tonic {
     closeIcon.appendChild(svg)
     svg.appendChild(use)
 
-    const iconColor = color || 'var(--tonic-primary)'
+    const iconColor = color || 'var(--tonic-primary, #333)'
 
     use.setAttributeNS(xlinkns, 'href', '#close')
     use.setAttributeNS(xlinkns, 'xlink:href', '#close')

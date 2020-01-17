@@ -103,6 +103,9 @@ tape('{{dialog-1}} is constructed properly, opens and closes properly', async t 
   t.ok(close, 'the component contains the close button')
   t.ok(component.hasAttribute('id'), 'the component has an id')
 
+  const styles = window.getComputedStyle(wrapper)
+  t.equal(styles.position, 'fixed')
+
   await component.show()
 
   const isShowingAfterOpen = wrapper.classList.contains('tonic--show')

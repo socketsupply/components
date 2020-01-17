@@ -9,11 +9,11 @@ class TonicAccordion extends Tonic {
     }
   }
 
-  stylesheet () {
+  static stylesheet () {
     return `
       tonic-accordion {
         display: block;
-        border: 1px solid var(--tonic-border);
+        border: 1px solid var(--tonic-border, black);
       }
     `
   }
@@ -131,14 +131,14 @@ class TonicAccordion extends Tonic {
 }
 
 class TonicAccordionSection extends Tonic {
-  stylesheet () {
+  static stylesheet () {
     return `
       tonic-accordion-section {
         display: block;
       }
 
       tonic-accordion-section:not(:last-of-type) {
-        border-bottom: 1px solid var(--tonic-border);
+        border-bottom: 1px solid var(--tonic-border, black);
       }
 
       tonic-accordion-section h4 {
@@ -198,8 +198,8 @@ class TonicAccordionSection extends Tonic {
         -webkit-transform: translateY(-50%) translateX(-50%) rotate(135deg);
         -moz-transform: translateY(-50%) translateX(-50%) rotate(135deg);
         transform: translateY(-50%) translateX(-50%) rotate(135deg);
-        border-top: 1px solid var(--tonic-primary);
-        border-right: 1px solid var(--tonic-primary);
+        border-top: 1px solid var(--tonic-primary, #333);
+        border-right: 1px solid var(--tonic-primary, #333);
       }
 
       tonic-accordion-section .tonic--accordion-header[aria-expanded="true"] .tonic--arrow:before {

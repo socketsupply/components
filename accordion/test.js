@@ -65,3 +65,17 @@ tape('{{accordion-1}} has correct default state', t => {
   t.ok(component, 'rendered')
   t.end()
 })
+
+tape('{{accordion-2}} is styled', t => {
+  const container = qs('#accordion-2')
+  const comp = qs('tonic-accordion', container)
+
+  const styles = window.getComputedStyle(comp)
+  t.equal(styles.borderWidth, '1px')
+
+  const button = qs('tonic-accordion-section button', container)
+  const styles2 = window.getComputedStyle(button)
+
+  t.equal(styles2.fontSize, '14px')
+  t.end()
+})

@@ -276,11 +276,11 @@ class Windowed extends Tonic {
   }
 
   renderLoadingState () {
-    return '<div class="tonic--windowed--loader"></div>'
+    return this.html`<div class="tonic--windowed--loader"></div>`
   }
 
   renderEmptyState () {
-    return '<div class="tonic--windowed--empty"></div>'
+    return this.html`<div class="tonic--windowed--empty"></div>`
   }
 
   render () {
@@ -301,7 +301,7 @@ class Windowed extends Tonic {
       return this.renderEmptyState()
     }
 
-    return `
+    return this.html`
       <div class="tonic--windowed--outer" styles="outer">
         <div class="tonic--windowed--inner" styles="inner">
         </div>

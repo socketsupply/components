@@ -1,4 +1,5 @@
-
+const tape = require('tape')
+const { qs } = require('qs')
 const { html } = require('../test/util')
 const components = require('..')
 components(require('@optoolco/tonic'))
@@ -38,3 +39,34 @@ popover.addEventListener('show', event => {
 })
 
 // TODO: write tests for popover.
+tape('opening popover', async t => {
+  const container = qs('#popover')
+  const popover = qs('#tonic-popover-default', container)
+  const button = qs('#tonic-popover-default-button', container)
+
+  t.ok(popover)
+  t.ok(button)
+
+  const popoverCont = qs('.tonic--popover', popover)
+  t.ok(popoverCont)
+
+  const divs = popoverCont.querySelectorAll('div')
+  t.equal(divs.length, 3)
+
+  const styles = window.getComputedStyle(divs[0])
+  t.equal(styles.visibility, 'hidden')
+
+  button.querySelector('button').click()
+  await sleep(128)
+
+  const styles2 = window.getComputedStyle(divs[0])
+  t.equal(styles2.visibility, 'visible')
+
+  t.end()
+})
+
+function sleep (ms) {
+  return new Promise(resolve => {
+    setTimeout(resolve, ms)
+  })
+}

@@ -1,7 +1,7 @@
 const Tonic = require('@optoolco/tonic')
 
 class TonicSprite extends Tonic {
-  stylesheet () {
+  static stylesheet () {
     return `
       tonic-sprite svg {
         visibility: hidden;

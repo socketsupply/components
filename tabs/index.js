@@ -3,7 +3,7 @@ const Tonic = require('@optoolco/tonic')
 const mode = require('../mode')
 
 class TonicTabs extends Tonic {
-  stylesheet () {
+  static stylesheet () {
     return `
       tonic-tabs .tonic--tab {
         -webkit-appearance: none;
@@ -135,7 +135,7 @@ class TonicTabs extends Tonic {
 }
 
 class TonicTabPanel extends Tonic {
-  stylesheet () {
+  static stylesheet () {
     return `
       tonic-tab-panel {
         display: block;

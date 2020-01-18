@@ -17,7 +17,9 @@
     "build:styl": "cp ./theme.css ./docs && npm run build:styl:test && npm run build:styl:docs",
     "build:styl:test": "stylus -u autoprefixer-stylus ./test/old/index.styl -o ./docs/test.css",
     "build:styl:docs": "stylus -u autoprefixer-stylus ./docs/src/index.styl -o ./docs",
-    "test": "standard && browserify test/index.js | tape-puppet && npm run testcafe",
+    "test": "standard && npm run test:suite && npm run testcafe && npm run test:verify",
+    "test:suite": "browserify test/index.js | tape-puppet",
+    "test:verify": "bash ./scripts/verify-included.sh",
     "testcafe": "testcafe chrome:headless ./test/testcafe"
   },
   "repository": {

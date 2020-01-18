@@ -1,3 +1,5 @@
+const tape = require('tape')
+const { qs } = require('qs')
 const { html } = require('../test/util')
 const components = require('..')
 components(require('@optoolco/tonic'))
@@ -118,7 +120,29 @@ clearInterval(interval)
 interval = setInterval(() => {
   progressBarAuto.setProgress(percentage++)
   if (progressBarAuto.value >= 100) percentage = 0
-  if (++reps === 2) clearInterval(interval)
+  if (++reps === 200) clearInterval(interval)
 }, 128)
 
 // TODO: convert to tape tests.
+tape('get a progress bar', t => {
+  const bar = qs('#progress-bar-30')
+  const wrapper = qs('.tonic--wrapper', bar)
+  const progress = qs('.tonic--progress', wrapper)
+
+  t.ok(bar)
+  t.ok(wrapper)
+  t.ok(progress)
+
+  const wrapperStyles = window.getComputedStyle(wrapper)
+
+  const styles = window.getComputedStyle(progress)
+
+  const outerWidth = parseInt(wrapperStyles.width, 10)
+  const innerWidth = parseInt(styles.width, 10)
+  t.ok(innerWidth / outerWidth === 0.3)
+
+  t.equal(styles.height, '15px')
+  t.equal(styles.backgroundColor, 'rgb(255, 102, 102)')
+
+  t.end()
+})

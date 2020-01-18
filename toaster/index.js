@@ -7,7 +7,7 @@ class TonicToaster extends Tonic {
     }
   }
 
-  stylesheet () {
+  static stylesheet () {
     return `
       tonic-toaster * {
         box-sizing: border-box;
@@ -240,11 +240,15 @@ class TonicToaster extends Tonic {
       position
     } = this.props
 
-    const positionAttr = position ? `tonic--${position}` : ''
-
     if (theme) this.classList.add(`tonic--theme--${theme}`)
 
-    return `<div class="tonic--wrapper ${positionAttr}"></div>`
+    const classes = ['tonic--wrapper']
+    if (position) classes.push(`tonic--${position}`)
+
+    return this.html`
+      <div class="${classes.join(' ')}">
+      </div>
+    `
   }
 }
 

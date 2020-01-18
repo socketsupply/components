@@ -7,7 +7,7 @@ class TonicToasterInline extends Tonic {
     }
   }
 
-  stylesheet () {
+  static stylesheet () {
     return `
       tonic-toaster-inline svg {
         width: inherit;
@@ -17,8 +17,8 @@ class TonicToasterInline extends Tonic {
       tonic-toaster-inline .tonic--notification {
         max-height: 0;
         position: relative;
-        background-color: var(--tonic-window);
-        border: 1px solid var(--tonic-border);
+        background-color: var(--tonic-window, #fff);
+        border: 1px solid var(--tonic-border, #ccc);
         border-radius: 3px;
         -webkit-transform: scale(0.95);
         -ms-transform: scale(0.95);
@@ -56,13 +56,13 @@ class TonicToasterInline extends Tonic {
       }
 
       tonic-toaster-inline .tonic--title {
-        color: var(--tonic-primary);
-        font: 14px/18px var(--tonic-subheader);
+        color: var(--tonic-primary, #333);
+        font: 14px/18px var(--tonic-subheader, 'Arial', sans-serif);
       }
 
       tonic-toaster-inline .tonic--message {
-        font: 14px/18px var(--tonic-subheader);
-        color: var(--tonic-medium);
+        font: 14px/18px var(--tonic-subheader, 'Arial', sans-serif);
+        color: var(--tonic-medium, #999);
       }
 
       tonic-toaster-inline .tonic--notification .tonic--icon {
@@ -139,8 +139,8 @@ class TonicToasterInline extends Tonic {
           <use
             href="#close"
             xlink:href="#close"
-            color="var(--tonic-primary)"
-            fill="var(--tonic-primary)">
+            color="var(--tonic-primary, #333)"
+            fill="var(--tonic-primary, #333)">
           </use>
         </svg>
       </div>
@@ -157,8 +157,8 @@ class TonicToasterInline extends Tonic {
           <use
             href="#${type}"
             xlink:href="#${type}"
-            color="var(--tonic-${type})"
-            fill="var(--tonic-${type})">
+            color="var(--tonic-${type}, #f66)"
+            fill="var(--tonic-${type}, #f66)">
           </use>
         </svg>
       </div>
@@ -168,7 +168,7 @@ class TonicToasterInline extends Tonic {
   styles () {
     return {
       type: {
-        'border-color': `var(--tonic-${this.props.type})`
+        'border-color': `var(--tonic-${this.props.type}, #f66)`
       }
     }
   }
@@ -185,18 +185,16 @@ class TonicToasterInline extends Tonic {
       this.setAttribute('theme', theme)
     }
 
-    let typeClasses = ''
-    let styles = []
-
+    const classes = ['tonic--notification']
     if (type) {
-      typeClasses = `tonic--alert tonic--${type}`
-      styles.push('type')
+      classes.push('tonic--alert', `tonic--${type}`)
     }
 
-    styles = styles.join('')
-
     return this.html`
-      <div class="tonic--notification ${typeClasses}" styles="${styles}">
+      <div ... ${{
+        class: classes.join(' '),
+        styles: type ? 'type' : ''
+      }}>
         ${this.renderIcon()}
         ${this.renderClose()}
         <div class="tonic--main">

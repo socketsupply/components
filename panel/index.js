@@ -21,15 +21,15 @@ class Panel extends Tonic {
     }
   }
 
-  stylesheet () {
+  static stylesheet () {
     return `
       .tonic--panel .tonic--panel--inner {
-        color: var(--tonic-primary);
+        color: var(--tonic-primary, #333);
         width: 500px;
         position: fixed;
         bottom: 0;
         top: 0;
-        background-color: var(--tonic-window);
+        background-color: var(--tonic-window, #fff);
         box-shadow: 0px 0px 28px 0 rgba(0,0,0,0.05);
         transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out, visibility 0.3s ease;
         opacity: 0;
@@ -45,7 +45,7 @@ class Panel extends Tonic {
         -webkit-transform: translateX(-500px);
         -ms-transform: translateX(-500px);
         transform: translateX(-500px);
-        border-right: 1px solid var(--tonic-border);
+        border-right: 1px solid var(--tonic-border, #333);
         visibility: hidden;
       }
 
@@ -54,7 +54,7 @@ class Panel extends Tonic {
         -webkit-transform: translateX(500px);
         -ms-transform: translateX(500px);
         transform: translateX(500px);
-        border-left: 1px solid var(--tonic-border);
+        border-left: 1px solid var(--tonic-border, #333);
         visibility: hidden;
       }
 
@@ -180,7 +180,7 @@ class Panel extends Tonic {
     closeIcon.appendChild(svg)
     svg.appendChild(use)
 
-    const iconColor = color || 'var(--tonic-primary)'
+    const iconColor = color || 'var(--tonic-primary, #333)'
 
     use.setAttributeNS(xlinkns, 'href', '#close')
     use.setAttributeNS(xlinkns, 'xlink:href', '#close')

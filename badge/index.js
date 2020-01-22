@@ -18,7 +18,7 @@ class TonicBadge extends Tonic {
     this.reRender()
   }
 
-  stylesheet () {
+  static stylesheet () {
     return `
       tonic-badge * {
         box-sizing: border-box;
@@ -30,7 +30,7 @@ class TonicBadge extends Tonic {
         text-align: center;
         padding: 10px;
         position: relative;
-        background-color: var(--tonic-background);
+        background-color: var(--tonic-background, #fff);
         border-radius: 8px;
       }
 
@@ -42,8 +42,8 @@ class TonicBadge extends Tonic {
         position: absolute;
         top: 7px;
         right: 6px;
-        background-color: var(--tonic-notification);
-        border: 2px solid var(--tonic-background);
+        background-color: var(--tonic-notification, #f66);
+        border: 2px solid var(--tonic-background, #fff);
         border-radius: 50%;
       }
 
@@ -52,8 +52,8 @@ class TonicBadge extends Tonic {
       }
 
       tonic-badge span {
-        color: var(--tonic-primary);
-        font: 15px var(--tonic-subheader);
+        color: var(--tonic-primary, #333);
+        font: 15px var(--tonic-subheader, 'Arial', sans-serif);
         letter-spacing: 1px;
         text-align: center;
       }
@@ -86,13 +86,13 @@ class TonicBadge extends Tonic {
 
     if (theme) this.classList.add(`tonic--theme--${theme}`)
 
-    const countAttr = (count > 99) ? '99' : count
-
-    const newAttr = (count > 0) ? 'tonic--new' : ''
+    const countText = (count > 99) ? '99' : String(count)
+    const classes = ['tonic--notifications']
+    if (count > 0) classes.push('tonic--new')
 
     return this.html`
-      <div class="tonic--notifications ${newAttr}">
-        <span>${String(countAttr)}</span>
+      <div ... ${{ class: classes.join(' ') }}>
+        <span>${countText}</span>
       </div>
     `
   }

@@ -42,7 +42,7 @@ class TonicRange extends Tonic {
     this.setValue(e.target.value || this.props.value)
   }
 
-  stylesheet () {
+  static stylesheet () {
     return `
       tonic-range  {
         position: relative;
@@ -53,7 +53,7 @@ class TonicRange extends Tonic {
       }
 
       tonic-range label {
-        font: 13px var(--tonic-subheader);
+        font: 13px var(--tonic-subheader, 'Arial', sans-serif);
         letter-spacing: 1px;
         text-align: center;
         position: absolute;
@@ -67,12 +67,12 @@ class TonicRange extends Tonic {
         padding: 0;
         width: 50%;
         height: 4px;
-        background-color: var(--tonic-background);
-        background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, var(--tonic-accent)), color-stop(100%, var(--tonic-accent)));
-        background-image: -webkit-linear-gradient(var(--tonic-accent), var(--tonic-accent));
-        background-image: -moz-linear-gradient(var(--tonic-accent), var(--tonic-accent));
-        background-image: -o-linear-gradient(var(--tonic-accent), var(--tonic-accent));
-        background-image: linear-gradient(var(--tonic-accent), var(--tonic-accent));
+        background-color: var(--tonic-background, #fff);
+        background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, var(--tonic-accent, #f66)), color-stop(100%, var(--tonic-accent, #f66)));
+        background-image: -webkit-linear-gradient(var(--tonic-accent, #f66), var(--tonic-accent, #f66));
+        background-image: -moz-linear-gradient(var(--tonic-accent, #f66), var(--tonic-accent, #f66));
+        background-image: -o-linear-gradient(var(--tonic-accent, #f66), var(--tonic-accent, #f66));
+        background-image: linear-gradient(var(--tonic-accent, #f66), var(--tonic-accent, #f66));
         background-size: 50% 100%;
         background-repeat: no-repeat;
         border-radius: 0;
@@ -81,11 +81,11 @@ class TonicRange extends Tonic {
       }
 
       tonic-range input[type="range"]:disabled {
-        background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, var(--tonic-border)), color-stop(100%, var(--tonic-border)));
-        background-image: -webkit-linear-gradient(var(--tonic-border), var(--tonic-border));
-        background-image: -moz-linear-gradient(var(--tonic-border), var(--tonic-border));
-        background-image: -o-linear-gradient(var(--tonic-border), var(--tonic-border));
-        background-image: linear-gradient(var(--tonic-border), var(--tonic-border));
+        background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, var(--tonic-border, #ccc)), color-stop(100%, var(--tonic-border, #ccc)));
+        background-image: -webkit-linear-gradient(var(--tonic-border, #ccc), var(--tonic-border, #ccc));
+        background-image: -moz-linear-gradient(var(--tonic-border, #ccc), var(--tonic-border, #ccc));
+        background-image: -o-linear-gradient(var(--tonic-border, #ccc), var(--tonic-border, #ccc));
+        background-image: linear-gradient(var(--tonic-border, #ccc), var(--tonic-border, #ccc));
       }
 
       tonic-range input[type="range"]::-webkit-slider-runnable-track {
@@ -139,7 +139,7 @@ class TonicRange extends Tonic {
   renderLabel () {
     if (!this.props.label) return ''
     const value = this.props.value
-    return `<label>${this.getLabelValue(value)}</label>`
+    return this.html`<label>${this.getLabelValue(value)}</label>`
   }
 
   styles () {
@@ -180,35 +180,30 @@ class TonicRange extends Tonic {
       tabindex
     } = this.props
 
-    const disabledAttr = disabled && disabled === 'true' ? 'disabled="true"' : ''
-    const minAttr = min ? `min="${min}"` : ''
-    const maxAttr = max ? `max="${max}"` : ''
-    const stepAttr = step ? `step="${step}"` : ''
-
     if (width) this.style.width = width
     if (height) this.style.width = height
     if (theme) this.classList.add(`tonic--theme--${theme}`)
     if (tabindex) this.removeAttribute('tabindex')
 
     const value = this.props.value || this.state.value
-    const valueAttr = value && value !== 'undefined' ? `value="${value}"` : ''
-    const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
+    if (typeof this.state.value === 'undefined') {
+      this.state.value = value
+    }
 
-    this.setState(state => Object.assign({}, state, { value }))
-
-    const attributes = [
-      valueAttr,
-      minAttr,
-      maxAttr,
-      stepAttr,
-      disabledAttr,
-      tabAttr
-    ].join(' ')
-
-    return `
+    return this.html`
       ${this.renderLabel()}
       <div class="tonic--wrapper" styles="width">
-        <input type="range" styles="width" id="${id}" ${attributes}/>
+        <input ... ${{
+          type: 'range',
+          styles: 'width',
+          id,
+          value,
+          tabindex,
+          step,
+          min,
+          max,
+          disabled: disabled === 'true'
+        }}/>
       </div>
     `
   }

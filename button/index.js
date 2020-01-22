@@ -31,33 +31,33 @@ class TonicButton extends Tonic {
     }
   }
 
-  stylesheet () {
+  static stylesheet () {
     return `
       tonic-button {
         display: inline-block;
       }
 
       tonic-button button {
-        color: var(--tonic-button);
+        color: var(--tonic-button, #333);
         width: auto;
         min-height: 40px;
-        font: 12px var(--tonic-subheader);
+        font: 12px var(--tonic-subheader, 'Arial', sans-serif);
         font-weight: 400;
         text-transform: uppercase;
         letter-spacing: 1px;
         padding: 8px 8px 5px 8px;
         position: relative;
         background-color: transparent;
-        border: 1px solid var(--tonic-button);
+        border: 1px solid var(--tonic-button, #333);
         transition: all 0.3s ease;
         appearance: none;
       }
 
       tonic-button button[disabled],
       tonic-button button.tonic--active {
-        color: var(--tonic-medium);
-        background-color: var(--tonic-background);
-        border-color: var(--tonic-background);
+        color: var(--tonic-medium, #999);
+        background-color: var(--tonic-background, #fff);
+        border-color: var(--tonic-background, #fff);
       }
 
       tonic-button button[disabled] {
@@ -67,24 +67,24 @@ class TonicButton extends Tonic {
 
       tonic-button button:not([disabled]):hover,
       tonic-button button:not(.tonic--loading):hover {
-        color: var(--tonic-window) !important;
-        background-color: var(--tonic-button) !important;
-        border-color: var(--tonic-button) !important;
+        color: var(--tonic-window, #fff) !important;
+        background-color: var(--tonic-button, #333) !important;
+        border-color: var(--tonic-button, #333) !important;
         cursor: pointer;
       }
 
       tonic-button button.tonic--loading {
         color: transparent !important;
-        background: var(--tonic-medium);
-        border-color: var(--tonic-medium);
+        background: var(--tonic-medium, #999);
+        border-color: var(--tonic-medium, #999);
         transition: all 0.3s ease;
         pointer-events: none;
       }
 
       tonic-button button.tonic--loading:hover {
         color: transparent !important;
-        background: var(--tonic-medium) !important;
-        border-color: var(--tonic-medium) !important;
+        background: var(--tonic-medium, #999) !important;
+        border-color: var(--tonic-medium, #999) !important;
       }
 
       tonic-button button.tonic--loading:before {
@@ -190,11 +190,6 @@ class TonicButton extends Tonic {
       tabindex
     } = this.props
 
-    const disabledAttr = disabled && disabled !== 'false' ? 'disabled' : ''
-    const valueAttr = value ? `value="${value}"` : ''
-    const typeAttr = type ? `type="${type}"` : ''
-    const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
-
     let classes = []
 
     if (active) classes.push('tonic--active')
@@ -210,22 +205,19 @@ class TonicButton extends Tonic {
       label = this.textContent || type || 'Button'
     }
 
-    const attributes = [
-      valueAttr,
-      typeAttr,
-      tabAttr
-    ].join(' ')
-
-    return `
+    return this.html`
       <div class="tonic--button--wrapper" styles="wrapper">
-        <button
-          styles="button"
-          async="${async}"
-          ${disabledAttr}
-          autofocus="${autofocus}"
-          alt="${label}"
-          ${attributes}
-          class="${classes}">${label}</button>
+        <button ... ${{
+          styles: 'button',
+          async: String(async),
+          disabled: disabled && disabled !== 'false',
+          autofocus,
+          alt: label,
+          value,
+          type,
+          tabindex,
+          class: classes
+        }}>${label}</button>
       </div>
     `
   }

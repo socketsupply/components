@@ -4,11 +4,11 @@ class TonicIcon extends Tonic {
   defaults () {
     return {
       size: '25px',
-      fill: 'var(--tonic-primary)'
+      fill: 'var(--tonic-primary, #333)'
     }
   }
 
-  stylesheet () {
+  static stylesheet () {
     return `
       tonic-icon svg path {
         fill: inherit;
@@ -39,21 +39,22 @@ class TonicIcon extends Tonic {
       tabindex
     } = this.props
 
-    const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
     if (tabindex) this.removeAttribute('tabindex')
-
     if (theme) this.classList.add(`tonic--theme--${theme}`)
 
     return this.html`
-      <svg
-        ${tabAttr}
-        styles="icon">
-        <use
-          href="${src || ''}#${symbolId}"
-          xlink:href="${src || ''}#${symbolId}"
-          width="${size}"
-          ${fill ? `fill="${fill}" color="${fill}"` : ''}
-          height="${size}">
+      <svg ... ${{
+        styles: 'icon',
+        tabindex
+      }}>
+        <use ... ${{
+          href: `${src || ''}#${symbolId}`,
+          'xlink:href': `${src || ''}#${symbolId}`,
+          width: size,
+          fill,
+          color: fill,
+          height: size
+        }}>
       </svg>
     `
   }

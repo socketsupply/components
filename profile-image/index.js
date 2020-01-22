@@ -16,7 +16,7 @@ class TonicProfileImage extends Tonic {
     }
   }
 
-  stylesheet () {
+  static stylesheet () {
     return `
       tonic-profile-image {
         display: inline-block;
@@ -168,11 +168,13 @@ class TonicProfileImage extends Tonic {
     } = this.props
 
     if (theme) this.classList.add(`tonic--theme--${theme}`)
-    const editableAttr = editable && (editable === 'true') ? 'tonic--editable' : ''
 
-    return `
+    const classes = ['tonic--wrapper']
+    if (editable === 'true') classes.push('tonic--editable')
+
+    return this.html`
       <div
-        class="tonic--wrapper ${editableAttr}"
+        class="${classes.join(' ')}"
         styles="wrapper">
 
         <div

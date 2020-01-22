@@ -1,4 +1,6 @@
 const { html } = require('../test/util')
+const components = require('..')
+components(require('@optoolco/tonic'))
 
 document.body.appendChild(html`
 <section id="tooltip">

@@ -1,3 +1,5 @@
+const tape = require('tape')
+const { qs } = require('qs')
 const { html } = require('../test/util')
 const components = require('..')
 components(require('@optoolco/tonic'))
@@ -133,3 +135,22 @@ const rangeValue = document.getElementById('range-thumb-value-js')
 rangeValue.value = 15
 
 // TODO: convert to tape tests
+tape('test a range elem', t => {
+  const range = qs('#range-default')
+  const range2 = qs('#range-thumb-value')
+
+  t.equal(range.value, '50')
+  t.equal(range2.value, '90')
+
+  const input = qs('input', range)
+  t.ok(input)
+
+  const styles = window.getComputedStyle(input)
+  t.equal(styles.height, '4px')
+
+  const input2 = qs('input', range2)
+  const styles2 = window.getComputedStyle(input2)
+  t.equal(styles2.backgroundSize, '90% 100%')
+
+  t.end()
+})

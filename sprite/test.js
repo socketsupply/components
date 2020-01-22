@@ -1,15 +1,43 @@
+const tape = require('tape')
+const { qs } = require('qs')
 const { html } = require('../test/util')
+const components = require('..')
+components(require('@optoolco/tonic'))
 
 document.body.appendChild(html`
 <section id="sprite">
+  <tonic-sprite></tonic-sprite>
   <h2>Sprite</h2>
 
   <!-- Default inline toaster -->
   <div class="test-container">
     <span>Sprite</span>
+    <svg id="svg-close">
+      <use href="#close" xlink:href="#close"></use>
+    </svg>
   </div>
 
 </section>
 `)
 
-// TODO write tests
+tape('test an icon', t => {
+  const svg = qs('#svg-close')
+  const use = qs('use', svg)
+
+  t.ok(svg)
+  t.ok(svg.querySelector('use'))
+
+  const size = use.getBoundingClientRect()
+  t.equal(Math.floor(size.height), 92)
+  t.equal(Math.floor(size.width), 92)
+
+  const sprite = qs('tonic-sprite')
+  t.ok(sprite)
+
+  const spriteSize = sprite
+    .querySelector('svg')
+    .getBoundingClientRect()
+  t.equal(spriteSize.height, 0)
+
+  t.end()
+})

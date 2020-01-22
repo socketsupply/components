@@ -73,13 +73,17 @@ tape('{{icon-2}} has size attribute', t => {
   const container = qs('#icon-2')
   const component = qs('tonic-icon', container)
   const svg = qs('svg', component)
+  const use = qs('use', component)
 
-  t.plan(4)
+  t.plan(6)
 
   t.ok(component.firstElementChild, 'the component was constructed')
   t.ok(component.hasAttribute('size'), 'the component has the size attribute')
   t.equal(component.getAttribute('size'), svg.style.width, 'the size attribute matches svg width')
   t.equal(component.getAttribute('size'), svg.style.height, 'the size attribute matches svg height')
+
+  t.equal(use.getAttribute('width'), component.getAttribute('size'))
+  t.equal(use.getAttribute('height'), component.getAttribute('size'))
 
   t.end()
 })
@@ -107,12 +111,13 @@ tape('{{icon-4}} uses custom symbol', t => {
   const use = qs('use', component)
   const url = `${src}#${id}`
 
-  t.plan(4)
+  t.plan(5)
 
   t.ok(svg, 'the component was constructed with an svg')
   t.ok(id, 'the component has symbol id')
   t.ok(src, 'the component has src')
   t.equal(use.getAttribute('href'), url, 'the href attribute contains the correct url')
+  t.equal(use.getAttribute('xlink:href'), url)
 
   t.end()
 })

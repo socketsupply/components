@@ -55,3 +55,16 @@ tape('{{badge-2}} shows a count', t => {
 
   t.end()
 })
+
+tape('badge shows tonic--new style', t => {
+  const span1 = qs('#badge-1 tonic-badge span')
+  const span2 = qs('#badge-2 tonic-badge span')
+
+  const styles1 = window.getComputedStyle(span1, ':after')
+  const styles2 = window.getComputedStyle(span2, ':after')
+
+  t.equal(styles1.display, 'none')
+  t.equal(styles2.display, 'block')
+
+  t.end()
+})

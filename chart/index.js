@@ -12,7 +12,7 @@ class TonicChart extends Tonic {
     }
   }
 
-  stylesheet () {
+  static stylesheet () {
     return `
       tonic-chart {
         display: inline-block;
@@ -73,7 +73,7 @@ class TonicChart extends Tonic {
       data = src
     }
 
-    if (data.chartData) {
+    if (data && data.chartData) {
       throw new Error('chartData propery deprecated')
     }
 
@@ -91,8 +91,8 @@ class TonicChart extends Tonic {
     this.style.width = width
     this.style.height = height
 
-    return `
-      <canvas width="${width}" height="${height}">
+    return this.html`
+      <canvas ... ${{ width, height }}>
       </canvas>
     `
   }

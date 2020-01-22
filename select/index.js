@@ -10,7 +10,7 @@ class TonicSelect extends Tonic {
     }
   }
 
-  stylesheet () {
+  static stylesheet () {
     return `
       tonic-select .tonic--wrapper {
         position: relative;
@@ -31,8 +31,8 @@ class TonicSelect extends Tonic {
 
       tonic-select.tonic--loading select {
         color: transparent;
-        background-color: var(--tonic-window);
-        border-color: var(--tonic-border);
+        background-color: var(--tonic-window, #fff);
+        border-color: var(--tonic-border, #ccc);
       }
 
       tonic-select.tonic--loading .tonic--wrapper:before {
@@ -44,7 +44,7 @@ class TonicSelect extends Tonic {
         left: 50%;
         opacity: 1;
         transform: translateX(-50%);
-        border: 2px solid var(--tonic-medium);
+        border: 2px solid var(--tonic-medium, #999);
         border-radius: 50%;
         border-top-color: transparent;
         animation: spin 1s linear 0s infinite;
@@ -52,12 +52,12 @@ class TonicSelect extends Tonic {
       }
 
       tonic-select select {
-        color: var(--tonic-primary);
-        font: 14px var(--tonic-monospace);
-        background-color: var(--tonic-window);
+        color: var(--tonic-primary, #333);
+        font: 14px var(--tonic-monospace, 'Andale Mono', monospace);
+        background-color: var(--tonic-window, #fff);
         background-repeat: no-repeat;
         background-position: center right;
-        border: 1px solid var(--tonic-border);
+        border: 1px solid var(--tonic-border, #ccc);
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
@@ -69,12 +69,12 @@ class TonicSelect extends Tonic {
       }
 
       tonic-select select[disabled] {
-        background-color: var(--tonic-background);
+        background-color: var(--tonic-background, #fff);
       }
 
       tonic-select label {
-        color: var(--tonic-medium);
-        font: 12px/14px var(--tonic-subheader);
+        color: var(--tonic-medium, #999);
+        font: 12px/14px var(--tonic-subheader, 'Arial', sans-serif);
         font-weight: 500;
         text-transform: uppercase;
         letter-spacing: 1px;
@@ -159,7 +159,7 @@ class TonicSelect extends Tonic {
 
   renderLabel () {
     if (!this.props.label) return ''
-    return `<label>${this.props.label}</label>`
+    return this.html`<label>${this.props.label}</label>`
   }
 
   styles () {
@@ -209,30 +209,23 @@ class TonicSelect extends Tonic {
       tabindex
     } = this.props
 
-    const disabledAttr = disabled && disabled === 'true' ? 'disabled="true"' : ''
-    const multipleAttr = multiple && multiple === 'true' ? 'multiple="true"' : ''
-    const nameAttr = name ? `name="${name}"` : ''
-    const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
-    const sizeAttr = size ? `size="${size}"` : ''
-
     if (width) this.style.width = width
     if (height) this.style.width = height
     if (theme) this.classList.add(`tonic--theme--${theme}`)
     if (tabindex) this.removeAttribute('tabindex')
 
-    const attributes = [
-      disabledAttr,
-      multipleAttr,
-      nameAttr,
-      required,
-      sizeAttr,
-      tabAttr
-    ].join(' ')
-
     return this.html`
       <div class="tonic--wrapper" styles="wrapper">
         ${this.renderLabel()}
-        <select styles="select" ${attributes}>
+        <select ... ${{
+          styles: 'select',
+          disabled: disabled === 'true',
+          multiple: multiple === 'true',
+          name,
+          tabindex,
+          required,
+          size
+        }}>
           ${this.childNodes}
         </select>
       </div>

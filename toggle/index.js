@@ -31,7 +31,7 @@ class TonicToggle extends Tonic {
     }))
   }
 
-  stylesheet () {
+  static stylesheet () {
     return `
       tonic-toggle .tonic--toggle--wrapper {
         height: 30px;
@@ -39,9 +39,9 @@ class TonicToggle extends Tonic {
       }
 
       tonic-toggle .tonic--toggle--wrapper > label {
-        color: var(--tonic-medium);
+        color: var(--tonic-medium, #999);
         font-weight: 500;
-        font: 12px/14px var(--tonic-subheader);
+        font: 12px/14px var(--tonic-subheader, 'Arial', sans-serif);
         text-transform: uppercase;
         letter-spacing: 1px;
         margin-left: 58px;
@@ -57,7 +57,7 @@ class TonicToggle extends Tonic {
       }
 
       tonic-toggle .tonic--switch label:before {
-        font: bold 12px var(--tonic-subheader);
+        font: bold 12px var(--tonic-subheader, 'Arial', sans-serif);
         text-transform: uppercase;
       }
 
@@ -75,7 +75,7 @@ class TonicToggle extends Tonic {
         padding: 2px;
         display: block;
         position: relative;
-        background-color: var(--tonic-border);
+        background-color: var(--tonic-border, #ccc);
         border-radius: 60px;
         transition: background 0.4s ease-in-out;
         cursor: default;
@@ -100,7 +100,7 @@ class TonicToggle extends Tonic {
         padding-top: 1px;
         font-size: 0.65em;
         letter-spacing: 0.05em;
-        background-color: var(--tonic-border);
+        background-color: var(--tonic-border, #ccc);
       }
 
       tonic-toggle .tonic--toggle + label:after {
@@ -110,7 +110,7 @@ class TonicToggle extends Tonic {
         top: 4px;
         left: 4px;
         bottom: 4px;
-        background-color: var(--tonic-window);
+        background-color: var(--tonic-window, #fff);
         border-radius: 52px;
         transition: background 0.4s ease-in-out, margin 0.4s ease-in-out;
         display: block;
@@ -132,21 +132,21 @@ class TonicToggle extends Tonic {
       }
 
       tonic-toggle .tonic--toggle:disabled + label:after {
-        background-color: var(--tonic-window);
+        background-color: var(--tonic-window, #fff);
       }
 
       tonic-toggle .tonic--toggle:checked + label {
-        background-color: var(--tonic-accent);
+        background-color: var(--tonic-accent, #f66);
       }
 
       tonic-toggle .tonic--toggle:checked + label:before {
-        background-color: var(--tonic-accent);
+        background-color: var(--tonic-accent, #f66);
         color: var(--tonic-background);
       }
 
       tonic-toggle .tonic--toggle:checked + label:after {
         margin-left: 18px;
-        background-color: var(--tonic-background);
+        background-color: var(--tonic-background, #fff);
       }
     `
   }
@@ -165,7 +165,7 @@ class TonicToggle extends Tonic {
 
     if (!label) return ''
 
-    return `<label for="tonic--toggle--${id}">${label}</label>`
+    return this.html`<label for="tonic--toggle--${id}">${label}</label>`
   }
 
   render () {
@@ -185,38 +185,28 @@ class TonicToggle extends Tonic {
       tabindex
     } = this.props
 
-    const disabledAttr = disabled && disabled === 'true' ? 'disabled' : ''
-
-    const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
     if (tabindex) this.removeAttribute('tabindex')
-
     if (theme) this.classList.add(`tonic--theme--${theme}`)
 
     let checked
-
     if (typeof this.state.checked !== 'undefined') {
       checked = this.state.checked
     } else {
       checked = this.props.checked === 'true'
     }
-
     this.state.checked = checked
-    checked = checked ? 'checked' : ''
 
-    const attributes = [
-      disabledAttr,
-      checked
-    ].join(' ')
-
-    return `
+    return this.html`
       <div class="tonic--toggle--wrapper">
         <div class="tonic--switch">
-          <input
-            ${tabAttr}
-            type="checkbox"
-            class="tonic--toggle"
-            id="tonic--toggle--${id}"
-            ${attributes}/>
+          <input ... ${{
+            type: 'checkbox',
+            class: 'tonic--toggle',
+            id: `tonic--toggle--${id}`,
+            disabled: disabled === 'true',
+            tabindex,
+            checked
+          }}/>
           <label for="tonic--toggle--${id}"></label>
         </div>
         ${this.renderLabel()}

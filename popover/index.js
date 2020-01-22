@@ -20,7 +20,7 @@ class TonicPopover extends Tonic {
     }
   }
 
-  stylesheet () {
+  static stylesheet () {
     return `
       tonic-popover .tonic--overlay {
         position: fixed;
@@ -37,8 +37,8 @@ class TonicPopover extends Tonic {
       tonic-popover .tonic--popover {
         position: absolute;
         top: 30px;
-        background: var(--tonic-window);
-        border: 1px solid var(--tonic-border);
+        background: var(--tonic-window, #fff);
+        border: 1px solid var(--tonic-border, #ccc);
         border-radius: 2px;
         visibility: hidden;
         z-index: -1;

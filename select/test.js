@@ -1,4 +1,8 @@
+const tape = require('tape')
+const { qs } = require('qs')
 const { html } = require('../test/util')
+const components = require('..')
+components(require('@optoolco/tonic'))
 
 document.body.appendChild(html`
 <section id="select">
@@ -7,7 +11,7 @@ document.body.appendChild(html`
   <!-- Default select -->
   <div class="test-container">
     <span>Default Select</span>
-    <tonic-select>
+    <tonic-select id='default-select'>
       <option value="a">Option A</option>
       <option value="b">Option B</option>
       <option value="c">Option C</option>
@@ -190,3 +194,19 @@ document.body.appendChild(html`
 `)
 
 // TODO: write tests
+tape('test a select', t => {
+  const select = qs('#default-select')
+
+  t.ok(select.querySelector('select'))
+  t.equal(
+    select.querySelectorAll('select option').length,
+    3
+  )
+
+  const styles = window.getComputedStyle(
+    select.querySelector('select')
+  )
+  t.equal(styles.color, 'rgb(51, 51, 51)')
+
+  t.end()
+})

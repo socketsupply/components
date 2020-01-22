@@ -96,12 +96,15 @@ tape('{{dialog-1}} is constructed properly, opens and closes properly', async t 
   const close = qs('.tonic--close', component)
   const isShowingInitialState = wrapper.classList.contains('tonic--show')
 
-  t.plan(6)
+  t.plan(7)
 
   t.equal(isShowingInitialState, false, 'the element has no show class')
   t.ok(wrapper, 'the component contains the wrapper')
   t.ok(close, 'the component contains the close button')
   t.ok(component.hasAttribute('id'), 'the component has an id')
+
+  const styles = window.getComputedStyle(wrapper)
+  t.equal(styles.position, 'fixed')
 
   await component.show()
 

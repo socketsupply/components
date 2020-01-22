@@ -16,15 +16,15 @@ class TonicTextarea extends Tonic {
     }
   }
 
-  stylesheet () {
+  static stylesheet () {
     return `
       tonic-textarea textarea {
-        color: var(--tonic-primary);
+        color: var(--tonic-primary, #333);
         width: 100%;
-        font: 14px var(--tonic-monospace);
+        font: 14px var(--tonic-monospace, 'Andale Mono', monospace);
         padding: 10px;
         background-color: transparent;
-        border: 1px solid var(--tonic-border);
+        border: 1px solid var(--tonic-border, #ccc);
         transition: border 0.2s ease-in-out;
         -webkit-appearance: none;
         -moz-appearance: none;
@@ -32,21 +32,21 @@ class TonicTextarea extends Tonic {
       }
 
       tonic-textarea textarea:focus {
-        border: 1px solid var(--tonic-primary);
+        border: 1px solid var(--tonic-primary, #333);
       }
 
       tonic-textarea textarea:invalid {
-        border-color: var(--tonic-danger);
+        border-color: var(--tonic-danger, #f66);
       }
 
       tonic-textarea textarea[disabled] {
-        background-color: var(--tonic-background);
+        background-color: var(--tonic-background, #fff);
       }
 
       tonic-textarea label {
-        color: var(--tonic-medium);
+        color: var(--tonic-medium, #999);
         font-weight: 500;
-        font: 12px/14px var(--tonic-subheader);
+        font: 12px/14px var(--tonic-subheader,  'Arial', sans-serif);
         text-transform: uppercase;
         letter-spacing: 1px;
         padding-bottom: 10px;
@@ -81,7 +81,11 @@ class TonicTextarea extends Tonic {
 
   renderLabel () {
     if (typeof this.props.label === 'undefined') return ''
-    return `<label for="tonic--textarea_${this.props.id}">${this.props.label}</label>`
+    return this.html`
+      <label
+        for="tonic--textarea_${this.props.id}"
+      >${this.props.label}</label>
+    `
   }
 
   willConnect () {
@@ -122,22 +126,7 @@ class TonicTextarea extends Tonic {
       width
     } = this.props
 
-    const ariaLabelAttr = label ? `aria-label="${label}"` : ''
-    const ariaLabelledByAttr = ariaLabelledby ? `aria-labelledby="${ariaLabelledby}"` : ''
-    const colsAttr = cols ? `cols="${cols}"` : ''
-    const disabledAttr = disabled && disabled === 'true' ? 'disabled="true"' : ''
-    const maxAttr = maxlength ? `maxlength="${maxlength}"` : ''
-    const minAttr = minlength ? `minlength="${minlength}"` : ''
-    const nameAttr = name ? `name="${name}"` : ''
-    const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
-    const rowsAttr = rows ? `rows="${rows}"` : ''
-    const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
-    const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
-    const autofocusAttr = autofocus ? 'autofocus' : ''
-    const requiredAttr = required ? 'required' : ''
-    const readonlyAttr = readonly ? 'readonly' : ''
-
-    if (ariaLabelledByAttr) this.removeAttribute('ariaLabelled')
+    if (ariaLabelledby) this.removeAttribute('ariaLabelled')
     if (width) this.style.width = width
     if (height) this.style.height = height
     if (tabindex) this.removeAttribute('tabindex')
@@ -146,30 +135,27 @@ class TonicTextarea extends Tonic {
 
     if (this.props.value === 'undefined') this.props.value = ''
 
-    const attributes = [
-      ariaLabelAttr,
-      ariaLabelledByAttr,
-      autofocusAttr,
-      colsAttr,
-      disabledAttr,
-      maxAttr,
-      minAttr,
-      nameAttr,
-      placeholderAttr,
-      readonlyAttr,
-      requiredAttr,
-      rowsAttr,
-      spellcheckAttr,
-      tabAttr
-    ].join(' ')
-
-    return `
+    return this.html`
       <div class="tonic--wrapper">
         ${this.renderLabel()}
-        <textarea
-          styles="textarea"
-          id="tonic--textarea_${this.props.id}"
-          ${attributes}>${this.props.value}</textarea>
+        <textarea ... ${{
+          styles: 'textarea',
+          id: `tonic--textarea_${this.props.id}`,
+          'aria-label': label,
+          'aria-labelledby': ariaLabelledby,
+          cols,
+          disabled: disabled === 'true',
+          maxlength,
+          minlength,
+          name,
+          placeholder,
+          rows,
+          spellcheck,
+          tabindex,
+          autofocus,
+          required,
+          readonly
+        }}>${this.props.value}</textarea>
       </div>
     `
   }

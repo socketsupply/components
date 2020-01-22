@@ -44,7 +44,7 @@ class TonicInput extends Tonic {
     }))
   }
 
-  stylesheet () {
+  static stylesheet () {
     return `
       tonic-input .tonic--wrapper {
         position: relative;
@@ -72,9 +72,9 @@ class TonicInput extends Tonic {
       }
 
       tonic-input label {
-        color: var(--tonic-medium);
+        color: var(--tonic-medium, #999);
         font-weight: 500;
-        font: 12px/14px var(--tonic-subheader);
+        font: 12px/14px var(--tonic-subheader, 'Arial', sans-serif);
         text-transform: uppercase;
         letter-spacing: 1px;
         padding-bottom: 10px;
@@ -82,11 +82,11 @@ class TonicInput extends Tonic {
       }
 
       tonic-input input {
-        color: var(--tonic-primary);
-        font: 14px var(--tonic-monospace);
+        color: var(--tonic-primary, #333);
+        font: 14px var(--tonic-monospace, 'Andale Mono', monospace);
         padding: 10px;
         background-color: transparent;
-        border: 1px solid var(--tonic-border);
+        border: 1px solid var(--tonic-border, #ccc);
         transition: border 0.2s ease-in-out;
         -webkit-appearance: none;
         -moz-appearance: none;
@@ -94,11 +94,11 @@ class TonicInput extends Tonic {
       }
 
       tonic-input input:invalid {
-        border-color: var(--tonic-error);
+        border-color: var(--tonic-error, #f66);
       }
 
       tonic-input input:invalid:focus {
-        border-color: var(--tonic-error);
+        border-color: var(--tonic-error, #f66);
       }
 
       tonic-input input:invalid ~ .tonic--invalid {
@@ -109,11 +109,11 @@ class TonicInput extends Tonic {
       }
 
       tonic-input input:focus {
-        border-color: var(--tonic-primary);
+        border-color: var(--tonic-primary, #333);
       }
 
       tonic-input input[disabled] {
-        background-color: var(--tonic-background);
+        background-color: var(--tonic-background, #fff);
       }
 
       tonic-input[label] .tonic--invalid {
@@ -137,7 +137,7 @@ class TonicInput extends Tonic {
       tonic-input .tonic--invalid span {
         color: white;
         padding: 2px 6px;
-        background-color: var(--tonic-error);
+        background-color: var(--tonic-error, #f66);
         border-radius: 2px;
         position: relative;
         display: inline-block;
@@ -155,20 +155,24 @@ class TonicInput extends Tonic {
         transform: translateX(-50%);
         border-left: 6px solid transparent;
         border-right: 6px solid transparent;
-        border-top: 6px solid var(--tonic-error);
+        border-top: 6px solid var(--tonic-error, #f66);
       }
     `
   }
 
   renderLabel () {
     if (!this.props.label) return ''
-    return `<label for="tonic--input_${this.props.id}">${this.props.label}</label>`
+    return this.html`
+      <label
+        for="tonic--input_${this.props.id}"
+      >${this.props.label}</label>
+    `
   }
 
   renderIcon () {
     if (!this.props.src) return ''
 
-    return `
+    return this.html`
       <tonic-icon
         src="${this.props.src}"
         color="${this.props.color}">
@@ -287,66 +291,53 @@ class TonicInput extends Tonic {
       type
     } = this.props
 
-    const ariaInvalidAttr = ariaInvalid ? `aria-invalid="${ariaInvalid}"` : ''
-    const ariaLabelAttr = label ? `aria-label="${label}"` : ''
-    const ariaLabelledByAttr = ariaLabelledby ? `aria-labelledby="${ariaLabelledby}"` : ''
-    const disabledAttr = disabled && disabled === 'true' ? 'disabled' : ''
-    const maxAttr = max ? `max="${max}"` : ''
-    const maxLengthAttr = maxlength ? `maxlength="${maxlength}"` : ''
-    const minAttr = min ? `min="${min}"` : ''
-    const minLengthAttr = minlength ? `minlength="${minlength}"` : ''
-    const nameAttr = name ? `name="${name}"` : ''
-    const patternAttr = pattern ? `pattern="${pattern}"` : ''
-    const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
-    const positionAttr = position ? `tonic--${position}` : ''
-    const readonlyAttr = readonly && readonly === 'true' ? 'readonly' : ''
-    const requiredAttr = required && required === 'true' ? 'required' : ''
-    const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
-    const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
-    const titleAttr = title ? `title="${title}"` : ''
-    const value = typeof this.state.value === 'string'
-      ? this.state.value : this.props.value
-    const valueAttr = value && value !== 'undefined' ? `value="${value.replace(/"/g, '&quot;')}"` : ''
-
-    if (ariaLabelledByAttr) this.removeAttribute('ariaLabelled')
+    if (ariaLabelledby) this.removeAttribute('ariaLabelledby')
     if (height) this.style.width = height
     if (name) this.removeAttribute('name')
     if (tabindex) this.removeAttribute('tabindex')
     if (theme) this.classList.add(`tonic--theme--${theme}`)
 
-    const attributes = [
-      ariaInvalidAttr,
-      ariaLabelAttr,
-      ariaLabelledByAttr,
-      disabledAttr,
-      maxAttr,
-      maxLengthAttr,
-      minAttr,
-      minLengthAttr,
-      nameAttr,
-      patternAttr,
-      placeholderAttr,
-      readonlyAttr,
-      requiredAttr,
-      spellcheckAttr,
-      tabAttr,
-      titleAttr,
-      valueAttr
-    ].join(' ')
+    const value = typeof this.state.value === 'string'
+      ? this.state.value : this.props.value
 
     const errorMessage = this.props.errorMessage ||
       this.props.errormessage || 'Invalid'
 
-    return `
-      <div class="tonic--wrapper ${positionAttr}" styles="wrapper">
+    const classes = ['tonic--wrapper']
+    if (position) classes.push(`tonic--${position}`)
+
+    const attributes = {
+      ariaInvalid,
+      ariaLabel: label,
+      'aria-labelledby': ariaLabelledby,
+      disabled: disabled === 'true',
+      max,
+      maxlength,
+      min,
+      minlength,
+      name,
+      pattern,
+      placeholder,
+      position,
+      readonly: readonly === 'true',
+      required: required === 'true',
+      spellcheck,
+      tabindex,
+      title,
+      value
+    }
+
+    return this.html`
+      <div class="${classes.join(' ')}" styles="wrapper">
         ${this.renderLabel()}
         ${this.renderIcon()}
 
-        <input
-          styles="input"
-          type="${type}"
-          id="tonic--input_${this.props.id}"
-          ${attributes}/>
+        <input ... ${{
+          styles: 'input',
+          type,
+          id: `tonic--input_${this.props.id}`,
+          ...attributes
+        }}/>
         <div class="tonic--invalid">
           <span id="tonic--error-${this.props.id}">${errorMessage}</span>
         </div>

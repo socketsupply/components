@@ -1,7 +1,12 @@
+const tape = require('tape')
+const { qs } = require('qs')
 const { html } = require('../test/util')
+const components = require('..')
+components(require('@optoolco/tonic'))
 
 document.body.appendChild(html`
 <section id="profile-image">
+  <tonic-sprite></tonic-sprite>
   <h2>Profile Image</h2>
 
   <!-- Profile Image Default -->
@@ -112,3 +117,21 @@ document.body.appendChild(html`
 `)
 
 // TODO: write tests for profile-image
+tape('test a profile image', t => {
+  const img = qs('#profile-image-default')
+  const imgDiv = qs('.tonic--image', img)
+  const input = qs('input', img)
+  const overlay = qs('.tonic--overlay', img)
+
+  t.ok(img)
+  t.ok(imgDiv)
+  t.ok(input)
+  t.ok(overlay)
+
+  const styles = window.getComputedStyle(imgDiv)
+  const styles2 = window.getComputedStyle(overlay)
+  t.equal(styles.position, 'absolute')
+  t.equal(styles2.position, 'absolute')
+
+  t.end()
+})

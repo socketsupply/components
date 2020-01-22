@@ -202,11 +202,14 @@ tape('{{input-4}} is required', t => {
   const component = qs('tonic-input#input-4')
   const input = qs('input', component)
 
-  t.plan(3)
+  t.plan(4)
 
   t.ok(input, 'the component was constructed with an input')
   t.equal(component.getAttribute('required'), 'true', 'component contains required attribute')
   t.equal(input.required, true, 'input is required')
+
+  const styles = window.getComputedStyle(input)
+  t.equal(styles.borderColor, 'rgb(255, 102, 102)')
 
   t.end()
 })

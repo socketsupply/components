@@ -31,7 +31,7 @@ class TonicCheckbox extends Tonic {
     }
   }
 
-  stylesheet () {
+  static stylesheet () {
     return `
       tonic-checkbox .tonic--checkbox--wrapper {
         display: inline-block;
@@ -49,8 +49,8 @@ class TonicCheckbox extends Tonic {
       }
 
       tonic-checkbox label {
-        color: var(--tonic-primary);
-        font: 12px var(--tonic-subheader);
+        color: var(--tonic-primary, #333);
+        font: 12px var(--tonic-subheader, 'Arial', sans-serif);
         font-weight: 500;
         text-transform: uppercase;
         letter-spacing: 1px;
@@ -118,11 +118,12 @@ class TonicCheckbox extends Tonic {
 
     return this.html`
       <svg>
-        <use
-          href="#${iconState}"
-          xlink:href="#${iconState}"
-          color="var(--tonic-primary)"
-          fill="var(--tonic-primary)">
+        <use ... ${{
+          href: `#${iconState}`,
+          'xlink:href': `#${iconState}`,
+          color: 'var(--tonic-primary, #333)',
+          fill: 'var(--tonic-primary, #333)'
+        }}>
         </use>
       </svg>
     `
@@ -138,7 +139,12 @@ class TonicCheckbox extends Tonic {
       label = this.nodes
     }
 
-    return this.html`<label styles="label" for="tonic--checkbox--${id}">${label}</label>`
+    return this.html`
+      <label
+        styles="label"
+        for="tonic--checkbox--${id}"
+      >${label}</label>
+    `
   }
 
   render () {
@@ -164,33 +170,24 @@ class TonicCheckbox extends Tonic {
       this.state.checked = checked
     }
 
-    const checkedAttr = checked ? 'checked' : ''
-    const disabledAttr = disabled && disabled === 'true' ? 'disabled' : ''
-
-    const titleAttr = title ? `title="${title}"` : ''
-
-    const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
     if (tabindex) this.removeAttribute('tabindex')
-
     if (theme) this.classList.add(`tonic--theme--${theme}`)
 
-    const attributes = [
-      disabledAttr,
-      titleAttr,
-      tabAttr
-    ].join(' ')
-
-    return `
+    return this.html`
       <div class="tonic--checkbox--wrapper">
-        <input
-          type="checkbox"
-          id="tonic--checkbox--${id}"
-          ${checkedAttr}
-          ${attributes}/>
+        <input ... ${{
+          type: 'checkbox',
+          id: `tonic--checkbox--${id}`,
+          checked,
+          disabled: disabled === 'true',
+          title,
+          tabindex
+        }}/>
         <label
           for="tonic--checkbox--${id}"
           styles="icon"
-          class="tonic--icon">
+          class="tonic--icon"
+        >
           ${this.renderIcon()}
         </label>
         ${this.renderLabel()}

@@ -23,7 +23,7 @@ class TonicProgressBar extends Tonic {
     }
   }
 
-  stylesheet () {
+  static stylesheet () {
     return `
       tonic-progress-bar {
         display: inline-block;
@@ -32,11 +32,11 @@ class TonicProgressBar extends Tonic {
 
       tonic-progress-bar .tonic--wrapper {
         position: relative;
-        background-color: var(--tonic-background);
+        background-color: var(--tonic-background, #fff);
       }
 
       tonic-progress-bar .tonic--wrapper .tonic--progress {
-        background-color: var(--tonic-accent);
+        background-color: var(--tonic-accent, #f66);
         width: 0%;
         height: 100%;
       }
@@ -52,16 +52,13 @@ class TonicProgressBar extends Tonic {
       },
       progress: {
         width: progress + '%',
-        backgroundColor: this.props.color || 'var(--tonic-accent)'
+        backgroundColor: this.props.color || 'var(--tonic-accent, #f66)'
       }
     }
   }
 
   setProgress (progress) {
-    this.setState(state => Object.assign({}, state, {
-      progress
-    }))
-
+    this.state.progress = progress
     this.reRender()
   }
 

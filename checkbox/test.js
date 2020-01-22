@@ -7,6 +7,7 @@ components(require('@optoolco/tonic'))
 
 document.body.appendChild(html`
 <section id="checkbox">
+  <tonic-sprite></tonic-sprite>
   <h2>Checkbox</h2>
 
   <div id="checkbox-1" class="test-container">
@@ -56,6 +57,14 @@ document.body.appendChild(html`
     </tonic-checkbox>
   </div>
 
+  <div id="checkbox-6-5" class="test-container">
+    <span>title="foo"</span>
+    <tonic-checkbox
+      title="foo"
+      id="tonic-checkbox-title">
+    </tonic-checkbox>
+  </div>
+
   <div id="checkbox-7" class="test-container">
     <span>child elements</span>
     <tonic-checkbox
@@ -96,7 +105,11 @@ tape('{{checkbox-1}} has correct default state', t => {
   const input = qs('input[type="checkbox"]', component)
   const icon = qs('.tonic--icon', component)
 
-  t.plan(5)
+  const label = qs('tonic-checkbox label', container)
+  t.ok(label)
+
+  const styles = window.getComputedStyle(label)
+  t.equal(styles.color, 'rgb(51, 51, 51)')
 
   t.ok(wrapper, 'component constructed with a wrapper')
   t.ok(input, 'component constructed with an input')
@@ -168,7 +181,7 @@ tape('{{checkbox-5}} has size attributes', t => {
   t.end()
 })
 
-tape('{{checkbox-6}} has size attributes', t => {
+tape('{{checkbox-6}} has Tabindex', t => {
   const container = qs('#checkbox-6')
   const component = qs('tonic-checkbox', container)
   const input = qs('input[type="checkbox"]', component)
@@ -179,6 +192,22 @@ tape('{{checkbox-6}} has size attributes', t => {
   t.ok(input.hasAttribute('id'), 'input was constructed with an id')
   t.equal(component.hasAttribute('tabindex'), false, 'component does not have a tabindex')
   t.equal(input.hasAttribute('tabindex'), true, 'input has a tabindex')
+
+  t.end()
+})
+
+tape('{{checkbox-6-5}} has title', t => {
+  const container = qs('#checkbox-6-5')
+  const component = qs('tonic-checkbox', container)
+  const input = qs('input[type="checkbox"]', component)
+
+  t.plan(5)
+
+  t.ok(input, 'component was constructed with an input')
+  t.ok(input.hasAttribute('id'), 'input was constructed with an id')
+  t.equal(component.hasAttribute('title'), true, 'component has title')
+  t.equal(input.hasAttribute('title'), true, 'input has title')
+  t.equal(input.getAttribute('title'), 'foo')
 
   t.end()
 })

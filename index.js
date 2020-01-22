@@ -3,6 +3,14 @@ try {
   Tonic = require('@optoolco/tonic')
 } catch (err) {
   console.error('Missing dependency. Try `npm install @optoolco/tonic`.')
+  throw err
+}
+
+const version = Tonic.version
+const major = version ? version.split('.')[0] : '0'
+if (parseInt(major, 10) < 11) {
+  console.error('Out of data dependency. Try `npm install @optoolco/tonic@11`.')
+  throw new Error('Invalid Tonic version. requires at least v11')
 }
 
 const mode = require('./mode')

@@ -188,7 +188,7 @@ class TonicInput extends Tonic {
     }
 
     const relay = name => {
-      this.dispatchEvent(new window.Event(name))
+      this.dispatchEvent(new window.CustomEvent(name, { bubbles: true }))
     }
 
     input.addEventListener('focus', e => {

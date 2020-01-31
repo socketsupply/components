@@ -152,7 +152,7 @@
   </div>
 </div>
 
-<p><span class="status" data-before="current version" data-after="0.2.2"></span></p>
+<p><span class="status" data-before="current version" data-after="1.0.0"></span></p>
 <div class="row">
   <h3>Features</h3>
   <div class="col">
@@ -625,6 +625,31 @@ add the following to your javascript...</p>
     <section id="api">
       
       <h1 id="apis">APIs</h1>
+<h2>METHODS IMPLEMENTED BY THE COMPONENT DEVELOPER</h2>
+<table>
+<thead>
+<tr>
+<th align="left">Name</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>render()</code></td>
+<td align="left">Required, should return a template literal of HTML. There is no need to call this directly, the browser will call it. Can be <code>sync</code>, <code>async</code> or <code>async generator</code>.</td>
+</tr>
+<tr>
+<td align="left"><code>stylesheet()</code></td>
+<td align="left">Optional, Should return a string of css to be added to a <code>style</code> tag in the component (ideal for components that use a shadow dom).</td>
+</tr>
+<tr>
+<td align="left"><code>static stylesheet()</code></td>
+<td align="left">Optional, Should return a string of css to be lazily added to a <code>style</code> tag in the head (ideal for custom elements with no shadow dom).</td>
+</tr>
+<tr>
+<td align="left"><code>styles()</code></td>
+<td align="left">Optional, Should return an object that represents inline-styles to be applied to the component. Styles are applied by adding a keys from the object to the <code>styles</code> attribute of an html tag in the render function, for example <code>styles=&quot;key1 key2&quot;</code>. Each object&#39;s key-value pair are added to the element&#39;s style object.</td>
+</tr>
+</tbody></table>
 <h2>STATIC METHODS</h2>
 <table>
 <thead>
@@ -634,20 +659,16 @@ add the following to your javascript...</p>
 </tr>
 </thead>
 <tbody><tr>
-<td align="left"><code>add(Class)</code></td>
-<td align="left">Register a class as a new custom-tag and provide options for it.</td>
-</tr>
-<tr>
-<td align="left"><code>init(root?)</code></td>
-<td align="left">Initialize all components (optionally starating at a root node in the DOM). This is called automatically when an <App></App> component is added.</td>
+<td align="left"><code>add(Class, String?)</code></td>
+<td align="left">Register a class as a new custom-tag and provide options for it. You can pass an optional string that is the HTML tagName for the custom component.</td>
 </tr>
 <tr>
 <td align="left"><code>escape(String)</code></td>
 <td align="left">Escapes HTML characters from a string (based on <a href="https://github.com/mathiasbynens/he">he</a>).</td>
 </tr>
 <tr>
-<td align="left"><code>sanitize(Object)</code></td>
-<td align="left">Escapes all the strings found in an object literal.</td>
+<td align="left"><code>raw(String)</code></td>
+<td align="left">Insert raw text in html`...`. Useful when calling <code>super.render()</code> or otherwise delegating to <code>render()</code> of another component. Be careful with calling <code>raw</code> on untrusted text like user input as that is an XSS attack vector.</td>
 </tr>
 <tr>
 <td align="left"><code>match(Node, Selector)</code></td>
@@ -667,37 +688,12 @@ add the following to your javascript...</p>
 <td align="left">Set the properties of a component instance. Can also take a function which will receive the current props as an argument.</td>
 </tr>
 <tr>
-<td align="left"><code>getProps()</code></td>
-<td align="left">Get the properties of a component instance.</td>
-</tr>
-<tr>
 <td align="left"><code>setState(Object &#124; Function)</code></td>
 <td align="left">Set the state of a component instance. Can also take a function which will receive the current props as an argument.</td>
 </tr>
 <tr>
 <td align="left">html`...`</td>
-<td align="left">Interpolated HTML string (use as a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals">tagged template</a>).</td>
-</tr>
-</tbody></table>
-<h2>INSTANCE METHODS IMPLEMENTED BY THE DEVELOPER</h2>
-<table>
-<thead>
-<tr>
-<th align="left">Name</th>
-<th align="left">Description</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="left"><code>stylesheet()</code></td>
-<td align="left">Should return a string of css to be lazily added to a <code>style</code> tag in the head.</td>
-</tr>
-<tr>
-<td align="left"><code>styles()</code></td>
-<td align="left">Should return an object that represents inline-styles to be applied to the component. Styles are applied by adding a keys from the object to the <code>styles</code> attribute of an html tag in the render function, for example <code>styles=&quot;key1 key2&quot;</code>. Each object&#39;s key-value pair are added to the element&#39;s style object.</td>
-</tr>
-<tr>
-<td align="left"><code>render()</code></td>
-<td align="left">Required, should return HTML or nodes to be parsed or a dom node that will overwrite. There is usually no need to call this directly, prefer <code>foo.reRender({ ... })</code>. This function can be async or an async generator.</td>
+<td align="left">Interpolated HTML string (use as a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals">tagged template</a>). Provides...<br/> 1. Pass object references as properties.<br/> 2. Spread operator (ie <code>&lt;a ...${object}&gt;&lt;/a&gt;</code>) which turns ojbects into html properties.<br/> 3. Automatic string escaping.<br/> 4. Render <code>NamedNodeMap</code>, <code>HTMLElement</code>, <code>HTMLCollection</code>, or <code>NodeList</code> as html (ie <code>&lt;a&gt;${span}&lt;/a&gt;</code>).<br/></td>
 </tr>
 </tbody></table>
 <h2>INSTANCE PROPERTIES</h2>

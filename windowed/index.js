@@ -164,6 +164,7 @@ class Windowed extends Tonic {
 
     const inner = this.querySelector('.tonic--windowed--inner')
     inner.appendChild(page)
+    page.__overflow__ = []
     return page
   }
 
@@ -193,6 +194,7 @@ class Windowed extends Tonic {
           await this.updatePage(i)
         } else {
           page.innerHTML = ''
+          page.__overflow__ = []
           await this.fillPage(i)
         }
       }
@@ -255,6 +257,10 @@ class Windowed extends Tonic {
     for (let j = start, rowIdx = 0; j < limit; j++, rowIdx++) {
       if (page.children[rowIdx] && this.updateRow) {
         this.updateRow(await this.getRow(j), j, page.children[rowIdx])
+      } else if (page.__overflow__.length > 0 && this.updateRow) {
+        const child = page.__overflow__.shift()
+        this.updateRow(await this.getRow(j), j, child)
+        page.appendChild(child)
       } else {
         const div = document.createElement('div')
         div.innerHTML = this.renderRow(await this.getRow(j), j)
@@ -263,7 +269,9 @@ class Windowed extends Tonic {
     }
 
     while (page.children.length > limit - start) {
-      page.removeChild(page.lastChild)
+      const child = page.lastChild
+      page.__overflow__.push(child)
+      page.removeChild(child)
     }
   }
 

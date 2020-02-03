@@ -220,7 +220,7 @@ class Windowed extends Tonic {
     return `${i * this.pageHeight}px`
   }
 
-  getLastPageHeight (i) {
+  getLastPageHeight () {
     return `${(this.rows.length % this.props.rowsPerPage) * this.rowHeight}px`
   }
 

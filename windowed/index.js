@@ -100,6 +100,7 @@ class Windowed extends Tonic {
       inner.innerHTML = ''
     }
 
+    this.pages = {}
     this.rowHeight = parseInt(this.props.rowHeight, 10)
     this.pageHeight = this.props.rowsPerPage * this.rowHeight
     this.padding = this.props.rowPadding * this.rowHeight

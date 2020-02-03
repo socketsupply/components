@@ -4,7 +4,7 @@ const mode = require('../mode')
 
 class Windowed extends Tonic {
   constructor (o) {
-    super (o)
+    super(o)
 
     this.prependCounter = 0
     this.currentVisibleRowIndex = -1

@@ -109,14 +109,13 @@ class Windowed extends Tonic {
   }
 
   setInnerHeight () {
+    this.pages = this.pages || {}
+    this.pagesAvailable = this.pagesAvailable || []
     const outer = this.querySelector('.tonic--windowed--outer')
     if (!outer) return
 
     this.outerHeight = outer.offsetHeight
     this.numPages = Math.ceil(this.rows.length / this.props.rowsPerPage)
-
-    this.pages = this.pages || {}
-    this.pagesAvailable = this.pagesAvailable || []
 
     const inner = this.querySelector('.tonic--windowed--inner')
     inner.style.height = `${this.rowHeight * this.rows.length}px`

@@ -3,6 +3,13 @@ const Tonic = require('@optoolco/tonic')
 const mode = require('../mode')
 
 class Windowed extends Tonic {
+  constructor (o) {
+    super (o)
+
+    this.prependCounter = 0
+    this.currentVisibleRowIndex = -1
+  }
+
   get length () {
     return this.rows.length
   }
@@ -65,9 +72,18 @@ class Windowed extends Tonic {
     return this.rows.findIndex(fn)
   }
 
-  splice (...args) {
+  splice () {
     if (!this.rows) return null
-    return this.rows.splice(...args)
+
+    const index = arguments[0]
+    const totalItems = arguments.length - 2
+
+    if (index <= this.currentVisibleRowIndex) {
+      this.prependCounter += totalItems
+      this.currentVisibleRowIndex += totalItems
+    }
+
+    return this.rows.splice.apply(this.rows, arguments)
   }
 
   async getRow (idx) {
@@ -214,6 +230,18 @@ class Windowed extends Tonic {
     if (this.state.scrollTop) {
       outer.scrollTop = this.state.scrollTop
     }
+
+    if (this.prependCounter > 0) {
+      outer.scrollTop += this.prependCounter * this.rowHeight
+
+      this.prependCounter = 0
+    }
+
+    // Set the current visible row index used for tracking
+    // prepends.
+    this.currentVisibleRowIndex = Math.floor(
+      outer.scrollTop / this.rowHeight
+    )
   }
 
   getPageTop (i) {

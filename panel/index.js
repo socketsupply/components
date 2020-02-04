@@ -203,6 +203,8 @@ class Panel extends Tonic {
 
       if (typeof content === 'string') {
         contentContainer.innerHTML = content
+      } else if (content.isTonicRaw) {
+        contentContainer.innerHTML = content.rawText
       } else {
         [...content.childNodes].forEach(el => contentContainer.appendChild(el))
       }

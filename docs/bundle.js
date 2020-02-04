@@ -1148,6 +1148,8 @@ class Dialog extends Tonic {
 
       if (typeof content === 'string') {
         contentContainer.innerHTML = content
+      } else if (content.isTonicRaw) {
+        contentContainer.innerHTML = content.rawText
       } else {
         [...content.childNodes].forEach(el => contentContainer.appendChild(el))
       }
@@ -2798,6 +2800,8 @@ class Panel extends Tonic {
 
       if (typeof content === 'string') {
         contentContainer.innerHTML = content
+      } else if (content.isTonicRaw) {
+        contentContainer.innerHTML = content.rawText
       } else {
         [...content.childNodes].forEach(el => contentContainer.appendChild(el))
       }
@@ -6086,6 +6090,7 @@ class Windowed extends Tonic {
       inner.innerHTML = ''
     }
 
+    this.pages = {}
     this.rowHeight = parseInt(this.props.rowHeight, 10)
     this.pageHeight = this.props.rowsPerPage * this.rowHeight
     this.padding = this.props.rowPadding * this.rowHeight
@@ -6094,14 +6099,13 @@ class Windowed extends Tonic {
   }
 
   setInnerHeight () {
+    this.pages = this.pages || {}
+    this.pagesAvailable = this.pagesAvailable || []
     const outer = this.querySelector('.tonic--windowed--outer')
     if (!outer) return
 
     this.outerHeight = outer.offsetHeight
     this.numPages = Math.ceil(this.rows.length / this.props.rowsPerPage)
-
-    this.pages = this.pages || {}
-    this.pagesAvailable = this.pagesAvailable || []
 
     const inner = this.querySelector('.tonic--windowed--inner')
     inner.style.height = `${this.rowHeight * this.rows.length}px`

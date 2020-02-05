@@ -1873,26 +1873,25 @@ tape('{{dialog-1}} is constructed properly, opens and closes properly', async t 
 
 },{"..":15,"../test/util":104,"./index":10,"@optoolco/tonic":19,"qs":55,"tape":77}],12:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
-const mode = require('../mode')
 
 class TonicForm extends Tonic {
   static isNumber (s) {
-    return !isNaN(parseInt(s, 10))
+    return !isNaN(Number(s))
   }
 
-  static getPropertyValue (o = {}, path = '') {
+  static getPropertyValue (o, path) {
     const parts = path.split('.')
     let value = o
 
     for (const p of parts) {
-      if (!value) return false
+      if (!value) return null
       value = value[p]
     }
 
     return value
   }
 
-  static setPropertyValue (o = {}, path = '', v) {
+  static setPropertyValue (o, path, v) {
     const parts = path.split('.')
     let value = o
 
@@ -1922,8 +1921,12 @@ class TonicForm extends Tonic {
     return this.value
   }
 
+  getElements () {
+    return [...this.querySelectorAll('[data-key]')]
+  }
+
   get value () {
-    const elements = [...this.querySelectorAll('[data-key]')]
+    const elements = this.getElements()
     const data = {}
 
     for (const element of elements) {
@@ -1936,23 +1939,17 @@ class TonicForm extends Tonic {
   set value (data) {
     if (typeof data !== 'object') return
 
-    for (const key in Object.keys(data)) {
-      const el = this.querySelector(`[data-key="${key}"]`)
-      if (!el) continue
-      el.value = TonicForm.setPropertyValue(data, key)
+    const elements = this.getElements()
+
+    for (const element of elements) {
+      const value = TonicForm.getPropertyValue(data, element.dataset.key)
+      if (!value) continue
+
+      element.value = value
     }
   }
 
   render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-form')
-    }
-
     return this.html`
       ${this.childNodes}
     `
@@ -1961,7 +1958,7 @@ class TonicForm extends Tonic {
 
 module.exports = { TonicForm }
 
-},{"../mode":18,"@optoolco/tonic":19}],13:[function(require,module,exports){
+},{"@optoolco/tonic":19}],13:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicIcon extends Tonic {

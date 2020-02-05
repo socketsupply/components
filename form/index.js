@@ -3,7 +3,7 @@ const mode = require('../mode')
 
 class TonicForm extends Tonic {
   static isNumber (s) {
-    return !isNaN(parseInt(s, 10))
+    return !isNaN(Number(s))
   }
 
   static getPropertyValue (o = {}, path = '') {
@@ -11,7 +11,7 @@ class TonicForm extends Tonic {
     let value = o
 
     for (const p of parts) {
-      if (!value) return false
+      if (!value) return null
       value = value[p]
     }
 
@@ -48,8 +48,12 @@ class TonicForm extends Tonic {
     return this.value
   }
 
+  getElements () {
+    return [...this.querySelectorAll('[data-key]')]
+  }
+
   get value () {
-    const elements = [...this.querySelectorAll('[data-key]')]
+    const elements = this.getElements()
     const data = {}
 
     for (const element of elements) {
@@ -62,23 +66,17 @@ class TonicForm extends Tonic {
   set value (data) {
     if (typeof data !== 'object') return
 
-    for (const key in Object.keys(data)) {
-      const el = this.querySelector(`[data-key="${key}"]`)
-      if (!el) continue
-      el.value = TonicForm.setPropertyValue(data, key)
+    const elements = this.getElements()
+
+    for (const element of elements) {
+      const value = TonicForm.getPropertyValue(data, element.dataset.key)
+      if (!value) continue
+
+      element.value = value
     }
   }
 
   render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-form')
-    }
-
     return this.html`
       ${this.childNodes}
     `

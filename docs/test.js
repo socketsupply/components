@@ -261,7 +261,7 @@ module.exports = {
 }
 
 }).call(this,require("timers").setImmediate)
-},{"../mode":17,"@optoolco/tonic":18,"timers":81}],2:[function(require,module,exports){
+},{"../mode":18,"@optoolco/tonic":19,"timers":82}],2:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
@@ -366,7 +366,7 @@ module.exports = {
   TonicBadge
 }
 
-},{"../mode":17,"@optoolco/tonic":18}],3:[function(require,module,exports){
+},{"../mode":18,"@optoolco/tonic":19}],3:[function(require,module,exports){
 const tape = require('tape')
 const { qs } = require('qs')
 
@@ -438,7 +438,7 @@ tape('badge shows tonic--new style', t => {
   t.end()
 })
 
-},{"..":14,"../test/util":103,"@optoolco/tonic":18,"qs":54,"tape":76}],4:[function(require,module,exports){
+},{"..":15,"../test/util":104,"@optoolco/tonic":19,"qs":55,"tape":77}],4:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicButton extends Tonic {
@@ -666,7 +666,7 @@ class TonicButton extends Tonic {
 
 module.exports = { TonicButton }
 
-},{"@optoolco/tonic":18}],5:[function(require,module,exports){
+},{"@optoolco/tonic":19}],5:[function(require,module,exports){
 const tape = require('tape')
 const { qs } = require('qs')
 
@@ -948,7 +948,7 @@ tape('{{button-10}} has tabindex attribute', t => {
   t.end()
 })
 
-},{"..":14,"../test/util":103,"@optoolco/tonic":18,"qs":54,"tape":76}],6:[function(require,module,exports){
+},{"..":15,"../test/util":104,"@optoolco/tonic":19,"qs":55,"tape":77}],6:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicChart extends Tonic {
@@ -1051,7 +1051,7 @@ class TonicChart extends Tonic {
 
 module.exports = { TonicChart }
 
-},{"@optoolco/tonic":18}],7:[function(require,module,exports){
+},{"@optoolco/tonic":19}],7:[function(require,module,exports){
 const tape = require('tape')
 const { qs } = require('qs')
 
@@ -1088,7 +1088,7 @@ tape('got a chart', t => {
   t.end()
 })
 
-},{"..":14,"../test/util":103,"@optoolco/tonic":18,"qs":54,"tape":76}],8:[function(require,module,exports){
+},{"..":15,"../test/util":104,"@optoolco/tonic":19,"qs":55,"tape":77}],8:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
@@ -1289,7 +1289,7 @@ class TonicCheckbox extends Tonic {
 
 module.exports = { TonicCheckbox }
 
-},{"../mode":17,"@optoolco/tonic":18}],9:[function(require,module,exports){
+},{"../mode":18,"@optoolco/tonic":19}],9:[function(require,module,exports){
 const tape = require('tape')
 const { qs } = require('qs')
 
@@ -1504,7 +1504,7 @@ tape('{{checkbox-6-5}} has title', t => {
   t.end()
 })
 
-},{"..":14,"../test/util":103,"@optoolco/tonic":18,"qs":54,"tape":76}],10:[function(require,module,exports){
+},{"..":15,"../test/util":104,"@optoolco/tonic":19,"qs":55,"tape":77}],10:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class Dialog extends Tonic {
@@ -1748,7 +1748,7 @@ class Dialog extends Tonic {
 
 module.exports = { Dialog }
 
-},{"@optoolco/tonic":18}],11:[function(require,module,exports){
+},{"@optoolco/tonic":19}],11:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const { html } = require('../test/util')
@@ -1871,7 +1871,97 @@ tape('{{dialog-1}} is constructed properly, opens and closes properly', async t 
   t.end()
 })
 
-},{"..":14,"../test/util":103,"./index":10,"@optoolco/tonic":18,"qs":54,"tape":76}],12:[function(require,module,exports){
+},{"..":15,"../test/util":104,"./index":10,"@optoolco/tonic":19,"qs":55,"tape":77}],12:[function(require,module,exports){
+const Tonic = require('@optoolco/tonic')
+const mode = require('../mode')
+
+class TonicForm extends Tonic {
+  static isNumber (s) {
+    return !isNaN(parseInt(s, 10))
+  }
+
+  static getPropertyValue (o = {}, path = '') {
+    const parts = path.split('.')
+    let value = o
+
+    for (const p of parts) {
+      if (!value) return false
+      value = value[p]
+    }
+
+    return value
+  }
+
+  static setPropertyValue (o = {}, path = '', v) {
+    const parts = path.split('.')
+    let value = o
+
+    const last = parts.pop()
+    if (!last) return
+
+    for (let i = 0; i < parts.length; i++) {
+      const p = parts[i]
+      const next = parts[i + 1] || last
+
+      if (!value[p]) {
+        value[p] = TonicForm.isNumber(next) ? [] : {}
+      }
+
+      value = value[p]
+    }
+
+    value[last] = v
+    return o
+  }
+
+  setData (data) {
+    this.value = data
+  }
+
+  getData () {
+    return this.value
+  }
+
+  get value () {
+    const elements = [...this.querySelectorAll('[data-key]')]
+    const data = {}
+
+    for (const element of elements) {
+      TonicForm.setPropertyValue(data, element.dataset.key, element.value)
+    }
+
+    return data
+  }
+
+  set value (data) {
+    if (typeof data !== 'object') return
+
+    for (const key in Object.keys(data)) {
+      const el = this.querySelector(`[data-key="${key}"]`)
+      if (!el) continue
+      el.value = TonicForm.setPropertyValue(data, key)
+    }
+  }
+
+  render () {
+    if (mode.strict && !this.props.id) {
+      console.warn('In tonic the "id" attribute is used to persist state')
+      console.warn('You forgot to supply the "id" attribute.')
+      console.warn('')
+      console.warn('For element : ')
+      console.warn(`${this.outerHTML}`)
+      throw new Error('id attribute is mandatory on tonic-form')
+    }
+
+    return this.html`
+      ${this.childNodes}
+    `
+  }
+}
+
+module.exports = { TonicForm }
+
+},{"../mode":18,"@optoolco/tonic":19}],13:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicIcon extends Tonic {
@@ -1936,7 +2026,7 @@ class TonicIcon extends Tonic {
 
 module.exports = { TonicIcon }
 
-},{"@optoolco/tonic":18}],13:[function(require,module,exports){
+},{"@optoolco/tonic":19}],14:[function(require,module,exports){
 const tape = require('tape')
 const { qs } = require('qs')
 
@@ -2077,7 +2167,7 @@ tape('{{icon-5}} has tabindex attribute', t => {
   t.end()
 })
 
-},{"..":14,"../test/util":103,"@optoolco/tonic":18,"qs":54,"tape":76}],14:[function(require,module,exports){
+},{"..":15,"../test/util":104,"@optoolco/tonic":19,"qs":55,"tape":77}],15:[function(require,module,exports){
 let Tonic
 try {
   Tonic = require('@optoolco/tonic')
@@ -2100,6 +2190,7 @@ const { TonicBadge } = require('./badge')
 const { TonicButton } = require('./button')
 const { TonicChart } = require('./chart')
 const { TonicCheckbox } = require('./checkbox')
+const { TonicForm } = require('./form')
 const { TonicIcon } = require('./icon')
 const { TonicInput } = require('./input')
 const { TonicPopover } = require('./popover')
@@ -2135,6 +2226,7 @@ function components (Tonic, opts) {
   Tonic.add(TonicButton)
   Tonic.add(TonicChart)
   Tonic.add(TonicCheckbox)
+  Tonic.add(TonicForm)
   Tonic.add(TonicInput)
   Tonic.add(TonicIcon)
   Tonic.add(TonicPopover)
@@ -2154,7 +2246,7 @@ function components (Tonic, opts) {
   Tonic.add(TonicToggle)
 }
 
-},{"./accordion":1,"./badge":2,"./button":4,"./chart":6,"./checkbox":8,"./icon":12,"./input":15,"./mode":17,"./popover":85,"./profile-image":87,"./progress-bar":89,"./range":91,"./relative-time":93,"./router":94,"./select":96,"./sprite":98,"./tabs":99,"./textarea":104,"./toaster":108,"./toaster-inline":106,"./toggle":110,"./tooltip":112,"@optoolco/tonic":18}],15:[function(require,module,exports){
+},{"./accordion":1,"./badge":2,"./button":4,"./chart":6,"./checkbox":8,"./form":12,"./icon":13,"./input":16,"./mode":18,"./popover":86,"./profile-image":88,"./progress-bar":90,"./range":92,"./relative-time":94,"./router":95,"./select":97,"./sprite":99,"./tabs":100,"./textarea":105,"./toaster":109,"./toaster-inline":107,"./toggle":111,"./tooltip":113,"@optoolco/tonic":19}],16:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
@@ -2180,7 +2272,7 @@ class TonicInput extends Tonic {
   }
 
   get value () {
-    return this.state.value
+    return this.state.value || this.props.value
   }
 
   set value (value) {
@@ -2505,7 +2597,7 @@ class TonicInput extends Tonic {
 
 module.exports = { TonicInput }
 
-},{"../mode":17,"@optoolco/tonic":18}],16:[function(require,module,exports){
+},{"../mode":18,"@optoolco/tonic":19}],17:[function(require,module,exports){
 const tape = require('tape')
 const { qs } = require('qs')
 
@@ -2816,10 +2908,10 @@ tape('{{input-11}} has readonly attribute', t => {
   t.end()
 })
 
-},{"..":14,"../test/util":103,"@optoolco/tonic":18,"qs":54,"tape":76}],17:[function(require,module,exports){
+},{"..":15,"../test/util":104,"@optoolco/tonic":19,"qs":55,"tape":77}],18:[function(require,module,exports){
 module.exports = { strict: false }
 
-},{}],18:[function(require,module,exports){
+},{}],19:[function(require,module,exports){
 class TonicRaw {
   constructor (rawText) {
     this.isTonicRaw = true
@@ -3160,8 +3252,15 @@ Object.assign(Tonic, {
 
 if (typeof module === 'object') module.exports = Tonic
 
-},{"./package":19}],19:[function(require,module,exports){
+},{"./package":20}],20:[function(require,module,exports){
 module.exports={
+  "_args": [
+    [
+      "@optoolco/tonic@11.0.0",
+      "/Users/paolofragomeni/projects/optoolco/components"
+    ]
+  ],
+  "_development": true,
   "_from": "@optoolco/tonic@11.0.0",
   "_id": "@optoolco/tonic@11.0.0",
   "_inBundle": false,
@@ -3180,22 +3279,18 @@ module.exports={
     "fetchSpec": "11.0.0"
   },
   "_requiredBy": [
-    "#DEV:/",
-    "#USER"
+    "#DEV:/"
   ],
   "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-11.0.0.tgz",
-  "_shasum": "5e3ca909490ab5981d511d5ca40ebe108d73e9c5",
-  "_spec": "@optoolco/tonic@11.0.0",
-  "_where": "/home/raynos/optoolco/components",
+  "_spec": "11.0.0",
+  "_where": "/Users/paolofragomeni/projects/optoolco/components",
   "author": {
     "name": "optoolco"
   },
   "bugs": {
     "url": "https://github.com/optoolco/tonic/issues"
   },
-  "bundleDependencies": false,
   "dependencies": {},
-  "deprecated": false,
   "description": "A composable component inspired by React.",
   "devDependencies": {
     "benchmark": "^2.1.4",
@@ -3224,7 +3319,7 @@ module.exports={
   "version": "11.0.0"
 }
 
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 'use strict'
 
 exports.byteLength = byteLength
@@ -3377,11 +3472,11 @@ function fromByteArray (uint8) {
   return parts.join('')
 }
 
-},{}],21:[function(require,module,exports){
-
 },{}],22:[function(require,module,exports){
-arguments[4][21][0].apply(exports,arguments)
-},{"dup":21}],23:[function(require,module,exports){
+
+},{}],23:[function(require,module,exports){
+arguments[4][22][0].apply(exports,arguments)
+},{"dup":22}],24:[function(require,module,exports){
 /*!
  * The buffer module from node.js, for the browser.
  *
@@ -5160,7 +5255,7 @@ function numberIsNaN (obj) {
   return obj !== obj // eslint-disable-line no-self-compare
 }
 
-},{"base64-js":20,"ieee754":43}],24:[function(require,module,exports){
+},{"base64-js":21,"ieee754":44}],25:[function(require,module,exports){
 (function (Buffer){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -5271,7 +5366,7 @@ function objectToString(o) {
 }
 
 }).call(this,{"isBuffer":require("../../is-buffer/index.js")})
-},{"../../is-buffer/index.js":45}],25:[function(require,module,exports){
+},{"../../is-buffer/index.js":46}],26:[function(require,module,exports){
 var pSlice = Array.prototype.slice;
 var objectKeys = require('./lib/keys.js');
 var isArguments = require('./lib/is_arguments.js');
@@ -5367,7 +5462,7 @@ function objEquiv(a, b, opts) {
   return typeof a === typeof b;
 }
 
-},{"./lib/is_arguments.js":26,"./lib/keys.js":27}],26:[function(require,module,exports){
+},{"./lib/is_arguments.js":27,"./lib/keys.js":28}],27:[function(require,module,exports){
 var supportsArgumentsClass = (function(){
   return Object.prototype.toString.call(arguments)
 })() == '[object Arguments]';
@@ -5389,7 +5484,7 @@ function unsupported(object){
     false;
 };
 
-},{}],27:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 exports = module.exports = typeof Object.keys === 'function'
   ? Object.keys : shim;
 
@@ -5400,7 +5495,7 @@ function shim (obj) {
   return keys;
 }
 
-},{}],28:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 'use strict';
 
 var keys = require('object-keys');
@@ -5460,14 +5555,14 @@ defineProperties.supportsDescriptors = !!supportsDescriptors;
 
 module.exports = defineProperties;
 
-},{"object-keys":49}],29:[function(require,module,exports){
+},{"object-keys":50}],30:[function(require,module,exports){
 module.exports = function () {
     for (var i = 0; i < arguments.length; i++) {
         if (arguments[i] !== undefined) return arguments[i];
     }
 };
 
-},{}],30:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 'use strict';
 
 /* globals
@@ -5646,7 +5741,7 @@ module.exports = function GetIntrinsic(name, allowMissing) {
 	return INTRINSICS[key];
 };
 
-},{}],31:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 'use strict';
 
 var GetIntrinsic = require('./GetIntrinsic');
@@ -5890,28 +5985,28 @@ var ES5 = {
 
 module.exports = ES5;
 
-},{"./GetIntrinsic":30,"./helpers/isFinite":32,"./helpers/isNaN":33,"./helpers/mod":34,"./helpers/sign":35,"es-to-primitive/es5":36,"has":42,"is-callable":46}],32:[function(require,module,exports){
+},{"./GetIntrinsic":31,"./helpers/isFinite":33,"./helpers/isNaN":34,"./helpers/mod":35,"./helpers/sign":36,"es-to-primitive/es5":37,"has":43,"is-callable":47}],33:[function(require,module,exports){
 var $isNaN = Number.isNaN || function (a) { return a !== a; };
 
 module.exports = Number.isFinite || function (x) { return typeof x === 'number' && !$isNaN(x) && x !== Infinity && x !== -Infinity; };
 
-},{}],33:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 module.exports = Number.isNaN || function isNaN(a) {
 	return a !== a;
 };
 
-},{}],34:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 module.exports = function mod(number, modulo) {
 	var remain = number % modulo;
 	return Math.floor(remain >= 0 ? remain : remain + modulo);
 };
 
-},{}],35:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 module.exports = function sign(number) {
 	return number >= 0 ? 1 : -1;
 };
 
-},{}],36:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 'use strict';
 
 var toStr = Object.prototype.toString;
@@ -5958,12 +6053,12 @@ module.exports = function ToPrimitive(input) {
 	return ES5internalSlots['[[DefaultValue]]'](input);
 };
 
-},{"./helpers/isPrimitive":37,"is-callable":46}],37:[function(require,module,exports){
+},{"./helpers/isPrimitive":38,"is-callable":47}],38:[function(require,module,exports){
 module.exports = function isPrimitive(value) {
 	return value === null || (typeof value !== 'function' && typeof value !== 'object');
 };
 
-},{}],38:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -6488,7 +6583,7 @@ function functionBindPolyfill(context) {
   };
 }
 
-},{}],39:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 'use strict';
 
 var isCallable = require('is-callable');
@@ -6552,7 +6647,7 @@ var forEach = function forEach(list, iterator, thisArg) {
 
 module.exports = forEach;
 
-},{"is-callable":46}],40:[function(require,module,exports){
+},{"is-callable":47}],41:[function(require,module,exports){
 'use strict';
 
 /* eslint no-invalid-this: 1 */
@@ -6606,21 +6701,21 @@ module.exports = function bind(that) {
     return bound;
 };
 
-},{}],41:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 'use strict';
 
 var implementation = require('./implementation');
 
 module.exports = Function.prototype.bind || implementation;
 
-},{"./implementation":40}],42:[function(require,module,exports){
+},{"./implementation":41}],43:[function(require,module,exports){
 'use strict';
 
 var bind = require('function-bind');
 
 module.exports = bind.call(Function.call, Object.prototype.hasOwnProperty);
 
-},{"function-bind":41}],43:[function(require,module,exports){
+},{"function-bind":42}],44:[function(require,module,exports){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = (nBytes * 8) - mLen - 1
@@ -6706,7 +6801,7 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],44:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
@@ -6731,7 +6826,7 @@ if (typeof Object.create === 'function') {
   }
 }
 
-},{}],45:[function(require,module,exports){
+},{}],46:[function(require,module,exports){
 /*!
  * Determine if an object is a Buffer
  *
@@ -6754,7 +6849,7 @@ function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
 
-},{}],46:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 'use strict';
 
 var fnToStr = Function.prototype.toString;
@@ -6793,14 +6888,14 @@ module.exports = function isCallable(value) {
 	return strClass === fnClass || strClass === genClass;
 };
 
-},{}],47:[function(require,module,exports){
+},{}],48:[function(require,module,exports){
 var toString = {}.toString;
 
 module.exports = Array.isArray || function (arr) {
   return toString.call(arr) == '[object Array]';
 };
 
-},{}],48:[function(require,module,exports){
+},{}],49:[function(require,module,exports){
 var hasMap = typeof Map === 'function' && Map.prototype;
 var mapSizeDescriptor = Object.getOwnPropertyDescriptor && hasMap ? Object.getOwnPropertyDescriptor(Map.prototype, 'size') : null;
 var mapSize = hasMap && mapSizeDescriptor && typeof mapSizeDescriptor.get === 'function' ? mapSizeDescriptor.get : null;
@@ -7059,7 +7154,7 @@ function arrObjKeys (obj, inspect) {
     return xs;
 }
 
-},{"./util.inspect":21}],49:[function(require,module,exports){
+},{"./util.inspect":22}],50:[function(require,module,exports){
 'use strict';
 
 // modified from https://github.com/es-shims/es5-shim
@@ -7202,7 +7297,7 @@ keysShim.shim = function shimObjectKeys() {
 
 module.exports = keysShim;
 
-},{"./isArguments":50}],50:[function(require,module,exports){
+},{"./isArguments":51}],51:[function(require,module,exports){
 'use strict';
 
 var toStr = Object.prototype.toString;
@@ -7221,7 +7316,7 @@ module.exports = function isArguments(value) {
 	return isArgs;
 };
 
-},{}],51:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 (function (process){
 // .dirname, .basename, and .extname methods are extracted from Node.js v8.11.1,
 // backported and transplited with Babel, with backwards-compat fixes
@@ -7527,7 +7622,7 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require('_process'))
-},{"_process":53}],52:[function(require,module,exports){
+},{"_process":54}],53:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -7575,7 +7670,7 @@ function nextTick(fn, arg1, arg2, arg3) {
 
 
 }).call(this,require('_process'))
-},{"_process":53}],53:[function(require,module,exports){
+},{"_process":54}],54:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -7761,16 +7856,16 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],54:[function(require,module,exports){
+},{}],55:[function(require,module,exports){
 const qs = (s, p) => (p || document).querySelector(s)
 const qsa = (s, p) => [...(p || document).querySelectorAll(s)]
 
 module.exports = { qs, qsa }
 
-},{}],55:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 module.exports = require('./lib/_stream_duplex.js');
 
-},{"./lib/_stream_duplex.js":56}],56:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":57}],57:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -7902,7 +7997,7 @@ Duplex.prototype._destroy = function (err, cb) {
 
   pna.nextTick(cb, err);
 };
-},{"./_stream_readable":58,"./_stream_writable":60,"core-util-is":24,"inherits":44,"process-nextick-args":52}],57:[function(require,module,exports){
+},{"./_stream_readable":59,"./_stream_writable":61,"core-util-is":25,"inherits":45,"process-nextick-args":53}],58:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -7950,7 +8045,7 @@ function PassThrough(options) {
 PassThrough.prototype._transform = function (chunk, encoding, cb) {
   cb(null, chunk);
 };
-},{"./_stream_transform":59,"core-util-is":24,"inherits":44}],58:[function(require,module,exports){
+},{"./_stream_transform":60,"core-util-is":25,"inherits":45}],59:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -8972,7 +9067,7 @@ function indexOf(xs, x) {
   return -1;
 }
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./_stream_duplex":56,"./internal/streams/BufferList":61,"./internal/streams/destroy":62,"./internal/streams/stream":63,"_process":53,"core-util-is":24,"events":38,"inherits":44,"isarray":47,"process-nextick-args":52,"safe-buffer":69,"string_decoder/":75,"util":21}],59:[function(require,module,exports){
+},{"./_stream_duplex":57,"./internal/streams/BufferList":62,"./internal/streams/destroy":63,"./internal/streams/stream":64,"_process":54,"core-util-is":25,"events":39,"inherits":45,"isarray":48,"process-nextick-args":53,"safe-buffer":70,"string_decoder/":76,"util":22}],60:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -9187,7 +9282,7 @@ function done(stream, er, data) {
 
   return stream.push(null);
 }
-},{"./_stream_duplex":56,"core-util-is":24,"inherits":44}],60:[function(require,module,exports){
+},{"./_stream_duplex":57,"core-util-is":25,"inherits":45}],61:[function(require,module,exports){
 (function (process,global,setImmediate){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -9877,7 +9972,7 @@ Writable.prototype._destroy = function (err, cb) {
   cb(err);
 };
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"./_stream_duplex":56,"./internal/streams/destroy":62,"./internal/streams/stream":63,"_process":53,"core-util-is":24,"inherits":44,"process-nextick-args":52,"safe-buffer":69,"timers":81,"util-deprecate":82}],61:[function(require,module,exports){
+},{"./_stream_duplex":57,"./internal/streams/destroy":63,"./internal/streams/stream":64,"_process":54,"core-util-is":25,"inherits":45,"process-nextick-args":53,"safe-buffer":70,"timers":82,"util-deprecate":83}],62:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -9957,7 +10052,7 @@ if (util && util.inspect && util.inspect.custom) {
     return this.constructor.name + ' ' + obj;
   };
 }
-},{"safe-buffer":69,"util":21}],62:[function(require,module,exports){
+},{"safe-buffer":70,"util":22}],63:[function(require,module,exports){
 'use strict';
 
 /*<replacement>*/
@@ -10032,13 +10127,13 @@ module.exports = {
   destroy: destroy,
   undestroy: undestroy
 };
-},{"process-nextick-args":52}],63:[function(require,module,exports){
+},{"process-nextick-args":53}],64:[function(require,module,exports){
 module.exports = require('events').EventEmitter;
 
-},{"events":38}],64:[function(require,module,exports){
+},{"events":39}],65:[function(require,module,exports){
 module.exports = require('./readable').PassThrough
 
-},{"./readable":65}],65:[function(require,module,exports){
+},{"./readable":66}],66:[function(require,module,exports){
 exports = module.exports = require('./lib/_stream_readable.js');
 exports.Stream = exports;
 exports.Readable = exports;
@@ -10047,13 +10142,13 @@ exports.Duplex = require('./lib/_stream_duplex.js');
 exports.Transform = require('./lib/_stream_transform.js');
 exports.PassThrough = require('./lib/_stream_passthrough.js');
 
-},{"./lib/_stream_duplex.js":56,"./lib/_stream_passthrough.js":57,"./lib/_stream_readable.js":58,"./lib/_stream_transform.js":59,"./lib/_stream_writable.js":60}],66:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":57,"./lib/_stream_passthrough.js":58,"./lib/_stream_readable.js":59,"./lib/_stream_transform.js":60,"./lib/_stream_writable.js":61}],67:[function(require,module,exports){
 module.exports = require('./readable').Transform
 
-},{"./readable":65}],67:[function(require,module,exports){
+},{"./readable":66}],68:[function(require,module,exports){
 module.exports = require('./lib/_stream_writable.js');
 
-},{"./lib/_stream_writable.js":60}],68:[function(require,module,exports){
+},{"./lib/_stream_writable.js":61}],69:[function(require,module,exports){
 (function (process,setImmediate){
 var through = require('through');
 var nextTick = typeof setImmediate !== 'undefined'
@@ -10086,7 +10181,7 @@ module.exports = function (write, end) {
 };
 
 }).call(this,require('_process'),require("timers").setImmediate)
-},{"_process":53,"through":80,"timers":81}],69:[function(require,module,exports){
+},{"_process":54,"through":81,"timers":82}],70:[function(require,module,exports){
 /* eslint-disable node/no-deprecated-api */
 var buffer = require('buffer')
 var Buffer = buffer.Buffer
@@ -10150,7 +10245,7 @@ SafeBuffer.allocUnsafeSlow = function (size) {
   return buffer.SlowBuffer(size)
 }
 
-},{"buffer":23}],70:[function(require,module,exports){
+},{"buffer":24}],71:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -10279,7 +10374,7 @@ Stream.prototype.pipe = function(dest, options) {
   return dest;
 };
 
-},{"events":38,"inherits":44,"readable-stream/duplex.js":55,"readable-stream/passthrough.js":64,"readable-stream/readable.js":65,"readable-stream/transform.js":66,"readable-stream/writable.js":67}],71:[function(require,module,exports){
+},{"events":39,"inherits":45,"readable-stream/duplex.js":56,"readable-stream/passthrough.js":65,"readable-stream/readable.js":66,"readable-stream/transform.js":67,"readable-stream/writable.js":68}],72:[function(require,module,exports){
 'use strict';
 
 var bind = require('function-bind');
@@ -10294,7 +10389,7 @@ module.exports = function trim() {
 	return replace(replace(S, leftWhitespace, ''), rightWhitespace, '');
 };
 
-},{"es-abstract/es5":31,"function-bind":41}],72:[function(require,module,exports){
+},{"es-abstract/es5":32,"function-bind":42}],73:[function(require,module,exports){
 'use strict';
 
 var bind = require('function-bind');
@@ -10314,7 +10409,7 @@ define(boundTrim, {
 
 module.exports = boundTrim;
 
-},{"./implementation":71,"./polyfill":73,"./shim":74,"define-properties":28,"function-bind":41}],73:[function(require,module,exports){
+},{"./implementation":72,"./polyfill":74,"./shim":75,"define-properties":29,"function-bind":42}],74:[function(require,module,exports){
 'use strict';
 
 var implementation = require('./implementation');
@@ -10328,7 +10423,7 @@ module.exports = function getPolyfill() {
 	return implementation;
 };
 
-},{"./implementation":71}],74:[function(require,module,exports){
+},{"./implementation":72}],75:[function(require,module,exports){
 'use strict';
 
 var define = require('define-properties');
@@ -10340,7 +10435,7 @@ module.exports = function shimStringTrim() {
 	return polyfill;
 };
 
-},{"./polyfill":73,"define-properties":28}],75:[function(require,module,exports){
+},{"./polyfill":74,"define-properties":29}],76:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -10637,7 +10732,7 @@ function simpleWrite(buf) {
 function simpleEnd(buf) {
   return buf && buf.length ? this.write(buf) : '';
 }
-},{"safe-buffer":69}],76:[function(require,module,exports){
+},{"safe-buffer":70}],77:[function(require,module,exports){
 (function (process,setImmediate){
 var defined = require('defined');
 var createDefaultStream = require('./lib/default_stream');
@@ -10800,7 +10895,7 @@ function createHarness (conf_) {
 }
 
 }).call(this,require('_process'),require("timers").setImmediate)
-},{"./lib/default_stream":77,"./lib/results":78,"./lib/test":79,"_process":53,"defined":29,"through":80,"timers":81}],77:[function(require,module,exports){
+},{"./lib/default_stream":78,"./lib/results":79,"./lib/test":80,"_process":54,"defined":30,"through":81,"timers":82}],78:[function(require,module,exports){
 (function (process){
 var through = require('through');
 var fs = require('fs');
@@ -10834,7 +10929,7 @@ module.exports = function () {
 };
 
 }).call(this,require('_process'))
-},{"_process":53,"fs":22,"through":80}],78:[function(require,module,exports){
+},{"_process":54,"fs":23,"through":81}],79:[function(require,module,exports){
 (function (process,setImmediate){
 var defined = require('defined');
 var EventEmitter = require('events').EventEmitter;
@@ -11032,7 +11127,7 @@ function invalidYaml (str) {
 }
 
 }).call(this,require('_process'),require("timers").setImmediate)
-},{"_process":53,"defined":29,"events":38,"function-bind":41,"has":42,"inherits":44,"object-inspect":48,"resumer":68,"through":80,"timers":81}],79:[function(require,module,exports){
+},{"_process":54,"defined":30,"events":39,"function-bind":42,"has":43,"inherits":45,"object-inspect":49,"resumer":69,"through":81,"timers":82}],80:[function(require,module,exports){
 (function (process,setImmediate,__dirname){
 var deepEqual = require('deep-equal');
 var defined = require('defined');
@@ -11587,7 +11682,7 @@ Test.skip = function (name_, _opts, _cb) {
 // vim: set softtabstop=4 shiftwidth=4:
 
 }).call(this,require('_process'),require("timers").setImmediate,"/node_modules/tape/lib")
-},{"_process":53,"deep-equal":25,"defined":29,"events":38,"for-each":39,"function-bind":41,"has":42,"inherits":44,"path":51,"string.prototype.trim":72,"timers":81}],80:[function(require,module,exports){
+},{"_process":54,"deep-equal":26,"defined":30,"events":39,"for-each":40,"function-bind":42,"has":43,"inherits":45,"path":52,"string.prototype.trim":73,"timers":82}],81:[function(require,module,exports){
 (function (process){
 var Stream = require('stream')
 
@@ -11699,7 +11794,7 @@ function through (write, end, opts) {
 
 
 }).call(this,require('_process'))
-},{"_process":53,"stream":70}],81:[function(require,module,exports){
+},{"_process":54,"stream":71}],82:[function(require,module,exports){
 (function (setImmediate,clearImmediate){
 var nextTick = require('process/browser.js').nextTick;
 var apply = Function.prototype.apply;
@@ -11778,7 +11873,7 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
   delete immediateIds[id];
 };
 }).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-},{"process/browser.js":53,"timers":81}],82:[function(require,module,exports){
+},{"process/browser.js":54,"timers":82}],83:[function(require,module,exports){
 (function (global){
 
 /**
@@ -11849,7 +11944,7 @@ function config (name) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],83:[function(require,module,exports){
+},{}],84:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class Panel extends Tonic {
@@ -12090,7 +12185,7 @@ class Panel extends Tonic {
 
 module.exports = { Panel }
 
-},{"@optoolco/tonic":18}],84:[function(require,module,exports){
+},{"@optoolco/tonic":19}],85:[function(require,module,exports){
 const tape = require('tape')
 const { qs } = require('qs')
 const Tonic = require('@optoolco/tonic')
@@ -12340,7 +12435,7 @@ function sleep (n) {
   })
 }
 
-},{"..":14,"../test/util":103,"./index":83,"@optoolco/tonic":18,"qs":54,"tape":76}],85:[function(require,module,exports){
+},{"..":15,"../test/util":104,"./index":84,"@optoolco/tonic":19,"qs":55,"tape":77}],86:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicPopover extends Tonic {
@@ -12540,7 +12635,7 @@ class TonicPopover extends Tonic {
 
 module.exports = { TonicPopover }
 
-},{"@optoolco/tonic":18}],86:[function(require,module,exports){
+},{"@optoolco/tonic":19}],87:[function(require,module,exports){
 const tape = require('tape')
 const { qs } = require('qs')
 const { html } = require('../test/util')
@@ -12614,7 +12709,7 @@ function sleep (ms) {
   })
 }
 
-},{"..":14,"../test/util":103,"@optoolco/tonic":18,"qs":54,"tape":76}],87:[function(require,module,exports){
+},{"..":15,"../test/util":104,"@optoolco/tonic":19,"qs":55,"tape":77}],88:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
@@ -12830,7 +12925,7 @@ TonicProfileImage.svg.default = () => TonicProfileImage.svg.toURL(`
 
 module.exports = { TonicProfileImage }
 
-},{"../mode":17,"@optoolco/tonic":18}],88:[function(require,module,exports){
+},{"../mode":18,"@optoolco/tonic":19}],89:[function(require,module,exports){
 const tape = require('tape')
 const { qs } = require('qs')
 const { html } = require('../test/util')
@@ -12969,7 +13064,7 @@ tape('test a profile image', t => {
   t.end()
 })
 
-},{"..":14,"../test/util":103,"@optoolco/tonic":18,"qs":54,"tape":76}],89:[function(require,module,exports){
+},{"..":15,"../test/util":104,"@optoolco/tonic":19,"qs":55,"tape":77}],90:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
@@ -13061,7 +13156,7 @@ class TonicProgressBar extends Tonic {
 
 module.exports = { TonicProgressBar }
 
-},{"../mode":17,"@optoolco/tonic":18}],90:[function(require,module,exports){
+},{"../mode":18,"@optoolco/tonic":19}],91:[function(require,module,exports){
 const tape = require('tape')
 const { qs } = require('qs')
 const { html } = require('../test/util')
@@ -13211,7 +13306,7 @@ tape('get a progress bar', t => {
   t.end()
 })
 
-},{"..":14,"../test/util":103,"@optoolco/tonic":18,"qs":54,"tape":76}],91:[function(require,module,exports){
+},{"..":15,"../test/util":104,"@optoolco/tonic":19,"qs":55,"tape":77}],92:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
@@ -13425,7 +13520,7 @@ class TonicRange extends Tonic {
 
 module.exports = { TonicRange }
 
-},{"../mode":17,"@optoolco/tonic":18}],92:[function(require,module,exports){
+},{"../mode":18,"@optoolco/tonic":19}],93:[function(require,module,exports){
 const tape = require('tape')
 const { qs } = require('qs')
 const { html } = require('../test/util')
@@ -13583,7 +13678,7 @@ tape('test a range elem', t => {
   t.end()
 })
 
-},{"..":14,"../test/util":103,"@optoolco/tonic":18,"qs":54,"tape":76}],93:[function(require,module,exports){
+},{"..":15,"../test/util":104,"@optoolco/tonic":19,"qs":55,"tape":77}],94:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const weekdays = [
@@ -14065,7 +14160,7 @@ const timeFormatter = makeFormatter({
 
 module.exports = { TonicRelativeTime, RelativeTime }
 
-},{"@optoolco/tonic":18}],94:[function(require,module,exports){
+},{"@optoolco/tonic":19}],95:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
@@ -14365,7 +14460,7 @@ TonicRouter.matcher = (() => {
 
 module.exports = { TonicRouter }
 
-},{"../mode":17,"@optoolco/tonic":18}],95:[function(require,module,exports){
+},{"../mode":18,"@optoolco/tonic":19}],96:[function(require,module,exports){
 const { html } = require('../test/util')
 const components = require('..')
 components(require('@optoolco/tonic'))
@@ -14420,7 +14515,7 @@ page2.addEventListener('match', () => {
 
 // TODO: convert to tape tests
 
-},{"..":14,"../test/util":103,"@optoolco/tonic":18}],96:[function(require,module,exports){
+},{"..":15,"../test/util":104,"@optoolco/tonic":19}],97:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicSelect extends Tonic {
@@ -14666,7 +14761,7 @@ TonicSelect.svg.default = () => TonicSelect.svg.toURL(`
 
 module.exports = { TonicSelect }
 
-},{"@optoolco/tonic":18}],97:[function(require,module,exports){
+},{"@optoolco/tonic":19}],98:[function(require,module,exports){
 const tape = require('tape')
 const { qs } = require('qs')
 const { html } = require('../test/util')
@@ -14880,7 +14975,7 @@ tape('test a select', t => {
   t.end()
 })
 
-},{"..":14,"../test/util":103,"@optoolco/tonic":18,"qs":54,"tape":76}],98:[function(require,module,exports){
+},{"..":15,"../test/util":104,"@optoolco/tonic":19,"qs":55,"tape":77}],99:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicSprite extends Tonic {
@@ -14947,7 +15042,7 @@ class TonicSprite extends Tonic {
 
 module.exports = { TonicSprite }
 
-},{"@optoolco/tonic":18}],99:[function(require,module,exports){
+},{"@optoolco/tonic":19}],100:[function(require,module,exports){
 (function (setImmediate){
 const Tonic = require('@optoolco/tonic')
 
@@ -15128,7 +15223,7 @@ module.exports = {
 }
 
 }).call(this,require("timers").setImmediate)
-},{"../mode":17,"@optoolco/tonic":18,"timers":81}],100:[function(require,module,exports){
+},{"../mode":18,"@optoolco/tonic":19,"timers":82}],101:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 const tape = require('tape')
 const { qs } = require('qs')
@@ -15288,7 +15383,7 @@ tape('{{tabs-3}} has correct default state', t => {
   t.end()
 })
 
-},{"..":14,"../test/util":103,"@optoolco/tonic":18,"qs":54,"tape":76}],101:[function(require,module,exports){
+},{"..":15,"../test/util":104,"@optoolco/tonic":19,"qs":55,"tape":77}],102:[function(require,module,exports){
 const tape = require('tape')
 const stream = tape.createStream({ objectMode: true })
 
@@ -15357,7 +15452,7 @@ stream.on('data', data => {
 
 module.exports = tape
 
-},{"tape":76}],102:[function(require,module,exports){
+},{"tape":77}],103:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 const components = require('../..')
 
@@ -15401,7 +15496,7 @@ function ready () {
 
 document.addEventListener('DOMContentLoaded', ready)
 
-},{"../..":14,"../../badge/test":3,"../../button/test":5,"../../chart/test":7,"../../checkbox/test":9,"../../dialog/test":11,"../../icon/test":13,"../../input/test":16,"../../panel/test":84,"../../popover/test":86,"../../profile-image/test":88,"../../progress-bar/test":90,"../../range/test":92,"../../router/test":95,"../../select/test":97,"../../tabs/test":100,"../../textarea/test":105,"../../toaster-inline/test":107,"../../toaster/test":109,"../../toggle/test":111,"../../tooltip/test":113,"../../windowed/test":114,"./tape.js":101,"@optoolco/tonic":18}],103:[function(require,module,exports){
+},{"../..":15,"../../badge/test":3,"../../button/test":5,"../../chart/test":7,"../../checkbox/test":9,"../../dialog/test":11,"../../icon/test":14,"../../input/test":17,"../../panel/test":85,"../../popover/test":87,"../../profile-image/test":89,"../../progress-bar/test":91,"../../range/test":93,"../../router/test":96,"../../select/test":98,"../../tabs/test":101,"../../textarea/test":106,"../../toaster-inline/test":108,"../../toaster/test":110,"../../toggle/test":112,"../../tooltip/test":114,"../../windowed/test":115,"./tape.js":102,"@optoolco/tonic":19}],104:[function(require,module,exports){
 'use strict'
 
 const Tonic = require('@optoolco/tonic')
@@ -15430,7 +15525,7 @@ function html ([str, ...strings], ...values) {
   return comp
 }
 
-},{"@optoolco/tonic":18}],104:[function(require,module,exports){
+},{"@optoolco/tonic":19}],105:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
@@ -15596,7 +15691,7 @@ class TonicTextarea extends Tonic {
 
 module.exports = { TonicTextarea }
 
-},{"../mode":17,"@optoolco/tonic":18}],105:[function(require,module,exports){
+},{"../mode":18,"@optoolco/tonic":19}],106:[function(require,module,exports){
 const { html } = require('../test/util')
 const components = require('..')
 components(require('@optoolco/tonic'))
@@ -15750,7 +15845,7 @@ document.body.appendChild(html`
 
 // TODO: write tests
 
-},{"..":14,"../test/util":103,"@optoolco/tonic":18}],106:[function(require,module,exports){
+},{"..":15,"../test/util":104,"@optoolco/tonic":19}],107:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicToasterInline extends Tonic {
@@ -15965,7 +16060,7 @@ class TonicToasterInline extends Tonic {
 
 module.exports = { TonicToasterInline }
 
-},{"@optoolco/tonic":18}],107:[function(require,module,exports){
+},{"@optoolco/tonic":19}],108:[function(require,module,exports){
 
 const { html } = require('../test/util')
 const components = require('..')
@@ -16186,7 +16281,7 @@ document.body.appendChild(html`
 </section>
 `)
 
-},{"..":14,"../test/util":103,"@optoolco/tonic":18}],108:[function(require,module,exports){
+},{"..":15,"../test/util":104,"@optoolco/tonic":19}],109:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicToaster extends Tonic {
@@ -16443,7 +16538,7 @@ class TonicToaster extends Tonic {
 
 module.exports = { TonicToaster }
 
-},{"@optoolco/tonic":18}],109:[function(require,module,exports){
+},{"@optoolco/tonic":19}],110:[function(require,module,exports){
 const tape = require('tape')
 const { qs } = require('qs')
 
@@ -16722,7 +16817,7 @@ tape('{{toaster}} is created on the right', async t => {
   t.end()
 })
 
-},{"..":14,"../test/util":103,"@optoolco/tonic":18,"qs":54,"tape":76}],110:[function(require,module,exports){
+},{"..":15,"../test/util":104,"@optoolco/tonic":19,"qs":55,"tape":77}],111:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
@@ -16942,7 +17037,7 @@ class TonicToggle extends Tonic {
 
 module.exports = { TonicToggle }
 
-},{"../mode":17,"@optoolco/tonic":18}],111:[function(require,module,exports){
+},{"../mode":18,"@optoolco/tonic":19}],112:[function(require,module,exports){
 const tape = require('tape')
 const { qs } = require('qs')
 
@@ -17064,7 +17159,7 @@ tape('{{toggle-2}} has tabindex attribute', t => {
   t.end()
 })
 
-},{"..":14,"../test/util":103,"@optoolco/tonic":18,"qs":54,"tape":76}],112:[function(require,module,exports){
+},{"..":15,"../test/util":104,"@optoolco/tonic":19,"qs":55,"tape":77}],113:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicTooltip extends Tonic {
@@ -17224,7 +17319,7 @@ class TonicTooltip extends Tonic {
 
 module.exports = { TonicTooltip }
 
-},{"@optoolco/tonic":18}],113:[function(require,module,exports){
+},{"@optoolco/tonic":19}],114:[function(require,module,exports){
 const { html } = require('../test/util')
 const components = require('..')
 components(require('@optoolco/tonic'))
@@ -17300,7 +17395,7 @@ document.body.appendChild(html`
 
 // TODO write tests
 
-},{"..":14,"../test/util":103,"@optoolco/tonic":18}],114:[function(require,module,exports){
+},{"..":15,"../test/util":104,"@optoolco/tonic":19}],115:[function(require,module,exports){
 const { html } = require('../test/util')
 
 document.body.appendChild(html`
@@ -17316,4 +17411,4 @@ document.body.appendChild(html`
 
 // TODO: tests
 
-},{"../test/util":103}]},{},[102]);
+},{"../test/util":104}]},{},[103]);

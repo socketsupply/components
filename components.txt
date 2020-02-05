@@ -4,6 +4,7 @@ button
 chart
 checkbox
 dialog
+form
 icon
 input
 panel

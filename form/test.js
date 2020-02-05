@@ -12,7 +12,7 @@ document.body.appendChild(html`
 
   <div class="test-container">
     <span>Test Form</span>
-    <tonic-form id="f">
+    <tonic-form id="f1">
       <tonic-input data-key="ka" id="a" value="va">
       </tonic-input>
 
@@ -26,19 +26,36 @@ document.body.appendChild(html`
       </tonic-input>
     </tonic-form>
   </div>
+
+  <div class="test-container">
+    <span>Test Form</span>
+    <tonic-form id="f2">
+      <tonic-input data-key="ka" id="a2">
+      </tonic-input>
+
+      <tonic-input data-key="foo.kb" id="b2">
+      </tonic-input>
+
+      <tonic-input id="c2">
+      </tonic-input>
+
+      <tonic-input data-key="bar.0.buzz" id="d2">
+      </tonic-input>
+    </tonic-form>
+  </div>
+
 </section>
 `)
 
 tape('{{form-1}} sanity test', t => {
-  const component = qs('tonic-form#f')
+  const component = qs('tonic-form#f1')
   const inputA = qs('#a', component)
   const inputB = qs('#b', component)
-  const inputC = qs('#c', component)
   const inputD = qs('#d', component)
 
   t.plan(2)
 
-  t.ok(inputA && inputB && inputC && inputD, 'the component contains the correct number of inputs')
+  t.ok(inputA && inputB && inputD, 'the component contains the correct number of inputs')
 
   const expected = {
     ka: 'va',
@@ -53,7 +70,30 @@ tape('{{form-1}} sanity test', t => {
   t.end()
 })
 
-tape('{{form-2}} get and set', t => {
+tape('{{form-2}} sanity test', t => {
+  const component = qs('tonic-form#f2')
+  const inputA = qs('#a2', component)
+  const inputB = qs('#b2', component)
+  const inputD = qs('#d2', component)
+
+  const data = {
+    ka: 'va',
+    foo: {
+      kb: 'vb'
+    },
+    bar: [{ buzz: 'vd' }]
+  }
+
+  component.value = data
+
+  t.equal(inputA.value, 'va')
+  t.equal(inputB.value, 'vb')
+  t.equal(inputD.value, 'vd')
+
+  t.end()
+})
+
+tape('{{form-3}} get and set data', t => {
   var o = {
     a: {
       bbb: {
@@ -72,7 +112,7 @@ tape('{{form-2}} get and set', t => {
   t.ok(TonicForm.setPropertyValue(o, path, 'xx'))
   t.equal(TonicForm.getPropertyValue(o, path), 'xx')
 
-  t.equal(TonicForm.getPropertyValue(o, 'a.bbb.c.4.a'), false)
+  t.equal(TonicForm.getPropertyValue(o, 'a.bbb.c.4.a'), null)
 
   t.ok(!TonicForm.getPropertyValue({ a: {} }, path))
   t.ok(!TonicForm.getPropertyValue(null, path))

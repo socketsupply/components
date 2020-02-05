@@ -1,12 +1,11 @@
 const Tonic = require('@optoolco/tonic')
-const mode = require('../mode')
 
 class TonicForm extends Tonic {
   static isNumber (s) {
     return !isNaN(Number(s))
   }
 
-  static getPropertyValue (o = {}, path = '') {
+  static getPropertyValue (o, path) {
     const parts = path.split('.')
     let value = o
 
@@ -18,7 +17,7 @@ class TonicForm extends Tonic {
     return value
   }
 
-  static setPropertyValue (o = {}, path = '', v) {
+  static setPropertyValue (o, path, v) {
     const parts = path.split('.')
     let value = o
 

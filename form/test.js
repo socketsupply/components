@@ -47,7 +47,7 @@ document.body.appendChild(html`
 </section>
 `)
 
-tape('{{form-1}} sanity test', t => {
+tape('{{form-1}} get data from form', t => {
   const component = qs('tonic-form#f1')
   const inputA = qs('#a', component)
   const inputB = qs('#b', component)
@@ -70,7 +70,7 @@ tape('{{form-1}} sanity test', t => {
   t.end()
 })
 
-tape('{{form-2}} sanity test', t => {
+tape('{{form-2}} populate form data', t => {
   const component = qs('tonic-form#f2')
   const inputA = qs('#a2', component)
   const inputB = qs('#b2', component)

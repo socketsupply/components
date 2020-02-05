@@ -261,7 +261,7 @@ module.exports = {
 }
 
 }).call(this,require("timers").setImmediate)
-},{"../mode":19,"@optoolco/tonic":20,"timers":26}],2:[function(require,module,exports){
+},{"../mode":20,"@optoolco/tonic":21,"timers":27}],2:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
@@ -366,7 +366,7 @@ module.exports = {
   TonicBadge
 }
 
-},{"../mode":19,"@optoolco/tonic":20}],3:[function(require,module,exports){
+},{"../mode":20,"@optoolco/tonic":21}],3:[function(require,module,exports){
 const add = document.getElementById('add-notification')
 const subtract = document.getElementById('subtract-notification')
 const tonicBadge = document.querySelector('tonic-badge')
@@ -621,7 +621,7 @@ class TonicButton extends Tonic {
 
 module.exports = { TonicButton }
 
-},{"@optoolco/tonic":20}],5:[function(require,module,exports){
+},{"@optoolco/tonic":21}],5:[function(require,module,exports){
 const button = document.getElementById('tonic-button-example')
 button.addEventListener('click', e => {
   setTimeout(() => {
@@ -732,7 +732,7 @@ class TonicChart extends Tonic {
 
 module.exports = { TonicChart }
 
-},{"@optoolco/tonic":20}],7:[function(require,module,exports){
+},{"@optoolco/tonic":21}],7:[function(require,module,exports){
 
 },{}],8:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
@@ -935,7 +935,7 @@ class TonicCheckbox extends Tonic {
 
 module.exports = { TonicCheckbox }
 
-},{"../mode":19,"@optoolco/tonic":20}],9:[function(require,module,exports){
+},{"../mode":20,"@optoolco/tonic":21}],9:[function(require,module,exports){
 arguments[4][7][0].apply(exports,arguments)
 },{"dup":7}],10:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
@@ -1181,7 +1181,7 @@ class Dialog extends Tonic {
 
 module.exports = { Dialog }
 
-},{"@optoolco/tonic":20}],11:[function(require,module,exports){
+},{"@optoolco/tonic":21}],11:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 const { Dialog } = require('./index')
 
@@ -1229,7 +1229,7 @@ const dialog = document.getElementById('example-dialog')
 
 link.addEventListener('click', e => dialog.show())
 
-},{"./index":10,"@optoolco/tonic":20}],12:[function(require,module,exports){
+},{"./index":10,"@optoolco/tonic":21}],12:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 const scrollToY = require('scrolltoy')
 const { qs, qsa } = require('qs')
@@ -1336,11 +1336,101 @@ function ready () {
 
 document.addEventListener('DOMContentLoaded', ready)
 
-},{"../..":16,"../../badge/readme":3,"../../button/readme":5,"../../chart/readme":7,"../../checkbox/readme":9,"../../dialog/readme":11,"../../icon/readme":15,"../../input/readme":18,"../../panel/readme":28,"../../popover/readme":30,"../../profile-image/readme":32,"../../progress-bar/readme":34,"../../range/readme":36,"../../router/readme":39,"../../select/readme":41,"../../tabs/readme":44,"../../textarea/readme":46,"../../toaster-inline/readme":48,"../../toaster/readme":50,"../../toggle/readme":52,"../../tooltip/readme":54,"../../windowed/readme":56,"./nonce":13,"@optoolco/tonic":20,"qs":24,"scrolltoy":25}],13:[function(require,module,exports){
+},{"../..":17,"../../badge/readme":3,"../../button/readme":5,"../../chart/readme":7,"../../checkbox/readme":9,"../../dialog/readme":11,"../../icon/readme":16,"../../input/readme":19,"../../panel/readme":29,"../../popover/readme":31,"../../profile-image/readme":33,"../../progress-bar/readme":35,"../../range/readme":37,"../../router/readme":40,"../../select/readme":42,"../../tabs/readme":45,"../../textarea/readme":47,"../../toaster-inline/readme":49,"../../toaster/readme":51,"../../toggle/readme":53,"../../tooltip/readme":55,"../../windowed/readme":57,"./nonce":13,"@optoolco/tonic":21,"qs":25,"scrolltoy":26}],13:[function(require,module,exports){
 
     module.exports = 'U29tZSBzdXBlciBzZWNyZXQ='
   
 },{}],14:[function(require,module,exports){
+const Tonic = require('@optoolco/tonic')
+const mode = require('../mode')
+
+class TonicForm extends Tonic {
+  static isNumber (s) {
+    return !isNaN(parseInt(s, 10))
+  }
+
+  static getPropertyValue (o = {}, path = '') {
+    const parts = path.split('.')
+    let value = o
+
+    for (const p of parts) {
+      if (!value) return false
+      value = value[p]
+    }
+
+    return value
+  }
+
+  static setPropertyValue (o = {}, path = '', v) {
+    const parts = path.split('.')
+    let value = o
+
+    const last = parts.pop()
+    if (!last) return
+
+    for (let i = 0; i < parts.length; i++) {
+      const p = parts[i]
+      const next = parts[i + 1] || last
+
+      if (!value[p]) {
+        value[p] = TonicForm.isNumber(next) ? [] : {}
+      }
+
+      value = value[p]
+    }
+
+    value[last] = v
+    return o
+  }
+
+  setData (data) {
+    this.value = data
+  }
+
+  getData () {
+    return this.value
+  }
+
+  get value () {
+    const elements = [...this.querySelectorAll('[data-key]')]
+    const data = {}
+
+    for (const element of elements) {
+      TonicForm.setPropertyValue(data, element.dataset.key, element.value)
+    }
+
+    return data
+  }
+
+  set value (data) {
+    if (typeof data !== 'object') return
+
+    for (const key in Object.keys(data)) {
+      const el = this.querySelector(`[data-key="${key}"]`)
+      if (!el) continue
+      el.value = TonicForm.setPropertyValue(data, key)
+    }
+  }
+
+  render () {
+    if (mode.strict && !this.props.id) {
+      console.warn('In tonic the "id" attribute is used to persist state')
+      console.warn('You forgot to supply the "id" attribute.')
+      console.warn('')
+      console.warn('For element : ')
+      console.warn(`${this.outerHTML}`)
+      throw new Error('id attribute is mandatory on tonic-form')
+    }
+
+    return this.html`
+      ${this.childNodes}
+    `
+  }
+}
+
+module.exports = { TonicForm }
+
+},{"../mode":20,"@optoolco/tonic":21}],15:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicIcon extends Tonic {
@@ -1405,9 +1495,9 @@ class TonicIcon extends Tonic {
 
 module.exports = { TonicIcon }
 
-},{"@optoolco/tonic":20}],15:[function(require,module,exports){
+},{"@optoolco/tonic":21}],16:[function(require,module,exports){
 arguments[4][7][0].apply(exports,arguments)
-},{"dup":7}],16:[function(require,module,exports){
+},{"dup":7}],17:[function(require,module,exports){
 let Tonic
 try {
   Tonic = require('@optoolco/tonic')
@@ -1430,6 +1520,7 @@ const { TonicBadge } = require('./badge')
 const { TonicButton } = require('./button')
 const { TonicChart } = require('./chart')
 const { TonicCheckbox } = require('./checkbox')
+const { TonicForm } = require('./form')
 const { TonicIcon } = require('./icon')
 const { TonicInput } = require('./input')
 const { TonicPopover } = require('./popover')
@@ -1465,6 +1556,7 @@ function components (Tonic, opts) {
   Tonic.add(TonicButton)
   Tonic.add(TonicChart)
   Tonic.add(TonicCheckbox)
+  Tonic.add(TonicForm)
   Tonic.add(TonicInput)
   Tonic.add(TonicIcon)
   Tonic.add(TonicPopover)
@@ -1484,7 +1576,7 @@ function components (Tonic, opts) {
   Tonic.add(TonicToggle)
 }
 
-},{"./accordion":1,"./badge":2,"./button":4,"./chart":6,"./checkbox":8,"./icon":14,"./input":17,"./mode":19,"./popover":29,"./profile-image":31,"./progress-bar":33,"./range":35,"./relative-time":37,"./router":38,"./select":40,"./sprite":42,"./tabs":43,"./textarea":45,"./toaster":49,"./toaster-inline":47,"./toggle":51,"./tooltip":53,"@optoolco/tonic":20}],17:[function(require,module,exports){
+},{"./accordion":1,"./badge":2,"./button":4,"./chart":6,"./checkbox":8,"./form":14,"./icon":15,"./input":18,"./mode":20,"./popover":30,"./profile-image":32,"./progress-bar":34,"./range":36,"./relative-time":38,"./router":39,"./select":41,"./sprite":43,"./tabs":44,"./textarea":46,"./toaster":50,"./toaster-inline":48,"./toggle":52,"./tooltip":54,"@optoolco/tonic":21}],18:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
@@ -1510,7 +1602,7 @@ class TonicInput extends Tonic {
   }
 
   get value () {
-    return this.state.value
+    return this.state.value || this.props.value
   }
 
   set value (value) {
@@ -1835,7 +1927,7 @@ class TonicInput extends Tonic {
 
 module.exports = { TonicInput }
 
-},{"../mode":19,"@optoolco/tonic":20}],18:[function(require,module,exports){
+},{"../mode":20,"@optoolco/tonic":21}],19:[function(require,module,exports){
 const input = document.getElementById('tonic-input-example')
 const span = document.getElementById('tonic-input-state')
 
@@ -1848,10 +1940,10 @@ input.addEventListener('input', listener)
 input.addEventListener('blur', listener)
 input.addEventListener('focus', listener)
 
-},{}],19:[function(require,module,exports){
+},{}],20:[function(require,module,exports){
 module.exports = { strict: false }
 
-},{}],20:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 class TonicRaw {
   constructor (rawText) {
     this.isTonicRaw = true
@@ -2192,8 +2284,15 @@ Object.assign(Tonic, {
 
 if (typeof module === 'object') module.exports = Tonic
 
-},{"./package":21}],21:[function(require,module,exports){
+},{"./package":22}],22:[function(require,module,exports){
 module.exports={
+  "_args": [
+    [
+      "@optoolco/tonic@11.0.0",
+      "/Users/paolofragomeni/projects/optoolco/components"
+    ]
+  ],
+  "_development": true,
   "_from": "@optoolco/tonic@11.0.0",
   "_id": "@optoolco/tonic@11.0.0",
   "_inBundle": false,
@@ -2212,22 +2311,18 @@ module.exports={
     "fetchSpec": "11.0.0"
   },
   "_requiredBy": [
-    "#DEV:/",
-    "#USER"
+    "#DEV:/"
   ],
   "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-11.0.0.tgz",
-  "_shasum": "5e3ca909490ab5981d511d5ca40ebe108d73e9c5",
-  "_spec": "@optoolco/tonic@11.0.0",
-  "_where": "/home/raynos/optoolco/components",
+  "_spec": "11.0.0",
+  "_where": "/Users/paolofragomeni/projects/optoolco/components",
   "author": {
     "name": "optoolco"
   },
   "bugs": {
     "url": "https://github.com/optoolco/tonic/issues"
   },
-  "bundleDependencies": false,
   "dependencies": {},
-  "deprecated": false,
   "description": "A composable component inspired by React.",
   "devDependencies": {
     "benchmark": "^2.1.4",
@@ -2256,7 +2351,7 @@ module.exports={
   "version": "11.0.0"
 }
 
-},{}],22:[function(require,module,exports){
+},{}],23:[function(require,module,exports){
 "use strict";
 
 module.exports = exports = self.fetch;
@@ -2268,7 +2363,7 @@ exports.Headers = self.Headers;
 exports.Request = self.Request;
 exports.Response = self.Response;
 
-},{}],23:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -2454,13 +2549,13 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],24:[function(require,module,exports){
+},{}],25:[function(require,module,exports){
 const qs = (s, p) => (p || document).querySelector(s)
 const qsa = (s, p) => [...(p || document).querySelectorAll(s)]
 
 module.exports = { qs, qsa }
 
-},{}],25:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 var requestFrame = (function () {
   return window.requestAnimationFrame ||
     window.webkitRequestAnimationFrame ||
@@ -2515,7 +2610,7 @@ module.exports = function scrollToY (el, Y, speed) {
   setY()
 }
 
-},{}],26:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 (function (setImmediate,clearImmediate){
 var nextTick = require('process/browser.js').nextTick;
 var apply = Function.prototype.apply;
@@ -2594,7 +2689,7 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
   delete immediateIds[id];
 };
 }).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-},{"process/browser.js":23,"timers":26}],27:[function(require,module,exports){
+},{"process/browser.js":24,"timers":27}],28:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class Panel extends Tonic {
@@ -2835,7 +2930,7 @@ class Panel extends Tonic {
 
 module.exports = { Panel }
 
-},{"@optoolco/tonic":20}],28:[function(require,module,exports){
+},{"@optoolco/tonic":21}],29:[function(require,module,exports){
 const fetch = require('node-fetch')
 const Tonic = require('@optoolco/tonic')
 const { Panel } = require('./index')
@@ -2891,7 +2986,7 @@ const panel = document.getElementById('content-panel-example')
 
 panelLink.addEventListener('click', e => panel.show())
 
-},{"./index":27,"@optoolco/tonic":20,"node-fetch":22}],29:[function(require,module,exports){
+},{"./index":28,"@optoolco/tonic":21,"node-fetch":23}],30:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicPopover extends Tonic {
@@ -3091,9 +3186,9 @@ class TonicPopover extends Tonic {
 
 module.exports = { TonicPopover }
 
-},{"@optoolco/tonic":20}],30:[function(require,module,exports){
+},{"@optoolco/tonic":21}],31:[function(require,module,exports){
 arguments[4][7][0].apply(exports,arguments)
-},{"dup":7}],31:[function(require,module,exports){
+},{"dup":7}],32:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
@@ -3309,13 +3404,13 @@ TonicProfileImage.svg.default = () => TonicProfileImage.svg.toURL(`
 
 module.exports = { TonicProfileImage }
 
-},{"../mode":19,"@optoolco/tonic":20}],32:[function(require,module,exports){
+},{"../mode":20,"@optoolco/tonic":21}],33:[function(require,module,exports){
 const profile = document.getElementById('profile-image-example-editable')
 
 profile.addEventListener('change', e => console.log(e.data))
 profile.addEventListener('error', e => console.log(e.message))
 
-},{}],33:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
@@ -3407,7 +3502,7 @@ class TonicProgressBar extends Tonic {
 
 module.exports = { TonicProgressBar }
 
-},{"../mode":19,"@optoolco/tonic":20}],34:[function(require,module,exports){
+},{"../mode":20,"@optoolco/tonic":21}],35:[function(require,module,exports){
 let percentage = 0
 let interval = null
 
@@ -3425,7 +3520,7 @@ document.getElementById('stop-progress').addEventListener('click', e => {
   clearInterval(interval)
 })
 
-},{}],35:[function(require,module,exports){
+},{}],36:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
@@ -3639,9 +3734,9 @@ class TonicRange extends Tonic {
 
 module.exports = { TonicRange }
 
-},{"../mode":19,"@optoolco/tonic":20}],36:[function(require,module,exports){
+},{"../mode":20,"@optoolco/tonic":21}],37:[function(require,module,exports){
 arguments[4][7][0].apply(exports,arguments)
-},{"dup":7}],37:[function(require,module,exports){
+},{"dup":7}],38:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const weekdays = [
@@ -4123,7 +4218,7 @@ const timeFormatter = makeFormatter({
 
 module.exports = { TonicRelativeTime, RelativeTime }
 
-},{"@optoolco/tonic":20}],38:[function(require,module,exports){
+},{"@optoolco/tonic":21}],39:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
@@ -4423,7 +4518,7 @@ TonicRouter.matcher = (() => {
 
 module.exports = { TonicRouter }
 
-},{"../mode":19,"@optoolco/tonic":20}],39:[function(require,module,exports){
+},{"../mode":20,"@optoolco/tonic":21}],40:[function(require,module,exports){
 const select = document.getElementById('tonic-router-select')
 const page2 = document.getElementById('page2')
 
@@ -4437,7 +4532,7 @@ page2.addEventListener('match', () => {
   el.textContent = number
 })
 
-},{}],40:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicSelect extends Tonic {
@@ -4683,7 +4778,7 @@ TonicSelect.svg.default = () => TonicSelect.svg.toURL(`
 
 module.exports = { TonicSelect }
 
-},{"@optoolco/tonic":20}],41:[function(require,module,exports){
+},{"@optoolco/tonic":21}],42:[function(require,module,exports){
 const select = document.getElementById('options-example-1')
 const notification = document.getElementsByTagName('tonic-toaster')[0]
 
@@ -4696,7 +4791,7 @@ select.addEventListener('change', ({ target }) => {
   })
 })
 
-},{}],42:[function(require,module,exports){
+},{}],43:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicSprite extends Tonic {
@@ -4763,7 +4858,7 @@ class TonicSprite extends Tonic {
 
 module.exports = { TonicSprite }
 
-},{"@optoolco/tonic":20}],43:[function(require,module,exports){
+},{"@optoolco/tonic":21}],44:[function(require,module,exports){
 (function (setImmediate){
 const Tonic = require('@optoolco/tonic')
 
@@ -4944,9 +5039,9 @@ module.exports = {
 }
 
 }).call(this,require("timers").setImmediate)
-},{"../mode":19,"@optoolco/tonic":20,"timers":26}],44:[function(require,module,exports){
+},{"../mode":20,"@optoolco/tonic":21,"timers":27}],45:[function(require,module,exports){
 arguments[4][7][0].apply(exports,arguments)
-},{"dup":7}],45:[function(require,module,exports){
+},{"dup":7}],46:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
@@ -5112,9 +5207,9 @@ class TonicTextarea extends Tonic {
 
 module.exports = { TonicTextarea }
 
-},{"../mode":19,"@optoolco/tonic":20}],46:[function(require,module,exports){
+},{"../mode":20,"@optoolco/tonic":21}],47:[function(require,module,exports){
 arguments[4][7][0].apply(exports,arguments)
-},{"dup":7}],47:[function(require,module,exports){
+},{"dup":7}],48:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicToasterInline extends Tonic {
@@ -5329,13 +5424,13 @@ class TonicToasterInline extends Tonic {
 
 module.exports = { TonicToasterInline }
 
-},{"@optoolco/tonic":20}],48:[function(require,module,exports){
+},{"@optoolco/tonic":21}],49:[function(require,module,exports){
 const toaster1 = document.getElementById('toaster-1')
 const toasterLink1 = document.getElementById('toaster-link-1')
 
 toasterLink1.addEventListener('click', e => toaster1.show())
 
-},{}],49:[function(require,module,exports){
+},{}],50:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicToaster extends Tonic {
@@ -5592,7 +5687,7 @@ class TonicToaster extends Tonic {
 
 module.exports = { TonicToaster }
 
-},{"@optoolco/tonic":20}],50:[function(require,module,exports){
+},{"@optoolco/tonic":21}],51:[function(require,module,exports){
 const notification = document.querySelector('tonic-toaster')
 
 document
@@ -5603,7 +5698,7 @@ document
     message: 'Hello, World'
   }))
 
-},{}],51:[function(require,module,exports){
+},{}],52:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
@@ -5823,9 +5918,9 @@ class TonicToggle extends Tonic {
 
 module.exports = { TonicToggle }
 
-},{"../mode":19,"@optoolco/tonic":20}],52:[function(require,module,exports){
+},{"../mode":20,"@optoolco/tonic":21}],53:[function(require,module,exports){
 arguments[4][7][0].apply(exports,arguments)
-},{"dup":7}],53:[function(require,module,exports){
+},{"dup":7}],54:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicTooltip extends Tonic {
@@ -5985,9 +6080,9 @@ class TonicTooltip extends Tonic {
 
 module.exports = { TonicTooltip }
 
-},{"@optoolco/tonic":20}],54:[function(require,module,exports){
+},{"@optoolco/tonic":21}],55:[function(require,module,exports){
 arguments[4][7][0].apply(exports,arguments)
-},{"dup":7}],55:[function(require,module,exports){
+},{"dup":7}],56:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
@@ -6344,7 +6439,7 @@ class Windowed extends Tonic {
 
 module.exports = { Windowed }
 
-},{"../mode":19,"@optoolco/tonic":20}],56:[function(require,module,exports){
+},{"../mode":20,"@optoolco/tonic":21}],57:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 const { Windowed } = require('./index')
 
@@ -6416,4 +6511,4 @@ overlay.addEventListener('click', e => {
   windowed.load(rows)
 })
 
-},{"./index":55,"@optoolco/tonic":20}]},{},[12]);
+},{"./index":56,"@optoolco/tonic":21}]},{},[12]);

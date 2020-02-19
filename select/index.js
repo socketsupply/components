@@ -212,6 +212,7 @@ class TonicSelect extends Tonic {
     if (width) this.style.width = width
     if (height) this.style.width = height
     if (theme) this.classList.add(`tonic--theme--${theme}`)
+    if (name) this.removeAttribute('name')
     if (tabindex) this.removeAttribute('tabindex')
 
     return this.html`

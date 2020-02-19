@@ -165,7 +165,7 @@ class TonicInput extends Tonic {
     return this.html`
       <label
         for="tonic--input_${this.props.id}"
-      >${this.props.label}</label>
+      >${Tonic.raw(this.props.label)}</label>
     `
   }
 
@@ -338,7 +338,6 @@ class TonicInput extends Tonic {
           id: `tonic--input_${this.props.id}`,
           ...attributes
         }}/>
-
         <div class="tonic--invalid">
           <span id="tonic--error-${this.props.id}">${errorMessage}</span>
         </div>

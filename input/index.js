@@ -293,7 +293,6 @@ class TonicInput extends Tonic {
 
     if (ariaLabelledby) this.removeAttribute('ariaLabelledby')
     if (height) this.style.width = height
-    if (name) this.removeAttribute('name')
     if (tabindex) this.removeAttribute('tabindex')
     if (theme) this.classList.add(`tonic--theme--${theme}`)
 
@@ -338,6 +337,7 @@ class TonicInput extends Tonic {
           id: `tonic--input_${this.props.id}`,
           ...attributes
         }}/>
+
         <div class="tonic--invalid">
           <span id="tonic--error-${this.props.id}">${errorMessage}</span>
         </div>

@@ -6,6 +6,8 @@ class TonicForm extends Tonic {
   }
 
   static getPropertyValue (o, path) {
+    if (!path) return null
+
     const parts = path.split('.')
     let value = o
 
@@ -18,6 +20,8 @@ class TonicForm extends Tonic {
   }
 
   static setPropertyValue (o, path, v) {
+    if (!path) return
+
     const parts = path.split('.')
     let value = o
 

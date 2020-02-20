@@ -39,7 +39,7 @@
   },
   "homepage": "https://github.com/optoolco/components#readme",
   "devDependencies": {
-    "@optoolco/tonic": "11.0.0",
+    "@optoolco/tonic": "11.0.3",
     "autoprefixer-stylus": "^0.14.0",
     "beefy": "2.1.8",
     "browserify": "^16.2.2",

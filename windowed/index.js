@@ -78,7 +78,11 @@ class Windowed extends Tonic {
     const index = arguments[0]
     const totalItems = arguments.length - 2
 
-    if (index <= this.currentVisibleRowIndex) {
+    // If index === 0 then the user has not scrolled yet.
+    // So do not auto scroll the table. If current visible row
+    // is zero then the user just wants to look at the top
+    // of the table.
+    if (index <= this.currentVisibleRowIndex && index !== 0) {
       this.prependCounter += totalItems
       this.currentVisibleRowIndex += totalItems
     }

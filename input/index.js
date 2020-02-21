@@ -204,7 +204,6 @@ class TonicInput extends Tonic {
     input.addEventListener('input', e => {
       set('value', e.target.value)
       set('pos', e.target.selectionStart)
-      relay('input')
     })
 
     const state = this.getState()

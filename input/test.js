@@ -3,7 +3,53 @@ const { qs } = require('qs')
 
 const { html } = require('../test/util')
 const components = require('..')
-components(require('@optoolco/tonic'))
+const Tonic = require('@optoolco/tonic')
+components(Tonic)
+
+const requestAnimationFrame = window.requestAnimationFrame
+
+class InputWrapper extends Tonic {
+  constructor (o) {
+    super(o)
+
+    this.state = {
+      copyValue: '',
+      currentValue: '',
+      inputEvents: 0,
+      ...this.state
+    }
+  }
+
+  input () {
+    console.log('input ev')
+    this.state.inputEvents++
+
+    const input = this.querySelector('tonic-input')
+    this.state.currentValue = input.value
+  }
+
+  click (ev) {
+    console.log('click ev')
+    const el = Tonic.match(ev.target, '[data-event]')
+    if (!el || el.dataset.event !== 'copy') return
+
+    this.state.copyValue = this.state.currentValue
+    this.reRender()
+  }
+
+  render () {
+    console.log('render()', JSON.stringify(this.state))
+    return this.html`
+      <div>
+        <tonic-input id='tonic-input-wrapped'>
+        </tonic-input>
+        <tonic-button data-event='copy'>Copy</tonic-button>
+        <span class='display'>${this.state.copyValue}</span>
+      </div>
+    `
+  }
+}
+Tonic.add(InputWrapper, 'input-test-wrapper-comp')
 
 document.body.appendChild(html`
 <section id="input">
@@ -95,6 +141,11 @@ document.body.appendChild(html`
       id="input-11"
       readonly="true">
     </tonic-input>
+  </div>
+
+  <div class="test-container">
+    <span>Test Wrapper Comp</span>
+    <input-test-wrapper-comp></input-test-wrapper-comp>
   </div>
 
   <!-- <div class="test-container">
@@ -306,4 +357,52 @@ tape('{{input-11}} has readonly attribute', t => {
   t.ok(input.hasAttribute('readonly'), 'input has a readonly attribute')
 
   t.end()
+})
+
+tape('{{input-1}} event handlers', t => {
+  const component = qs('tonic-input#input-1')
+  const input = qs('input', component)
+
+  let counter = 0
+
+  component.addEventListener('input', (ev) => {
+    t.equal(++counter, 1)
+    t.equal(ev.currentTarget.value, 'someText')
+
+    t.end()
+  })
+
+  input.value = 'someText'
+  input.dispatchEvent(new window.Event('input', {
+    bubbles: true
+  }))
+})
+
+tape('input wrapper component interactions', t => {
+  const comp = qs('input-test-wrapper-comp')
+
+  let display = comp.querySelector('span.display')
+  t.equal(display.textContent, '')
+
+  const rawInputs = comp.querySelectorAll('input')
+  t.equal(rawInputs.length, 1)
+
+  const input = rawInputs[0]
+  input.value = 'someText'
+  input.dispatchEvent(new window.Event('input', {
+    bubbles: true
+  }))
+
+  const buttons = comp.querySelectorAll('button')
+  t.equal(buttons.length, 1)
+
+  buttons[0].click()
+
+  requestAnimationFrame(() => {
+    display = comp.querySelector('span.display')
+    t.equal(display.textContent, 'someText')
+    t.equal(comp.state.inputEvents, 1)
+
+    t.end()
+  })
 })

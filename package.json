@@ -7,20 +7,20 @@
   },
   "scripts": {
     "dev": "npm run build && ./bin/server",
-    "dist": "browserify -s components index.js > dist/index.js",
+    "dist": "npr browserify -s components index.js > dist/index.js",
     "prepublish": "API=true npm run build",
-    "watch": "chokidar \"src/**/*.js\" -c \"npm run build\"",
+    "watch": "npr chokidar \"src/**/*.js\" -c \"npm run build\"",
     "build": "npm run build:styl && npm run build:docs && npm run build:test",
-    "build:test": "node test/old/build.js && browserify ./test/old/test.js > ./docs/test.js",
+    "build:test": "node test/old/build.js && npr browserify ./test/old/test.js > ./docs/test.js",
     "build:docs": "./bin/build-docs && npm run build:docs:js",
-    "build:docs:js": "browserify ./docs/src/index.js > ./docs/bundle.js",
+    "build:docs:js": "npr browserify ./docs/src/index.js > ./docs/bundle.js",
     "build:styl": "cp ./theme.css ./docs && npm run build:styl:test && npm run build:styl:docs",
-    "build:styl:test": "stylus -u autoprefixer-stylus ./test/old/index.styl -o ./docs/test.css",
-    "build:styl:docs": "stylus -u autoprefixer-stylus ./docs/src/index.styl -o ./docs",
-    "test": "standard && npm run test:suite && npm run testcafe && npm run test:verify",
-    "test:suite": "browserify test/index.js | tape-puppet",
+    "build:styl:test": "npr stylus -u autoprefixer-stylus ./test/old/index.styl -o ./docs/test.css",
+    "build:styl:docs": "npr stylus -u autoprefixer-stylus ./docs/src/index.styl -o ./docs",
+    "test": "npr standard && npm run test:suite && npm run testcafe && npm run test:verify",
+    "test:suite": "npr browserify test/index.js | npr tape-puppet",
     "test:verify": "bash ./scripts/verify-included.sh",
-    "testcafe": "testcafe chrome:headless ./test/testcafe"
+    "testcafe": "npr testcafe chrome:headless ./test/testcafe"
   },
   "repository": {
     "type": "git",
@@ -38,27 +38,29 @@
     ]
   },
   "homepage": "https://github.com/optoolco/components#readme",
+  "binDependencies": {
+    "autoprefixer-stylus": "^0.14.0",
+    "budo": "11.6.3",
+    "chokidar-cli": "2.1.0",
+    "raynos-tape-puppet": "0.1.7-raynos2",
+    "standard": "14.3.1",
+    "stylus": "^0.54.5",
+    "tape-run": "^4.0.0",
+    "testcafe": "1.6.1"
+  },
   "devDependencies": {
     "@optoolco/tonic": "11.0.3",
-    "autoprefixer-stylus": "^0.14.0",
-    "beefy": "2.1.8",
-    "browserify": "^16.2.2",
+    "@pre-bundled/send": "0.16.2-patch-1",
+    "@pre-bundled/tape": "4.11.0",
     "chart.js": "^2.9.2",
-    "chokidar-cli": "2.1.0",
     "highlight.js": "^9.12.0",
     "marked": "^0.7.0",
     "minimist": "^1.2.0",
     "mkdirp": "^0.5.1",
     "node-fetch": "^2.2.0",
+    "npm-bin-deps": "1.4.2",
     "qs": "github:hxoht/qs",
-    "raynos-tape-puppet": "0.1.7-raynos2",
-    "scrolltoy": "github:voltraco/scrolltoy",
-    "send": "^0.16.2",
-    "standard": "14.3.1",
-    "stylus": "^0.54.5",
-    "tape": "^4.9.1",
-    "tape-run": "^4.0.0",
-    "testcafe": "1.6.1"
+    "scrolltoy": "github:voltraco/scrolltoy"
   },
   "dependencies": {}
 }

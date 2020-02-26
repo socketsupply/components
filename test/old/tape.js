@@ -1,4 +1,4 @@
-const tape = require('tape')
+const tape = require('@pre-bundled/tape')
 const stream = tape.createStream({ objectMode: true })
 
 const inc = id => {

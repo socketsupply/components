@@ -86,7 +86,7 @@ document.body.appendChild(html`
 //
 // Dialog Tests
 //
-const tape = require('tape')
+const tape = require('@pre-bundled/tape')
 const { qs } = require('qs')
 
 tape('{{dialog-1}} is constructed properly, opens and closes properly', async t => {

@@ -1,4 +1,4 @@
 {
   "browsers": "chrome",
-  "appCommand": "npr beefy ./test/fixtures/testcafe.js 8030"
+  "appCommand": "npr budo ./test/fixtures/testcafe.js -p 8030"
 }

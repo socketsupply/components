@@ -40,8 +40,7 @@
   "homepage": "https://github.com/optoolco/components#readme",
   "binDependencies": {
     "autoprefixer-stylus": "^0.14.0",
-    "beefy": "2.1.8",
-    "browserify": "^16.2.2",
+    "budo": "11.6.3",
     "chokidar-cli": "2.1.0",
     "raynos-tape-puppet": "0.1.7-raynos2",
     "standard": "14.3.1",

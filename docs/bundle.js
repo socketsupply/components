@@ -1349,6 +1349,8 @@ class TonicForm extends Tonic {
   }
 
   static getPropertyValue (o, path) {
+    if (!path) return null
+
     const parts = path.split('.')
     let value = o
 
@@ -1361,6 +1363,8 @@ class TonicForm extends Tonic {
   }
 
   static setPropertyValue (o, path, v) {
+    if (!path) return
+
     const parts = path.split('.')
     let value = o
 
@@ -1741,7 +1745,7 @@ class TonicInput extends Tonic {
     return this.html`
       <label
         for="tonic--input_${this.props.id}"
-      >${this.props.label}</label>
+      >${Tonic.raw(this.props.label)}</label>
     `
   }
 
@@ -1780,7 +1784,6 @@ class TonicInput extends Tonic {
     input.addEventListener('input', e => {
       set('value', e.target.value)
       set('pos', e.target.selectionStart)
-      relay('input')
     })
 
     const state = this.getState()
@@ -1959,9 +1962,9 @@ class Tonic extends window.HTMLElement {
     this.isTonicComponent = true
     this.state = state || {}
     this.props = {}
-    this.elements = [...this.children].map(el => el.cloneNode(true))
+    this.elements = [...this.children]
     this.elements.__children__ = true
-    this.nodes = [...this.childNodes].map(el => el.cloneNode(true))
+    this.nodes = [...this.childNodes]
     this.nodes.__children__ = true
     this._events()
   }
@@ -2271,7 +2274,7 @@ Object.assign(Tonic, {
   _children: {},
   _reg: {},
   _index: 0,
-  version: require ? require('./package').version : null,
+  version: typeof require !== 'undefined' ? require('./package').version : null,
   SPREAD: /\.\.\.\s?(__\w+__\w+__)/g,
   ESC: /["&'<>`]/g,
   AsyncFunctionGenerator: async function * () {}.constructor,
@@ -2283,43 +2286,40 @@ if (typeof module === 'object') module.exports = Tonic
 
 },{"./package":22}],22:[function(require,module,exports){
 module.exports={
-  "_args": [
-    [
-      "@optoolco/tonic@11.0.0",
-      "/Users/paolofragomeni/projects/optoolco/components"
-    ]
-  ],
-  "_development": true,
-  "_from": "@optoolco/tonic@11.0.0",
-  "_id": "@optoolco/tonic@11.0.0",
+  "_from": "@optoolco/tonic@next",
+  "_id": "@optoolco/tonic@11.0.3",
   "_inBundle": false,
-  "_integrity": "sha512-nj6U2UUGHr6lOmhcEi5nEP9vdnEc8PQX/5+X4NjA96lrkfxnyiPyrIgnfe5LHY9BX7vPLid4BOp3Ne5B8QGJ4Q==",
+  "_integrity": "sha512-0hDou0iEQQueM7Ej68rcqcM9WrEy4YKWwTMpN7Pl7izZt+e/GcmMAf+B06buFYkrvxxY3per9HZG4e4WM84M4A==",
   "_location": "/@optoolco/tonic",
   "_phantomChildren": {},
   "_requested": {
-    "type": "version",
+    "type": "tag",
     "registry": true,
-    "raw": "@optoolco/tonic@11.0.0",
+    "raw": "@optoolco/tonic@next",
     "name": "@optoolco/tonic",
     "escapedName": "@optoolco%2ftonic",
     "scope": "@optoolco",
-    "rawSpec": "11.0.0",
+    "rawSpec": "next",
     "saveSpec": null,
-    "fetchSpec": "11.0.0"
+    "fetchSpec": "next"
   },
   "_requiredBy": [
-    "#DEV:/"
+    "#DEV:/",
+    "#USER"
   ],
-  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-11.0.0.tgz",
-  "_spec": "11.0.0",
-  "_where": "/Users/paolofragomeni/projects/optoolco/components",
+  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-11.0.3.tgz",
+  "_shasum": "b555128201a553fa8951804b6c4e6988abfe905d",
+  "_spec": "@optoolco/tonic@next",
+  "_where": "/home/raynos/optoolco/components",
   "author": {
     "name": "optoolco"
   },
   "bugs": {
     "url": "https://github.com/optoolco/tonic/issues"
   },
+  "bundleDependencies": false,
   "dependencies": {},
+  "deprecated": false,
   "description": "A composable component inspired by React.",
   "devDependencies": {
     "benchmark": "^2.1.4",
@@ -2343,9 +2343,9 @@ module.exports={
   "scripts": {
     "build:demo": "browserify --bare ./demo > ./docs/bundle.js",
     "minify": "terser index.js -c unused,dead_code,hoist_vars,loops=false,hoist_props=true,hoist_funs,toplevel,keep_classnames,keep_fargs=false -o dist/tonic.min.js",
-    "test": "browserify test/index.js | tape-puppet"
+    "test": "npm run minify && browserify test/index.js | tape-puppet"
   },
-  "version": "11.0.0"
+  "version": "11.0.3"
 }
 
 },{}],23:[function(require,module,exports){
@@ -4744,6 +4744,7 @@ class TonicSelect extends Tonic {
     if (width) this.style.width = width
     if (height) this.style.width = height
     if (theme) this.classList.add(`tonic--theme--${theme}`)
+    if (name) this.removeAttribute('name')
     if (tabindex) this.removeAttribute('tabindex')
 
     return this.html`
@@ -6160,7 +6161,11 @@ class Windowed extends Tonic {
     const index = arguments[0]
     const totalItems = arguments.length - 2
 
-    if (index <= this.currentVisibleRowIndex) {
+    // If index === 0 then the user has not scrolled yet.
+    // So do not auto scroll the table. If current visible row
+    // is zero then the user just wants to look at the top
+    // of the table.
+    if (index <= this.currentVisibleRowIndex && index !== 0) {
       this.prependCounter += totalItems
       this.currentVisibleRowIndex += totalItems
     }

@@ -1880,6 +1880,8 @@ class TonicForm extends Tonic {
   }
 
   static getPropertyValue (o, path) {
+    if (!path) return null
+
     const parts = path.split('.')
     let value = o
 
@@ -1892,6 +1894,8 @@ class TonicForm extends Tonic {
   }
 
   static setPropertyValue (o, path, v) {
+    if (!path) return
+
     const parts = path.split('.')
     let value = o
 
@@ -2411,7 +2415,7 @@ class TonicInput extends Tonic {
     return this.html`
       <label
         for="tonic--input_${this.props.id}"
-      >${this.props.label}</label>
+      >${Tonic.raw(this.props.label)}</label>
     `
   }
 
@@ -2450,7 +2454,6 @@ class TonicInput extends Tonic {
     input.addEventListener('input', e => {
       set('value', e.target.value)
       set('pos', e.target.selectionStart)
-      relay('input')
     })
 
     const state = this.getState()
@@ -2600,7 +2603,53 @@ const { qs } = require('qs')
 
 const { html } = require('../test/util')
 const components = require('..')
-components(require('@optoolco/tonic'))
+const Tonic = require('@optoolco/tonic')
+components(Tonic)
+
+const requestAnimationFrame = window.requestAnimationFrame
+
+class InputWrapper extends Tonic {
+  constructor (o) {
+    super(o)
+
+    this.state = {
+      copyValue: '',
+      currentValue: '',
+      inputEvents: 0,
+      ...this.state
+    }
+  }
+
+  input () {
+    console.log('input ev')
+    this.state.inputEvents++
+
+    const input = this.querySelector('tonic-input')
+    this.state.currentValue = input.value
+  }
+
+  click (ev) {
+    console.log('click ev')
+    const el = Tonic.match(ev.target, '[data-event]')
+    if (!el || el.dataset.event !== 'copy') return
+
+    this.state.copyValue = this.state.currentValue
+    this.reRender()
+  }
+
+  render () {
+    console.log('render()', JSON.stringify(this.state))
+    return this.html`
+      <div>
+        <tonic-input id='tonic-input-wrapped'>
+        </tonic-input>
+        <tonic-button data-event='copy'>Copy</tonic-button>
+        <span class='display'>${this.state.copyValue}</span>
+      </div>
+    `
+  }
+}
+Tonic.add(InputWrapper, 'input-test-wrapper-comp')
 
 document.body.appendChild(html`
 <section id="input">
@@ -2692,6 +2741,11 @@ document.body.appendChild(html`
       id="input-11"
       readonly="true">
     </tonic-input>
+  </div>
+
+  <div class="test-container">
+    <span>Test Wrapper Comp</span>
+    <input-test-wrapper-comp></input-test-wrapper-comp>
   </div>
 
   <!-- <div class="test-container">
@@ -2905,6 +2959,54 @@ tape('{{input-11}} has readonly attribute', t => {
   t.end()
 })
 
+tape('{{input-1}} event handlers', t => {
+  const component = qs('tonic-input#input-1')
+  const input = qs('input', component)
+
+  let counter = 0
+
+  component.addEventListener('input', (ev) => {
+    t.equal(++counter, 1)
+    t.equal(ev.currentTarget.value, 'someText')
+
+    t.end()
+  })
+
+  input.value = 'someText'
+  input.dispatchEvent(new window.Event('input', {
+    bubbles: true
+  }))
+})
+
+tape('input wrapper component interactions', t => {
+  const comp = qs('input-test-wrapper-comp')
+
+  let display = comp.querySelector('span.display')
+  t.equal(display.textContent, '')
+
+  const rawInputs = comp.querySelectorAll('input')
+  t.equal(rawInputs.length, 1)
+
+  const input = rawInputs[0]
+  input.value = 'someText'
+  input.dispatchEvent(new window.Event('input', {
+    bubbles: true
+  }))
+
+  const buttons = comp.querySelectorAll('button')
+  t.equal(buttons.length, 1)
+
+  buttons[0].click()
+
+  requestAnimationFrame(() => {
+    display = comp.querySelector('span.display')
+    t.equal(display.textContent, 'someText')
+    t.equal(comp.state.inputEvents, 1)
+
+    t.end()
+  })
+})
+
 },{"..":15,"../test/util":104,"@optoolco/tonic":19,"qs":55,"tape":77}],18:[function(require,module,exports){
 module.exports = { strict: false }
 
@@ -2927,9 +3029,9 @@ class Tonic extends window.HTMLElement {
     this.isTonicComponent = true
     this.state = state || {}
     this.props = {}
-    this.elements = [...this.children].map(el => el.cloneNode(true))
+    this.elements = [...this.children]
     this.elements.__children__ = true
-    this.nodes = [...this.childNodes].map(el => el.cloneNode(true))
+    this.nodes = [...this.childNodes]
     this.nodes.__children__ = true
     this._events()
   }
@@ -3239,7 +3341,7 @@ Object.assign(Tonic, {
   _children: {},
   _reg: {},
   _index: 0,
-  version: require ? require('./package').version : null,
+  version: typeof require !== 'undefined' ? require('./package').version : null,
   SPREAD: /\.\.\.\s?(__\w+__\w+__)/g,
   ESC: /["&'<>`]/g,
   AsyncFunctionGenerator: async function * () {}.constructor,
@@ -3251,43 +3353,40 @@ if (typeof module === 'object') module.exports = Tonic
 
 },{"./package":20}],20:[function(require,module,exports){
 module.exports={
-  "_args": [
-    [
-      "@optoolco/tonic@11.0.0",
-      "/Users/paolofragomeni/projects/optoolco/components"
-    ]
-  ],
-  "_development": true,
-  "_from": "@optoolco/tonic@11.0.0",
-  "_id": "@optoolco/tonic@11.0.0",
+  "_from": "@optoolco/tonic@next",
+  "_id": "@optoolco/tonic@11.0.3",
   "_inBundle": false,
-  "_integrity": "sha512-nj6U2UUGHr6lOmhcEi5nEP9vdnEc8PQX/5+X4NjA96lrkfxnyiPyrIgnfe5LHY9BX7vPLid4BOp3Ne5B8QGJ4Q==",
+  "_integrity": "sha512-0hDou0iEQQueM7Ej68rcqcM9WrEy4YKWwTMpN7Pl7izZt+e/GcmMAf+B06buFYkrvxxY3per9HZG4e4WM84M4A==",
   "_location": "/@optoolco/tonic",
   "_phantomChildren": {},
   "_requested": {
-    "type": "version",
+    "type": "tag",
     "registry": true,
-    "raw": "@optoolco/tonic@11.0.0",
+    "raw": "@optoolco/tonic@next",
     "name": "@optoolco/tonic",
     "escapedName": "@optoolco%2ftonic",
     "scope": "@optoolco",
-    "rawSpec": "11.0.0",
+    "rawSpec": "next",
     "saveSpec": null,
-    "fetchSpec": "11.0.0"
+    "fetchSpec": "next"
   },
   "_requiredBy": [
-    "#DEV:/"
+    "#DEV:/",
+    "#USER"
   ],
-  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-11.0.0.tgz",
-  "_spec": "11.0.0",
-  "_where": "/Users/paolofragomeni/projects/optoolco/components",
+  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-11.0.3.tgz",
+  "_shasum": "b555128201a553fa8951804b6c4e6988abfe905d",
+  "_spec": "@optoolco/tonic@next",
+  "_where": "/home/raynos/optoolco/components",
   "author": {
     "name": "optoolco"
   },
   "bugs": {
     "url": "https://github.com/optoolco/tonic/issues"
   },
+  "bundleDependencies": false,
   "dependencies": {},
+  "deprecated": false,
   "description": "A composable component inspired by React.",
   "devDependencies": {
     "benchmark": "^2.1.4",
@@ -3311,9 +3410,9 @@ module.exports={
   "scripts": {
     "build:demo": "browserify --bare ./demo > ./docs/bundle.js",
     "minify": "terser index.js -c unused,dead_code,hoist_vars,loops=false,hoist_props=true,hoist_funs,toplevel,keep_classnames,keep_fargs=false -o dist/tonic.min.js",
-    "test": "browserify test/index.js | tape-puppet"
+    "test": "npm run minify && browserify test/index.js | tape-puppet"
   },
-  "version": "11.0.0"
+  "version": "11.0.3"
 }
 
 },{}],21:[function(require,module,exports){
@@ -14727,6 +14826,7 @@ class TonicSelect extends Tonic {
     if (width) this.style.width = width
     if (height) this.style.width = height
     if (theme) this.classList.add(`tonic--theme--${theme}`)
+    if (name) this.removeAttribute('name')
     if (tabindex) this.removeAttribute('tabindex')
 
     return this.html`

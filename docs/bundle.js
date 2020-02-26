@@ -2367,8 +2367,16 @@ class Tonic extends window.HTMLElement {
 
     this.pendingReRender = new Promise(resolve => {
       window.requestAnimationFrame(() => {
-        Tonic._maybePromise(this._set(this.root, this.render))
+        const p = this._set(this.root, this.render)
         this.pendingReRender = null
+
+        if (p && p.then) {
+          Tonic._maybePromise(p.then(() => {
+            if (this.updated) this.updated(oldProps)
+            resolve()
+          }))
+          return
+        }
 
         if (this.updated) this.updated(oldProps)
         resolve()
@@ -2392,8 +2400,16 @@ class Tonic extends window.HTMLElement {
     Tonic._maybePromise(this[e.type](e))
   }
 
-  async _set (target, render, content = '') {
-    window.promiseCounter++
+  _drainIterator (target, iterator) {
+    const p = iterator.next()
+    return p.then((result) => {
+      this._set(target, null, result.value)
+      if (result.done) return
+      return this._drainIterator(target, iterator)
+    })
+  }
+
+  _set (target, render, content = '') {
     for (const node of target.querySelectorAll(Tonic._tags)) {
       if (!node.isTonicComponent) continue
       if (!node.id || !Tonic._refIds.includes(node.id)) continue
@@ -2401,19 +2417,22 @@ class Tonic extends window.HTMLElement {
     }
 
     if (render instanceof Tonic.AsyncFunction) {
-      content = await render.call(this) || ''
+      const promise = render.call(this) || ''
+      return promise.then((content) => {
+        return this._apply(target, content)
+      })
     } else if (render instanceof Tonic.AsyncFunctionGenerator) {
       const itr = render.call(this)
-      while (true) {
-        const { value, done } = await itr.next()
-        this._set(target, null, value)
-        if (done) break
-      }
-      return
+      return this._drainIterator(target, itr)
     } else if (render instanceof Function) {
       content = render.call(this) || ''
+      return this._apply(target, content)
     }
 
+    return this._apply(target, content)
+  }
+
+  _apply (target, content) {
     if (content && content.isTonicRaw) {
       content = content.rawText
     }
@@ -2552,30 +2571,35 @@ if (typeof module === 'object') module.exports = Tonic
 
 },{"./package":24}],24:[function(require,module,exports){
 module.exports={
-  "_from": "@optoolco/tonic@next",
+  "_args": [
+    [
+      "@optoolco/tonic@11.0.3",
+      "/home/raynos/optoolco/components"
+    ]
+  ],
+  "_development": true,
+  "_from": "@optoolco/tonic@11.0.3",
   "_id": "@optoolco/tonic@11.0.3",
   "_inBundle": false,
   "_integrity": "sha512-0hDou0iEQQueM7Ej68rcqcM9WrEy4YKWwTMpN7Pl7izZt+e/GcmMAf+B06buFYkrvxxY3per9HZG4e4WM84M4A==",
   "_location": "/@optoolco/tonic",
   "_phantomChildren": {},
   "_requested": {
-    "type": "tag",
+    "type": "version",
     "registry": true,
-    "raw": "@optoolco/tonic@next",
+    "raw": "@optoolco/tonic@11.0.3",
     "name": "@optoolco/tonic",
     "escapedName": "@optoolco%2ftonic",
     "scope": "@optoolco",
-    "rawSpec": "next",
+    "rawSpec": "11.0.3",
     "saveSpec": null,
-    "fetchSpec": "next"
+    "fetchSpec": "11.0.3"
   },
   "_requiredBy": [
-    "#DEV:/",
-    "#USER"
+    "#DEV:/"
   ],
   "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-11.0.3.tgz",
-  "_shasum": "b555128201a553fa8951804b6c4e6988abfe905d",
-  "_spec": "@optoolco/tonic@next",
+  "_spec": "11.0.3",
   "_where": "/home/raynos/optoolco/components",
   "author": {
     "name": "optoolco"
@@ -2583,9 +2607,7 @@ module.exports={
   "bugs": {
     "url": "https://github.com/optoolco/tonic/issues"
   },
-  "bundleDependencies": false,
   "dependencies": {},
-  "deprecated": false,
   "description": "A composable component inspired by React.",
   "devDependencies": {
     "benchmark": "^2.1.4",

@@ -1,3421 +1,4 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-(function (setImmediate){
-const Tonic = require('@optoolco/tonic')
-
-const mode = require('../mode')
-
-class TonicAccordion extends Tonic {
-  defaults () {
-    return {
-      multiple: false
-    }
-  }
-
-  static stylesheet () {
-    return `
-      tonic-accordion {
-        display: block;
-        border: 1px solid var(--tonic-border, black);
-      }
-    `
-  }
-
-  qs (s) {
-    return this.querySelector(s)
-  }
-
-  qsa (s) {
-    return [...this.querySelectorAll(s)]
-  }
-
-  setVisibility (id) {
-    const trigger = document.getElementById(id)
-    if (!trigger) return
-
-    const allowMultiple = this.hasAttribute('data-allow-multiple')
-    const isExpanded = trigger.getAttribute('aria-expanded') === 'true'
-
-    if (!isExpanded && !allowMultiple) {
-      const triggers = this.qsa('.tonic--accordion-header button')
-      const panels = this.qsa('.tonic--accordion-panel')
-
-      triggers.forEach(el => el.setAttribute('aria-expanded', 'false'))
-      panels.forEach(el => el.setAttribute('hidden', ''))
-    }
-
-    const panelId = trigger.getAttribute('aria-controls')
-
-    if (isExpanded) {
-      trigger.setAttribute('aria-expanded', 'false')
-      const currentPanel = document.getElementById(panelId)
-      if (currentPanel) currentPanel.setAttribute('hidden', '')
-      return
-    }
-
-    trigger.setAttribute('aria-expanded', 'true')
-    const currentPanel = document.getElementById(panelId)
-    this.state.selected = id
-    if (currentPanel) currentPanel.removeAttribute('hidden')
-  }
-
-  click (e) {
-    const trigger = Tonic.match(e.target, 'button')
-    if (!trigger) return
-
-    this.setVisibility(trigger.id)
-  }
-
-  keydown (e) {
-    const trigger = Tonic.match(e.target, 'button.tonic--title')
-    if (!trigger) return
-
-    const CTRL = e.ctrlKey
-    const PAGEUP = e.code === 'PageUp'
-    const PAGEDOWN = e.code === 'PageDown'
-    const UPARROW = e.code === 'ArrowUp'
-    const DOWNARROW = e.code === 'ArrowDown'
-    const END = e.metaKey && e.code === 'ArrowDown'
-    const HOME = e.metaKey && e.code === 'ArrowUp'
-
-    const ctrlModifier = CTRL && (PAGEUP || PAGEDOWN)
-    const triggers = this.qsa('button.tonic--title')
-
-    if ((UPARROW || DOWNARROW) || ctrlModifier) {
-      const index = triggers.indexOf(e.target)
-      const direction = (PAGEDOWN || DOWNARROW) ? 1 : -1
-      const length = triggers.length
-      const newIndex = (index + length + direction) % length
-
-      triggers[newIndex].focus()
-      e.preventDefault()
-    }
-
-    if (HOME || END) {
-      switch (e.key) {
-        case HOME:
-          triggers[0].focus()
-          break
-        case END:
-          triggers[triggers.length - 1].focus()
-          break
-      }
-      e.preventDefault()
-    }
-  }
-
-  connected () {
-    const id = this.state.selected || this.props.selected
-    if (!id) return
-
-    setImmediate(() => this.setVisibility(id))
-  }
-
-  render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-accordion')
-    }
-
-    const {
-      multiple
-    } = this.props
-
-    if (multiple) this.setAttribute('data-allow-multiple', '')
-
-    return this.html`
-      ${this.nodes}
-    `
-  }
-}
-
-class TonicAccordionSection extends Tonic {
-  static stylesheet () {
-    return `
-      tonic-accordion-section {
-        display: block;
-      }
-
-      tonic-accordion-section:not(:last-of-type) {
-        border-bottom: 1px solid var(--tonic-border, black);
-      }
-
-      tonic-accordion-section h4 {
-        margin: 0;
-      }
-
-      tonic-accordion-section .tonic--accordion-header {
-        display: flex;
-      }
-
-      tonic-accordion-section button {
-        font-size: 14px;
-        text-align: left;
-        padding: 20px;
-        position: relative;
-        background: transparent;
-        border: 0;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-        outline: none;
-        width: 100%;
-      }
-
-      tonic-accordion-section button:focus {
-        outline: none;
-      }
-
-      tonic-accordion-section button:focus .tonic--label {
-        border-bottom: 3px solid Highlight;
-      }
-
-      tonic-accordion-section [hidden] {
-        display: none;
-      }
-
-      tonic-accordion-section .tonic--accordion-panel {
-        padding: 10px 50px 20px 20px;
-      }
-
-      tonic-accordion-section .tonic--accordion-header .tonic--arrow {
-        display: block;
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        width: 50px;
-      }
-
-      tonic-accordion-section .tonic--accordion-header .tonic--arrow:before {
-        content: "";
-        width: 8px;
-        height: 8px;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        -webkit-transform: translateY(-50%) translateX(-50%) rotate(135deg);
-        -moz-transform: translateY(-50%) translateX(-50%) rotate(135deg);
-        transform: translateY(-50%) translateX(-50%) rotate(135deg);
-        border-top: 1px solid var(--tonic-primary, #333);
-        border-right: 1px solid var(--tonic-primary, #333);
-      }
-
-      tonic-accordion-section .tonic--accordion-header[aria-expanded="true"] .tonic--arrow:before {
-        -webkit-transform: translateY(-50%) translateX(-50%) rotate(315deg);
-        -moz-transform: translateY(-50%) translateX(-50%) rotate(315deg);
-        transform: translateY(-50%) translateX(-50%) rotate(315deg);
-        margin-top: 3px;
-      }
-    `
-  }
-
-  render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-accordion-section')
-    }
-
-    const {
-      id,
-      name,
-      label
-    } = this.props
-
-    return this.html`
-      <h4
-        class="tonic--accordion-header"
-        role="heading">
-        <button
-          class="tonic--title"
-          id="tonic--accordion-header-${id}"
-          name="${name}"
-          aria-expanded="false"
-          aria-controls="tonic--accordion-panel-${id}">
-          <span class="tonic--label">${label}</span>
-          <span class="tonic--arrow"></span>
-        </button>
-      </h4>
-      <div
-        class="tonic--accordion-panel"
-        id="tonic--accordion-panel-${id}"
-        aria-labelledby="tonic--accordion-header-${id}"
-        role="region"
-        hidden>
-        ${this.nodes}
-      </div>
-    `
-  }
-}
-
-module.exports = {
-  TonicAccordion,
-  TonicAccordionSection
-}
-
-}).call(this,require("timers").setImmediate)
-},{"../mode":18,"@optoolco/tonic":19,"timers":82}],2:[function(require,module,exports){
-const Tonic = require('@optoolco/tonic')
-
-const mode = require('../mode')
-
-class TonicBadge extends Tonic {
-  defaults () {
-    return {
-      count: 0
-    }
-  }
-
-  get value () {
-    return this.state.count
-  }
-
-  set value (value) {
-    this.state.count = value
-    this.reRender()
-  }
-
-  static stylesheet () {
-    return `
-      tonic-badge * {
-        box-sizing: border-box;
-      }
-
-      tonic-badge .tonic--notifications {
-        width: 40px;
-        height: 40px;
-        text-align: center;
-        padding: 10px;
-        position: relative;
-        background-color: var(--tonic-background, #fff);
-        border-radius: 8px;
-      }
-
-      tonic-badge span:after {
-        content: '';
-        width: 8px;
-        height: 8px;
-        display: none;
-        position: absolute;
-        top: 7px;
-        right: 6px;
-        background-color: var(--tonic-notification, #f66);
-        border: 2px solid var(--tonic-background, #fff);
-        border-radius: 50%;
-      }
-
-      tonic-badge .tonic--notifications.tonic--new span:after {
-        display: block;
-      }
-
-      tonic-badge span {
-        color: var(--tonic-primary, #333);
-        font: 15px var(--tonic-subheader, 'Arial', sans-serif);
-        letter-spacing: 1px;
-        text-align: center;
-      }
-    `
-  }
-
-  willConnect () {
-    this.state.count = this.props.count
-  }
-
-  render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-badge')
-    }
-
-    const {
-      theme
-    } = this.props
-
-    let count = this.state.count
-
-    if (typeof count === 'undefined') {
-      count = this.props.count
-    }
-
-    if (theme) this.classList.add(`tonic--theme--${theme}`)
-
-    const countText = (count > 99) ? '99' : String(count)
-    const classes = ['tonic--notifications']
-    if (count > 0) classes.push('tonic--new')
-
-    return this.html`
-      <div ... ${{ class: classes.join(' ') }}>
-        <span>${countText}</span>
-      </div>
-    `
-  }
-}
-
-module.exports = {
-  TonicBadge
-}
-
-},{"../mode":18,"@optoolco/tonic":19}],3:[function(require,module,exports){
-const tape = require('tape')
-const { qs } = require('qs')
-
-const { html } = require('../test/util')
-const components = require('..')
-components(require('@optoolco/tonic'))
-
-document.body.appendChild(html`
-<section id="badge">
-  <h2>Badge</h2>
-
-  <div id="badge-1" class="test-container">
-    <span>Default</span>
-    <tonic-badge id="tonic-badge-1"></tonic-badge>
-  </div>
-
-  <div id="badge-2" class="test-container">
-    <span>count="6"</span>
-    <tonic-badge id="tonic-badge-2" count="6"></tonic-badge>
-  </div>
-
-  <div id="badge-3" class="test-container">
-    <span>theme="light"</span>
-    <tonic-badge id="tonic-badge-3" count="1" theme="light"></tonic-badge>
-  </div>
-
-  <div id="badge-4" class="dark test-container">
-    <span>theme="dark"</span>
-    <tonic-badge id="tonic-badge-4" count="1" theme="dark"></tonic-badge>
-  </div>
-
-</section>
-`)
-
-tape('{{badge-1}} has correct default state', t => {
-  const container = qs('#badge-1')
-  const component = qs('tonic-badge', container)
-
-  t.ok(component.firstElementChild, 'the component was constructed')
-  t.equal(component.value, 0, 'the default value is zero')
-
-  t.end()
-})
-
-tape('{{badge-2}} shows a count', t => {
-  const container = qs('#badge-2')
-  const component = qs('tonic-badge', container)
-  const span = qs('span', component)
-  const notification = qs('.tonic--new', component)
-
-  t.ok(component.firstElementChild, 'the component was constructed')
-  t.ok(component.hasAttribute('count'), 'the component has a count attribute')
-  t.equal(component.value, span.textContent, 'the badge shows the correct value')
-  t.ok(notification, 'badge shows new notifications')
-
-  t.end()
-})
-
-tape('badge shows tonic--new style', t => {
-  const span1 = qs('#badge-1 tonic-badge span')
-  const span2 = qs('#badge-2 tonic-badge span')
-
-  const styles1 = window.getComputedStyle(span1, ':after')
-  const styles2 = window.getComputedStyle(span2, ':after')
-
-  t.equal(styles1.display, 'none')
-  t.equal(styles2.display, 'block')
-
-  t.end()
-})
-
-},{"..":15,"../test/util":104,"@optoolco/tonic":19,"qs":55,"tape":77}],4:[function(require,module,exports){
-const Tonic = require('@optoolco/tonic')
-
-class TonicButton extends Tonic {
-  get value () {
-    return this.props.value
-  }
-
-  get form () {
-    return this.querySelector('button').form
-  }
-
-  get disabled () {
-    return this.props.disabled === true
-  }
-
-  set disabled (state) {
-    this.props.disabled = state
-  }
-
-  defaults () {
-    return {
-      height: '40px',
-      width: '150px',
-      margin: '5px',
-      autofocus: 'false',
-      async: false,
-      radius: '2px',
-      borderWidth: '1px',
-      textColorDisabled: 'var(--tonic-disabled)',
-      backgroundColor: 'transparent'
-    }
-  }
-
-  static stylesheet () {
-    return `
-      tonic-button {
-        display: inline-block;
-      }
-
-      tonic-button button {
-        color: var(--tonic-button, #333);
-        width: auto;
-        min-height: 40px;
-        font: 12px var(--tonic-subheader, 'Arial', sans-serif);
-        font-weight: 400;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        padding: 8px 8px 5px 8px;
-        position: relative;
-        background-color: transparent;
-        border: 1px solid var(--tonic-button, #333);
-        transition: all 0.3s ease;
-        appearance: none;
-      }
-
-      tonic-button button[disabled],
-      tonic-button button.tonic--active {
-        color: var(--tonic-medium, #999);
-        background-color: var(--tonic-background, #fff);
-        border-color: var(--tonic-background, #fff);
-      }
-
-      tonic-button button[disabled] {
-        pointer-events: none;
-        user-select: none;
-      }
-
-      tonic-button button:not([disabled]):hover,
-      tonic-button button:not(.tonic--loading):hover {
-        color: var(--tonic-window, #fff) !important;
-        background-color: var(--tonic-button, #333) !important;
-        border-color: var(--tonic-button, #333) !important;
-        cursor: pointer;
-      }
-
-      tonic-button button.tonic--loading {
-        color: transparent !important;
-        background: var(--tonic-medium, #999);
-        border-color: var(--tonic-medium, #999);
-        transition: all 0.3s ease;
-        pointer-events: none;
-      }
-
-      tonic-button button.tonic--loading:hover {
-        color: transparent !important;
-        background: var(--tonic-medium, #999) !important;
-        border-color: var(--tonic-medium, #999) !important;
-      }
-
-      tonic-button button.tonic--loading:before {
-        margin-top: -8px;
-        margin-left: -8px;
-        display: inline-block;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        opacity: 1;
-        transform: translateX(-50%) translateY(-50%);
-        border: 2px solid white;
-        border-radius: 50%;
-        border-top-color: transparent;
-        animation: spin 1s linear 0s infinite;
-        transition: opacity 0.3s ease;
-      }
-
-      tonic-button button:before {
-        content: '';
-        width: 14px;
-        height: 14px;
-        opacity: 0;
-      }
-
-      @keyframes spin {
-        from {
-          transform: rotate(0deg);
-        }
-        to {
-          transform: rotate(360deg);
-        }
-      }
-    `
-  }
-
-  loading (state) {
-    const button = this.querySelector('button')
-    const method = state ? 'add' : 'remove'
-    if (button) button.classList[method]('tonic--loading')
-  }
-
-  click (e) {
-    const disabled = this.props.disabled === 'true'
-    const async = this.props.async === 'true'
-    const href = this.props.href
-
-    if (async && !disabled) {
-      this.loading(true)
-    }
-
-    if (href) {
-      const target = this.getAttribute('target')
-
-      if (target && target !== '_self') {
-        window.open(href)
-      } else {
-        window.open(href, '_self')
-      }
-    }
-  }
-
-  styles () {
-    const {
-      width,
-      height,
-      margin,
-      radius,
-      fill,
-      disabled,
-      borderColor,
-      borderWidth,
-      textColor,
-      textColorDisabled
-    } = this.props
-
-    return {
-      button: {
-        width,
-        height,
-        color: disabled && disabled === 'true' ? textColorDisabled : textColor,
-        backgroundColor: fill,
-        borderRadius: radius,
-        borderColor: fill || borderColor,
-        borderWidth: borderWidth
-      },
-      wrapper: {
-        width,
-        height,
-        margin
-      }
-    }
-  }
-
-  render () {
-    const {
-      value,
-      type,
-      disabled,
-      autofocus,
-      active,
-      async,
-      tabindex
-    } = this.props
-
-    let classes = []
-
-    if (active) classes.push('tonic--active')
-    classes = classes.join(' ')
-
-    if (tabindex) this.removeAttribute('tabindex')
-
-    let label = ''
-
-    if (this.querySelector('style')) {
-      label = this.querySelector('button').textContent
-    } else {
-      label = this.textContent || type || 'Button'
-    }
-
-    return this.html`
-      <div class="tonic--button--wrapper" styles="wrapper">
-        <button ... ${{
-          styles: 'button',
-          async: String(async),
-          disabled: disabled && disabled !== 'false',
-          autofocus,
-          alt: label,
-          value,
-          type,
-          tabindex,
-          class: classes
-        }}>${label}</button>
-      </div>
-    `
-  }
-}
-
-module.exports = { TonicButton }
-
-},{"@optoolco/tonic":19}],5:[function(require,module,exports){
-const tape = require('tape')
-const { qs } = require('qs')
-
-const { html } = require('../test/util')
-const components = require('..')
-components(require('@optoolco/tonic'))
-
-const sleep = n => new Promise(resolve => setTimeout(resolve, n))
-
-document.body.appendChild(html`
-<section id="button">
-  <h2>Button</h2>
-
-  <div id="button-1" class="test-container">
-    <span>Default Button</span>
-    <tonic-button></tonic-button>
-  </div>
-
-  <div id="button-2" class="test-container">
-    <span>Button has text content</span>
-    <tonic-button>Text Content</tonic-button>
-  </div>
-
-  <div id="button-2-5" class="test-container">
-    <span>Button has text content</span>
-    <tonic-button value="v"></tonic-button>
-  </div>
-
-  <div id="button-3" class="test-container">
-    <span>disabled="true"</span>
-    <tonic-button disabled="true">Button</tonic-button>
-  </div>
-
-  <div id="button-4" class="test-container">
-    <span>disabled="false"</span>
-    <tonic-button disabled="false">Button</tonic-button>
-  </div>
-
-  <div id="button-5" class="test-container">
-    <span>Has all attributes</span>
-    <tonic-button
-      margin="10px"
-      type="reset"
-      autofocus="true"
-      width="200px"
-      height="50px"
-      tabindex="1"
-      radius="5px"></tonic-button>
-  </div>
-
-  <div id="button-6" class="test-container">
-    <span>fill="rgb(240, 102, 83)"</span>
-    <tonic-button
-      fill="rgb(240, 102, 83)"
-      text-color="white">Button</tonic-button>
-  </div>
-
-  <div id="button-7" class="test-container">
-    <span>border-color, border-width, text-color</span>
-    <tonic-button
-      border-color="rgb(240, 102, 83)"
-      border-width="3px"
-      text-color="rgb(240, 102, 83)">Button</tonic-button>
-  </div>
-
-  <div id="button-8" class="test-container">
-    <span>async="true"</span>
-    <tonic-button async="true">Button</tonic-button>
-  </div>
-
-  <div id="button-9" class="test-container">
-    <span>async="false"</span>
-    <tonic-button async="false">Button</tonic-button>
-  </div>
-
-  <div id="button-10" class="test-container">
-    <span>tabindex="0"</span>
-    <tonic-button tabindex="0">Button</tonic-button>
-  </div>
-
-  <div id="button-11" class="test-container">
-    <span>href and target</span>
-    <tonic-button target="_blank" href="https://google.com">target="_blank"</tonic-button>
-    <tonic-button target="_self" href="https://google.com">target="_self"</tonic-button>
-    <tonic-button href="https://google.com">No target</tonic-button>
-  </div>
-
-</section>
-`)
-
-tape('{{button-1}} has correct default state', t => {
-  const container = qs('#button-1')
-  const component = qs('tonic-button', container)
-  const wrapper = qs('.tonic--button--wrapper', component)
-  const button = qs('button', component)
-  const isLoading = button.classList.contains('tonic--loading')
-
-  t.plan(6)
-
-  t.ok(wrapper, 'component was constructed with a wrapper')
-  t.ok(button, 'component was constructed with a button element')
-  t.ok(!button.hasAttribute('disabled'), 'does not have disabled attribute')
-  t.equal(button.getAttribute('autofocus'), 'false', 'autofocus is false')
-  t.equal(button.getAttribute('async'), 'false', 'async attribute is false')
-  t.equal(isLoading, false, 'loading class is not applied')
-
-  t.end()
-})
-
-tape('has styles', t => {
-  const container = qs('#button-1 tonic-button')
-  const button = qs('button', container)
-
-  const styles = window.getComputedStyle(button)
-  t.equal(styles.color, 'rgb(51, 51, 51)')
-
-  t.end()
-})
-
-tape('{{button-2}} has textContent', t => {
-  const container = qs('#button-2')
-  const component = qs('tonic-button', container)
-  const button = qs('button', component)
-
-  t.plan(4)
-
-  t.ok(button, 'the component was constructed with a button')
-  t.ok(!component.hasAttribute('value'), 'the component does not have a value attribute')
-  t.ok(button.textContent, 'the button has text content')
-  t.equal(button.textContent, button.getAttribute('alt'), 'button has alt attribute that matches value')
-
-  t.end()
-})
-
-tape('{{button-2-5}} has value', t => {
-  const container = qs('#button-2-5')
-  const component = qs('tonic-button', container)
-  const button = qs('button', component)
-
-  t.plan(4)
-
-  t.ok(button, 'the component was constructed with a button')
-  t.ok(component.hasAttribute('value'), 'the component has value')
-  t.ok(button.hasAttribute('value'), 'the button has value')
-  t.equal(button.getAttribute('value'), 'v', 'button has Correct value')
-
-  t.end()
-})
-
-tape('{{button-3}} is disabled', t => {
-  const container = qs('#button-3')
-  const component = qs('tonic-button', container)
-  const button = qs('button', component)
-
-  t.plan(2)
-
-  t.ok(button, 'the component was constructed with a button')
-  t.ok(button.hasAttribute('disabled'), 'the button has the disabled attribute')
-
-  t.end()
-})
-
-tape('{{button-4}} is not disabled when disabled="false"', t => {
-  const container = qs('#button-4')
-  const component = qs('tonic-button', container)
-  const button = qs('button', component)
-
-  t.plan(3)
-
-  t.ok(button, 'the component was constructed with a button')
-  t.equal(component.getAttribute('disabled'), 'false', 'component has the disabled="false" attribute')
-  t.ok(!button.hasAttribute('disabled'), 'button does not have disabled class')
-
-  t.end()
-})
-
-tape('{{button-5}} has correct attributes', t => {
-  const container = qs('#button-5')
-  const component = qs('tonic-button', container)
-  const buttonWrapper = qs('.tonic--button--wrapper', component)
-  const button = qs('button', component)
-
-  t.plan(9)
-
-  t.ok(button, 'the component was constructed with a button')
-  t.equal(button.getAttribute('autofocus'), 'true', 'button has autofocus="true" attribute')
-  t.equal(button.getAttribute('type'), 'reset', 'button has type="reset" attribute')
-  t.ok(buttonWrapper.style.margin === '10px', 'button wrapper has margin="10px"')
-  t.ok(button.style.width === '200px', 'button has width of 200px')
-  t.ok(button.style.height === '50px', 'button has height of 50px')
-  t.ok(button.style.borderRadius === '5px', 'button has border radius of 5px')
-  t.equal(button.getAttribute('tabindex'), '1', 'tabindex is 1')
-  t.equal(button.getAttribute('type'), button.textContent, 'button has text content equal to type')
-
-  t.end()
-})
-
-tape('{{button-6}} gets style derived from component "fill" attribute', t => {
-  const container = qs('#button-6')
-  const component = qs('tonic-button', container)
-  const button = qs('button', component)
-
-  t.ok(button, 'the component was constructed with a button')
-  t.ok(component.hasAttribute('fill'), 'the component has fill attribute')
-  t.equal(component.getAttribute('fill'), button.style.backgroundColor, 'the fill attribute matches button background color')
-  // Testing borderColor doesn't work in Safari, specific borderColor property isn't created
-  // t.equal(component.getAttribute('fill'), button.style.borderColor, 'the fill attribute matches button border color')
-  t.equal(window.getComputedStyle(button).borderColor, 'rgb(240, 102, 83)', 'the color was added')
-
-  t.end()
-})
-
-tape('{{button-7}} gets border style derived from component attributes', t => {
-  const container = qs('#button-7')
-  const component = qs('tonic-button', container)
-  const button = qs('button', component)
-
-  t.ok(button, 'the component was constructed with a button')
-  t.equal(component.getAttribute('border-width'), button.style.borderWidth, 'button contains style "border-width" matching component attribute "border-width"')
-  t.equal(component.getAttribute('text-color'), button.style.color, 'button contains style "color" matching component attribute "text-color"')
-
-  t.end()
-})
-
-tape('{{button-8}} is async, shows loading state when clicked', async t => {
-  const container = qs('#button-8')
-  const component = qs('tonic-button', container)
-
-  t.plan(3)
-
-  t.ok(component.firstElementChild, 'the component was constructed')
-  t.equal(component.getAttribute('async'), 'true', 'the button async attribute is true')
-
-  component.addEventListener('click', async e => {
-    const button = component.querySelector('button')
-
-    await sleep(128)
-    const isLoading = button.classList.contains('tonic--loading')
-    t.ok(isLoading, 'loading class was applied')
-    t.end()
-  })
-
-  component.dispatchEvent(new window.Event('click'))
-})
-
-tape('{{button-9}} is not async, does not show loading when clicked', async t => {
-  const container = qs('#button-9')
-  const component = qs('tonic-button', container)
-
-  t.plan(3)
-
-  t.ok(component.firstElementChild, 'the component was constructed')
-  t.equal(component.getAttribute('async'), 'false', 'the button async attribute is false')
-
-  component.addEventListener('click', async e => {
-    const button = component.querySelector('button')
-
-    await sleep(128)
-    const isLoading = button.classList.contains('tonic--loading')
-    t.ok(!isLoading, 'loading class was not applied')
-
-    t.end()
-  })
-
-  component.dispatchEvent(new window.Event('click'))
-})
-
-tape('{{button-10}} has tabindex attribute', t => {
-  const container = qs('#button-10')
-  const component = qs('tonic-button', container)
-  const button = qs('button', component)
-
-  t.plan(3)
-
-  t.ok(button, 'the component was constructed with a button')
-  t.equal(component.hasAttribute('tabindex'), false, 'component does not have a tabindex')
-  t.equal(button.hasAttribute('tabindex'), true, 'button has a tabindex')
-
-  t.end()
-})
-
-},{"..":15,"../test/util":104,"@optoolco/tonic":19,"qs":55,"tape":77}],6:[function(require,module,exports){
-const Tonic = require('@optoolco/tonic')
-
-class TonicChart extends Tonic {
-  constructor (o) {
-    super(o)
-
-    try {
-      const dynamicRequire = require
-      this.Chart = dynamicRequire('chart.js')
-    } catch (err) {
-      console.error('could not find "chart.js" dependency. npm install?')
-    }
-  }
-
-  static stylesheet () {
-    return `
-      tonic-chart {
-        display: inline-block;
-        position: relative;
-      }
-
-      tonic-chart canvas {
-        display: inline-block;
-        position: relative;
-      }
-    `
-  }
-
-  draw (data = {}, options = {}) {
-    const root = this.querySelector('canvas')
-    const type = this.props.type || options.type
-
-    return new this.Chart(root, {
-      type,
-      options,
-      data
-    })
-  }
-
-  async fetch (url, opts = {}) {
-    if (!url) return {}
-
-    try {
-      const res = await window.fetch(url, opts)
-      return { data: await res.json() }
-    } catch (err) {
-      return { err }
-    }
-  }
-
-  async connected () {
-    let data = null
-
-    const options = {
-      ...this.props,
-      ...this.props.options
-    }
-
-    const src = this.props.src
-
-    if (typeof src === 'string') {
-      const response = await this.fetch(src)
-
-      if (response.err) {
-        console.error(response.err)
-        data = {}
-      } else {
-        data = response.data
-      }
-    }
-
-    if (src === Object(src)) {
-      data = src
-    }
-
-    if (data && data.chartData) {
-      throw new Error('chartData propery deprecated')
-    }
-
-    if (data) {
-      this.draw(data, options)
-    }
-  }
-
-  render () {
-    const {
-      width,
-      height
-    } = this.props
-
-    this.style.width = width
-    this.style.height = height
-
-    return this.html`
-      <canvas ... ${{ width, height }}>
-      </canvas>
-    `
-  }
-}
-
-module.exports = { TonicChart }
-
-},{"@optoolco/tonic":19}],7:[function(require,module,exports){
-const tape = require('tape')
-const { qs } = require('qs')
-
-const { html } = require('../test/util')
-const components = require('..')
-components(require('@optoolco/tonic'))
-
-document.body.appendChild(html`
-<section id="chart">
-  <h2>Chart</h2>
-
-  <div id="chart-1" class="test-container">
-    <span>Default</span>
-    <tonic-chart width=400px height=400px></tonic-chart>
-  </div>
-</section>
-`)
-
-tape('got a chart', t => {
-  const container = qs('#chart-1')
-  const chart = qs('#chart-1 tonic-chart')
-  const canvas = qs('#chart-1 canvas')
-
-  t.ok(container)
-  t.ok(chart)
-  t.ok(canvas)
-
-  t.equal(canvas.width, 400)
-  t.equal(canvas.height, 400)
-
-  const styles = window.getComputedStyle(canvas)
-  t.equal(styles.display, 'inline-block')
-
-  t.end()
-})
-
-},{"..":15,"../test/util":104,"@optoolco/tonic":19,"qs":55,"tape":77}],8:[function(require,module,exports){
-const Tonic = require('@optoolco/tonic')
-
-const mode = require('../mode')
-
-class TonicCheckbox extends Tonic {
-  get value () {
-    const state = this.getState()
-    let value
-
-    if ('checked' in this.props) {
-      value = this.props.checked
-    } else {
-      value = state.checked
-    }
-
-    return (value === true) || (value === 'true')
-  }
-
-  set value (value) {
-    const checked = (value === true) || (value === 'true')
-
-    this.state.checked = checked
-    this.props.checked = checked
-    this.reRender()
-  }
-
-  defaults () {
-    return {
-      disabled: false,
-      size: '18px'
-    }
-  }
-
-  static stylesheet () {
-    return `
-      tonic-checkbox .tonic--checkbox--wrapper {
-        display: inline-block;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-      }
-
-      tonic-checkbox input[type="checkbox"] {
-        display: none;
-      }
-
-      tonic-checkbox input[type="checkbox"][disabled] + label {
-        opacity: 0.35;
-      }
-
-      tonic-checkbox label {
-        color: var(--tonic-primary, #333);
-        font: 12px var(--tonic-subheader, 'Arial', sans-serif);
-        font-weight: 500;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        display: inline;
-        vertical-align: middle;
-      }
-
-      tonic-checkbox .tonic--icon {
-        display: inline-block;
-        width: 100%;
-        height: 100%;
-        background-size: contain;
-      }
-
-      tonic-checkbox .tonic--icon svg {
-        width: inherit;
-        height: inherit;
-      }
-
-      tonic-checkbox label:nth-of-type(2) {
-        padding-top: 2px;
-        margin-left: 10px;
-      }
-    `
-  }
-
-  change (e) {
-    if (
-      this.props.virtual === true ||
-      this.props.virtual === 'true'
-    ) {
-      return
-    }
-    if (this.state._changing) return
-
-    e.stopPropagation()
-
-    const currentState = this.value
-    this.state._changing = true
-    this.value = !currentState
-
-    this.reRender()
-  }
-
-  updated () {
-    if (this.state._changing) {
-      const e = new window.Event('change', { bubbles: true })
-      this.dispatchEvent(e)
-      delete this.state._changing
-    }
-  }
-
-  styles () {
-    return {
-      icon: {
-        width: this.props.size,
-        height: this.props.size
-      }
-    }
-  }
-
-  renderIcon () {
-    const checked = this.value
-    const iconState = checked ? 'checked' : 'unchecked'
-
-    return this.html`
-      <svg>
-        <use ... ${{
-          href: `#${iconState}`,
-          'xlink:href': `#${iconState}`,
-          color: 'var(--tonic-primary, #333)',
-          fill: 'var(--tonic-primary, #333)'
-        }}>
-        </use>
-      </svg>
-    `
-  }
-
-  renderLabel () {
-    let {
-      id,
-      label
-    } = this.props
-
-    if (!this.props.label) {
-      label = this.nodes
-    }
-
-    return this.html`
-      <label
-        styles="label"
-        for="tonic--checkbox--${id}"
-      >${label}</label>
-    `
-  }
-
-  render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-checkbox')
-    }
-
-    const {
-      id,
-      disabled,
-      theme,
-      title,
-      tabindex
-    } = this.props
-
-    const checked = this.value
-    if (typeof this.state.checked === 'undefined') {
-      this.state.checked = checked
-    }
-
-    if (tabindex) this.removeAttribute('tabindex')
-    if (theme) this.classList.add(`tonic--theme--${theme}`)
-
-    return this.html`
-      <div class="tonic--checkbox--wrapper">
-        <input ... ${{
-          type: 'checkbox',
-          id: `tonic--checkbox--${id}`,
-          checked,
-          disabled: disabled === 'true',
-          title,
-          tabindex
-        }}/>
-        <label
-          for="tonic--checkbox--${id}"
-          styles="icon"
-          class="tonic--icon"
-        >
-          ${this.renderIcon()}
-        </label>
-        ${this.renderLabel()}
-      </div>
-    `
-  }
-}
-
-module.exports = { TonicCheckbox }
-
-},{"../mode":18,"@optoolco/tonic":19}],9:[function(require,module,exports){
-const tape = require('tape')
-const { qs } = require('qs')
-
-const { html } = require('../test/util')
-const components = require('..')
-components(require('@optoolco/tonic'))
-
-document.body.appendChild(html`
-<section id="checkbox">
-  <tonic-sprite></tonic-sprite>
-  <h2>Checkbox</h2>
-
-  <div id="checkbox-1" class="test-container">
-    <span>Default</span>
-    <tonic-checkbox
-      id="tonic-checkbox">
-    </tonic-checkbox>
-  </div>
-
-  <div id="checkbox-2" class="test-container">
-    <span>label="label"</span>
-    <tonic-checkbox
-      id="tonic-checkbox-label"
-      label="Label">
-    </tonic-checkbox>
-  </div>
-
-  <div id="checkbox-3" class="test-container">
-    <span>checked="true"</span>
-    <tonic-checkbox
-      id="tonic-checkbox-checked"
-      checked="true">
-    </tonic-checkbox>
-  </div>
-
-  <div id="checkbox-4" class="test-container">
-    <span>disabled="true"</span>
-    <tonic-checkbox
-      id="tonic-checkbox-disabled"
-      disabled="true">
-    </tonic-checkbox>
-  </div>
-
-  <div id="checkbox-5" class="test-container">
-    <span>size="30px"</span>
-    <tonic-checkbox
-      id="tonic-checkbox-size"
-      size="30px">
-    </tonic-checkbox>
-  </div>
-
-  <div id="checkbox-6" class="test-container">
-    <span>tabindex="0"</span>
-    <tonic-checkbox
-      tabindex="0"
-      id="tonic-checkbox-tabindex">
-    </tonic-checkbox>
-  </div>
-
-  <div id="checkbox-6-5" class="test-container">
-    <span>title="foo"</span>
-    <tonic-checkbox
-      title="foo"
-      id="tonic-checkbox-title">
-    </tonic-checkbox>
-  </div>
-
-  <div id="checkbox-7" class="test-container">
-    <span>child elements</span>
-    <tonic-checkbox
-      tabindex="0"
-      id="tonic-checkbox-children">
-      This is a <a href="https://google.com" target="blank">label</a>!
-    </tonic-checkbox>
-  </div>
-
-  <!-- need to fix with new tonic-icon method -->
-
-  <!-- <div id="checkbox-6" class="test-container">
-    <span>Custom</span>
-    <tonic-checkbox
-      id="tonic-checkbox-custom"
-      icon-on="./sprite.svg#custom_on"
-      icon-off="./sprite.svg#custom_off">
-    </tonic-checkbox>
-  </div>
-
-  <div id="checkbox-7" class="test-container">
-    <span>Custom, checked</span>
-    <tonic-checkbox
-      id="tonic-checkbox-custom-2"
-      checked="true"
-      icon-on="./sprite.svg#custom_on"
-      icon-off="./sprite.svg#custom_off">
-    </tonic-checkbox>
-  </div> -->
-
-</section>
-`)
-
-tape('{{checkbox-1}} has correct default state', t => {
-  const container = qs('#checkbox-1')
-  const component = qs('tonic-checkbox', container)
-  const wrapper = qs('.tonic--checkbox--wrapper', component)
-  const input = qs('input[type="checkbox"]', component)
-  const icon = qs('.tonic--icon', component)
-
-  const label = qs('tonic-checkbox label', container)
-  t.ok(label)
-
-  const styles = window.getComputedStyle(label)
-  t.equal(styles.color, 'rgb(51, 51, 51)')
-
-  t.ok(wrapper, 'component constructed with a wrapper')
-  t.ok(input, 'component constructed with an input')
-  t.ok(input.hasAttribute('id'), 'input was constructed with an id')
-  t.ok(icon, 'component constructed with default icon')
-  t.ok(input.checked === false, 'the default checkbox is not checked')
-
-  t.end()
-})
-
-tape('{{checkbox-2}} has correct label', t => {
-  const container = qs('#checkbox-2')
-  const component = qs('tonic-checkbox', container)
-  const input = qs('input[type="checkbox"]', component)
-  const label = qs('label:not(.tonic--icon)', component)
-
-  t.plan(3)
-
-  t.ok(input.hasAttribute('id'), 'input was constructed with an id')
-  t.ok(label, 'component was constructed with a label')
-  t.equal(component.getAttribute('label'), label.textContent, 'the label attribute matches the label text')
-
-  t.end()
-})
-
-tape('{{checkbox-3}} is checked', t => {
-  const container = qs('#checkbox-3')
-  const component = qs('tonic-checkbox', container)
-  const input = qs('input[type="checkbox"]', component)
-
-  t.plan(3)
-
-  t.ok(input, 'component was constructed with an input')
-  t.ok(input.hasAttribute('id'), 'input was constructed with an id')
-  t.ok(input.checked, 'the input is checked')
-
-  t.end()
-})
-
-tape('{{checkbox-4}} is disabled', t => {
-  const container = qs('#checkbox-4')
-  const component = qs('tonic-checkbox', container)
-  const input = qs('input[type="checkbox"]', component)
-
-  t.plan(3)
-
-  t.ok(input, 'component was constructed with an input')
-  t.ok(input.hasAttribute('id'), 'input was constructed with an id')
-  t.ok(input.hasAttribute('disabled'), 'the input is disabled')
-
-  t.end()
-})
-
-tape('{{checkbox-5}} has size attributes', t => {
-  const container = qs('#checkbox-5')
-  const component = qs('tonic-checkbox', container)
-  const icon = qs('label.tonic--icon', component)
-  const input = qs('input[type="checkbox"]', component)
-  const size = component.getAttribute('size')
-
-  t.plan(5)
-
-  t.ok(input, 'component was constructed with an input')
-  t.ok(input.hasAttribute('id'), 'input was constructed with an id')
-  t.ok(component.hasAttribute('size'), 'the component has a size attribute')
-  t.ok(icon.style.width === size, 'the width equals the size attribute')
-  t.ok(icon.style.height === size, 'the height equals the size attribute')
-
-  t.end()
-})
-
-tape('{{checkbox-6}} has Tabindex', t => {
-  const container = qs('#checkbox-6')
-  const component = qs('tonic-checkbox', container)
-  const input = qs('input[type="checkbox"]', component)
-
-  t.plan(4)
-
-  t.ok(input, 'component was constructed with an input')
-  t.ok(input.hasAttribute('id'), 'input was constructed with an id')
-  t.equal(component.hasAttribute('tabindex'), false, 'component does not have a tabindex')
-  t.equal(input.hasAttribute('tabindex'), true, 'input has a tabindex')
-
-  t.end()
-})
-
-tape('{{checkbox-6-5}} has title', t => {
-  const container = qs('#checkbox-6-5')
-  const component = qs('tonic-checkbox', container)
-  const input = qs('input[type="checkbox"]', component)
-
-  t.plan(5)
-
-  t.ok(input, 'component was constructed with an input')
-  t.ok(input.hasAttribute('id'), 'input was constructed with an id')
-  t.equal(component.hasAttribute('title'), true, 'component has title')
-  t.equal(input.hasAttribute('title'), true, 'input has title')
-  t.equal(input.getAttribute('title'), 'foo')
-
-  t.end()
-})
-
-},{"..":15,"../test/util":104,"@optoolco/tonic":19,"qs":55,"tape":77}],10:[function(require,module,exports){
-const Tonic = require('@optoolco/tonic')
-
-class Dialog extends Tonic {
-  constructor () {
-    super()
-
-    this.addEventListener('click', e => {
-      const el = Tonic.match(e.target, '.tonic--close')
-      if (el) this.hide()
-
-      const overlay = e.target.matches('.tonic--overlay')
-      if (overlay) this.hide()
-    })
-  }
-
-  defaults () {
-    return {
-      width: '450px',
-      height: 'auto',
-      overlay: true,
-      backgroundColor: 'rgba(0,0,0,0.5)'
-    }
-  }
-
-  static stylesheet () {
-    return `
-      .tonic--dialog .tonic--dialog--wrapper {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        display: flex;
-        z-index: 100;
-        visibility: hidden;
-        transition: visibility 0s ease 0.5s;
-      }
-
-      .tonic--dialog .tonic--dialog--wrapper.tonic--show {
-        visibility: visible;
-        transition: visibility 0s ease 0s;
-      }
-
-      .tonic--dialog .tonic--dialog--wrapper.tonic--show .tonic--overlay {
-        opacity: 1;
-      }
-
-      .tonic--dialog .tonic--dialog--wrapper.tonic--show .tonic--dialog--content {
-        color: var(--tonic-primary, #333);
-        opacity: 1;
-        -webkit-transform: scale(1);
-        -ms-transform: scale(1);
-        transform: scale(1);
-      }
-
-      .tonic--dialog .tonic--overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        opacity: 0;
-        transition: opacity 0.3s ease-in-out;
-      }
-
-      .tonic--dialog .tonic--dialog--content {
-        min-width: 350px;
-        min-height: 250px;
-        height: auto;
-        width: auto;
-        margin: auto;
-        position: relative;
-        background-color: var(--tonic-window, #fff);
-        z-index: 1;
-        opacity: 0;
-        -webkit-transform: scale(0.8);
-        -ms-transform: scale(0.8);
-        transform: scale(0.8);
-        transition: all 0.3s ease-in-out;
-      }
-
-      .tonic--dialog .tonic--dialog--content > .tonic--close {
-        width: 25px;
-        height: 25px;
-        position: absolute;
-        top: 25px;
-        right: 25px;
-        cursor: pointer;
-      }
-
-      .tonic--dialog .tonic--close svg {
-        width: inherit;
-        height: inherit;
-      }
-    `
-  }
-
-  show () {
-    const that = this
-
-    return new Promise((resolve) => {
-      const node = this.querySelector('.tonic--dialog--wrapper')
-      node.classList.add('tonic--show')
-      node.addEventListener('transitionend', resolve, { once: true })
-
-      this._escapeHandler = e => {
-        if (e.keyCode === 27) that.hide()
-      }
-
-      document.addEventListener('keyup', that._escapeHandler)
-    })
-  }
-
-  hide () {
-    const that = this
-
-    return new Promise((resolve) => {
-      const node = this.querySelector('.tonic--dialog--wrapper')
-      node.classList.remove('tonic--show')
-      node.addEventListener('transitionend', resolve, { once: true })
-      document.removeEventListener('keyup', that._escapeHandler)
-    })
-  }
-
-  event (eventName) {
-    const that = this
-
-    return {
-      then (resolve) {
-        const listener = event => {
-          const close = Tonic.match(event.target, '.tonic--close')
-          const value = Tonic.match(event.target, '[value]')
-
-          if (close || value) {
-            that.removeEventListener(eventName, listener)
-          }
-
-          if (close) return resolve({})
-          if (value) resolve({ [event.target.value]: true })
-        }
-
-        that.addEventListener(eventName, listener)
-      }
-    }
-  }
-
-  async * wrap () {
-    const {
-      width,
-      height,
-      overlay,
-      theme,
-      color,
-      backgroundColor
-    } = this.props
-
-    this.classList.add('tonic--dialog')
-
-    const wrapper = document.createElement('div')
-
-    const isOpen = !!this.querySelector('.tonic--dialog--wrapper.tonic--show')
-    wrapper.className = isOpen ? 'tonic--dialog--wrapper tonic--show' : 'tonic--dialog--wrapper'
-
-    if (theme) this.classList.add(`tonic--theme--${theme}`)
-
-    if (overlay !== 'false') {
-      const overlayElement = document.createElement('div')
-      overlayElement.className = 'tonic--overlay'
-      overlayElement.style.backgroundColor = backgroundColor
-      wrapper.appendChild(overlayElement)
-    }
-
-    const dialog = document.createElement('div')
-    dialog.className = 'tonic--dialog--content'
-    if (width) dialog.style.width = width
-    if (height) dialog.style.height = height
-
-    // create template
-    const closeIcon = document.createElement('div')
-    closeIcon.className = 'tonic--close'
-
-    // create SVG
-    const svgns = 'http://www.w3.org/2000/svg'
-    const xlinkns = 'http://www.w3.org/1999/xlink'
-    const svg = document.createElementNS(svgns, 'svg')
-    const use = document.createElementNS(svgns, 'use')
-
-    closeIcon.appendChild(svg)
-    svg.appendChild(use)
-
-    const iconColor = color || 'var(--tonic-primary, #333)'
-
-    use.setAttributeNS(xlinkns, 'href', '#close')
-    use.setAttributeNS(xlinkns, 'xlink:href', '#close')
-    use.setAttribute('color', iconColor)
-    use.setAttribute('fill', iconColor)
-
-    wrapper.appendChild(dialog)
-    const contentContainer = document.createElement('div')
-    contentContainer.className = 'tonic--dialog--content-container'
-    dialog.appendChild(contentContainer)
-    dialog.appendChild(closeIcon)
-
-    yield wrapper
-
-    const setContent = content => {
-      if (!content) return
-
-      if (typeof content === 'string') {
-        contentContainer.innerHTML = content
-      } else if (content.isTonicRaw) {
-        contentContainer.innerHTML = content.rawText
-      } else {
-        [...content.childNodes].forEach(el => contentContainer.appendChild(el))
-      }
-    }
-
-    if (this.wrapped instanceof Tonic.AsyncFunction) {
-      setContent(await this.wrapped() || '')
-      return wrapper
-    } else if (this.wrapped instanceof Tonic.AsyncFunctionGenerator) {
-      const itr = this.wrapped()
-      while (true) {
-        const { value, done } = await itr.next()
-        setContent(value)
-
-        if (done) {
-          return wrapper
-        }
-
-        yield wrapper
-      }
-    } else if (this.wrapped instanceof Function) {
-      setContent(this.wrapped() || '')
-      return wrapper
-    }
-
-    return wrapper
-  }
-}
-
-module.exports = { Dialog }
-
-},{"@optoolco/tonic":19}],11:[function(require,module,exports){
-const Tonic = require('@optoolco/tonic')
-
-const { html } = require('../test/util')
-const components = require('..')
-components(require('@optoolco/tonic'))
-
-const { Dialog } = require('./index')
-
-const sleep = n => new Promise(resolve => setTimeout(resolve, n))
-
-class ExampleDialog extends Dialog {
-  async click (e) {
-    return Tonic.match(e.target, 'tonic-button')
-  }
-
-  render () {
-    return `
-      <header>Dialog</header>
-      <main>
-        ${this.props.message || 'Ready'}
-      </main>
-      <footer>
-        <tonic-button class="tonic--close" id="close">Close</tonic-button>
-      </footer>
-    `
-  }
-}
-
-Tonic.add(ExampleDialog)
-
-document.body.appendChild(html`
-<section id="dialog">
-  <h2>Dialog</h2>
-
-  <div id="dialog-1" class="test-container">
-    <span>Default Dialog</span>
-    <tonic-button id="dialog-default-button">Open</tonic-button>
-    <example-dialog message="Hello!" id="dialog-default"></example-dialog>
-  </div>
-
-  <!-- <div class="test-container">
-    <span>width="150px"</span>
-    <tonic-button id="dialog-width-button">Open</tonic-button>
-    <example-dialog message="width: 150px" width="150px" id="dialog-width"></example-dialog>
-  </div>
-
-  <div class="test-container">
-    <span>width="100%"</span>
-    <tonic-button id="dialog-full-width-button">Open</tonic-button>
-    <example-dialog message="width: 100%" width="100%" id="dialog-full-width"></example-dialog>
-  </div>
-
-  <div class="test-container">
-    <span>height="700px"</span>
-    <tonic-button id="dialog-height-button">Open</tonic-button>
-    <example-dialog message="height: 700px" height="700px" id="dialog-height"></example-dialog>
-  </div>
-
-  <div class="test-container">
-    <span>height="100%"</span>
-    <tonic-button id="dialog-full-height-button">Open</tonic-button>
-    <example-dialog message="height: 100%" height="100%" id="dialog-full-height"></example-dialog>
-  </div>
-
-  <div class="test-container">
-    <span>overlay="true"</span>
-    <tonic-button id="dialog-overlay-button">Open</tonic-button>
-    <example-dialog message="overlay: true" overlay="true" id="dialog-overlay"></example-dialog>
-  </div>
-
-  <div class="test-container">
-    <span>overlay="false"</span>
-    <tonic-button id="dialog-no-overlay-button">Open</tonic-button>
-    <example-dialog message="overlay: false" overlay="false" id="dialog-no-overlay"></example-dialog>
-  </div>
-
-  <div class="test-container">
-    <span>background-color="red"</span>
-    <tonic-button id="dialog-background-button">Open</tonic-button>
-    <example-dialog message="background-color: red" background-color="red" id="dialog-background"></example-dialog>
-  </div> -->
-
-</section>
-`)
-
-//
-// Dialog Tests
-//
-const tape = require('tape')
-const { qs } = require('qs')
-
-tape('{{dialog-1}} is constructed properly, opens and closes properly', async t => {
-  const container = qs('#dialog-1')
-  const component = qs('example-dialog', container)
-  const wrapper = qs('.tonic--dialog--wrapper', component)
-  const close = qs('.tonic--close', component)
-  const isShowingInitialState = wrapper.classList.contains('tonic--show')
-
-  t.plan(7)
-
-  t.equal(isShowingInitialState, false, 'the element has no show class')
-  t.ok(wrapper, 'the component contains the wrapper')
-  t.ok(close, 'the component contains the close button')
-  t.ok(component.hasAttribute('id'), 'the component has an id')
-
-  const styles = window.getComputedStyle(wrapper)
-  t.equal(styles.position, 'fixed')
-
-  await component.show()
-
-  const isShowingAfterOpen = wrapper.classList.contains('tonic--show')
-  t.equal(isShowingAfterOpen, true, 'the element has been opened, has show class')
-
-  await sleep(128)
-  await component.hide()
-
-  const isShowing = wrapper.classList.contains('tonic--show')
-  t.equal(isShowing, false, 'the element has been closed, has no show class')
-
-  t.end()
-})
-
-},{"..":15,"../test/util":104,"./index":10,"@optoolco/tonic":19,"qs":55,"tape":77}],12:[function(require,module,exports){
-const Tonic = require('@optoolco/tonic')
-
-class TonicForm extends Tonic {
-  static isNumber (s) {
-    return !isNaN(Number(s))
-  }
-
-  static getPropertyValue (o, path) {
-    if (!path) return null
-
-    const parts = path.split('.')
-    let value = o
-
-    for (const p of parts) {
-      if (!value) return null
-      value = value[p]
-    }
-
-    return value
-  }
-
-  static setPropertyValue (o, path, v) {
-    if (!path) return
-
-    const parts = path.split('.')
-    let value = o
-
-    const last = parts.pop()
-    if (!last) return
-
-    for (let i = 0; i < parts.length; i++) {
-      const p = parts[i]
-      const next = parts[i + 1] || last
-
-      if (!value[p]) {
-        value[p] = TonicForm.isNumber(next) ? [] : {}
-      }
-
-      value = value[p]
-    }
-
-    value[last] = v
-    return o
-  }
-
-  setData (data) {
-    this.value = data
-  }
-
-  getData () {
-    return this.value
-  }
-
-  getElements () {
-    return [...this.querySelectorAll('[data-key]')]
-  }
-
-  get value () {
-    const elements = this.getElements()
-    const data = {}
-
-    for (const element of elements) {
-      TonicForm.setPropertyValue(data, element.dataset.key, element.value)
-    }
-
-    return data
-  }
-
-  set value (data) {
-    if (typeof data !== 'object') return
-
-    const elements = this.getElements()
-
-    for (const element of elements) {
-      const value = TonicForm.getPropertyValue(data, element.dataset.key)
-      if (!value) continue
-
-      element.value = value
-    }
-  }
-
-  render () {
-    return this.html`
-      ${this.childNodes}
-    `
-  }
-}
-
-module.exports = { TonicForm }
-
-},{"@optoolco/tonic":19}],13:[function(require,module,exports){
-const Tonic = require('@optoolco/tonic')
-
-class TonicIcon extends Tonic {
-  defaults () {
-    return {
-      size: '25px',
-      fill: 'var(--tonic-primary, #333)'
-    }
-  }
-
-  static stylesheet () {
-    return `
-      tonic-icon svg path {
-        fill: inherit;
-      }
-    `
-  }
-
-  styles () {
-    const {
-      size
-    } = this.props
-
-    return {
-      icon: {
-        width: size,
-        height: size
-      }
-    }
-  }
-
-  render () {
-    const {
-      symbolId,
-      size,
-      fill,
-      theme,
-      src,
-      tabindex
-    } = this.props
-
-    if (tabindex) this.removeAttribute('tabindex')
-    if (theme) this.classList.add(`tonic--theme--${theme}`)
-
-    return this.html`
-      <svg ... ${{
-        styles: 'icon',
-        tabindex
-      }}>
-        <use ... ${{
-          href: `${src || ''}#${symbolId}`,
-          'xlink:href': `${src || ''}#${symbolId}`,
-          width: size,
-          fill,
-          color: fill,
-          height: size
-        }}>
-      </svg>
-    `
-  }
-}
-
-module.exports = { TonicIcon }
-
-},{"@optoolco/tonic":19}],14:[function(require,module,exports){
-const tape = require('tape')
-const { qs } = require('qs')
-
-const { html } = require('../test/util')
-const components = require('..')
-components(require('@optoolco/tonic'))
-
-document.body.appendChild(html`
-<section id="icon">
-  <h2>Icon</h2>
-
-  <div id="icon-1" class="test-container">
-    <span>Default Icon</span>
-    <tonic-icon
-      tabindex="0"
-      symbol-id="example"
-      src="/sprite.svg">
-    </tonic-icon>
-  </div>
-
-  <div id="icon-2" class="test-container">
-    <span>size="40px"</span>
-    <tonic-icon
-      symbol-id="example"
-      src="/sprite.svg"
-      size="40px">
-    </tonic-icon>
-  </div>
-
-  <div id="icon-3" class="test-container">
-    <span>fill="cyan"</span>
-    <tonic-icon
-      symbol-id="example"
-      src="/sprite.svg"
-      fill="cyan">
-    </tonic-icon>
-  </div>
-
-  <div id="icon-4" class="test-container">
-    <span>symbol-id="custom_off"</span>
-    <tonic-icon
-      symbol-id="custom_off"
-      src="/sprite.svg">
-    </tonic-icon>
-  </div>
-
-  <div id="icon-5" class="test-container">
-    <span>tabindex="0"</span>
-    <tonic-icon
-      tabindex="0"
-      symbol-id="example"
-      src="/sprite.svg">
-    </tonic-icon>
-  </div>
-
-</section>
-`)
-
-tape('{{icon-1}} is constructed properly', t => {
-  const container = qs('#icon-1')
-  const component = qs('tonic-icon', container)
-
-  t.plan(3)
-
-  t.ok(component.firstElementChild, 'the component was constructed')
-  t.ok(component.hasAttribute('src'), 'the component has a src')
-  t.ok(component.hasAttribute('symbol-id'), 'the component has a symbol id')
-
-  t.end()
-})
-
-tape('{{icon-2}} has size attribute', t => {
-  const container = qs('#icon-2')
-  const component = qs('tonic-icon', container)
-  const svg = qs('svg', component)
-  const use = qs('use', component)
-
-  t.plan(6)
-
-  t.ok(component.firstElementChild, 'the component was constructed')
-  t.ok(component.hasAttribute('size'), 'the component has the size attribute')
-  t.equal(component.getAttribute('size'), svg.style.width, 'the size attribute matches svg width')
-  t.equal(component.getAttribute('size'), svg.style.height, 'the size attribute matches svg height')
-
-  t.equal(use.getAttribute('width'), component.getAttribute('size'))
-  t.equal(use.getAttribute('height'), component.getAttribute('size'))
-
-  t.end()
-})
-
-tape('{{icon-3}} has color attribute', t => {
-  const container = qs('#icon-3')
-  const component = qs('tonic-icon', container)
-  const use = qs('use', component)
-
-  t.plan(3)
-
-  t.ok(component.firstElementChild, 'the component was constructed')
-  t.equal(component.getAttribute('fill'), use.getAttribute('fill'), 'the fill attribute on the component matches use')
-  t.equal(use.getAttribute('fill'), use.getAttribute('color'), 'use has matching fill and color attributes')
-
-  t.end()
-})
-
-tape('{{icon-4}} uses custom symbol', t => {
-  const container = qs('#icon-4')
-  const component = qs('tonic-icon', container)
-  const svg = qs('svg', component)
-  const id = component.getAttribute('symbol-id')
-  const src = component.getAttribute('src')
-  const use = qs('use', component)
-  const url = `${src}#${id}`
-
-  t.plan(5)
-
-  t.ok(svg, 'the component was constructed with an svg')
-  t.ok(id, 'the component has symbol id')
-  t.ok(src, 'the component has src')
-  t.equal(use.getAttribute('href'), url, 'the href attribute contains the correct url')
-  t.equal(use.getAttribute('xlink:href'), url)
-
-  t.end()
-})
-
-tape('{{icon-5}} has tabindex attribute', t => {
-  const container = qs('#icon-5')
-  const component = qs('tonic-icon', container)
-  const id = component.getAttribute('symbol-id')
-  const svg = qs('svg', component)
-
-  t.plan(4)
-
-  t.ok(svg, 'the component was constructed with an svg')
-  t.ok(id, 'the component has symbol id')
-  t.equal(component.hasAttribute('tabindex'), false, 'component does not have tabindex attribute')
-  t.equal(svg.hasAttribute('tabindex'), true, 'svg has tabindex attribute')
-
-  t.end()
-})
-
-},{"..":15,"../test/util":104,"@optoolco/tonic":19,"qs":55,"tape":77}],15:[function(require,module,exports){
-let Tonic
-try {
-  Tonic = require('@optoolco/tonic')
-} catch (err) {
-  console.error('Missing dependency. Try `npm install @optoolco/tonic`.')
-  throw err
-}
-
-const version = Tonic.version
-const major = version ? version.split('.')[0] : '0'
-if (parseInt(major, 10) < 11) {
-  console.error('Out of data dependency. Try `npm install @optoolco/tonic@11`.')
-  throw new Error('Invalid Tonic version. requires at least v11')
-}
-
-const mode = require('./mode')
-
-const { TonicAccordion, TonicAccordionSection } = require('./accordion')
-const { TonicBadge } = require('./badge')
-const { TonicButton } = require('./button')
-const { TonicChart } = require('./chart')
-const { TonicCheckbox } = require('./checkbox')
-const { TonicForm } = require('./form')
-const { TonicIcon } = require('./icon')
-const { TonicInput } = require('./input')
-const { TonicPopover } = require('./popover')
-const { TonicProfileImage } = require('./profile-image')
-const { TonicProgressBar } = require('./progress-bar')
-const { TonicRange } = require('./range')
-const { TonicRelativeTime } = require('./relative-time')
-const { TonicRouter } = require('./router')
-const { TonicSelect } = require('./select')
-const { TonicSprite } = require('./sprite')
-const { TonicTabs, TonicTabPanel } = require('./tabs')
-const { TonicTextarea } = require('./textarea')
-const { TonicTooltip } = require('./tooltip')
-const { TonicToasterInline } = require('./toaster-inline')
-const { TonicToaster } = require('./toaster')
-const { TonicToggle } = require('./toggle')
-
-//
-// An example collection of components.
-//
-module.exports = components
-// For supporting unpkg / dist / jsfiddle.
-components.Tonic = Tonic
-
-function components (Tonic, opts) {
-  if (opts && opts.strict === true) {
-    mode.strict = true
-  }
-
-  Tonic.add(TonicAccordion)
-  Tonic.add(TonicAccordionSection)
-  Tonic.add(TonicBadge)
-  Tonic.add(TonicButton)
-  Tonic.add(TonicChart)
-  Tonic.add(TonicCheckbox)
-  Tonic.add(TonicForm)
-  Tonic.add(TonicInput)
-  Tonic.add(TonicIcon)
-  Tonic.add(TonicPopover)
-  Tonic.add(TonicProfileImage)
-  Tonic.add(TonicProgressBar)
-  Tonic.add(TonicRange)
-  Tonic.add(TonicRelativeTime)
-  Tonic.add(TonicRouter)
-  Tonic.add(TonicSelect)
-  Tonic.add(TonicSprite)
-  Tonic.add(TonicTabs)
-  Tonic.add(TonicTabPanel)
-  Tonic.add(TonicTextarea)
-  Tonic.add(TonicTooltip)
-  Tonic.add(TonicToasterInline)
-  Tonic.add(TonicToaster)
-  Tonic.add(TonicToggle)
-}
-
-},{"./accordion":1,"./badge":2,"./button":4,"./chart":6,"./checkbox":8,"./form":12,"./icon":13,"./input":16,"./mode":18,"./popover":86,"./profile-image":88,"./progress-bar":90,"./range":92,"./relative-time":94,"./router":95,"./select":97,"./sprite":99,"./tabs":100,"./textarea":105,"./toaster":109,"./toaster-inline":107,"./toggle":111,"./tooltip":113,"@optoolco/tonic":19}],16:[function(require,module,exports){
-const Tonic = require('@optoolco/tonic')
-
-const mode = require('../mode')
-
-class TonicInput extends Tonic {
-  defaults () {
-    return {
-      type: 'text',
-      value: '',
-      placeholder: '',
-      color: 'var(--tonic-primary)',
-      spellcheck: false,
-      ariaInvalid: false,
-      invalid: false,
-      radius: '3px',
-      disabled: false,
-      position: 'left'
-    }
-  }
-
-  get form () {
-    return this.querySelector('input').form
-  }
-
-  get value () {
-    return this.state.value || this.props.value
-  }
-
-  set value (value) {
-    this.querySelector('input').value = value
-    this.state.value = value
-  }
-
-  setValid () {
-    this.reRender(props => Object.assign({}, props, {
-      invalid: false
-    }))
-  }
-
-  setInvalid (msg) {
-    this.reRender(props => Object.assign({}, props, {
-      invalid: true,
-      errorMessage: msg
-    }))
-  }
-
-  static stylesheet () {
-    return `
-      tonic-input .tonic--wrapper {
-        position: relative;
-      }
-
-      tonic-input[src] .tonic--right tonic-icon {
-        right: 10px;
-      }
-
-      tonic-input[src] .tonic--right input {
-        padding-right: 40px;
-      }
-
-      tonic-input[src] .tonic--left tonic-icon {
-        left: 10px;
-      }
-
-      tonic-input[src] .tonic--left input {
-        padding-left: 40px;
-      }
-
-      tonic-input[src] tonic-icon {
-        position: absolute;
-        bottom: 7px;
-      }
-
-      tonic-input label {
-        color: var(--tonic-medium, #999);
-        font-weight: 500;
-        font: 12px/14px var(--tonic-subheader, 'Arial', sans-serif);
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        padding-bottom: 10px;
-        display: block;
-      }
-
-      tonic-input input {
-        color: var(--tonic-primary, #333);
-        font: 14px var(--tonic-monospace, 'Andale Mono', monospace);
-        padding: 10px;
-        background-color: transparent;
-        border: 1px solid var(--tonic-border, #ccc);
-        transition: border 0.2s ease-in-out;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-      }
-
-      tonic-input input:invalid {
-        border-color: var(--tonic-error, #f66);
-      }
-
-      tonic-input input:invalid:focus {
-        border-color: var(--tonic-error, #f66);
-      }
-
-      tonic-input input:invalid ~ .tonic--invalid {
-        transform: translateY(0);
-        visibility: visible;
-        opacity: 1;
-        transition: opacity 0.2s ease, transform 0.2s ease, visibility 1s ease 0s;
-      }
-
-      tonic-input input:focus {
-        border-color: var(--tonic-primary, #333);
-      }
-
-      tonic-input input[disabled] {
-        background-color: var(--tonic-background, #fff);
-      }
-
-      tonic-input[label] .tonic--invalid {
-        margin-bottom: -13px;
-      }
-
-      tonic-input .tonic--invalid {
-        font-size: 14px;
-        text-align: center;
-        margin-bottom: 13px;
-        position: absolute;
-        bottom: 100%;
-        left: 0;
-        right: 0;
-        transform: translateY(-10px);
-        transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s ease 1s;
-        visibility: hidden;
-        opacity: 0;
-      }
-
-      tonic-input .tonic--invalid span {
-        color: white;
-        padding: 2px 6px;
-        background-color: var(--tonic-error, #f66);
-        border-radius: 2px;
-        position: relative;
-        display: inline-block;
-        margin: 0 auto;
-      }
-
-      tonic-input .tonic--invalid span:after {
-        content: '';
-        width: 0;
-        height: 0;
-        display: block;
-        position: absolute;
-        bottom: -6px;
-        left: 50%;
-        transform: translateX(-50%);
-        border-left: 6px solid transparent;
-        border-right: 6px solid transparent;
-        border-top: 6px solid var(--tonic-error, #f66);
-      }
-    `
-  }
-
-  renderLabel () {
-    if (!this.props.label) return ''
-    return this.html`
-      <label
-        for="tonic--input_${this.props.id}"
-      >${Tonic.raw(this.props.label)}</label>
-    `
-  }
-
-  renderIcon () {
-    if (!this.props.src) return ''
-
-    return this.html`
-      <tonic-icon
-        src="${this.props.src}"
-        color="${this.props.color}">
-      </tonic-icon>
-    `
-  }
-
-  setupEvents () {
-    const input = this.querySelector('input')
-
-    const set = (k, v, event) => {
-      this.setState(state => Object.assign({}, state, { [k]: v }))
-    }
-
-    const relay = name => {
-      this.dispatchEvent(new window.CustomEvent(name, { bubbles: true }))
-    }
-
-    input.addEventListener('focus', e => {
-      set('focus', true)
-      relay('focus')
-    })
-
-    input.addEventListener('blur', e => {
-      set('focus', false)
-      relay('blur')
-    })
-
-    input.addEventListener('input', e => {
-      set('value', e.target.value)
-      set('pos', e.target.selectionStart)
-    })
-
-    const state = this.getState()
-    if (!state.focus) return
-
-    input.focus()
-
-    try {
-      input.setSelectionRange(state.pos, state.pos)
-    } catch (err) {
-      console.warn(err)
-    }
-  }
-
-  updated () {
-    const input = this.querySelector('input')
-
-    setTimeout(() => {
-      if (this.props.invalid) {
-        input.setCustomValidity(this.props.errorMessage)
-      } else {
-        input.setCustomValidity('')
-      }
-    }, 32)
-
-    this.setupEvents()
-  }
-
-  connected () {
-    this.updated()
-  }
-
-  styles () {
-    const {
-      width,
-      height,
-      radius,
-      padding
-    } = this.props
-
-    return {
-      wrapper: {
-        width
-      },
-      input: {
-        width: '100%',
-        height,
-        borderRadius: radius,
-        padding
-      }
-    }
-  }
-
-  render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-input')
-    }
-
-    const {
-      ariaInvalid,
-      ariaLabelledby,
-      disabled,
-      height,
-      label,
-      max,
-      maxlength,
-      min,
-      minlength,
-      name,
-      pattern,
-      placeholder,
-      position,
-      readonly,
-      required,
-      spellcheck,
-      tabindex,
-      theme,
-      title,
-      type
-    } = this.props
-
-    if (ariaLabelledby) this.removeAttribute('ariaLabelledby')
-    if (height) this.style.width = height
-    if (name) this.removeAttribute('name')
-    if (tabindex) this.removeAttribute('tabindex')
-    if (theme) this.classList.add(`tonic--theme--${theme}`)
-
-    const value = typeof this.state.value === 'string'
-      ? this.state.value : this.props.value
-
-    const errorMessage = this.props.errorMessage ||
-      this.props.errormessage || 'Invalid'
-
-    const classes = ['tonic--wrapper']
-    if (position) classes.push(`tonic--${position}`)
-
-    const attributes = {
-      ariaInvalid,
-      ariaLabel: label,
-      'aria-labelledby': ariaLabelledby,
-      disabled: disabled === 'true',
-      max,
-      maxlength,
-      min,
-      minlength,
-      name,
-      pattern,
-      placeholder,
-      position,
-      readonly: readonly === 'true',
-      required: required === 'true',
-      spellcheck,
-      tabindex,
-      title,
-      value
-    }
-
-    return this.html`
-      <div class="${classes.join(' ')}" styles="wrapper">
-        ${this.renderLabel()}
-        ${this.renderIcon()}
-
-        <input ... ${{
-          styles: 'input',
-          type,
-          id: `tonic--input_${this.props.id}`,
-          ...attributes
-        }}/>
-        <div class="tonic--invalid">
-          <span id="tonic--error-${this.props.id}">${errorMessage}</span>
-        </div>
-      </div>
-    `
-  }
-}
-
-module.exports = { TonicInput }
-
-},{"../mode":18,"@optoolco/tonic":19}],17:[function(require,module,exports){
-const tape = require('tape')
-const { qs } = require('qs')
-
-const { html } = require('../test/util')
-const components = require('..')
-const Tonic = require('@optoolco/tonic')
-components(Tonic)
-
-const requestAnimationFrame = window.requestAnimationFrame
-
-class InputWrapper extends Tonic {
-  constructor (o) {
-    super(o)
-
-    this.state = {
-      copyValue: '',
-      currentValue: '',
-      inputEvents: 0,
-      ...this.state
-    }
-  }
-
-  input () {
-    console.log('input ev')
-    this.state.inputEvents++
-
-    const input = this.querySelector('tonic-input')
-    this.state.currentValue = input.value
-  }
-
-  click (ev) {
-    console.log('click ev')
-    const el = Tonic.match(ev.target, '[data-event]')
-    if (!el || el.dataset.event !== 'copy') return
-
-    this.state.copyValue = this.state.currentValue
-    this.reRender()
-  }
-
-  render () {
-    console.log('render()', JSON.stringify(this.state))
-    return this.html`
-      <div>
-        <tonic-input id='tonic-input-wrapped'>
-        </tonic-input>
-        <tonic-button data-event='copy'>Copy</tonic-button>
-        <span class='display'>${this.state.copyValue}</span>
-      </div>
-    `
-  }
-}
-Tonic.add(InputWrapper, 'input-test-wrapper-comp')
-
-document.body.appendChild(html`
-<section id="input">
-  <h2>Input</h2>
-
-  <div class="test-container">
-    <span>Default Input</span>
-    <tonic-input id="input-1">
-    </tonic-input>
-  </div>
-
-  <div class="test-container">
-    <span>value="I'm a value"</span>
-    <tonic-input
-      id="input-2"
-      value="I'm a value">
-    </tonic-input>
-  </div>
-
-  <div class="test-container">
-    <span>type="email"</span>
-    <tonic-input
-      id="input-3"
-      type="email">
-    </tonic-input>
-  </div>
-
-  <div class="test-container">
-    <span>required="true"</span>
-    <tonic-input
-      id="input-4"
-      required="true">
-    </tonic-input>
-  </div>
-
-  <div class="test-container">
-    <span>disabled="true"</span>
-    <tonic-input
-     id="input-5"
-     disabled="true">
-   </tonic-input>
-  </div>
-
-  <div class="test-container">
-    <span>spellcheck="false"</span>
-    <tonic-input
-      id="input-6"
-      spellcheck="false">
-    </tonic-input>
-  </div>
-
-  <div class="test-container">
-    <span>error-message="nope"</span>
-    <tonic-input
-      id="input-7"
-      value="test"
-      type="email"
-      error-message="nope">
-    </tonic-input>
-  </div>
-
-  <div class="test-container">
-    <span>placeholder="test"</span>
-    <tonic-input
-      id="input-8"
-      placeholder="test">
-    </tonic-input>
-  </div>
-
-  <div class="test-container">
-    <span>label="Label"</span>
-    <tonic-input
-      id="input-9"
-      label="Label">
-    </tonic-input>
-  </div>
-
-  <div class="test-container">
-    <span>tabindex="0"</span>
-    <tonic-input
-      id="input-10"
-      tabindex="0">
-    </tonic-input>
-  </div>
-
-  <div class="test-container">
-    <span>readonly="true"</span>
-    <tonic-input
-      id="input-11"
-      readonly="true">
-    </tonic-input>
-  </div>
-
-  <div class="test-container">
-    <span>Test Wrapper Comp</span>
-    <input-test-wrapper-comp></input-test-wrapper-comp>
-  </div>
-
-  <!-- <div class="test-container">
-    <span>src="somePath"</span>
-    <tonic-input src="./sprite.svg#custom_off"></tonic-input>
-  </div> -->
-
-  <!-- <div class="test-container">
-    <span>position="left"</span>
-    <tonic-input position="left" src="./sprite.svg#custom_off"></tonic-input>
-  </div> -->
-
-  <!-- <div class="test-container">
-    <span>position="right"</span>
-    <tonic-input position="right" src="./sprite.svg#custom_off"></tonic-input>
-  </div> -->
-
-  <!-- <div class="test-container">
-    <span>pattern="[A-Za-z\s]+"</span>
-    <tonic-input pattern="[A-Za-z\s]+"></tonic-input>
-  </div> -->
-
-
-  <!-- <div id="input-11" class="test-container">
-    <span>minlength="5"</span>
-    <tonic-input minlength="5"></tonic-input>
-  </div>
-
-  <div class="test-container">
-    <span>maxlength="10"</span>
-    <tonic-input maxlength="10"></tonic-input>
-  </div>
-
-  <div class="test-container">
-    <span>type="number", min="5"</span>
-    <tonic-input type="number" min="5"></tonic-input>
-  </div>
-
-  <div class="test-container">
-    <span>type="number", max="10"</span>
-    <tonic-input type="number" max="10"></tonic-input>
-  </div>
-
-  <div class="test-container">
-    <span>width="60px"</span>
-    <tonic-input width="60px"></tonic-input>
-  </div>
-
-  <div class="test-container">
-    <span>width="100%"</span>
-    <tonic-input width="100%"></tonic-input>
-  </div>
-
-  <div class="test-container">
-    <span>radius="8px"</span>
-    <tonic-input radius="8px"></tonic-input>
-  </div> -->
-
-</section>
-`)
-
-tape('{{input-1}} default state is constructed', t => {
-  const component = qs('tonic-input#input-1')
-  const wrapper = qs('.tonic--wrapper', component)
-  const input = qs('input', wrapper)
-  const invalid = qs('.tonic--invalid', wrapper)
-
-  t.plan(4)
-
-  t.ok(wrapper, 'the component was constructed, has a wrapper')
-  t.ok(input, 'the component contains an input')
-  t.ok(invalid, 'the component contains a tonic invalid div')
-  t.ok(!input.hasAttribute('disabled'), 'the input is not disabled by default')
-
-  t.end()
-})
-
-tape('{{input-2}} contains a default value', t => {
-  const component = qs('tonic-input#input-2')
-  const input = qs('input', component)
-  const value = component.getAttribute('value')
-
-  t.plan(2)
-
-  t.equal(value, input.getAttribute('value'), 'component input value attributes match')
-  t.equal(value, input.value, 'component value attribute matches input value')
-
-  t.end()
-})
-
-tape('{{input-3}} contains a type', t => {
-  const component = qs('tonic-input#input-3')
-  const input = qs('input', component)
-
-  t.plan(3)
-
-  t.ok(input, 'the component was constructed with an input')
-  t.ok(component.hasAttribute('type'), 'component input value attributes match')
-  t.equal(component.getAttribute('type'), input.type, 'component type matches input type')
-
-  t.end()
-})
-
-tape('{{input-4}} is required', t => {
-  const component = qs('tonic-input#input-4')
-  const input = qs('input', component)
-
-  t.plan(4)
-
-  t.ok(input, 'the component was constructed with an input')
-  t.equal(component.getAttribute('required'), 'true', 'component contains required attribute')
-  t.equal(input.required, true, 'input is required')
-
-  const styles = window.getComputedStyle(input)
-  t.equal(styles.borderColor, 'rgb(255, 102, 102)')
-
-  t.end()
-})
-
-tape('{{input-5}} is disabled', t => {
-  const component = qs('tonic-input#input-5')
-  const input = qs('input', component)
-
-  t.plan(3)
-
-  t.ok(input, 'the component was constructed with an input')
-  t.equal(component.getAttribute('disabled'), 'true', 'component contains disabled="true" attribute')
-  t.ok(input.hasAttribute('disabled'), 'input has disabled attribute')
-
-  t.end()
-})
-
-tape('{{input-6}} has spellcheck attribute', t => {
-  const component = qs('tonic-input#input-6')
-  const input = qs('input', component)
-
-  t.plan(3)
-
-  t.ok(input, 'the component was constructed with an input')
-  t.ok(component.hasAttribute('spellcheck'), 'component contains spellcheck attribute')
-  t.equal(component.getAttribute('spellcheck'), input.getAttribute('spellcheck'), 'component spellcheck attr matches input')
-
-  t.end()
-})
-
-tape('{{input-7}} shows error message', t => {
-  const component = qs('tonic-input#input-7')
-  const input = qs('input', component)
-  const error = qs('.tonic--invalid', component)
-  const errorMessage = qs('span', error)
-
-  t.plan(4)
-
-  t.ok(input, 'the component was constructed with an input')
-  t.ok(error, 'the component was constructed with an error')
-  t.equal(component.getAttribute('error-message'), errorMessage.textContent, 'attribute matches error text')
-  t.ok(qs('input:invalid', component), 'input is invalid, error is showing')
-
-  t.end()
-})
-
-tape('{{input-8}} has placeholder', t => {
-  const component = qs('tonic-input#input-8')
-  const input = qs('input', component)
-
-  t.plan(2)
-
-  t.ok(input, 'the component was constructed with an input')
-  t.equal(component.getAttribute('placeholder'), input.getAttribute('placeholder'), 'component and input placeholder attributes match')
-
-  t.end()
-})
-
-tape('{{input-9}} has label', t => {
-  const component = qs('tonic-input#input-9')
-  const input = qs('input', component)
-  const label = qs('label:not(.tonic--icon)', component)
-
-  t.plan(3)
-
-  t.ok(input, 'the component was constructed with an input')
-  t.ok(label, 'the component was constructed with a label')
-  t.equal(component.getAttribute('label'), label.textContent, 'component label attribute matches text of label')
-
-  t.end()
-})
-
-tape('{{input-10}} has tabindex', t => {
-  const component = qs('tonic-input#input-10')
-  const input = qs('input', component)
-
-  t.plan(3)
-
-  t.ok(input, 'the component was constructed with an input')
-  t.equal(component.hasAttribute('tabindex'), false, 'component does not have a tabindex')
-  t.equal(input.hasAttribute('tabindex'), true, 'input has a tabindex')
-
-  t.end()
-})
-
-tape('{{input-11}} has readonly attribute', t => {
-  const component = qs('tonic-input#input-11')
-  const input = qs('input', component)
-
-  t.plan(3)
-
-  t.ok(input, 'the component was constructed with an input')
-  t.equal(component.hasAttribute('readonly'), true, 'component has a readonly="true" attribute')
-  t.ok(input.hasAttribute('readonly'), 'input has a readonly attribute')
-
-  t.end()
-})
-
-tape('{{input-1}} event handlers', t => {
-  const component = qs('tonic-input#input-1')
-  const input = qs('input', component)
-
-  let counter = 0
-
-  component.addEventListener('input', (ev) => {
-    t.equal(++counter, 1)
-    t.equal(ev.currentTarget.value, 'someText')
-
-    t.end()
-  })
-
-  input.value = 'someText'
-  input.dispatchEvent(new window.Event('input', {
-    bubbles: true
-  }))
-})
-
-tape('input wrapper component interactions', t => {
-  const comp = qs('input-test-wrapper-comp')
-
-  let display = comp.querySelector('span.display')
-  t.equal(display.textContent, '')
-
-  const rawInputs = comp.querySelectorAll('input')
-  t.equal(rawInputs.length, 1)
-
-  const input = rawInputs[0]
-  input.value = 'someText'
-  input.dispatchEvent(new window.Event('input', {
-    bubbles: true
-  }))
-
-  const buttons = comp.querySelectorAll('button')
-  t.equal(buttons.length, 1)
-
-  buttons[0].click()
-
-  requestAnimationFrame(() => {
-    display = comp.querySelector('span.display')
-    t.equal(display.textContent, 'someText')
-    t.equal(comp.state.inputEvents, 1)
-
-    t.end()
-  })
-})
-
-},{"..":15,"../test/util":104,"@optoolco/tonic":19,"qs":55,"tape":77}],18:[function(require,module,exports){
-module.exports = { strict: false }
-
-},{}],19:[function(require,module,exports){
-class TonicRaw {
-  constructor (rawText) {
-    this.isTonicRaw = true
-    this.rawText = rawText
-  }
-
-  valueOf () { return this.rawText }
-  toString () { return this.rawText }
-}
-
-class Tonic extends window.HTMLElement {
-  constructor () {
-    super()
-    const state = Tonic._states[this.id]
-    delete Tonic._states[this.id]
-    this.isTonicComponent = true
-    this.state = state || {}
-    this.props = {}
-    this.elements = [...this.children]
-    this.elements.__children__ = true
-    this.nodes = [...this.childNodes]
-    this.nodes.__children__ = true
-    this._events()
-  }
-
-  static _createId () {
-    return `tonic${Tonic._index++}`
-  }
-
-  static _maybePromise (p) {
-    if (p && typeof p.then === 'function' && typeof p.catch === 'function') {
-      p.catch(err => setTimeout(() => { throw err }, 0))
-    }
-  }
-
-  static _splitName (s) {
-    return s.match(/[A-Z][a-z]*/g).join('-')
-  }
-
-  static _normalizeAttrs (o, x = {}) {
-    [...o].forEach(o => (x[o.name] = o.value))
-    return x
-  }
-
-  _events () {
-    const hp = Object.getOwnPropertyNames(window.HTMLElement.prototype)
-    for (const p of this._props) {
-      if (hp.indexOf('on' + p) === -1) continue
-      this.addEventListener(p, this)
-    }
-  }
-
-  _prop (o) {
-    const id = this._id
-    const p = `__${id}__${Tonic._createId()}__`
-    Tonic._data[id] = Tonic._data[id] || {}
-    Tonic._data[id][p] = o
-    return p
-  }
-
-  _placehold (r) {
-    const id = this._id
-    const ref = `placehold:${id}:${Tonic._createId()}__`
-    Tonic._children[id] = Tonic._children[id] || {}
-    Tonic._children[id][ref] = r
-    return ref
-  }
-
-  static match (el, s) {
-    if (!el.matches) el = el.parentElement
-    return el.matches(s) ? el : el.closest(s)
-  }
-
-  static getPropertyNames (proto) {
-    const props = []
-    while (proto && proto !== Tonic.prototype) {
-      props.push(...Object.getOwnPropertyNames(proto))
-      proto = Object.getPrototypeOf(proto)
-    }
-    return props
-  }
-
-  static add (c, htmlName) {
-    c.prototype._props = Tonic.getPropertyNames(c.prototype)
-
-    const hasValidName = htmlName || (c.name && c.name.length > 1)
-    if (!hasValidName) {
-      throw Error('Mangling. https://bit.ly/2TkJ6zP')
-    }
-
-    if (!htmlName) htmlName = Tonic._splitName(c.name).toLowerCase()
-    if (window.customElements.get(htmlName)) return
-
-    Tonic._reg[htmlName] = c
-    Tonic._tags = Object.keys(Tonic._reg).join()
-    window.customElements.define(htmlName, c)
-
-    if (c.stylesheet) {
-      const styleNode = document.createElement('style')
-      styleNode.appendChild(document.createTextNode(c.stylesheet()))
-      if (document.head) document.head.appendChild(styleNode)
-    }
-  }
-
-  static escape (s) {
-    return s.replace(Tonic.ESC, c => Tonic.MAP[c])
-  }
-
-  static raw (s) {
-    return new TonicRaw(s)
-  }
-
-  html ([s, ...strings], ...values) {
-    const refs = o => {
-      if (o && o.__children__) return this._placehold(o)
-      if (o && o.isTonicRaw) return o.rawText
-      switch (Object.prototype.toString.call(o)) {
-        case '[object HTMLCollection]':
-        case '[object NodeList]': return this._placehold([...o])
-        case '[object Array]':
-        case '[object Object]':
-        case '[object Function]': return this._prop(o)
-        case '[object NamedNodeMap]':
-          return this._prop(Tonic._normalizeAttrs(o))
-        case '[object Number]': return `${o}__float`
-        case '[object String]': return Tonic.escape(o)
-        case '[object Boolean]': return `${o}__boolean`
-        case '[object Null]': return `${o}__null`
-        case '[object HTMLElement]':
-          return this._placehold([o])
-      }
-      if (
-        typeof o === 'object' && o && o.nodeType === 1 &&
-        typeof o.cloneNode === 'function'
-      ) {
-        return this._placehold([o])
-      }
-      return o
-    }
-
-    const reduce = (a, b) => a.concat(b, strings.shift())
-    const str = values.map(refs).reduce(reduce, [s]).join('')
-    return Tonic.raw(str)
-  }
-
-  setState (o) {
-    this.state = typeof o === 'function' ? o(this.state) : o
-  }
-
-  getState () {
-    return this.state
-  }
-
-  scheduleReRender (oldProps) {
-    if (this.pendingReRender) return this.pendingReRender
-
-    this.pendingReRender = new Promise(resolve => {
-      window.requestAnimationFrame(() => {
-        Tonic._maybePromise(this._set(this.root, this.render))
-        this.pendingReRender = null
-
-        if (this.updated) this.updated(oldProps)
-        resolve()
-      })
-    })
-
-    return this.pendingReRender
-  }
-
-  reRender (o = this.props) {
-    const oldProps = { ...this.props }
-    this.props = typeof o === 'function' ? o(oldProps) : o
-    return this.scheduleReRender(oldProps)
-  }
-
-  getProps () {
-    return this.props
-  }
-
-  handleEvent (e) {
-    Tonic._maybePromise(this[e.type](e))
-  }
-
-  async _set (target, render, content = '') {
-    for (const node of target.querySelectorAll(Tonic._tags)) {
-      if (!node.isTonicComponent) continue
-      if (!node.id || !Tonic._refIds.includes(node.id)) continue
-      Tonic._states[node.id] = node.getState()
-    }
-
-    if (render instanceof Tonic.AsyncFunction) {
-      content = await render.call(this) || ''
-    } else if (render instanceof Tonic.AsyncFunctionGenerator) {
-      const itr = render.call(this)
-      while (true) {
-        const { value, done } = await itr.next()
-        this._set(target, null, value)
-        if (done) break
-      }
-      return
-    } else if (render instanceof Function) {
-      content = render.call(this) || ''
-    }
-
-    if (content && content.isTonicRaw) {
-      content = content.rawText
-    }
-
-    if (typeof content === 'string') {
-      content = content.replace(Tonic.SPREAD, (_, p) => {
-        const o = Tonic._data[p.split('__')[1]][p]
-        return Object.entries(o).map(([key, value]) => {
-          const k = key.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
-          if (value === true) return k
-          else if (value) return `${k}="${Tonic.escape(String(value))}"`
-          else return ''
-        }).filter(Boolean).join(' ')
-      })
-
-      if (this.stylesheet) {
-        content = `<style>${this.stylesheet()}</style>${content}`
-      }
-
-      target.innerHTML = content
-
-      if (this.styles) {
-        const styles = this.styles()
-        for (const node of target.querySelectorAll('[styles]')) {
-          for (const s of node.getAttribute('styles').split(/\s+/)) {
-            Object.assign(node.style, styles[s.trim()])
-          }
-        }
-      }
-
-      const children = Tonic._children[this._id] || {}
-
-      const walk = (node, fn) => {
-        if (node.nodeType === 3) {
-          const id = node.textContent.trim()
-          if (children[id]) fn(node, children[id])
-        }
-
-        const childNodes = node.childNodes
-        if (!childNodes) return
-
-        for (let i = 0; i < childNodes.length; i++) {
-          walk(childNodes[i], fn)
-        }
-      }
-
-      walk(target, (node, children) => {
-        for (const child of children) {
-          node.parentNode.insertBefore(child, node)
-        }
-        delete Tonic._children[this._id][node.id]
-        node.parentNode.removeChild(node)
-      })
-    } else {
-      target.innerHTML = ''
-      target.appendChild(content.cloneNode(true))
-    }
-  }
-
-  connectedCallback () {
-    this.root = this.shadowRoot || this
-
-    if (this.wrap) {
-      this.wrapped = this.render
-      this.render = this.wrap
-    }
-
-    if (this.id && !Tonic._refIds.includes(this.id)) {
-      Tonic._refIds.push(this.id)
-    }
-    const cc = s => s.replace(/-(.)/g, (_, m) => m.toUpperCase())
-
-    for (const { name: _name, value } of this.attributes) {
-      const name = cc(_name)
-      const p = this.props[name] = value
-
-      if (/__\w+__\w+__/.test(p)) {
-        const { 1: root } = p.split('__')
-        this.props[name] = Tonic._data[root][p]
-      } else if (/\d+__float/.test(p)) {
-        this.props[name] = parseFloat(p, 10)
-      } else if (p === 'null__null') {
-        this.props[name] = null
-      } else if (/\w+__boolean/.test(p)) {
-        this.props[name] = p.includes('true')
-      } else if (/placehold:\w+:\w+__/.test(p)) {
-        const { 1: root } = p.split(':')
-        this.props[name] = Tonic._children[root][p][0]
-      }
-    }
-
-    this.props = Object.assign(
-      this.defaults ? this.defaults() : {},
-      this.props
-    )
-
-    if (!this._source) {
-      this._source = this.innerHTML
-    } else {
-      this.innerHTML = this._source
-    }
-
-    this._id = this._id || Tonic._createId()
-
-    this.willConnect && this.willConnect()
-    Tonic._maybePromise(this._set(this.root, this.render))
-    Tonic._maybePromise(this.connected && this.connected())
-  }
-
-  disconnectedCallback () {
-    Tonic._maybePromise(this.disconnected && this.disconnected())
-    this.elements.length = 0
-    this.nodes.length = 0
-    delete Tonic._data[this._id]
-    delete Tonic._children[this._id]
-  }
-}
-
-Object.assign(Tonic, {
-  _tags: '',
-  _refIds: [],
-  _data: {},
-  _states: {},
-  _children: {},
-  _reg: {},
-  _index: 0,
-  version: typeof require !== 'undefined' ? require('./package').version : null,
-  SPREAD: /\.\.\.\s?(__\w+__\w+__)/g,
-  ESC: /["&'<>`]/g,
-  AsyncFunctionGenerator: async function * () {}.constructor,
-  AsyncFunction: async function () {}.constructor,
-  MAP: { '"': '&quot;', '&': '&amp;', '\'': '&#x27;', '<': '&lt;', '>': '&gt;', '`': '&#x60;' }
-})
-
-if (typeof module === 'object') module.exports = Tonic
-
-},{"./package":20}],20:[function(require,module,exports){
-module.exports={
-  "_from": "@optoolco/tonic@next",
-  "_id": "@optoolco/tonic@11.0.3",
-  "_inBundle": false,
-  "_integrity": "sha512-0hDou0iEQQueM7Ej68rcqcM9WrEy4YKWwTMpN7Pl7izZt+e/GcmMAf+B06buFYkrvxxY3per9HZG4e4WM84M4A==",
-  "_location": "/@optoolco/tonic",
-  "_phantomChildren": {},
-  "_requested": {
-    "type": "tag",
-    "registry": true,
-    "raw": "@optoolco/tonic@next",
-    "name": "@optoolco/tonic",
-    "escapedName": "@optoolco%2ftonic",
-    "scope": "@optoolco",
-    "rawSpec": "next",
-    "saveSpec": null,
-    "fetchSpec": "next"
-  },
-  "_requiredBy": [
-    "#DEV:/",
-    "#USER"
-  ],
-  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-11.0.3.tgz",
-  "_shasum": "b555128201a553fa8951804b6c4e6988abfe905d",
-  "_spec": "@optoolco/tonic@next",
-  "_where": "/home/raynos/optoolco/components",
-  "author": {
-    "name": "optoolco"
-  },
-  "bugs": {
-    "url": "https://github.com/optoolco/tonic/issues"
-  },
-  "bundleDependencies": false,
-  "dependencies": {},
-  "deprecated": false,
-  "description": "A composable component inspired by React.",
-  "devDependencies": {
-    "benchmark": "^2.1.4",
-    "browserify": "^16.2.2",
-    "raynos-tape-puppet": "0.1.7-raynos2",
-    "standard": "14.3.1",
-    "tape": "^4.11.0",
-    "terser": "^4.0.2",
-    "uuid": "3.3.3"
-  },
-  "directories": {
-    "test": "test"
-  },
-  "homepage": "https://github.com/optoolco/tonic#readme",
-  "license": "MIT",
-  "name": "@optoolco/tonic",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/optoolco/tonic.git"
-  },
-  "scripts": {
-    "build:demo": "browserify --bare ./demo > ./docs/bundle.js",
-    "minify": "terser index.js -c unused,dead_code,hoist_vars,loops=false,hoist_props=true,hoist_funs,toplevel,keep_classnames,keep_fargs=false -o dist/tonic.min.js",
-    "test": "npm run minify && browserify test/index.js | tape-puppet"
-  },
-  "version": "11.0.3"
-}
-
-},{}],21:[function(require,module,exports){
 'use strict'
 
 exports.byteLength = byteLength
@@ -3483,7 +66,8 @@ function toByteArray (b64) {
     ? validLen - 4
     : validLen
 
-  for (var i = 0; i < len; i += 4) {
+  var i
+  for (i = 0; i < len; i += 4) {
     tmp =
       (revLookup[b64.charCodeAt(i)] << 18) |
       (revLookup[b64.charCodeAt(i + 1)] << 12) |
@@ -3568,11 +152,12 @@ function fromByteArray (uint8) {
   return parts.join('')
 }
 
-},{}],22:[function(require,module,exports){
+},{}],2:[function(require,module,exports){
 
-},{}],23:[function(require,module,exports){
-arguments[4][22][0].apply(exports,arguments)
-},{"dup":22}],24:[function(require,module,exports){
+},{}],3:[function(require,module,exports){
+arguments[4][2][0].apply(exports,arguments)
+},{"dup":2}],4:[function(require,module,exports){
+(function (Buffer){
 /*!
  * The buffer module from node.js, for the browser.
  *
@@ -3585,6 +170,10 @@ arguments[4][22][0].apply(exports,arguments)
 
 var base64 = require('base64-js')
 var ieee754 = require('ieee754')
+var customInspectSymbol =
+  (typeof Symbol === 'function' && typeof Symbol.for === 'function')
+    ? Symbol.for('nodejs.util.inspect.custom')
+    : null
 
 exports.Buffer = Buffer
 exports.SlowBuffer = SlowBuffer
@@ -3621,7 +210,9 @@ function typedArraySupport () {
   // Can typed array instances can be augmented?
   try {
     var arr = new Uint8Array(1)
-    arr.__proto__ = { __proto__: Uint8Array.prototype, foo: function () { return 42 } }
+    var proto = { foo: function () { return 42 } }
+    Object.setPrototypeOf(proto, Uint8Array.prototype)
+    Object.setPrototypeOf(arr, proto)
     return arr.foo() === 42
   } catch (e) {
     return false
@@ -3650,7 +241,7 @@ function createBuffer (length) {
   }
   // Return an augmented `Uint8Array` instance
   var buf = new Uint8Array(length)
-  buf.__proto__ = Buffer.prototype
+  Object.setPrototypeOf(buf, Buffer.prototype)
   return buf
 }
 
@@ -3700,7 +291,7 @@ function from (value, encodingOrOffset, length) {
   }
 
   if (value == null) {
-    throw TypeError(
+    throw new TypeError(
       'The first argument must be one of type string, Buffer, ArrayBuffer, Array, ' +
       'or Array-like Object. Received type ' + (typeof value)
     )
@@ -3752,8 +343,8 @@ Buffer.from = function (value, encodingOrOffset, length) {
 
 // Note: Change prototype *after* Buffer.from is defined to workaround Chrome bug:
 // https://github.com/feross/buffer/pull/148
-Buffer.prototype.__proto__ = Uint8Array.prototype
-Buffer.__proto__ = Uint8Array
+Object.setPrototypeOf(Buffer.prototype, Uint8Array.prototype)
+Object.setPrototypeOf(Buffer, Uint8Array)
 
 function assertSize (size) {
   if (typeof size !== 'number') {
@@ -3857,7 +448,8 @@ function fromArrayBuffer (array, byteOffset, length) {
   }
 
   // Return an augmented `Uint8Array` instance
-  buf.__proto__ = Buffer.prototype
+  Object.setPrototypeOf(buf, Buffer.prototype)
+
   return buf
 }
 
@@ -4179,6 +771,9 @@ Buffer.prototype.inspect = function inspect () {
   if (this.length > max) str += ' ... '
   return '<Buffer ' + str + '>'
 }
+if (customInspectSymbol) {
+  Buffer.prototype[customInspectSymbol] = Buffer.prototype.inspect
+}
 
 Buffer.prototype.compare = function compare (target, start, end, thisStart, thisEnd) {
   if (isInstance(target, Uint8Array)) {
@@ -4304,7 +899,7 @@ function bidirectionalIndexOf (buffer, val, byteOffset, encoding, dir) {
         return Uint8Array.prototype.lastIndexOf.call(buffer, val, byteOffset)
       }
     }
-    return arrayIndexOf(buffer, [ val ], byteOffset, encoding, dir)
+    return arrayIndexOf(buffer, [val], byteOffset, encoding, dir)
   }
 
   throw new TypeError('val must be string, number or Buffer')
@@ -4633,7 +1228,7 @@ function hexSlice (buf, start, end) {
 
   var out = ''
   for (var i = start; i < end; ++i) {
-    out += toHex(buf[i])
+    out += hexSliceLookupTable[buf[i]]
   }
   return out
 }
@@ -4670,7 +1265,8 @@ Buffer.prototype.slice = function slice (start, end) {
 
   var newBuf = this.subarray(start, end)
   // Return an augmented `Uint8Array` instance
-  newBuf.__proto__ = Buffer.prototype
+  Object.setPrototypeOf(newBuf, Buffer.prototype)
+
   return newBuf
 }
 
@@ -5159,6 +1755,8 @@ Buffer.prototype.fill = function fill (val, start, end, encoding) {
     }
   } else if (typeof val === 'number') {
     val = val & 255
+  } else if (typeof val === 'boolean') {
+    val = Number(val)
   }
 
   // Invalid ranges are not set to a default, so can range check early.
@@ -5214,11 +1812,6 @@ function base64clean (str) {
     str = str + '='
   }
   return str
-}
-
-function toHex (n) {
-  if (n < 16) return '0' + n.toString(16)
-  return n.toString(16)
 }
 
 function utf8ToBytes (string, units) {
@@ -5351,7 +1944,22 @@ function numberIsNaN (obj) {
   return obj !== obj // eslint-disable-line no-self-compare
 }
 
-},{"base64-js":21,"ieee754":44}],25:[function(require,module,exports){
+// Create lookup table for `toString('hex')`
+// See: https://github.com/feross/buffer/issues/219
+var hexSliceLookupTable = (function () {
+  var alphabet = '0123456789abcdef'
+  var table = new Array(256)
+  for (var i = 0; i < 16; ++i) {
+    var i16 = i * 16
+    for (var j = 0; j < 16; ++j) {
+      table[i16 + j] = alphabet[i] + alphabet[j]
+    }
+  }
+  return table
+})()
+
+}).call(this,require("buffer").Buffer)
+},{"base64-js":1,"buffer":4,"ieee754":7}],5:[function(require,module,exports){
 (function (Buffer){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -5462,699 +2070,7 @@ function objectToString(o) {
 }
 
 }).call(this,{"isBuffer":require("../../is-buffer/index.js")})
-},{"../../is-buffer/index.js":46}],26:[function(require,module,exports){
-var pSlice = Array.prototype.slice;
-var objectKeys = require('./lib/keys.js');
-var isArguments = require('./lib/is_arguments.js');
-
-var deepEqual = module.exports = function (actual, expected, opts) {
-  if (!opts) opts = {};
-  // 7.1. All identical values are equivalent, as determined by ===.
-  if (actual === expected) {
-    return true;
-
-  } else if (actual instanceof Date && expected instanceof Date) {
-    return actual.getTime() === expected.getTime();
-
-  // 7.3. Other pairs that do not both pass typeof value == 'object',
-  // equivalence is determined by ==.
-  } else if (!actual || !expected || typeof actual != 'object' && typeof expected != 'object') {
-    return opts.strict ? actual === expected : actual == expected;
-
-  // 7.4. For all other Object pairs, including Array objects, equivalence is
-  // determined by having the same number of owned properties (as verified
-  // with Object.prototype.hasOwnProperty.call), the same set of keys
-  // (although not necessarily the same order), equivalent values for every
-  // corresponding key, and an identical 'prototype' property. Note: this
-  // accounts for both named and indexed properties on Arrays.
-  } else {
-    return objEquiv(actual, expected, opts);
-  }
-}
-
-function isUndefinedOrNull(value) {
-  return value === null || value === undefined;
-}
-
-function isBuffer (x) {
-  if (!x || typeof x !== 'object' || typeof x.length !== 'number') return false;
-  if (typeof x.copy !== 'function' || typeof x.slice !== 'function') {
-    return false;
-  }
-  if (x.length > 0 && typeof x[0] !== 'number') return false;
-  return true;
-}
-
-function objEquiv(a, b, opts) {
-  var i, key;
-  if (isUndefinedOrNull(a) || isUndefinedOrNull(b))
-    return false;
-  // an identical 'prototype' property.
-  if (a.prototype !== b.prototype) return false;
-  //~~~I've managed to break Object.keys through screwy arguments passing.
-  //   Converting to array solves the problem.
-  if (isArguments(a)) {
-    if (!isArguments(b)) {
-      return false;
-    }
-    a = pSlice.call(a);
-    b = pSlice.call(b);
-    return deepEqual(a, b, opts);
-  }
-  if (isBuffer(a)) {
-    if (!isBuffer(b)) {
-      return false;
-    }
-    if (a.length !== b.length) return false;
-    for (i = 0; i < a.length; i++) {
-      if (a[i] !== b[i]) return false;
-    }
-    return true;
-  }
-  try {
-    var ka = objectKeys(a),
-        kb = objectKeys(b);
-  } catch (e) {//happens when one is a string literal and the other isn't
-    return false;
-  }
-  // having the same number of owned properties (keys incorporates
-  // hasOwnProperty)
-  if (ka.length != kb.length)
-    return false;
-  //the same set of keys (although not necessarily the same order),
-  ka.sort();
-  kb.sort();
-  //~~~cheap key test
-  for (i = ka.length - 1; i >= 0; i--) {
-    if (ka[i] != kb[i])
-      return false;
-  }
-  //equivalent values for every corresponding key, and
-  //~~~possibly expensive deep test
-  for (i = ka.length - 1; i >= 0; i--) {
-    key = ka[i];
-    if (!deepEqual(a[key], b[key], opts)) return false;
-  }
-  return typeof a === typeof b;
-}
-
-},{"./lib/is_arguments.js":27,"./lib/keys.js":28}],27:[function(require,module,exports){
-var supportsArgumentsClass = (function(){
-  return Object.prototype.toString.call(arguments)
-})() == '[object Arguments]';
-
-exports = module.exports = supportsArgumentsClass ? supported : unsupported;
-
-exports.supported = supported;
-function supported(object) {
-  return Object.prototype.toString.call(object) == '[object Arguments]';
-};
-
-exports.unsupported = unsupported;
-function unsupported(object){
-  return object &&
-    typeof object == 'object' &&
-    typeof object.length == 'number' &&
-    Object.prototype.hasOwnProperty.call(object, 'callee') &&
-    !Object.prototype.propertyIsEnumerable.call(object, 'callee') ||
-    false;
-};
-
-},{}],28:[function(require,module,exports){
-exports = module.exports = typeof Object.keys === 'function'
-  ? Object.keys : shim;
-
-exports.shim = shim;
-function shim (obj) {
-  var keys = [];
-  for (var key in obj) keys.push(key);
-  return keys;
-}
-
-},{}],29:[function(require,module,exports){
-'use strict';
-
-var keys = require('object-keys');
-var hasSymbols = typeof Symbol === 'function' && typeof Symbol('foo') === 'symbol';
-
-var toStr = Object.prototype.toString;
-var concat = Array.prototype.concat;
-var origDefineProperty = Object.defineProperty;
-
-var isFunction = function (fn) {
-	return typeof fn === 'function' && toStr.call(fn) === '[object Function]';
-};
-
-var arePropertyDescriptorsSupported = function () {
-	var obj = {};
-	try {
-		origDefineProperty(obj, 'x', { enumerable: false, value: obj });
-		// eslint-disable-next-line no-unused-vars, no-restricted-syntax
-		for (var _ in obj) { // jscs:ignore disallowUnusedVariables
-			return false;
-		}
-		return obj.x === obj;
-	} catch (e) { /* this is IE 8. */
-		return false;
-	}
-};
-var supportsDescriptors = origDefineProperty && arePropertyDescriptorsSupported();
-
-var defineProperty = function (object, name, value, predicate) {
-	if (name in object && (!isFunction(predicate) || !predicate())) {
-		return;
-	}
-	if (supportsDescriptors) {
-		origDefineProperty(object, name, {
-			configurable: true,
-			enumerable: false,
-			value: value,
-			writable: true
-		});
-	} else {
-		object[name] = value;
-	}
-};
-
-var defineProperties = function (object, map) {
-	var predicates = arguments.length > 2 ? arguments[2] : {};
-	var props = keys(map);
-	if (hasSymbols) {
-		props = concat.call(props, Object.getOwnPropertySymbols(map));
-	}
-	for (var i = 0; i < props.length; i += 1) {
-		defineProperty(object, props[i], map[props[i]], predicates[props[i]]);
-	}
-};
-
-defineProperties.supportsDescriptors = !!supportsDescriptors;
-
-module.exports = defineProperties;
-
-},{"object-keys":50}],30:[function(require,module,exports){
-module.exports = function () {
-    for (var i = 0; i < arguments.length; i++) {
-        if (arguments[i] !== undefined) return arguments[i];
-    }
-};
-
-},{}],31:[function(require,module,exports){
-'use strict';
-
-/* globals
-	Set,
-	Map,
-	WeakSet,
-	WeakMap,
-
-	Promise,
-
-	Symbol,
-	Proxy,
-
-	Atomics,
-	SharedArrayBuffer,
-
-	ArrayBuffer,
-	DataView,
-	Uint8Array,
-	Float32Array,
-	Float64Array,
-	Int8Array,
-	Int16Array,
-	Int32Array,
-	Uint8ClampedArray,
-	Uint16Array,
-	Uint32Array,
-*/
-
-var undefined; // eslint-disable-line no-shadow-restricted-names
-
-var ThrowTypeError = Object.getOwnPropertyDescriptor
-	? (function () { return Object.getOwnPropertyDescriptor(arguments, 'callee').get; }())
-	: function () { throw new TypeError(); };
-
-var hasSymbols = typeof Symbol === 'function' && typeof Symbol.iterator === 'symbol';
-
-var getProto = Object.getPrototypeOf || function (x) { return x.__proto__; }; // eslint-disable-line no-proto
-
-var generator; // = function * () {};
-var generatorFunction = generator ? getProto(generator) : undefined;
-var asyncFn; // async function() {};
-var asyncFunction = asyncFn ? asyncFn.constructor : undefined;
-var asyncGen; // async function * () {};
-var asyncGenFunction = asyncGen ? getProto(asyncGen) : undefined;
-var asyncGenIterator = asyncGen ? asyncGen() : undefined;
-
-var TypedArray = typeof Uint8Array === 'undefined' ? undefined : getProto(Uint8Array);
-
-var INTRINSICS = {
-	'$ %Array%': Array,
-	'$ %ArrayBuffer%': typeof ArrayBuffer === 'undefined' ? undefined : ArrayBuffer,
-	'$ %ArrayBufferPrototype%': typeof ArrayBuffer === 'undefined' ? undefined : ArrayBuffer.prototype,
-	'$ %ArrayIteratorPrototype%': hasSymbols ? getProto([][Symbol.iterator]()) : undefined,
-	'$ %ArrayPrototype%': Array.prototype,
-	'$ %ArrayProto_entries%': Array.prototype.entries,
-	'$ %ArrayProto_forEach%': Array.prototype.forEach,
-	'$ %ArrayProto_keys%': Array.prototype.keys,
-	'$ %ArrayProto_values%': Array.prototype.values,
-	'$ %AsyncFromSyncIteratorPrototype%': undefined,
-	'$ %AsyncFunction%': asyncFunction,
-	'$ %AsyncFunctionPrototype%': asyncFunction ? asyncFunction.prototype : undefined,
-	'$ %AsyncGenerator%': asyncGen ? getProto(asyncGenIterator) : undefined,
-	'$ %AsyncGeneratorFunction%': asyncGenFunction,
-	'$ %AsyncGeneratorPrototype%': asyncGenFunction ? asyncGenFunction.prototype : undefined,
-	'$ %AsyncIteratorPrototype%': asyncGenIterator && hasSymbols && Symbol.asyncIterator ? asyncGenIterator[Symbol.asyncIterator]() : undefined,
-	'$ %Atomics%': typeof Atomics === 'undefined' ? undefined : Atomics,
-	'$ %Boolean%': Boolean,
-	'$ %BooleanPrototype%': Boolean.prototype,
-	'$ %DataView%': typeof DataView === 'undefined' ? undefined : DataView,
-	'$ %DataViewPrototype%': typeof DataView === 'undefined' ? undefined : DataView.prototype,
-	'$ %Date%': Date,
-	'$ %DatePrototype%': Date.prototype,
-	'$ %decodeURI%': decodeURI,
-	'$ %decodeURIComponent%': decodeURIComponent,
-	'$ %encodeURI%': encodeURI,
-	'$ %encodeURIComponent%': encodeURIComponent,
-	'$ %Error%': Error,
-	'$ %ErrorPrototype%': Error.prototype,
-	'$ %eval%': eval, // eslint-disable-line no-eval
-	'$ %EvalError%': EvalError,
-	'$ %EvalErrorPrototype%': EvalError.prototype,
-	'$ %Float32Array%': typeof Float32Array === 'undefined' ? undefined : Float32Array,
-	'$ %Float32ArrayPrototype%': typeof Float32Array === 'undefined' ? undefined : Float32Array.prototype,
-	'$ %Float64Array%': typeof Float64Array === 'undefined' ? undefined : Float64Array,
-	'$ %Float64ArrayPrototype%': typeof Float64Array === 'undefined' ? undefined : Float64Array.prototype,
-	'$ %Function%': Function,
-	'$ %FunctionPrototype%': Function.prototype,
-	'$ %Generator%': generator ? getProto(generator()) : undefined,
-	'$ %GeneratorFunction%': generatorFunction,
-	'$ %GeneratorPrototype%': generatorFunction ? generatorFunction.prototype : undefined,
-	'$ %Int8Array%': typeof Int8Array === 'undefined' ? undefined : Int8Array,
-	'$ %Int8ArrayPrototype%': typeof Int8Array === 'undefined' ? undefined : Int8Array.prototype,
-	'$ %Int16Array%': typeof Int16Array === 'undefined' ? undefined : Int16Array,
-	'$ %Int16ArrayPrototype%': typeof Int16Array === 'undefined' ? undefined : Int8Array.prototype,
-	'$ %Int32Array%': typeof Int32Array === 'undefined' ? undefined : Int32Array,
-	'$ %Int32ArrayPrototype%': typeof Int32Array === 'undefined' ? undefined : Int32Array.prototype,
-	'$ %isFinite%': isFinite,
-	'$ %isNaN%': isNaN,
-	'$ %IteratorPrototype%': hasSymbols ? getProto(getProto([][Symbol.iterator]())) : undefined,
-	'$ %JSON%': JSON,
-	'$ %JSONParse%': JSON.parse,
-	'$ %Map%': typeof Map === 'undefined' ? undefined : Map,
-	'$ %MapIteratorPrototype%': typeof Map === 'undefined' || !hasSymbols ? undefined : getProto(new Map()[Symbol.iterator]()),
-	'$ %MapPrototype%': typeof Map === 'undefined' ? undefined : Map.prototype,
-	'$ %Math%': Math,
-	'$ %Number%': Number,
-	'$ %NumberPrototype%': Number.prototype,
-	'$ %Object%': Object,
-	'$ %ObjectPrototype%': Object.prototype,
-	'$ %ObjProto_toString%': Object.prototype.toString,
-	'$ %ObjProto_valueOf%': Object.prototype.valueOf,
-	'$ %parseFloat%': parseFloat,
-	'$ %parseInt%': parseInt,
-	'$ %Promise%': typeof Promise === 'undefined' ? undefined : Promise,
-	'$ %PromisePrototype%': typeof Promise === 'undefined' ? undefined : Promise.prototype,
-	'$ %PromiseProto_then%': typeof Promise === 'undefined' ? undefined : Promise.prototype.then,
-	'$ %Promise_all%': typeof Promise === 'undefined' ? undefined : Promise.all,
-	'$ %Promise_reject%': typeof Promise === 'undefined' ? undefined : Promise.reject,
-	'$ %Promise_resolve%': typeof Promise === 'undefined' ? undefined : Promise.resolve,
-	'$ %Proxy%': typeof Proxy === 'undefined' ? undefined : Proxy,
-	'$ %RangeError%': RangeError,
-	'$ %RangeErrorPrototype%': RangeError.prototype,
-	'$ %ReferenceError%': ReferenceError,
-	'$ %ReferenceErrorPrototype%': ReferenceError.prototype,
-	'$ %Reflect%': typeof Reflect === 'undefined' ? undefined : Reflect,
-	'$ %RegExp%': RegExp,
-	'$ %RegExpPrototype%': RegExp.prototype,
-	'$ %Set%': typeof Set === 'undefined' ? undefined : Set,
-	'$ %SetIteratorPrototype%': typeof Set === 'undefined' || !hasSymbols ? undefined : getProto(new Set()[Symbol.iterator]()),
-	'$ %SetPrototype%': typeof Set === 'undefined' ? undefined : Set.prototype,
-	'$ %SharedArrayBuffer%': typeof SharedArrayBuffer === 'undefined' ? undefined : SharedArrayBuffer,
-	'$ %SharedArrayBufferPrototype%': typeof SharedArrayBuffer === 'undefined' ? undefined : SharedArrayBuffer.prototype,
-	'$ %String%': String,
-	'$ %StringIteratorPrototype%': hasSymbols ? getProto(''[Symbol.iterator]()) : undefined,
-	'$ %StringPrototype%': String.prototype,
-	'$ %Symbol%': hasSymbols ? Symbol : undefined,
-	'$ %SymbolPrototype%': hasSymbols ? Symbol.prototype : undefined,
-	'$ %SyntaxError%': SyntaxError,
-	'$ %SyntaxErrorPrototype%': SyntaxError.prototype,
-	'$ %ThrowTypeError%': ThrowTypeError,
-	'$ %TypedArray%': TypedArray,
-	'$ %TypedArrayPrototype%': TypedArray ? TypedArray.prototype : undefined,
-	'$ %TypeError%': TypeError,
-	'$ %TypeErrorPrototype%': TypeError.prototype,
-	'$ %Uint8Array%': typeof Uint8Array === 'undefined' ? undefined : Uint8Array,
-	'$ %Uint8ArrayPrototype%': typeof Uint8Array === 'undefined' ? undefined : Uint8Array.prototype,
-	'$ %Uint8ClampedArray%': typeof Uint8ClampedArray === 'undefined' ? undefined : Uint8ClampedArray,
-	'$ %Uint8ClampedArrayPrototype%': typeof Uint8ClampedArray === 'undefined' ? undefined : Uint8ClampedArray.prototype,
-	'$ %Uint16Array%': typeof Uint16Array === 'undefined' ? undefined : Uint16Array,
-	'$ %Uint16ArrayPrototype%': typeof Uint16Array === 'undefined' ? undefined : Uint16Array.prototype,
-	'$ %Uint32Array%': typeof Uint32Array === 'undefined' ? undefined : Uint32Array,
-	'$ %Uint32ArrayPrototype%': typeof Uint32Array === 'undefined' ? undefined : Uint32Array.prototype,
-	'$ %URIError%': URIError,
-	'$ %URIErrorPrototype%': URIError.prototype,
-	'$ %WeakMap%': typeof WeakMap === 'undefined' ? undefined : WeakMap,
-	'$ %WeakMapPrototype%': typeof WeakMap === 'undefined' ? undefined : WeakMap.prototype,
-	'$ %WeakSet%': typeof WeakSet === 'undefined' ? undefined : WeakSet,
-	'$ %WeakSetPrototype%': typeof WeakSet === 'undefined' ? undefined : WeakSet.prototype
-};
-
-module.exports = function GetIntrinsic(name, allowMissing) {
-	if (arguments.length > 1 && typeof allowMissing !== 'boolean') {
-		throw new TypeError('"allowMissing" argument must be a boolean');
-	}
-
-	var key = '$ ' + name;
-	if (!(key in INTRINSICS)) {
-		throw new SyntaxError('intrinsic ' + name + ' does not exist!');
-	}
-
-	// istanbul ignore if // hopefully this is impossible to test :-)
-	if (typeof INTRINSICS[key] === 'undefined' && !allowMissing) {
-		throw new TypeError('intrinsic ' + name + ' exists, but is not available. Please file an issue!');
-	}
-	return INTRINSICS[key];
-};
-
-},{}],32:[function(require,module,exports){
-'use strict';
-
-var GetIntrinsic = require('./GetIntrinsic');
-
-var $Object = GetIntrinsic('%Object%');
-var $TypeError = GetIntrinsic('%TypeError%');
-var $String = GetIntrinsic('%String%');
-
-var $isNaN = require('./helpers/isNaN');
-var $isFinite = require('./helpers/isFinite');
-
-var sign = require('./helpers/sign');
-var mod = require('./helpers/mod');
-
-var IsCallable = require('is-callable');
-var toPrimitive = require('es-to-primitive/es5');
-
-var has = require('has');
-
-// https://es5.github.io/#x9
-var ES5 = {
-	ToPrimitive: toPrimitive,
-
-	ToBoolean: function ToBoolean(value) {
-		return !!value;
-	},
-	ToNumber: function ToNumber(value) {
-		return +value; // eslint-disable-line no-implicit-coercion
-	},
-	ToInteger: function ToInteger(value) {
-		var number = this.ToNumber(value);
-		if ($isNaN(number)) { return 0; }
-		if (number === 0 || !$isFinite(number)) { return number; }
-		return sign(number) * Math.floor(Math.abs(number));
-	},
-	ToInt32: function ToInt32(x) {
-		return this.ToNumber(x) >> 0;
-	},
-	ToUint32: function ToUint32(x) {
-		return this.ToNumber(x) >>> 0;
-	},
-	ToUint16: function ToUint16(value) {
-		var number = this.ToNumber(value);
-		if ($isNaN(number) || number === 0 || !$isFinite(number)) { return 0; }
-		var posInt = sign(number) * Math.floor(Math.abs(number));
-		return mod(posInt, 0x10000);
-	},
-	ToString: function ToString(value) {
-		return $String(value);
-	},
-	ToObject: function ToObject(value) {
-		this.CheckObjectCoercible(value);
-		return $Object(value);
-	},
-	CheckObjectCoercible: function CheckObjectCoercible(value, optMessage) {
-		/* jshint eqnull:true */
-		if (value == null) {
-			throw new $TypeError(optMessage || 'Cannot call method on ' + value);
-		}
-		return value;
-	},
-	IsCallable: IsCallable,
-	SameValue: function SameValue(x, y) {
-		if (x === y) { // 0 === -0, but they are not identical.
-			if (x === 0) { return 1 / x === 1 / y; }
-			return true;
-		}
-		return $isNaN(x) && $isNaN(y);
-	},
-
-	// https://www.ecma-international.org/ecma-262/5.1/#sec-8
-	Type: function Type(x) {
-		if (x === null) {
-			return 'Null';
-		}
-		if (typeof x === 'undefined') {
-			return 'Undefined';
-		}
-		if (typeof x === 'function' || typeof x === 'object') {
-			return 'Object';
-		}
-		if (typeof x === 'number') {
-			return 'Number';
-		}
-		if (typeof x === 'boolean') {
-			return 'Boolean';
-		}
-		if (typeof x === 'string') {
-			return 'String';
-		}
-	},
-
-	// https://ecma-international.org/ecma-262/6.0/#sec-property-descriptor-specification-type
-	IsPropertyDescriptor: function IsPropertyDescriptor(Desc) {
-		if (this.Type(Desc) !== 'Object') {
-			return false;
-		}
-		var allowed = {
-			'[[Configurable]]': true,
-			'[[Enumerable]]': true,
-			'[[Get]]': true,
-			'[[Set]]': true,
-			'[[Value]]': true,
-			'[[Writable]]': true
-		};
-		// jscs:disable
-		for (var key in Desc) { // eslint-disable-line
-			if (has(Desc, key) && !allowed[key]) {
-				return false;
-			}
-		}
-		// jscs:enable
-		var isData = has(Desc, '[[Value]]');
-		var IsAccessor = has(Desc, '[[Get]]') || has(Desc, '[[Set]]');
-		if (isData && IsAccessor) {
-			throw new $TypeError('Property Descriptors may not be both accessor and data descriptors');
-		}
-		return true;
-	},
-
-	// https://ecma-international.org/ecma-262/5.1/#sec-8.10.1
-	IsAccessorDescriptor: function IsAccessorDescriptor(Desc) {
-		if (typeof Desc === 'undefined') {
-			return false;
-		}
-
-		if (!this.IsPropertyDescriptor(Desc)) {
-			throw new $TypeError('Desc must be a Property Descriptor');
-		}
-
-		if (!has(Desc, '[[Get]]') && !has(Desc, '[[Set]]')) {
-			return false;
-		}
-
-		return true;
-	},
-
-	// https://ecma-international.org/ecma-262/5.1/#sec-8.10.2
-	IsDataDescriptor: function IsDataDescriptor(Desc) {
-		if (typeof Desc === 'undefined') {
-			return false;
-		}
-
-		if (!this.IsPropertyDescriptor(Desc)) {
-			throw new $TypeError('Desc must be a Property Descriptor');
-		}
-
-		if (!has(Desc, '[[Value]]') && !has(Desc, '[[Writable]]')) {
-			return false;
-		}
-
-		return true;
-	},
-
-	// https://ecma-international.org/ecma-262/5.1/#sec-8.10.3
-	IsGenericDescriptor: function IsGenericDescriptor(Desc) {
-		if (typeof Desc === 'undefined') {
-			return false;
-		}
-
-		if (!this.IsPropertyDescriptor(Desc)) {
-			throw new $TypeError('Desc must be a Property Descriptor');
-		}
-
-		if (!this.IsAccessorDescriptor(Desc) && !this.IsDataDescriptor(Desc)) {
-			return true;
-		}
-
-		return false;
-	},
-
-	// https://ecma-international.org/ecma-262/5.1/#sec-8.10.4
-	FromPropertyDescriptor: function FromPropertyDescriptor(Desc) {
-		if (typeof Desc === 'undefined') {
-			return Desc;
-		}
-
-		if (!this.IsPropertyDescriptor(Desc)) {
-			throw new $TypeError('Desc must be a Property Descriptor');
-		}
-
-		if (this.IsDataDescriptor(Desc)) {
-			return {
-				value: Desc['[[Value]]'],
-				writable: !!Desc['[[Writable]]'],
-				enumerable: !!Desc['[[Enumerable]]'],
-				configurable: !!Desc['[[Configurable]]']
-			};
-		} else if (this.IsAccessorDescriptor(Desc)) {
-			return {
-				get: Desc['[[Get]]'],
-				set: Desc['[[Set]]'],
-				enumerable: !!Desc['[[Enumerable]]'],
-				configurable: !!Desc['[[Configurable]]']
-			};
-		} else {
-			throw new $TypeError('FromPropertyDescriptor must be called with a fully populated Property Descriptor');
-		}
-	},
-
-	// https://ecma-international.org/ecma-262/5.1/#sec-8.10.5
-	ToPropertyDescriptor: function ToPropertyDescriptor(Obj) {
-		if (this.Type(Obj) !== 'Object') {
-			throw new $TypeError('ToPropertyDescriptor requires an object');
-		}
-
-		var desc = {};
-		if (has(Obj, 'enumerable')) {
-			desc['[[Enumerable]]'] = this.ToBoolean(Obj.enumerable);
-		}
-		if (has(Obj, 'configurable')) {
-			desc['[[Configurable]]'] = this.ToBoolean(Obj.configurable);
-		}
-		if (has(Obj, 'value')) {
-			desc['[[Value]]'] = Obj.value;
-		}
-		if (has(Obj, 'writable')) {
-			desc['[[Writable]]'] = this.ToBoolean(Obj.writable);
-		}
-		if (has(Obj, 'get')) {
-			var getter = Obj.get;
-			if (typeof getter !== 'undefined' && !this.IsCallable(getter)) {
-				throw new TypeError('getter must be a function');
-			}
-			desc['[[Get]]'] = getter;
-		}
-		if (has(Obj, 'set')) {
-			var setter = Obj.set;
-			if (typeof setter !== 'undefined' && !this.IsCallable(setter)) {
-				throw new $TypeError('setter must be a function');
-			}
-			desc['[[Set]]'] = setter;
-		}
-
-		if ((has(desc, '[[Get]]') || has(desc, '[[Set]]')) && (has(desc, '[[Value]]') || has(desc, '[[Writable]]'))) {
-			throw new $TypeError('Invalid property descriptor. Cannot both specify accessors and a value or writable attribute');
-		}
-		return desc;
-	}
-};
-
-module.exports = ES5;
-
-},{"./GetIntrinsic":31,"./helpers/isFinite":33,"./helpers/isNaN":34,"./helpers/mod":35,"./helpers/sign":36,"es-to-primitive/es5":37,"has":43,"is-callable":47}],33:[function(require,module,exports){
-var $isNaN = Number.isNaN || function (a) { return a !== a; };
-
-module.exports = Number.isFinite || function (x) { return typeof x === 'number' && !$isNaN(x) && x !== Infinity && x !== -Infinity; };
-
-},{}],34:[function(require,module,exports){
-module.exports = Number.isNaN || function isNaN(a) {
-	return a !== a;
-};
-
-},{}],35:[function(require,module,exports){
-module.exports = function mod(number, modulo) {
-	var remain = number % modulo;
-	return Math.floor(remain >= 0 ? remain : remain + modulo);
-};
-
-},{}],36:[function(require,module,exports){
-module.exports = function sign(number) {
-	return number >= 0 ? 1 : -1;
-};
-
-},{}],37:[function(require,module,exports){
-'use strict';
-
-var toStr = Object.prototype.toString;
-
-var isPrimitive = require('./helpers/isPrimitive');
-
-var isCallable = require('is-callable');
-
-// http://ecma-international.org/ecma-262/5.1/#sec-8.12.8
-var ES5internalSlots = {
-	'[[DefaultValue]]': function (O) {
-		var actualHint;
-		if (arguments.length > 1) {
-			actualHint = arguments[1];
-		} else {
-			actualHint = toStr.call(O) === '[object Date]' ? String : Number;
-		}
-
-		if (actualHint === String || actualHint === Number) {
-			var methods = actualHint === String ? ['toString', 'valueOf'] : ['valueOf', 'toString'];
-			var value, i;
-			for (i = 0; i < methods.length; ++i) {
-				if (isCallable(O[methods[i]])) {
-					value = O[methods[i]]();
-					if (isPrimitive(value)) {
-						return value;
-					}
-				}
-			}
-			throw new TypeError('No default value');
-		}
-		throw new TypeError('invalid [[DefaultValue]] hint supplied');
-	}
-};
-
-// http://ecma-international.org/ecma-262/5.1/#sec-9.1
-module.exports = function ToPrimitive(input) {
-	if (isPrimitive(input)) {
-		return input;
-	}
-	if (arguments.length > 1) {
-		return ES5internalSlots['[[DefaultValue]]'](input, arguments[1]);
-	}
-	return ES5internalSlots['[[DefaultValue]]'](input);
-};
-
-},{"./helpers/isPrimitive":38,"is-callable":47}],38:[function(require,module,exports){
-module.exports = function isPrimitive(value) {
-	return value === null || (typeof value !== 'function' && typeof value !== 'object');
-};
-
-},{}],39:[function(require,module,exports){
+},{"../../is-buffer/index.js":9}],6:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -6679,139 +2595,7 @@ function functionBindPolyfill(context) {
   };
 }
 
-},{}],40:[function(require,module,exports){
-'use strict';
-
-var isCallable = require('is-callable');
-
-var toStr = Object.prototype.toString;
-var hasOwnProperty = Object.prototype.hasOwnProperty;
-
-var forEachArray = function forEachArray(array, iterator, receiver) {
-    for (var i = 0, len = array.length; i < len; i++) {
-        if (hasOwnProperty.call(array, i)) {
-            if (receiver == null) {
-                iterator(array[i], i, array);
-            } else {
-                iterator.call(receiver, array[i], i, array);
-            }
-        }
-    }
-};
-
-var forEachString = function forEachString(string, iterator, receiver) {
-    for (var i = 0, len = string.length; i < len; i++) {
-        // no such thing as a sparse string.
-        if (receiver == null) {
-            iterator(string.charAt(i), i, string);
-        } else {
-            iterator.call(receiver, string.charAt(i), i, string);
-        }
-    }
-};
-
-var forEachObject = function forEachObject(object, iterator, receiver) {
-    for (var k in object) {
-        if (hasOwnProperty.call(object, k)) {
-            if (receiver == null) {
-                iterator(object[k], k, object);
-            } else {
-                iterator.call(receiver, object[k], k, object);
-            }
-        }
-    }
-};
-
-var forEach = function forEach(list, iterator, thisArg) {
-    if (!isCallable(iterator)) {
-        throw new TypeError('iterator must be a function');
-    }
-
-    var receiver;
-    if (arguments.length >= 3) {
-        receiver = thisArg;
-    }
-
-    if (toStr.call(list) === '[object Array]') {
-        forEachArray(list, iterator, receiver);
-    } else if (typeof list === 'string') {
-        forEachString(list, iterator, receiver);
-    } else {
-        forEachObject(list, iterator, receiver);
-    }
-};
-
-module.exports = forEach;
-
-},{"is-callable":47}],41:[function(require,module,exports){
-'use strict';
-
-/* eslint no-invalid-this: 1 */
-
-var ERROR_MESSAGE = 'Function.prototype.bind called on incompatible ';
-var slice = Array.prototype.slice;
-var toStr = Object.prototype.toString;
-var funcType = '[object Function]';
-
-module.exports = function bind(that) {
-    var target = this;
-    if (typeof target !== 'function' || toStr.call(target) !== funcType) {
-        throw new TypeError(ERROR_MESSAGE + target);
-    }
-    var args = slice.call(arguments, 1);
-
-    var bound;
-    var binder = function () {
-        if (this instanceof bound) {
-            var result = target.apply(
-                this,
-                args.concat(slice.call(arguments))
-            );
-            if (Object(result) === result) {
-                return result;
-            }
-            return this;
-        } else {
-            return target.apply(
-                that,
-                args.concat(slice.call(arguments))
-            );
-        }
-    };
-
-    var boundLength = Math.max(0, target.length - args.length);
-    var boundArgs = [];
-    for (var i = 0; i < boundLength; i++) {
-        boundArgs.push('$' + i);
-    }
-
-    bound = Function('binder', 'return function (' + boundArgs.join(',') + '){ return binder.apply(this,arguments); }')(binder);
-
-    if (target.prototype) {
-        var Empty = function Empty() {};
-        Empty.prototype = target.prototype;
-        bound.prototype = new Empty();
-        Empty.prototype = null;
-    }
-
-    return bound;
-};
-
-},{}],42:[function(require,module,exports){
-'use strict';
-
-var implementation = require('./implementation');
-
-module.exports = Function.prototype.bind || implementation;
-
-},{"./implementation":41}],43:[function(require,module,exports){
-'use strict';
-
-var bind = require('function-bind');
-
-module.exports = bind.call(Function.call, Object.prototype.hasOwnProperty);
-
-},{"function-bind":42}],44:[function(require,module,exports){
+},{}],7:[function(require,module,exports){
 exports.read = function (buffer, offset, isLE, mLen, nBytes) {
   var e, m
   var eLen = (nBytes * 8) - mLen - 1
@@ -6897,32 +2681,36 @@ exports.write = function (buffer, value, offset, isLE, mLen, nBytes) {
   buffer[offset + i - d] |= s * 128
 }
 
-},{}],45:[function(require,module,exports){
+},{}],8:[function(require,module,exports){
 if (typeof Object.create === 'function') {
   // implementation from standard node.js 'util' module
   module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    ctor.prototype = Object.create(superCtor.prototype, {
-      constructor: {
-        value: ctor,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
+    if (superCtor) {
+      ctor.super_ = superCtor
+      ctor.prototype = Object.create(superCtor.prototype, {
+        constructor: {
+          value: ctor,
+          enumerable: false,
+          writable: true,
+          configurable: true
+        }
+      })
+    }
   };
 } else {
   // old school shim for old browsers
   module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    var TempCtor = function () {}
-    TempCtor.prototype = superCtor.prototype
-    ctor.prototype = new TempCtor()
-    ctor.prototype.constructor = ctor
+    if (superCtor) {
+      ctor.super_ = superCtor
+      var TempCtor = function () {}
+      TempCtor.prototype = superCtor.prototype
+      ctor.prototype = new TempCtor()
+      ctor.prototype.constructor = ctor
+    }
   }
 }
 
-},{}],46:[function(require,module,exports){
+},{}],9:[function(require,module,exports){
 /*!
  * Determine if an object is a Buffer
  *
@@ -6945,474 +2733,14 @@ function isSlowBuffer (obj) {
   return typeof obj.readFloatLE === 'function' && typeof obj.slice === 'function' && isBuffer(obj.slice(0, 0))
 }
 
-},{}],47:[function(require,module,exports){
-'use strict';
-
-var fnToStr = Function.prototype.toString;
-
-var constructorRegex = /^\s*class\b/;
-var isES6ClassFn = function isES6ClassFunction(value) {
-	try {
-		var fnStr = fnToStr.call(value);
-		return constructorRegex.test(fnStr);
-	} catch (e) {
-		return false; // not a function
-	}
-};
-
-var tryFunctionObject = function tryFunctionToStr(value) {
-	try {
-		if (isES6ClassFn(value)) { return false; }
-		fnToStr.call(value);
-		return true;
-	} catch (e) {
-		return false;
-	}
-};
-var toStr = Object.prototype.toString;
-var fnClass = '[object Function]';
-var genClass = '[object GeneratorFunction]';
-var hasToStringTag = typeof Symbol === 'function' && typeof Symbol.toStringTag === 'symbol';
-
-module.exports = function isCallable(value) {
-	if (!value) { return false; }
-	if (typeof value !== 'function' && typeof value !== 'object') { return false; }
-	if (typeof value === 'function' && !value.prototype) { return true; }
-	if (hasToStringTag) { return tryFunctionObject(value); }
-	if (isES6ClassFn(value)) { return false; }
-	var strClass = toStr.call(value);
-	return strClass === fnClass || strClass === genClass;
-};
-
-},{}],48:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 var toString = {}.toString;
 
 module.exports = Array.isArray || function (arr) {
   return toString.call(arr) == '[object Array]';
 };
 
-},{}],49:[function(require,module,exports){
-var hasMap = typeof Map === 'function' && Map.prototype;
-var mapSizeDescriptor = Object.getOwnPropertyDescriptor && hasMap ? Object.getOwnPropertyDescriptor(Map.prototype, 'size') : null;
-var mapSize = hasMap && mapSizeDescriptor && typeof mapSizeDescriptor.get === 'function' ? mapSizeDescriptor.get : null;
-var mapForEach = hasMap && Map.prototype.forEach;
-var hasSet = typeof Set === 'function' && Set.prototype;
-var setSizeDescriptor = Object.getOwnPropertyDescriptor && hasSet ? Object.getOwnPropertyDescriptor(Set.prototype, 'size') : null;
-var setSize = hasSet && setSizeDescriptor && typeof setSizeDescriptor.get === 'function' ? setSizeDescriptor.get : null;
-var setForEach = hasSet && Set.prototype.forEach;
-var booleanValueOf = Boolean.prototype.valueOf;
-var objectToString = Object.prototype.toString;
-var bigIntValueOf = typeof BigInt === 'function' ? BigInt.prototype.valueOf : null;
-
-var inspectCustom = require('./util.inspect').custom;
-var inspectSymbol = (inspectCustom && isSymbol(inspectCustom)) ? inspectCustom : null;
-
-module.exports = function inspect_ (obj, opts, depth, seen) {
-    if (!opts) opts = {};
-
-    if (has(opts, 'quoteStyle') && (opts.quoteStyle !== 'single' && opts.quoteStyle !== 'double')) {
-        throw new TypeError('option "quoteStyle" must be "single" or "double"');
-    }
-
-    if (typeof obj === 'undefined') {
-        return 'undefined';
-    }
-    if (obj === null) {
-        return 'null';
-    }
-    if (typeof obj === 'boolean') {
-        return obj ? 'true' : 'false';
-    }
-
-    if (typeof obj === 'string') {
-        return inspectString(obj, opts);
-    }
-    if (typeof obj === 'number') {
-      if (obj === 0) {
-        return Infinity / obj > 0 ? '0' : '-0';
-      }
-      return String(obj);
-    }
-    if (typeof obj === 'bigint') {
-      return String(obj) + 'n';
-    }
-
-    var maxDepth = typeof opts.depth === 'undefined' ? 5 : opts.depth;
-    if (typeof depth === 'undefined') depth = 0;
-    if (depth >= maxDepth && maxDepth > 0 && typeof obj === 'object') {
-        return '[Object]';
-    }
-
-    if (typeof seen === 'undefined') seen = [];
-    else if (indexOf(seen, obj) >= 0) {
-        return '[Circular]';
-    }
-
-    function inspect (value, from) {
-        if (from) {
-            seen = seen.slice();
-            seen.push(from);
-        }
-        return inspect_(value, opts, depth + 1, seen);
-    }
-
-    if (typeof obj === 'function') {
-        var name = nameOf(obj);
-        return '[Function' + (name ? ': ' + name : '') + ']';
-    }
-    if (isSymbol(obj)) {
-        var symString = Symbol.prototype.toString.call(obj);
-        return typeof obj === 'object' ? markBoxed(symString) : symString;
-    }
-    if (isElement(obj)) {
-        var s = '<' + String(obj.nodeName).toLowerCase();
-        var attrs = obj.attributes || [];
-        for (var i = 0; i < attrs.length; i++) {
-            s += ' ' + attrs[i].name + '=' + wrapQuotes(quote(attrs[i].value), 'double', opts);
-        }
-        s += '>';
-        if (obj.childNodes && obj.childNodes.length) s += '...';
-        s += '</' + String(obj.nodeName).toLowerCase() + '>';
-        return s;
-    }
-    if (isArray(obj)) {
-        if (obj.length === 0) return '[]';
-        return '[ ' + arrObjKeys(obj, inspect).join(', ') + ' ]';
-    }
-    if (isError(obj)) {
-        var parts = arrObjKeys(obj, inspect);
-        if (parts.length === 0) return '[' + String(obj) + ']';
-        return '{ [' + String(obj) + '] ' + parts.join(', ') + ' }';
-    }
-    if (typeof obj === 'object') {
-        if (inspectSymbol && typeof obj[inspectSymbol] === 'function') {
-            return obj[inspectSymbol]();
-        } else if (typeof obj.inspect === 'function') {
-            return obj.inspect();
-        }
-    }
-    if (isMap(obj)) {
-        var parts = [];
-        mapForEach.call(obj, function (value, key) {
-            parts.push(inspect(key, obj) + ' => ' + inspect(value, obj));
-        });
-        return collectionOf('Map', mapSize.call(obj), parts);
-    }
-    if (isSet(obj)) {
-        var parts = [];
-        setForEach.call(obj, function (value ) {
-            parts.push(inspect(value, obj));
-        });
-        return collectionOf('Set', setSize.call(obj), parts);
-    }
-    if (isNumber(obj)) {
-        return markBoxed(inspect(Number(obj)));
-    }
-    if (isBigInt(obj)) {
-        return markBoxed(inspect(bigIntValueOf.call(obj)));
-    }
-    if (isBoolean(obj)) {
-        return markBoxed(booleanValueOf.call(obj));
-    }
-    if (isString(obj)) {
-        return markBoxed(inspect(String(obj)));
-    }
-    if (!isDate(obj) && !isRegExp(obj)) {
-        var xs = arrObjKeys(obj, inspect);
-        if (xs.length === 0) return '{}';
-        return '{ ' + xs.join(', ') + ' }';
-    }
-    return String(obj);
-};
-
-function wrapQuotes (s, defaultStyle, opts) {
-    var quoteChar = (opts.quoteStyle || defaultStyle) === 'double' ? '"' : "'";
-    return quoteChar + s + quoteChar;
-}
-
-function quote (s) {
-    return String(s).replace(/"/g, '&quot;');
-}
-
-function isArray (obj) { return toStr(obj) === '[object Array]'; }
-function isDate (obj) { return toStr(obj) === '[object Date]'; }
-function isRegExp (obj) { return toStr(obj) === '[object RegExp]'; }
-function isError (obj) { return toStr(obj) === '[object Error]'; }
-function isSymbol (obj) { return toStr(obj) === '[object Symbol]'; }
-function isString (obj) { return toStr(obj) === '[object String]'; }
-function isNumber (obj) { return toStr(obj) === '[object Number]'; }
-function isBigInt (obj) { return toStr(obj) === '[object BigInt]'; }
-function isBoolean (obj) { return toStr(obj) === '[object Boolean]'; }
-
-var hasOwn = Object.prototype.hasOwnProperty || function (key) { return key in this; };
-function has (obj, key) {
-    return hasOwn.call(obj, key);
-}
-
-function toStr (obj) {
-    return objectToString.call(obj);
-}
-
-function nameOf (f) {
-    if (f.name) return f.name;
-    var m = String(f).match(/^function\s*([\w$]+)/);
-    if (m) return m[1];
-}
-
-function indexOf (xs, x) {
-    if (xs.indexOf) return xs.indexOf(x);
-    for (var i = 0, l = xs.length; i < l; i++) {
-        if (xs[i] === x) return i;
-    }
-    return -1;
-}
-
-function isMap (x) {
-    if (!mapSize) {
-        return false;
-    }
-    try {
-        mapSize.call(x);
-        try {
-            setSize.call(x);
-        } catch (s) {
-            return true;
-        }
-        return x instanceof Map; // core-js workaround, pre-v2.5.0
-    } catch (e) {}
-    return false;
-}
-
-function isSet (x) {
-    if (!setSize) {
-        return false;
-    }
-    try {
-        setSize.call(x);
-        try {
-            mapSize.call(x);
-        } catch (m) {
-            return true;
-        }
-        return x instanceof Set; // core-js workaround, pre-v2.5.0
-    } catch (e) {}
-    return false;
-}
-
-function isElement (x) {
-    if (!x || typeof x !== 'object') return false;
-    if (typeof HTMLElement !== 'undefined' && x instanceof HTMLElement) {
-        return true;
-    }
-    return typeof x.nodeName === 'string'
-        && typeof x.getAttribute === 'function'
-    ;
-}
-
-function inspectString (str, opts) {
-    var s = str.replace(/(['\\])/g, '\\$1').replace(/[\x00-\x1f]/g, lowbyte);
-    return wrapQuotes(s, 'single', opts);
-}
-
-function lowbyte (c) {
-    var n = c.charCodeAt(0);
-    var x = { 8: 'b', 9: 't', 10: 'n', 12: 'f', 13: 'r' }[n];
-    if (x) return '\\' + x;
-    return '\\x' + (n < 0x10 ? '0' : '') + n.toString(16);
-}
-
-function markBoxed (str) {
-    return 'Object(' + str + ')';
-}
-
-function collectionOf (type, size, entries) {
-    return type + ' (' + size + ') {' + entries.join(', ') + '}';
-}
-
-function arrObjKeys (obj, inspect) {
-    var isArr = isArray(obj);
-    var xs = [];
-    if (isArr) {
-        xs.length = obj.length;
-        for (var i = 0; i < obj.length; i++) {
-            xs[i] = has(obj, i) ? inspect(obj[i], obj) : '';
-        }
-    }
-    for (var key in obj) {
-        if (!has(obj, key)) continue;
-        if (isArr && String(Number(key)) === key && key < obj.length) continue;
-        if (/[^\w$]/.test(key)) {
-            xs.push(inspect(key, obj) + ': ' + inspect(obj[key], obj));
-        } else {
-            xs.push(key + ': ' + inspect(obj[key], obj));
-        }
-    }
-    return xs;
-}
-
-},{"./util.inspect":22}],50:[function(require,module,exports){
-'use strict';
-
-// modified from https://github.com/es-shims/es5-shim
-var has = Object.prototype.hasOwnProperty;
-var toStr = Object.prototype.toString;
-var slice = Array.prototype.slice;
-var isArgs = require('./isArguments');
-var isEnumerable = Object.prototype.propertyIsEnumerable;
-var hasDontEnumBug = !isEnumerable.call({ toString: null }, 'toString');
-var hasProtoEnumBug = isEnumerable.call(function () {}, 'prototype');
-var dontEnums = [
-	'toString',
-	'toLocaleString',
-	'valueOf',
-	'hasOwnProperty',
-	'isPrototypeOf',
-	'propertyIsEnumerable',
-	'constructor'
-];
-var equalsConstructorPrototype = function (o) {
-	var ctor = o.constructor;
-	return ctor && ctor.prototype === o;
-};
-var excludedKeys = {
-	$applicationCache: true,
-	$console: true,
-	$external: true,
-	$frame: true,
-	$frameElement: true,
-	$frames: true,
-	$innerHeight: true,
-	$innerWidth: true,
-	$outerHeight: true,
-	$outerWidth: true,
-	$pageXOffset: true,
-	$pageYOffset: true,
-	$parent: true,
-	$scrollLeft: true,
-	$scrollTop: true,
-	$scrollX: true,
-	$scrollY: true,
-	$self: true,
-	$webkitIndexedDB: true,
-	$webkitStorageInfo: true,
-	$window: true
-};
-var hasAutomationEqualityBug = (function () {
-	/* global window */
-	if (typeof window === 'undefined') { return false; }
-	for (var k in window) {
-		try {
-			if (!excludedKeys['$' + k] && has.call(window, k) && window[k] !== null && typeof window[k] === 'object') {
-				try {
-					equalsConstructorPrototype(window[k]);
-				} catch (e) {
-					return true;
-				}
-			}
-		} catch (e) {
-			return true;
-		}
-	}
-	return false;
-}());
-var equalsConstructorPrototypeIfNotBuggy = function (o) {
-	/* global window */
-	if (typeof window === 'undefined' || !hasAutomationEqualityBug) {
-		return equalsConstructorPrototype(o);
-	}
-	try {
-		return equalsConstructorPrototype(o);
-	} catch (e) {
-		return false;
-	}
-};
-
-var keysShim = function keys(object) {
-	var isObject = object !== null && typeof object === 'object';
-	var isFunction = toStr.call(object) === '[object Function]';
-	var isArguments = isArgs(object);
-	var isString = isObject && toStr.call(object) === '[object String]';
-	var theKeys = [];
-
-	if (!isObject && !isFunction && !isArguments) {
-		throw new TypeError('Object.keys called on a non-object');
-	}
-
-	var skipProto = hasProtoEnumBug && isFunction;
-	if (isString && object.length > 0 && !has.call(object, 0)) {
-		for (var i = 0; i < object.length; ++i) {
-			theKeys.push(String(i));
-		}
-	}
-
-	if (isArguments && object.length > 0) {
-		for (var j = 0; j < object.length; ++j) {
-			theKeys.push(String(j));
-		}
-	} else {
-		for (var name in object) {
-			if (!(skipProto && name === 'prototype') && has.call(object, name)) {
-				theKeys.push(String(name));
-			}
-		}
-	}
-
-	if (hasDontEnumBug) {
-		var skipConstructor = equalsConstructorPrototypeIfNotBuggy(object);
-
-		for (var k = 0; k < dontEnums.length; ++k) {
-			if (!(skipConstructor && dontEnums[k] === 'constructor') && has.call(object, dontEnums[k])) {
-				theKeys.push(dontEnums[k]);
-			}
-		}
-	}
-	return theKeys;
-};
-
-keysShim.shim = function shimObjectKeys() {
-	if (Object.keys) {
-		var keysWorksWithArguments = (function () {
-			// Safari 5.0 bug
-			return (Object.keys(arguments) || '').length === 2;
-		}(1, 2));
-		if (!keysWorksWithArguments) {
-			var originalKeys = Object.keys;
-			Object.keys = function keys(object) { // eslint-disable-line func-name-matching
-				if (isArgs(object)) {
-					return originalKeys(slice.call(object));
-				} else {
-					return originalKeys(object);
-				}
-			};
-		}
-	} else {
-		Object.keys = keysShim;
-	}
-	return Object.keys || keysShim;
-};
-
-module.exports = keysShim;
-
-},{"./isArguments":51}],51:[function(require,module,exports){
-'use strict';
-
-var toStr = Object.prototype.toString;
-
-module.exports = function isArguments(value) {
-	var str = toStr.call(value);
-	var isArgs = str === '[object Arguments]';
-	if (!isArgs) {
-		isArgs = str !== '[object Array]' &&
-			value !== null &&
-			typeof value === 'object' &&
-			typeof value.length === 'number' &&
-			value.length >= 0 &&
-			toStr.call(value.callee) === '[object Function]';
-	}
-	return isArgs;
-};
-
-},{}],52:[function(require,module,exports){
+},{}],11:[function(require,module,exports){
 (function (process){
 // .dirname, .basename, and .extname methods are extracted from Node.js v8.11.1,
 // backported and transplited with Babel, with backwards-compat fixes
@@ -7718,11 +3046,12 @@ var substr = 'ab'.substr(-1) === 'b'
 ;
 
 }).call(this,require('_process'))
-},{"_process":54}],53:[function(require,module,exports){
+},{"_process":13}],12:[function(require,module,exports){
 (function (process){
 'use strict';
 
-if (!process.version ||
+if (typeof process === 'undefined' ||
+    !process.version ||
     process.version.indexOf('v0.') === 0 ||
     process.version.indexOf('v1.') === 0 && process.version.indexOf('v1.8.') !== 0) {
   module.exports = { nextTick: nextTick };
@@ -7766,7 +3095,7 @@ function nextTick(fn, arg1, arg2, arg3) {
 
 
 }).call(this,require('_process'))
-},{"_process":54}],54:[function(require,module,exports){
+},{"_process":13}],13:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -7952,16 +3281,203 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],55:[function(require,module,exports){
-const qs = (s, p) => (p || document).querySelector(s)
-const qsa = (s, p) => [...(p || document).querySelectorAll(s)]
+},{}],14:[function(require,module,exports){
+/* eslint-disable node/no-deprecated-api */
+var buffer = require('buffer')
+var Buffer = buffer.Buffer
 
-module.exports = { qs, qsa }
+// alternative to using Object.keys for old browsers
+function copyProps (src, dst) {
+  for (var key in src) {
+    dst[key] = src[key]
+  }
+}
+if (Buffer.from && Buffer.alloc && Buffer.allocUnsafe && Buffer.allocUnsafeSlow) {
+  module.exports = buffer
+} else {
+  // Copy properties from require('buffer')
+  copyProps(buffer, exports)
+  exports.Buffer = SafeBuffer
+}
 
-},{}],56:[function(require,module,exports){
+function SafeBuffer (arg, encodingOrOffset, length) {
+  return Buffer(arg, encodingOrOffset, length)
+}
+
+// Copy static methods from Buffer
+copyProps(Buffer, SafeBuffer)
+
+SafeBuffer.from = function (arg, encodingOrOffset, length) {
+  if (typeof arg === 'number') {
+    throw new TypeError('Argument must not be a number')
+  }
+  return Buffer(arg, encodingOrOffset, length)
+}
+
+SafeBuffer.alloc = function (size, fill, encoding) {
+  if (typeof size !== 'number') {
+    throw new TypeError('Argument must be a number')
+  }
+  var buf = Buffer(size)
+  if (fill !== undefined) {
+    if (typeof encoding === 'string') {
+      buf.fill(fill, encoding)
+    } else {
+      buf.fill(fill)
+    }
+  } else {
+    buf.fill(0)
+  }
+  return buf
+}
+
+SafeBuffer.allocUnsafe = function (size) {
+  if (typeof size !== 'number') {
+    throw new TypeError('Argument must be a number')
+  }
+  return Buffer(size)
+}
+
+SafeBuffer.allocUnsafeSlow = function (size) {
+  if (typeof size !== 'number') {
+    throw new TypeError('Argument must be a number')
+  }
+  return buffer.SlowBuffer(size)
+}
+
+},{"buffer":4}],15:[function(require,module,exports){
+// Copyright Joyent, Inc. and other Node contributors.
+//
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the
+// "Software"), to deal in the Software without restriction, including
+// without limitation the rights to use, copy, modify, merge, publish,
+// distribute, sublicense, and/or sell copies of the Software, and to permit
+// persons to whom the Software is furnished to do so, subject to the
+// following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
+// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
+// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
+// USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+module.exports = Stream;
+
+var EE = require('events').EventEmitter;
+var inherits = require('inherits');
+
+inherits(Stream, EE);
+Stream.Readable = require('readable-stream/readable.js');
+Stream.Writable = require('readable-stream/writable.js');
+Stream.Duplex = require('readable-stream/duplex.js');
+Stream.Transform = require('readable-stream/transform.js');
+Stream.PassThrough = require('readable-stream/passthrough.js');
+
+// Backwards-compat with node 0.4.x
+Stream.Stream = Stream;
+
+
+
+// old-style streams.  Note that the pipe method (the only relevant
+// part of this class) is overridden in the Readable class.
+
+function Stream() {
+  EE.call(this);
+}
+
+Stream.prototype.pipe = function(dest, options) {
+  var source = this;
+
+  function ondata(chunk) {
+    if (dest.writable) {
+      if (false === dest.write(chunk) && source.pause) {
+        source.pause();
+      }
+    }
+  }
+
+  source.on('data', ondata);
+
+  function ondrain() {
+    if (source.readable && source.resume) {
+      source.resume();
+    }
+  }
+
+  dest.on('drain', ondrain);
+
+  // If the 'end' option is not supplied, dest.end() will be called when
+  // source gets the 'end' or 'close' events.  Only dest.end() once.
+  if (!dest._isStdio && (!options || options.end !== false)) {
+    source.on('end', onend);
+    source.on('close', onclose);
+  }
+
+  var didOnEnd = false;
+  function onend() {
+    if (didOnEnd) return;
+    didOnEnd = true;
+
+    dest.end();
+  }
+
+
+  function onclose() {
+    if (didOnEnd) return;
+    didOnEnd = true;
+
+    if (typeof dest.destroy === 'function') dest.destroy();
+  }
+
+  // don't leave dangling pipes when there are errors.
+  function onerror(er) {
+    cleanup();
+    if (EE.listenerCount(this, 'error') === 0) {
+      throw er; // Unhandled stream error in pipe.
+    }
+  }
+
+  source.on('error', onerror);
+  dest.on('error', onerror);
+
+  // remove all the event listeners that were added.
+  function cleanup() {
+    source.removeListener('data', ondata);
+    dest.removeListener('drain', ondrain);
+
+    source.removeListener('end', onend);
+    source.removeListener('close', onclose);
+
+    source.removeListener('error', onerror);
+    dest.removeListener('error', onerror);
+
+    source.removeListener('end', cleanup);
+    source.removeListener('close', cleanup);
+
+    dest.removeListener('close', cleanup);
+  }
+
+  source.on('end', cleanup);
+  source.on('close', cleanup);
+
+  dest.on('close', cleanup);
+
+  dest.emit('pipe', source);
+
+  // Allow for unix-like usage: A.pipe(B).pipe(C)
+  return dest;
+};
+
+},{"events":6,"inherits":8,"readable-stream/duplex.js":16,"readable-stream/passthrough.js":25,"readable-stream/readable.js":26,"readable-stream/transform.js":27,"readable-stream/writable.js":28}],16:[function(require,module,exports){
 module.exports = require('./lib/_stream_duplex.js');
 
-},{"./lib/_stream_duplex.js":57}],57:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":17}],17:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -8007,7 +3523,7 @@ var objectKeys = Object.keys || function (obj) {
 module.exports = Duplex;
 
 /*<replacement>*/
-var util = require('core-util-is');
+var util = Object.create(require('core-util-is'));
 util.inherits = require('inherits');
 /*</replacement>*/
 
@@ -8093,7 +3609,7 @@ Duplex.prototype._destroy = function (err, cb) {
 
   pna.nextTick(cb, err);
 };
-},{"./_stream_readable":59,"./_stream_writable":61,"core-util-is":25,"inherits":45,"process-nextick-args":53}],58:[function(require,module,exports){
+},{"./_stream_readable":19,"./_stream_writable":21,"core-util-is":5,"inherits":8,"process-nextick-args":12}],18:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -8126,7 +3642,7 @@ module.exports = PassThrough;
 var Transform = require('./_stream_transform');
 
 /*<replacement>*/
-var util = require('core-util-is');
+var util = Object.create(require('core-util-is'));
 util.inherits = require('inherits');
 /*</replacement>*/
 
@@ -8141,7 +3657,7 @@ function PassThrough(options) {
 PassThrough.prototype._transform = function (chunk, encoding, cb) {
   cb(null, chunk);
 };
-},{"./_stream_transform":60,"core-util-is":25,"inherits":45}],59:[function(require,module,exports){
+},{"./_stream_transform":20,"core-util-is":5,"inherits":8}],19:[function(require,module,exports){
 (function (process,global){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -8209,7 +3725,7 @@ function _isUint8Array(obj) {
 /*</replacement>*/
 
 /*<replacement>*/
-var util = require('core-util-is');
+var util = Object.create(require('core-util-is'));
 util.inherits = require('inherits');
 /*</replacement>*/
 
@@ -9163,7 +4679,7 @@ function indexOf(xs, x) {
   return -1;
 }
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./_stream_duplex":57,"./internal/streams/BufferList":62,"./internal/streams/destroy":63,"./internal/streams/stream":64,"_process":54,"core-util-is":25,"events":39,"inherits":45,"isarray":48,"process-nextick-args":53,"safe-buffer":70,"string_decoder/":76,"util":22}],60:[function(require,module,exports){
+},{"./_stream_duplex":17,"./internal/streams/BufferList":22,"./internal/streams/destroy":23,"./internal/streams/stream":24,"_process":13,"core-util-is":5,"events":6,"inherits":8,"isarray":10,"process-nextick-args":12,"safe-buffer":14,"string_decoder/":29,"util":2}],20:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -9234,7 +4750,7 @@ module.exports = Transform;
 var Duplex = require('./_stream_duplex');
 
 /*<replacement>*/
-var util = require('core-util-is');
+var util = Object.create(require('core-util-is'));
 util.inherits = require('inherits');
 /*</replacement>*/
 
@@ -9378,7 +4894,7 @@ function done(stream, er, data) {
 
   return stream.push(null);
 }
-},{"./_stream_duplex":57,"core-util-is":25,"inherits":45}],61:[function(require,module,exports){
+},{"./_stream_duplex":17,"core-util-is":5,"inherits":8}],21:[function(require,module,exports){
 (function (process,global,setImmediate){
 // Copyright Joyent, Inc. and other Node contributors.
 //
@@ -9446,7 +4962,7 @@ var Duplex;
 Writable.WritableState = WritableState;
 
 /*<replacement>*/
-var util = require('core-util-is');
+var util = Object.create(require('core-util-is'));
 util.inherits = require('inherits');
 /*</replacement>*/
 
@@ -10068,7 +5584,7 @@ Writable.prototype._destroy = function (err, cb) {
   cb(err);
 };
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"./_stream_duplex":57,"./internal/streams/destroy":63,"./internal/streams/stream":64,"_process":54,"core-util-is":25,"inherits":45,"process-nextick-args":53,"safe-buffer":70,"timers":82,"util-deprecate":83}],62:[function(require,module,exports){
+},{"./_stream_duplex":17,"./internal/streams/destroy":23,"./internal/streams/stream":24,"_process":13,"core-util-is":5,"inherits":8,"process-nextick-args":12,"safe-buffer":14,"timers":30,"util-deprecate":31}],22:[function(require,module,exports){
 'use strict';
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -10148,7 +5664,7 @@ if (util && util.inspect && util.inspect.custom) {
     return this.constructor.name + ' ' + obj;
   };
 }
-},{"safe-buffer":70,"util":22}],63:[function(require,module,exports){
+},{"safe-buffer":14,"util":2}],23:[function(require,module,exports){
 'use strict';
 
 /*<replacement>*/
@@ -10223,13 +5739,13 @@ module.exports = {
   destroy: destroy,
   undestroy: undestroy
 };
-},{"process-nextick-args":53}],64:[function(require,module,exports){
+},{"process-nextick-args":12}],24:[function(require,module,exports){
 module.exports = require('events').EventEmitter;
 
-},{"events":39}],65:[function(require,module,exports){
+},{"events":6}],25:[function(require,module,exports){
 module.exports = require('./readable').PassThrough
 
-},{"./readable":66}],66:[function(require,module,exports){
+},{"./readable":26}],26:[function(require,module,exports){
 exports = module.exports = require('./lib/_stream_readable.js');
 exports.Stream = exports;
 exports.Readable = exports;
@@ -10238,300 +5754,13 @@ exports.Duplex = require('./lib/_stream_duplex.js');
 exports.Transform = require('./lib/_stream_transform.js');
 exports.PassThrough = require('./lib/_stream_passthrough.js');
 
-},{"./lib/_stream_duplex.js":57,"./lib/_stream_passthrough.js":58,"./lib/_stream_readable.js":59,"./lib/_stream_transform.js":60,"./lib/_stream_writable.js":61}],67:[function(require,module,exports){
+},{"./lib/_stream_duplex.js":17,"./lib/_stream_passthrough.js":18,"./lib/_stream_readable.js":19,"./lib/_stream_transform.js":20,"./lib/_stream_writable.js":21}],27:[function(require,module,exports){
 module.exports = require('./readable').Transform
 
-},{"./readable":66}],68:[function(require,module,exports){
+},{"./readable":26}],28:[function(require,module,exports){
 module.exports = require('./lib/_stream_writable.js');
 
-},{"./lib/_stream_writable.js":61}],69:[function(require,module,exports){
-(function (process,setImmediate){
-var through = require('through');
-var nextTick = typeof setImmediate !== 'undefined'
-    ? setImmediate
-    : process.nextTick
-;
-
-module.exports = function (write, end) {
-    var tr = through(write, end);
-    tr.pause();
-    var resume = tr.resume;
-    var pause = tr.pause;
-    var paused = false;
-    
-    tr.pause = function () {
-        paused = true;
-        return pause.apply(this, arguments);
-    };
-    
-    tr.resume = function () {
-        paused = false;
-        return resume.apply(this, arguments);
-    };
-    
-    nextTick(function () {
-        if (!paused) tr.resume();
-    });
-    
-    return tr;
-};
-
-}).call(this,require('_process'),require("timers").setImmediate)
-},{"_process":54,"through":81,"timers":82}],70:[function(require,module,exports){
-/* eslint-disable node/no-deprecated-api */
-var buffer = require('buffer')
-var Buffer = buffer.Buffer
-
-// alternative to using Object.keys for old browsers
-function copyProps (src, dst) {
-  for (var key in src) {
-    dst[key] = src[key]
-  }
-}
-if (Buffer.from && Buffer.alloc && Buffer.allocUnsafe && Buffer.allocUnsafeSlow) {
-  module.exports = buffer
-} else {
-  // Copy properties from require('buffer')
-  copyProps(buffer, exports)
-  exports.Buffer = SafeBuffer
-}
-
-function SafeBuffer (arg, encodingOrOffset, length) {
-  return Buffer(arg, encodingOrOffset, length)
-}
-
-// Copy static methods from Buffer
-copyProps(Buffer, SafeBuffer)
-
-SafeBuffer.from = function (arg, encodingOrOffset, length) {
-  if (typeof arg === 'number') {
-    throw new TypeError('Argument must not be a number')
-  }
-  return Buffer(arg, encodingOrOffset, length)
-}
-
-SafeBuffer.alloc = function (size, fill, encoding) {
-  if (typeof size !== 'number') {
-    throw new TypeError('Argument must be a number')
-  }
-  var buf = Buffer(size)
-  if (fill !== undefined) {
-    if (typeof encoding === 'string') {
-      buf.fill(fill, encoding)
-    } else {
-      buf.fill(fill)
-    }
-  } else {
-    buf.fill(0)
-  }
-  return buf
-}
-
-SafeBuffer.allocUnsafe = function (size) {
-  if (typeof size !== 'number') {
-    throw new TypeError('Argument must be a number')
-  }
-  return Buffer(size)
-}
-
-SafeBuffer.allocUnsafeSlow = function (size) {
-  if (typeof size !== 'number') {
-    throw new TypeError('Argument must be a number')
-  }
-  return buffer.SlowBuffer(size)
-}
-
-},{"buffer":24}],71:[function(require,module,exports){
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-module.exports = Stream;
-
-var EE = require('events').EventEmitter;
-var inherits = require('inherits');
-
-inherits(Stream, EE);
-Stream.Readable = require('readable-stream/readable.js');
-Stream.Writable = require('readable-stream/writable.js');
-Stream.Duplex = require('readable-stream/duplex.js');
-Stream.Transform = require('readable-stream/transform.js');
-Stream.PassThrough = require('readable-stream/passthrough.js');
-
-// Backwards-compat with node 0.4.x
-Stream.Stream = Stream;
-
-
-
-// old-style streams.  Note that the pipe method (the only relevant
-// part of this class) is overridden in the Readable class.
-
-function Stream() {
-  EE.call(this);
-}
-
-Stream.prototype.pipe = function(dest, options) {
-  var source = this;
-
-  function ondata(chunk) {
-    if (dest.writable) {
-      if (false === dest.write(chunk) && source.pause) {
-        source.pause();
-      }
-    }
-  }
-
-  source.on('data', ondata);
-
-  function ondrain() {
-    if (source.readable && source.resume) {
-      source.resume();
-    }
-  }
-
-  dest.on('drain', ondrain);
-
-  // If the 'end' option is not supplied, dest.end() will be called when
-  // source gets the 'end' or 'close' events.  Only dest.end() once.
-  if (!dest._isStdio && (!options || options.end !== false)) {
-    source.on('end', onend);
-    source.on('close', onclose);
-  }
-
-  var didOnEnd = false;
-  function onend() {
-    if (didOnEnd) return;
-    didOnEnd = true;
-
-    dest.end();
-  }
-
-
-  function onclose() {
-    if (didOnEnd) return;
-    didOnEnd = true;
-
-    if (typeof dest.destroy === 'function') dest.destroy();
-  }
-
-  // don't leave dangling pipes when there are errors.
-  function onerror(er) {
-    cleanup();
-    if (EE.listenerCount(this, 'error') === 0) {
-      throw er; // Unhandled stream error in pipe.
-    }
-  }
-
-  source.on('error', onerror);
-  dest.on('error', onerror);
-
-  // remove all the event listeners that were added.
-  function cleanup() {
-    source.removeListener('data', ondata);
-    dest.removeListener('drain', ondrain);
-
-    source.removeListener('end', onend);
-    source.removeListener('close', onclose);
-
-    source.removeListener('error', onerror);
-    dest.removeListener('error', onerror);
-
-    source.removeListener('end', cleanup);
-    source.removeListener('close', cleanup);
-
-    dest.removeListener('close', cleanup);
-  }
-
-  source.on('end', cleanup);
-  source.on('close', cleanup);
-
-  dest.on('close', cleanup);
-
-  dest.emit('pipe', source);
-
-  // Allow for unix-like usage: A.pipe(B).pipe(C)
-  return dest;
-};
-
-},{"events":39,"inherits":45,"readable-stream/duplex.js":56,"readable-stream/passthrough.js":65,"readable-stream/readable.js":66,"readable-stream/transform.js":67,"readable-stream/writable.js":68}],72:[function(require,module,exports){
-'use strict';
-
-var bind = require('function-bind');
-var ES = require('es-abstract/es5');
-var replace = bind.call(Function.call, String.prototype.replace);
-
-var leftWhitespace = /^[\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF]+/;
-var rightWhitespace = /[\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF]+$/;
-
-module.exports = function trim() {
-	var S = ES.ToString(ES.CheckObjectCoercible(this));
-	return replace(replace(S, leftWhitespace, ''), rightWhitespace, '');
-};
-
-},{"es-abstract/es5":32,"function-bind":42}],73:[function(require,module,exports){
-'use strict';
-
-var bind = require('function-bind');
-var define = require('define-properties');
-
-var implementation = require('./implementation');
-var getPolyfill = require('./polyfill');
-var shim = require('./shim');
-
-var boundTrim = bind.call(Function.call, getPolyfill());
-
-define(boundTrim, {
-	getPolyfill: getPolyfill,
-	implementation: implementation,
-	shim: shim
-});
-
-module.exports = boundTrim;
-
-},{"./implementation":72,"./polyfill":74,"./shim":75,"define-properties":29,"function-bind":42}],74:[function(require,module,exports){
-'use strict';
-
-var implementation = require('./implementation');
-
-var zeroWidthSpace = '\u200b';
-
-module.exports = function getPolyfill() {
-	if (String.prototype.trim && zeroWidthSpace.trim() === zeroWidthSpace) {
-		return String.prototype.trim;
-	}
-	return implementation;
-};
-
-},{"./implementation":72}],75:[function(require,module,exports){
-'use strict';
-
-var define = require('define-properties');
-var getPolyfill = require('./polyfill');
-
-module.exports = function shimStringTrim() {
-	var polyfill = getPolyfill();
-	define(String.prototype, { trim: polyfill }, { trim: function () { return String.prototype.trim !== polyfill; } });
-	return polyfill;
-};
-
-},{"./polyfill":74,"define-properties":29}],76:[function(require,module,exports){
+},{"./lib/_stream_writable.js":21}],29:[function(require,module,exports){
 // Copyright Joyent, Inc. and other Node contributors.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a
@@ -10828,13 +6057,3581 @@ function simpleWrite(buf) {
 function simpleEnd(buf) {
   return buf && buf.length ? this.write(buf) : '';
 }
-},{"safe-buffer":70}],77:[function(require,module,exports){
+},{"safe-buffer":14}],30:[function(require,module,exports){
+(function (setImmediate,clearImmediate){
+var nextTick = require('process/browser.js').nextTick;
+var apply = Function.prototype.apply;
+var slice = Array.prototype.slice;
+var immediateIds = {};
+var nextImmediateId = 0;
+
+// DOM APIs, for completeness
+
+exports.setTimeout = function() {
+  return new Timeout(apply.call(setTimeout, window, arguments), clearTimeout);
+};
+exports.setInterval = function() {
+  return new Timeout(apply.call(setInterval, window, arguments), clearInterval);
+};
+exports.clearTimeout =
+exports.clearInterval = function(timeout) { timeout.close(); };
+
+function Timeout(id, clearFn) {
+  this._id = id;
+  this._clearFn = clearFn;
+}
+Timeout.prototype.unref = Timeout.prototype.ref = function() {};
+Timeout.prototype.close = function() {
+  this._clearFn.call(window, this._id);
+};
+
+// Does not start the time, just sets up the members needed.
+exports.enroll = function(item, msecs) {
+  clearTimeout(item._idleTimeoutId);
+  item._idleTimeout = msecs;
+};
+
+exports.unenroll = function(item) {
+  clearTimeout(item._idleTimeoutId);
+  item._idleTimeout = -1;
+};
+
+exports._unrefActive = exports.active = function(item) {
+  clearTimeout(item._idleTimeoutId);
+
+  var msecs = item._idleTimeout;
+  if (msecs >= 0) {
+    item._idleTimeoutId = setTimeout(function onTimeout() {
+      if (item._onTimeout)
+        item._onTimeout();
+    }, msecs);
+  }
+};
+
+// That's not how node.js implements it but the exposed api is the same.
+exports.setImmediate = typeof setImmediate === "function" ? setImmediate : function(fn) {
+  var id = nextImmediateId++;
+  var args = arguments.length < 2 ? false : slice.call(arguments, 1);
+
+  immediateIds[id] = true;
+
+  nextTick(function onNextTick() {
+    if (immediateIds[id]) {
+      // fn.call() is faster so we optimize for the common use-case
+      // @see http://jsperf.com/call-apply-segu
+      if (args) {
+        fn.apply(null, args);
+      } else {
+        fn.call(null);
+      }
+      // Prevent ids from leaking
+      exports.clearImmediate(id);
+    }
+  });
+
+  return id;
+};
+
+exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
+  delete immediateIds[id];
+};
+}).call(this,require("timers").setImmediate,require("timers").clearImmediate)
+},{"process/browser.js":13,"timers":30}],31:[function(require,module,exports){
+(function (global){
+
+/**
+ * Module exports.
+ */
+
+module.exports = deprecate;
+
+/**
+ * Mark that a method should not be used.
+ * Returns a modified function which warns once by default.
+ *
+ * If `localStorage.noDeprecation = true` is set, then it is a no-op.
+ *
+ * If `localStorage.throwDeprecation = true` is set, then deprecated functions
+ * will throw an Error when invoked.
+ *
+ * If `localStorage.traceDeprecation = true` is set, then deprecated functions
+ * will invoke `console.trace()` instead of `console.error()`.
+ *
+ * @param {Function} fn - the function to deprecate
+ * @param {String} msg - the string to print to the console when `fn` is invoked
+ * @returns {Function} a new "deprecated" version of `fn`
+ * @api public
+ */
+
+function deprecate (fn, msg) {
+  if (config('noDeprecation')) {
+    return fn;
+  }
+
+  var warned = false;
+  function deprecated() {
+    if (!warned) {
+      if (config('throwDeprecation')) {
+        throw new Error(msg);
+      } else if (config('traceDeprecation')) {
+        console.trace(msg);
+      } else {
+        console.warn(msg);
+      }
+      warned = true;
+    }
+    return fn.apply(this, arguments);
+  }
+
+  return deprecated;
+}
+
+/**
+ * Checks `localStorage` for boolean values for the given `name`.
+ *
+ * @param {String} name
+ * @returns {Boolean}
+ * @api private
+ */
+
+function config (name) {
+  // accessing global.localStorage can trigger a DOMException in sandboxed iframes
+  try {
+    if (!global.localStorage) return false;
+  } catch (_) {
+    return false;
+  }
+  var val = global.localStorage[name];
+  if (null == val) return false;
+  return String(val).toLowerCase() === 'true';
+}
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],32:[function(require,module,exports){
+(function (setImmediate){
+const Tonic = require('@optoolco/tonic')
+
+const mode = require('../mode')
+
+class TonicAccordion extends Tonic {
+  defaults () {
+    return {
+      multiple: false
+    }
+  }
+
+  static stylesheet () {
+    return `
+      tonic-accordion {
+        display: block;
+        border: 1px solid var(--tonic-border, black);
+      }
+    `
+  }
+
+  qs (s) {
+    return this.querySelector(s)
+  }
+
+  qsa (s) {
+    return [...this.querySelectorAll(s)]
+  }
+
+  setVisibility (id) {
+    const trigger = document.getElementById(id)
+    if (!trigger) return
+
+    const allowMultiple = this.hasAttribute('data-allow-multiple')
+    const isExpanded = trigger.getAttribute('aria-expanded') === 'true'
+
+    if (!isExpanded && !allowMultiple) {
+      const triggers = this.qsa('.tonic--accordion-header button')
+      const panels = this.qsa('.tonic--accordion-panel')
+
+      triggers.forEach(el => el.setAttribute('aria-expanded', 'false'))
+      panels.forEach(el => el.setAttribute('hidden', ''))
+    }
+
+    const panelId = trigger.getAttribute('aria-controls')
+
+    if (isExpanded) {
+      trigger.setAttribute('aria-expanded', 'false')
+      const currentPanel = document.getElementById(panelId)
+      if (currentPanel) currentPanel.setAttribute('hidden', '')
+      return
+    }
+
+    trigger.setAttribute('aria-expanded', 'true')
+    const currentPanel = document.getElementById(panelId)
+    this.state.selected = id
+    if (currentPanel) currentPanel.removeAttribute('hidden')
+  }
+
+  click (e) {
+    const trigger = Tonic.match(e.target, 'button')
+    if (!trigger) return
+
+    this.setVisibility(trigger.id)
+  }
+
+  keydown (e) {
+    const trigger = Tonic.match(e.target, 'button.tonic--title')
+    if (!trigger) return
+
+    const CTRL = e.ctrlKey
+    const PAGEUP = e.code === 'PageUp'
+    const PAGEDOWN = e.code === 'PageDown'
+    const UPARROW = e.code === 'ArrowUp'
+    const DOWNARROW = e.code === 'ArrowDown'
+    const END = e.metaKey && e.code === 'ArrowDown'
+    const HOME = e.metaKey && e.code === 'ArrowUp'
+
+    const ctrlModifier = CTRL && (PAGEUP || PAGEDOWN)
+    const triggers = this.qsa('button.tonic--title')
+
+    if ((UPARROW || DOWNARROW) || ctrlModifier) {
+      const index = triggers.indexOf(e.target)
+      const direction = (PAGEDOWN || DOWNARROW) ? 1 : -1
+      const length = triggers.length
+      const newIndex = (index + length + direction) % length
+
+      triggers[newIndex].focus()
+      e.preventDefault()
+    }
+
+    if (HOME || END) {
+      switch (e.key) {
+        case HOME:
+          triggers[0].focus()
+          break
+        case END:
+          triggers[triggers.length - 1].focus()
+          break
+      }
+      e.preventDefault()
+    }
+  }
+
+  connected () {
+    const id = this.state.selected || this.props.selected
+    if (!id) return
+
+    setImmediate(() => this.setVisibility(id))
+  }
+
+  render () {
+    if (mode.strict && !this.props.id) {
+      console.warn('In tonic the "id" attribute is used to persist state')
+      console.warn('You forgot to supply the "id" attribute.')
+      console.warn('')
+      console.warn('For element : ')
+      console.warn(`${this.outerHTML}`)
+      throw new Error('id attribute is mandatory on tonic-accordion')
+    }
+
+    const {
+      multiple
+    } = this.props
+
+    if (multiple) this.setAttribute('data-allow-multiple', '')
+
+    return this.html`
+      ${this.nodes}
+    `
+  }
+}
+
+class TonicAccordionSection extends Tonic {
+  static stylesheet () {
+    return `
+      tonic-accordion-section {
+        display: block;
+      }
+
+      tonic-accordion-section:not(:last-of-type) {
+        border-bottom: 1px solid var(--tonic-border, black);
+      }
+
+      tonic-accordion-section h4 {
+        margin: 0;
+      }
+
+      tonic-accordion-section .tonic--accordion-header {
+        display: flex;
+      }
+
+      tonic-accordion-section button {
+        font-size: 14px;
+        text-align: left;
+        padding: 20px;
+        position: relative;
+        background: transparent;
+        border: 0;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        outline: none;
+        width: 100%;
+      }
+
+      tonic-accordion-section button:focus {
+        outline: none;
+      }
+
+      tonic-accordion-section button:focus .tonic--label {
+        border-bottom: 3px solid Highlight;
+      }
+
+      tonic-accordion-section [hidden] {
+        display: none;
+      }
+
+      tonic-accordion-section .tonic--accordion-panel {
+        padding: 10px 50px 20px 20px;
+      }
+
+      tonic-accordion-section .tonic--accordion-header .tonic--arrow {
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 50px;
+      }
+
+      tonic-accordion-section .tonic--accordion-header .tonic--arrow:before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translateY(-50%) translateX(-50%) rotate(135deg);
+        -moz-transform: translateY(-50%) translateX(-50%) rotate(135deg);
+        transform: translateY(-50%) translateX(-50%) rotate(135deg);
+        border-top: 1px solid var(--tonic-primary, #333);
+        border-right: 1px solid var(--tonic-primary, #333);
+      }
+
+      tonic-accordion-section .tonic--accordion-header[aria-expanded="true"] .tonic--arrow:before {
+        -webkit-transform: translateY(-50%) translateX(-50%) rotate(315deg);
+        -moz-transform: translateY(-50%) translateX(-50%) rotate(315deg);
+        transform: translateY(-50%) translateX(-50%) rotate(315deg);
+        margin-top: 3px;
+      }
+    `
+  }
+
+  render () {
+    if (mode.strict && !this.props.id) {
+      console.warn('In tonic the "id" attribute is used to persist state')
+      console.warn('You forgot to supply the "id" attribute.')
+      console.warn('')
+      console.warn('For element : ')
+      console.warn(`${this.outerHTML}`)
+      throw new Error('id attribute is mandatory on tonic-accordion-section')
+    }
+
+    const {
+      id,
+      name,
+      label
+    } = this.props
+
+    return this.html`
+      <h4
+        class="tonic--accordion-header"
+        role="heading">
+        <button
+          class="tonic--title"
+          id="tonic--accordion-header-${id}"
+          name="${name}"
+          aria-expanded="false"
+          aria-controls="tonic--accordion-panel-${id}">
+          <span class="tonic--label">${label}</span>
+          <span class="tonic--arrow"></span>
+        </button>
+      </h4>
+      <div
+        class="tonic--accordion-panel"
+        id="tonic--accordion-panel-${id}"
+        aria-labelledby="tonic--accordion-header-${id}"
+        role="region"
+        hidden>
+        ${this.nodes}
+      </div>
+    `
+  }
+}
+
+module.exports = {
+  TonicAccordion,
+  TonicAccordionSection
+}
+
+}).call(this,require("timers").setImmediate)
+},{"../mode":49,"@optoolco/tonic":50,"timers":30}],33:[function(require,module,exports){
+const Tonic = require('@optoolco/tonic')
+
+const mode = require('../mode')
+
+class TonicBadge extends Tonic {
+  defaults () {
+    return {
+      count: 0
+    }
+  }
+
+  get value () {
+    return this.state.count
+  }
+
+  set value (value) {
+    this.state.count = value
+    this.reRender()
+  }
+
+  static stylesheet () {
+    return `
+      tonic-badge * {
+        box-sizing: border-box;
+      }
+
+      tonic-badge .tonic--notifications {
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        padding: 10px;
+        position: relative;
+        background-color: var(--tonic-background, #fff);
+        border-radius: 8px;
+      }
+
+      tonic-badge span:after {
+        content: '';
+        width: 8px;
+        height: 8px;
+        display: none;
+        position: absolute;
+        top: 7px;
+        right: 6px;
+        background-color: var(--tonic-notification, #f66);
+        border: 2px solid var(--tonic-background, #fff);
+        border-radius: 50%;
+      }
+
+      tonic-badge .tonic--notifications.tonic--new span:after {
+        display: block;
+      }
+
+      tonic-badge span {
+        color: var(--tonic-primary, #333);
+        font: 15px var(--tonic-subheader, 'Arial', sans-serif);
+        letter-spacing: 1px;
+        text-align: center;
+      }
+    `
+  }
+
+  willConnect () {
+    this.state.count = this.props.count
+  }
+
+  render () {
+    if (mode.strict && !this.props.id) {
+      console.warn('In tonic the "id" attribute is used to persist state')
+      console.warn('You forgot to supply the "id" attribute.')
+      console.warn('')
+      console.warn('For element : ')
+      console.warn(`${this.outerHTML}`)
+      throw new Error('id attribute is mandatory on tonic-badge')
+    }
+
+    const {
+      theme
+    } = this.props
+
+    let count = this.state.count
+
+    if (typeof count === 'undefined') {
+      count = this.props.count
+    }
+
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
+
+    const countText = (count > 99) ? '99' : String(count)
+    const classes = ['tonic--notifications']
+    if (count > 0) classes.push('tonic--new')
+
+    return this.html`
+      <div ... ${{ class: classes.join(' ') }}>
+        <span>${countText}</span>
+      </div>
+    `
+  }
+}
+
+module.exports = {
+  TonicBadge
+}
+
+},{"../mode":49,"@optoolco/tonic":50}],34:[function(require,module,exports){
+const tape = require('@pre-bundled/tape')
+const { qs } = require('qs')
+
+const { html } = require('../test/util')
+const components = require('..')
+components(require('@optoolco/tonic'))
+
+document.body.appendChild(html`
+<section id="badge">
+  <h2>Badge</h2>
+
+  <div id="badge-1" class="test-container">
+    <span>Default</span>
+    <tonic-badge id="tonic-badge-1"></tonic-badge>
+  </div>
+
+  <div id="badge-2" class="test-container">
+    <span>count="6"</span>
+    <tonic-badge id="tonic-badge-2" count="6"></tonic-badge>
+  </div>
+
+  <div id="badge-3" class="test-container">
+    <span>theme="light"</span>
+    <tonic-badge id="tonic-badge-3" count="1" theme="light"></tonic-badge>
+  </div>
+
+  <div id="badge-4" class="dark test-container">
+    <span>theme="dark"</span>
+    <tonic-badge id="tonic-badge-4" count="1" theme="dark"></tonic-badge>
+  </div>
+
+</section>
+`)
+
+tape('{{badge-1}} has correct default state', t => {
+  const container = qs('#badge-1')
+  const component = qs('tonic-badge', container)
+
+  t.ok(component.firstElementChild, 'the component was constructed')
+  t.equal(component.value, 0, 'the default value is zero')
+
+  t.end()
+})
+
+tape('{{badge-2}} shows a count', t => {
+  const container = qs('#badge-2')
+  const component = qs('tonic-badge', container)
+  const span = qs('span', component)
+  const notification = qs('.tonic--new', component)
+
+  t.ok(component.firstElementChild, 'the component was constructed')
+  t.ok(component.hasAttribute('count'), 'the component has a count attribute')
+  t.equal(component.value, span.textContent, 'the badge shows the correct value')
+  t.ok(notification, 'badge shows new notifications')
+
+  t.end()
+})
+
+tape('badge shows tonic--new style', t => {
+  const span1 = qs('#badge-1 tonic-badge span')
+  const span2 = qs('#badge-2 tonic-badge span')
+
+  const styles1 = window.getComputedStyle(span1, ':after')
+  const styles2 = window.getComputedStyle(span2, ':after')
+
+  t.equal(styles1.display, 'none')
+  t.equal(styles2.display, 'block')
+
+  t.end()
+})
+
+},{"..":46,"../test/util":113,"@optoolco/tonic":50,"@pre-bundled/tape":52,"qs":92}],35:[function(require,module,exports){
+const Tonic = require('@optoolco/tonic')
+
+class TonicButton extends Tonic {
+  get value () {
+    return this.props.value
+  }
+
+  get form () {
+    return this.querySelector('button').form
+  }
+
+  get disabled () {
+    return this.props.disabled === true
+  }
+
+  set disabled (state) {
+    this.props.disabled = state
+  }
+
+  defaults () {
+    return {
+      height: '40px',
+      width: '150px',
+      margin: '5px',
+      autofocus: 'false',
+      async: false,
+      radius: '2px',
+      borderWidth: '1px',
+      textColorDisabled: 'var(--tonic-disabled)',
+      backgroundColor: 'transparent'
+    }
+  }
+
+  static stylesheet () {
+    return `
+      tonic-button {
+        display: inline-block;
+      }
+
+      tonic-button button {
+        color: var(--tonic-button, #333);
+        width: auto;
+        min-height: 40px;
+        font: 12px var(--tonic-subheader, 'Arial', sans-serif);
+        font-weight: 400;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding: 8px 8px 5px 8px;
+        position: relative;
+        background-color: transparent;
+        border: 1px solid var(--tonic-button, #333);
+        transition: all 0.3s ease;
+        appearance: none;
+      }
+
+      tonic-button button[disabled],
+      tonic-button button.tonic--active {
+        color: var(--tonic-medium, #999);
+        background-color: var(--tonic-background, #fff);
+        border-color: var(--tonic-background, #fff);
+      }
+
+      tonic-button button[disabled] {
+        pointer-events: none;
+        user-select: none;
+      }
+
+      tonic-button button:not([disabled]):hover,
+      tonic-button button:not(.tonic--loading):hover {
+        color: var(--tonic-window, #fff) !important;
+        background-color: var(--tonic-button, #333) !important;
+        border-color: var(--tonic-button, #333) !important;
+        cursor: pointer;
+      }
+
+      tonic-button button.tonic--loading {
+        color: transparent !important;
+        background: var(--tonic-medium, #999);
+        border-color: var(--tonic-medium, #999);
+        transition: all 0.3s ease;
+        pointer-events: none;
+      }
+
+      tonic-button button.tonic--loading:hover {
+        color: transparent !important;
+        background: var(--tonic-medium, #999) !important;
+        border-color: var(--tonic-medium, #999) !important;
+      }
+
+      tonic-button button.tonic--loading:before {
+        margin-top: -8px;
+        margin-left: -8px;
+        display: inline-block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        opacity: 1;
+        transform: translateX(-50%) translateY(-50%);
+        border: 2px solid white;
+        border-radius: 50%;
+        border-top-color: transparent;
+        animation: spin 1s linear 0s infinite;
+        transition: opacity 0.3s ease;
+      }
+
+      tonic-button button:before {
+        content: '';
+        width: 14px;
+        height: 14px;
+        opacity: 0;
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    `
+  }
+
+  loading (state) {
+    const button = this.querySelector('button')
+    const method = state ? 'add' : 'remove'
+    if (button) button.classList[method]('tonic--loading')
+  }
+
+  click (e) {
+    const disabled = this.props.disabled === 'true'
+    const async = this.props.async === 'true'
+    const href = this.props.href
+
+    if (async && !disabled) {
+      this.loading(true)
+    }
+
+    if (href) {
+      const target = this.getAttribute('target')
+
+      if (target && target !== '_self') {
+        window.open(href)
+      } else {
+        window.open(href, '_self')
+      }
+    }
+  }
+
+  styles () {
+    const {
+      width,
+      height,
+      margin,
+      radius,
+      fill,
+      disabled,
+      borderColor,
+      borderWidth,
+      textColor,
+      textColorDisabled
+    } = this.props
+
+    return {
+      button: {
+        width,
+        height,
+        color: disabled && disabled === 'true' ? textColorDisabled : textColor,
+        backgroundColor: fill,
+        borderRadius: radius,
+        borderColor: fill || borderColor,
+        borderWidth: borderWidth
+      },
+      wrapper: {
+        width,
+        height,
+        margin
+      }
+    }
+  }
+
+  render () {
+    const {
+      value,
+      type,
+      disabled,
+      autofocus,
+      active,
+      async,
+      tabindex
+    } = this.props
+
+    let classes = []
+
+    if (active) classes.push('tonic--active')
+    classes = classes.join(' ')
+
+    if (tabindex) this.removeAttribute('tabindex')
+
+    let label = ''
+
+    if (this.querySelector('style')) {
+      label = this.querySelector('button').textContent
+    } else {
+      label = this.textContent || type || 'Button'
+    }
+
+    return this.html`
+      <div class="tonic--button--wrapper" styles="wrapper">
+        <button ... ${{
+          styles: 'button',
+          async: String(async),
+          disabled: disabled && disabled !== 'false',
+          autofocus,
+          alt: label,
+          value,
+          type,
+          tabindex,
+          class: classes
+        }}>${label}</button>
+      </div>
+    `
+  }
+}
+
+module.exports = { TonicButton }
+
+},{"@optoolco/tonic":50}],36:[function(require,module,exports){
+const tape = require('@pre-bundled/tape')
+const { qs } = require('qs')
+
+const { html } = require('../test/util')
+const components = require('..')
+components(require('@optoolco/tonic'))
+
+const sleep = n => new Promise(resolve => setTimeout(resolve, n))
+
+document.body.appendChild(html`
+<section id="button">
+  <h2>Button</h2>
+
+  <div id="button-1" class="test-container">
+    <span>Default Button</span>
+    <tonic-button></tonic-button>
+  </div>
+
+  <div id="button-2" class="test-container">
+    <span>Button has text content</span>
+    <tonic-button>Text Content</tonic-button>
+  </div>
+
+  <div id="button-2-5" class="test-container">
+    <span>Button has text content</span>
+    <tonic-button value="v"></tonic-button>
+  </div>
+
+  <div id="button-3" class="test-container">
+    <span>disabled="true"</span>
+    <tonic-button disabled="true">Button</tonic-button>
+  </div>
+
+  <div id="button-4" class="test-container">
+    <span>disabled="false"</span>
+    <tonic-button disabled="false">Button</tonic-button>
+  </div>
+
+  <div id="button-5" class="test-container">
+    <span>Has all attributes</span>
+    <tonic-button
+      margin="10px"
+      type="reset"
+      autofocus="true"
+      width="200px"
+      height="50px"
+      tabindex="1"
+      radius="5px"></tonic-button>
+  </div>
+
+  <div id="button-6" class="test-container">
+    <span>fill="rgb(240, 102, 83)"</span>
+    <tonic-button
+      fill="rgb(240, 102, 83)"
+      text-color="white">Button</tonic-button>
+  </div>
+
+  <div id="button-7" class="test-container">
+    <span>border-color, border-width, text-color</span>
+    <tonic-button
+      border-color="rgb(240, 102, 83)"
+      border-width="3px"
+      text-color="rgb(240, 102, 83)">Button</tonic-button>
+  </div>
+
+  <div id="button-8" class="test-container">
+    <span>async="true"</span>
+    <tonic-button async="true">Button</tonic-button>
+  </div>
+
+  <div id="button-9" class="test-container">
+    <span>async="false"</span>
+    <tonic-button async="false">Button</tonic-button>
+  </div>
+
+  <div id="button-10" class="test-container">
+    <span>tabindex="0"</span>
+    <tonic-button tabindex="0">Button</tonic-button>
+  </div>
+
+  <div id="button-11" class="test-container">
+    <span>href and target</span>
+    <tonic-button target="_blank" href="https://google.com">target="_blank"</tonic-button>
+    <tonic-button target="_self" href="https://google.com">target="_self"</tonic-button>
+    <tonic-button href="https://google.com">No target</tonic-button>
+  </div>
+
+</section>
+`)
+
+tape('{{button-1}} has correct default state', t => {
+  const container = qs('#button-1')
+  const component = qs('tonic-button', container)
+  const wrapper = qs('.tonic--button--wrapper', component)
+  const button = qs('button', component)
+  const isLoading = button.classList.contains('tonic--loading')
+
+  t.plan(6)
+
+  t.ok(wrapper, 'component was constructed with a wrapper')
+  t.ok(button, 'component was constructed with a button element')
+  t.ok(!button.hasAttribute('disabled'), 'does not have disabled attribute')
+  t.equal(button.getAttribute('autofocus'), 'false', 'autofocus is false')
+  t.equal(button.getAttribute('async'), 'false', 'async attribute is false')
+  t.equal(isLoading, false, 'loading class is not applied')
+
+  t.end()
+})
+
+tape('has styles', t => {
+  const container = qs('#button-1 tonic-button')
+  const button = qs('button', container)
+
+  const styles = window.getComputedStyle(button)
+  t.equal(styles.color, 'rgb(51, 51, 51)')
+
+  t.end()
+})
+
+tape('{{button-2}} has textContent', t => {
+  const container = qs('#button-2')
+  const component = qs('tonic-button', container)
+  const button = qs('button', component)
+
+  t.plan(4)
+
+  t.ok(button, 'the component was constructed with a button')
+  t.ok(!component.hasAttribute('value'), 'the component does not have a value attribute')
+  t.ok(button.textContent, 'the button has text content')
+  t.equal(button.textContent, button.getAttribute('alt'), 'button has alt attribute that matches value')
+
+  t.end()
+})
+
+tape('{{button-2-5}} has value', t => {
+  const container = qs('#button-2-5')
+  const component = qs('tonic-button', container)
+  const button = qs('button', component)
+
+  t.plan(4)
+
+  t.ok(button, 'the component was constructed with a button')
+  t.ok(component.hasAttribute('value'), 'the component has value')
+  t.ok(button.hasAttribute('value'), 'the button has value')
+  t.equal(button.getAttribute('value'), 'v', 'button has Correct value')
+
+  t.end()
+})
+
+tape('{{button-3}} is disabled', t => {
+  const container = qs('#button-3')
+  const component = qs('tonic-button', container)
+  const button = qs('button', component)
+
+  t.plan(2)
+
+  t.ok(button, 'the component was constructed with a button')
+  t.ok(button.hasAttribute('disabled'), 'the button has the disabled attribute')
+
+  t.end()
+})
+
+tape('{{button-4}} is not disabled when disabled="false"', t => {
+  const container = qs('#button-4')
+  const component = qs('tonic-button', container)
+  const button = qs('button', component)
+
+  t.plan(3)
+
+  t.ok(button, 'the component was constructed with a button')
+  t.equal(component.getAttribute('disabled'), 'false', 'component has the disabled="false" attribute')
+  t.ok(!button.hasAttribute('disabled'), 'button does not have disabled class')
+
+  t.end()
+})
+
+tape('{{button-5}} has correct attributes', t => {
+  const container = qs('#button-5')
+  const component = qs('tonic-button', container)
+  const buttonWrapper = qs('.tonic--button--wrapper', component)
+  const button = qs('button', component)
+
+  t.plan(9)
+
+  t.ok(button, 'the component was constructed with a button')
+  t.equal(button.getAttribute('autofocus'), 'true', 'button has autofocus="true" attribute')
+  t.equal(button.getAttribute('type'), 'reset', 'button has type="reset" attribute')
+  t.ok(buttonWrapper.style.margin === '10px', 'button wrapper has margin="10px"')
+  t.ok(button.style.width === '200px', 'button has width of 200px')
+  t.ok(button.style.height === '50px', 'button has height of 50px')
+  t.ok(button.style.borderRadius === '5px', 'button has border radius of 5px')
+  t.equal(button.getAttribute('tabindex'), '1', 'tabindex is 1')
+  t.equal(button.getAttribute('type'), button.textContent, 'button has text content equal to type')
+
+  t.end()
+})
+
+tape('{{button-6}} gets style derived from component "fill" attribute', t => {
+  const container = qs('#button-6')
+  const component = qs('tonic-button', container)
+  const button = qs('button', component)
+
+  t.ok(button, 'the component was constructed with a button')
+  t.ok(component.hasAttribute('fill'), 'the component has fill attribute')
+  t.equal(component.getAttribute('fill'), button.style.backgroundColor, 'the fill attribute matches button background color')
+  // Testing borderColor doesn't work in Safari, specific borderColor property isn't created
+  // t.equal(component.getAttribute('fill'), button.style.borderColor, 'the fill attribute matches button border color')
+  t.equal(window.getComputedStyle(button).borderColor, 'rgb(240, 102, 83)', 'the color was added')
+
+  t.end()
+})
+
+tape('{{button-7}} gets border style derived from component attributes', t => {
+  const container = qs('#button-7')
+  const component = qs('tonic-button', container)
+  const button = qs('button', component)
+
+  t.ok(button, 'the component was constructed with a button')
+  t.equal(component.getAttribute('border-width'), button.style.borderWidth, 'button contains style "border-width" matching component attribute "border-width"')
+  t.equal(component.getAttribute('text-color'), button.style.color, 'button contains style "color" matching component attribute "text-color"')
+
+  t.end()
+})
+
+tape('{{button-8}} is async, shows loading state when clicked', async t => {
+  const container = qs('#button-8')
+  const component = qs('tonic-button', container)
+
+  t.plan(3)
+
+  t.ok(component.firstElementChild, 'the component was constructed')
+  t.equal(component.getAttribute('async'), 'true', 'the button async attribute is true')
+
+  component.addEventListener('click', async e => {
+    const button = component.querySelector('button')
+
+    await sleep(128)
+    const isLoading = button.classList.contains('tonic--loading')
+    t.ok(isLoading, 'loading class was applied')
+    t.end()
+  })
+
+  component.dispatchEvent(new window.Event('click'))
+})
+
+tape('{{button-9}} is not async, does not show loading when clicked', async t => {
+  const container = qs('#button-9')
+  const component = qs('tonic-button', container)
+
+  t.plan(3)
+
+  t.ok(component.firstElementChild, 'the component was constructed')
+  t.equal(component.getAttribute('async'), 'false', 'the button async attribute is false')
+
+  component.addEventListener('click', async e => {
+    const button = component.querySelector('button')
+
+    await sleep(128)
+    const isLoading = button.classList.contains('tonic--loading')
+    t.ok(!isLoading, 'loading class was not applied')
+
+    t.end()
+  })
+
+  component.dispatchEvent(new window.Event('click'))
+})
+
+tape('{{button-10}} has tabindex attribute', t => {
+  const container = qs('#button-10')
+  const component = qs('tonic-button', container)
+  const button = qs('button', component)
+
+  t.plan(3)
+
+  t.ok(button, 'the component was constructed with a button')
+  t.equal(component.hasAttribute('tabindex'), false, 'component does not have a tabindex')
+  t.equal(button.hasAttribute('tabindex'), true, 'button has a tabindex')
+
+  t.end()
+})
+
+},{"..":46,"../test/util":113,"@optoolco/tonic":50,"@pre-bundled/tape":52,"qs":92}],37:[function(require,module,exports){
+const Tonic = require('@optoolco/tonic')
+
+class TonicChart extends Tonic {
+  constructor (o) {
+    super(o)
+
+    try {
+      const dynamicRequire = require
+      this.Chart = dynamicRequire('chart.js')
+    } catch (err) {
+      console.error('could not find "chart.js" dependency. npm install?')
+    }
+  }
+
+  static stylesheet () {
+    return `
+      tonic-chart {
+        display: inline-block;
+        position: relative;
+      }
+
+      tonic-chart canvas {
+        display: inline-block;
+        position: relative;
+      }
+    `
+  }
+
+  draw (data = {}, options = {}) {
+    const root = this.querySelector('canvas')
+    const type = this.props.type || options.type
+
+    return new this.Chart(root, {
+      type,
+      options,
+      data
+    })
+  }
+
+  async fetch (url, opts = {}) {
+    if (!url) return {}
+
+    try {
+      const res = await window.fetch(url, opts)
+      return { data: await res.json() }
+    } catch (err) {
+      return { err }
+    }
+  }
+
+  async connected () {
+    let data = null
+
+    const options = {
+      ...this.props,
+      ...this.props.options
+    }
+
+    const src = this.props.src
+
+    if (typeof src === 'string') {
+      const response = await this.fetch(src)
+
+      if (response.err) {
+        console.error(response.err)
+        data = {}
+      } else {
+        data = response.data
+      }
+    }
+
+    if (src === Object(src)) {
+      data = src
+    }
+
+    if (data && data.chartData) {
+      throw new Error('chartData propery deprecated')
+    }
+
+    if (data) {
+      this.draw(data, options)
+    }
+  }
+
+  render () {
+    const {
+      width,
+      height
+    } = this.props
+
+    this.style.width = width
+    this.style.height = height
+
+    return this.html`
+      <canvas ... ${{ width, height }}>
+      </canvas>
+    `
+  }
+}
+
+module.exports = { TonicChart }
+
+},{"@optoolco/tonic":50}],38:[function(require,module,exports){
+const tape = require('@pre-bundled/tape')
+const { qs } = require('qs')
+
+const { html } = require('../test/util')
+const components = require('..')
+components(require('@optoolco/tonic'))
+
+document.body.appendChild(html`
+<section id="chart">
+  <h2>Chart</h2>
+
+  <div id="chart-1" class="test-container">
+    <span>Default</span>
+    <tonic-chart width=400px height=400px></tonic-chart>
+  </div>
+</section>
+`)
+
+tape('got a chart', t => {
+  const container = qs('#chart-1')
+  const chart = qs('#chart-1 tonic-chart')
+  const canvas = qs('#chart-1 canvas')
+
+  t.ok(container)
+  t.ok(chart)
+  t.ok(canvas)
+
+  t.equal(canvas.width, 400)
+  t.equal(canvas.height, 400)
+
+  const styles = window.getComputedStyle(canvas)
+  t.equal(styles.display, 'inline-block')
+
+  t.end()
+})
+
+},{"..":46,"../test/util":113,"@optoolco/tonic":50,"@pre-bundled/tape":52,"qs":92}],39:[function(require,module,exports){
+const Tonic = require('@optoolco/tonic')
+
+const mode = require('../mode')
+
+class TonicCheckbox extends Tonic {
+  get value () {
+    const state = this.getState()
+    let value
+
+    if ('checked' in this.props) {
+      value = this.props.checked
+    } else {
+      value = state.checked
+    }
+
+    return (value === true) || (value === 'true')
+  }
+
+  set value (value) {
+    const checked = (value === true) || (value === 'true')
+
+    this.state.checked = checked
+    this.props.checked = checked
+    this.reRender()
+  }
+
+  defaults () {
+    return {
+      disabled: false,
+      size: '18px'
+    }
+  }
+
+  static stylesheet () {
+    return `
+      tonic-checkbox .tonic--checkbox--wrapper {
+        display: inline-block;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      tonic-checkbox input[type="checkbox"] {
+        display: none;
+      }
+
+      tonic-checkbox input[type="checkbox"][disabled] + label {
+        opacity: 0.35;
+      }
+
+      tonic-checkbox label {
+        color: var(--tonic-primary, #333);
+        font: 12px var(--tonic-subheader, 'Arial', sans-serif);
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        display: inline;
+        vertical-align: middle;
+      }
+
+      tonic-checkbox .tonic--icon {
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+        background-size: contain;
+      }
+
+      tonic-checkbox .tonic--icon svg {
+        width: inherit;
+        height: inherit;
+      }
+
+      tonic-checkbox label:nth-of-type(2) {
+        padding-top: 2px;
+        margin-left: 10px;
+      }
+    `
+  }
+
+  change (e) {
+    if (
+      this.props.virtual === true ||
+      this.props.virtual === 'true'
+    ) {
+      return
+    }
+    if (this.state._changing) return
+
+    e.stopPropagation()
+
+    const currentState = this.value
+    this.state._changing = true
+    this.value = !currentState
+
+    this.reRender()
+  }
+
+  updated () {
+    if (this.state._changing) {
+      const e = new window.Event('change', { bubbles: true })
+      this.dispatchEvent(e)
+      delete this.state._changing
+    }
+  }
+
+  styles () {
+    return {
+      icon: {
+        width: this.props.size,
+        height: this.props.size
+      }
+    }
+  }
+
+  renderIcon () {
+    const checked = this.value
+    const iconState = checked ? 'checked' : 'unchecked'
+
+    return this.html`
+      <svg>
+        <use ... ${{
+          href: `#${iconState}`,
+          'xlink:href': `#${iconState}`,
+          color: 'var(--tonic-primary, #333)',
+          fill: 'var(--tonic-primary, #333)'
+        }}>
+        </use>
+      </svg>
+    `
+  }
+
+  renderLabel () {
+    let {
+      id,
+      label
+    } = this.props
+
+    if (!this.props.label) {
+      label = this.nodes
+    }
+
+    return this.html`
+      <label
+        styles="label"
+        for="tonic--checkbox--${id}"
+      >${label}</label>
+    `
+  }
+
+  render () {
+    if (mode.strict && !this.props.id) {
+      console.warn('In tonic the "id" attribute is used to persist state')
+      console.warn('You forgot to supply the "id" attribute.')
+      console.warn('')
+      console.warn('For element : ')
+      console.warn(`${this.outerHTML}`)
+      throw new Error('id attribute is mandatory on tonic-checkbox')
+    }
+
+    const {
+      id,
+      disabled,
+      theme,
+      title,
+      tabindex
+    } = this.props
+
+    const checked = this.value
+    if (typeof this.state.checked === 'undefined') {
+      this.state.checked = checked
+    }
+
+    if (tabindex) this.removeAttribute('tabindex')
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
+
+    return this.html`
+      <div class="tonic--checkbox--wrapper">
+        <input ... ${{
+          type: 'checkbox',
+          id: `tonic--checkbox--${id}`,
+          checked,
+          disabled: disabled === 'true',
+          title,
+          tabindex
+        }}/>
+        <label
+          for="tonic--checkbox--${id}"
+          styles="icon"
+          class="tonic--icon"
+        >
+          ${this.renderIcon()}
+        </label>
+        ${this.renderLabel()}
+      </div>
+    `
+  }
+}
+
+module.exports = { TonicCheckbox }
+
+},{"../mode":49,"@optoolco/tonic":50}],40:[function(require,module,exports){
+const tape = require('@pre-bundled/tape')
+const { qs } = require('qs')
+
+const { html } = require('../test/util')
+const components = require('..')
+components(require('@optoolco/tonic'))
+
+document.body.appendChild(html`
+<section id="checkbox">
+  <tonic-sprite></tonic-sprite>
+  <h2>Checkbox</h2>
+
+  <div id="checkbox-1" class="test-container">
+    <span>Default</span>
+    <tonic-checkbox
+      id="tonic-checkbox">
+    </tonic-checkbox>
+  </div>
+
+  <div id="checkbox-2" class="test-container">
+    <span>label="label"</span>
+    <tonic-checkbox
+      id="tonic-checkbox-label"
+      label="Label">
+    </tonic-checkbox>
+  </div>
+
+  <div id="checkbox-3" class="test-container">
+    <span>checked="true"</span>
+    <tonic-checkbox
+      id="tonic-checkbox-checked"
+      checked="true">
+    </tonic-checkbox>
+  </div>
+
+  <div id="checkbox-4" class="test-container">
+    <span>disabled="true"</span>
+    <tonic-checkbox
+      id="tonic-checkbox-disabled"
+      disabled="true">
+    </tonic-checkbox>
+  </div>
+
+  <div id="checkbox-5" class="test-container">
+    <span>size="30px"</span>
+    <tonic-checkbox
+      id="tonic-checkbox-size"
+      size="30px">
+    </tonic-checkbox>
+  </div>
+
+  <div id="checkbox-6" class="test-container">
+    <span>tabindex="0"</span>
+    <tonic-checkbox
+      tabindex="0"
+      id="tonic-checkbox-tabindex">
+    </tonic-checkbox>
+  </div>
+
+  <div id="checkbox-6-5" class="test-container">
+    <span>title="foo"</span>
+    <tonic-checkbox
+      title="foo"
+      id="tonic-checkbox-title">
+    </tonic-checkbox>
+  </div>
+
+  <div id="checkbox-7" class="test-container">
+    <span>child elements</span>
+    <tonic-checkbox
+      tabindex="0"
+      id="tonic-checkbox-children">
+      This is a <a href="https://google.com" target="blank">label</a>!
+    </tonic-checkbox>
+  </div>
+
+  <!-- need to fix with new tonic-icon method -->
+
+  <!-- <div id="checkbox-6" class="test-container">
+    <span>Custom</span>
+    <tonic-checkbox
+      id="tonic-checkbox-custom"
+      icon-on="./sprite.svg#custom_on"
+      icon-off="./sprite.svg#custom_off">
+    </tonic-checkbox>
+  </div>
+
+  <div id="checkbox-7" class="test-container">
+    <span>Custom, checked</span>
+    <tonic-checkbox
+      id="tonic-checkbox-custom-2"
+      checked="true"
+      icon-on="./sprite.svg#custom_on"
+      icon-off="./sprite.svg#custom_off">
+    </tonic-checkbox>
+  </div> -->
+
+</section>
+`)
+
+tape('{{checkbox-1}} has correct default state', t => {
+  const container = qs('#checkbox-1')
+  const component = qs('tonic-checkbox', container)
+  const wrapper = qs('.tonic--checkbox--wrapper', component)
+  const input = qs('input[type="checkbox"]', component)
+  const icon = qs('.tonic--icon', component)
+
+  const label = qs('tonic-checkbox label', container)
+  t.ok(label)
+
+  const styles = window.getComputedStyle(label)
+  t.equal(styles.color, 'rgb(51, 51, 51)')
+
+  t.ok(wrapper, 'component constructed with a wrapper')
+  t.ok(input, 'component constructed with an input')
+  t.ok(input.hasAttribute('id'), 'input was constructed with an id')
+  t.ok(icon, 'component constructed with default icon')
+  t.ok(input.checked === false, 'the default checkbox is not checked')
+
+  t.end()
+})
+
+tape('{{checkbox-2}} has correct label', t => {
+  const container = qs('#checkbox-2')
+  const component = qs('tonic-checkbox', container)
+  const input = qs('input[type="checkbox"]', component)
+  const label = qs('label:not(.tonic--icon)', component)
+
+  t.plan(3)
+
+  t.ok(input.hasAttribute('id'), 'input was constructed with an id')
+  t.ok(label, 'component was constructed with a label')
+  t.equal(component.getAttribute('label'), label.textContent, 'the label attribute matches the label text')
+
+  t.end()
+})
+
+tape('{{checkbox-3}} is checked', t => {
+  const container = qs('#checkbox-3')
+  const component = qs('tonic-checkbox', container)
+  const input = qs('input[type="checkbox"]', component)
+
+  t.plan(3)
+
+  t.ok(input, 'component was constructed with an input')
+  t.ok(input.hasAttribute('id'), 'input was constructed with an id')
+  t.ok(input.checked, 'the input is checked')
+
+  t.end()
+})
+
+tape('{{checkbox-4}} is disabled', t => {
+  const container = qs('#checkbox-4')
+  const component = qs('tonic-checkbox', container)
+  const input = qs('input[type="checkbox"]', component)
+
+  t.plan(3)
+
+  t.ok(input, 'component was constructed with an input')
+  t.ok(input.hasAttribute('id'), 'input was constructed with an id')
+  t.ok(input.hasAttribute('disabled'), 'the input is disabled')
+
+  t.end()
+})
+
+tape('{{checkbox-5}} has size attributes', t => {
+  const container = qs('#checkbox-5')
+  const component = qs('tonic-checkbox', container)
+  const icon = qs('label.tonic--icon', component)
+  const input = qs('input[type="checkbox"]', component)
+  const size = component.getAttribute('size')
+
+  t.plan(5)
+
+  t.ok(input, 'component was constructed with an input')
+  t.ok(input.hasAttribute('id'), 'input was constructed with an id')
+  t.ok(component.hasAttribute('size'), 'the component has a size attribute')
+  t.ok(icon.style.width === size, 'the width equals the size attribute')
+  t.ok(icon.style.height === size, 'the height equals the size attribute')
+
+  t.end()
+})
+
+tape('{{checkbox-6}} has Tabindex', t => {
+  const container = qs('#checkbox-6')
+  const component = qs('tonic-checkbox', container)
+  const input = qs('input[type="checkbox"]', component)
+
+  t.plan(4)
+
+  t.ok(input, 'component was constructed with an input')
+  t.ok(input.hasAttribute('id'), 'input was constructed with an id')
+  t.equal(component.hasAttribute('tabindex'), false, 'component does not have a tabindex')
+  t.equal(input.hasAttribute('tabindex'), true, 'input has a tabindex')
+
+  t.end()
+})
+
+tape('{{checkbox-6-5}} has title', t => {
+  const container = qs('#checkbox-6-5')
+  const component = qs('tonic-checkbox', container)
+  const input = qs('input[type="checkbox"]', component)
+
+  t.plan(5)
+
+  t.ok(input, 'component was constructed with an input')
+  t.ok(input.hasAttribute('id'), 'input was constructed with an id')
+  t.equal(component.hasAttribute('title'), true, 'component has title')
+  t.equal(input.hasAttribute('title'), true, 'input has title')
+  t.equal(input.getAttribute('title'), 'foo')
+
+  t.end()
+})
+
+},{"..":46,"../test/util":113,"@optoolco/tonic":50,"@pre-bundled/tape":52,"qs":92}],41:[function(require,module,exports){
+const Tonic = require('@optoolco/tonic')
+
+class Dialog extends Tonic {
+  constructor () {
+    super()
+
+    this.addEventListener('click', e => {
+      const el = Tonic.match(e.target, '.tonic--close')
+      if (el) this.hide()
+
+      const overlay = e.target.matches('.tonic--overlay')
+      if (overlay) this.hide()
+    })
+  }
+
+  defaults () {
+    return {
+      width: '450px',
+      height: 'auto',
+      overlay: true,
+      backgroundColor: 'rgba(0,0,0,0.5)'
+    }
+  }
+
+  static stylesheet () {
+    return `
+      .tonic--dialog .tonic--dialog--wrapper {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        z-index: 100;
+        visibility: hidden;
+        transition: visibility 0s ease 0.5s;
+      }
+
+      .tonic--dialog .tonic--dialog--wrapper.tonic--show {
+        visibility: visible;
+        transition: visibility 0s ease 0s;
+      }
+
+      .tonic--dialog .tonic--dialog--wrapper.tonic--show .tonic--overlay {
+        opacity: 1;
+      }
+
+      .tonic--dialog .tonic--dialog--wrapper.tonic--show .tonic--dialog--content {
+        color: var(--tonic-primary, #333);
+        opacity: 1;
+        -webkit-transform: scale(1);
+        -ms-transform: scale(1);
+        transform: scale(1);
+      }
+
+      .tonic--dialog .tonic--overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0;
+        transition: opacity 0.3s ease-in-out;
+      }
+
+      .tonic--dialog .tonic--dialog--content {
+        min-width: 350px;
+        min-height: 250px;
+        height: auto;
+        width: auto;
+        margin: auto;
+        position: relative;
+        background-color: var(--tonic-window, #fff);
+        z-index: 1;
+        opacity: 0;
+        -webkit-transform: scale(0.8);
+        -ms-transform: scale(0.8);
+        transform: scale(0.8);
+        transition: all 0.3s ease-in-out;
+      }
+
+      .tonic--dialog .tonic--dialog--content > .tonic--close {
+        width: 25px;
+        height: 25px;
+        position: absolute;
+        top: 25px;
+        right: 25px;
+        cursor: pointer;
+      }
+
+      .tonic--dialog .tonic--close svg {
+        width: inherit;
+        height: inherit;
+      }
+    `
+  }
+
+  show () {
+    const that = this
+
+    return new Promise((resolve) => {
+      const node = this.querySelector('.tonic--dialog--wrapper')
+      node.classList.add('tonic--show')
+      node.addEventListener('transitionend', resolve, { once: true })
+
+      this._escapeHandler = e => {
+        if (e.keyCode === 27) that.hide()
+      }
+
+      document.addEventListener('keyup', that._escapeHandler)
+    })
+  }
+
+  hide () {
+    const that = this
+
+    return new Promise((resolve) => {
+      const node = this.querySelector('.tonic--dialog--wrapper')
+      node.classList.remove('tonic--show')
+      node.addEventListener('transitionend', resolve, { once: true })
+      document.removeEventListener('keyup', that._escapeHandler)
+    })
+  }
+
+  event (eventName) {
+    const that = this
+
+    return {
+      then (resolve) {
+        const listener = event => {
+          const close = Tonic.match(event.target, '.tonic--close')
+          const value = Tonic.match(event.target, '[value]')
+
+          if (close || value) {
+            that.removeEventListener(eventName, listener)
+          }
+
+          if (close) return resolve({})
+          if (value) resolve({ [event.target.value]: true })
+        }
+
+        that.addEventListener(eventName, listener)
+      }
+    }
+  }
+
+  async * wrap () {
+    const {
+      width,
+      height,
+      overlay,
+      theme,
+      color,
+      backgroundColor
+    } = this.props
+
+    this.classList.add('tonic--dialog')
+
+    const wrapper = document.createElement('div')
+
+    const isOpen = !!this.querySelector('.tonic--dialog--wrapper.tonic--show')
+    wrapper.className = isOpen ? 'tonic--dialog--wrapper tonic--show' : 'tonic--dialog--wrapper'
+
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
+
+    if (overlay !== 'false') {
+      const overlayElement = document.createElement('div')
+      overlayElement.className = 'tonic--overlay'
+      overlayElement.style.backgroundColor = backgroundColor
+      wrapper.appendChild(overlayElement)
+    }
+
+    const dialog = document.createElement('div')
+    dialog.className = 'tonic--dialog--content'
+    if (width) dialog.style.width = width
+    if (height) dialog.style.height = height
+
+    // create template
+    const closeIcon = document.createElement('div')
+    closeIcon.className = 'tonic--close'
+
+    // create SVG
+    const svgns = 'http://www.w3.org/2000/svg'
+    const xlinkns = 'http://www.w3.org/1999/xlink'
+    const svg = document.createElementNS(svgns, 'svg')
+    const use = document.createElementNS(svgns, 'use')
+
+    closeIcon.appendChild(svg)
+    svg.appendChild(use)
+
+    const iconColor = color || 'var(--tonic-primary, #333)'
+
+    use.setAttributeNS(xlinkns, 'href', '#close')
+    use.setAttributeNS(xlinkns, 'xlink:href', '#close')
+    use.setAttribute('color', iconColor)
+    use.setAttribute('fill', iconColor)
+
+    wrapper.appendChild(dialog)
+    const contentContainer = document.createElement('div')
+    contentContainer.className = 'tonic--dialog--content-container'
+    dialog.appendChild(contentContainer)
+    dialog.appendChild(closeIcon)
+
+    yield wrapper
+
+    const setContent = content => {
+      if (!content) return
+
+      if (typeof content === 'string') {
+        contentContainer.innerHTML = content
+      } else if (content.isTonicRaw) {
+        contentContainer.innerHTML = content.rawText
+      } else {
+        [...content.childNodes].forEach(el => contentContainer.appendChild(el))
+      }
+    }
+
+    if (this.wrapped instanceof Tonic.AsyncFunction) {
+      setContent(await this.wrapped() || '')
+      return wrapper
+    } else if (this.wrapped instanceof Tonic.AsyncFunctionGenerator) {
+      const itr = this.wrapped()
+      while (true) {
+        const { value, done } = await itr.next()
+        setContent(value)
+
+        if (done) {
+          return wrapper
+        }
+
+        yield wrapper
+      }
+    } else if (this.wrapped instanceof Function) {
+      setContent(this.wrapped() || '')
+      return wrapper
+    }
+
+    return wrapper
+  }
+}
+
+module.exports = { Dialog }
+
+},{"@optoolco/tonic":50}],42:[function(require,module,exports){
+const Tonic = require('@optoolco/tonic')
+
+const { html } = require('../test/util')
+const components = require('..')
+components(require('@optoolco/tonic'))
+
+const { Dialog } = require('./index')
+
+const sleep = n => new Promise(resolve => setTimeout(resolve, n))
+
+class ExampleDialog extends Dialog {
+  async click (e) {
+    return Tonic.match(e.target, 'tonic-button')
+  }
+
+  render () {
+    return `
+      <header>Dialog</header>
+      <main>
+        ${this.props.message || 'Ready'}
+      </main>
+      <footer>
+        <tonic-button class="tonic--close" id="close">Close</tonic-button>
+      </footer>
+    `
+  }
+}
+
+Tonic.add(ExampleDialog)
+
+document.body.appendChild(html`
+<section id="dialog">
+  <h2>Dialog</h2>
+
+  <div id="dialog-1" class="test-container">
+    <span>Default Dialog</span>
+    <tonic-button id="dialog-default-button">Open</tonic-button>
+    <example-dialog message="Hello!" id="dialog-default"></example-dialog>
+  </div>
+
+  <!-- <div class="test-container">
+    <span>width="150px"</span>
+    <tonic-button id="dialog-width-button">Open</tonic-button>
+    <example-dialog message="width: 150px" width="150px" id="dialog-width"></example-dialog>
+  </div>
+
+  <div class="test-container">
+    <span>width="100%"</span>
+    <tonic-button id="dialog-full-width-button">Open</tonic-button>
+    <example-dialog message="width: 100%" width="100%" id="dialog-full-width"></example-dialog>
+  </div>
+
+  <div class="test-container">
+    <span>height="700px"</span>
+    <tonic-button id="dialog-height-button">Open</tonic-button>
+    <example-dialog message="height: 700px" height="700px" id="dialog-height"></example-dialog>
+  </div>
+
+  <div class="test-container">
+    <span>height="100%"</span>
+    <tonic-button id="dialog-full-height-button">Open</tonic-button>
+    <example-dialog message="height: 100%" height="100%" id="dialog-full-height"></example-dialog>
+  </div>
+
+  <div class="test-container">
+    <span>overlay="true"</span>
+    <tonic-button id="dialog-overlay-button">Open</tonic-button>
+    <example-dialog message="overlay: true" overlay="true" id="dialog-overlay"></example-dialog>
+  </div>
+
+  <div class="test-container">
+    <span>overlay="false"</span>
+    <tonic-button id="dialog-no-overlay-button">Open</tonic-button>
+    <example-dialog message="overlay: false" overlay="false" id="dialog-no-overlay"></example-dialog>
+  </div>
+
+  <div class="test-container">
+    <span>background-color="red"</span>
+    <tonic-button id="dialog-background-button">Open</tonic-button>
+    <example-dialog message="background-color: red" background-color="red" id="dialog-background"></example-dialog>
+  </div> -->
+
+</section>
+`)
+
+//
+// Dialog Tests
+//
+const tape = require('@pre-bundled/tape')
+const { qs } = require('qs')
+
+tape('{{dialog-1}} is constructed properly, opens and closes properly', async t => {
+  const container = qs('#dialog-1')
+  const component = qs('example-dialog', container)
+  const wrapper = qs('.tonic--dialog--wrapper', component)
+  const close = qs('.tonic--close', component)
+  const isShowingInitialState = wrapper.classList.contains('tonic--show')
+
+  t.plan(7)
+
+  t.equal(isShowingInitialState, false, 'the element has no show class')
+  t.ok(wrapper, 'the component contains the wrapper')
+  t.ok(close, 'the component contains the close button')
+  t.ok(component.hasAttribute('id'), 'the component has an id')
+
+  const styles = window.getComputedStyle(wrapper)
+  t.equal(styles.position, 'fixed')
+
+  await component.show()
+
+  const isShowingAfterOpen = wrapper.classList.contains('tonic--show')
+  t.equal(isShowingAfterOpen, true, 'the element has been opened, has show class')
+
+  await sleep(128)
+  await component.hide()
+
+  const isShowing = wrapper.classList.contains('tonic--show')
+  t.equal(isShowing, false, 'the element has been closed, has no show class')
+
+  t.end()
+})
+
+},{"..":46,"../test/util":113,"./index":41,"@optoolco/tonic":50,"@pre-bundled/tape":52,"qs":92}],43:[function(require,module,exports){
+const Tonic = require('@optoolco/tonic')
+
+class TonicForm extends Tonic {
+  static isNumber (s) {
+    return !isNaN(Number(s))
+  }
+
+  static getPropertyValue (o, path) {
+    if (!path) return null
+
+    const parts = path.split('.')
+    let value = o
+
+    for (const p of parts) {
+      if (!value) return null
+      value = value[p]
+    }
+
+    return value
+  }
+
+  static setPropertyValue (o, path, v) {
+    if (!path) return
+
+    const parts = path.split('.')
+    let value = o
+
+    const last = parts.pop()
+    if (!last) return
+
+    for (let i = 0; i < parts.length; i++) {
+      const p = parts[i]
+      const next = parts[i + 1] || last
+
+      if (!value[p]) {
+        value[p] = TonicForm.isNumber(next) ? [] : {}
+      }
+
+      value = value[p]
+    }
+
+    value[last] = v
+    return o
+  }
+
+  setData (data) {
+    this.value = data
+  }
+
+  getData () {
+    return this.value
+  }
+
+  getElements () {
+    return [...this.querySelectorAll('[data-key]')]
+  }
+
+  get value () {
+    const elements = this.getElements()
+    const data = {}
+
+    for (const element of elements) {
+      TonicForm.setPropertyValue(data, element.dataset.key, element.value)
+    }
+
+    return data
+  }
+
+  set value (data) {
+    if (typeof data !== 'object') return
+
+    const elements = this.getElements()
+
+    for (const element of elements) {
+      const value = TonicForm.getPropertyValue(data, element.dataset.key)
+      if (!value) continue
+
+      element.value = value
+    }
+  }
+
+  render () {
+    return this.html`
+      ${this.childNodes}
+    `
+  }
+}
+
+module.exports = { TonicForm }
+
+},{"@optoolco/tonic":50}],44:[function(require,module,exports){
+const Tonic = require('@optoolco/tonic')
+
+class TonicIcon extends Tonic {
+  defaults () {
+    return {
+      size: '25px',
+      fill: 'var(--tonic-primary, #333)'
+    }
+  }
+
+  static stylesheet () {
+    return `
+      tonic-icon svg path {
+        fill: inherit;
+      }
+    `
+  }
+
+  styles () {
+    const {
+      size
+    } = this.props
+
+    return {
+      icon: {
+        width: size,
+        height: size
+      }
+    }
+  }
+
+  render () {
+    const {
+      symbolId,
+      size,
+      fill,
+      theme,
+      src,
+      tabindex
+    } = this.props
+
+    if (tabindex) this.removeAttribute('tabindex')
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
+
+    return this.html`
+      <svg ... ${{
+        styles: 'icon',
+        tabindex
+      }}>
+        <use ... ${{
+          href: `${src || ''}#${symbolId}`,
+          'xlink:href': `${src || ''}#${symbolId}`,
+          width: size,
+          fill,
+          color: fill,
+          height: size
+        }}>
+      </svg>
+    `
+  }
+}
+
+module.exports = { TonicIcon }
+
+},{"@optoolco/tonic":50}],45:[function(require,module,exports){
+const tape = require('@pre-bundled/tape')
+const { qs } = require('qs')
+
+const { html } = require('../test/util')
+const components = require('..')
+components(require('@optoolco/tonic'))
+
+document.body.appendChild(html`
+<section id="icon">
+  <h2>Icon</h2>
+
+  <div id="icon-1" class="test-container">
+    <span>Default Icon</span>
+    <tonic-icon
+      tabindex="0"
+      symbol-id="example"
+      src="/sprite.svg">
+    </tonic-icon>
+  </div>
+
+  <div id="icon-2" class="test-container">
+    <span>size="40px"</span>
+    <tonic-icon
+      symbol-id="example"
+      src="/sprite.svg"
+      size="40px">
+    </tonic-icon>
+  </div>
+
+  <div id="icon-3" class="test-container">
+    <span>fill="cyan"</span>
+    <tonic-icon
+      symbol-id="example"
+      src="/sprite.svg"
+      fill="cyan">
+    </tonic-icon>
+  </div>
+
+  <div id="icon-4" class="test-container">
+    <span>symbol-id="custom_off"</span>
+    <tonic-icon
+      symbol-id="custom_off"
+      src="/sprite.svg">
+    </tonic-icon>
+  </div>
+
+  <div id="icon-5" class="test-container">
+    <span>tabindex="0"</span>
+    <tonic-icon
+      tabindex="0"
+      symbol-id="example"
+      src="/sprite.svg">
+    </tonic-icon>
+  </div>
+
+</section>
+`)
+
+tape('{{icon-1}} is constructed properly', t => {
+  const container = qs('#icon-1')
+  const component = qs('tonic-icon', container)
+
+  t.plan(3)
+
+  t.ok(component.firstElementChild, 'the component was constructed')
+  t.ok(component.hasAttribute('src'), 'the component has a src')
+  t.ok(component.hasAttribute('symbol-id'), 'the component has a symbol id')
+
+  t.end()
+})
+
+tape('{{icon-2}} has size attribute', t => {
+  const container = qs('#icon-2')
+  const component = qs('tonic-icon', container)
+  const svg = qs('svg', component)
+  const use = qs('use', component)
+
+  t.plan(6)
+
+  t.ok(component.firstElementChild, 'the component was constructed')
+  t.ok(component.hasAttribute('size'), 'the component has the size attribute')
+  t.equal(component.getAttribute('size'), svg.style.width, 'the size attribute matches svg width')
+  t.equal(component.getAttribute('size'), svg.style.height, 'the size attribute matches svg height')
+
+  t.equal(use.getAttribute('width'), component.getAttribute('size'))
+  t.equal(use.getAttribute('height'), component.getAttribute('size'))
+
+  t.end()
+})
+
+tape('{{icon-3}} has color attribute', t => {
+  const container = qs('#icon-3')
+  const component = qs('tonic-icon', container)
+  const use = qs('use', component)
+
+  t.plan(3)
+
+  t.ok(component.firstElementChild, 'the component was constructed')
+  t.equal(component.getAttribute('fill'), use.getAttribute('fill'), 'the fill attribute on the component matches use')
+  t.equal(use.getAttribute('fill'), use.getAttribute('color'), 'use has matching fill and color attributes')
+
+  t.end()
+})
+
+tape('{{icon-4}} uses custom symbol', t => {
+  const container = qs('#icon-4')
+  const component = qs('tonic-icon', container)
+  const svg = qs('svg', component)
+  const id = component.getAttribute('symbol-id')
+  const src = component.getAttribute('src')
+  const use = qs('use', component)
+  const url = `${src}#${id}`
+
+  t.plan(5)
+
+  t.ok(svg, 'the component was constructed with an svg')
+  t.ok(id, 'the component has symbol id')
+  t.ok(src, 'the component has src')
+  t.equal(use.getAttribute('href'), url, 'the href attribute contains the correct url')
+  t.equal(use.getAttribute('xlink:href'), url)
+
+  t.end()
+})
+
+tape('{{icon-5}} has tabindex attribute', t => {
+  const container = qs('#icon-5')
+  const component = qs('tonic-icon', container)
+  const id = component.getAttribute('symbol-id')
+  const svg = qs('svg', component)
+
+  t.plan(4)
+
+  t.ok(svg, 'the component was constructed with an svg')
+  t.ok(id, 'the component has symbol id')
+  t.equal(component.hasAttribute('tabindex'), false, 'component does not have tabindex attribute')
+  t.equal(svg.hasAttribute('tabindex'), true, 'svg has tabindex attribute')
+
+  t.end()
+})
+
+},{"..":46,"../test/util":113,"@optoolco/tonic":50,"@pre-bundled/tape":52,"qs":92}],46:[function(require,module,exports){
+let Tonic
+try {
+  Tonic = require('@optoolco/tonic')
+} catch (err) {
+  console.error('Missing dependency. Try `npm install @optoolco/tonic`.')
+  throw err
+}
+
+const version = Tonic.version
+const major = version ? version.split('.')[0] : '0'
+if (parseInt(major, 10) < 11) {
+  console.error('Out of data dependency. Try `npm install @optoolco/tonic@11`.')
+  throw new Error('Invalid Tonic version. requires at least v11')
+}
+
+const mode = require('./mode')
+
+const { TonicAccordion, TonicAccordionSection } = require('./accordion')
+const { TonicBadge } = require('./badge')
+const { TonicButton } = require('./button')
+const { TonicChart } = require('./chart')
+const { TonicCheckbox } = require('./checkbox')
+const { TonicForm } = require('./form')
+const { TonicIcon } = require('./icon')
+const { TonicInput } = require('./input')
+const { TonicPopover } = require('./popover')
+const { TonicProfileImage } = require('./profile-image')
+const { TonicProgressBar } = require('./progress-bar')
+const { TonicRange } = require('./range')
+const { TonicRelativeTime } = require('./relative-time')
+const { TonicRouter } = require('./router')
+const { TonicSelect } = require('./select')
+const { TonicSprite } = require('./sprite')
+const { TonicTabs, TonicTabPanel } = require('./tabs')
+const { TonicTextarea } = require('./textarea')
+const { TonicTooltip } = require('./tooltip')
+const { TonicToasterInline } = require('./toaster-inline')
+const { TonicToaster } = require('./toaster')
+const { TonicToggle } = require('./toggle')
+
+//
+// An example collection of components.
+//
+module.exports = components
+// For supporting unpkg / dist / jsfiddle.
+components.Tonic = Tonic
+
+function components (Tonic, opts) {
+  if (opts && opts.strict === true) {
+    mode.strict = true
+  }
+
+  Tonic.add(TonicAccordion)
+  Tonic.add(TonicAccordionSection)
+  Tonic.add(TonicBadge)
+  Tonic.add(TonicButton)
+  Tonic.add(TonicChart)
+  Tonic.add(TonicCheckbox)
+  Tonic.add(TonicForm)
+  Tonic.add(TonicInput)
+  Tonic.add(TonicIcon)
+  Tonic.add(TonicPopover)
+  Tonic.add(TonicProfileImage)
+  Tonic.add(TonicProgressBar)
+  Tonic.add(TonicRange)
+  Tonic.add(TonicRelativeTime)
+  Tonic.add(TonicRouter)
+  Tonic.add(TonicSelect)
+  Tonic.add(TonicSprite)
+  Tonic.add(TonicTabs)
+  Tonic.add(TonicTabPanel)
+  Tonic.add(TonicTextarea)
+  Tonic.add(TonicTooltip)
+  Tonic.add(TonicToasterInline)
+  Tonic.add(TonicToaster)
+  Tonic.add(TonicToggle)
+}
+
+},{"./accordion":32,"./badge":33,"./button":35,"./chart":37,"./checkbox":39,"./form":43,"./icon":44,"./input":47,"./mode":49,"./popover":95,"./profile-image":97,"./progress-bar":99,"./range":101,"./relative-time":103,"./router":104,"./select":106,"./sprite":108,"./tabs":109,"./textarea":114,"./toaster":118,"./toaster-inline":116,"./toggle":120,"./tooltip":122,"@optoolco/tonic":50}],47:[function(require,module,exports){
+const Tonic = require('@optoolco/tonic')
+
+const mode = require('../mode')
+
+class TonicInput extends Tonic {
+  defaults () {
+    return {
+      type: 'text',
+      value: '',
+      placeholder: '',
+      color: 'var(--tonic-primary)',
+      spellcheck: false,
+      ariaInvalid: false,
+      invalid: false,
+      radius: '3px',
+      disabled: false,
+      position: 'left'
+    }
+  }
+
+  get form () {
+    return this.querySelector('input').form
+  }
+
+  get value () {
+    return this.state.value || this.props.value
+  }
+
+  set value (value) {
+    this.querySelector('input').value = value
+    this.state.value = value
+  }
+
+  setValid () {
+    this.reRender(props => Object.assign({}, props, {
+      invalid: false
+    }))
+  }
+
+  setInvalid (msg) {
+    this.reRender(props => Object.assign({}, props, {
+      invalid: true,
+      errorMessage: msg
+    }))
+  }
+
+  static stylesheet () {
+    return `
+      tonic-input .tonic--wrapper {
+        position: relative;
+      }
+
+      tonic-input[src] .tonic--right tonic-icon {
+        right: 10px;
+      }
+
+      tonic-input[src] .tonic--right input {
+        padding-right: 40px;
+      }
+
+      tonic-input[src] .tonic--left tonic-icon {
+        left: 10px;
+      }
+
+      tonic-input[src] .tonic--left input {
+        padding-left: 40px;
+      }
+
+      tonic-input[src] tonic-icon {
+        position: absolute;
+        bottom: 7px;
+      }
+
+      tonic-input label {
+        color: var(--tonic-medium, #999);
+        font-weight: 500;
+        font: 12px/14px var(--tonic-subheader, 'Arial', sans-serif);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding-bottom: 10px;
+        display: block;
+      }
+
+      tonic-input input {
+        color: var(--tonic-primary, #333);
+        font: 14px var(--tonic-monospace, 'Andale Mono', monospace);
+        padding: 10px;
+        background-color: transparent;
+        border: 1px solid var(--tonic-border, #ccc);
+        transition: border 0.2s ease-in-out;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+      }
+
+      tonic-input input:invalid {
+        border-color: var(--tonic-error, #f66);
+      }
+
+      tonic-input input:invalid:focus {
+        border-color: var(--tonic-error, #f66);
+      }
+
+      tonic-input input:invalid ~ .tonic--invalid {
+        transform: translateY(0);
+        visibility: visible;
+        opacity: 1;
+        transition: opacity 0.2s ease, transform 0.2s ease, visibility 1s ease 0s;
+      }
+
+      tonic-input input:focus {
+        border-color: var(--tonic-primary, #333);
+      }
+
+      tonic-input input[disabled] {
+        background-color: var(--tonic-background, #fff);
+      }
+
+      tonic-input[label] .tonic--invalid {
+        margin-bottom: -13px;
+      }
+
+      tonic-input .tonic--invalid {
+        font-size: 14px;
+        text-align: center;
+        margin-bottom: 13px;
+        position: absolute;
+        bottom: 100%;
+        left: 0;
+        right: 0;
+        transform: translateY(-10px);
+        transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s ease 1s;
+        visibility: hidden;
+        opacity: 0;
+      }
+
+      tonic-input .tonic--invalid span {
+        color: white;
+        padding: 2px 6px;
+        background-color: var(--tonic-error, #f66);
+        border-radius: 2px;
+        position: relative;
+        display: inline-block;
+        margin: 0 auto;
+      }
+
+      tonic-input .tonic--invalid span:after {
+        content: '';
+        width: 0;
+        height: 0;
+        display: block;
+        position: absolute;
+        bottom: -6px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-top: 6px solid var(--tonic-error, #f66);
+      }
+    `
+  }
+
+  renderLabel () {
+    if (!this.props.label) return ''
+    return this.html`
+      <label
+        for="tonic--input_${this.props.id}"
+      >${Tonic.raw(this.props.label)}</label>
+    `
+  }
+
+  renderIcon () {
+    if (!this.props.src) return ''
+
+    return this.html`
+      <tonic-icon
+        src="${this.props.src}"
+        color="${this.props.color}">
+      </tonic-icon>
+    `
+  }
+
+  setupEvents () {
+    const input = this.querySelector('input')
+
+    const set = (k, v, event) => {
+      this.setState(state => Object.assign({}, state, { [k]: v }))
+    }
+
+    const relay = name => {
+      this.dispatchEvent(new window.CustomEvent(name, { bubbles: true }))
+    }
+
+    input.addEventListener('focus', e => {
+      set('focus', true)
+      relay('focus')
+    })
+
+    input.addEventListener('blur', e => {
+      set('focus', false)
+      relay('blur')
+    })
+
+    input.addEventListener('input', e => {
+      set('value', e.target.value)
+      set('pos', e.target.selectionStart)
+    })
+
+    const state = this.getState()
+    if (!state.focus) return
+
+    input.focus()
+
+    try {
+      input.setSelectionRange(state.pos, state.pos)
+    } catch (err) {
+      console.warn(err)
+    }
+  }
+
+  updated () {
+    const input = this.querySelector('input')
+
+    setTimeout(() => {
+      if (this.props.invalid) {
+        input.setCustomValidity(this.props.errorMessage)
+      } else {
+        input.setCustomValidity('')
+      }
+    }, 32)
+
+    this.setupEvents()
+  }
+
+  connected () {
+    this.updated()
+  }
+
+  styles () {
+    const {
+      width,
+      height,
+      radius,
+      padding
+    } = this.props
+
+    return {
+      wrapper: {
+        width
+      },
+      input: {
+        width: '100%',
+        height,
+        borderRadius: radius,
+        padding
+      }
+    }
+  }
+
+  render () {
+    if (mode.strict && !this.props.id) {
+      console.warn('In tonic the "id" attribute is used to persist state')
+      console.warn('You forgot to supply the "id" attribute.')
+      console.warn('')
+      console.warn('For element : ')
+      console.warn(`${this.outerHTML}`)
+      throw new Error('id attribute is mandatory on tonic-input')
+    }
+
+    const {
+      ariaInvalid,
+      ariaLabelledby,
+      disabled,
+      height,
+      label,
+      max,
+      maxlength,
+      min,
+      minlength,
+      name,
+      pattern,
+      placeholder,
+      position,
+      readonly,
+      required,
+      spellcheck,
+      tabindex,
+      theme,
+      title,
+      type
+    } = this.props
+
+    if (ariaLabelledby) this.removeAttribute('ariaLabelledby')
+    if (height) this.style.width = height
+    if (name) this.removeAttribute('name')
+    if (tabindex) this.removeAttribute('tabindex')
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
+
+    const value = typeof this.state.value === 'string'
+      ? this.state.value : this.props.value
+
+    const errorMessage = this.props.errorMessage ||
+      this.props.errormessage || 'Invalid'
+
+    const classes = ['tonic--wrapper']
+    if (position) classes.push(`tonic--${position}`)
+
+    const attributes = {
+      ariaInvalid,
+      ariaLabel: label,
+      'aria-labelledby': ariaLabelledby,
+      disabled: disabled === 'true',
+      max,
+      maxlength,
+      min,
+      minlength,
+      name,
+      pattern,
+      placeholder,
+      position,
+      readonly: readonly === 'true',
+      required: required === 'true',
+      spellcheck,
+      tabindex,
+      title,
+      value
+    }
+
+    return this.html`
+      <div class="${classes.join(' ')}" styles="wrapper">
+        ${this.renderLabel()}
+        ${this.renderIcon()}
+
+        <input ... ${{
+          styles: 'input',
+          type,
+          id: `tonic--input_${this.props.id}`,
+          ...attributes
+        }}/>
+        <div class="tonic--invalid">
+          <span id="tonic--error-${this.props.id}">${errorMessage}</span>
+        </div>
+      </div>
+    `
+  }
+}
+
+module.exports = { TonicInput }
+
+},{"../mode":49,"@optoolco/tonic":50}],48:[function(require,module,exports){
+const tape = require('@pre-bundled/tape')
+const { qs } = require('qs')
+
+const { html } = require('../test/util')
+const components = require('..')
+const Tonic = require('@optoolco/tonic')
+components(Tonic)
+
+const requestAnimationFrame = window.requestAnimationFrame
+
+class InputWrapper extends Tonic {
+  constructor (o) {
+    super(o)
+
+    this.state = {
+      copyValue: '',
+      currentValue: '',
+      inputEvents: 0,
+      ...this.state
+    }
+  }
+
+  input () {
+    console.log('input ev')
+    this.state.inputEvents++
+
+    const input = this.querySelector('tonic-input')
+    this.state.currentValue = input.value
+  }
+
+  click (ev) {
+    console.log('click ev')
+    const el = Tonic.match(ev.target, '[data-event]')
+    if (!el || el.dataset.event !== 'copy') return
+
+    this.state.copyValue = this.state.currentValue
+    this.reRender()
+  }
+
+  render () {
+    console.log('render()', JSON.stringify(this.state))
+    return this.html`
+      <div>
+        <tonic-input id='tonic-input-wrapped'>
+        </tonic-input>
+        <tonic-button data-event='copy'>Copy</tonic-button>
+        <span class='display'>${this.state.copyValue}</span>
+      </div>
+    `
+  }
+}
+Tonic.add(InputWrapper, 'input-test-wrapper-comp')
+
+document.body.appendChild(html`
+<section id="input">
+  <h2>Input</h2>
+
+  <div class="test-container">
+    <span>Default Input</span>
+    <tonic-input id="input-1">
+    </tonic-input>
+  </div>
+
+  <div class="test-container">
+    <span>value="I'm a value"</span>
+    <tonic-input
+      id="input-2"
+      value="I'm a value">
+    </tonic-input>
+  </div>
+
+  <div class="test-container">
+    <span>type="email"</span>
+    <tonic-input
+      id="input-3"
+      type="email">
+    </tonic-input>
+  </div>
+
+  <div class="test-container">
+    <span>required="true"</span>
+    <tonic-input
+      id="input-4"
+      required="true">
+    </tonic-input>
+  </div>
+
+  <div class="test-container">
+    <span>disabled="true"</span>
+    <tonic-input
+     id="input-5"
+     disabled="true">
+   </tonic-input>
+  </div>
+
+  <div class="test-container">
+    <span>spellcheck="false"</span>
+    <tonic-input
+      id="input-6"
+      spellcheck="false">
+    </tonic-input>
+  </div>
+
+  <div class="test-container">
+    <span>error-message="nope"</span>
+    <tonic-input
+      id="input-7"
+      value="test"
+      type="email"
+      error-message="nope">
+    </tonic-input>
+  </div>
+
+  <div class="test-container">
+    <span>placeholder="test"</span>
+    <tonic-input
+      id="input-8"
+      placeholder="test">
+    </tonic-input>
+  </div>
+
+  <div class="test-container">
+    <span>label="Label"</span>
+    <tonic-input
+      id="input-9"
+      label="Label">
+    </tonic-input>
+  </div>
+
+  <div class="test-container">
+    <span>tabindex="0"</span>
+    <tonic-input
+      id="input-10"
+      tabindex="0">
+    </tonic-input>
+  </div>
+
+  <div class="test-container">
+    <span>readonly="true"</span>
+    <tonic-input
+      id="input-11"
+      readonly="true">
+    </tonic-input>
+  </div>
+
+  <div class="test-container">
+    <span>Test Wrapper Comp</span>
+    <input-test-wrapper-comp></input-test-wrapper-comp>
+  </div>
+
+  <!-- <div class="test-container">
+    <span>src="somePath"</span>
+    <tonic-input src="./sprite.svg#custom_off"></tonic-input>
+  </div> -->
+
+  <!-- <div class="test-container">
+    <span>position="left"</span>
+    <tonic-input position="left" src="./sprite.svg#custom_off"></tonic-input>
+  </div> -->
+
+  <!-- <div class="test-container">
+    <span>position="right"</span>
+    <tonic-input position="right" src="./sprite.svg#custom_off"></tonic-input>
+  </div> -->
+
+  <!-- <div class="test-container">
+    <span>pattern="[A-Za-z\s]+"</span>
+    <tonic-input pattern="[A-Za-z\s]+"></tonic-input>
+  </div> -->
+
+
+  <!-- <div id="input-11" class="test-container">
+    <span>minlength="5"</span>
+    <tonic-input minlength="5"></tonic-input>
+  </div>
+
+  <div class="test-container">
+    <span>maxlength="10"</span>
+    <tonic-input maxlength="10"></tonic-input>
+  </div>
+
+  <div class="test-container">
+    <span>type="number", min="5"</span>
+    <tonic-input type="number" min="5"></tonic-input>
+  </div>
+
+  <div class="test-container">
+    <span>type="number", max="10"</span>
+    <tonic-input type="number" max="10"></tonic-input>
+  </div>
+
+  <div class="test-container">
+    <span>width="60px"</span>
+    <tonic-input width="60px"></tonic-input>
+  </div>
+
+  <div class="test-container">
+    <span>width="100%"</span>
+    <tonic-input width="100%"></tonic-input>
+  </div>
+
+  <div class="test-container">
+    <span>radius="8px"</span>
+    <tonic-input radius="8px"></tonic-input>
+  </div> -->
+
+</section>
+`)
+
+tape('{{input-1}} default state is constructed', t => {
+  const component = qs('tonic-input#input-1')
+  const wrapper = qs('.tonic--wrapper', component)
+  const input = qs('input', wrapper)
+  const invalid = qs('.tonic--invalid', wrapper)
+
+  t.plan(4)
+
+  t.ok(wrapper, 'the component was constructed, has a wrapper')
+  t.ok(input, 'the component contains an input')
+  t.ok(invalid, 'the component contains a tonic invalid div')
+  t.ok(!input.hasAttribute('disabled'), 'the input is not disabled by default')
+
+  t.end()
+})
+
+tape('{{input-2}} contains a default value', t => {
+  const component = qs('tonic-input#input-2')
+  const input = qs('input', component)
+  const value = component.getAttribute('value')
+
+  t.plan(2)
+
+  t.equal(value, input.getAttribute('value'), 'component input value attributes match')
+  t.equal(value, input.value, 'component value attribute matches input value')
+
+  t.end()
+})
+
+tape('{{input-3}} contains a type', t => {
+  const component = qs('tonic-input#input-3')
+  const input = qs('input', component)
+
+  t.plan(3)
+
+  t.ok(input, 'the component was constructed with an input')
+  t.ok(component.hasAttribute('type'), 'component input value attributes match')
+  t.equal(component.getAttribute('type'), input.type, 'component type matches input type')
+
+  t.end()
+})
+
+tape('{{input-4}} is required', t => {
+  const component = qs('tonic-input#input-4')
+  const input = qs('input', component)
+
+  t.plan(4)
+
+  t.ok(input, 'the component was constructed with an input')
+  t.equal(component.getAttribute('required'), 'true', 'component contains required attribute')
+  t.equal(input.required, true, 'input is required')
+
+  const styles = window.getComputedStyle(input)
+  t.equal(styles.borderColor, 'rgb(255, 102, 102)')
+
+  t.end()
+})
+
+tape('{{input-5}} is disabled', t => {
+  const component = qs('tonic-input#input-5')
+  const input = qs('input', component)
+
+  t.plan(3)
+
+  t.ok(input, 'the component was constructed with an input')
+  t.equal(component.getAttribute('disabled'), 'true', 'component contains disabled="true" attribute')
+  t.ok(input.hasAttribute('disabled'), 'input has disabled attribute')
+
+  t.end()
+})
+
+tape('{{input-6}} has spellcheck attribute', t => {
+  const component = qs('tonic-input#input-6')
+  const input = qs('input', component)
+
+  t.plan(3)
+
+  t.ok(input, 'the component was constructed with an input')
+  t.ok(component.hasAttribute('spellcheck'), 'component contains spellcheck attribute')
+  t.equal(component.getAttribute('spellcheck'), input.getAttribute('spellcheck'), 'component spellcheck attr matches input')
+
+  t.end()
+})
+
+tape('{{input-7}} shows error message', t => {
+  const component = qs('tonic-input#input-7')
+  const input = qs('input', component)
+  const error = qs('.tonic--invalid', component)
+  const errorMessage = qs('span', error)
+
+  t.plan(4)
+
+  t.ok(input, 'the component was constructed with an input')
+  t.ok(error, 'the component was constructed with an error')
+  t.equal(component.getAttribute('error-message'), errorMessage.textContent, 'attribute matches error text')
+  t.ok(qs('input:invalid', component), 'input is invalid, error is showing')
+
+  t.end()
+})
+
+tape('{{input-8}} has placeholder', t => {
+  const component = qs('tonic-input#input-8')
+  const input = qs('input', component)
+
+  t.plan(2)
+
+  t.ok(input, 'the component was constructed with an input')
+  t.equal(component.getAttribute('placeholder'), input.getAttribute('placeholder'), 'component and input placeholder attributes match')
+
+  t.end()
+})
+
+tape('{{input-9}} has label', t => {
+  const component = qs('tonic-input#input-9')
+  const input = qs('input', component)
+  const label = qs('label:not(.tonic--icon)', component)
+
+  t.plan(3)
+
+  t.ok(input, 'the component was constructed with an input')
+  t.ok(label, 'the component was constructed with a label')
+  t.equal(component.getAttribute('label'), label.textContent, 'component label attribute matches text of label')
+
+  t.end()
+})
+
+tape('{{input-10}} has tabindex', t => {
+  const component = qs('tonic-input#input-10')
+  const input = qs('input', component)
+
+  t.plan(3)
+
+  t.ok(input, 'the component was constructed with an input')
+  t.equal(component.hasAttribute('tabindex'), false, 'component does not have a tabindex')
+  t.equal(input.hasAttribute('tabindex'), true, 'input has a tabindex')
+
+  t.end()
+})
+
+tape('{{input-11}} has readonly attribute', t => {
+  const component = qs('tonic-input#input-11')
+  const input = qs('input', component)
+
+  t.plan(3)
+
+  t.ok(input, 'the component was constructed with an input')
+  t.equal(component.hasAttribute('readonly'), true, 'component has a readonly="true" attribute')
+  t.ok(input.hasAttribute('readonly'), 'input has a readonly attribute')
+
+  t.end()
+})
+
+tape('{{input-1}} event handlers', t => {
+  const component = qs('tonic-input#input-1')
+  const input = qs('input', component)
+
+  let counter = 0
+
+  component.addEventListener('input', (ev) => {
+    t.equal(++counter, 1)
+    t.equal(ev.currentTarget.value, 'someText')
+
+    t.end()
+  })
+
+  input.value = 'someText'
+  input.dispatchEvent(new window.Event('input', {
+    bubbles: true
+  }))
+})
+
+tape('input wrapper component interactions', t => {
+  const comp = qs('input-test-wrapper-comp')
+
+  let display = comp.querySelector('span.display')
+  t.equal(display.textContent, '')
+
+  const rawInputs = comp.querySelectorAll('input')
+  t.equal(rawInputs.length, 1)
+
+  const input = rawInputs[0]
+  input.value = 'someText'
+  input.dispatchEvent(new window.Event('input', {
+    bubbles: true
+  }))
+
+  const buttons = comp.querySelectorAll('button')
+  t.equal(buttons.length, 1)
+
+  buttons[0].click()
+
+  requestAnimationFrame(() => {
+    display = comp.querySelector('span.display')
+    t.equal(display.textContent, 'someText')
+    t.equal(comp.state.inputEvents, 1)
+
+    t.end()
+  })
+})
+
+},{"..":46,"../test/util":113,"@optoolco/tonic":50,"@pre-bundled/tape":52,"qs":92}],49:[function(require,module,exports){
+module.exports = { strict: false }
+
+},{}],50:[function(require,module,exports){
+class TonicRaw {
+  constructor (rawText) {
+    this.isTonicRaw = true
+    this.rawText = rawText
+  }
+
+  valueOf () { return this.rawText }
+  toString () { return this.rawText }
+}
+
+class Tonic extends window.HTMLElement {
+  constructor () {
+    super()
+    const state = Tonic._states[this.id]
+    delete Tonic._states[this.id]
+    this.isTonicComponent = true
+    this.state = state || {}
+    this.props = {}
+    this.elements = [...this.children]
+    this.elements.__children__ = true
+    this.nodes = [...this.childNodes]
+    this.nodes.__children__ = true
+    this._events()
+  }
+
+  static _createId () {
+    return `tonic${Tonic._index++}`
+  }
+
+  static _maybePromise (p) {
+    if (p && typeof p.then === 'function' && typeof p.catch === 'function') {
+      p.catch(err => setTimeout(() => { throw err }, 0))
+    }
+  }
+
+  static _splitName (s) {
+    return s.match(/[A-Z][a-z]*/g).join('-')
+  }
+
+  static _normalizeAttrs (o, x = {}) {
+    [...o].forEach(o => (x[o.name] = o.value))
+    return x
+  }
+
+  _events () {
+    const hp = Object.getOwnPropertyNames(window.HTMLElement.prototype)
+    for (const p of this._props) {
+      if (hp.indexOf('on' + p) === -1) continue
+      this.addEventListener(p, this)
+    }
+  }
+
+  _prop (o) {
+    const id = this._id
+    const p = `__${id}__${Tonic._createId()}__`
+    Tonic._data[id] = Tonic._data[id] || {}
+    Tonic._data[id][p] = o
+    return p
+  }
+
+  _placehold (r) {
+    const id = this._id
+    const ref = `placehold:${id}:${Tonic._createId()}__`
+    Tonic._children[id] = Tonic._children[id] || {}
+    Tonic._children[id][ref] = r
+    return ref
+  }
+
+  static match (el, s) {
+    if (!el.matches) el = el.parentElement
+    return el.matches(s) ? el : el.closest(s)
+  }
+
+  static getPropertyNames (proto) {
+    const props = []
+    while (proto && proto !== Tonic.prototype) {
+      props.push(...Object.getOwnPropertyNames(proto))
+      proto = Object.getPrototypeOf(proto)
+    }
+    return props
+  }
+
+  static add (c, htmlName) {
+    c.prototype._props = Tonic.getPropertyNames(c.prototype)
+
+    const hasValidName = htmlName || (c.name && c.name.length > 1)
+    if (!hasValidName) {
+      throw Error('Mangling. https://bit.ly/2TkJ6zP')
+    }
+
+    if (!htmlName) htmlName = Tonic._splitName(c.name).toLowerCase()
+    if (window.customElements.get(htmlName)) return
+
+    Tonic._reg[htmlName] = c
+    Tonic._tags = Object.keys(Tonic._reg).join()
+    window.customElements.define(htmlName, c)
+
+    if (c.stylesheet) {
+      const styleNode = document.createElement('style')
+      styleNode.appendChild(document.createTextNode(c.stylesheet()))
+      if (document.head) document.head.appendChild(styleNode)
+    }
+  }
+
+  static escape (s) {
+    return s.replace(Tonic.ESC, c => Tonic.MAP[c])
+  }
+
+  static raw (s) {
+    return new TonicRaw(s)
+  }
+
+  html ([s, ...strings], ...values) {
+    const refs = o => {
+      if (o && o.__children__) return this._placehold(o)
+      if (o && o.isTonicRaw) return o.rawText
+      switch (Object.prototype.toString.call(o)) {
+        case '[object HTMLCollection]':
+        case '[object NodeList]': return this._placehold([...o])
+        case '[object Array]':
+        case '[object Object]':
+        case '[object Function]': return this._prop(o)
+        case '[object NamedNodeMap]':
+          return this._prop(Tonic._normalizeAttrs(o))
+        case '[object Number]': return `${o}__float`
+        case '[object String]': return Tonic.escape(o)
+        case '[object Boolean]': return `${o}__boolean`
+        case '[object Null]': return `${o}__null`
+        case '[object HTMLElement]':
+          return this._placehold([o])
+      }
+      if (
+        typeof o === 'object' && o && o.nodeType === 1 &&
+        typeof o.cloneNode === 'function'
+      ) {
+        return this._placehold([o])
+      }
+      return o
+    }
+
+    const reduce = (a, b) => a.concat(b, strings.shift())
+    const str = values.map(refs).reduce(reduce, [s]).join('')
+    return Tonic.raw(str)
+  }
+
+  setState (o) {
+    this.state = typeof o === 'function' ? o(this.state) : o
+  }
+
+  getState () {
+    return this.state
+  }
+
+  scheduleReRender (oldProps) {
+    if (this.pendingReRender) return this.pendingReRender
+
+    this.pendingReRender = new Promise(resolve => {
+      window.requestAnimationFrame(() => {
+        Tonic._maybePromise(this._set(this.root, this.render))
+        this.pendingReRender = null
+
+        if (this.updated) this.updated(oldProps)
+        resolve()
+      })
+    })
+
+    return this.pendingReRender
+  }
+
+  reRender (o = this.props) {
+    const oldProps = { ...this.props }
+    this.props = typeof o === 'function' ? o(oldProps) : o
+    return this.scheduleReRender(oldProps)
+  }
+
+  getProps () {
+    return this.props
+  }
+
+  handleEvent (e) {
+    Tonic._maybePromise(this[e.type](e))
+  }
+
+  async _set (target, render, content = '') {
+    window.promiseCounter++
+    for (const node of target.querySelectorAll(Tonic._tags)) {
+      if (!node.isTonicComponent) continue
+      if (!node.id || !Tonic._refIds.includes(node.id)) continue
+      Tonic._states[node.id] = node.getState()
+    }
+
+    if (render instanceof Tonic.AsyncFunction) {
+      content = await render.call(this) || ''
+    } else if (render instanceof Tonic.AsyncFunctionGenerator) {
+      const itr = render.call(this)
+      while (true) {
+        const { value, done } = await itr.next()
+        this._set(target, null, value)
+        if (done) break
+      }
+      return
+    } else if (render instanceof Function) {
+      content = render.call(this) || ''
+    }
+
+    if (content && content.isTonicRaw) {
+      content = content.rawText
+    }
+
+    if (typeof content === 'string') {
+      content = content.replace(Tonic.SPREAD, (_, p) => {
+        const o = Tonic._data[p.split('__')[1]][p]
+        return Object.entries(o).map(([key, value]) => {
+          const k = key.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
+          if (value === true) return k
+          else if (value) return `${k}="${Tonic.escape(String(value))}"`
+          else return ''
+        }).filter(Boolean).join(' ')
+      })
+
+      if (this.stylesheet) {
+        content = `<style>${this.stylesheet()}</style>${content}`
+      }
+
+      target.innerHTML = content
+
+      if (this.styles) {
+        const styles = this.styles()
+        for (const node of target.querySelectorAll('[styles]')) {
+          for (const s of node.getAttribute('styles').split(/\s+/)) {
+            Object.assign(node.style, styles[s.trim()])
+          }
+        }
+      }
+
+      const children = Tonic._children[this._id] || {}
+
+      const walk = (node, fn) => {
+        if (node.nodeType === 3) {
+          const id = node.textContent.trim()
+          if (children[id]) fn(node, children[id])
+        }
+
+        const childNodes = node.childNodes
+        if (!childNodes) return
+
+        for (let i = 0; i < childNodes.length; i++) {
+          walk(childNodes[i], fn)
+        }
+      }
+
+      walk(target, (node, children) => {
+        for (const child of children) {
+          node.parentNode.insertBefore(child, node)
+        }
+        delete Tonic._children[this._id][node.id]
+        node.parentNode.removeChild(node)
+      })
+    } else {
+      target.innerHTML = ''
+      target.appendChild(content.cloneNode(true))
+    }
+  }
+
+  connectedCallback () {
+    this.root = this.shadowRoot || this
+
+    if (this.wrap) {
+      this.wrapped = this.render
+      this.render = this.wrap
+    }
+
+    if (this.id && !Tonic._refIds.includes(this.id)) {
+      Tonic._refIds.push(this.id)
+    }
+    const cc = s => s.replace(/-(.)/g, (_, m) => m.toUpperCase())
+
+    for (const { name: _name, value } of this.attributes) {
+      const name = cc(_name)
+      const p = this.props[name] = value
+
+      if (/__\w+__\w+__/.test(p)) {
+        const { 1: root } = p.split('__')
+        this.props[name] = Tonic._data[root][p]
+      } else if (/\d+__float/.test(p)) {
+        this.props[name] = parseFloat(p, 10)
+      } else if (p === 'null__null') {
+        this.props[name] = null
+      } else if (/\w+__boolean/.test(p)) {
+        this.props[name] = p.includes('true')
+      } else if (/placehold:\w+:\w+__/.test(p)) {
+        const { 1: root } = p.split(':')
+        this.props[name] = Tonic._children[root][p][0]
+      }
+    }
+
+    this.props = Object.assign(
+      this.defaults ? this.defaults() : {},
+      this.props
+    )
+
+    if (!this._source) {
+      this._source = this.innerHTML
+    } else {
+      this.innerHTML = this._source
+    }
+
+    this._id = this._id || Tonic._createId()
+
+    this.willConnect && this.willConnect()
+    Tonic._maybePromise(this._set(this.root, this.render))
+    Tonic._maybePromise(this.connected && this.connected())
+  }
+
+  disconnectedCallback () {
+    Tonic._maybePromise(this.disconnected && this.disconnected())
+    this.elements.length = 0
+    this.nodes.length = 0
+    delete Tonic._data[this._id]
+    delete Tonic._children[this._id]
+  }
+}
+
+Object.assign(Tonic, {
+  _tags: '',
+  _refIds: [],
+  _data: {},
+  _states: {},
+  _children: {},
+  _reg: {},
+  _index: 0,
+  version: typeof require !== 'undefined' ? require('./package').version : null,
+  SPREAD: /\.\.\.\s?(__\w+__\w+__)/g,
+  ESC: /["&'<>`]/g,
+  AsyncFunctionGenerator: async function * () {}.constructor,
+  AsyncFunction: async function () {}.constructor,
+  MAP: { '"': '&quot;', '&': '&amp;', '\'': '&#x27;', '<': '&lt;', '>': '&gt;', '`': '&#x60;' }
+})
+
+if (typeof module === 'object') module.exports = Tonic
+
+},{"./package":51}],51:[function(require,module,exports){
+module.exports={
+  "_from": "@optoolco/tonic@next",
+  "_id": "@optoolco/tonic@11.0.3",
+  "_inBundle": false,
+  "_integrity": "sha512-0hDou0iEQQueM7Ej68rcqcM9WrEy4YKWwTMpN7Pl7izZt+e/GcmMAf+B06buFYkrvxxY3per9HZG4e4WM84M4A==",
+  "_location": "/@optoolco/tonic",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "@optoolco/tonic@next",
+    "name": "@optoolco/tonic",
+    "escapedName": "@optoolco%2ftonic",
+    "scope": "@optoolco",
+    "rawSpec": "next",
+    "saveSpec": null,
+    "fetchSpec": "next"
+  },
+  "_requiredBy": [
+    "#DEV:/",
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-11.0.3.tgz",
+  "_shasum": "b555128201a553fa8951804b6c4e6988abfe905d",
+  "_spec": "@optoolco/tonic@next",
+  "_where": "/home/raynos/optoolco/components",
+  "author": {
+    "name": "optoolco"
+  },
+  "bugs": {
+    "url": "https://github.com/optoolco/tonic/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {},
+  "deprecated": false,
+  "description": "A composable component inspired by React.",
+  "devDependencies": {
+    "benchmark": "^2.1.4",
+    "browserify": "^16.2.2",
+    "raynos-tape-puppet": "0.1.7-raynos2",
+    "standard": "14.3.1",
+    "tape": "^4.11.0",
+    "terser": "^4.0.2",
+    "uuid": "3.3.3"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "homepage": "https://github.com/optoolco/tonic#readme",
+  "license": "MIT",
+  "name": "@optoolco/tonic",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/optoolco/tonic.git"
+  },
+  "scripts": {
+    "build:demo": "browserify --bare ./demo > ./docs/bundle.js",
+    "minify": "terser index.js -c unused,dead_code,hoist_vars,loops=false,hoist_props=true,hoist_funs,toplevel,keep_classnames,keep_fargs=false -o dist/tonic.min.js",
+    "test": "npm run minify && browserify test/index.js | tape-puppet"
+  },
+  "version": "11.0.3"
+}
+
+},{}],52:[function(require,module,exports){
 (function (process,setImmediate){
-var defined = require('defined');
+var defined = require("./pre-bundled/node_modules/defined");
 var createDefaultStream = require('./lib/default_stream');
 var Test = require('./lib/test');
 var createResult = require('./lib/results');
-var through = require('through');
+var through = require("./pre-bundled/node_modules/through");
 
 var canEmitExit = typeof process !== 'undefined' && process
     && typeof process.on === 'function' && process.browser !== true
@@ -10872,15 +9669,15 @@ exports = module.exports = (function () {
         return getHarness().onFinish.apply(this, arguments);
     };
 
-    lazyLoad.onFailure = function() {
+    lazyLoad.onFailure = function () {
         return getHarness().onFailure.apply(this, arguments);
     };
 
-    lazyLoad.getHarness = getHarness
+    lazyLoad.getHarness = getHarness;
 
-    return lazyLoad
+    return lazyLoad;
 
-    function getHarness (opts) {
+    function getHarness(opts) {
         if (!opts) opts = {};
         opts.autoclose = !canEmitExit;
         if (!harness) harness = createExitHarness(opts);
@@ -10888,7 +9685,7 @@ exports = module.exports = (function () {
     }
 })();
 
-function createExitHarness (conf) {
+function createExitHarness(conf) {
     if (!conf) conf = {};
     var harness = createHarness({
         autoclose: defined(conf.autoclose, false)
@@ -10897,21 +9694,19 @@ function createExitHarness (conf) {
     var stream = harness.createStream({ objectMode: conf.objectMode });
     var es = stream.pipe(conf.stream || createDefaultStream());
     if (canEmitExit) {
-        es.on('error', function (err) { harness._exitCode = 1 });
+        es.on('error', function (err) { harness._exitCode = 1; });
     }
 
     var ended = false;
-    stream.on('end', function () { ended = true });
+    stream.on('end', function () { ended = true; });
 
     if (conf.exit === false) return harness;
     if (!canEmitExit || !canExit) return harness;
 
-    var inErrorState = false;
-
     process.on('exit', function (code) {
         // let the process exit cleanly.
         if (code !== 0) {
-            return
+            return;
         }
 
         if (!ended) {
@@ -10936,23 +9731,23 @@ exports.test.skip = Test.skip;
 
 var exitInterval;
 
-function createHarness (conf_) {
+function createHarness(conf_) {
     if (!conf_) conf_ = {};
     var results = createResult();
     if (conf_.autoclose !== false) {
-        results.once('done', function () { results.close() });
+        results.once('done', function () { results.close(); });
     }
 
     var test = function (name, conf, cb) {
         var t = new Test(name, conf, cb);
         test._tests.push(t);
 
-        (function inspectCode (st) {
-            st.on('test', function sub (st_) {
+        (function inspectCode(st) {
+            st.on('test', function sub(st_) {
                 inspectCode(st_);
             });
             st.on('result', function (r) {
-                if (!r.ok && typeof r !== 'string') test._exitCode = 1
+                if (!r.todo && !r.ok && typeof r !== 'string') test._exitCode = 1;
             });
         })(t);
 
@@ -10985,15 +9780,15 @@ function createHarness (conf_) {
     };
     test._exitCode = 0;
 
-    test.close = function () { results.close() };
+    test.close = function () { results.close(); };
 
     return test;
 }
 
 }).call(this,require('_process'),require("timers").setImmediate)
-},{"./lib/default_stream":78,"./lib/results":79,"./lib/test":80,"_process":54,"defined":30,"through":81,"timers":82}],78:[function(require,module,exports){
+},{"./lib/default_stream":53,"./lib/results":54,"./lib/test":55,"./pre-bundled/node_modules/defined":60,"./pre-bundled/node_modules/through":91,"_process":13,"timers":30}],53:[function(require,module,exports){
 (function (process){
-var through = require('through');
+var through = require("../pre-bundled/node_modules/through");
 var fs = require('fs');
 
 module.exports = function () {
@@ -11001,7 +9796,7 @@ module.exports = function () {
     var stream = through(write, flush);
     return stream;
 
-    function write (buf) {
+    function write(buf) {
         for (var i = 0; i < buf.length; i++) {
             var c = typeof buf === 'string'
                 ? buf.charAt(i)
@@ -11012,29 +9807,29 @@ module.exports = function () {
         }
     }
 
-    function flush () {
+    function flush() {
         if (fs.writeSync && /^win/.test(process.platform)) {
             try { fs.writeSync(1, line + '\n'); }
-            catch (e) { stream.emit('error', e) }
+            catch (e) { stream.emit('error', e); }
         } else {
-            try { console.log(line) }
-            catch (e) { stream.emit('error', e) }
+            try { console.log(line); }
+            catch (e) { stream.emit('error', e); }
         }
         line = '';
     }
 };
 
 }).call(this,require('_process'))
-},{"_process":54,"fs":23,"through":81}],79:[function(require,module,exports){
+},{"../pre-bundled/node_modules/through":91,"_process":13,"fs":3}],54:[function(require,module,exports){
 (function (process,setImmediate){
-var defined = require('defined');
+var defined = require("../pre-bundled/node_modules/defined");
 var EventEmitter = require('events').EventEmitter;
-var inherits = require('inherits');
-var through = require('through');
-var resumer = require('resumer');
-var inspect = require('object-inspect');
-var bind = require('function-bind');
-var has = require('has');
+var inherits = require("../pre-bundled/node_modules/inherits");
+var through = require("../pre-bundled/node_modules/through");
+var resumer = require("../pre-bundled/node_modules/resumer");
+var inspect = require("../pre-bundled/node_modules/object-inspect");
+var bind = require("../pre-bundled/node_modules/function-bind");
+var has = require("../pre-bundled/node_modules/has");
 var regexpTest = bind.call(Function.call, RegExp.prototype.test);
 var yamlIndicators = /\:|\-|\?/;
 var nextTick = typeof setImmediate !== 'undefined'
@@ -11045,14 +9840,20 @@ var nextTick = typeof setImmediate !== 'undefined'
 module.exports = Results;
 inherits(Results, EventEmitter);
 
-function Results () {
+function coalesceWhiteSpaces(str) {
+    return String(str).replace(/\s+/g, ' ');
+}
+
+function Results() {
     if (!(this instanceof Results)) return new Results;
     this.count = 0;
     this.fail = 0;
     this.pass = 0;
+    this.todo = 0;
     this._stream = through();
     this.tests = [];
     this._only = null;
+    this._isRunning = false;
 }
 
 Results.prototype.createStream = function (opts) {
@@ -11061,14 +9862,16 @@ Results.prototype.createStream = function (opts) {
     var output, testId = 0;
     if (opts.objectMode) {
         output = through();
-        self.on('_push', function ontest (t, extra) {
+        self.on('_push', function ontest(t, extra) {
             if (!extra) extra = {};
             var id = testId++;
             t.once('prerun', function () {
                 var row = {
                     type: 'test',
                     name: t.name,
-                    id: id
+                    id: id,
+                    skip: t._skip,
+                    todo: t._todo
                 };
                 if (has(extra, 'parent')) {
                     row.parent = extra.parent;
@@ -11087,21 +9890,24 @@ Results.prototype.createStream = function (opts) {
                 output.queue({ type: 'end', test: id });
             });
         });
-        self.on('done', function () { output.queue(null) });
+        self.on('done', function () { output.queue(null); });
     } else {
         output = resumer();
         output.queue('TAP version 13\n');
         self._stream.pipe(output);
     }
 
-    nextTick(function next() {
-        var t;
-        while (t = getNextTest(self)) {
-            t.run();
-            if (!t.ended) return t.once('end', function(){ nextTick(next); });
-        }
-        self.emit('done');
-    });
+    if (!this._isRunning) {
+        this._isRunning = true;
+        nextTick(function next() {
+            var t;
+            while (t = getNextTest(self)) {
+                t.run();
+                if (!t.ended) return t.once('end', function () { nextTick(next); });
+            }
+            self.emit('done');
+        });
+    }
 
     return output;
 };
@@ -11119,9 +9925,12 @@ Results.prototype.only = function (t) {
 
 Results.prototype._watch = function (t) {
     var self = this;
-    var write = function (s) { self._stream.queue(s) };
+    var write = function (s) { self._stream.queue(s); };
     t.once('prerun', function () {
-        write('# ' + t.name + '\n');
+        var premsg = '';
+        if (t._skip) premsg = 'SKIP ';
+        else if (t._todo) premsg = 'TODO ';
+        write('# ' + premsg + coalesceWhiteSpaces(t.name) + '\n');
     });
 
     t.on('result', function (res) {
@@ -11132,38 +9941,42 @@ Results.prototype._watch = function (t) {
         write(encodeResult(res, self.count + 1));
         self.count ++;
 
-        if (res.ok) self.pass ++
+        if (res.ok || res.todo) self.pass ++;
         else {
             self.fail ++;
             self.emit('fail');
         }
     });
 
-    t.on('test', function (st) { self._watch(st) });
+    t.on('test', function (st) { self._watch(st); });
 };
 
 Results.prototype.close = function () {
     var self = this;
     if (self.closed) self._stream.emit('error', new Error('ALREADY CLOSED'));
     self.closed = true;
-    var write = function (s) { self._stream.queue(s) };
+    var write = function (s) { self._stream.queue(s); };
 
     write('\n1..' + self.count + '\n');
     write('# tests ' + self.count + '\n');
-    write('# pass  ' + self.pass + '\n');
-    if (self.fail) write('# fail  ' + self.fail + '\n')
-    else write('\n# ok\n')
+    write('# pass  ' + (self.pass + self.todo) + '\n');
+    if (self.todo) write('# todo  ' + self.todo + '\n');
+    if (self.fail) write('# fail  ' + self.fail + '\n');
+    else write('\n# ok\n');
 
     self._stream.queue(null);
 };
 
-function encodeResult (res, count) {
+function encodeResult(res, count) {
     var output = '';
     output += (res.ok ? 'ok ' : 'not ok ') + count;
-    output += res.name ? ' ' + res.name.toString().replace(/\s+/g, ' ') : '';
+    output += res.name ? ' ' + coalesceWhiteSpaces(res.name) : '';
 
-    if (res.skip) output += ' # SKIP';
-    else if (res.todo) output += ' # TODO';
+    if (res.skip) {
+        output += ' # SKIP' + ((typeof res.skip === 'string') ? ' ' + coalesceWhiteSpaces(res.skip) : '');
+    } else if (res.todo) {
+        output += ' # TODO' + ((typeof res.todo === 'string') ? ' ' + coalesceWhiteSpaces(res.todo) : '');
+    };
 
     output += '\n';
     if (res.ok) return output;
@@ -11204,7 +10017,7 @@ function encodeResult (res, count) {
     return output;
 }
 
-function getNextTest (results) {
+function getNextTest(results) {
     if (!results._only) {
         return results.tests.shift();
     }
@@ -11215,25 +10028,25 @@ function getNextTest (results) {
         if (results._only === t) {
             return t;
         }
-    } while (results.tests.length !== 0)
+    } while (results.tests.length !== 0);
 }
 
-function invalidYaml (str) {
+function invalidYaml(str) {
     return regexpTest(yamlIndicators, str);
 }
 
 }).call(this,require('_process'),require("timers").setImmediate)
-},{"_process":54,"defined":30,"events":39,"function-bind":42,"has":43,"inherits":45,"object-inspect":49,"resumer":69,"through":81,"timers":82}],80:[function(require,module,exports){
+},{"../pre-bundled/node_modules/defined":60,"../pre-bundled/node_modules/function-bind":76,"../pre-bundled/node_modules/has":79,"../pre-bundled/node_modules/inherits":80,"../pre-bundled/node_modules/object-inspect":82,"../pre-bundled/node_modules/resumer":86,"../pre-bundled/node_modules/through":91,"_process":13,"events":6,"timers":30}],55:[function(require,module,exports){
 (function (process,setImmediate,__dirname){
-var deepEqual = require('deep-equal');
-var defined = require('defined');
+var deepEqual = require("../pre-bundled/node_modules/deep-equal");
+var defined = require("../pre-bundled/node_modules/defined");
 var path = require('path');
-var inherits = require('inherits');
+var inherits = require("../pre-bundled/node_modules/inherits");
 var EventEmitter = require('events').EventEmitter;
-var has = require('has');
-var trim = require('string.prototype.trim');
-var bind = require('function-bind');
-var forEach = require('for-each');
+var has = require("../pre-bundled/node_modules/has");
+var trim = require("../pre-bundled/node_modules/string.prototype.trim");
+var bind = require("../pre-bundled/node_modules/function-bind");
+var forEach = require("../pre-bundled/node_modules/for-each");
 var isEnumerable = bind.call(Function.call, Object.prototype.propertyIsEnumerable);
 var toLowerCase = bind.call(Function.call, String.prototype.toLowerCase);
 
@@ -11266,7 +10079,7 @@ var getTestArgs = function (name_, opts_, cb_) {
     return { name: name, opts: opts, cb: cb };
 };
 
-function Test (name_, opts_, cb_) {
+function Test(name_, opts_, cb_) {
     if (! (this instanceof Test)) {
         return new Test(name_, opts_, cb_);
     }
@@ -11278,6 +10091,7 @@ function Test (name_, opts_, cb_) {
     this.assertCount = 0;
     this.pendingCount = 0;
     this._skip = args.opts.skip || false;
+    this._todo = args.opts.todo || false;
     this._timeout = args.opts.timeout;
     this._plan = undefined;
     this._cb = args.cb;
@@ -11309,16 +10123,13 @@ function Test (name_, opts_, cb_) {
 }
 
 Test.prototype.run = function () {
-    if (this._skip) {
-        this.comment('SKIP ' + this.name);
-    }
+    this.emit('prerun');
     if (!this._cb || this._skip) {
         return this._end();
     }
     if (this._timeout != null) {
         this.timeoutAfter(this._timeout);
     }
-    this.emit('prerun');
     this._cb(this);
     this.emit('run');
 };
@@ -11331,7 +10142,7 @@ Test.prototype.test = function (name, opts, cb) {
     this.emit('test', t);
     t.on('prerun', function () {
         self.assertCount++;
-    })
+    });
 
     if (!self._pendingAsserts()) {
         nextTick(function () {
@@ -11339,7 +10150,7 @@ Test.prototype.test = function (name, opts, cb) {
         });
     }
 
-    nextTick(function() {
+    nextTick(function () {
         if (!self._plan && self.pendingCount == self._progeny.length) {
             self._end();
         }
@@ -11358,17 +10169,17 @@ Test.prototype.plan = function (n) {
     this.emit('plan', n);
 };
 
-Test.prototype.timeoutAfter = function(ms) {
+Test.prototype.timeoutAfter = function (ms) {
     if (!ms) throw new Error('timeoutAfter requires a timespan');
     var self = this;
-    var timeout = safeSetTimeout(function() {
+    var timeout = safeSetTimeout(function () {
         self.fail('test timed out after ' + ms + 'ms');
         self.end();
     }, ms);
-    this.once('end', function() {
+    this.once('end', function () {
         safeClearTimeout(timeout);
     });
-}
+};
 
 Test.prototype.end = function (err) {
     var self = this;
@@ -11387,7 +10198,7 @@ Test.prototype._end = function (err) {
     var self = this;
     if (this._progeny.length) {
         var t = this._progeny.shift();
-        t.on('end', function () { self._end() });
+        t.on('end', function () { self._end(); });
         t.run();
         return;
     }
@@ -11427,17 +10238,20 @@ Test.prototype._pendingAsserts = function () {
     return this._plan - (this._progeny.length + this.assertCount);
 };
 
-Test.prototype._assert = function assert (ok, opts) {
+Test.prototype._assert = function assert(ok, opts) {
     var self = this;
     var extra = opts.extra || {};
 
+    ok = !!ok || !!extra.skip;
+
     var res = {
-        id : self.assertCount ++,
-        ok : Boolean(ok),
-        skip : defined(extra.skip, opts.skip),
-        name : defined(extra.message, opts.message, '(unnamed assert)'),
-        operator : defined(extra.operator, opts.operator),
-        objectPrintDepth : self._objectPrintDepth
+        id: self.assertCount++,
+        ok: ok,
+        skip: defined(extra.skip, opts.skip),
+        todo: defined(extra.todo, opts.todo, self._todo),
+        name: defined(extra.message, opts.message, '(unnamed assert)'),
+        operator: defined(extra.operator, opts.operator),
+        objectPrintDepth: self._objectPrintDepth
     };
     if (has(opts, 'actual') || has(extra, 'actual')) {
         res.actual = defined(extra.actual, opts.actual);
@@ -11445,9 +10259,9 @@ Test.prototype._assert = function assert (ok, opts) {
     if (has(opts, 'expected') || has(extra, 'expected')) {
         res.expected = defined(extra.expected, opts.expected);
     }
-    this._ok = Boolean(this._ok && ok);
+    this._ok = !!(this._ok && ok);
 
-    if (!ok) {
+    if (!ok && !res.todo) {
         res.error = defined(extra.error, opts.error, new Error(res.name));
     }
 
@@ -11490,9 +10304,9 @@ Test.prototype._assert = function assert (ok, opts) {
                 Last part captures file path plus line no (and optional
                 column no).
 
-                    /((?:\/|[A-Z]:\\)[^:\)]+:(\d+)(?::(\d+))?)/
+                    /((?:\/|[a-zA-Z]:\\)[^:\)]+:(\d+)(?::(\d+))?)/
             */
-            var re = /^(?:[^\s]*\s*\bat\s+)(?:(.*)\s+\()?((?:\/|[A-Z]:\\)[^:\)]+:(\d+)(?::(\d+))?)/
+            var re = /^(?:[^\s]*\s*\bat\s+)(?:(.*)\s+\()?((?:\/|[a-zA-Z]:\\)[^:\)]+:(\d+)(?::(\d+))?)/;
             var m = re.exec(err[i]);
 
             if (!m) {
@@ -11508,7 +10322,7 @@ Test.prototype._assert = function assert (ok, opts) {
 
             // Function call description may not (just) be a function name.
             // Try to extract function name by looking at first "word" only.
-            res.functionName = callDescription.split(/\s+/)[0]
+            res.functionName = callDescription.split(/\s+/)[0];
             res.file = filePath;
             res.line = Number(m[3]);
             if (m[4]) res.column = Number(m[4]);
@@ -11629,7 +10443,7 @@ function notEqual(a, b, msg, extra) {
         message : defined(msg, 'should not be equal'),
         operator : 'notEqual',
         actual : a,
-        notExpected : b,
+        expected : b,
         extra : extra
     });
 }
@@ -11678,11 +10492,12 @@ function notDeepEqual(a, b, msg, extra) {
         message : defined(msg, 'should not be equivalent'),
         operator : 'notDeepEqual',
         actual : a,
-        notExpected : b,
+        expected : b,
         extra : extra
     });
 }
 Test.prototype.notDeepEqual
+= Test.prototype.notDeepEquals
 = Test.prototype.notEquivalent
 = Test.prototype.notDeeply
 = Test.prototype.notSame
@@ -11777,8 +10592,1943 @@ Test.skip = function (name_, _opts, _cb) {
 
 // vim: set softtabstop=4 shiftwidth=4:
 
-}).call(this,require('_process'),require("timers").setImmediate,"/node_modules/tape/lib")
-},{"_process":54,"deep-equal":26,"defined":30,"events":39,"for-each":40,"function-bind":42,"has":43,"inherits":45,"path":52,"string.prototype.trim":73,"timers":82}],81:[function(require,module,exports){
+}).call(this,require('_process'),require("timers").setImmediate,"/node_modules/@pre-bundled/tape/lib")
+},{"../pre-bundled/node_modules/deep-equal":56,"../pre-bundled/node_modules/defined":60,"../pre-bundled/node_modules/for-each":74,"../pre-bundled/node_modules/function-bind":76,"../pre-bundled/node_modules/has":79,"../pre-bundled/node_modules/inherits":80,"../pre-bundled/node_modules/string.prototype.trim":88,"_process":13,"events":6,"path":11,"timers":30}],56:[function(require,module,exports){
+var pSlice = Array.prototype.slice;
+var objectKeys = require('./lib/keys.js');
+var isArguments = require('./lib/is_arguments.js');
+
+var deepEqual = module.exports = function (actual, expected, opts) {
+  if (!opts) opts = {};
+  // 7.1. All identical values are equivalent, as determined by ===.
+  if (actual === expected) {
+    return true;
+
+  } else if (actual instanceof Date && expected instanceof Date) {
+    return actual.getTime() === expected.getTime();
+
+  // 7.3. Other pairs that do not both pass typeof value == 'object',
+  // equivalence is determined by ==.
+  } else if (!actual || !expected || typeof actual != 'object' && typeof expected != 'object') {
+    return opts.strict ? actual === expected : actual == expected;
+
+  // 7.4. For all other Object pairs, including Array objects, equivalence is
+  // determined by having the same number of owned properties (as verified
+  // with Object.prototype.hasOwnProperty.call), the same set of keys
+  // (although not necessarily the same order), equivalent values for every
+  // corresponding key, and an identical 'prototype' property. Note: this
+  // accounts for both named and indexed properties on Arrays.
+  } else {
+    return objEquiv(actual, expected, opts);
+  }
+}
+
+function isUndefinedOrNull(value) {
+  return value === null || value === undefined;
+}
+
+function isBuffer (x) {
+  if (!x || typeof x !== 'object' || typeof x.length !== 'number') return false;
+  if (typeof x.copy !== 'function' || typeof x.slice !== 'function') {
+    return false;
+  }
+  if (x.length > 0 && typeof x[0] !== 'number') return false;
+  return true;
+}
+
+function objEquiv(a, b, opts) {
+  var i, key;
+  if (isUndefinedOrNull(a) || isUndefinedOrNull(b))
+    return false;
+  // an identical 'prototype' property.
+  if (a.prototype !== b.prototype) return false;
+  //~~~I've managed to break Object.keys through screwy arguments passing.
+  //   Converting to array solves the problem.
+  if (isArguments(a)) {
+    if (!isArguments(b)) {
+      return false;
+    }
+    a = pSlice.call(a);
+    b = pSlice.call(b);
+    return deepEqual(a, b, opts);
+  }
+  if (isBuffer(a)) {
+    if (!isBuffer(b)) {
+      return false;
+    }
+    if (a.length !== b.length) return false;
+    for (i = 0; i < a.length; i++) {
+      if (a[i] !== b[i]) return false;
+    }
+    return true;
+  }
+  try {
+    var ka = objectKeys(a),
+        kb = objectKeys(b);
+  } catch (e) {//happens when one is a string literal and the other isn't
+    return false;
+  }
+  // having the same number of owned properties (keys incorporates
+  // hasOwnProperty)
+  if (ka.length != kb.length)
+    return false;
+  //the same set of keys (although not necessarily the same order),
+  ka.sort();
+  kb.sort();
+  //~~~cheap key test
+  for (i = ka.length - 1; i >= 0; i--) {
+    if (ka[i] != kb[i])
+      return false;
+  }
+  //equivalent values for every corresponding key, and
+  //~~~possibly expensive deep test
+  for (i = ka.length - 1; i >= 0; i--) {
+    key = ka[i];
+    if (!deepEqual(a[key], b[key], opts)) return false;
+  }
+  return typeof a === typeof b;
+}
+
+},{"./lib/is_arguments.js":57,"./lib/keys.js":58}],57:[function(require,module,exports){
+var supportsArgumentsClass = (function(){
+  return Object.prototype.toString.call(arguments)
+})() == '[object Arguments]';
+
+exports = module.exports = supportsArgumentsClass ? supported : unsupported;
+
+exports.supported = supported;
+function supported(object) {
+  return Object.prototype.toString.call(object) == '[object Arguments]';
+};
+
+exports.unsupported = unsupported;
+function unsupported(object){
+  return object &&
+    typeof object == 'object' &&
+    typeof object.length == 'number' &&
+    Object.prototype.hasOwnProperty.call(object, 'callee') &&
+    !Object.prototype.propertyIsEnumerable.call(object, 'callee') ||
+    false;
+};
+
+},{}],58:[function(require,module,exports){
+exports = module.exports = typeof Object.keys === 'function'
+  ? Object.keys : shim;
+
+exports.shim = shim;
+function shim (obj) {
+  var keys = [];
+  for (var key in obj) keys.push(key);
+  return keys;
+}
+
+},{}],59:[function(require,module,exports){
+'use strict';
+
+var keys = require('object-keys');
+var hasSymbols = typeof Symbol === 'function' && typeof Symbol('foo') === 'symbol';
+
+var toStr = Object.prototype.toString;
+var concat = Array.prototype.concat;
+var origDefineProperty = Object.defineProperty;
+
+var isFunction = function (fn) {
+	return typeof fn === 'function' && toStr.call(fn) === '[object Function]';
+};
+
+var arePropertyDescriptorsSupported = function () {
+	var obj = {};
+	try {
+		origDefineProperty(obj, 'x', { enumerable: false, value: obj });
+		// eslint-disable-next-line no-unused-vars, no-restricted-syntax
+		for (var _ in obj) { // jscs:ignore disallowUnusedVariables
+			return false;
+		}
+		return obj.x === obj;
+	} catch (e) { /* this is IE 8. */
+		return false;
+	}
+};
+var supportsDescriptors = origDefineProperty && arePropertyDescriptorsSupported();
+
+var defineProperty = function (object, name, value, predicate) {
+	if (name in object && (!isFunction(predicate) || !predicate())) {
+		return;
+	}
+	if (supportsDescriptors) {
+		origDefineProperty(object, name, {
+			configurable: true,
+			enumerable: false,
+			value: value,
+			writable: true
+		});
+	} else {
+		object[name] = value;
+	}
+};
+
+var defineProperties = function (object, map) {
+	var predicates = arguments.length > 2 ? arguments[2] : {};
+	var props = keys(map);
+	if (hasSymbols) {
+		props = concat.call(props, Object.getOwnPropertySymbols(map));
+	}
+	for (var i = 0; i < props.length; i += 1) {
+		defineProperty(object, props[i], map[props[i]], predicates[props[i]]);
+	}
+};
+
+defineProperties.supportsDescriptors = !!supportsDescriptors;
+
+module.exports = defineProperties;
+
+},{"object-keys":84}],60:[function(require,module,exports){
+module.exports = function () {
+    for (var i = 0; i < arguments.length; i++) {
+        if (arguments[i] !== undefined) return arguments[i];
+    }
+};
+
+},{}],61:[function(require,module,exports){
+'use strict';
+
+/* globals
+	Atomics,
+	SharedArrayBuffer,
+*/
+
+var undefined;
+
+var $TypeError = TypeError;
+
+var $gOPD = Object.getOwnPropertyDescriptor;
+
+var throwTypeError = function () { throw new $TypeError(); };
+var ThrowTypeError = $gOPD
+	? (function () {
+		try {
+			// eslint-disable-next-line no-unused-expressions, no-caller, no-restricted-properties
+			arguments.callee; // IE 8 does not throw here
+			return throwTypeError;
+		} catch (calleeThrows) {
+			try {
+				// IE 8 throws on Object.getOwnPropertyDescriptor(arguments, '')
+				return $gOPD(arguments, 'callee').get;
+			} catch (gOPDthrows) {
+				return throwTypeError;
+			}
+		}
+	}())
+	: throwTypeError;
+
+var hasSymbols = require('has-symbols')();
+
+var getProto = Object.getPrototypeOf || function (x) { return x.__proto__; }; // eslint-disable-line no-proto
+
+var generator; // = function * () {};
+var generatorFunction = generator ? getProto(generator) : undefined;
+var asyncFn; // async function() {};
+var asyncFunction = asyncFn ? asyncFn.constructor : undefined;
+var asyncGen; // async function * () {};
+var asyncGenFunction = asyncGen ? getProto(asyncGen) : undefined;
+var asyncGenIterator = asyncGen ? asyncGen() : undefined;
+
+var TypedArray = typeof Uint8Array === 'undefined' ? undefined : getProto(Uint8Array);
+
+var INTRINSICS = {
+	'$ %Array%': Array,
+	'$ %ArrayBuffer%': typeof ArrayBuffer === 'undefined' ? undefined : ArrayBuffer,
+	'$ %ArrayBufferPrototype%': typeof ArrayBuffer === 'undefined' ? undefined : ArrayBuffer.prototype,
+	'$ %ArrayIteratorPrototype%': hasSymbols ? getProto([][Symbol.iterator]()) : undefined,
+	'$ %ArrayPrototype%': Array.prototype,
+	'$ %ArrayProto_entries%': Array.prototype.entries,
+	'$ %ArrayProto_forEach%': Array.prototype.forEach,
+	'$ %ArrayProto_keys%': Array.prototype.keys,
+	'$ %ArrayProto_values%': Array.prototype.values,
+	'$ %AsyncFromSyncIteratorPrototype%': undefined,
+	'$ %AsyncFunction%': asyncFunction,
+	'$ %AsyncFunctionPrototype%': asyncFunction ? asyncFunction.prototype : undefined,
+	'$ %AsyncGenerator%': asyncGen ? getProto(asyncGenIterator) : undefined,
+	'$ %AsyncGeneratorFunction%': asyncGenFunction,
+	'$ %AsyncGeneratorPrototype%': asyncGenFunction ? asyncGenFunction.prototype : undefined,
+	'$ %AsyncIteratorPrototype%': asyncGenIterator && hasSymbols && Symbol.asyncIterator ? asyncGenIterator[Symbol.asyncIterator]() : undefined,
+	'$ %Atomics%': typeof Atomics === 'undefined' ? undefined : Atomics,
+	'$ %Boolean%': Boolean,
+	'$ %BooleanPrototype%': Boolean.prototype,
+	'$ %DataView%': typeof DataView === 'undefined' ? undefined : DataView,
+	'$ %DataViewPrototype%': typeof DataView === 'undefined' ? undefined : DataView.prototype,
+	'$ %Date%': Date,
+	'$ %DatePrototype%': Date.prototype,
+	'$ %decodeURI%': decodeURI,
+	'$ %decodeURIComponent%': decodeURIComponent,
+	'$ %encodeURI%': encodeURI,
+	'$ %encodeURIComponent%': encodeURIComponent,
+	'$ %Error%': Error,
+	'$ %ErrorPrototype%': Error.prototype,
+	'$ %eval%': eval, // eslint-disable-line no-eval
+	'$ %EvalError%': EvalError,
+	'$ %EvalErrorPrototype%': EvalError.prototype,
+	'$ %Float32Array%': typeof Float32Array === 'undefined' ? undefined : Float32Array,
+	'$ %Float32ArrayPrototype%': typeof Float32Array === 'undefined' ? undefined : Float32Array.prototype,
+	'$ %Float64Array%': typeof Float64Array === 'undefined' ? undefined : Float64Array,
+	'$ %Float64ArrayPrototype%': typeof Float64Array === 'undefined' ? undefined : Float64Array.prototype,
+	'$ %Function%': Function,
+	'$ %FunctionPrototype%': Function.prototype,
+	'$ %Generator%': generator ? getProto(generator()) : undefined,
+	'$ %GeneratorFunction%': generatorFunction,
+	'$ %GeneratorPrototype%': generatorFunction ? generatorFunction.prototype : undefined,
+	'$ %Int8Array%': typeof Int8Array === 'undefined' ? undefined : Int8Array,
+	'$ %Int8ArrayPrototype%': typeof Int8Array === 'undefined' ? undefined : Int8Array.prototype,
+	'$ %Int16Array%': typeof Int16Array === 'undefined' ? undefined : Int16Array,
+	'$ %Int16ArrayPrototype%': typeof Int16Array === 'undefined' ? undefined : Int8Array.prototype,
+	'$ %Int32Array%': typeof Int32Array === 'undefined' ? undefined : Int32Array,
+	'$ %Int32ArrayPrototype%': typeof Int32Array === 'undefined' ? undefined : Int32Array.prototype,
+	'$ %isFinite%': isFinite,
+	'$ %isNaN%': isNaN,
+	'$ %IteratorPrototype%': hasSymbols ? getProto(getProto([][Symbol.iterator]())) : undefined,
+	'$ %JSON%': typeof JSON === 'object' ? JSON : undefined,
+	'$ %JSONParse%': typeof JSON === 'object' ? JSON.parse : undefined,
+	'$ %Map%': typeof Map === 'undefined' ? undefined : Map,
+	'$ %MapIteratorPrototype%': typeof Map === 'undefined' || !hasSymbols ? undefined : getProto(new Map()[Symbol.iterator]()),
+	'$ %MapPrototype%': typeof Map === 'undefined' ? undefined : Map.prototype,
+	'$ %Math%': Math,
+	'$ %Number%': Number,
+	'$ %NumberPrototype%': Number.prototype,
+	'$ %Object%': Object,
+	'$ %ObjectPrototype%': Object.prototype,
+	'$ %ObjProto_toString%': Object.prototype.toString,
+	'$ %ObjProto_valueOf%': Object.prototype.valueOf,
+	'$ %parseFloat%': parseFloat,
+	'$ %parseInt%': parseInt,
+	'$ %Promise%': typeof Promise === 'undefined' ? undefined : Promise,
+	'$ %PromisePrototype%': typeof Promise === 'undefined' ? undefined : Promise.prototype,
+	'$ %PromiseProto_then%': typeof Promise === 'undefined' ? undefined : Promise.prototype.then,
+	'$ %Promise_all%': typeof Promise === 'undefined' ? undefined : Promise.all,
+	'$ %Promise_reject%': typeof Promise === 'undefined' ? undefined : Promise.reject,
+	'$ %Promise_resolve%': typeof Promise === 'undefined' ? undefined : Promise.resolve,
+	'$ %Proxy%': typeof Proxy === 'undefined' ? undefined : Proxy,
+	'$ %RangeError%': RangeError,
+	'$ %RangeErrorPrototype%': RangeError.prototype,
+	'$ %ReferenceError%': ReferenceError,
+	'$ %ReferenceErrorPrototype%': ReferenceError.prototype,
+	'$ %Reflect%': typeof Reflect === 'undefined' ? undefined : Reflect,
+	'$ %RegExp%': RegExp,
+	'$ %RegExpPrototype%': RegExp.prototype,
+	'$ %Set%': typeof Set === 'undefined' ? undefined : Set,
+	'$ %SetIteratorPrototype%': typeof Set === 'undefined' || !hasSymbols ? undefined : getProto(new Set()[Symbol.iterator]()),
+	'$ %SetPrototype%': typeof Set === 'undefined' ? undefined : Set.prototype,
+	'$ %SharedArrayBuffer%': typeof SharedArrayBuffer === 'undefined' ? undefined : SharedArrayBuffer,
+	'$ %SharedArrayBufferPrototype%': typeof SharedArrayBuffer === 'undefined' ? undefined : SharedArrayBuffer.prototype,
+	'$ %String%': String,
+	'$ %StringIteratorPrototype%': hasSymbols ? getProto(''[Symbol.iterator]()) : undefined,
+	'$ %StringPrototype%': String.prototype,
+	'$ %Symbol%': hasSymbols ? Symbol : undefined,
+	'$ %SymbolPrototype%': hasSymbols ? Symbol.prototype : undefined,
+	'$ %SyntaxError%': SyntaxError,
+	'$ %SyntaxErrorPrototype%': SyntaxError.prototype,
+	'$ %ThrowTypeError%': ThrowTypeError,
+	'$ %TypedArray%': TypedArray,
+	'$ %TypedArrayPrototype%': TypedArray ? TypedArray.prototype : undefined,
+	'$ %TypeError%': $TypeError,
+	'$ %TypeErrorPrototype%': $TypeError.prototype,
+	'$ %Uint8Array%': typeof Uint8Array === 'undefined' ? undefined : Uint8Array,
+	'$ %Uint8ArrayPrototype%': typeof Uint8Array === 'undefined' ? undefined : Uint8Array.prototype,
+	'$ %Uint8ClampedArray%': typeof Uint8ClampedArray === 'undefined' ? undefined : Uint8ClampedArray,
+	'$ %Uint8ClampedArrayPrototype%': typeof Uint8ClampedArray === 'undefined' ? undefined : Uint8ClampedArray.prototype,
+	'$ %Uint16Array%': typeof Uint16Array === 'undefined' ? undefined : Uint16Array,
+	'$ %Uint16ArrayPrototype%': typeof Uint16Array === 'undefined' ? undefined : Uint16Array.prototype,
+	'$ %Uint32Array%': typeof Uint32Array === 'undefined' ? undefined : Uint32Array,
+	'$ %Uint32ArrayPrototype%': typeof Uint32Array === 'undefined' ? undefined : Uint32Array.prototype,
+	'$ %URIError%': URIError,
+	'$ %URIErrorPrototype%': URIError.prototype,
+	'$ %WeakMap%': typeof WeakMap === 'undefined' ? undefined : WeakMap,
+	'$ %WeakMapPrototype%': typeof WeakMap === 'undefined' ? undefined : WeakMap.prototype,
+	'$ %WeakSet%': typeof WeakSet === 'undefined' ? undefined : WeakSet,
+	'$ %WeakSetPrototype%': typeof WeakSet === 'undefined' ? undefined : WeakSet.prototype
+};
+
+var bind = require('function-bind');
+var $replace = bind.call(Function.call, String.prototype.replace);
+
+/* adapted from https://github.com/lodash/lodash/blob/4.17.15/dist/lodash.js#L6735-L6744 */
+var rePropName = /[^%.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|%$))/g;
+var reEscapeChar = /\\(\\)?/g; /** Used to match backslashes in property paths. */
+var stringToPath = function stringToPath(string) {
+	var result = [];
+	$replace(string, rePropName, function (match, number, quote, subString) {
+		result[result.length] = quote ? $replace(subString, reEscapeChar, '$1') : (number || match);
+	});
+	return result;
+};
+/* end adaptation */
+
+var getBaseIntrinsic = function getBaseIntrinsic(name, allowMissing) {
+	var key = '$ ' + name;
+	if (!(key in INTRINSICS)) {
+		throw new SyntaxError('intrinsic ' + name + ' does not exist!');
+	}
+
+	// istanbul ignore if // hopefully this is impossible to test :-)
+	if (typeof INTRINSICS[key] === 'undefined' && !allowMissing) {
+		throw new $TypeError('intrinsic ' + name + ' exists, but is not available. Please file an issue!');
+	}
+
+	return INTRINSICS[key];
+};
+
+module.exports = function GetIntrinsic(name, allowMissing) {
+	if (arguments.length > 1 && typeof allowMissing !== 'boolean') {
+		throw new TypeError('"allowMissing" argument must be a boolean');
+	}
+
+	var parts = stringToPath(name);
+
+	if (parts.length === 0) {
+		return getBaseIntrinsic(name, allowMissing);
+	}
+
+	var value = getBaseIntrinsic('%' + parts[0] + '%', allowMissing);
+	for (var i = 1; i < parts.length; i += 1) {
+		if (value != null) {
+			if ($gOPD && (i + 1) >= parts.length) {
+				var desc = $gOPD(value, parts[i]);
+				value = desc ? (desc.get || desc.value) : value[parts[i]];
+			} else {
+				value = value[parts[i]];
+			}
+		}
+	}
+	return value;
+};
+
+},{"function-bind":76,"has-symbols":77}],62:[function(require,module,exports){
+'use strict';
+
+var GetIntrinsic = require('./GetIntrinsic');
+
+var $Object = GetIntrinsic('%Object%');
+var $EvalError = GetIntrinsic('%EvalError%');
+var $TypeError = GetIntrinsic('%TypeError%');
+var $String = GetIntrinsic('%String%');
+var $Date = GetIntrinsic('%Date%');
+var $Number = GetIntrinsic('%Number%');
+var $floor = GetIntrinsic('%Math.floor%');
+var $DateUTC = GetIntrinsic('%Date.UTC%');
+var $abs = GetIntrinsic('%Math.abs%');
+
+var assertRecord = require('./helpers/assertRecord');
+var isPropertyDescriptor = require('./helpers/isPropertyDescriptor');
+var $isNaN = require('./helpers/isNaN');
+var $isFinite = require('./helpers/isFinite');
+var sign = require('./helpers/sign');
+var mod = require('./helpers/mod');
+var isPrefixOf = require('./helpers/isPrefixOf');
+var callBound = require('./helpers/callBound');
+
+var IsCallable = require('is-callable');
+var toPrimitive = require('es-to-primitive/es5');
+
+var has = require('has');
+
+var $getUTCFullYear = callBound('Date.prototype.getUTCFullYear');
+
+var HoursPerDay = 24;
+var MinutesPerHour = 60;
+var SecondsPerMinute = 60;
+var msPerSecond = 1e3;
+var msPerMinute = msPerSecond * SecondsPerMinute;
+var msPerHour = msPerMinute * MinutesPerHour;
+var msPerDay = 86400000;
+
+// https://es5.github.io/#x9
+var ES5 = {
+	ToPrimitive: toPrimitive,
+
+	ToBoolean: function ToBoolean(value) {
+		return !!value;
+	},
+	ToNumber: function ToNumber(value) {
+		return +value; // eslint-disable-line no-implicit-coercion
+	},
+	ToInteger: function ToInteger(value) {
+		var number = this.ToNumber(value);
+		if ($isNaN(number)) { return 0; }
+		if (number === 0 || !$isFinite(number)) { return number; }
+		return sign(number) * Math.floor(Math.abs(number));
+	},
+	ToInt32: function ToInt32(x) {
+		return this.ToNumber(x) >> 0;
+	},
+	ToUint32: function ToUint32(x) {
+		return this.ToNumber(x) >>> 0;
+	},
+	ToUint16: function ToUint16(value) {
+		var number = this.ToNumber(value);
+		if ($isNaN(number) || number === 0 || !$isFinite(number)) { return 0; }
+		var posInt = sign(number) * Math.floor(Math.abs(number));
+		return mod(posInt, 0x10000);
+	},
+	ToString: function ToString(value) {
+		return $String(value);
+	},
+	ToObject: function ToObject(value) {
+		this.CheckObjectCoercible(value);
+		return $Object(value);
+	},
+	CheckObjectCoercible: function CheckObjectCoercible(value, optMessage) {
+		/* jshint eqnull:true */
+		if (value == null) {
+			throw new $TypeError(optMessage || 'Cannot call method on ' + value);
+		}
+		return value;
+	},
+	IsCallable: IsCallable,
+	SameValue: function SameValue(x, y) {
+		if (x === y) { // 0 === -0, but they are not identical.
+			if (x === 0) { return 1 / x === 1 / y; }
+			return true;
+		}
+		return $isNaN(x) && $isNaN(y);
+	},
+
+	// https://ecma-international.org/ecma-262/5.1/#sec-8
+	Type: function Type(x) {
+		if (x === null) {
+			return 'Null';
+		}
+		if (typeof x === 'undefined') {
+			return 'Undefined';
+		}
+		if (typeof x === 'function' || typeof x === 'object') {
+			return 'Object';
+		}
+		if (typeof x === 'number') {
+			return 'Number';
+		}
+		if (typeof x === 'boolean') {
+			return 'Boolean';
+		}
+		if (typeof x === 'string') {
+			return 'String';
+		}
+	},
+
+	// https://ecma-international.org/ecma-262/6.0/#sec-property-descriptor-specification-type
+	IsPropertyDescriptor: function IsPropertyDescriptor(Desc) {
+		return isPropertyDescriptor(this, Desc);
+	},
+
+	// https://ecma-international.org/ecma-262/5.1/#sec-8.10.1
+	IsAccessorDescriptor: function IsAccessorDescriptor(Desc) {
+		if (typeof Desc === 'undefined') {
+			return false;
+		}
+
+		assertRecord(this, 'Property Descriptor', 'Desc', Desc);
+
+		if (!has(Desc, '[[Get]]') && !has(Desc, '[[Set]]')) {
+			return false;
+		}
+
+		return true;
+	},
+
+	// https://ecma-international.org/ecma-262/5.1/#sec-8.10.2
+	IsDataDescriptor: function IsDataDescriptor(Desc) {
+		if (typeof Desc === 'undefined') {
+			return false;
+		}
+
+		assertRecord(this, 'Property Descriptor', 'Desc', Desc);
+
+		if (!has(Desc, '[[Value]]') && !has(Desc, '[[Writable]]')) {
+			return false;
+		}
+
+		return true;
+	},
+
+	// https://ecma-international.org/ecma-262/5.1/#sec-8.10.3
+	IsGenericDescriptor: function IsGenericDescriptor(Desc) {
+		if (typeof Desc === 'undefined') {
+			return false;
+		}
+
+		assertRecord(this, 'Property Descriptor', 'Desc', Desc);
+
+		if (!this.IsAccessorDescriptor(Desc) && !this.IsDataDescriptor(Desc)) {
+			return true;
+		}
+
+		return false;
+	},
+
+	// https://ecma-international.org/ecma-262/5.1/#sec-8.10.4
+	FromPropertyDescriptor: function FromPropertyDescriptor(Desc) {
+		if (typeof Desc === 'undefined') {
+			return Desc;
+		}
+
+		assertRecord(this, 'Property Descriptor', 'Desc', Desc);
+
+		if (this.IsDataDescriptor(Desc)) {
+			return {
+				value: Desc['[[Value]]'],
+				writable: !!Desc['[[Writable]]'],
+				enumerable: !!Desc['[[Enumerable]]'],
+				configurable: !!Desc['[[Configurable]]']
+			};
+		} else if (this.IsAccessorDescriptor(Desc)) {
+			return {
+				get: Desc['[[Get]]'],
+				set: Desc['[[Set]]'],
+				enumerable: !!Desc['[[Enumerable]]'],
+				configurable: !!Desc['[[Configurable]]']
+			};
+		} else {
+			throw new $TypeError('FromPropertyDescriptor must be called with a fully populated Property Descriptor');
+		}
+	},
+
+	// https://ecma-international.org/ecma-262/5.1/#sec-8.10.5
+	ToPropertyDescriptor: function ToPropertyDescriptor(Obj) {
+		if (this.Type(Obj) !== 'Object') {
+			throw new $TypeError('ToPropertyDescriptor requires an object');
+		}
+
+		var desc = {};
+		if (has(Obj, 'enumerable')) {
+			desc['[[Enumerable]]'] = this.ToBoolean(Obj.enumerable);
+		}
+		if (has(Obj, 'configurable')) {
+			desc['[[Configurable]]'] = this.ToBoolean(Obj.configurable);
+		}
+		if (has(Obj, 'value')) {
+			desc['[[Value]]'] = Obj.value;
+		}
+		if (has(Obj, 'writable')) {
+			desc['[[Writable]]'] = this.ToBoolean(Obj.writable);
+		}
+		if (has(Obj, 'get')) {
+			var getter = Obj.get;
+			if (typeof getter !== 'undefined' && !this.IsCallable(getter)) {
+				throw new TypeError('getter must be a function');
+			}
+			desc['[[Get]]'] = getter;
+		}
+		if (has(Obj, 'set')) {
+			var setter = Obj.set;
+			if (typeof setter !== 'undefined' && !this.IsCallable(setter)) {
+				throw new $TypeError('setter must be a function');
+			}
+			desc['[[Set]]'] = setter;
+		}
+
+		if ((has(desc, '[[Get]]') || has(desc, '[[Set]]')) && (has(desc, '[[Value]]') || has(desc, '[[Writable]]'))) {
+			throw new $TypeError('Invalid property descriptor. Cannot both specify accessors and a value or writable attribute');
+		}
+		return desc;
+	},
+
+	// https://ecma-international.org/ecma-262/5.1/#sec-11.9.3
+	'Abstract Equality Comparison': function AbstractEqualityComparison(x, y) {
+		var xType = this.Type(x);
+		var yType = this.Type(y);
+		if (xType === yType) {
+			return x === y; // ES6+ specified this shortcut anyways.
+		}
+		if (x == null && y == null) {
+			return true;
+		}
+		if (xType === 'Number' && yType === 'String') {
+			return this['Abstract Equality Comparison'](x, this.ToNumber(y));
+		}
+		if (xType === 'String' && yType === 'Number') {
+			return this['Abstract Equality Comparison'](this.ToNumber(x), y);
+		}
+		if (xType === 'Boolean') {
+			return this['Abstract Equality Comparison'](this.ToNumber(x), y);
+		}
+		if (yType === 'Boolean') {
+			return this['Abstract Equality Comparison'](x, this.ToNumber(y));
+		}
+		if ((xType === 'String' || xType === 'Number') && yType === 'Object') {
+			return this['Abstract Equality Comparison'](x, this.ToPrimitive(y));
+		}
+		if (xType === 'Object' && (yType === 'String' || yType === 'Number')) {
+			return this['Abstract Equality Comparison'](this.ToPrimitive(x), y);
+		}
+		return false;
+	},
+
+	// https://ecma-international.org/ecma-262/5.1/#sec-11.9.6
+	'Strict Equality Comparison': function StrictEqualityComparison(x, y) {
+		var xType = this.Type(x);
+		var yType = this.Type(y);
+		if (xType !== yType) {
+			return false;
+		}
+		if (xType === 'Undefined' || xType === 'Null') {
+			return true;
+		}
+		return x === y; // shortcut for steps 4-7
+	},
+
+	// https://ecma-international.org/ecma-262/5.1/#sec-11.8.5
+	// eslint-disable-next-line max-statements
+	'Abstract Relational Comparison': function AbstractRelationalComparison(x, y, LeftFirst) {
+		if (this.Type(LeftFirst) !== 'Boolean') {
+			throw new $TypeError('Assertion failed: LeftFirst argument must be a Boolean');
+		}
+		var px;
+		var py;
+		if (LeftFirst) {
+			px = this.ToPrimitive(x, $Number);
+			py = this.ToPrimitive(y, $Number);
+		} else {
+			py = this.ToPrimitive(y, $Number);
+			px = this.ToPrimitive(x, $Number);
+		}
+		var bothStrings = this.Type(px) === 'String' && this.Type(py) === 'String';
+		if (!bothStrings) {
+			var nx = this.ToNumber(px);
+			var ny = this.ToNumber(py);
+			if ($isNaN(nx) || $isNaN(ny)) {
+				return undefined;
+			}
+			if ($isFinite(nx) && $isFinite(ny) && nx === ny) {
+				return false;
+			}
+			if (nx === 0 && ny === 0) {
+				return false;
+			}
+			if (nx === Infinity) {
+				return false;
+			}
+			if (ny === Infinity) {
+				return true;
+			}
+			if (ny === -Infinity) {
+				return false;
+			}
+			if (nx === -Infinity) {
+				return true;
+			}
+			return nx < ny; // by now, these are both nonzero, finite, and not equal
+		}
+		if (isPrefixOf(py, px)) {
+			return false;
+		}
+		if (isPrefixOf(px, py)) {
+			return true;
+		}
+		return px < py; // both strings, neither a prefix of the other. shortcut for steps c-f
+	},
+
+	// https://ecma-international.org/ecma-262/5.1/#sec-15.9.1.10
+	msFromTime: function msFromTime(t) {
+		return mod(t, msPerSecond);
+	},
+
+	// https://ecma-international.org/ecma-262/5.1/#sec-15.9.1.10
+	SecFromTime: function SecFromTime(t) {
+		return mod($floor(t / msPerSecond), SecondsPerMinute);
+	},
+
+	// https://ecma-international.org/ecma-262/5.1/#sec-15.9.1.10
+	MinFromTime: function MinFromTime(t) {
+		return mod($floor(t / msPerMinute), MinutesPerHour);
+	},
+
+	// https://ecma-international.org/ecma-262/5.1/#sec-15.9.1.10
+	HourFromTime: function HourFromTime(t) {
+		return mod($floor(t / msPerHour), HoursPerDay);
+	},
+
+	// https://ecma-international.org/ecma-262/5.1/#sec-15.9.1.2
+	Day: function Day(t) {
+		return $floor(t / msPerDay);
+	},
+
+	// https://ecma-international.org/ecma-262/5.1/#sec-15.9.1.2
+	TimeWithinDay: function TimeWithinDay(t) {
+		return mod(t, msPerDay);
+	},
+
+	// https://ecma-international.org/ecma-262/5.1/#sec-15.9.1.3
+	DayFromYear: function DayFromYear(y) {
+		return (365 * (y - 1970)) + $floor((y - 1969) / 4) - $floor((y - 1901) / 100) + $floor((y - 1601) / 400);
+	},
+
+	// https://ecma-international.org/ecma-262/5.1/#sec-15.9.1.3
+	TimeFromYear: function TimeFromYear(y) {
+		return msPerDay * this.DayFromYear(y);
+	},
+
+	// https://ecma-international.org/ecma-262/5.1/#sec-15.9.1.3
+	YearFromTime: function YearFromTime(t) {
+		// largest y such that this.TimeFromYear(y) <= t
+		return $getUTCFullYear(new $Date(t));
+	},
+
+	// https://ecma-international.org/ecma-262/5.1/#sec-15.9.1.6
+	WeekDay: function WeekDay(t) {
+		return mod(this.Day(t) + 4, 7);
+	},
+
+	// https://ecma-international.org/ecma-262/5.1/#sec-15.9.1.3
+	DaysInYear: function DaysInYear(y) {
+		if (mod(y, 4) !== 0) {
+			return 365;
+		}
+		if (mod(y, 100) !== 0) {
+			return 366;
+		}
+		if (mod(y, 400) !== 0) {
+			return 365;
+		}
+		return 366;
+	},
+
+	// https://ecma-international.org/ecma-262/5.1/#sec-15.9.1.3
+	InLeapYear: function InLeapYear(t) {
+		var days = this.DaysInYear(this.YearFromTime(t));
+		if (days === 365) {
+			return 0;
+		}
+		if (days === 366) {
+			return 1;
+		}
+		throw new $EvalError('Assertion failed: there are not 365 or 366 days in a year, got: ' + days);
+	},
+
+	// https://ecma-international.org/ecma-262/5.1/#sec-15.9.1.4
+	DayWithinYear: function DayWithinYear(t) {
+		return this.Day(t) - this.DayFromYear(this.YearFromTime(t));
+	},
+
+	// https://ecma-international.org/ecma-262/5.1/#sec-15.9.1.4
+	MonthFromTime: function MonthFromTime(t) {
+		var day = this.DayWithinYear(t);
+		if (0 <= day && day < 31) {
+			return 0;
+		}
+		var leap = this.InLeapYear(t);
+		if (31 <= day && day < (59 + leap)) {
+			return 1;
+		}
+		if ((59 + leap) <= day && day < (90 + leap)) {
+			return 2;
+		}
+		if ((90 + leap) <= day && day < (120 + leap)) {
+			return 3;
+		}
+		if ((120 + leap) <= day && day < (151 + leap)) {
+			return 4;
+		}
+		if ((151 + leap) <= day && day < (181 + leap)) {
+			return 5;
+		}
+		if ((181 + leap) <= day && day < (212 + leap)) {
+			return 6;
+		}
+		if ((212 + leap) <= day && day < (243 + leap)) {
+			return 7;
+		}
+		if ((243 + leap) <= day && day < (273 + leap)) {
+			return 8;
+		}
+		if ((273 + leap) <= day && day < (304 + leap)) {
+			return 9;
+		}
+		if ((304 + leap) <= day && day < (334 + leap)) {
+			return 10;
+		}
+		if ((334 + leap) <= day && day < (365 + leap)) {
+			return 11;
+		}
+	},
+
+	// https://ecma-international.org/ecma-262/5.1/#sec-15.9.1.5
+	DateFromTime: function DateFromTime(t) {
+		var m = this.MonthFromTime(t);
+		var d = this.DayWithinYear(t);
+		if (m === 0) {
+			return d + 1;
+		}
+		if (m === 1) {
+			return d - 30;
+		}
+		var leap = this.InLeapYear(t);
+		if (m === 2) {
+			return d - 58 - leap;
+		}
+		if (m === 3) {
+			return d - 89 - leap;
+		}
+		if (m === 4) {
+			return d - 119 - leap;
+		}
+		if (m === 5) {
+			return d - 150 - leap;
+		}
+		if (m === 6) {
+			return d - 180 - leap;
+		}
+		if (m === 7) {
+			return d - 211 - leap;
+		}
+		if (m === 8) {
+			return d - 242 - leap;
+		}
+		if (m === 9) {
+			return d - 272 - leap;
+		}
+		if (m === 10) {
+			return d - 303 - leap;
+		}
+		if (m === 11) {
+			return d - 333 - leap;
+		}
+		throw new $EvalError('Assertion failed: MonthFromTime returned an impossible value: ' + m);
+	},
+
+	// https://ecma-international.org/ecma-262/5.1/#sec-15.9.1.12
+	MakeDay: function MakeDay(year, month, date) {
+		if (!$isFinite(year) || !$isFinite(month) || !$isFinite(date)) {
+			return NaN;
+		}
+		var y = this.ToInteger(year);
+		var m = this.ToInteger(month);
+		var dt = this.ToInteger(date);
+		var ym = y + $floor(m / 12);
+		var mn = mod(m, 12);
+		var t = $DateUTC(ym, mn, 1);
+		if (this.YearFromTime(t) !== ym || this.MonthFromTime(t) !== mn || this.DateFromTime(t) !== 1) {
+			return NaN;
+		}
+		return this.Day(t) + dt - 1;
+	},
+
+	// https://ecma-international.org/ecma-262/5.1/#sec-15.9.1.13
+	MakeDate: function MakeDate(day, time) {
+		if (!$isFinite(day) || !$isFinite(time)) {
+			return NaN;
+		}
+		return (day * msPerDay) + time;
+	},
+
+	// https://ecma-international.org/ecma-262/5.1/#sec-15.9.1.11
+	MakeTime: function MakeTime(hour, min, sec, ms) {
+		if (!$isFinite(hour) || !$isFinite(min) || !$isFinite(sec) || !$isFinite(ms)) {
+			return NaN;
+		}
+		var h = this.ToInteger(hour);
+		var m = this.ToInteger(min);
+		var s = this.ToInteger(sec);
+		var milli = this.ToInteger(ms);
+		var t = (h * msPerHour) + (m * msPerMinute) + (s * msPerSecond) + milli;
+		return t;
+	},
+
+	// https://ecma-international.org/ecma-262/5.1/#sec-15.9.1.14
+	TimeClip: function TimeClip(time) {
+		if (!$isFinite(time) || $abs(time) > 8.64e15) {
+			return NaN;
+		}
+		return $Number(new $Date(this.ToNumber(time)));
+	},
+
+	// https://ecma-international.org/ecma-262/5.1/#sec-5.2
+	modulo: function modulo(x, y) {
+		return mod(x, y);
+	}
+};
+
+module.exports = ES5;
+
+},{"./GetIntrinsic":61,"./helpers/assertRecord":63,"./helpers/callBound":65,"./helpers/isFinite":66,"./helpers/isNaN":67,"./helpers/isPrefixOf":68,"./helpers/isPropertyDescriptor":69,"./helpers/mod":70,"./helpers/sign":71,"es-to-primitive/es5":72,"has":79,"is-callable":81}],63:[function(require,module,exports){
+'use strict';
+
+var GetIntrinsic = require('../GetIntrinsic');
+
+var $TypeError = GetIntrinsic('%TypeError%');
+var $SyntaxError = GetIntrinsic('%SyntaxError%');
+
+var has = require('has');
+
+var predicates = {
+	// https://ecma-international.org/ecma-262/6.0/#sec-property-descriptor-specification-type
+	'Property Descriptor': function isPropertyDescriptor(ES, Desc) {
+		if (ES.Type(Desc) !== 'Object') {
+			return false;
+		}
+		var allowed = {
+			'[[Configurable]]': true,
+			'[[Enumerable]]': true,
+			'[[Get]]': true,
+			'[[Set]]': true,
+			'[[Value]]': true,
+			'[[Writable]]': true
+		};
+
+		for (var key in Desc) { // eslint-disable-line
+			if (has(Desc, key) && !allowed[key]) {
+				return false;
+			}
+		}
+
+		var isData = has(Desc, '[[Value]]');
+		var IsAccessor = has(Desc, '[[Get]]') || has(Desc, '[[Set]]');
+		if (isData && IsAccessor) {
+			throw new $TypeError('Property Descriptors may not be both accessor and data descriptors');
+		}
+		return true;
+	}
+};
+
+module.exports = function assertRecord(ES, recordType, argumentName, value) {
+	var predicate = predicates[recordType];
+	if (typeof predicate !== 'function') {
+		throw new $SyntaxError('unknown record type: ' + recordType);
+	}
+	if (!predicate(ES, value)) {
+		throw new $TypeError(argumentName + ' must be a ' + recordType);
+	}
+};
+
+},{"../GetIntrinsic":61,"has":79}],64:[function(require,module,exports){
+'use strict';
+
+var bind = require('function-bind');
+
+var GetIntrinsic = require('../GetIntrinsic');
+
+var $Function = GetIntrinsic('%Function%');
+var $apply = $Function.apply;
+var $call = $Function.call;
+
+module.exports = function callBind() {
+	return bind.apply($call, arguments);
+};
+
+module.exports.apply = function applyBind() {
+	return bind.apply($apply, arguments);
+};
+
+},{"../GetIntrinsic":61,"function-bind":76}],65:[function(require,module,exports){
+'use strict';
+
+var GetIntrinsic = require('../GetIntrinsic');
+
+var callBind = require('./callBind');
+
+var $indexOf = callBind(GetIntrinsic('String.prototype.indexOf'));
+
+module.exports = function callBoundIntrinsic(name, allowMissing) {
+	var intrinsic = GetIntrinsic(name, !!allowMissing);
+	if (typeof intrinsic === 'function' && $indexOf(name, '.prototype.')) {
+		return callBind(intrinsic);
+	}
+	return intrinsic;
+};
+
+},{"../GetIntrinsic":61,"./callBind":64}],66:[function(require,module,exports){
+'use strict';
+
+var $isNaN = Number.isNaN || function (a) { return a !== a; };
+
+module.exports = Number.isFinite || function (x) { return typeof x === 'number' && !$isNaN(x) && x !== Infinity && x !== -Infinity; };
+
+},{}],67:[function(require,module,exports){
+'use strict';
+
+module.exports = Number.isNaN || function isNaN(a) {
+	return a !== a;
+};
+
+},{}],68:[function(require,module,exports){
+'use strict';
+
+var $strSlice = require('../helpers/callBound')('String.prototype.slice');
+
+module.exports = function isPrefixOf(prefix, string) {
+	if (prefix === string) {
+		return true;
+	}
+	if (prefix.length > string.length) {
+		return false;
+	}
+	return $strSlice(string, 0, prefix.length) === prefix;
+};
+
+},{"../helpers/callBound":65}],69:[function(require,module,exports){
+'use strict';
+
+var GetIntrinsic = require('../GetIntrinsic');
+
+var has = require('has');
+var $TypeError = GetIntrinsic('%TypeError%');
+
+module.exports = function IsPropertyDescriptor(ES, Desc) {
+	if (ES.Type(Desc) !== 'Object') {
+		return false;
+	}
+	var allowed = {
+		'[[Configurable]]': true,
+		'[[Enumerable]]': true,
+		'[[Get]]': true,
+		'[[Set]]': true,
+		'[[Value]]': true,
+		'[[Writable]]': true
+	};
+
+    for (var key in Desc) { // eslint-disable-line
+		if (has(Desc, key) && !allowed[key]) {
+			return false;
+		}
+	}
+
+	if (ES.IsDataDescriptor(Desc) && ES.IsAccessorDescriptor(Desc)) {
+		throw new $TypeError('Property Descriptors may not be both accessor and data descriptors');
+	}
+	return true;
+};
+
+},{"../GetIntrinsic":61,"has":79}],70:[function(require,module,exports){
+'use strict';
+
+module.exports = function mod(number, modulo) {
+	var remain = number % modulo;
+	return Math.floor(remain >= 0 ? remain : remain + modulo);
+};
+
+},{}],71:[function(require,module,exports){
+'use strict';
+
+module.exports = function sign(number) {
+	return number >= 0 ? 1 : -1;
+};
+
+},{}],72:[function(require,module,exports){
+'use strict';
+
+var toStr = Object.prototype.toString;
+
+var isPrimitive = require('./helpers/isPrimitive');
+
+var isCallable = require('is-callable');
+
+// http://ecma-international.org/ecma-262/5.1/#sec-8.12.8
+var ES5internalSlots = {
+	'[[DefaultValue]]': function (O) {
+		var actualHint;
+		if (arguments.length > 1) {
+			actualHint = arguments[1];
+		} else {
+			actualHint = toStr.call(O) === '[object Date]' ? String : Number;
+		}
+
+		if (actualHint === String || actualHint === Number) {
+			var methods = actualHint === String ? ['toString', 'valueOf'] : ['valueOf', 'toString'];
+			var value, i;
+			for (i = 0; i < methods.length; ++i) {
+				if (isCallable(O[methods[i]])) {
+					value = O[methods[i]]();
+					if (isPrimitive(value)) {
+						return value;
+					}
+				}
+			}
+			throw new TypeError('No default value');
+		}
+		throw new TypeError('invalid [[DefaultValue]] hint supplied');
+	}
+};
+
+// http://ecma-international.org/ecma-262/5.1/#sec-9.1
+module.exports = function ToPrimitive(input) {
+	if (isPrimitive(input)) {
+		return input;
+	}
+	if (arguments.length > 1) {
+		return ES5internalSlots['[[DefaultValue]]'](input, arguments[1]);
+	}
+	return ES5internalSlots['[[DefaultValue]]'](input);
+};
+
+},{"./helpers/isPrimitive":73,"is-callable":81}],73:[function(require,module,exports){
+'use strict';
+
+module.exports = function isPrimitive(value) {
+	return value === null || (typeof value !== 'function' && typeof value !== 'object');
+};
+
+},{}],74:[function(require,module,exports){
+'use strict';
+
+var isCallable = require('is-callable');
+
+var toStr = Object.prototype.toString;
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+
+var forEachArray = function forEachArray(array, iterator, receiver) {
+    for (var i = 0, len = array.length; i < len; i++) {
+        if (hasOwnProperty.call(array, i)) {
+            if (receiver == null) {
+                iterator(array[i], i, array);
+            } else {
+                iterator.call(receiver, array[i], i, array);
+            }
+        }
+    }
+};
+
+var forEachString = function forEachString(string, iterator, receiver) {
+    for (var i = 0, len = string.length; i < len; i++) {
+        // no such thing as a sparse string.
+        if (receiver == null) {
+            iterator(string.charAt(i), i, string);
+        } else {
+            iterator.call(receiver, string.charAt(i), i, string);
+        }
+    }
+};
+
+var forEachObject = function forEachObject(object, iterator, receiver) {
+    for (var k in object) {
+        if (hasOwnProperty.call(object, k)) {
+            if (receiver == null) {
+                iterator(object[k], k, object);
+            } else {
+                iterator.call(receiver, object[k], k, object);
+            }
+        }
+    }
+};
+
+var forEach = function forEach(list, iterator, thisArg) {
+    if (!isCallable(iterator)) {
+        throw new TypeError('iterator must be a function');
+    }
+
+    var receiver;
+    if (arguments.length >= 3) {
+        receiver = thisArg;
+    }
+
+    if (toStr.call(list) === '[object Array]') {
+        forEachArray(list, iterator, receiver);
+    } else if (typeof list === 'string') {
+        forEachString(list, iterator, receiver);
+    } else {
+        forEachObject(list, iterator, receiver);
+    }
+};
+
+module.exports = forEach;
+
+},{"is-callable":81}],75:[function(require,module,exports){
+'use strict';
+
+/* eslint no-invalid-this: 1 */
+
+var ERROR_MESSAGE = 'Function.prototype.bind called on incompatible ';
+var slice = Array.prototype.slice;
+var toStr = Object.prototype.toString;
+var funcType = '[object Function]';
+
+module.exports = function bind(that) {
+    var target = this;
+    if (typeof target !== 'function' || toStr.call(target) !== funcType) {
+        throw new TypeError(ERROR_MESSAGE + target);
+    }
+    var args = slice.call(arguments, 1);
+
+    var bound;
+    var binder = function () {
+        if (this instanceof bound) {
+            var result = target.apply(
+                this,
+                args.concat(slice.call(arguments))
+            );
+            if (Object(result) === result) {
+                return result;
+            }
+            return this;
+        } else {
+            return target.apply(
+                that,
+                args.concat(slice.call(arguments))
+            );
+        }
+    };
+
+    var boundLength = Math.max(0, target.length - args.length);
+    var boundArgs = [];
+    for (var i = 0; i < boundLength; i++) {
+        boundArgs.push('$' + i);
+    }
+
+    bound = Function('binder', 'return function (' + boundArgs.join(',') + '){ return binder.apply(this,arguments); }')(binder);
+
+    if (target.prototype) {
+        var Empty = function Empty() {};
+        Empty.prototype = target.prototype;
+        bound.prototype = new Empty();
+        Empty.prototype = null;
+    }
+
+    return bound;
+};
+
+},{}],76:[function(require,module,exports){
+'use strict';
+
+var implementation = require('./implementation');
+
+module.exports = Function.prototype.bind || implementation;
+
+},{"./implementation":75}],77:[function(require,module,exports){
+(function (global){
+'use strict';
+
+var origSymbol = global.Symbol;
+var hasSymbolSham = require('./shams');
+
+module.exports = function hasNativeSymbols() {
+	if (typeof origSymbol !== 'function') { return false; }
+	if (typeof Symbol !== 'function') { return false; }
+	if (typeof origSymbol('foo') !== 'symbol') { return false; }
+	if (typeof Symbol('bar') !== 'symbol') { return false; }
+
+	return hasSymbolSham();
+};
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{"./shams":78}],78:[function(require,module,exports){
+'use strict';
+
+/* eslint complexity: [2, 18], max-statements: [2, 33] */
+module.exports = function hasSymbols() {
+	if (typeof Symbol !== 'function' || typeof Object.getOwnPropertySymbols !== 'function') { return false; }
+	if (typeof Symbol.iterator === 'symbol') { return true; }
+
+	var obj = {};
+	var sym = Symbol('test');
+	var symObj = Object(sym);
+	if (typeof sym === 'string') { return false; }
+
+	if (Object.prototype.toString.call(sym) !== '[object Symbol]') { return false; }
+	if (Object.prototype.toString.call(symObj) !== '[object Symbol]') { return false; }
+
+	// temp disabled per https://github.com/ljharb/object.assign/issues/17
+	// if (sym instanceof Symbol) { return false; }
+	// temp disabled per https://github.com/WebReflection/get-own-property-symbols/issues/4
+	// if (!(symObj instanceof Symbol)) { return false; }
+
+	// if (typeof Symbol.prototype.toString !== 'function') { return false; }
+	// if (String(sym) !== Symbol.prototype.toString.call(sym)) { return false; }
+
+	var symVal = 42;
+	obj[sym] = symVal;
+	for (sym in obj) { return false; } // eslint-disable-line no-restricted-syntax
+	if (typeof Object.keys === 'function' && Object.keys(obj).length !== 0) { return false; }
+
+	if (typeof Object.getOwnPropertyNames === 'function' && Object.getOwnPropertyNames(obj).length !== 0) { return false; }
+
+	var syms = Object.getOwnPropertySymbols(obj);
+	if (syms.length !== 1 || syms[0] !== sym) { return false; }
+
+	if (!Object.prototype.propertyIsEnumerable.call(obj, sym)) { return false; }
+
+	if (typeof Object.getOwnPropertyDescriptor === 'function') {
+		var descriptor = Object.getOwnPropertyDescriptor(obj, sym);
+		if (descriptor.value !== symVal || descriptor.enumerable !== true) { return false; }
+	}
+
+	return true;
+};
+
+},{}],79:[function(require,module,exports){
+'use strict';
+
+var bind = require('function-bind');
+
+module.exports = bind.call(Function.call, Object.prototype.hasOwnProperty);
+
+},{"function-bind":76}],80:[function(require,module,exports){
+arguments[4][8][0].apply(exports,arguments)
+},{"dup":8}],81:[function(require,module,exports){
+'use strict';
+
+var fnToStr = Function.prototype.toString;
+
+var constructorRegex = /^\s*class\b/;
+var isES6ClassFn = function isES6ClassFunction(value) {
+	try {
+		var fnStr = fnToStr.call(value);
+		return constructorRegex.test(fnStr);
+	} catch (e) {
+		return false; // not a function
+	}
+};
+
+var tryFunctionObject = function tryFunctionToStr(value) {
+	try {
+		if (isES6ClassFn(value)) { return false; }
+		fnToStr.call(value);
+		return true;
+	} catch (e) {
+		return false;
+	}
+};
+var toStr = Object.prototype.toString;
+var fnClass = '[object Function]';
+var genClass = '[object GeneratorFunction]';
+var hasToStringTag = typeof Symbol === 'function' && typeof Symbol.toStringTag === 'symbol';
+
+module.exports = function isCallable(value) {
+	if (!value) { return false; }
+	if (typeof value !== 'function' && typeof value !== 'object') { return false; }
+	if (typeof value === 'function' && !value.prototype) { return true; }
+	if (hasToStringTag) { return tryFunctionObject(value); }
+	if (isES6ClassFn(value)) { return false; }
+	var strClass = toStr.call(value);
+	return strClass === fnClass || strClass === genClass;
+};
+
+},{}],82:[function(require,module,exports){
+var hasMap = typeof Map === 'function' && Map.prototype;
+var mapSizeDescriptor = Object.getOwnPropertyDescriptor && hasMap ? Object.getOwnPropertyDescriptor(Map.prototype, 'size') : null;
+var mapSize = hasMap && mapSizeDescriptor && typeof mapSizeDescriptor.get === 'function' ? mapSizeDescriptor.get : null;
+var mapForEach = hasMap && Map.prototype.forEach;
+var hasSet = typeof Set === 'function' && Set.prototype;
+var setSizeDescriptor = Object.getOwnPropertyDescriptor && hasSet ? Object.getOwnPropertyDescriptor(Set.prototype, 'size') : null;
+var setSize = hasSet && setSizeDescriptor && typeof setSizeDescriptor.get === 'function' ? setSizeDescriptor.get : null;
+var setForEach = hasSet && Set.prototype.forEach;
+var booleanValueOf = Boolean.prototype.valueOf;
+var objectToString = Object.prototype.toString;
+var bigIntValueOf = typeof BigInt === 'function' ? BigInt.prototype.valueOf : null;
+
+var inspectCustom = require('./util.inspect').custom;
+var inspectSymbol = (inspectCustom && isSymbol(inspectCustom)) ? inspectCustom : null;
+
+module.exports = function inspect_ (obj, opts, depth, seen) {
+    if (!opts) opts = {};
+
+    if (has(opts, 'quoteStyle') && (opts.quoteStyle !== 'single' && opts.quoteStyle !== 'double')) {
+        throw new TypeError('option "quoteStyle" must be "single" or "double"');
+    }
+
+    if (typeof obj === 'undefined') {
+        return 'undefined';
+    }
+    if (obj === null) {
+        return 'null';
+    }
+    if (typeof obj === 'boolean') {
+        return obj ? 'true' : 'false';
+    }
+
+    if (typeof obj === 'string') {
+        return inspectString(obj, opts);
+    }
+    if (typeof obj === 'number') {
+      if (obj === 0) {
+        return Infinity / obj > 0 ? '0' : '-0';
+      }
+      return String(obj);
+    }
+    if (typeof obj === 'bigint') {
+      return String(obj) + 'n';
+    }
+
+    var maxDepth = typeof opts.depth === 'undefined' ? 5 : opts.depth;
+    if (typeof depth === 'undefined') depth = 0;
+    if (depth >= maxDepth && maxDepth > 0 && typeof obj === 'object') {
+        return '[Object]';
+    }
+
+    if (typeof seen === 'undefined') seen = [];
+    else if (indexOf(seen, obj) >= 0) {
+        return '[Circular]';
+    }
+
+    function inspect (value, from) {
+        if (from) {
+            seen = seen.slice();
+            seen.push(from);
+        }
+        return inspect_(value, opts, depth + 1, seen);
+    }
+
+    if (typeof obj === 'function') {
+        var name = nameOf(obj);
+        return '[Function' + (name ? ': ' + name : '') + ']';
+    }
+    if (isSymbol(obj)) {
+        var symString = Symbol.prototype.toString.call(obj);
+        return typeof obj === 'object' ? markBoxed(symString) : symString;
+    }
+    if (isElement(obj)) {
+        var s = '<' + String(obj.nodeName).toLowerCase();
+        var attrs = obj.attributes || [];
+        for (var i = 0; i < attrs.length; i++) {
+            s += ' ' + attrs[i].name + '=' + wrapQuotes(quote(attrs[i].value), 'double', opts);
+        }
+        s += '>';
+        if (obj.childNodes && obj.childNodes.length) s += '...';
+        s += '</' + String(obj.nodeName).toLowerCase() + '>';
+        return s;
+    }
+    if (isArray(obj)) {
+        if (obj.length === 0) return '[]';
+        return '[ ' + arrObjKeys(obj, inspect).join(', ') + ' ]';
+    }
+    if (isError(obj)) {
+        var parts = arrObjKeys(obj, inspect);
+        if (parts.length === 0) return '[' + String(obj) + ']';
+        return '{ [' + String(obj) + '] ' + parts.join(', ') + ' }';
+    }
+    if (typeof obj === 'object') {
+        if (inspectSymbol && typeof obj[inspectSymbol] === 'function') {
+            return obj[inspectSymbol]();
+        } else if (typeof obj.inspect === 'function') {
+            return obj.inspect();
+        }
+    }
+    if (isMap(obj)) {
+        var parts = [];
+        mapForEach.call(obj, function (value, key) {
+            parts.push(inspect(key, obj) + ' => ' + inspect(value, obj));
+        });
+        return collectionOf('Map', mapSize.call(obj), parts);
+    }
+    if (isSet(obj)) {
+        var parts = [];
+        setForEach.call(obj, function (value ) {
+            parts.push(inspect(value, obj));
+        });
+        return collectionOf('Set', setSize.call(obj), parts);
+    }
+    if (isNumber(obj)) {
+        return markBoxed(inspect(Number(obj)));
+    }
+    if (isBigInt(obj)) {
+        return markBoxed(inspect(bigIntValueOf.call(obj)));
+    }
+    if (isBoolean(obj)) {
+        return markBoxed(booleanValueOf.call(obj));
+    }
+    if (isString(obj)) {
+        return markBoxed(inspect(String(obj)));
+    }
+    if (!isDate(obj) && !isRegExp(obj)) {
+        var xs = arrObjKeys(obj, inspect);
+        if (xs.length === 0) return '{}';
+        return '{ ' + xs.join(', ') + ' }';
+    }
+    return String(obj);
+};
+
+function wrapQuotes (s, defaultStyle, opts) {
+    var quoteChar = (opts.quoteStyle || defaultStyle) === 'double' ? '"' : "'";
+    return quoteChar + s + quoteChar;
+}
+
+function quote (s) {
+    return String(s).replace(/"/g, '&quot;');
+}
+
+function isArray (obj) { return toStr(obj) === '[object Array]'; }
+function isDate (obj) { return toStr(obj) === '[object Date]'; }
+function isRegExp (obj) { return toStr(obj) === '[object RegExp]'; }
+function isError (obj) { return toStr(obj) === '[object Error]'; }
+function isSymbol (obj) { return toStr(obj) === '[object Symbol]'; }
+function isString (obj) { return toStr(obj) === '[object String]'; }
+function isNumber (obj) { return toStr(obj) === '[object Number]'; }
+function isBigInt (obj) { return toStr(obj) === '[object BigInt]'; }
+function isBoolean (obj) { return toStr(obj) === '[object Boolean]'; }
+
+var hasOwn = Object.prototype.hasOwnProperty || function (key) { return key in this; };
+function has (obj, key) {
+    return hasOwn.call(obj, key);
+}
+
+function toStr (obj) {
+    return objectToString.call(obj);
+}
+
+function nameOf (f) {
+    if (f.name) return f.name;
+    var m = String(f).match(/^function\s*([\w$]+)/);
+    if (m) return m[1];
+}
+
+function indexOf (xs, x) {
+    if (xs.indexOf) return xs.indexOf(x);
+    for (var i = 0, l = xs.length; i < l; i++) {
+        if (xs[i] === x) return i;
+    }
+    return -1;
+}
+
+function isMap (x) {
+    if (!mapSize) {
+        return false;
+    }
+    try {
+        mapSize.call(x);
+        try {
+            setSize.call(x);
+        } catch (s) {
+            return true;
+        }
+        return x instanceof Map; // core-js workaround, pre-v2.5.0
+    } catch (e) {}
+    return false;
+}
+
+function isSet (x) {
+    if (!setSize) {
+        return false;
+    }
+    try {
+        setSize.call(x);
+        try {
+            mapSize.call(x);
+        } catch (m) {
+            return true;
+        }
+        return x instanceof Set; // core-js workaround, pre-v2.5.0
+    } catch (e) {}
+    return false;
+}
+
+function isElement (x) {
+    if (!x || typeof x !== 'object') return false;
+    if (typeof HTMLElement !== 'undefined' && x instanceof HTMLElement) {
+        return true;
+    }
+    return typeof x.nodeName === 'string'
+        && typeof x.getAttribute === 'function'
+    ;
+}
+
+function inspectString (str, opts) {
+    var s = str.replace(/(['\\])/g, '\\$1').replace(/[\x00-\x1f]/g, lowbyte);
+    return wrapQuotes(s, 'single', opts);
+}
+
+function lowbyte (c) {
+    var n = c.charCodeAt(0);
+    var x = { 8: 'b', 9: 't', 10: 'n', 12: 'f', 13: 'r' }[n];
+    if (x) return '\\' + x;
+    return '\\x' + (n < 0x10 ? '0' : '') + n.toString(16);
+}
+
+function markBoxed (str) {
+    return 'Object(' + str + ')';
+}
+
+function collectionOf (type, size, entries) {
+    return type + ' (' + size + ') {' + entries.join(', ') + '}';
+}
+
+function arrObjKeys (obj, inspect) {
+    var isArr = isArray(obj);
+    var xs = [];
+    if (isArr) {
+        xs.length = obj.length;
+        for (var i = 0; i < obj.length; i++) {
+            xs[i] = has(obj, i) ? inspect(obj[i], obj) : '';
+        }
+    }
+    for (var key in obj) {
+        if (!has(obj, key)) continue;
+        if (isArr && String(Number(key)) === key && key < obj.length) continue;
+        if (/[^\w$]/.test(key)) {
+            xs.push(inspect(key, obj) + ': ' + inspect(obj[key], obj));
+        } else {
+            xs.push(key + ': ' + inspect(obj[key], obj));
+        }
+    }
+    return xs;
+}
+
+},{"./util.inspect":2}],83:[function(require,module,exports){
+'use strict';
+
+var keysShim;
+if (!Object.keys) {
+	// modified from https://github.com/es-shims/es5-shim
+	var has = Object.prototype.hasOwnProperty;
+	var toStr = Object.prototype.toString;
+	var isArgs = require('./isArguments'); // eslint-disable-line global-require
+	var isEnumerable = Object.prototype.propertyIsEnumerable;
+	var hasDontEnumBug = !isEnumerable.call({ toString: null }, 'toString');
+	var hasProtoEnumBug = isEnumerable.call(function () {}, 'prototype');
+	var dontEnums = [
+		'toString',
+		'toLocaleString',
+		'valueOf',
+		'hasOwnProperty',
+		'isPrototypeOf',
+		'propertyIsEnumerable',
+		'constructor'
+	];
+	var equalsConstructorPrototype = function (o) {
+		var ctor = o.constructor;
+		return ctor && ctor.prototype === o;
+	};
+	var excludedKeys = {
+		$applicationCache: true,
+		$console: true,
+		$external: true,
+		$frame: true,
+		$frameElement: true,
+		$frames: true,
+		$innerHeight: true,
+		$innerWidth: true,
+		$onmozfullscreenchange: true,
+		$onmozfullscreenerror: true,
+		$outerHeight: true,
+		$outerWidth: true,
+		$pageXOffset: true,
+		$pageYOffset: true,
+		$parent: true,
+		$scrollLeft: true,
+		$scrollTop: true,
+		$scrollX: true,
+		$scrollY: true,
+		$self: true,
+		$webkitIndexedDB: true,
+		$webkitStorageInfo: true,
+		$window: true
+	};
+	var hasAutomationEqualityBug = (function () {
+		/* global window */
+		if (typeof window === 'undefined') { return false; }
+		for (var k in window) {
+			try {
+				if (!excludedKeys['$' + k] && has.call(window, k) && window[k] !== null && typeof window[k] === 'object') {
+					try {
+						equalsConstructorPrototype(window[k]);
+					} catch (e) {
+						return true;
+					}
+				}
+			} catch (e) {
+				return true;
+			}
+		}
+		return false;
+	}());
+	var equalsConstructorPrototypeIfNotBuggy = function (o) {
+		/* global window */
+		if (typeof window === 'undefined' || !hasAutomationEqualityBug) {
+			return equalsConstructorPrototype(o);
+		}
+		try {
+			return equalsConstructorPrototype(o);
+		} catch (e) {
+			return false;
+		}
+	};
+
+	keysShim = function keys(object) {
+		var isObject = object !== null && typeof object === 'object';
+		var isFunction = toStr.call(object) === '[object Function]';
+		var isArguments = isArgs(object);
+		var isString = isObject && toStr.call(object) === '[object String]';
+		var theKeys = [];
+
+		if (!isObject && !isFunction && !isArguments) {
+			throw new TypeError('Object.keys called on a non-object');
+		}
+
+		var skipProto = hasProtoEnumBug && isFunction;
+		if (isString && object.length > 0 && !has.call(object, 0)) {
+			for (var i = 0; i < object.length; ++i) {
+				theKeys.push(String(i));
+			}
+		}
+
+		if (isArguments && object.length > 0) {
+			for (var j = 0; j < object.length; ++j) {
+				theKeys.push(String(j));
+			}
+		} else {
+			for (var name in object) {
+				if (!(skipProto && name === 'prototype') && has.call(object, name)) {
+					theKeys.push(String(name));
+				}
+			}
+		}
+
+		if (hasDontEnumBug) {
+			var skipConstructor = equalsConstructorPrototypeIfNotBuggy(object);
+
+			for (var k = 0; k < dontEnums.length; ++k) {
+				if (!(skipConstructor && dontEnums[k] === 'constructor') && has.call(object, dontEnums[k])) {
+					theKeys.push(dontEnums[k]);
+				}
+			}
+		}
+		return theKeys;
+	};
+}
+module.exports = keysShim;
+
+},{"./isArguments":85}],84:[function(require,module,exports){
+'use strict';
+
+var slice = Array.prototype.slice;
+var isArgs = require('./isArguments');
+
+var origKeys = Object.keys;
+var keysShim = origKeys ? function keys(o) { return origKeys(o); } : require('./implementation');
+
+var originalKeys = Object.keys;
+
+keysShim.shim = function shimObjectKeys() {
+	if (Object.keys) {
+		var keysWorksWithArguments = (function () {
+			// Safari 5.0 bug
+			var args = Object.keys(arguments);
+			return args && args.length === arguments.length;
+		}(1, 2));
+		if (!keysWorksWithArguments) {
+			Object.keys = function keys(object) { // eslint-disable-line func-name-matching
+				if (isArgs(object)) {
+					return originalKeys(slice.call(object));
+				}
+				return originalKeys(object);
+			};
+		}
+	} else {
+		Object.keys = keysShim;
+	}
+	return Object.keys || keysShim;
+};
+
+module.exports = keysShim;
+
+},{"./implementation":83,"./isArguments":85}],85:[function(require,module,exports){
+'use strict';
+
+var toStr = Object.prototype.toString;
+
+module.exports = function isArguments(value) {
+	var str = toStr.call(value);
+	var isArgs = str === '[object Arguments]';
+	if (!isArgs) {
+		isArgs = str !== '[object Array]' &&
+			value !== null &&
+			typeof value === 'object' &&
+			typeof value.length === 'number' &&
+			value.length >= 0 &&
+			toStr.call(value.callee) === '[object Function]';
+	}
+	return isArgs;
+};
+
+},{}],86:[function(require,module,exports){
+(function (process,setImmediate){
+var through = require('through');
+var nextTick = typeof setImmediate !== 'undefined'
+    ? setImmediate
+    : process.nextTick
+;
+
+module.exports = function (write, end) {
+    var tr = through(write, end);
+    tr.pause();
+    var resume = tr.resume;
+    var pause = tr.pause;
+    var paused = false;
+    
+    tr.pause = function () {
+        paused = true;
+        return pause.apply(this, arguments);
+    };
+    
+    tr.resume = function () {
+        paused = false;
+        return resume.apply(this, arguments);
+    };
+    
+    nextTick(function () {
+        if (!paused) tr.resume();
+    });
+    
+    return tr;
+};
+
+}).call(this,require('_process'),require("timers").setImmediate)
+},{"_process":13,"through":91,"timers":30}],87:[function(require,module,exports){
+'use strict';
+
+var bind = require('function-bind');
+var ES = require('es-abstract/es5');
+var replace = bind.call(Function.call, String.prototype.replace);
+
+var leftWhitespace = /^[\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF]+/;
+var rightWhitespace = /[\x09\x0A\x0B\x0C\x0D\x20\xA0\u1680\u180E\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF]+$/;
+
+module.exports = function trim() {
+	var S = ES.ToString(ES.CheckObjectCoercible(this));
+	return replace(replace(S, leftWhitespace, ''), rightWhitespace, '');
+};
+
+},{"es-abstract/es5":62,"function-bind":76}],88:[function(require,module,exports){
+'use strict';
+
+var bind = require('function-bind');
+var define = require('define-properties');
+
+var implementation = require('./implementation');
+var getPolyfill = require('./polyfill');
+var shim = require('./shim');
+
+var boundTrim = bind.call(Function.call, getPolyfill());
+
+define(boundTrim, {
+	getPolyfill: getPolyfill,
+	implementation: implementation,
+	shim: shim
+});
+
+module.exports = boundTrim;
+
+},{"./implementation":87,"./polyfill":89,"./shim":90,"define-properties":59,"function-bind":76}],89:[function(require,module,exports){
+'use strict';
+
+var implementation = require('./implementation');
+
+var zeroWidthSpace = '\u200b';
+
+module.exports = function getPolyfill() {
+	if (String.prototype.trim && zeroWidthSpace.trim() === zeroWidthSpace) {
+		return String.prototype.trim;
+	}
+	return implementation;
+};
+
+},{"./implementation":87}],90:[function(require,module,exports){
+'use strict';
+
+var define = require('define-properties');
+var getPolyfill = require('./polyfill');
+
+module.exports = function shimStringTrim() {
+	var polyfill = getPolyfill();
+	define(String.prototype, { trim: polyfill }, { trim: function () { return String.prototype.trim !== polyfill; } });
+	return polyfill;
+};
+
+},{"./polyfill":89,"define-properties":59}],91:[function(require,module,exports){
 (function (process){
 var Stream = require('stream')
 
@@ -11890,157 +12640,13 @@ function through (write, end, opts) {
 
 
 }).call(this,require('_process'))
-},{"_process":54,"stream":71}],82:[function(require,module,exports){
-(function (setImmediate,clearImmediate){
-var nextTick = require('process/browser.js').nextTick;
-var apply = Function.prototype.apply;
-var slice = Array.prototype.slice;
-var immediateIds = {};
-var nextImmediateId = 0;
+},{"_process":13,"stream":15}],92:[function(require,module,exports){
+const qs = (s, p) => (p || document).querySelector(s)
+const qsa = (s, p) => [...(p || document).querySelectorAll(s)]
 
-// DOM APIs, for completeness
+module.exports = { qs, qsa }
 
-exports.setTimeout = function() {
-  return new Timeout(apply.call(setTimeout, window, arguments), clearTimeout);
-};
-exports.setInterval = function() {
-  return new Timeout(apply.call(setInterval, window, arguments), clearInterval);
-};
-exports.clearTimeout =
-exports.clearInterval = function(timeout) { timeout.close(); };
-
-function Timeout(id, clearFn) {
-  this._id = id;
-  this._clearFn = clearFn;
-}
-Timeout.prototype.unref = Timeout.prototype.ref = function() {};
-Timeout.prototype.close = function() {
-  this._clearFn.call(window, this._id);
-};
-
-// Does not start the time, just sets up the members needed.
-exports.enroll = function(item, msecs) {
-  clearTimeout(item._idleTimeoutId);
-  item._idleTimeout = msecs;
-};
-
-exports.unenroll = function(item) {
-  clearTimeout(item._idleTimeoutId);
-  item._idleTimeout = -1;
-};
-
-exports._unrefActive = exports.active = function(item) {
-  clearTimeout(item._idleTimeoutId);
-
-  var msecs = item._idleTimeout;
-  if (msecs >= 0) {
-    item._idleTimeoutId = setTimeout(function onTimeout() {
-      if (item._onTimeout)
-        item._onTimeout();
-    }, msecs);
-  }
-};
-
-// That's not how node.js implements it but the exposed api is the same.
-exports.setImmediate = typeof setImmediate === "function" ? setImmediate : function(fn) {
-  var id = nextImmediateId++;
-  var args = arguments.length < 2 ? false : slice.call(arguments, 1);
-
-  immediateIds[id] = true;
-
-  nextTick(function onNextTick() {
-    if (immediateIds[id]) {
-      // fn.call() is faster so we optimize for the common use-case
-      // @see http://jsperf.com/call-apply-segu
-      if (args) {
-        fn.apply(null, args);
-      } else {
-        fn.call(null);
-      }
-      // Prevent ids from leaking
-      exports.clearImmediate(id);
-    }
-  });
-
-  return id;
-};
-
-exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
-  delete immediateIds[id];
-};
-}).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-},{"process/browser.js":54,"timers":82}],83:[function(require,module,exports){
-(function (global){
-
-/**
- * Module exports.
- */
-
-module.exports = deprecate;
-
-/**
- * Mark that a method should not be used.
- * Returns a modified function which warns once by default.
- *
- * If `localStorage.noDeprecation = true` is set, then it is a no-op.
- *
- * If `localStorage.throwDeprecation = true` is set, then deprecated functions
- * will throw an Error when invoked.
- *
- * If `localStorage.traceDeprecation = true` is set, then deprecated functions
- * will invoke `console.trace()` instead of `console.error()`.
- *
- * @param {Function} fn - the function to deprecate
- * @param {String} msg - the string to print to the console when `fn` is invoked
- * @returns {Function} a new "deprecated" version of `fn`
- * @api public
- */
-
-function deprecate (fn, msg) {
-  if (config('noDeprecation')) {
-    return fn;
-  }
-
-  var warned = false;
-  function deprecated() {
-    if (!warned) {
-      if (config('throwDeprecation')) {
-        throw new Error(msg);
-      } else if (config('traceDeprecation')) {
-        console.trace(msg);
-      } else {
-        console.warn(msg);
-      }
-      warned = true;
-    }
-    return fn.apply(this, arguments);
-  }
-
-  return deprecated;
-}
-
-/**
- * Checks `localStorage` for boolean values for the given `name`.
- *
- * @param {String} name
- * @returns {Boolean}
- * @api private
- */
-
-function config (name) {
-  // accessing global.localStorage can trigger a DOMException in sandboxed iframes
-  try {
-    if (!global.localStorage) return false;
-  } catch (_) {
-    return false;
-  }
-  var val = global.localStorage[name];
-  if (null == val) return false;
-  return String(val).toLowerCase() === 'true';
-}
-
-}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],84:[function(require,module,exports){
+},{}],93:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class Panel extends Tonic {
@@ -12281,8 +12887,8 @@ class Panel extends Tonic {
 
 module.exports = { Panel }
 
-},{"@optoolco/tonic":19}],85:[function(require,module,exports){
-const tape = require('tape')
+},{"@optoolco/tonic":50}],94:[function(require,module,exports){
+const tape = require('@pre-bundled/tape')
 const { qs } = require('qs')
 const Tonic = require('@optoolco/tonic')
 const { Panel } = require('./index')
@@ -12531,7 +13137,7 @@ function sleep (n) {
   })
 }
 
-},{"..":15,"../test/util":104,"./index":84,"@optoolco/tonic":19,"qs":55,"tape":77}],86:[function(require,module,exports){
+},{"..":46,"../test/util":113,"./index":93,"@optoolco/tonic":50,"@pre-bundled/tape":52,"qs":92}],95:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicPopover extends Tonic {
@@ -12731,8 +13337,8 @@ class TonicPopover extends Tonic {
 
 module.exports = { TonicPopover }
 
-},{"@optoolco/tonic":19}],87:[function(require,module,exports){
-const tape = require('tape')
+},{"@optoolco/tonic":50}],96:[function(require,module,exports){
+const tape = require('@pre-bundled/tape')
 const { qs } = require('qs')
 const { html } = require('../test/util')
 const components = require('..')
@@ -12805,7 +13411,7 @@ function sleep (ms) {
   })
 }
 
-},{"..":15,"../test/util":104,"@optoolco/tonic":19,"qs":55,"tape":77}],88:[function(require,module,exports){
+},{"..":46,"../test/util":113,"@optoolco/tonic":50,"@pre-bundled/tape":52,"qs":92}],97:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
@@ -13021,8 +13627,8 @@ TonicProfileImage.svg.default = () => TonicProfileImage.svg.toURL(`
 
 module.exports = { TonicProfileImage }
 
-},{"../mode":18,"@optoolco/tonic":19}],89:[function(require,module,exports){
-const tape = require('tape')
+},{"../mode":49,"@optoolco/tonic":50}],98:[function(require,module,exports){
+const tape = require('@pre-bundled/tape')
 const { qs } = require('qs')
 const { html } = require('../test/util')
 const components = require('..')
@@ -13160,7 +13766,7 @@ tape('test a profile image', t => {
   t.end()
 })
 
-},{"..":15,"../test/util":104,"@optoolco/tonic":19,"qs":55,"tape":77}],90:[function(require,module,exports){
+},{"..":46,"../test/util":113,"@optoolco/tonic":50,"@pre-bundled/tape":52,"qs":92}],99:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
@@ -13252,8 +13858,8 @@ class TonicProgressBar extends Tonic {
 
 module.exports = { TonicProgressBar }
 
-},{"../mode":18,"@optoolco/tonic":19}],91:[function(require,module,exports){
-const tape = require('tape')
+},{"../mode":49,"@optoolco/tonic":50}],100:[function(require,module,exports){
+const tape = require('@pre-bundled/tape')
 const { qs } = require('qs')
 const { html } = require('../test/util')
 const components = require('..')
@@ -13402,7 +14008,7 @@ tape('get a progress bar', t => {
   t.end()
 })
 
-},{"..":15,"../test/util":104,"@optoolco/tonic":19,"qs":55,"tape":77}],92:[function(require,module,exports){
+},{"..":46,"../test/util":113,"@optoolco/tonic":50,"@pre-bundled/tape":52,"qs":92}],101:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
@@ -13616,8 +14222,8 @@ class TonicRange extends Tonic {
 
 module.exports = { TonicRange }
 
-},{"../mode":18,"@optoolco/tonic":19}],93:[function(require,module,exports){
-const tape = require('tape')
+},{"../mode":49,"@optoolco/tonic":50}],102:[function(require,module,exports){
+const tape = require('@pre-bundled/tape')
 const { qs } = require('qs')
 const { html } = require('../test/util')
 const components = require('..')
@@ -13774,7 +14380,7 @@ tape('test a range elem', t => {
   t.end()
 })
 
-},{"..":15,"../test/util":104,"@optoolco/tonic":19,"qs":55,"tape":77}],94:[function(require,module,exports){
+},{"..":46,"../test/util":113,"@optoolco/tonic":50,"@pre-bundled/tape":52,"qs":92}],103:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const weekdays = [
@@ -14256,7 +14862,7 @@ const timeFormatter = makeFormatter({
 
 module.exports = { TonicRelativeTime, RelativeTime }
 
-},{"@optoolco/tonic":19}],95:[function(require,module,exports){
+},{"@optoolco/tonic":50}],104:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
@@ -14556,7 +15162,7 @@ TonicRouter.matcher = (() => {
 
 module.exports = { TonicRouter }
 
-},{"../mode":18,"@optoolco/tonic":19}],96:[function(require,module,exports){
+},{"../mode":49,"@optoolco/tonic":50}],105:[function(require,module,exports){
 const { html } = require('../test/util')
 const components = require('..')
 components(require('@optoolco/tonic'))
@@ -14611,7 +15217,7 @@ page2.addEventListener('match', () => {
 
 // TODO: convert to tape tests
 
-},{"..":15,"../test/util":104,"@optoolco/tonic":19}],97:[function(require,module,exports){
+},{"..":46,"../test/util":113,"@optoolco/tonic":50}],106:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicSelect extends Tonic {
@@ -14858,8 +15464,8 @@ TonicSelect.svg.default = () => TonicSelect.svg.toURL(`
 
 module.exports = { TonicSelect }
 
-},{"@optoolco/tonic":19}],98:[function(require,module,exports){
-const tape = require('tape')
+},{"@optoolco/tonic":50}],107:[function(require,module,exports){
+const tape = require('@pre-bundled/tape')
 const { qs } = require('qs')
 const { html } = require('../test/util')
 const components = require('..')
@@ -15072,7 +15678,7 @@ tape('test a select', t => {
   t.end()
 })
 
-},{"..":15,"../test/util":104,"@optoolco/tonic":19,"qs":55,"tape":77}],99:[function(require,module,exports){
+},{"..":46,"../test/util":113,"@optoolco/tonic":50,"@pre-bundled/tape":52,"qs":92}],108:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicSprite extends Tonic {
@@ -15139,7 +15745,7 @@ class TonicSprite extends Tonic {
 
 module.exports = { TonicSprite }
 
-},{"@optoolco/tonic":19}],100:[function(require,module,exports){
+},{"@optoolco/tonic":50}],109:[function(require,module,exports){
 (function (setImmediate){
 const Tonic = require('@optoolco/tonic')
 
@@ -15320,9 +15926,9 @@ module.exports = {
 }
 
 }).call(this,require("timers").setImmediate)
-},{"../mode":18,"@optoolco/tonic":19,"timers":82}],101:[function(require,module,exports){
+},{"../mode":49,"@optoolco/tonic":50,"timers":30}],110:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
-const tape = require('tape')
+const tape = require('@pre-bundled/tape')
 const { qs } = require('qs')
 
 const { html } = require('../test/util')
@@ -15480,8 +16086,8 @@ tape('{{tabs-3}} has correct default state', t => {
   t.end()
 })
 
-},{"..":15,"../test/util":104,"@optoolco/tonic":19,"qs":55,"tape":77}],102:[function(require,module,exports){
-const tape = require('tape')
+},{"..":46,"../test/util":113,"@optoolco/tonic":50,"@pre-bundled/tape":52,"qs":92}],111:[function(require,module,exports){
+const tape = require('@pre-bundled/tape')
 const stream = tape.createStream({ objectMode: true })
 
 const inc = id => {
@@ -15549,7 +16155,7 @@ stream.on('data', data => {
 
 module.exports = tape
 
-},{"tape":77}],103:[function(require,module,exports){
+},{"@pre-bundled/tape":52}],112:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 const components = require('../..')
 
@@ -15593,7 +16199,7 @@ function ready () {
 
 document.addEventListener('DOMContentLoaded', ready)
 
-},{"../..":15,"../../badge/test":3,"../../button/test":5,"../../chart/test":7,"../../checkbox/test":9,"../../dialog/test":11,"../../icon/test":14,"../../input/test":17,"../../panel/test":85,"../../popover/test":87,"../../profile-image/test":89,"../../progress-bar/test":91,"../../range/test":93,"../../router/test":96,"../../select/test":98,"../../tabs/test":101,"../../textarea/test":106,"../../toaster-inline/test":108,"../../toaster/test":110,"../../toggle/test":112,"../../tooltip/test":114,"../../windowed/test":115,"./tape.js":102,"@optoolco/tonic":19}],104:[function(require,module,exports){
+},{"../..":46,"../../badge/test":34,"../../button/test":36,"../../chart/test":38,"../../checkbox/test":40,"../../dialog/test":42,"../../icon/test":45,"../../input/test":48,"../../panel/test":94,"../../popover/test":96,"../../profile-image/test":98,"../../progress-bar/test":100,"../../range/test":102,"../../router/test":105,"../../select/test":107,"../../tabs/test":110,"../../textarea/test":115,"../../toaster-inline/test":117,"../../toaster/test":119,"../../toggle/test":121,"../../tooltip/test":123,"../../windowed/test":124,"./tape.js":111,"@optoolco/tonic":50}],113:[function(require,module,exports){
 'use strict'
 
 const Tonic = require('@optoolco/tonic')
@@ -15622,7 +16228,7 @@ function html ([str, ...strings], ...values) {
   return comp
 }
 
-},{"@optoolco/tonic":19}],105:[function(require,module,exports){
+},{"@optoolco/tonic":50}],114:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
@@ -15788,7 +16394,7 @@ class TonicTextarea extends Tonic {
 
 module.exports = { TonicTextarea }
 
-},{"../mode":18,"@optoolco/tonic":19}],106:[function(require,module,exports){
+},{"../mode":49,"@optoolco/tonic":50}],115:[function(require,module,exports){
 const { html } = require('../test/util')
 const components = require('..')
 components(require('@optoolco/tonic'))
@@ -15942,7 +16548,7 @@ document.body.appendChild(html`
 
 // TODO: write tests
 
-},{"..":15,"../test/util":104,"@optoolco/tonic":19}],107:[function(require,module,exports){
+},{"..":46,"../test/util":113,"@optoolco/tonic":50}],116:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicToasterInline extends Tonic {
@@ -16157,7 +16763,7 @@ class TonicToasterInline extends Tonic {
 
 module.exports = { TonicToasterInline }
 
-},{"@optoolco/tonic":19}],108:[function(require,module,exports){
+},{"@optoolco/tonic":50}],117:[function(require,module,exports){
 
 const { html } = require('../test/util')
 const components = require('..')
@@ -16378,7 +16984,7 @@ document.body.appendChild(html`
 </section>
 `)
 
-},{"..":15,"../test/util":104,"@optoolco/tonic":19}],109:[function(require,module,exports){
+},{"..":46,"../test/util":113,"@optoolco/tonic":50}],118:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicToaster extends Tonic {
@@ -16635,8 +17241,8 @@ class TonicToaster extends Tonic {
 
 module.exports = { TonicToaster }
 
-},{"@optoolco/tonic":19}],110:[function(require,module,exports){
-const tape = require('tape')
+},{"@optoolco/tonic":50}],119:[function(require,module,exports){
+const tape = require('@pre-bundled/tape')
 const { qs } = require('qs')
 
 const { html } = require('../test/util')
@@ -16914,7 +17520,7 @@ tape('{{toaster}} is created on the right', async t => {
   t.end()
 })
 
-},{"..":15,"../test/util":104,"@optoolco/tonic":19,"qs":55,"tape":77}],111:[function(require,module,exports){
+},{"..":46,"../test/util":113,"@optoolco/tonic":50,"@pre-bundled/tape":52,"qs":92}],120:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
@@ -17134,8 +17740,8 @@ class TonicToggle extends Tonic {
 
 module.exports = { TonicToggle }
 
-},{"../mode":18,"@optoolco/tonic":19}],112:[function(require,module,exports){
-const tape = require('tape')
+},{"../mode":49,"@optoolco/tonic":50}],121:[function(require,module,exports){
+const tape = require('@pre-bundled/tape')
 const { qs } = require('qs')
 
 const { html } = require('../test/util')
@@ -17256,7 +17862,7 @@ tape('{{toggle-2}} has tabindex attribute', t => {
   t.end()
 })
 
-},{"..":15,"../test/util":104,"@optoolco/tonic":19,"qs":55,"tape":77}],113:[function(require,module,exports){
+},{"..":46,"../test/util":113,"@optoolco/tonic":50,"@pre-bundled/tape":52,"qs":92}],122:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicTooltip extends Tonic {
@@ -17416,7 +18022,7 @@ class TonicTooltip extends Tonic {
 
 module.exports = { TonicTooltip }
 
-},{"@optoolco/tonic":19}],114:[function(require,module,exports){
+},{"@optoolco/tonic":50}],123:[function(require,module,exports){
 const { html } = require('../test/util')
 const components = require('..')
 components(require('@optoolco/tonic'))
@@ -17492,7 +18098,7 @@ document.body.appendChild(html`
 
 // TODO write tests
 
-},{"..":15,"../test/util":104,"@optoolco/tonic":19}],115:[function(require,module,exports){
+},{"..":46,"../test/util":113,"@optoolco/tonic":50}],124:[function(require,module,exports){
 const { html } = require('../test/util')
 
 document.body.appendChild(html`
@@ -17508,4 +18114,4 @@ document.body.appendChild(html`
 
 // TODO: tests
 
-},{"../test/util":104}]},{},[103]);
+},{"../test/util":113}]},{},[112]);

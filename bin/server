@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 const https = require('https')
 const parse = require('url').parse
-const send = require('send')
+const send = require('@pre-bundled/send')
 const fs = require('fs')
 
 const opts = {

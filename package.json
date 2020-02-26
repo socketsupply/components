@@ -51,6 +51,7 @@
   },
   "devDependencies": {
     "@optoolco/tonic": "11.0.3",
+    "@pre-bundled/send": "0.16.2-patch-1",
     "@pre-bundled/tape": "4.11.0",
     "chart.js": "^2.9.2",
     "highlight.js": "^9.12.0",
@@ -60,8 +61,7 @@
     "node-fetch": "^2.2.0",
     "npm-bin-deps": "1.4.2",
     "qs": "github:hxoht/qs",
-    "scrolltoy": "github:voltraco/scrolltoy",
-    "send": "^0.16.2"
+    "scrolltoy": "github:voltraco/scrolltoy"
   },
   "dependencies": {}
 }

@@ -1,7 +1,7 @@
 'use strict'
 
 /* global fixture, test */
-const { Selector } = require('testcafe')
+import { Selector } from 'testcafe'
 
 fixture`Test form`
   .page`http://localhost:8030/`

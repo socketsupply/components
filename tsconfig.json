@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "lib": ["ES2015"],
+    "paths": {
+      "testcafe": ["types/testcafe"]
+    }
+  }
+}

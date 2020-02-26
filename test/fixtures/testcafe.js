@@ -1,5 +1,13 @@
 'use strict'
 
+window.promiseCounter = 0
+const OldPromise = window.Promise
+window.Promise = function () {
+  window.promiseCounter++
+  console.trace('a promise here')
+  return new OldPromise(...arguments)
+}
+
 const Tonic = require('@optoolco/tonic')
 
 const components = require('../../')

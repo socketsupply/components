@@ -2367,8 +2367,16 @@ class Tonic extends window.HTMLElement {
 
     this.pendingReRender = new Promise(resolve => {
       window.requestAnimationFrame(() => {
-        Tonic._maybePromise(this._set(this.root, this.render))
+        const p = this._set(this.root, this.render)
         this.pendingReRender = null
+
+        if (p && p.then) {
+          Tonic._maybePromise(p.then(() => {
+            if (this.updated) this.updated(oldProps)
+            resolve()
+          }))
+          return
+        }
 
         if (this.updated) this.updated(oldProps)
         resolve()
@@ -2392,7 +2400,16 @@ class Tonic extends window.HTMLElement {
     Tonic._maybePromise(this[e.type](e))
   }
 
-  async _set (target, render, content = '') {
+  _drainIterator (target, iterator) {
+    const p = iterator.next()
+    return p.then((result) => {
+      this._set(target, null, result.value)
+      if (result.done) return
+      return this._drainIterator(target, iterator)
+    })
+  }
+
+  _set (target, render, content = '') {
     for (const node of target.querySelectorAll(Tonic._tags)) {
       if (!node.isTonicComponent) continue
       if (!node.id || !Tonic._refIds.includes(node.id)) continue
@@ -2400,19 +2417,22 @@ class Tonic extends window.HTMLElement {
     }
 
     if (render instanceof Tonic.AsyncFunction) {
-      content = await render.call(this) || ''
+      const promise = render.call(this) || ''
+      return promise.then((content) => {
+        return this._apply(target, content)
+      })
     } else if (render instanceof Tonic.AsyncFunctionGenerator) {
       const itr = render.call(this)
-      while (true) {
-        const { value, done } = await itr.next()
-        this._set(target, null, value)
-        if (done) break
-      }
-      return
+      return this._drainIterator(target, itr)
     } else if (render instanceof Function) {
       content = render.call(this) || ''
+      return this._apply(target, content)
     }
 
+    return this._apply(target, content)
+  }
+
+  _apply (target, content) {
     if (content && content.isTonicRaw) {
       content = content.rawText
     }
@@ -2551,43 +2571,40 @@ if (typeof module === 'object') module.exports = Tonic
 
 },{"./package":24}],24:[function(require,module,exports){
 module.exports={
-  "_args": [
-    [
-      "@optoolco/tonic@11.0.3",
-      "/Users/paolofragomeni/projects/optoolco/components"
-    ]
-  ],
-  "_development": true,
-  "_from": "@optoolco/tonic@11.0.3",
-  "_id": "@optoolco/tonic@11.0.3",
+  "_from": "@optoolco/tonic@next",
+  "_id": "@optoolco/tonic@11.0.4",
   "_inBundle": false,
-  "_integrity": "sha512-0hDou0iEQQueM7Ej68rcqcM9WrEy4YKWwTMpN7Pl7izZt+e/GcmMAf+B06buFYkrvxxY3per9HZG4e4WM84M4A==",
+  "_integrity": "sha512-S5fvBiu4st7wBd/JYuEJiywH9RWjJk4CDS1y53k85f71LinRgj5dzZs02F5720RUgukcCj7DVNlCtGPipLYXXQ==",
   "_location": "/@optoolco/tonic",
   "_phantomChildren": {},
   "_requested": {
-    "type": "version",
+    "type": "tag",
     "registry": true,
-    "raw": "@optoolco/tonic@11.0.3",
+    "raw": "@optoolco/tonic@next",
     "name": "@optoolco/tonic",
     "escapedName": "@optoolco%2ftonic",
     "scope": "@optoolco",
-    "rawSpec": "11.0.3",
+    "rawSpec": "next",
     "saveSpec": null,
-    "fetchSpec": "11.0.3"
+    "fetchSpec": "next"
   },
   "_requiredBy": [
-    "#DEV:/"
+    "#DEV:/",
+    "#USER"
   ],
-  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-11.0.3.tgz",
-  "_spec": "11.0.3",
-  "_where": "/Users/paolofragomeni/projects/optoolco/components",
+  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-11.0.4.tgz",
+  "_shasum": "d13278685cf6d9fbddfe4981f34ca85474d5a86f",
+  "_spec": "@optoolco/tonic@next",
+  "_where": "/home/raynos/optoolco/components",
   "author": {
     "name": "optoolco"
   },
   "bugs": {
     "url": "https://github.com/optoolco/tonic/issues"
   },
+  "bundleDependencies": false,
   "dependencies": {},
+  "deprecated": false,
   "description": "A composable component inspired by React.",
   "devDependencies": {
     "benchmark": "^2.1.4",
@@ -2613,7 +2630,7 @@ module.exports={
     "minify": "terser index.js -c unused,dead_code,hoist_vars,loops=false,hoist_props=true,hoist_funs,toplevel,keep_classnames,keep_fargs=false -o dist/tonic.min.js",
     "test": "npm run minify && browserify test/index.js | tape-puppet"
   },
-  "version": "11.0.3"
+  "version": "11.0.4"
 }
 
 },{}],25:[function(require,module,exports){
@@ -6095,6 +6112,7 @@ class Windowed extends Tonic {
     super(o)
 
     this.prependCounter = 0
+    this.noMoreBottomRows = false
     this.currentVisibleRowIndex = -1
   }
 
@@ -6102,9 +6120,18 @@ class Windowed extends Tonic {
     return this.rows.length
   }
 
+  /**
+   * defaults and their meaning :
+   *  - prefetchThreshold, how many pages from bottom or top before
+   *      triggering prefetch
+   *  - rowsPerPage, how many rows per page to render
+   *  - rowPadding, how many rows to render outside visible area
+   *  - rowHeight, the height in pixels of each row for computations.
+   *  - debug, if enabled will colorize pages.
+   */
   defaults () {
     return {
-      page: 100,
+      prefetchThreshold: 2,
       rowsPerPage: 100,
       rowPadding: 50,
       rowHeight: 30,
@@ -6115,6 +6142,9 @@ class Windowed extends Tonic {
   styles () {
     return {
       inner: {
+        position: 'relative'
+      },
+      bottom: {
         position: 'relative'
       },
 
@@ -6128,6 +6158,14 @@ class Windowed extends Tonic {
 
   getRows () {
     return this.rows
+  }
+
+  pushEOL () {
+    this.noMoreBottomRows = true
+    const bottom = this.querySelector('.tonic--windowed--bottom')
+    if (bottom) {
+      bottom.innerHTML = ''
+    }
   }
 
   push (o) {
@@ -6170,7 +6208,10 @@ class Windowed extends Tonic {
     // So do not auto scroll the table. If current visible row
     // is zero then the user just wants to look at the top
     // of the table.
-    if (index <= this.currentVisibleRowIndex && index !== 0) {
+    if (
+      index <= this.currentVisibleRowIndex &&
+      this.currentVisibleRowIndex !== 0
+    ) {
       this.prependCounter += totalItems
       this.currentVisibleRowIndex += totalItems
     }
@@ -6334,6 +6375,22 @@ class Windowed extends Tonic {
     this.currentVisibleRowIndex = Math.floor(
       outer.scrollTop / this.rowHeight
     )
+
+    if (end >= this.numPages - this.props.prefetchThreshold) {
+      if (!this.noMoreBottomRows && this.prefetchBottom) {
+        this.prefetchBottom()
+      }
+    }
+
+    const totalHeight = this.rows.length * this.props.rowHeight
+    if (
+      viewEnd === totalHeight &&
+      this.renderLoadingBottom &&
+      !this.noMoreBottomRows
+    ) {
+      const bottom = this.querySelector('.tonic--windowed--bottom')
+      bottom.innerHTML = this.renderLoadingBottom()
+    }
   }
 
   getPageTop (i) {
@@ -6438,6 +6495,8 @@ class Windowed extends Tonic {
     return this.html`
       <div class="tonic--windowed--outer" styles="outer">
         <div class="tonic--windowed--inner" styles="inner">
+        </div>
+        <div class="tonic--windowed--bottom" styles="bottom">
         </div>
       </div>
     `

@@ -7,6 +7,7 @@ class Windowed extends Tonic {
     super(o)
 
     this.prependCounter = 0
+    this.noMoreBottomRows = false
     this.currentVisibleRowIndex = -1
   }
 
@@ -14,9 +15,18 @@ class Windowed extends Tonic {
     return this.rows.length
   }
 
+  /**
+   * defaults and their meaning :
+   *  - prefetchThreshold, how many pages from bottom or top before
+   *      triggering prefetch
+   *  - rowsPerPage, how many rows per page to render
+   *  - rowPadding, how many rows to render outside visible area
+   *  - rowHeight, the height in pixels of each row for computations.
+   *  - debug, if enabled will colorize pages.
+   */
   defaults () {
     return {
-      page: 100,
+      prefetchThreshold: 2,
       rowsPerPage: 100,
       rowPadding: 50,
       rowHeight: 30,
@@ -27,6 +37,9 @@ class Windowed extends Tonic {
   styles () {
     return {
       inner: {
+        position: 'relative'
+      },
+      bottom: {
         position: 'relative'
       },
 
@@ -40,6 +53,14 @@ class Windowed extends Tonic {
 
   getRows () {
     return this.rows
+  }
+
+  pushEOL () {
+    this.noMoreBottomRows = true
+    const bottom = this.querySelector('.tonic--windowed--bottom')
+    if (bottom) {
+      bottom.innerHTML = ''
+    }
   }
 
   push (o) {
@@ -82,7 +103,10 @@ class Windowed extends Tonic {
     // So do not auto scroll the table. If current visible row
     // is zero then the user just wants to look at the top
     // of the table.
-    if (index <= this.currentVisibleRowIndex && index !== 0) {
+    if (
+      index <= this.currentVisibleRowIndex &&
+      this.currentVisibleRowIndex !== 0
+    ) {
       this.prependCounter += totalItems
       this.currentVisibleRowIndex += totalItems
     }
@@ -246,6 +270,22 @@ class Windowed extends Tonic {
     this.currentVisibleRowIndex = Math.floor(
       outer.scrollTop / this.rowHeight
     )
+
+    if (end >= this.numPages - this.props.prefetchThreshold) {
+      if (!this.noMoreBottomRows && this.prefetchBottom) {
+        this.prefetchBottom()
+      }
+    }
+
+    const totalHeight = this.rows.length * this.props.rowHeight
+    if (
+      viewEnd === totalHeight &&
+      this.renderLoadingBottom &&
+      !this.noMoreBottomRows
+    ) {
+      const bottom = this.querySelector('.tonic--windowed--bottom')
+      bottom.innerHTML = this.renderLoadingBottom()
+    }
   }
 
   getPageTop (i) {
@@ -350,6 +390,8 @@ class Windowed extends Tonic {
     return this.html`
       <div class="tonic--windowed--outer" styles="outer">
         <div class="tonic--windowed--inner" styles="inner">
+        </div>
+        <div class="tonic--windowed--bottom" styles="bottom">
         </div>
       </div>
     `

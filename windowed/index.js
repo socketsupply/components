@@ -121,6 +121,7 @@ class Windowed extends Tonic {
 
   async load (rows = []) {
     this.rows = rows
+    this.noMoreBottomRows = false
     await this.reRender()
 
     const inner = this.querySelector('.tonic--windowed--inner')

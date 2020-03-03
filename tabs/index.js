@@ -112,7 +112,9 @@ class TonicTabs extends Tonic {
       const ariaControls = node.getAttribute('for')
 
       if (!ariaControls) {
-        return ''
+        return this.html`
+          ${node}
+        `
       }
 
       if (node.attributes.class) {

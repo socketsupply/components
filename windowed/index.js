@@ -7,8 +7,10 @@ class Windowed extends Tonic {
     super(o)
 
     this.prependCounter = 0
+    this.shiftCounter = 0
     this.noMoreBottomRows = false
     this.currentVisibleRowIndex = -1
+    this.prefetchDirection = null
   }
 
   get length () {
@@ -27,6 +29,7 @@ class Windowed extends Tonic {
   defaults () {
     return {
       prefetchThreshold: 2,
+      maxRowsLength: 10 * 1000,
       rowsPerPage: 100,
       rowPadding: 50,
       rowHeight: 30,
@@ -132,6 +135,7 @@ class Windowed extends Tonic {
   async load (rows = []) {
     this.rows = rows
     this.noMoreBottomRows = false
+    this.noMoreTopRows = false
     await this.reRender()
 
     const inner = this.querySelector('.tonic--windowed--inner')
@@ -147,12 +151,30 @@ class Windowed extends Tonic {
     return this.rePaint()
   }
 
+  checkMaxRows () {
+    const maxRows = this.props.maxRowsLength
+    if (this.rows.length > maxRows) {
+      const toDelete = this.rows.length - maxRows
+
+      if (this.prefetchDirection === 'bottom') {
+        this.rows.splice(0, toDelete)
+        this.noMoreTopRows = false
+        this.shiftCounter += toDelete
+      } else if (this.prefetchDirection === 'top') {
+        this.rows.length = maxRows
+        this.noMoreBottomRows = false
+        this.prependCounter += toDelete
+      }
+    }
+  }
+
   setInnerHeight () {
     this.pages = this.pages || {}
     this.pagesAvailable = this.pagesAvailable || []
     const outer = this.querySelector('.tonic--windowed--outer')
     if (!outer) return
 
+    this.checkMaxRows()
     this.outerHeight = outer.offsetHeight
     this.numPages = Math.ceil(this.rows.length / this.props.rowsPerPage)
 
@@ -229,6 +251,7 @@ class Windowed extends Tonic {
     const outer = this.querySelector('.tonic--windowed--outer')
     if (!outer) return
 
+    this.checkMaxRows()
     const viewStart = typeof scrollTop === 'number' ? scrollTop : outer.scrollTop
     const viewEnd = viewStart + this.outerHeight
 
@@ -272,10 +295,22 @@ class Windowed extends Tonic {
       outer.scrollTop = this.state.scrollTop
     }
 
-    if (this.prependCounter > 0) {
-      outer.scrollTop += this.prependCounter * this.rowHeight
+    let shiftHappened = false
+    let prependHappened = false
+    if (this.prependCounter > 0 || this.shiftCounter > 0) {
+      currentScrollTop += this.prependCounter * this.rowHeight
+      currentScrollTop -= this.shiftCounter * this.rowHeight
+      outer.scrollTop = currentScrollTop
+
+      if (this.shiftCounter > 0) {
+        shiftHappened = true
+      }
+      if (this.prependCounter > 0) {
+        prependHappened = true
+      }
 
       this.prependCounter = 0
+      this.shiftCounter = 0
     }
 
     // Set the current visible row index used for tracking
@@ -283,12 +318,6 @@ class Windowed extends Tonic {
     this.currentVisibleRowIndex = Math.floor(
       currentScrollTop / this.rowHeight
     )
-
-    if (end >= this.numPages - this.props.prefetchThreshold) {
-      if (!this.noMoreBottomRows && this.prefetchBottom) {
-        this.prefetchBottom()
-      }
-    }
 
     const totalHeight = this.rows.length * this.props.rowHeight
     if (
@@ -298,6 +327,35 @@ class Windowed extends Tonic {
     ) {
       const bottom = this.querySelector('.tonic--windowed--bottom')
       bottom.innerHTML = this.renderLoadingBottom()
+    }
+
+    if (
+      this.rows.length === this.props.maxRowsLength &&
+      viewStart === 0 &&
+      this.renderLoadingTop &&
+      !this.noMoreTopRows
+    ) {
+      const top = this.querySelector('.tonic--windowed--top')
+      top.innerHTML = this.renderLoadingTop()
+    }
+
+    if (!prependHappened && (
+      this.rows.length === this.props.maxRowsLength &&
+      start <= this.props.prefetchThreshold
+    )) {
+      if (!this.noMoreTopRows && this.prefetchTop) {
+        this.prefetchDirection = 'top'
+        this.prefetchTop()
+      }
+    }
+
+    if (!shiftHappened && (
+      end >= this.numPages - this.props.prefetchThreshold
+    )) {
+      if (!this.noMoreBottomRows && this.prefetchBottom) {
+        this.prefetchDirection = 'bottom'
+        this.prefetchBottom()
+      }
     }
   }
 

@@ -223,13 +223,13 @@ class Windowed extends Tonic {
     return page
   }
 
-  rePaint ({ refresh, load } = {}) {
+  rePaint ({ refresh, load, fromScroll, scrollTop } = {}) {
     if (refresh && load !== false) this.load(this.rows)
 
     const outer = this.querySelector('.tonic--windowed--outer')
     if (!outer) return
 
-    const viewStart = outer.scrollTop
+    const viewStart = typeof scrollTop === 'number' ? scrollTop : outer.scrollTop
     const viewEnd = viewStart + this.outerHeight
 
     const _start = Math.floor((viewStart - this.padding) / this.pageHeight)
@@ -266,7 +266,9 @@ class Windowed extends Tonic {
       delete this.pages[i]
     }
 
-    if (this.state.scrollTop) {
+    let currentScrollTop = viewStart
+    if (this.state.scrollTop && !fromScroll) {
+      currentScrollTop = this.state.scrollTop
       outer.scrollTop = this.state.scrollTop
     }
 
@@ -279,7 +281,7 @@ class Windowed extends Tonic {
     // Set the current visible row index used for tracking
     // prepends.
     this.currentVisibleRowIndex = Math.floor(
-      outer.scrollTop / this.rowHeight
+      currentScrollTop / this.rowHeight
     )
 
     if (end >= this.numPages - this.props.prefetchThreshold) {

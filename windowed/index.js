@@ -66,7 +66,7 @@ class Windowed extends Tonic {
     }
   }
 
-  pushEOL () {
+  pushEOS () {
     this.noMoreBottomRows = true
     const bottom = this.querySelector('.tonic--windowed--bottom')
     if (bottom) {

@@ -125,9 +125,8 @@ class Windowed extends Tonic {
     return this.rows.splice.apply(this.rows, arguments)
   }
 
-  async getRow (idx) {
-    const el = this.rows[idx]
-    return typeof el === 'function' ? el() : el
+  getRow (idx) {
+    return this.rows[idx]
   }
 
   async load (rows = []) {
@@ -224,7 +223,7 @@ class Windowed extends Tonic {
     return page
   }
 
-  async rePaint ({ refresh, load } = {}) {
+  rePaint ({ refresh, load } = {}) {
     if (refresh && load !== false) this.load(this.rows)
 
     const outer = this.querySelector('.tonic--windowed--outer')
@@ -244,14 +243,14 @@ class Windowed extends Tonic {
       const [page, state] = this.getPage(i)
 
       if (state === 'fresh') {
-        await this.fillPage(i)
+        this.fillPage(i)
       } else if (refresh || state === 'old') {
         if (this.updateRow) {
-          await this.updatePage(i)
+          this.updatePage(i)
         } else {
           page.innerHTML = ''
           page.__overflow__ = []
-          await this.fillPage(i)
+          this.fillPage(i)
         }
       }
       pagesRendered[i] = true
@@ -308,13 +307,13 @@ class Windowed extends Tonic {
     return `${(this.rows.length % this.props.rowsPerPage) * this.rowHeight}px`
   }
 
-  async fillPage (i) {
+  fillPage (i) {
     const page = this.pages[i]
     const frag = document.createDocumentFragment()
     const limit = Math.min((i + 1) * this.props.rowsPerPage, this.rows.length)
 
     for (let j = i * this.props.rowsPerPage; j < limit; j++) {
-      const data = await this.getRow(j)
+      const data = this.getRow(j)
       if (!data) continue
 
       const div = document.createElement('div')
@@ -325,7 +324,7 @@ class Windowed extends Tonic {
     page.appendChild(frag)
   }
 
-  async updatePage (i) {
+  updatePage (i) {
     const page = this.pages[i]
     const start = i * parseInt(this.props.rowsPerPage, 10)
     const limit = Math.min((i + 1) * this.props.rowsPerPage, this.rows.length)
@@ -340,14 +339,14 @@ class Windowed extends Tonic {
 
     for (let j = start, rowIdx = 0; j < limit; j++, rowIdx++) {
       if (page.children[rowIdx] && this.updateRow) {
-        this.updateRow(await this.getRow(j), j, page.children[rowIdx])
+        this.updateRow(this.getRow(j), j, page.children[rowIdx])
       } else if (page.__overflow__.length > 0 && this.updateRow) {
         const child = page.__overflow__.shift()
-        this.updateRow(await this.getRow(j), j, child)
+        this.updateRow(this.getRow(j), j, child)
         page.appendChild(child)
       } else {
         const div = document.createElement('div')
-        div.innerHTML = this.renderRow(await this.getRow(j), j)
+        div.innerHTML = this.renderRow(this.getRow(j), j)
         page.appendChild(div.firstElementChild)
       }
     }

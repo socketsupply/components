@@ -368,10 +368,14 @@ class Windowed extends Tonic {
   updated () {
     const outer = this.querySelector('.tonic--windowed--outer')
 
-    outer && outer.addEventListener('scroll', () => {
-      this.state.scrollTop = outer.scrollTop
-      this.rePaint()
-    }, { passive: true })
+    if (outer && outer.__hasWindowedScrollListener) return
+    if (outer) {
+      outer.addEventListener('scroll', () => {
+        const scrollTop = this.state.scrollTop = outer.scrollTop
+        this.rePaint({ fromScroll: true, scrollTop: scrollTop })
+      }, { passive: true })
+      outer.__hasWindowedScrollListener = true
+    }
   }
 
   renderLoadingState () {

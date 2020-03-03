@@ -309,6 +309,15 @@ class Windowed extends Tonic {
         prependHappened = true
       }
 
+      const delta = this.prependCounter - this.shiftCounter
+      const pageDelta = Math.floor(delta / this.props.rowsPerPage)
+      for (const pageKey of Object.keys(this.pages)) {
+        const p = this.pages[pageKey]
+        const newIndex = Number(pageKey) + pageDelta
+        delete this.pages[pageKey]
+        this.pages[newIndex] = p
+      }
+
       this.prependCounter = 0
       this.shiftCounter = 0
     }

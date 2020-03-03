@@ -201,10 +201,10 @@ class Windowed extends Tonic {
       page = this.pages[i]
       state = 'ok'
     } else if (this.pagesAvailable.length) {
-      page = this.getAvailablePage(i)
+      page = this.getAvailablePage()
       state = 'old'
     } else {
-      page = this.createNewPage(i)
+      page = this.createNewPage()
       state = 'fresh'
     }
 
@@ -218,14 +218,14 @@ class Windowed extends Tonic {
     return [page, state]
   }
 
-  getAvailablePage (i) {
+  getAvailablePage () {
     const page = this.pagesAvailable.pop()
     const inner = this.querySelector('.tonic--windowed--inner')
     inner.appendChild(page)
     return page
   }
 
-  createNewPage (i) {
+  createNewPage () {
     const page = document.createElement('div')
 
     Object.assign(page.style, {
@@ -281,12 +281,12 @@ class Windowed extends Tonic {
 
     const inner = this.querySelector('.tonic--windowed--inner')
 
-    for (const i of Object.keys(this.pages)) {
-      if (pagesRendered[i]) continue
+    for (const pageKey of Object.keys(this.pages)) {
+      if (pagesRendered[pageKey]) continue
 
-      this.pagesAvailable.push(this.pages[i])
-      inner.removeChild(this.pages[i])
-      delete this.pages[i]
+      this.pagesAvailable.push(this.pages[pageKey])
+      inner.removeChild(this.pages[pageKey])
+      delete this.pages[pageKey]
     }
 
     let currentScrollTop = viewStart

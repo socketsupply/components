@@ -39,6 +39,9 @@ class Windowed extends Tonic {
       inner: {
         position: 'relative'
       },
+      top: {
+        position: 'relative'
+      },
       bottom: {
         position: 'relative'
       },
@@ -53,6 +56,14 @@ class Windowed extends Tonic {
 
   getRows () {
     return this.rows
+  }
+
+  unshiftSOS () {
+    this.noMoreTopRows = true
+    const top = this.querySelector('.tonic--windowed--top')
+    if (top) {
+      top.innerHTML = ''
+    }
   }
 
   pushEOL () {
@@ -390,6 +401,8 @@ class Windowed extends Tonic {
 
     return this.html`
       <div class="tonic--windowed--outer" styles="outer">
+        <div class="tonic--windowed--top" styles="top">
+        </div>
         <div class="tonic--windowed--inner" styles="inner">
         </div>
         <div class="tonic--windowed--bottom" styles="bottom">

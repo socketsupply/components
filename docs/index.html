@@ -152,7 +152,7 @@
   </div>
 </div>
 
-<p><span class="status" data-before="current version" data-after="1.0.4"></span></p>
+<p><span class="status" data-before="current version" data-after="1.1.0"></span></p>
 <div class="row">
   <h3>Features</h3>
   <div class="col">
@@ -661,6 +661,10 @@ add the following to your javascript...</p>
 <tbody><tr>
 <td align="left"><code>add(Class, String?)</code></td>
 <td align="left">Register a class as a new custom-tag and provide options for it. You can pass an optional string that is the HTML tagName for the custom component.</td>
+</tr>
+<tr>
+<td align="left"><code>addStyles(Class)</code></td>
+<td align="left">Calls <code>static stylesheet()</code> and adds styles. If you have a base class like <code>TonicDialog</code> that should not be added as a custom elements but should have it&#39;s <code>static stylesheet()</code> called then you should call <code>Tonic.addStyles()</code> for your BaseClass instead of <code>Tonic.add()</code></td>
 </tr>
 <tr>
 <td align="left"><code>escape(String)</code></td>

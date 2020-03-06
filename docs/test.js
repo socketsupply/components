@@ -9318,10 +9318,17 @@ class Tonic extends window.HTMLElement {
     window.customElements.define(htmlName, c)
 
     if (c.stylesheet) {
-      const styleNode = document.createElement('style')
-      styleNode.appendChild(document.createTextNode(c.stylesheet()))
-      if (document.head) document.head.appendChild(styleNode)
+      Tonic.registerStyles(c.stylesheet)
     }
+  }
+
+  static registerStyles (stylesheetFn) {
+    if (Tonic._stylesheetRegistry.includes(stylesheetFn)) return
+    Tonic._stylesheetRegistry.push(stylesheetFn)
+
+    const styleNode = document.createElement('style')
+    styleNode.appendChild(document.createTextNode(stylesheetFn()))
+    if (document.head) document.head.appendChild(styleNode)
   }
 
   static escape (s) {
@@ -9569,6 +9576,7 @@ Object.assign(Tonic, {
   _states: {},
   _children: {},
   _reg: {},
+  _stylesheetRegistry: [],
   _index: 0,
   version: typeof require !== 'undefined' ? require('./package').version : null,
   SPREAD: /\.\.\.\s?(__\w+__\w+__)/g,
@@ -9583,9 +9591,9 @@ if (typeof module === 'object') module.exports = Tonic
 },{"./package":51}],51:[function(require,module,exports){
 module.exports={
   "_from": "@optoolco/tonic@next",
-  "_id": "@optoolco/tonic@11.0.4",
+  "_id": "@optoolco/tonic@11.1.1",
   "_inBundle": false,
-  "_integrity": "sha512-S5fvBiu4st7wBd/JYuEJiywH9RWjJk4CDS1y53k85f71LinRgj5dzZs02F5720RUgukcCj7DVNlCtGPipLYXXQ==",
+  "_integrity": "sha512-Io+TzPTOAqhSKGYtJaj8HCLvQSrK2BtQukNOdFlLAFfxpml9br9zxyg7vbKPqi4LTLNK6T1Hi5+LIAKAktzt2w==",
   "_location": "/@optoolco/tonic",
   "_phantomChildren": {},
   "_requested": {
@@ -9603,8 +9611,8 @@ module.exports={
     "#DEV:/",
     "#USER"
   ],
-  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-11.0.4.tgz",
-  "_shasum": "d13278685cf6d9fbddfe4981f34ca85474d5a86f",
+  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-11.1.1.tgz",
+  "_shasum": "4dbf15382b5b3e868d3aa9a2b3abeb7a0573dba3",
   "_spec": "@optoolco/tonic@next",
   "_where": "/home/raynos/optoolco/components",
   "author": {
@@ -9641,7 +9649,7 @@ module.exports={
     "minify": "terser index.js -c unused,dead_code,hoist_vars,loops=false,hoist_props=true,hoist_funs,toplevel,keep_classnames,keep_fargs=false -o dist/tonic.min.js",
     "test": "npm run minify && browserify test/index.js | tape-puppet"
   },
-  "version": "11.0.4"
+  "version": "11.1.1"
 }
 
 },{}],52:[function(require,module,exports){

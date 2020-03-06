@@ -8,9 +8,9 @@
   "scripts": {
     "dev": "npm run build && ./bin/server",
     "dist": "npr browserify -s components index.js > dist/index.js",
-    "prepublish": "API=true npm run build",
+    "prepublish": "npm run build",
     "watch": "npr chokidar \"src/**/*.js\" -c \"npm run build\"",
-    "build": "API=true npm run build:styl && npm run build:docs && npm run build:test",
+    "build": "npm run build:styl && npm run build:docs && npm run build:test",
     "build:test": "node test/old/build.js && npr browserify ./test/old/test.js > ./docs/test.js",
     "build:docs": "./bin/build-docs && npm run build:docs:js",
     "build:docs:js": "npr browserify ./docs/src/index.js > ./docs/bundle.js",

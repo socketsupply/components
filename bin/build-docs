@@ -219,9 +219,7 @@ async function compile () {
     const title = 'API'
     const url = 'https://raw.githubusercontent.com/optoolco/tonic/master/API.md'
 
-    const s = process.env.API
-      ? await (await fetch(url)).text()
-      : 'BUILT IN DEV MODE'
+    const s = await (await fetch(url)).text()
 
     developerDocs.unshift({
       title,

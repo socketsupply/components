@@ -7,16 +7,29 @@ class Windowed extends Tonic {
     super(o)
 
     this.prependCounter = 0
+    this.shiftCounter = 0
+    this.noMoreBottomRows = false
     this.currentVisibleRowIndex = -1
+    this.prefetchDirection = null
   }
 
   get length () {
     return this.rows.length
   }
 
+  /**
+   * defaults and their meaning :
+   *  - prefetchThreshold, how many pages from bottom or top before
+   *      triggering prefetch
+   *  - rowsPerPage, how many rows per page to render
+   *  - rowPadding, how many rows to render outside visible area
+   *  - rowHeight, the height in pixels of each row for computations.
+   *  - debug, if enabled will colorize pages.
+   */
   defaults () {
     return {
-      page: 100,
+      prefetchThreshold: 2,
+      maxRowsLength: 10 * 1000,
       rowsPerPage: 100,
       rowPadding: 50,
       rowHeight: 30,
@@ -27,6 +40,12 @@ class Windowed extends Tonic {
   styles () {
     return {
       inner: {
+        position: 'relative'
+      },
+      top: {
+        position: 'relative'
+      },
+      bottom: {
         position: 'relative'
       },
 
@@ -40,6 +59,22 @@ class Windowed extends Tonic {
 
   getRows () {
     return this.rows
+  }
+
+  unshiftSOS () {
+    this.noMoreTopRows = true
+    const top = this.querySelector('.tonic--windowed--top')
+    if (top) {
+      top.innerHTML = ''
+    }
+  }
+
+  pushEOS () {
+    this.noMoreBottomRows = true
+    const bottom = this.querySelector('.tonic--windowed--bottom')
+    if (bottom) {
+      bottom.innerHTML = ''
+    }
   }
 
   push (o) {
@@ -82,7 +117,10 @@ class Windowed extends Tonic {
     // So do not auto scroll the table. If current visible row
     // is zero then the user just wants to look at the top
     // of the table.
-    if (index <= this.currentVisibleRowIndex && index !== 0) {
+    if (
+      index <= this.currentVisibleRowIndex &&
+      this.currentVisibleRowIndex !== 0
+    ) {
       this.prependCounter += totalItems
       this.currentVisibleRowIndex += totalItems
     }
@@ -90,13 +128,14 @@ class Windowed extends Tonic {
     return this.rows.splice.apply(this.rows, arguments)
   }
 
-  async getRow (idx) {
-    const el = this.rows[idx]
-    return typeof el === 'function' ? el() : el
+  getRow (idx) {
+    return this.rows[idx]
   }
 
   async load (rows = []) {
     this.rows = rows
+    this.noMoreBottomRows = false
+    this.noMoreTopRows = false
     await this.reRender()
 
     const inner = this.querySelector('.tonic--windowed--inner')
@@ -112,12 +151,30 @@ class Windowed extends Tonic {
     return this.rePaint()
   }
 
+  checkMaxRows () {
+    const maxRows = this.props.maxRowsLength
+    if (this.rows.length > maxRows) {
+      const toDelete = this.rows.length - maxRows
+
+      if (this.prefetchDirection === 'bottom') {
+        this.rows.splice(0, toDelete)
+        this.noMoreTopRows = false
+        this.shiftCounter += toDelete
+      } else if (this.prefetchDirection === 'top') {
+        this.rows.length = maxRows
+        this.noMoreBottomRows = false
+        this.prependCounter += toDelete
+      }
+    }
+  }
+
   setInnerHeight () {
     this.pages = this.pages || {}
     this.pagesAvailable = this.pagesAvailable || []
     const outer = this.querySelector('.tonic--windowed--outer')
     if (!outer) return
 
+    this.checkMaxRows()
     this.outerHeight = outer.offsetHeight
     this.numPages = Math.ceil(this.rows.length / this.props.rowsPerPage)
 
@@ -144,10 +201,10 @@ class Windowed extends Tonic {
       page = this.pages[i]
       state = 'ok'
     } else if (this.pagesAvailable.length) {
-      page = this.getAvailablePage(i)
+      page = this.getAvailablePage()
       state = 'old'
     } else {
-      page = this.createNewPage(i)
+      page = this.createNewPage()
       state = 'fresh'
     }
 
@@ -161,14 +218,14 @@ class Windowed extends Tonic {
     return [page, state]
   }
 
-  getAvailablePage (i) {
+  getAvailablePage () {
     const page = this.pagesAvailable.pop()
     const inner = this.querySelector('.tonic--windowed--inner')
     inner.appendChild(page)
     return page
   }
 
-  createNewPage (i) {
+  createNewPage () {
     const page = document.createElement('div')
 
     Object.assign(page.style, {
@@ -188,13 +245,14 @@ class Windowed extends Tonic {
     return page
   }
 
-  async rePaint ({ refresh, load } = {}) {
+  rePaint ({ refresh, load, fromScroll, scrollTop } = {}) {
     if (refresh && load !== false) this.load(this.rows)
 
     const outer = this.querySelector('.tonic--windowed--outer')
     if (!outer) return
 
-    const viewStart = outer.scrollTop
+    this.checkMaxRows()
+    const viewStart = typeof scrollTop === 'number' ? scrollTop : outer.scrollTop
     const viewEnd = viewStart + this.outerHeight
 
     const _start = Math.floor((viewStart - this.padding) / this.pageHeight)
@@ -208,14 +266,14 @@ class Windowed extends Tonic {
       const [page, state] = this.getPage(i)
 
       if (state === 'fresh') {
-        await this.fillPage(i)
+        this.fillPage(i)
       } else if (refresh || state === 'old') {
         if (this.updateRow) {
-          await this.updatePage(i)
+          this.updatePage(i)
         } else {
           page.innerHTML = ''
           page.__overflow__ = []
-          await this.fillPage(i)
+          this.fillPage(i)
         }
       }
       pagesRendered[i] = true
@@ -223,29 +281,91 @@ class Windowed extends Tonic {
 
     const inner = this.querySelector('.tonic--windowed--inner')
 
-    for (const i of Object.keys(this.pages)) {
-      if (pagesRendered[i]) continue
+    for (const pageKey of Object.keys(this.pages)) {
+      if (pagesRendered[pageKey]) continue
 
-      this.pagesAvailable.push(this.pages[i])
-      inner.removeChild(this.pages[i])
-      delete this.pages[i]
+      this.pagesAvailable.push(this.pages[pageKey])
+      inner.removeChild(this.pages[pageKey])
+      delete this.pages[pageKey]
     }
 
-    if (this.state.scrollTop) {
+    let currentScrollTop = viewStart
+    if (this.state.scrollTop && !fromScroll) {
+      currentScrollTop = this.state.scrollTop
       outer.scrollTop = this.state.scrollTop
     }
 
-    if (this.prependCounter > 0) {
-      outer.scrollTop += this.prependCounter * this.rowHeight
+    let shiftHappened = false
+    let prependHappened = false
+    if (this.prependCounter > 0 || this.shiftCounter > 0) {
+      currentScrollTop += this.prependCounter * this.rowHeight
+      currentScrollTop -= this.shiftCounter * this.rowHeight
+      outer.scrollTop = currentScrollTop
+
+      if (this.shiftCounter > 0) {
+        shiftHappened = true
+      }
+      if (this.prependCounter > 0) {
+        prependHappened = true
+      }
+
+      const delta = this.prependCounter - this.shiftCounter
+      const pageDelta = Math.floor(delta / this.props.rowsPerPage)
+      for (const pageKey of Object.keys(this.pages)) {
+        const p = this.pages[pageKey]
+        const newIndex = Number(pageKey) + pageDelta
+        delete this.pages[pageKey]
+        this.pages[newIndex] = p
+      }
 
       this.prependCounter = 0
+      this.shiftCounter = 0
     }
 
     // Set the current visible row index used for tracking
     // prepends.
     this.currentVisibleRowIndex = Math.floor(
-      outer.scrollTop / this.rowHeight
+      currentScrollTop / this.rowHeight
     )
+
+    const totalHeight = this.rows.length * this.props.rowHeight
+    if (
+      viewEnd === totalHeight &&
+      this.renderLoadingBottom &&
+      !this.noMoreBottomRows
+    ) {
+      const bottom = this.querySelector('.tonic--windowed--bottom')
+      bottom.innerHTML = this.renderLoadingBottom()
+    }
+
+    if (
+      this.rows.length === this.props.maxRowsLength &&
+      viewStart === 0 &&
+      this.renderLoadingTop &&
+      !this.noMoreTopRows
+    ) {
+      const top = this.querySelector('.tonic--windowed--top')
+      top.innerHTML = this.renderLoadingTop()
+    }
+
+    if (!prependHappened && (
+      this.rows.length === this.props.maxRowsLength &&
+      start <= this.props.prefetchThreshold
+    )) {
+      if (!this.noMoreTopRows && this.prefetchTop) {
+        this.prefetchDirection = 'top'
+        this.prefetchTop()
+      }
+    }
+
+    if (!shiftHappened && (
+      end >= this.numPages - this.props.prefetchThreshold
+    )) {
+      if (!this.noMoreBottomRows && this.prefetchBottom) {
+        this.prefetchDirection = 'bottom'
+        this.prefetchBottom()
+      }
+    }
   }
 
   getPageTop (i) {
@@ -256,13 +376,13 @@ class Windowed extends Tonic {
     return `${(this.rows.length % this.props.rowsPerPage) * this.rowHeight}px`
   }
 
-  async fillPage (i) {
+  fillPage (i) {
     const page = this.pages[i]
     const frag = document.createDocumentFragment()
     const limit = Math.min((i + 1) * this.props.rowsPerPage, this.rows.length)
 
     for (let j = i * this.props.rowsPerPage; j < limit; j++) {
-      const data = await this.getRow(j)
+      const data = this.getRow(j)
       if (!data) continue
 
       const div = document.createElement('div')
@@ -273,7 +393,7 @@ class Windowed extends Tonic {
     page.appendChild(frag)
   }
 
-  async updatePage (i) {
+  updatePage (i) {
     const page = this.pages[i]
     const start = i * parseInt(this.props.rowsPerPage, 10)
     const limit = Math.min((i + 1) * this.props.rowsPerPage, this.rows.length)
@@ -288,14 +408,14 @@ class Windowed extends Tonic {
 
     for (let j = start, rowIdx = 0; j < limit; j++, rowIdx++) {
       if (page.children[rowIdx] && this.updateRow) {
-        this.updateRow(await this.getRow(j), j, page.children[rowIdx])
+        this.updateRow(this.getRow(j), j, page.children[rowIdx])
       } else if (page.__overflow__.length > 0 && this.updateRow) {
         const child = page.__overflow__.shift()
-        this.updateRow(await this.getRow(j), j, child)
+        this.updateRow(this.getRow(j), j, child)
         page.appendChild(child)
       } else {
         const div = document.createElement('div')
-        div.innerHTML = this.renderRow(await this.getRow(j), j)
+        div.innerHTML = this.renderRow(this.getRow(j), j)
         page.appendChild(div.firstElementChild)
       }
     }
@@ -315,10 +435,14 @@ class Windowed extends Tonic {
   updated () {
     const outer = this.querySelector('.tonic--windowed--outer')
 
-    outer && outer.addEventListener('scroll', () => {
-      this.state.scrollTop = outer.scrollTop
-      this.rePaint()
-    }, { passive: true })
+    if (outer && outer.__hasWindowedScrollListener) return
+    if (outer) {
+      outer.addEventListener('scroll', () => {
+        const scrollTop = this.state.scrollTop = outer.scrollTop
+        this.rePaint({ fromScroll: true, scrollTop: scrollTop })
+      }, { passive: true })
+      outer.__hasWindowedScrollListener = true
+    }
   }
 
   renderLoadingState () {
@@ -349,7 +473,11 @@ class Windowed extends Tonic {
 
     return this.html`
       <div class="tonic--windowed--outer" styles="outer">
+        <div class="tonic--windowed--top" styles="top">
+        </div>
         <div class="tonic--windowed--inner" styles="inner">
+        </div>
+        <div class="tonic--windowed--bottom" styles="bottom">
         </div>
       </div>
     `

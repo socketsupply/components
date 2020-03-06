@@ -1774,14 +1774,9 @@ try {
 
 const version = Tonic.version
 const major = version ? version.split('.')[0] : '0'
-const minor = version ? version.split('.')[1] : '0'
 if (parseInt(major, 10) < 11) {
   console.error('Out of data dependency. Try `npm install @optoolco/tonic@11`.')
   throw new Error('Invalid Tonic version. requires at least v11')
-}
-if (parseInt(minor, 10) < 1) {
-  console.error('Out of data dependency. Try `npm install @optoolco/tonic@11.1`.')
-  throw new Error('Invalid Tonic version. requires at least v11.1')
 }
 
 const mode = require('./mode')
@@ -1791,11 +1786,9 @@ const { TonicBadge } = require('./badge')
 const { TonicButton } = require('./button')
 const { TonicChart } = require('./chart')
 const { TonicCheckbox } = require('./checkbox')
-const { Dialog } = require('./dialog')
 const { TonicForm } = require('./form')
 const { TonicIcon } = require('./icon')
 const { TonicInput } = require('./input')
-const { Panel } = require('./panel')
 const { TonicPopover } = require('./popover')
 const { TonicProfileImage } = require('./profile-image')
 const { TonicProgressBar } = require('./progress-bar')
@@ -1806,10 +1799,10 @@ const { TonicSelect } = require('./select')
 const { TonicSprite } = require('./sprite')
 const { TonicTabs, TonicTabPanel } = require('./tabs')
 const { TonicTextarea } = require('./textarea')
-const { TonicToaster } = require('./toaster')
-const { TonicToasterInline } = require('./toaster-inline')
-const { TonicToggle } = require('./toggle')
 const { TonicTooltip } = require('./tooltip')
+const { TonicToasterInline } = require('./toaster-inline')
+const { TonicToaster } = require('./toaster')
+const { TonicToggle } = require('./toggle')
 
 //
 // An example collection of components.
@@ -1829,11 +1822,9 @@ function components (Tonic, opts) {
   Tonic.add(TonicButton)
   Tonic.add(TonicChart)
   Tonic.add(TonicCheckbox)
-  Tonic.addStyles(Dialog)
   Tonic.add(TonicForm)
   Tonic.add(TonicInput)
   Tonic.add(TonicIcon)
-  Tonic.addStyles(Panel)
   Tonic.add(TonicPopover)
   Tonic.add(TonicProfileImage)
   Tonic.add(TonicProgressBar)
@@ -1851,7 +1842,7 @@ function components (Tonic, opts) {
   Tonic.add(TonicToggle)
 }
 
-},{"./accordion":3,"./badge":4,"./button":6,"./chart":8,"./checkbox":10,"./dialog":12,"./form":16,"./icon":17,"./input":20,"./mode":22,"./panel":28,"./popover":30,"./profile-image":32,"./progress-bar":34,"./range":36,"./relative-time":38,"./router":39,"./select":41,"./sprite":43,"./tabs":44,"./textarea":46,"./toaster":50,"./toaster-inline":48,"./toggle":52,"./tooltip":54,"@optoolco/tonic":23}],20:[function(require,module,exports){
+},{"./accordion":3,"./badge":4,"./button":6,"./chart":8,"./checkbox":10,"./form":16,"./icon":17,"./input":20,"./mode":22,"./popover":30,"./profile-image":32,"./progress-bar":34,"./range":36,"./relative-time":38,"./router":39,"./select":41,"./sprite":43,"./tabs":44,"./textarea":46,"./toaster":50,"./toaster-inline":48,"./toggle":52,"./tooltip":54,"@optoolco/tonic":23}],20:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
@@ -2315,11 +2306,7 @@ class Tonic extends window.HTMLElement {
     Tonic._tags = Object.keys(Tonic._reg).join()
     window.customElements.define(htmlName, c)
 
-    Tonic.addStyles(c)
-  }
-
-  static addStyles (c) {
-    if (Object.prototype.hasOwnProperty.call(c, 'stylesheet')) {
+    if (c.stylesheet) {
       const styleNode = document.createElement('style')
       styleNode.appendChild(document.createTextNode(c.stylesheet()))
       if (document.head) document.head.appendChild(styleNode)
@@ -2585,9 +2572,9 @@ if (typeof module === 'object') module.exports = Tonic
 },{"./package":24}],24:[function(require,module,exports){
 module.exports={
   "_from": "@optoolco/tonic@next",
-  "_id": "@optoolco/tonic@11.1.0",
+  "_id": "@optoolco/tonic@11.0.4",
   "_inBundle": false,
-  "_integrity": "sha512-70M//uoObNFcCYQKVLJ1PwozBqy86yiobmseEPxhhAJf3NqKVoPJ37o9ubazfp2+uu4gOPLUM9/QsufykNOktg==",
+  "_integrity": "sha512-S5fvBiu4st7wBd/JYuEJiywH9RWjJk4CDS1y53k85f71LinRgj5dzZs02F5720RUgukcCj7DVNlCtGPipLYXXQ==",
   "_location": "/@optoolco/tonic",
   "_phantomChildren": {},
   "_requested": {
@@ -2605,8 +2592,8 @@ module.exports={
     "#DEV:/",
     "#USER"
   ],
-  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-11.1.0.tgz",
-  "_shasum": "7381ca9b14c6b3aebb4ff3beb4af81ae75f855c4",
+  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-11.0.4.tgz",
+  "_shasum": "d13278685cf6d9fbddfe4981f34ca85474d5a86f",
   "_spec": "@optoolco/tonic@next",
   "_where": "/home/raynos/optoolco/components",
   "author": {
@@ -2643,7 +2630,7 @@ module.exports={
     "minify": "terser index.js -c unused,dead_code,hoist_vars,loops=false,hoist_props=true,hoist_funs,toplevel,keep_classnames,keep_fargs=false -o dist/tonic.min.js",
     "test": "npm run minify && browserify test/index.js | tape-puppet"
   },
-  "version": "11.1.0"
+  "version": "11.0.4"
 }
 
 },{}],25:[function(require,module,exports){

@@ -1,1722 +1,4 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.components = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-(function (setImmediate){
-const Tonic = require('@optoolco/tonic')
-
-const mode = require('../mode')
-
-class TonicAccordion extends Tonic {
-  defaults () {
-    return {
-      multiple: false
-    }
-  }
-
-  stylesheet () {
-    return `
-      tonic-accordion {
-        display: block;
-        border: 1px solid var(--tonic-border);
-      }
-    `
-  }
-
-  qs (s) {
-    return this.querySelector(s)
-  }
-
-  qsa (s) {
-    return [...this.querySelectorAll(s)]
-  }
-
-  setVisibility (id) {
-    const trigger = document.getElementById(id)
-    if (!trigger) return
-
-    const allowMultiple = this.hasAttribute('data-allow-multiple')
-    const isExpanded = trigger.getAttribute('aria-expanded') === 'true'
-
-    if (!isExpanded && !allowMultiple) {
-      const triggers = this.qsa('.tonic--accordion-header button')
-      const panels = this.qsa('.tonic--accordion-panel')
-
-      triggers.forEach(el => el.setAttribute('aria-expanded', 'false'))
-      panels.forEach(el => el.setAttribute('hidden', ''))
-    }
-
-    const panelId = trigger.getAttribute('aria-controls')
-
-    if (isExpanded) {
-      trigger.setAttribute('aria-expanded', 'false')
-      const currentPanel = document.getElementById(panelId)
-      if (currentPanel) currentPanel.setAttribute('hidden', '')
-      return
-    }
-
-    trigger.setAttribute('aria-expanded', 'true')
-    const currentPanel = document.getElementById(panelId)
-    this.state.selected = id
-    if (currentPanel) currentPanel.removeAttribute('hidden')
-  }
-
-  click (e) {
-    const trigger = Tonic.match(e.target, 'button')
-    if (!trigger) return
-
-    this.setVisibility(trigger.id)
-  }
-
-  keydown (e) {
-    const trigger = Tonic.match(e.target, 'button.tonic--title')
-    if (!trigger) return
-
-    const CTRL = e.ctrlKey
-    const PAGEUP = e.code === 'PageUp'
-    const PAGEDOWN = e.code === 'PageDown'
-    const UPARROW = e.code === 'ArrowUp'
-    const DOWNARROW = e.code === 'ArrowDown'
-    const END = e.metaKey && e.code === 'ArrowDown'
-    const HOME = e.metaKey && e.code === 'ArrowUp'
-
-    const ctrlModifier = CTRL && (PAGEUP || PAGEDOWN)
-    const triggers = this.qsa('button.tonic--title')
-
-    if ((UPARROW || DOWNARROW) || ctrlModifier) {
-      const index = triggers.indexOf(e.target)
-      const direction = (PAGEDOWN || DOWNARROW) ? 1 : -1
-      const length = triggers.length
-      const newIndex = (index + length + direction) % length
-
-      triggers[newIndex].focus()
-      e.preventDefault()
-    }
-
-    if (HOME || END) {
-      switch (e.key) {
-        case HOME:
-          triggers[0].focus()
-          break
-        case END:
-          triggers[triggers.length - 1].focus()
-          break
-      }
-      e.preventDefault()
-    }
-  }
-
-  connected () {
-    const id = this.state.selected || this.props.selected
-    if (!id) return
-
-    setImmediate(() => this.setVisibility(id))
-  }
-
-  render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-accordion')
-    }
-
-    const {
-      multiple
-    } = this.props
-
-    if (multiple) this.setAttribute('data-allow-multiple', '')
-
-    return this.html`
-      ${this.nodes}
-    `
-  }
-}
-
-class TonicAccordionSection extends Tonic {
-  stylesheet () {
-    return `
-      tonic-accordion-section {
-        display: block;
-      }
-
-      tonic-accordion-section:not(:last-of-type) {
-        border-bottom: 1px solid var(--tonic-border);
-      }
-
-      tonic-accordion-section h4 {
-        margin: 0;
-      }
-
-      tonic-accordion-section .tonic--accordion-header {
-        display: flex;
-      }
-
-      tonic-accordion-section button {
-        font-size: 14px;
-        text-align: left;
-        padding: 20px;
-        position: relative;
-        background: transparent;
-        border: 0;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-        outline: none;
-        width: 100%;
-      }
-
-      tonic-accordion-section button:focus {
-        outline: none;
-      }
-
-      tonic-accordion-section button:focus .tonic--label {
-        border-bottom: 3px solid Highlight;
-      }
-
-      tonic-accordion-section [hidden] {
-        display: none;
-      }
-
-      tonic-accordion-section .tonic--accordion-panel {
-        padding: 10px 50px 20px 20px;
-      }
-
-      tonic-accordion-section .tonic--accordion-header .tonic--arrow {
-        display: block;
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0;
-        width: 50px;
-      }
-
-      tonic-accordion-section .tonic--accordion-header .tonic--arrow:before {
-        content: "";
-        width: 8px;
-        height: 8px;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        -webkit-transform: translateY(-50%) translateX(-50%) rotate(135deg);
-        -moz-transform: translateY(-50%) translateX(-50%) rotate(135deg);
-        transform: translateY(-50%) translateX(-50%) rotate(135deg);
-        border-top: 1px solid var(--tonic-primary);
-        border-right: 1px solid var(--tonic-primary);
-      }
-
-      tonic-accordion-section .tonic--accordion-header[aria-expanded="true"] .tonic--arrow:before {
-        -webkit-transform: translateY(-50%) translateX(-50%) rotate(315deg);
-        -moz-transform: translateY(-50%) translateX(-50%) rotate(315deg);
-        transform: translateY(-50%) translateX(-50%) rotate(315deg);
-        margin-top: 3px;
-      }
-    `
-  }
-
-  render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-accordion-section')
-    }
-
-    const {
-      id,
-      name,
-      label
-    } = this.props
-
-    return this.html`
-      <h4
-        class="tonic--accordion-header"
-        role="heading">
-        <button
-          class="tonic--title"
-          id="tonic--accordion-header-${id}"
-          name="${name}"
-          aria-expanded="false"
-          aria-controls="tonic--accordion-panel-${id}">
-          <span class="tonic--label">${label}</span>
-          <span class="tonic--arrow"></span>
-        </button>
-      </h4>
-      <div
-        class="tonic--accordion-panel"
-        id="tonic--accordion-panel-${id}"
-        aria-labelledby="tonic--accordion-header-${id}"
-        role="region"
-        hidden>
-        ${this.nodes}
-      </div>
-    `
-  }
-}
-
-module.exports = {
-  TonicAccordion,
-  TonicAccordionSection
-}
-
-}).call(this,require("timers").setImmediate)
-},{"../mode":9,"@optoolco/tonic":10,"timers":12}],2:[function(require,module,exports){
-const Tonic = require('@optoolco/tonic')
-
-const mode = require('../mode')
-
-class TonicBadge extends Tonic {
-  defaults () {
-    return {
-      count: 0
-    }
-  }
-
-  get value () {
-    return this.state.count
-  }
-
-  set value (value) {
-    this.state.count = value
-    this.reRender()
-  }
-
-  stylesheet () {
-    return `
-      tonic-badge * {
-        box-sizing: border-box;
-      }
-
-      tonic-badge .tonic--notifications {
-        width: 40px;
-        height: 40px;
-        text-align: center;
-        padding: 10px;
-        position: relative;
-        background-color: var(--tonic-background);
-        border-radius: 8px;
-      }
-
-      tonic-badge span:after {
-        content: '';
-        width: 8px;
-        height: 8px;
-        display: none;
-        position: absolute;
-        top: 7px;
-        right: 6px;
-        background-color: var(--tonic-notification);
-        border: 2px solid var(--tonic-background);
-        border-radius: 50%;
-      }
-
-      tonic-badge .tonic--notifications.tonic--new span:after {
-        display: block;
-      }
-
-      tonic-badge span {
-        color: var(--tonic-primary);
-        font: 15px var(--tonic-subheader);
-        letter-spacing: 1px;
-        text-align: center;
-      }
-    `
-  }
-
-  willConnect () {
-    this.state.count = this.props.count
-  }
-
-  render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-badge')
-    }
-
-    const {
-      theme
-    } = this.props
-
-    let count = this.state.count
-
-    if (typeof count === 'undefined') {
-      count = this.props.count
-    }
-
-    if (theme) this.classList.add(`tonic--theme--${theme}`)
-
-    const countAttr = (count > 99) ? '99' : count
-
-    const newAttr = (count > 0) ? 'tonic--new' : ''
-
-    return this.html`
-      <div class="tonic--notifications ${newAttr}">
-        <span>${String(countAttr)}</span>
-      </div>
-    `
-  }
-}
-
-module.exports = {
-  TonicBadge
-}
-
-},{"../mode":9,"@optoolco/tonic":10}],3:[function(require,module,exports){
-const Tonic = require('@optoolco/tonic')
-
-class TonicButton extends Tonic {
-  get value () {
-    return this.props.value
-  }
-
-  get form () {
-    return this.querySelector('button').form
-  }
-
-  get disabled () {
-    return this.props.disabled === true
-  }
-
-  set disabled (state) {
-    this.props.disabled = state
-  }
-
-  defaults () {
-    return {
-      height: '40px',
-      width: '150px',
-      margin: '5px',
-      autofocus: 'false',
-      async: false,
-      radius: '2px',
-      borderWidth: '1px',
-      textColorDisabled: 'var(--tonic-disabled)',
-      backgroundColor: 'transparent'
-    }
-  }
-
-  stylesheet () {
-    return `
-      tonic-button {
-        display: inline-block;
-      }
-
-      tonic-button button {
-        color: var(--tonic-button);
-        width: auto;
-        min-height: 40px;
-        font: 12px var(--tonic-subheader);
-        font-weight: 400;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        padding: 8px 8px 5px 8px;
-        position: relative;
-        background-color: transparent;
-        border: 1px solid var(--tonic-button);
-        transition: all 0.3s ease;
-        appearance: none;
-      }
-
-      tonic-button button[disabled],
-      tonic-button button.tonic--active {
-        color: var(--tonic-medium);
-        background-color: var(--tonic-background);
-        border-color: var(--tonic-background);
-      }
-
-      tonic-button button[disabled] {
-        pointer-events: none;
-        user-select: none;
-      }
-
-      tonic-button button:not([disabled]):hover,
-      tonic-button button:not(.tonic--loading):hover {
-        color: var(--tonic-window) !important;
-        background-color: var(--tonic-button) !important;
-        border-color: var(--tonic-button) !important;
-        cursor: pointer;
-      }
-
-      tonic-button button.tonic--loading {
-        color: transparent !important;
-        background: var(--tonic-medium);
-        border-color: var(--tonic-medium);
-        transition: all 0.3s ease;
-        pointer-events: none;
-      }
-
-      tonic-button button.tonic--loading:hover {
-        color: transparent !important;
-        background: var(--tonic-medium) !important;
-        border-color: var(--tonic-medium) !important;
-      }
-
-      tonic-button button.tonic--loading:before {
-        margin-top: -8px;
-        margin-left: -8px;
-        display: inline-block;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        opacity: 1;
-        transform: translateX(-50%) translateY(-50%);
-        border: 2px solid white;
-        border-radius: 50%;
-        border-top-color: transparent;
-        animation: spin 1s linear 0s infinite;
-        transition: opacity 0.3s ease;
-      }
-
-      tonic-button button:before {
-        content: '';
-        width: 14px;
-        height: 14px;
-        opacity: 0;
-      }
-
-      @keyframes spin {
-        from {
-          transform: rotate(0deg);
-        }
-        to {
-          transform: rotate(360deg);
-        }
-      }
-    `
-  }
-
-  loading (state) {
-    const button = this.querySelector('button')
-    const method = state ? 'add' : 'remove'
-    if (button) button.classList[method]('tonic--loading')
-  }
-
-  click (e) {
-    const disabled = this.props.disabled === 'true'
-    const async = this.props.async === 'true'
-    const href = this.props.href
-
-    if (async && !disabled) {
-      this.loading(true)
-    }
-
-    if (href) {
-      const target = this.getAttribute('target')
-
-      if (target && target !== '_self') {
-        window.open(href)
-      } else {
-        window.open(href, '_self')
-      }
-    }
-  }
-
-  styles () {
-    const {
-      width,
-      height,
-      margin,
-      radius,
-      fill,
-      disabled,
-      borderColor,
-      borderWidth,
-      textColor,
-      textColorDisabled
-    } = this.props
-
-    return {
-      button: {
-        width,
-        height,
-        color: disabled && disabled === 'true' ? textColorDisabled : textColor,
-        backgroundColor: fill,
-        borderRadius: radius,
-        borderColor: fill || borderColor,
-        borderWidth: borderWidth
-      },
-      wrapper: {
-        width,
-        height,
-        margin
-      }
-    }
-  }
-
-  render () {
-    const {
-      value,
-      type,
-      disabled,
-      autofocus,
-      active,
-      async,
-      tabindex
-    } = this.props
-
-    const disabledAttr = disabled && disabled !== 'false' ? 'disabled' : ''
-    const valueAttr = value ? `value="${value}"` : ''
-    const typeAttr = type ? `type="${type}"` : ''
-    const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
-
-    let classes = []
-
-    if (active) classes.push('tonic--active')
-    classes = classes.join(' ')
-
-    if (tabindex) this.removeAttribute('tabindex')
-
-    let label = ''
-
-    if (this.querySelector('style')) {
-      label = this.querySelector('button').textContent
-    } else {
-      label = this.textContent || type || 'Button'
-    }
-
-    const attributes = [
-      valueAttr,
-      typeAttr,
-      tabAttr
-    ].join(' ')
-
-    return `
-      <div class="tonic--button--wrapper" styles="wrapper">
-        <button
-          styles="button"
-          async="${async}"
-          ${disabledAttr}
-          autofocus="${autofocus}"
-          alt="${label}"
-          ${attributes}
-          class="${classes}">${label}</button>
-      </div>
-    `
-  }
-}
-
-module.exports = { TonicButton }
-
-},{"@optoolco/tonic":10}],4:[function(require,module,exports){
-const Tonic = require('@optoolco/tonic')
-
-class TonicChart extends Tonic {
-  constructor (o) {
-    super(o)
-
-    try {
-      const dynamicRequire = require
-      this.Chart = dynamicRequire('chart.js')
-    } catch (err) {
-      console.error('could not find "chart.js" dependency. npm install?')
-    }
-  }
-
-  stylesheet () {
-    return `
-      tonic-chart {
-        display: inline-block;
-        position: relative;
-      }
-
-      tonic-chart canvas {
-        display: inline-block;
-        position: relative;
-      }
-    `
-  }
-
-  draw (data = {}, options = {}) {
-    const root = this.querySelector('canvas')
-    const type = this.props.type || options.type
-
-    return new this.Chart(root, {
-      type,
-      options,
-      data
-    })
-  }
-
-  async fetch (url, opts = {}) {
-    if (!url) return {}
-
-    try {
-      const res = await window.fetch(url, opts)
-      return { data: await res.json() }
-    } catch (err) {
-      return { err }
-    }
-  }
-
-  async connected () {
-    let data = null
-
-    const options = {
-      ...this.props,
-      ...this.props.options
-    }
-
-    const src = this.props.src
-
-    if (typeof src === 'string') {
-      const response = await this.fetch(src)
-
-      if (response.err) {
-        console.error(response.err)
-        data = {}
-      } else {
-        data = response.data
-      }
-    }
-
-    if (src === Object(src)) {
-      data = src
-    }
-
-    if (data.chartData) {
-      throw new Error('chartData propery deprecated')
-    }
-
-    if (data) {
-      this.draw(data, options)
-    }
-  }
-
-  render () {
-    const {
-      width,
-      height
-    } = this.props
-
-    this.style.width = width
-    this.style.height = height
-
-    return `
-      <canvas width="${width}" height="${height}">
-      </canvas>
-    `
-  }
-}
-
-module.exports = { TonicChart }
-
-},{"@optoolco/tonic":10}],5:[function(require,module,exports){
-const Tonic = require('@optoolco/tonic')
-
-const mode = require('../mode')
-
-class TonicCheckbox extends Tonic {
-  get value () {
-    const state = this.getState()
-    let value
-
-    if ('checked' in this.props) {
-      value = this.props.checked
-    } else {
-      value = state.checked
-    }
-
-    return (value === true) || (value === 'true')
-  }
-
-  set value (value) {
-    const checked = (value === true) || (value === 'true')
-
-    this.state.checked = checked
-    this.props.checked = checked
-    this.reRender()
-  }
-
-  defaults () {
-    return {
-      disabled: false,
-      size: '18px'
-    }
-  }
-
-  stylesheet () {
-    return `
-      tonic-checkbox .tonic--checkbox--wrapper {
-        display: inline-block;
-        -webkit-user-select: none;
-        -moz-user-select: none;
-        user-select: none;
-      }
-
-      tonic-checkbox input[type="checkbox"] {
-        display: none;
-      }
-
-      tonic-checkbox input[type="checkbox"][disabled] + label {
-        opacity: 0.35;
-      }
-
-      tonic-checkbox label {
-        color: var(--tonic-primary);
-        font: 12px var(--tonic-subheader);
-        font-weight: 500;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        display: inline;
-        vertical-align: middle;
-      }
-
-      tonic-checkbox .tonic--icon {
-        display: inline-block;
-        width: 100%;
-        height: 100%;
-        background-size: contain;
-      }
-
-      tonic-checkbox .tonic--icon svg {
-        width: inherit;
-        height: inherit;
-      }
-
-      tonic-checkbox label:nth-of-type(2) {
-        padding-top: 2px;
-        margin-left: 10px;
-      }
-    `
-  }
-
-  change (e) {
-    if (
-      this.props.virtual === true ||
-      this.props.virtual === 'true'
-    ) {
-      return
-    }
-    if (this.state._changing) return
-
-    e.stopPropagation()
-
-    const currentState = this.value
-    this.state._changing = true
-    this.value = !currentState
-
-    this.reRender()
-  }
-
-  updated () {
-    if (this.state._changing) {
-      const e = new window.Event('change', { bubbles: true })
-      this.dispatchEvent(e)
-      delete this.state._changing
-    }
-  }
-
-  styles () {
-    return {
-      icon: {
-        width: this.props.size,
-        height: this.props.size
-      }
-    }
-  }
-
-  renderIcon () {
-    const checked = this.value
-    const iconState = checked ? 'checked' : 'unchecked'
-
-    return this.html`
-      <svg>
-        <use
-          href="#${iconState}"
-          xlink:href="#${iconState}"
-          color="var(--tonic-primary)"
-          fill="var(--tonic-primary)">
-        </use>
-      </svg>
-    `
-  }
-
-  renderLabel () {
-    let {
-      id,
-      label
-    } = this.props
-
-    if (!this.props.label) {
-      label = this.nodes
-    }
-
-    return this.html`<label styles="label" for="tonic--checkbox--${id}">${label}</label>`
-  }
-
-  render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-checkbox')
-    }
-
-    const {
-      id,
-      disabled,
-      theme,
-      title,
-      tabindex
-    } = this.props
-
-    const checked = this.value
-    if (typeof this.state.checked === 'undefined') {
-      this.state.checked = checked
-    }
-
-    const checkedAttr = checked ? 'checked' : ''
-    const disabledAttr = disabled && disabled === 'true' ? 'disabled' : ''
-
-    const titleAttr = title ? `title="${title}"` : ''
-
-    const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
-    if (tabindex) this.removeAttribute('tabindex')
-
-    if (theme) this.classList.add(`tonic--theme--${theme}`)
-
-    const attributes = [
-      disabledAttr,
-      titleAttr,
-      tabAttr
-    ].join(' ')
-
-    return `
-      <div class="tonic--checkbox--wrapper">
-        <input
-          type="checkbox"
-          id="tonic--checkbox--${id}"
-          ${checkedAttr}
-          ${attributes}/>
-        <label
-          for="tonic--checkbox--${id}"
-          styles="icon"
-          class="tonic--icon">
-          ${this.renderIcon()}
-        </label>
-        ${this.renderLabel()}
-      </div>
-    `
-  }
-}
-
-module.exports = { TonicCheckbox }
-
-},{"../mode":9,"@optoolco/tonic":10}],6:[function(require,module,exports){
-const Tonic = require('@optoolco/tonic')
-
-class TonicIcon extends Tonic {
-  defaults () {
-    return {
-      size: '25px',
-      fill: 'var(--tonic-primary)'
-    }
-  }
-
-  stylesheet () {
-    return `
-      tonic-icon svg path {
-        fill: inherit;
-      }
-    `
-  }
-
-  styles () {
-    const {
-      size
-    } = this.props
-
-    return {
-      icon: {
-        width: size,
-        height: size
-      }
-    }
-  }
-
-  render () {
-    const {
-      symbolId,
-      size,
-      fill,
-      theme,
-      src,
-      tabindex
-    } = this.props
-
-    const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
-    if (tabindex) this.removeAttribute('tabindex')
-
-    if (theme) this.classList.add(`tonic--theme--${theme}`)
-
-    return this.html`
-      <svg
-        ${tabAttr}
-        styles="icon">
-        <use
-          href="${src || ''}#${symbolId}"
-          xlink:href="${src || ''}#${symbolId}"
-          width="${size}"
-          ${fill ? `fill="${fill}" color="${fill}"` : ''}
-          height="${size}">
-      </svg>
-    `
-  }
-}
-
-module.exports = { TonicIcon }
-
-},{"@optoolco/tonic":10}],7:[function(require,module,exports){
-let Tonic
-try {
-  Tonic = require('@optoolco/tonic')
-} catch (err) {
-  console.error('Missing dependency. Try `npm install @optoolco/tonic`.')
-}
-
-const mode = require('./mode')
-
-const { TonicAccordion, TonicAccordionSection } = require('./accordion')
-const { TonicBadge } = require('./badge')
-const { TonicButton } = require('./button')
-const { TonicChart } = require('./chart')
-const { TonicCheckbox } = require('./checkbox')
-const { TonicIcon } = require('./icon')
-const { TonicInput } = require('./input')
-const { TonicPopover } = require('./popover')
-const { TonicProfileImage } = require('./profile-image')
-const { TonicProgressBar } = require('./progress-bar')
-const { TonicRange } = require('./range')
-const { TonicRouter } = require('./router')
-const { TonicSelect } = require('./select')
-const { TonicSprite } = require('./sprite')
-const { TonicTabs, TonicTabPanel } = require('./tabs')
-const { TonicTextarea } = require('./textarea')
-const { TonicTooltip } = require('./tooltip')
-const { TonicToasterInline } = require('./toaster-inline')
-const { TonicToaster } = require('./toaster')
-const { TonicToggle } = require('./toggle')
-
-//
-// An example collection of components.
-//
-module.exports = components
-// For supporting unpkg / dist / jsfiddle.
-components.Tonic = Tonic
-
-function components (Tonic, opts) {
-  if (opts && opts.strict === true) {
-    mode.strict = true
-  }
-
-  Tonic.add(TonicAccordion)
-  Tonic.add(TonicAccordionSection)
-  Tonic.add(TonicBadge)
-  Tonic.add(TonicButton)
-  Tonic.add(TonicChart)
-  Tonic.add(TonicCheckbox)
-  Tonic.add(TonicInput)
-  Tonic.add(TonicIcon)
-  Tonic.add(TonicPopover)
-  Tonic.add(TonicProfileImage)
-  Tonic.add(TonicProgressBar)
-  Tonic.add(TonicRange)
-  Tonic.add(TonicRouter)
-  Tonic.add(TonicSelect)
-  Tonic.add(TonicSprite)
-  Tonic.add(TonicTabs)
-  Tonic.add(TonicTabPanel)
-  Tonic.add(TonicTextarea)
-  Tonic.add(TonicTooltip)
-  Tonic.add(TonicToasterInline)
-  Tonic.add(TonicToaster)
-  Tonic.add(TonicToggle)
-}
-
-},{"./accordion":1,"./badge":2,"./button":3,"./chart":4,"./checkbox":5,"./icon":6,"./input":8,"./mode":9,"./popover":13,"./profile-image":14,"./progress-bar":15,"./range":16,"./router":17,"./select":18,"./sprite":19,"./tabs":20,"./textarea":21,"./toaster":23,"./toaster-inline":22,"./toggle":24,"./tooltip":25,"@optoolco/tonic":10}],8:[function(require,module,exports){
-const Tonic = require('@optoolco/tonic')
-
-const mode = require('../mode')
-
-class TonicInput extends Tonic {
-  defaults () {
-    return {
-      type: 'text',
-      value: '',
-      placeholder: '',
-      color: 'var(--tonic-primary)',
-      spellcheck: false,
-      ariaInvalid: false,
-      invalid: false,
-      radius: '3px',
-      disabled: false,
-      position: 'left'
-    }
-  }
-
-  get form () {
-    return this.querySelector('input').form
-  }
-
-  get value () {
-    return this.state.value
-  }
-
-  set value (value) {
-    this.querySelector('input').value = value
-    this.state.value = value
-  }
-
-  setValid () {
-    this.reRender(props => Object.assign({}, props, {
-      invalid: false
-    }))
-  }
-
-  setInvalid (msg) {
-    this.reRender(props => Object.assign({}, props, {
-      invalid: true,
-      errorMessage: msg
-    }))
-  }
-
-  stylesheet () {
-    return `
-      tonic-input .tonic--wrapper {
-        position: relative;
-      }
-
-      tonic-input[src] .tonic--right tonic-icon {
-        right: 10px;
-      }
-
-      tonic-input[src] .tonic--right input {
-        padding-right: 40px;
-      }
-
-      tonic-input[src] .tonic--left tonic-icon {
-        left: 10px;
-      }
-
-      tonic-input[src] .tonic--left input {
-        padding-left: 40px;
-      }
-
-      tonic-input[src] tonic-icon {
-        position: absolute;
-        bottom: 7px;
-      }
-
-      tonic-input label {
-        color: var(--tonic-medium);
-        font-weight: 500;
-        font: 12px/14px var(--tonic-subheader);
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        padding-bottom: 10px;
-        display: block;
-      }
-
-      tonic-input input {
-        color: var(--tonic-primary);
-        font: 14px var(--tonic-monospace);
-        padding: 10px;
-        background-color: transparent;
-        border: 1px solid var(--tonic-border);
-        transition: border 0.2s ease-in-out;
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-      }
-
-      tonic-input input:invalid {
-        border-color: var(--tonic-error);
-      }
-
-      tonic-input input:invalid:focus {
-        border-color: var(--tonic-error);
-      }
-
-      tonic-input input:invalid ~ .tonic--invalid {
-        transform: translateY(0);
-        visibility: visible;
-        opacity: 1;
-        transition: opacity 0.2s ease, transform 0.2s ease, visibility 1s ease 0s;
-      }
-
-      tonic-input input:focus {
-        border-color: var(--tonic-primary);
-      }
-
-      tonic-input input[disabled] {
-        background-color: var(--tonic-background);
-      }
-
-      tonic-input[label] .tonic--invalid {
-        margin-bottom: -13px;
-      }
-
-      tonic-input .tonic--invalid {
-        font-size: 14px;
-        text-align: center;
-        margin-bottom: 13px;
-        position: absolute;
-        bottom: 100%;
-        left: 0;
-        right: 0;
-        transform: translateY(-10px);
-        transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s ease 1s;
-        visibility: hidden;
-        opacity: 0;
-      }
-
-      tonic-input .tonic--invalid span {
-        color: white;
-        padding: 2px 6px;
-        background-color: var(--tonic-error);
-        border-radius: 2px;
-        position: relative;
-        display: inline-block;
-        margin: 0 auto;
-      }
-
-      tonic-input .tonic--invalid span:after {
-        content: '';
-        width: 0;
-        height: 0;
-        display: block;
-        position: absolute;
-        bottom: -6px;
-        left: 50%;
-        transform: translateX(-50%);
-        border-left: 6px solid transparent;
-        border-right: 6px solid transparent;
-        border-top: 6px solid var(--tonic-error);
-      }
-    `
-  }
-
-  renderLabel () {
-    if (!this.props.label) return ''
-    return `<label for="tonic--input_${this.props.id}">${this.props.label}</label>`
-  }
-
-  renderIcon () {
-    if (!this.props.src) return ''
-
-    return `
-      <tonic-icon
-        src="${this.props.src}"
-        color="${this.props.color}">
-      </tonic-icon>
-    `
-  }
-
-  setupEvents () {
-    const input = this.querySelector('input')
-
-    const set = (k, v, event) => {
-      this.setState(state => Object.assign({}, state, { [k]: v }))
-    }
-
-    const relay = name => {
-      this.dispatchEvent(new window.Event(name))
-    }
-
-    input.addEventListener('focus', e => {
-      set('focus', true)
-      relay('focus')
-    })
-
-    input.addEventListener('blur', e => {
-      set('focus', false)
-      relay('blur')
-    })
-
-    input.addEventListener('input', e => {
-      set('value', e.target.value)
-      set('pos', e.target.selectionStart)
-      relay('input')
-    })
-
-    const state = this.getState()
-    if (!state.focus) return
-
-    input.focus()
-
-    try {
-      input.setSelectionRange(state.pos, state.pos)
-    } catch (err) {
-      console.warn(err)
-    }
-  }
-
-  updated () {
-    const input = this.querySelector('input')
-
-    setTimeout(() => {
-      if (this.props.invalid) {
-        input.setCustomValidity(this.props.errorMessage)
-      } else {
-        input.setCustomValidity('')
-      }
-    }, 32)
-
-    this.setupEvents()
-  }
-
-  connected () {
-    this.updated()
-  }
-
-  styles () {
-    const {
-      width,
-      height,
-      radius,
-      padding
-    } = this.props
-
-    return {
-      wrapper: {
-        width
-      },
-      input: {
-        width: '100%',
-        height,
-        borderRadius: radius,
-        padding
-      }
-    }
-  }
-
-  render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-input')
-    }
-
-    const {
-      ariaInvalid,
-      ariaLabelledby,
-      disabled,
-      height,
-      label,
-      max,
-      maxlength,
-      min,
-      minlength,
-      name,
-      pattern,
-      placeholder,
-      position,
-      readonly,
-      required,
-      spellcheck,
-      tabindex,
-      theme,
-      title,
-      type
-    } = this.props
-
-    const ariaInvalidAttr = ariaInvalid ? `aria-invalid="${ariaInvalid}"` : ''
-    const ariaLabelAttr = label ? `aria-label="${label}"` : ''
-    const ariaLabelledByAttr = ariaLabelledby ? `aria-labelledby="${ariaLabelledby}"` : ''
-    const disabledAttr = disabled && disabled === 'true' ? 'disabled' : ''
-    const maxAttr = max ? `max="${max}"` : ''
-    const maxLengthAttr = maxlength ? `maxlength="${maxlength}"` : ''
-    const minAttr = min ? `min="${min}"` : ''
-    const minLengthAttr = minlength ? `minlength="${minlength}"` : ''
-    const nameAttr = name ? `name="${name}"` : ''
-    const patternAttr = pattern ? `pattern="${pattern}"` : ''
-    const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
-    const positionAttr = position ? `tonic--${position}` : ''
-    const readonlyAttr = readonly && readonly === 'true' ? 'readonly' : ''
-    const requiredAttr = required && required === 'true' ? 'required' : ''
-    const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
-    const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
-    const titleAttr = title ? `title="${title}"` : ''
-    const value = typeof this.state.value === 'string'
-      ? this.state.value : this.props.value
-    const valueAttr = value && value !== 'undefined' ? `value="${value.replace(/"/g, '&quot;')}"` : ''
-
-    if (ariaLabelledByAttr) this.removeAttribute('ariaLabelled')
-    if (height) this.style.width = height
-    if (name) this.removeAttribute('name')
-    if (tabindex) this.removeAttribute('tabindex')
-    if (theme) this.classList.add(`tonic--theme--${theme}`)
-
-    const attributes = [
-      ariaInvalidAttr,
-      ariaLabelAttr,
-      ariaLabelledByAttr,
-      disabledAttr,
-      maxAttr,
-      maxLengthAttr,
-      minAttr,
-      minLengthAttr,
-      nameAttr,
-      patternAttr,
-      placeholderAttr,
-      readonlyAttr,
-      requiredAttr,
-      spellcheckAttr,
-      tabAttr,
-      titleAttr,
-      valueAttr
-    ].join(' ')
-
-    const errorMessage = this.props.errorMessage ||
-      this.props.errormessage || 'Invalid'
-
-    return `
-      <div class="tonic--wrapper ${positionAttr}" styles="wrapper">
-        ${this.renderLabel()}
-        ${this.renderIcon()}
-
-        <input
-          styles="input"
-          type="${type}"
-          id="tonic--input_${this.props.id}"
-          ${attributes}/>
-        <div class="tonic--invalid">
-          <span id="tonic--error-${this.props.id}">${errorMessage}</span>
-        </div>
-      </div>
-    `
-  }
-}
-
-module.exports = { TonicInput }
-
-},{"../mode":9,"@optoolco/tonic":10}],9:[function(require,module,exports){
-module.exports = { strict: false }
-
-},{}],10:[function(require,module,exports){
-(function (setImmediate){
-class Tonic extends window.HTMLElement {
-  constructor () {
-    super()
-    const state = Tonic._states[this.id]
-    delete Tonic._states[this.id]
-    this.isTonicComponent = true
-    this.state = state || {}
-    this.props = {}
-    this.elements = [...this.children].map(el => el.cloneNode(true))
-    this.elements.__children__ = true
-    this.nodes = [...this.childNodes].map(el => el.cloneNode(true))
-    this.nodes.__children__ = true
-    this._events()
-  }
-
-  static _createId () {
-    return `tonic${Tonic._index++}`
-  }
-
-  static _maybePromise (p) {
-    if (p && typeof p.then === 'function' && typeof p.catch === 'function') {
-      p.catch(err => setImmediate(() => { throw err }))
-    }
-  }
-
-  static _splitName (s) {
-    return s.match(/[A-Z][a-z]*/g).join('-')
-  }
-
-  static _normalizeAttrs (o, x = {}) {
-    [...o].forEach(o => (x[o.name] = o.value))
-    return x
-  }
-
-  _events () {
-    const hp = Object.getOwnPropertyNames(window.HTMLElement.prototype)
-    for (const p of this._props) {
-      if (hp.indexOf('on' + p) === -1) continue
-      this.addEventListener(p, this)
-    }
-  }
-
-  _prop (o) {
-    const id = this._id
-    const p = `__${id}__${Tonic._createId()}__`
-    Tonic._data[id] = Tonic._data[id] || {}
-    Tonic._data[id][p] = o
-    return p
-  }
-
-  _placehold (r) {
-    const ref = `__${Tonic._createId()}__`
-    Tonic._children[this._id] = Tonic._children[this._id] || {}
-    Tonic._children[this._id][ref] = r
-    return ref
-  }
-
-  static match (el, s) {
-    if (!el.matches) el = el.parentElement
-    return el.matches(s) ? el : el.closest(s)
-  }
-
-  static getPropertyNames (proto) {
-    const props = []
-    while (proto && proto !== Tonic.prototype) {
-      props.push(...Object.getOwnPropertyNames(proto))
-      proto = Object.getPrototypeOf(proto)
-    }
-    return props
-  }
-
-  static add (c, htmlName) {
-    c.prototype._props = Tonic.getPropertyNames(c.prototype)
-
-    const hasValidName = htmlName || (c.name && c.name.length > 1)
-    if (!hasValidName) {
-      throw Error('Mangling. https://bit.ly/2TkJ6zP')
-    }
-
-    if (!htmlName) {
-      htmlName = Tonic._splitName(c.name).toLowerCase()
-    }
-    if (window.customElements.get(htmlName)) return
-
-    Tonic._reg[htmlName] = c
-    Tonic._tags = Object.keys(Tonic._reg).join()
-    window.customElements.define(htmlName, c)
-  }
-
-  static sanitize (o) {
-    if (!o) return o
-    for (const [k, v] of Object.entries(o)) {
-      if (Object.prototype.toString.call(v) === '[object HTMLElement]') continue
-      if (typeof v === 'object') o[k] = Tonic.sanitize(v)
-      if (typeof v === 'string') o[k] = Tonic.escape(v)
-    }
-    return o
-  }
-
-  static escape (s) {
-    return s.replace(Tonic.ESC, c => Tonic.MAP[c])
-  }
-
-  html ([s, ...strings], ...values) {
-    const refs = o => {
-      if (o && o.__children__) return this._placehold(o)
-      switch (Object.prototype.toString.call(o)) {
-        case '[object HTMLCollection]':
-        case '[object NodeList]': return this._placehold([...o])
-        case '[object Array]':
-        case '[object Object]':
-        case '[object Function]': return this._prop(o)
-        case '[object NamedNodeMap]':
-          return this._prop(Tonic._normalizeAttrs(o))
-        case '[object Number]': return `${o}__float`
-        case '[object Boolean]': return `${o}__boolean`
-        case '[object HTMLElement]':
-          return o.isTonicComponent ? this._prop(o) : o
-      }
-      return o
-    }
-
-    const reduce = (a, b) => a.concat(b, strings.shift())
-    return values.map(refs).reduce(reduce, [s]).join('')
-  }
-
-  setState (o) {
-    this.state = typeof o === 'function' ? o(this.state) : o
-  }
-
-  getState () {
-    return this.state
-  }
-
-  scheduleReRender (oldProps) {
-    if (this.pendingReRender) return this.pendingReRender
-
-    this.pendingReRender = new Promise(resolve => {
-      window.requestAnimationFrame(() => {
-        Tonic._maybePromise(this._set(this.root, this.render))
-        this.pendingReRender = null
-
-        if (this.updated) this.updated(oldProps)
-        resolve()
-      })
-    })
-
-    return this.pendingReRender
-  }
-
-  reRender (o = this.props) {
-    const oldProps = { ...this.props }
-    this.props = Tonic.sanitize(typeof o === 'function' ? o(this.props) : o)
-
-    return this.scheduleReRender(oldProps)
-  }
-
-  getProps () {
-    return this.props
-  }
-
-  handleEvent (e) {
-    const p = this[e.type](e)
-    Tonic._maybePromise(p)
-  }
-
-  async _set (target, render, content = '') {
-    for (const node of target.querySelectorAll(Tonic._tags)) {
-      if (!node.isTonicComponent) continue
-      if (!node.id || !Tonic._refIds.includes(node.id)) continue
-      Tonic._states[node.id] = node.getState()
-    }
-
-    if (render instanceof Tonic.AsyncFunction) {
-      content = await render.call(this) || ''
-    } else if (render instanceof Tonic.AsyncFunctionGenerator) {
-      const itr = render.call(this)
-      while (true) {
-        const { value, done } = await itr.next()
-        this._set(target, null, value)
-        if (done) break
-      }
-      return
-    } else if (render instanceof Function) {
-      content = render.call(this) || ''
-    }
-
-    if (typeof content === 'string') {
-      content = content.replace(Tonic.SPREAD, (_, p) => {
-        const o = Tonic._data[p.split('__')[1]][p]
-        return Object.entries(o).map(([key, value]) => {
-          const k = key.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
-          return `${k}="${Tonic.escape(String(value))}"`
-        }).join(' ')
-      })
-
-      target.innerHTML = content
-
-      if (this.styles) {
-        const styles = this.styles()
-        for (const node of target.querySelectorAll('[styles]')) {
-          for (const s of node.getAttribute('styles').split(/\s+/)) {
-            Object.assign(node.style, styles[s.trim()])
-          }
-        }
-      }
-
-      const children = Tonic._children[this._id] || {}
-
-      const walk = (node, fn) => {
-        if (node.nodeType === 3) {
-          const id = node.textContent.trim()
-          if (children[id]) return fn(node, children[id])
-        }
-        node = node.firstChild
-        while (node) {
-          walk(node, fn)
-          node = node.nextSibling
-        }
-      }
-
-      walk(target, (node, children) => {
-        for (const child of children) {
-          node.parentNode.appendChild(child)
-        }
-        delete Tonic._children[this._id][node.id]
-        node.parentNode.removeChild(node)
-      })
-    } else {
-      target.innerHTML = ''
-      target.appendChild(content.cloneNode(true))
-    }
-
-    if (this.stylesheet) {
-      const styleNode = document.createElement('style')
-      styleNode.appendChild(document.createTextNode(this.stylesheet()))
-      target.insertBefore(styleNode, target.firstChild)
-    }
-  }
-
-  connectedCallback () {
-    this.root = this.shadowRoot || this
-
-    if (this.wrap) {
-      this.wrapped = this.render
-      this.render = this.wrap
-    }
-
-    if (this.id && !Tonic._refIds.includes(this.id)) {
-      Tonic._refIds.push(this.id)
-    }
-    const cc = s => s.replace(/-(.)/g, (_, m) => m.toUpperCase())
-
-    for (const { name: _name, value } of this.attributes) {
-      const name = cc(_name)
-      const p = this.props[name] = value
-
-      if (/__\w+__\w+__/.test(p)) {
-        const { 1: root } = p.split('__')
-        this.props[name] = Tonic._data[root][p]
-      } else if (/\d+__float/.test(p)) {
-        this.props[name] = parseFloat(p, 10)
-      } else if (/\w+__boolean/.test(p)) {
-        this.props[name] = p.includes('true')
-      }
-    }
-
-    this.props = Object.assign(
-      (this.defaults && this.defaults()) || {},
-      Tonic.sanitize(this.props))
-
-    if (!this._source) {
-      this._source = this.innerHTML
-    } else {
-      this.innerHTML = this._source
-    }
-
-    this._id = this._id || Tonic._createId()
-
-    this.willConnect && this.willConnect()
-    Tonic._maybePromise(this._set(this.root, this.render))
-    Tonic._maybePromise(this.connected && this.connected())
-  }
-
-  disconnectedCallback () {
-    Tonic._maybePromise(this.disconnected && this.disconnected())
-    this.elements.length = 0
-    this.nodes.length = 0
-    delete Tonic._data[this._id]
-    delete Tonic._children[this._id]
-  }
-}
-
-Object.assign(Tonic, {
-  _tags: '',
-  _refIds: [],
-  _data: {},
-  _states: {},
-  _children: {},
-  _reg: {},
-  _index: 0,
-  SPREAD: /\.\.\.(__\w+__\w+__)/g,
-  ESC: /["&'<>`]/g,
-  AsyncFunctionGenerator: async function * () {}.constructor,
-  AsyncFunction: async function () {}.constructor,
-  MAP: { '"': '&quot;', '&': '&amp;', '\'': '&#x27;', '<': '&lt;', '>': '&gt;', '`': '&#x60;' }
-})
-
-if (typeof module === 'object') module.exports = Tonic
-
-}).call(this,require("timers").setImmediate)
-},{"timers":12}],11:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -1902,7 +184,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],12:[function(require,module,exports){
+},{}],2:[function(require,module,exports){
 (function (setImmediate,clearImmediate){
 var nextTick = require('process/browser.js').nextTick;
 var apply = Function.prototype.apply;
@@ -1981,7 +263,1920 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
   delete immediateIds[id];
 };
 }).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-},{"process/browser.js":11,"timers":12}],13:[function(require,module,exports){
+},{"process/browser.js":1,"timers":2}],3:[function(require,module,exports){
+(function (setImmediate){
+const Tonic = require('@optoolco/tonic')
+
+const mode = require('../mode')
+
+class TonicAccordion extends Tonic {
+  defaults () {
+    return {
+      multiple: false
+    }
+  }
+
+  static stylesheet () {
+    return `
+      tonic-accordion {
+        display: block;
+        border: 1px solid var(--tonic-border, black);
+      }
+    `
+  }
+
+  qs (s) {
+    return this.querySelector(s)
+  }
+
+  qsa (s) {
+    return [...this.querySelectorAll(s)]
+  }
+
+  setVisibility (id) {
+    const trigger = document.getElementById(id)
+    if (!trigger) return
+
+    const allowMultiple = this.hasAttribute('data-allow-multiple')
+    const isExpanded = trigger.getAttribute('aria-expanded') === 'true'
+
+    if (!isExpanded && !allowMultiple) {
+      const triggers = this.qsa('.tonic--accordion-header button')
+      const panels = this.qsa('.tonic--accordion-panel')
+
+      triggers.forEach(el => el.setAttribute('aria-expanded', 'false'))
+      panels.forEach(el => el.setAttribute('hidden', ''))
+    }
+
+    const panelId = trigger.getAttribute('aria-controls')
+
+    if (isExpanded) {
+      trigger.setAttribute('aria-expanded', 'false')
+      const currentPanel = document.getElementById(panelId)
+      if (currentPanel) currentPanel.setAttribute('hidden', '')
+      return
+    }
+
+    trigger.setAttribute('aria-expanded', 'true')
+    const currentPanel = document.getElementById(panelId)
+    this.state.selected = id
+    if (currentPanel) currentPanel.removeAttribute('hidden')
+  }
+
+  click (e) {
+    const trigger = Tonic.match(e.target, 'button')
+    if (!trigger) return
+
+    this.setVisibility(trigger.id)
+  }
+
+  keydown (e) {
+    const trigger = Tonic.match(e.target, 'button.tonic--title')
+    if (!trigger) return
+
+    const CTRL = e.ctrlKey
+    const PAGEUP = e.code === 'PageUp'
+    const PAGEDOWN = e.code === 'PageDown'
+    const UPARROW = e.code === 'ArrowUp'
+    const DOWNARROW = e.code === 'ArrowDown'
+    const END = e.metaKey && e.code === 'ArrowDown'
+    const HOME = e.metaKey && e.code === 'ArrowUp'
+
+    const ctrlModifier = CTRL && (PAGEUP || PAGEDOWN)
+    const triggers = this.qsa('button.tonic--title')
+
+    if ((UPARROW || DOWNARROW) || ctrlModifier) {
+      const index = triggers.indexOf(e.target)
+      const direction = (PAGEDOWN || DOWNARROW) ? 1 : -1
+      const length = triggers.length
+      const newIndex = (index + length + direction) % length
+
+      triggers[newIndex].focus()
+      e.preventDefault()
+    }
+
+    if (HOME || END) {
+      switch (e.key) {
+        case HOME:
+          triggers[0].focus()
+          break
+        case END:
+          triggers[triggers.length - 1].focus()
+          break
+      }
+      e.preventDefault()
+    }
+  }
+
+  connected () {
+    const id = this.state.selected || this.props.selected
+    if (!id) return
+
+    setImmediate(() => this.setVisibility(id))
+  }
+
+  render () {
+    if (mode.strict && !this.props.id) {
+      console.warn('In tonic the "id" attribute is used to persist state')
+      console.warn('You forgot to supply the "id" attribute.')
+      console.warn('')
+      console.warn('For element : ')
+      console.warn(`${this.outerHTML}`)
+      throw new Error('id attribute is mandatory on tonic-accordion')
+    }
+
+    const {
+      multiple
+    } = this.props
+
+    if (multiple) this.setAttribute('data-allow-multiple', '')
+
+    return this.html`
+      ${this.nodes}
+    `
+  }
+}
+
+class TonicAccordionSection extends Tonic {
+  static stylesheet () {
+    return `
+      tonic-accordion-section {
+        display: block;
+      }
+
+      tonic-accordion-section:not(:last-of-type) {
+        border-bottom: 1px solid var(--tonic-border, black);
+      }
+
+      tonic-accordion-section h4 {
+        margin: 0;
+      }
+
+      tonic-accordion-section .tonic--accordion-header {
+        display: flex;
+      }
+
+      tonic-accordion-section button {
+        font-size: 14px;
+        text-align: left;
+        padding: 20px;
+        position: relative;
+        background: transparent;
+        border: 0;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        outline: none;
+        width: 100%;
+      }
+
+      tonic-accordion-section button:focus {
+        outline: none;
+      }
+
+      tonic-accordion-section button:focus .tonic--label {
+        border-bottom: 3px solid Highlight;
+      }
+
+      tonic-accordion-section [hidden] {
+        display: none;
+      }
+
+      tonic-accordion-section .tonic--accordion-panel {
+        padding: 10px 50px 20px 20px;
+      }
+
+      tonic-accordion-section .tonic--accordion-header .tonic--arrow {
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 50px;
+      }
+
+      tonic-accordion-section .tonic--accordion-header .tonic--arrow:before {
+        content: "";
+        width: 8px;
+        height: 8px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        -webkit-transform: translateY(-50%) translateX(-50%) rotate(135deg);
+        -moz-transform: translateY(-50%) translateX(-50%) rotate(135deg);
+        transform: translateY(-50%) translateX(-50%) rotate(135deg);
+        border-top: 1px solid var(--tonic-primary, #333);
+        border-right: 1px solid var(--tonic-primary, #333);
+      }
+
+      tonic-accordion-section .tonic--accordion-header[aria-expanded="true"] .tonic--arrow:before {
+        -webkit-transform: translateY(-50%) translateX(-50%) rotate(315deg);
+        -moz-transform: translateY(-50%) translateX(-50%) rotate(315deg);
+        transform: translateY(-50%) translateX(-50%) rotate(315deg);
+        margin-top: 3px;
+      }
+    `
+  }
+
+  render () {
+    if (mode.strict && !this.props.id) {
+      console.warn('In tonic the "id" attribute is used to persist state')
+      console.warn('You forgot to supply the "id" attribute.')
+      console.warn('')
+      console.warn('For element : ')
+      console.warn(`${this.outerHTML}`)
+      throw new Error('id attribute is mandatory on tonic-accordion-section')
+    }
+
+    const {
+      id,
+      name,
+      label
+    } = this.props
+
+    return this.html`
+      <h4
+        class="tonic--accordion-header"
+        role="heading">
+        <button
+          class="tonic--title"
+          id="tonic--accordion-header-${id}"
+          name="${name}"
+          aria-expanded="false"
+          aria-controls="tonic--accordion-panel-${id}">
+          <span class="tonic--label">${label}</span>
+          <span class="tonic--arrow"></span>
+        </button>
+      </h4>
+      <div
+        class="tonic--accordion-panel"
+        id="tonic--accordion-panel-${id}"
+        aria-labelledby="tonic--accordion-header-${id}"
+        role="region"
+        hidden>
+        ${this.nodes}
+      </div>
+    `
+  }
+}
+
+module.exports = {
+  TonicAccordion,
+  TonicAccordionSection
+}
+
+}).call(this,require("timers").setImmediate)
+},{"../mode":12,"@optoolco/tonic":13,"timers":2}],4:[function(require,module,exports){
+const Tonic = require('@optoolco/tonic')
+
+const mode = require('../mode')
+
+class TonicBadge extends Tonic {
+  defaults () {
+    return {
+      count: 0
+    }
+  }
+
+  get value () {
+    return this.state.count
+  }
+
+  set value (value) {
+    this.state.count = value
+    this.reRender()
+  }
+
+  static stylesheet () {
+    return `
+      tonic-badge * {
+        box-sizing: border-box;
+      }
+
+      tonic-badge .tonic--notifications {
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        padding: 10px;
+        position: relative;
+        background-color: var(--tonic-background, #fff);
+        border-radius: 8px;
+      }
+
+      tonic-badge span:after {
+        content: '';
+        width: 8px;
+        height: 8px;
+        display: none;
+        position: absolute;
+        top: 7px;
+        right: 6px;
+        background-color: var(--tonic-notification, #f66);
+        border: 2px solid var(--tonic-background, #fff);
+        border-radius: 50%;
+      }
+
+      tonic-badge .tonic--notifications.tonic--new span:after {
+        display: block;
+      }
+
+      tonic-badge span {
+        color: var(--tonic-primary, #333);
+        font: 15px var(--tonic-subheader, 'Arial', sans-serif);
+        letter-spacing: 1px;
+        text-align: center;
+      }
+    `
+  }
+
+  willConnect () {
+    this.state.count = this.props.count
+  }
+
+  render () {
+    if (mode.strict && !this.props.id) {
+      console.warn('In tonic the "id" attribute is used to persist state')
+      console.warn('You forgot to supply the "id" attribute.')
+      console.warn('')
+      console.warn('For element : ')
+      console.warn(`${this.outerHTML}`)
+      throw new Error('id attribute is mandatory on tonic-badge')
+    }
+
+    const {
+      theme
+    } = this.props
+
+    let count = this.state.count
+
+    if (typeof count === 'undefined') {
+      count = this.props.count
+    }
+
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
+
+    const countText = (count > 99) ? '99' : String(count)
+    const classes = ['tonic--notifications']
+    if (count > 0) classes.push('tonic--new')
+
+    return this.html`
+      <div ... ${{ class: classes.join(' ') }}>
+        <span>${countText}</span>
+      </div>
+    `
+  }
+}
+
+module.exports = {
+  TonicBadge
+}
+
+},{"../mode":12,"@optoolco/tonic":13}],5:[function(require,module,exports){
+const Tonic = require('@optoolco/tonic')
+
+class TonicButton extends Tonic {
+  get value () {
+    return this.props.value
+  }
+
+  get form () {
+    return this.querySelector('button').form
+  }
+
+  get disabled () {
+    return this.props.disabled === true
+  }
+
+  set disabled (state) {
+    this.props.disabled = state
+  }
+
+  defaults () {
+    return {
+      height: '40px',
+      width: '150px',
+      margin: '5px',
+      autofocus: 'false',
+      async: false,
+      radius: '2px',
+      borderWidth: '1px',
+      textColorDisabled: 'var(--tonic-disabled)',
+      backgroundColor: 'transparent'
+    }
+  }
+
+  static stylesheet () {
+    return `
+      tonic-button {
+        display: inline-block;
+      }
+
+      tonic-button button {
+        color: var(--tonic-button, #333);
+        width: auto;
+        min-height: 40px;
+        font: 12px var(--tonic-subheader, 'Arial', sans-serif);
+        font-weight: 400;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding: 8px 8px 5px 8px;
+        position: relative;
+        background-color: transparent;
+        border: 1px solid var(--tonic-button, #333);
+        transition: all 0.3s ease;
+        appearance: none;
+      }
+
+      tonic-button button[disabled],
+      tonic-button button.tonic--active {
+        color: var(--tonic-medium, #999);
+        background-color: var(--tonic-background, #fff);
+        border-color: var(--tonic-background, #fff);
+      }
+
+      tonic-button button[disabled] {
+        pointer-events: none;
+        user-select: none;
+      }
+
+      tonic-button button:not([disabled]):hover,
+      tonic-button button:not(.tonic--loading):hover {
+        color: var(--tonic-window, #fff) !important;
+        background-color: var(--tonic-button, #333) !important;
+        border-color: var(--tonic-button, #333) !important;
+        cursor: pointer;
+      }
+
+      tonic-button button.tonic--loading {
+        color: transparent !important;
+        background: var(--tonic-medium, #999);
+        border-color: var(--tonic-medium, #999);
+        transition: all 0.3s ease;
+        pointer-events: none;
+      }
+
+      tonic-button button.tonic--loading:hover {
+        color: transparent !important;
+        background: var(--tonic-medium, #999) !important;
+        border-color: var(--tonic-medium, #999) !important;
+      }
+
+      tonic-button button.tonic--loading:before {
+        margin-top: -8px;
+        margin-left: -8px;
+        display: inline-block;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        opacity: 1;
+        transform: translateX(-50%) translateY(-50%);
+        border: 2px solid white;
+        border-radius: 50%;
+        border-top-color: transparent;
+        animation: spin 1s linear 0s infinite;
+        transition: opacity 0.3s ease;
+      }
+
+      tonic-button button:before {
+        content: '';
+        width: 14px;
+        height: 14px;
+        opacity: 0;
+      }
+
+      @keyframes spin {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    `
+  }
+
+  loading (state) {
+    const button = this.querySelector('button')
+    const method = state ? 'add' : 'remove'
+    if (button) button.classList[method]('tonic--loading')
+  }
+
+  click (e) {
+    const disabled = this.props.disabled === 'true'
+    const async = this.props.async === 'true'
+    const href = this.props.href
+
+    if (async && !disabled) {
+      this.loading(true)
+    }
+
+    if (href) {
+      const target = this.getAttribute('target')
+
+      if (target && target !== '_self') {
+        window.open(href)
+      } else {
+        window.open(href, '_self')
+      }
+    }
+  }
+
+  styles () {
+    const {
+      width,
+      height,
+      margin,
+      radius,
+      fill,
+      disabled,
+      borderColor,
+      borderWidth,
+      textColor,
+      textColorDisabled
+    } = this.props
+
+    return {
+      button: {
+        width,
+        height,
+        color: disabled && disabled === 'true' ? textColorDisabled : textColor,
+        backgroundColor: fill,
+        borderRadius: radius,
+        borderColor: fill || borderColor,
+        borderWidth: borderWidth
+      },
+      wrapper: {
+        width,
+        height,
+        margin
+      }
+    }
+  }
+
+  render () {
+    const {
+      value,
+      type,
+      disabled,
+      autofocus,
+      active,
+      async,
+      tabindex
+    } = this.props
+
+    let classes = []
+
+    if (active) classes.push('tonic--active')
+    classes = classes.join(' ')
+
+    if (tabindex) this.removeAttribute('tabindex')
+
+    let label = ''
+
+    if (this.querySelector('style')) {
+      label = this.querySelector('button').textContent
+    } else {
+      label = this.textContent || type || 'Button'
+    }
+
+    return this.html`
+      <div class="tonic--button--wrapper" styles="wrapper">
+        <button ... ${{
+          styles: 'button',
+          async: String(async),
+          disabled: disabled && disabled !== 'false',
+          autofocus,
+          alt: label,
+          value,
+          type,
+          tabindex,
+          class: classes
+        }}>${label}</button>
+      </div>
+    `
+  }
+}
+
+module.exports = { TonicButton }
+
+},{"@optoolco/tonic":13}],6:[function(require,module,exports){
+const Tonic = require('@optoolco/tonic')
+
+class TonicChart extends Tonic {
+  constructor (o) {
+    super(o)
+
+    try {
+      const dynamicRequire = require
+      this.Chart = dynamicRequire('chart.js')
+    } catch (err) {
+      console.error('could not find "chart.js" dependency. npm install?')
+    }
+  }
+
+  static stylesheet () {
+    return `
+      tonic-chart {
+        display: inline-block;
+        position: relative;
+      }
+
+      tonic-chart canvas {
+        display: inline-block;
+        position: relative;
+      }
+    `
+  }
+
+  draw (data = {}, options = {}) {
+    const root = this.querySelector('canvas')
+    const type = this.props.type || options.type
+
+    return new this.Chart(root, {
+      type,
+      options,
+      data
+    })
+  }
+
+  async fetch (url, opts = {}) {
+    if (!url) return {}
+
+    try {
+      const res = await window.fetch(url, opts)
+      return { data: await res.json() }
+    } catch (err) {
+      return { err }
+    }
+  }
+
+  async connected () {
+    let data = null
+
+    const options = {
+      ...this.props,
+      ...this.props.options
+    }
+
+    const src = this.props.src
+
+    if (typeof src === 'string') {
+      const response = await this.fetch(src)
+
+      if (response.err) {
+        console.error(response.err)
+        data = {}
+      } else {
+        data = response.data
+      }
+    }
+
+    if (src === Object(src)) {
+      data = src
+    }
+
+    if (data && data.chartData) {
+      throw new Error('chartData propery deprecated')
+    }
+
+    if (data) {
+      this.draw(data, options)
+    }
+  }
+
+  render () {
+    const {
+      width,
+      height
+    } = this.props
+
+    this.style.width = width
+    this.style.height = height
+
+    return this.html`
+      <canvas ... ${{ width, height }}>
+      </canvas>
+    `
+  }
+}
+
+module.exports = { TonicChart }
+
+},{"@optoolco/tonic":13}],7:[function(require,module,exports){
+const Tonic = require('@optoolco/tonic')
+
+const mode = require('../mode')
+
+class TonicCheckbox extends Tonic {
+  get value () {
+    const state = this.getState()
+    let value
+
+    if ('checked' in this.props) {
+      value = this.props.checked
+    } else {
+      value = state.checked
+    }
+
+    return (value === true) || (value === 'true')
+  }
+
+  set value (value) {
+    const checked = (value === true) || (value === 'true')
+
+    this.state.checked = checked
+    this.props.checked = checked
+    this.reRender()
+  }
+
+  defaults () {
+    return {
+      disabled: false,
+      size: '18px'
+    }
+  }
+
+  static stylesheet () {
+    return `
+      tonic-checkbox .tonic--checkbox--wrapper {
+        display: inline-block;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+      }
+
+      tonic-checkbox input[type="checkbox"] {
+        display: none;
+      }
+
+      tonic-checkbox input[type="checkbox"][disabled] + label {
+        opacity: 0.35;
+      }
+
+      tonic-checkbox label {
+        color: var(--tonic-primary, #333);
+        font: 12px var(--tonic-subheader, 'Arial', sans-serif);
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        display: inline;
+        vertical-align: middle;
+      }
+
+      tonic-checkbox .tonic--icon {
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+        background-size: contain;
+      }
+
+      tonic-checkbox .tonic--icon svg {
+        width: inherit;
+        height: inherit;
+      }
+
+      tonic-checkbox label:nth-of-type(2) {
+        padding-top: 2px;
+        margin-left: 10px;
+      }
+    `
+  }
+
+  change (e) {
+    if (
+      this.props.virtual === true ||
+      this.props.virtual === 'true'
+    ) {
+      return
+    }
+    if (this.state._changing) return
+
+    e.stopPropagation()
+
+    const currentState = this.value
+    this.state._changing = true
+    this.value = !currentState
+
+    this.reRender()
+  }
+
+  updated () {
+    if (this.state._changing) {
+      const e = new window.Event('change', { bubbles: true })
+      this.dispatchEvent(e)
+      delete this.state._changing
+    }
+  }
+
+  styles () {
+    return {
+      icon: {
+        width: this.props.size,
+        height: this.props.size
+      }
+    }
+  }
+
+  renderIcon () {
+    const checked = this.value
+    const iconState = checked ? 'checked' : 'unchecked'
+
+    return this.html`
+      <svg>
+        <use ... ${{
+          href: `#${iconState}`,
+          'xlink:href': `#${iconState}`,
+          color: 'var(--tonic-primary, #333)',
+          fill: 'var(--tonic-primary, #333)'
+        }}>
+        </use>
+      </svg>
+    `
+  }
+
+  renderLabel () {
+    let {
+      id,
+      label
+    } = this.props
+
+    if (!this.props.label) {
+      label = this.nodes
+    }
+
+    return this.html`
+      <label
+        styles="label"
+        for="tonic--checkbox--${id}"
+      >${label}</label>
+    `
+  }
+
+  render () {
+    if (mode.strict && !this.props.id) {
+      console.warn('In tonic the "id" attribute is used to persist state')
+      console.warn('You forgot to supply the "id" attribute.')
+      console.warn('')
+      console.warn('For element : ')
+      console.warn(`${this.outerHTML}`)
+      throw new Error('id attribute is mandatory on tonic-checkbox')
+    }
+
+    const {
+      id,
+      disabled,
+      theme,
+      title,
+      tabindex
+    } = this.props
+
+    const checked = this.value
+    if (typeof this.state.checked === 'undefined') {
+      this.state.checked = checked
+    }
+
+    if (tabindex) this.removeAttribute('tabindex')
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
+
+    return this.html`
+      <div class="tonic--checkbox--wrapper">
+        <input ... ${{
+          type: 'checkbox',
+          id: `tonic--checkbox--${id}`,
+          checked,
+          disabled: disabled === 'true',
+          title,
+          tabindex
+        }}/>
+        <label
+          for="tonic--checkbox--${id}"
+          styles="icon"
+          class="tonic--icon"
+        >
+          ${this.renderIcon()}
+        </label>
+        ${this.renderLabel()}
+      </div>
+    `
+  }
+}
+
+module.exports = { TonicCheckbox }
+
+},{"../mode":12,"@optoolco/tonic":13}],8:[function(require,module,exports){
+const Tonic = require('@optoolco/tonic')
+
+class TonicForm extends Tonic {
+  static isNumber (s) {
+    return !isNaN(Number(s))
+  }
+
+  static getPropertyValue (o, path) {
+    if (!path) return null
+
+    const parts = path.split('.')
+    let value = o
+
+    for (const p of parts) {
+      if (!value) return null
+      value = value[p]
+    }
+
+    return value
+  }
+
+  static setPropertyValue (o, path, v) {
+    if (!path) return
+
+    const parts = path.split('.')
+    let value = o
+
+    const last = parts.pop()
+    if (!last) return
+
+    for (let i = 0; i < parts.length; i++) {
+      const p = parts[i]
+      const next = parts[i + 1] || last
+
+      if (!value[p]) {
+        value[p] = TonicForm.isNumber(next) ? [] : {}
+      }
+
+      value = value[p]
+    }
+
+    value[last] = v
+    return o
+  }
+
+  setData (data) {
+    this.value = data
+  }
+
+  getData () {
+    return this.value
+  }
+
+  getElements () {
+    return [...this.querySelectorAll('[data-key]')]
+  }
+
+  get value () {
+    const elements = this.getElements()
+    const data = {}
+
+    for (const element of elements) {
+      TonicForm.setPropertyValue(data, element.dataset.key, element.value)
+    }
+
+    return data
+  }
+
+  set value (data) {
+    if (typeof data !== 'object') return
+
+    const elements = this.getElements()
+
+    for (const element of elements) {
+      const value = TonicForm.getPropertyValue(data, element.dataset.key)
+      if (!value) continue
+
+      element.value = value
+    }
+  }
+
+  render () {
+    return this.html`
+      ${this.childNodes}
+    `
+  }
+}
+
+module.exports = { TonicForm }
+
+},{"@optoolco/tonic":13}],9:[function(require,module,exports){
+const Tonic = require('@optoolco/tonic')
+
+class TonicIcon extends Tonic {
+  defaults () {
+    return {
+      size: '25px',
+      fill: 'var(--tonic-primary, #333)'
+    }
+  }
+
+  static stylesheet () {
+    return `
+      tonic-icon svg path {
+        fill: inherit;
+      }
+    `
+  }
+
+  styles () {
+    const {
+      size
+    } = this.props
+
+    return {
+      icon: {
+        width: size,
+        height: size
+      }
+    }
+  }
+
+  render () {
+    const {
+      symbolId,
+      size,
+      fill,
+      theme,
+      src,
+      tabindex
+    } = this.props
+
+    if (tabindex) this.removeAttribute('tabindex')
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
+
+    return this.html`
+      <svg ... ${{
+        styles: 'icon',
+        tabindex
+      }}>
+        <use ... ${{
+          href: `${src || ''}#${symbolId}`,
+          'xlink:href': `${src || ''}#${symbolId}`,
+          width: size,
+          fill,
+          color: fill,
+          height: size
+        }}>
+      </svg>
+    `
+  }
+}
+
+module.exports = { TonicIcon }
+
+},{"@optoolco/tonic":13}],10:[function(require,module,exports){
+let Tonic
+try {
+  Tonic = require('@optoolco/tonic')
+} catch (err) {
+  console.error('Missing dependency. Try `npm install @optoolco/tonic`.')
+  throw err
+}
+
+const version = Tonic.version
+const major = version ? version.split('.')[0] : '0'
+if (parseInt(major, 10) < 11) {
+  console.error('Out of data dependency. Try `npm install @optoolco/tonic@11`.')
+  throw new Error('Invalid Tonic version. requires at least v11')
+}
+
+const mode = require('./mode')
+
+const { TonicAccordion, TonicAccordionSection } = require('./accordion')
+const { TonicBadge } = require('./badge')
+const { TonicButton } = require('./button')
+const { TonicChart } = require('./chart')
+const { TonicCheckbox } = require('./checkbox')
+const { TonicForm } = require('./form')
+const { TonicIcon } = require('./icon')
+const { TonicInput } = require('./input')
+const { TonicPopover } = require('./popover')
+const { TonicProfileImage } = require('./profile-image')
+const { TonicProgressBar } = require('./progress-bar')
+const { TonicRange } = require('./range')
+const { TonicRelativeTime } = require('./relative-time')
+const { TonicRouter } = require('./router')
+const { TonicSelect } = require('./select')
+const { TonicSprite } = require('./sprite')
+const { TonicTabs, TonicTabPanel } = require('./tabs')
+const { TonicTextarea } = require('./textarea')
+const { TonicTooltip } = require('./tooltip')
+const { TonicToasterInline } = require('./toaster-inline')
+const { TonicToaster } = require('./toaster')
+const { TonicToggle } = require('./toggle')
+
+//
+// An example collection of components.
+//
+module.exports = components
+// For supporting unpkg / dist / jsfiddle.
+components.Tonic = Tonic
+
+function components (Tonic, opts) {
+  if (opts && opts.strict === true) {
+    mode.strict = true
+  }
+
+  Tonic.add(TonicAccordion)
+  Tonic.add(TonicAccordionSection)
+  Tonic.add(TonicBadge)
+  Tonic.add(TonicButton)
+  Tonic.add(TonicChart)
+  Tonic.add(TonicCheckbox)
+  Tonic.add(TonicForm)
+  Tonic.add(TonicInput)
+  Tonic.add(TonicIcon)
+  Tonic.add(TonicPopover)
+  Tonic.add(TonicProfileImage)
+  Tonic.add(TonicProgressBar)
+  Tonic.add(TonicRange)
+  Tonic.add(TonicRelativeTime)
+  Tonic.add(TonicRouter)
+  Tonic.add(TonicSelect)
+  Tonic.add(TonicSprite)
+  Tonic.add(TonicTabs)
+  Tonic.add(TonicTabPanel)
+  Tonic.add(TonicTextarea)
+  Tonic.add(TonicTooltip)
+  Tonic.add(TonicToasterInline)
+  Tonic.add(TonicToaster)
+  Tonic.add(TonicToggle)
+}
+
+},{"./accordion":3,"./badge":4,"./button":5,"./chart":6,"./checkbox":7,"./form":8,"./icon":9,"./input":11,"./mode":12,"./popover":15,"./profile-image":16,"./progress-bar":17,"./range":18,"./relative-time":19,"./router":20,"./select":21,"./sprite":22,"./tabs":23,"./textarea":24,"./toaster":26,"./toaster-inline":25,"./toggle":27,"./tooltip":28,"@optoolco/tonic":13}],11:[function(require,module,exports){
+const Tonic = require('@optoolco/tonic')
+
+const mode = require('../mode')
+
+class TonicInput extends Tonic {
+  defaults () {
+    return {
+      type: 'text',
+      value: '',
+      placeholder: '',
+      color: 'var(--tonic-primary)',
+      spellcheck: false,
+      ariaInvalid: false,
+      invalid: false,
+      radius: '3px',
+      disabled: false,
+      position: 'left'
+    }
+  }
+
+  get form () {
+    return this.querySelector('input').form
+  }
+
+  get value () {
+    return this.state.value || this.props.value
+  }
+
+  set value (value) {
+    this.querySelector('input').value = value
+    this.state.value = value
+  }
+
+  setValid () {
+    this.reRender(props => Object.assign({}, props, {
+      invalid: false
+    }))
+  }
+
+  setInvalid (msg) {
+    this.reRender(props => Object.assign({}, props, {
+      invalid: true,
+      errorMessage: msg
+    }))
+  }
+
+  static stylesheet () {
+    return `
+      tonic-input .tonic--wrapper {
+        position: relative;
+      }
+
+      tonic-input[src] .tonic--right tonic-icon {
+        right: 10px;
+      }
+
+      tonic-input[src] .tonic--right input {
+        padding-right: 40px;
+      }
+
+      tonic-input[src] .tonic--left tonic-icon {
+        left: 10px;
+      }
+
+      tonic-input[src] .tonic--left input {
+        padding-left: 40px;
+      }
+
+      tonic-input[src] tonic-icon {
+        position: absolute;
+        bottom: 7px;
+      }
+
+      tonic-input label {
+        color: var(--tonic-medium, #999);
+        font-weight: 500;
+        font: 12px/14px var(--tonic-subheader, 'Arial', sans-serif);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding-bottom: 10px;
+        display: block;
+      }
+
+      tonic-input input {
+        color: var(--tonic-primary, #333);
+        font: 14px var(--tonic-monospace, 'Andale Mono', monospace);
+        padding: 10px;
+        background-color: transparent;
+        border: 1px solid var(--tonic-border, #ccc);
+        transition: border 0.2s ease-in-out;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+      }
+
+      tonic-input input:invalid {
+        border-color: var(--tonic-error, #f66);
+      }
+
+      tonic-input input:invalid:focus {
+        border-color: var(--tonic-error, #f66);
+      }
+
+      tonic-input input:invalid ~ .tonic--invalid {
+        transform: translateY(0);
+        visibility: visible;
+        opacity: 1;
+        transition: opacity 0.2s ease, transform 0.2s ease, visibility 1s ease 0s;
+      }
+
+      tonic-input input:focus {
+        border-color: var(--tonic-primary, #333);
+      }
+
+      tonic-input input[disabled] {
+        background-color: var(--tonic-background, #fff);
+      }
+
+      tonic-input[label] .tonic--invalid {
+        margin-bottom: -13px;
+      }
+
+      tonic-input .tonic--invalid {
+        font-size: 14px;
+        text-align: center;
+        margin-bottom: 13px;
+        position: absolute;
+        bottom: 100%;
+        left: 0;
+        right: 0;
+        transform: translateY(-10px);
+        transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s ease 1s;
+        visibility: hidden;
+        opacity: 0;
+      }
+
+      tonic-input .tonic--invalid span {
+        color: white;
+        padding: 2px 6px;
+        background-color: var(--tonic-error, #f66);
+        border-radius: 2px;
+        position: relative;
+        display: inline-block;
+        margin: 0 auto;
+      }
+
+      tonic-input .tonic--invalid span:after {
+        content: '';
+        width: 0;
+        height: 0;
+        display: block;
+        position: absolute;
+        bottom: -6px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-top: 6px solid var(--tonic-error, #f66);
+      }
+    `
+  }
+
+  renderLabel () {
+    if (!this.props.label) return ''
+    return this.html`
+      <label
+        for="tonic--input_${this.props.id}"
+      >${Tonic.raw(this.props.label)}</label>
+    `
+  }
+
+  renderIcon () {
+    if (!this.props.src) return ''
+
+    return this.html`
+      <tonic-icon
+        src="${this.props.src}"
+        color="${this.props.color}">
+      </tonic-icon>
+    `
+  }
+
+  setupEvents () {
+    const input = this.querySelector('input')
+
+    const set = (k, v, event) => {
+      this.setState(state => Object.assign({}, state, { [k]: v }))
+    }
+
+    const relay = name => {
+      this.dispatchEvent(new window.CustomEvent(name, { bubbles: true }))
+    }
+
+    input.addEventListener('focus', e => {
+      set('focus', true)
+      relay('focus')
+    })
+
+    input.addEventListener('blur', e => {
+      set('focus', false)
+      relay('blur')
+    })
+
+    input.addEventListener('input', e => {
+      set('value', e.target.value)
+      set('pos', e.target.selectionStart)
+    })
+
+    const state = this.getState()
+    if (!state.focus) return
+
+    input.focus()
+
+    try {
+      input.setSelectionRange(state.pos, state.pos)
+    } catch (err) {
+      console.warn(err)
+    }
+  }
+
+  updated () {
+    const input = this.querySelector('input')
+
+    setTimeout(() => {
+      if (this.props.invalid) {
+        input.setCustomValidity(this.props.errorMessage)
+      } else {
+        input.setCustomValidity('')
+      }
+    }, 32)
+
+    this.setupEvents()
+  }
+
+  connected () {
+    this.updated()
+  }
+
+  styles () {
+    const {
+      width,
+      height,
+      radius,
+      padding
+    } = this.props
+
+    return {
+      wrapper: {
+        width
+      },
+      input: {
+        width: '100%',
+        height,
+        borderRadius: radius,
+        padding
+      }
+    }
+  }
+
+  render () {
+    if (mode.strict && !this.props.id) {
+      console.warn('In tonic the "id" attribute is used to persist state')
+      console.warn('You forgot to supply the "id" attribute.')
+      console.warn('')
+      console.warn('For element : ')
+      console.warn(`${this.outerHTML}`)
+      throw new Error('id attribute is mandatory on tonic-input')
+    }
+
+    const {
+      ariaInvalid,
+      ariaLabelledby,
+      disabled,
+      height,
+      label,
+      max,
+      maxlength,
+      min,
+      minlength,
+      name,
+      pattern,
+      placeholder,
+      position,
+      readonly,
+      required,
+      spellcheck,
+      tabindex,
+      theme,
+      title,
+      type
+    } = this.props
+
+    if (ariaLabelledby) this.removeAttribute('ariaLabelledby')
+    if (height) this.style.width = height
+    if (name) this.removeAttribute('name')
+    if (tabindex) this.removeAttribute('tabindex')
+    if (theme) this.classList.add(`tonic--theme--${theme}`)
+
+    const value = typeof this.state.value === 'string'
+      ? this.state.value : this.props.value
+
+    const errorMessage = this.props.errorMessage ||
+      this.props.errormessage || 'Invalid'
+
+    const classes = ['tonic--wrapper']
+    if (position) classes.push(`tonic--${position}`)
+
+    const attributes = {
+      ariaInvalid,
+      ariaLabel: label,
+      'aria-labelledby': ariaLabelledby,
+      disabled: disabled === 'true',
+      max,
+      maxlength,
+      min,
+      minlength,
+      name,
+      pattern,
+      placeholder,
+      position,
+      readonly: readonly === 'true',
+      required: required === 'true',
+      spellcheck,
+      tabindex,
+      title,
+      value
+    }
+
+    return this.html`
+      <div class="${classes.join(' ')}" styles="wrapper">
+        ${this.renderLabel()}
+        ${this.renderIcon()}
+
+        <input ... ${{
+          styles: 'input',
+          type,
+          id: `tonic--input_${this.props.id}`,
+          ...attributes
+        }}/>
+        <div class="tonic--invalid">
+          <span id="tonic--error-${this.props.id}">${errorMessage}</span>
+        </div>
+      </div>
+    `
+  }
+}
+
+module.exports = { TonicInput }
+
+},{"../mode":12,"@optoolco/tonic":13}],12:[function(require,module,exports){
+module.exports = { strict: false }
+
+},{}],13:[function(require,module,exports){
+class TonicRaw {
+  constructor (rawText) {
+    this.isTonicRaw = true
+    this.rawText = rawText
+  }
+
+  valueOf () { return this.rawText }
+  toString () { return this.rawText }
+}
+
+class Tonic extends window.HTMLElement {
+  constructor () {
+    super()
+    const state = Tonic._states[this.id]
+    delete Tonic._states[this.id]
+    this.isTonicComponent = true
+    this.state = state || {}
+    this.props = {}
+    this.elements = [...this.children]
+    this.elements.__children__ = true
+    this.nodes = [...this.childNodes]
+    this.nodes.__children__ = true
+    this._events()
+  }
+
+  static _createId () {
+    return `tonic${Tonic._index++}`
+  }
+
+  static _maybePromise (p) {
+    if (p && typeof p.then === 'function' && typeof p.catch === 'function') {
+      p.catch(err => setTimeout(() => { throw err }, 0))
+    }
+  }
+
+  static _splitName (s) {
+    return s.match(/[A-Z][a-z]*/g).join('-')
+  }
+
+  static _normalizeAttrs (o, x = {}) {
+    [...o].forEach(o => (x[o.name] = o.value))
+    return x
+  }
+
+  _events () {
+    const hp = Object.getOwnPropertyNames(window.HTMLElement.prototype)
+    for (const p of this._props) {
+      if (hp.indexOf('on' + p) === -1) continue
+      this.addEventListener(p, this)
+    }
+  }
+
+  _prop (o) {
+    const id = this._id
+    const p = `__${id}__${Tonic._createId()}__`
+    Tonic._data[id] = Tonic._data[id] || {}
+    Tonic._data[id][p] = o
+    return p
+  }
+
+  _placehold (r) {
+    const id = this._id
+    const ref = `placehold:${id}:${Tonic._createId()}__`
+    Tonic._children[id] = Tonic._children[id] || {}
+    Tonic._children[id][ref] = r
+    return ref
+  }
+
+  static match (el, s) {
+    if (!el.matches) el = el.parentElement
+    return el.matches(s) ? el : el.closest(s)
+  }
+
+  static getPropertyNames (proto) {
+    const props = []
+    while (proto && proto !== Tonic.prototype) {
+      props.push(...Object.getOwnPropertyNames(proto))
+      proto = Object.getPrototypeOf(proto)
+    }
+    return props
+  }
+
+  static add (c, htmlName) {
+    c.prototype._props = Tonic.getPropertyNames(c.prototype)
+
+    const hasValidName = htmlName || (c.name && c.name.length > 1)
+    if (!hasValidName) {
+      throw Error('Mangling. https://bit.ly/2TkJ6zP')
+    }
+
+    if (!htmlName) htmlName = Tonic._splitName(c.name).toLowerCase()
+    if (window.customElements.get(htmlName)) return
+
+    Tonic._reg[htmlName] = c
+    Tonic._tags = Object.keys(Tonic._reg).join()
+    window.customElements.define(htmlName, c)
+
+    if (c.stylesheet) {
+      const styleNode = document.createElement('style')
+      styleNode.appendChild(document.createTextNode(c.stylesheet()))
+      if (document.head) document.head.appendChild(styleNode)
+    }
+  }
+
+  static escape (s) {
+    return s.replace(Tonic.ESC, c => Tonic.MAP[c])
+  }
+
+  static raw (s) {
+    return new TonicRaw(s)
+  }
+
+  html ([s, ...strings], ...values) {
+    const refs = o => {
+      if (o && o.__children__) return this._placehold(o)
+      if (o && o.isTonicRaw) return o.rawText
+      switch (Object.prototype.toString.call(o)) {
+        case '[object HTMLCollection]':
+        case '[object NodeList]': return this._placehold([...o])
+        case '[object Array]':
+        case '[object Object]':
+        case '[object Function]': return this._prop(o)
+        case '[object NamedNodeMap]':
+          return this._prop(Tonic._normalizeAttrs(o))
+        case '[object Number]': return `${o}__float`
+        case '[object String]': return Tonic.escape(o)
+        case '[object Boolean]': return `${o}__boolean`
+        case '[object Null]': return `${o}__null`
+        case '[object HTMLElement]':
+          return this._placehold([o])
+      }
+      if (
+        typeof o === 'object' && o && o.nodeType === 1 &&
+        typeof o.cloneNode === 'function'
+      ) {
+        return this._placehold([o])
+      }
+      return o
+    }
+
+    const reduce = (a, b) => a.concat(b, strings.shift())
+    const str = values.map(refs).reduce(reduce, [s]).join('')
+    return Tonic.raw(str)
+  }
+
+  setState (o) {
+    this.state = typeof o === 'function' ? o(this.state) : o
+  }
+
+  getState () {
+    return this.state
+  }
+
+  scheduleReRender (oldProps) {
+    if (this.pendingReRender) return this.pendingReRender
+
+    this.pendingReRender = new Promise(resolve => {
+      window.requestAnimationFrame(() => {
+        const p = this._set(this.root, this.render)
+        this.pendingReRender = null
+
+        if (p && p.then) {
+          Tonic._maybePromise(p.then(() => {
+            if (this.updated) this.updated(oldProps)
+            resolve()
+          }))
+          return
+        }
+
+        if (this.updated) this.updated(oldProps)
+        resolve()
+      })
+    })
+
+    return this.pendingReRender
+  }
+
+  reRender (o = this.props) {
+    const oldProps = { ...this.props }
+    this.props = typeof o === 'function' ? o(oldProps) : o
+    return this.scheduleReRender(oldProps)
+  }
+
+  getProps () {
+    return this.props
+  }
+
+  handleEvent (e) {
+    Tonic._maybePromise(this[e.type](e))
+  }
+
+  _drainIterator (target, iterator) {
+    const p = iterator.next()
+    return p.then((result) => {
+      this._set(target, null, result.value)
+      if (result.done) return
+      return this._drainIterator(target, iterator)
+    })
+  }
+
+  _set (target, render, content = '') {
+    for (const node of target.querySelectorAll(Tonic._tags)) {
+      if (!node.isTonicComponent) continue
+      if (!node.id || !Tonic._refIds.includes(node.id)) continue
+      Tonic._states[node.id] = node.getState()
+    }
+
+    if (render instanceof Tonic.AsyncFunction) {
+      const promise = render.call(this) || ''
+      return promise.then((content) => {
+        return this._apply(target, content)
+      })
+    } else if (render instanceof Tonic.AsyncFunctionGenerator) {
+      const itr = render.call(this)
+      return this._drainIterator(target, itr)
+    } else if (render instanceof Function) {
+      content = render.call(this) || ''
+      return this._apply(target, content)
+    }
+
+    return this._apply(target, content)
+  }
+
+  _apply (target, content) {
+    if (content && content.isTonicRaw) {
+      content = content.rawText
+    }
+
+    if (typeof content === 'string') {
+      content = content.replace(Tonic.SPREAD, (_, p) => {
+        const o = Tonic._data[p.split('__')[1]][p]
+        return Object.entries(o).map(([key, value]) => {
+          const k = key.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
+          if (value === true) return k
+          else if (value) return `${k}="${Tonic.escape(String(value))}"`
+          else return ''
+        }).filter(Boolean).join(' ')
+      })
+
+      if (this.stylesheet) {
+        content = `<style>${this.stylesheet()}</style>${content}`
+      }
+
+      target.innerHTML = content
+
+      if (this.styles) {
+        const styles = this.styles()
+        for (const node of target.querySelectorAll('[styles]')) {
+          for (const s of node.getAttribute('styles').split(/\s+/)) {
+            Object.assign(node.style, styles[s.trim()])
+          }
+        }
+      }
+
+      const children = Tonic._children[this._id] || {}
+
+      const walk = (node, fn) => {
+        if (node.nodeType === 3) {
+          const id = node.textContent.trim()
+          if (children[id]) fn(node, children[id])
+        }
+
+        const childNodes = node.childNodes
+        if (!childNodes) return
+
+        for (let i = 0; i < childNodes.length; i++) {
+          walk(childNodes[i], fn)
+        }
+      }
+
+      walk(target, (node, children) => {
+        for (const child of children) {
+          node.parentNode.insertBefore(child, node)
+        }
+        delete Tonic._children[this._id][node.id]
+        node.parentNode.removeChild(node)
+      })
+    } else {
+      target.innerHTML = ''
+      target.appendChild(content.cloneNode(true))
+    }
+  }
+
+  connectedCallback () {
+    this.root = this.shadowRoot || this
+
+    if (this.wrap) {
+      this.wrapped = this.render
+      this.render = this.wrap
+    }
+
+    if (this.id && !Tonic._refIds.includes(this.id)) {
+      Tonic._refIds.push(this.id)
+    }
+    const cc = s => s.replace(/-(.)/g, (_, m) => m.toUpperCase())
+
+    for (const { name: _name, value } of this.attributes) {
+      const name = cc(_name)
+      const p = this.props[name] = value
+
+      if (/__\w+__\w+__/.test(p)) {
+        const { 1: root } = p.split('__')
+        this.props[name] = Tonic._data[root][p]
+      } else if (/\d+__float/.test(p)) {
+        this.props[name] = parseFloat(p, 10)
+      } else if (p === 'null__null') {
+        this.props[name] = null
+      } else if (/\w+__boolean/.test(p)) {
+        this.props[name] = p.includes('true')
+      } else if (/placehold:\w+:\w+__/.test(p)) {
+        const { 1: root } = p.split(':')
+        this.props[name] = Tonic._children[root][p][0]
+      }
+    }
+
+    this.props = Object.assign(
+      this.defaults ? this.defaults() : {},
+      this.props
+    )
+
+    if (!this._source) {
+      this._source = this.innerHTML
+    } else {
+      this.innerHTML = this._source
+    }
+
+    this._id = this._id || Tonic._createId()
+
+    this.willConnect && this.willConnect()
+    Tonic._maybePromise(this._set(this.root, this.render))
+    Tonic._maybePromise(this.connected && this.connected())
+  }
+
+  disconnectedCallback () {
+    Tonic._maybePromise(this.disconnected && this.disconnected())
+    this.elements.length = 0
+    this.nodes.length = 0
+    delete Tonic._data[this._id]
+    delete Tonic._children[this._id]
+  }
+}
+
+Object.assign(Tonic, {
+  _tags: '',
+  _refIds: [],
+  _data: {},
+  _states: {},
+  _children: {},
+  _reg: {},
+  _index: 0,
+  version: typeof require !== 'undefined' ? require('./package').version : null,
+  SPREAD: /\.\.\.\s?(__\w+__\w+__)/g,
+  ESC: /["&'<>`]/g,
+  AsyncFunctionGenerator: async function * () {}.constructor,
+  AsyncFunction: async function () {}.constructor,
+  MAP: { '"': '&quot;', '&': '&amp;', '\'': '&#x27;', '<': '&lt;', '>': '&gt;', '`': '&#x60;' }
+})
+
+if (typeof module === 'object') module.exports = Tonic
+
+},{"./package":14}],14:[function(require,module,exports){
+module.exports={
+  "_from": "@optoolco/tonic@next",
+  "_id": "@optoolco/tonic@11.0.4",
+  "_inBundle": false,
+  "_integrity": "sha512-S5fvBiu4st7wBd/JYuEJiywH9RWjJk4CDS1y53k85f71LinRgj5dzZs02F5720RUgukcCj7DVNlCtGPipLYXXQ==",
+  "_location": "/@optoolco/tonic",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "tag",
+    "registry": true,
+    "raw": "@optoolco/tonic@next",
+    "name": "@optoolco/tonic",
+    "escapedName": "@optoolco%2ftonic",
+    "scope": "@optoolco",
+    "rawSpec": "next",
+    "saveSpec": null,
+    "fetchSpec": "next"
+  },
+  "_requiredBy": [
+    "#DEV:/",
+    "#USER"
+  ],
+  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-11.0.4.tgz",
+  "_shasum": "d13278685cf6d9fbddfe4981f34ca85474d5a86f",
+  "_spec": "@optoolco/tonic@next",
+  "_where": "/home/raynos/optoolco/components",
+  "author": {
+    "name": "optoolco"
+  },
+  "bugs": {
+    "url": "https://github.com/optoolco/tonic/issues"
+  },
+  "bundleDependencies": false,
+  "dependencies": {},
+  "deprecated": false,
+  "description": "A composable component inspired by React.",
+  "devDependencies": {
+    "benchmark": "^2.1.4",
+    "browserify": "^16.2.2",
+    "raynos-tape-puppet": "0.1.7-raynos2",
+    "standard": "14.3.1",
+    "tape": "^4.11.0",
+    "terser": "^4.0.2",
+    "uuid": "3.3.3"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "homepage": "https://github.com/optoolco/tonic#readme",
+  "license": "MIT",
+  "name": "@optoolco/tonic",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/optoolco/tonic.git"
+  },
+  "scripts": {
+    "build:demo": "browserify --bare ./demo > ./docs/bundle.js",
+    "minify": "terser index.js -c unused,dead_code,hoist_vars,loops=false,hoist_props=true,hoist_funs,toplevel,keep_classnames,keep_fargs=false -o dist/tonic.min.js",
+    "test": "npm run minify && browserify test/index.js | tape-puppet"
+  },
+  "version": "11.0.4"
+}
+
+},{}],15:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicPopover extends Tonic {
@@ -2004,7 +2199,7 @@ class TonicPopover extends Tonic {
     }
   }
 
-  stylesheet () {
+  static stylesheet () {
     return `
       tonic-popover .tonic--overlay {
         position: fixed;
@@ -2021,8 +2216,8 @@ class TonicPopover extends Tonic {
       tonic-popover .tonic--popover {
         position: absolute;
         top: 30px;
-        background: var(--tonic-window);
-        border: 1px solid var(--tonic-border);
+        background: var(--tonic-window, #fff);
+        border: 1px solid var(--tonic-border, #ccc);
         border-radius: 2px;
         visibility: hidden;
         z-index: -1;
@@ -2181,7 +2376,7 @@ class TonicPopover extends Tonic {
 
 module.exports = { TonicPopover }
 
-},{"@optoolco/tonic":10}],14:[function(require,module,exports){
+},{"@optoolco/tonic":13}],16:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
@@ -2200,7 +2395,7 @@ class TonicProfileImage extends Tonic {
     }
   }
 
-  stylesheet () {
+  static stylesheet () {
     return `
       tonic-profile-image {
         display: inline-block;
@@ -2352,11 +2547,13 @@ class TonicProfileImage extends Tonic {
     } = this.props
 
     if (theme) this.classList.add(`tonic--theme--${theme}`)
-    const editableAttr = editable && (editable === 'true') ? 'tonic--editable' : ''
 
-    return `
+    const classes = ['tonic--wrapper']
+    if (editable === 'true') classes.push('tonic--editable')
+
+    return this.html`
       <div
-        class="tonic--wrapper ${editableAttr}"
+        class="${classes.join(' ')}"
         styles="wrapper">
 
         <div
@@ -2395,7 +2592,7 @@ TonicProfileImage.svg.default = () => TonicProfileImage.svg.toURL(`
 
 module.exports = { TonicProfileImage }
 
-},{"../mode":9,"@optoolco/tonic":10}],15:[function(require,module,exports){
+},{"../mode":12,"@optoolco/tonic":13}],17:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
@@ -2421,7 +2618,7 @@ class TonicProgressBar extends Tonic {
     }
   }
 
-  stylesheet () {
+  static stylesheet () {
     return `
       tonic-progress-bar {
         display: inline-block;
@@ -2430,11 +2627,11 @@ class TonicProgressBar extends Tonic {
 
       tonic-progress-bar .tonic--wrapper {
         position: relative;
-        background-color: var(--tonic-background);
+        background-color: var(--tonic-background, #fff);
       }
 
       tonic-progress-bar .tonic--wrapper .tonic--progress {
-        background-color: var(--tonic-accent);
+        background-color: var(--tonic-accent, #f66);
         width: 0%;
         height: 100%;
       }
@@ -2450,16 +2647,13 @@ class TonicProgressBar extends Tonic {
       },
       progress: {
         width: progress + '%',
-        backgroundColor: this.props.color || 'var(--tonic-accent)'
+        backgroundColor: this.props.color || 'var(--tonic-accent, #f66)'
       }
     }
   }
 
   setProgress (progress) {
-    this.setState(state => Object.assign({}, state, {
-      progress
-    }))
-
+    this.state.progress = progress
     this.reRender()
   }
 
@@ -2490,7 +2684,7 @@ class TonicProgressBar extends Tonic {
 
 module.exports = { TonicProgressBar }
 
-},{"../mode":9,"@optoolco/tonic":10}],16:[function(require,module,exports){
+},{"../mode":12,"@optoolco/tonic":13}],18:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
@@ -2535,7 +2729,7 @@ class TonicRange extends Tonic {
     this.setValue(e.target.value || this.props.value)
   }
 
-  stylesheet () {
+  static stylesheet () {
     return `
       tonic-range  {
         position: relative;
@@ -2546,7 +2740,7 @@ class TonicRange extends Tonic {
       }
 
       tonic-range label {
-        font: 13px var(--tonic-subheader);
+        font: 13px var(--tonic-subheader, 'Arial', sans-serif);
         letter-spacing: 1px;
         text-align: center;
         position: absolute;
@@ -2560,12 +2754,12 @@ class TonicRange extends Tonic {
         padding: 0;
         width: 50%;
         height: 4px;
-        background-color: var(--tonic-background);
-        background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, var(--tonic-accent)), color-stop(100%, var(--tonic-accent)));
-        background-image: -webkit-linear-gradient(var(--tonic-accent), var(--tonic-accent));
-        background-image: -moz-linear-gradient(var(--tonic-accent), var(--tonic-accent));
-        background-image: -o-linear-gradient(var(--tonic-accent), var(--tonic-accent));
-        background-image: linear-gradient(var(--tonic-accent), var(--tonic-accent));
+        background-color: var(--tonic-background, #fff);
+        background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, var(--tonic-accent, #f66)), color-stop(100%, var(--tonic-accent, #f66)));
+        background-image: -webkit-linear-gradient(var(--tonic-accent, #f66), var(--tonic-accent, #f66));
+        background-image: -moz-linear-gradient(var(--tonic-accent, #f66), var(--tonic-accent, #f66));
+        background-image: -o-linear-gradient(var(--tonic-accent, #f66), var(--tonic-accent, #f66));
+        background-image: linear-gradient(var(--tonic-accent, #f66), var(--tonic-accent, #f66));
         background-size: 50% 100%;
         background-repeat: no-repeat;
         border-radius: 0;
@@ -2574,11 +2768,11 @@ class TonicRange extends Tonic {
       }
 
       tonic-range input[type="range"]:disabled {
-        background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, var(--tonic-border)), color-stop(100%, var(--tonic-border)));
-        background-image: -webkit-linear-gradient(var(--tonic-border), var(--tonic-border));
-        background-image: -moz-linear-gradient(var(--tonic-border), var(--tonic-border));
-        background-image: -o-linear-gradient(var(--tonic-border), var(--tonic-border));
-        background-image: linear-gradient(var(--tonic-border), var(--tonic-border));
+        background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, var(--tonic-border, #ccc)), color-stop(100%, var(--tonic-border, #ccc)));
+        background-image: -webkit-linear-gradient(var(--tonic-border, #ccc), var(--tonic-border, #ccc));
+        background-image: -moz-linear-gradient(var(--tonic-border, #ccc), var(--tonic-border, #ccc));
+        background-image: -o-linear-gradient(var(--tonic-border, #ccc), var(--tonic-border, #ccc));
+        background-image: linear-gradient(var(--tonic-border, #ccc), var(--tonic-border, #ccc));
       }
 
       tonic-range input[type="range"]::-webkit-slider-runnable-track {
@@ -2632,7 +2826,7 @@ class TonicRange extends Tonic {
   renderLabel () {
     if (!this.props.label) return ''
     const value = this.props.value
-    return `<label>${this.getLabelValue(value)}</label>`
+    return this.html`<label>${this.getLabelValue(value)}</label>`
   }
 
   styles () {
@@ -2673,35 +2867,30 @@ class TonicRange extends Tonic {
       tabindex
     } = this.props
 
-    const disabledAttr = disabled && disabled === 'true' ? 'disabled="true"' : ''
-    const minAttr = min ? `min="${min}"` : ''
-    const maxAttr = max ? `max="${max}"` : ''
-    const stepAttr = step ? `step="${step}"` : ''
-
     if (width) this.style.width = width
     if (height) this.style.width = height
     if (theme) this.classList.add(`tonic--theme--${theme}`)
     if (tabindex) this.removeAttribute('tabindex')
 
     const value = this.props.value || this.state.value
-    const valueAttr = value && value !== 'undefined' ? `value="${value}"` : ''
-    const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
+    if (typeof this.state.value === 'undefined') {
+      this.state.value = value
+    }
 
-    this.setState(state => Object.assign({}, state, { value }))
-
-    const attributes = [
-      valueAttr,
-      minAttr,
-      maxAttr,
-      stepAttr,
-      disabledAttr,
-      tabAttr
-    ].join(' ')
-
-    return `
+    return this.html`
       ${this.renderLabel()}
       <div class="tonic--wrapper" styles="width">
-        <input type="range" styles="width" id="${id}" ${attributes}/>
+        <input ... ${{
+          type: 'range',
+          styles: 'width',
+          id,
+          value,
+          tabindex,
+          step,
+          min,
+          max,
+          disabled: disabled === 'true'
+        }}/>
       </div>
     `
   }
@@ -2709,7 +2898,489 @@ class TonicRange extends Tonic {
 
 module.exports = { TonicRange }
 
-},{"../mode":9,"@optoolco/tonic":10}],17:[function(require,module,exports){
+},{"../mode":12,"@optoolco/tonic":13}],19:[function(require,module,exports){
+const Tonic = require('@optoolco/tonic')
+
+const weekdays = [
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday'
+]
+
+const months = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
+]
+
+function pad (num) {
+  return `0${num}`.slice(-2)
+}
+
+function strftime (time, formatString) {
+  const day = time.getDay()
+  const date = time.getDate()
+  const month = time.getMonth()
+  const year = time.getFullYear()
+  const hour = time.getHours()
+  const minute = time.getMinutes()
+  const second = time.getSeconds()
+
+  return formatString.replace(/%([%aAbBcdeHIlmMpPSwyYZz])/g, (_arg) => {
+    let match
+    const modifier = _arg[1]
+
+    switch (modifier) {
+      case '%':
+        return '%'
+      case 'a':
+        return weekdays[day].slice(0, 3)
+      case 'A':
+        return weekdays[day]
+      case 'b':
+        return months[month].slice(0, 3)
+      case 'B':
+        return months[month]
+      case 'c':
+        return time.toString()
+      case 'd':
+        return pad(date)
+      case 'e':
+        return String(date)
+      case 'H':
+        return pad(hour)
+      case 'I':
+        return pad(strftime(time, '%l'))
+      case 'l':
+        if (hour === 0 || hour === 12) {
+          return String(12)
+        } else {
+          return String((hour + 12) % 12)
+        }
+      case 'm':
+        return pad(month + 1)
+      case 'M':
+        return pad(minute)
+      case 'p':
+        if (hour > 11) {
+          return 'PM'
+        } else {
+          return 'AM'
+        }
+      case 'P':
+        if (hour > 11) {
+          return 'pm'
+        } else {
+          return 'am'
+        }
+      case 'S':
+        return pad(second)
+      case 'w':
+        return String(day)
+      case 'y':
+        return pad(year % 100)
+      case 'Y':
+        return String(year)
+      case 'Z':
+        match = time.toString().match(/\((\w+)\)$/)
+        return match ? match[1] : ''
+      case 'z':
+        match = time.toString().match(/\w([+-]\d\d\d\d) /)
+        return match ? match[1] : ''
+    }
+    return ''
+  })
+}
+
+function makeFormatter (options) {
+  let format
+
+  return function () {
+    if (format) {
+      return format
+    }
+
+    if ('Intl' in window) {
+      try {
+        format = new Intl.DateTimeFormat(undefined, options)
+        return format
+      } catch (e) {
+        if (!(e instanceof RangeError)) {
+          throw e
+        }
+      }
+    }
+  }
+}
+
+let dayFirst = null
+const dayFirstFormatter = makeFormatter({ day: 'numeric', month: 'short' })
+
+// Private: Determine if the day should be formatted before the month name in
+// the user's current locale. For example, `9 Jun` for en-GB and `Jun 9`
+// for en-US.
+//
+// Returns true if the day appears before the month.
+function isDayFirst () {
+  if (dayFirst !== null) {
+    return dayFirst
+  }
+
+  const formatter = dayFirstFormatter()
+  if (formatter) {
+    const output = formatter.format(new Date(0))
+    dayFirst = !!output.match(/^\d/)
+    return dayFirst
+  } else {
+    return false
+  }
+}
+
+let yearSeparator = null
+
+const yearFormatter = makeFormatter({
+  day: 'numeric',
+  month: 'short',
+  year: 'numeric'
+})
+
+// Private: Determine if the year should be separated from the month and day
+// with a comma. For example, `9 Jun 2014` in en-GB and `Jun 9, 2014` in en-US.
+//
+// Returns true if the date needs a separator.
+function isYearSeparator () {
+  if (yearSeparator !== null) {
+    return yearSeparator
+  }
+
+  const formatter = yearFormatter()
+
+  if (formatter) {
+    const output = formatter.format(new Date(0))
+    yearSeparator = !!output.match(/\d,/)
+    return yearSeparator
+  } else {
+    return true
+  }
+}
+
+function isThisYear (date) {
+  const now = new Date()
+  return now.getUTCFullYear() === date.getUTCFullYear()
+}
+
+function makeRelativeFormat (locale, options) {
+  if ('Intl' in window && 'RelativeTimeFormat' in window.Intl) {
+    try {
+      return new Intl.RelativeTimeFormat(locale, options)
+    } catch (e) {
+      if (!(e instanceof RangeError)) {
+        throw e
+      }
+    }
+  }
+}
+
+function localeFromElement (el) {
+  const container = el.closest('[lang]')
+
+  if (container instanceof window.HTMLElement && container.lang) {
+    return container.lang
+  }
+
+  return 'default'
+}
+
+class RelativeTime {
+  constructor (date, locale) {
+    this.date = date
+    this.locale = locale
+  }
+
+  toString () {
+    const ago = this.timeElapsed()
+
+    if (ago) {
+      return ago
+    }
+
+    const ahead = this.timeAhead()
+
+    if (ahead) {
+      return ahead
+    } else {
+      return `on ${this.formatDate()}`
+    }
+  }
+
+  get value () {
+    return this.date
+  }
+
+  timeElapsed ({ date = this.date, locale = this.locale } = {}) {
+    const ms = new Date().getTime() - date.getTime()
+    const sec = Math.round(ms / 1000)
+    const min = Math.round(sec / 60)
+    const hr = Math.round(min / 60)
+    const day = Math.round(hr / 24)
+
+    if (ms >= 0 && day < 30) {
+      return this.timeAgoFromMs({ ms, date, locale })
+    } else {
+      return null
+    }
+  }
+
+  timeAhead ({ date = this.date, locale = this.locale } = {}) {
+    const ms = date.getTime() - new Date().getTime()
+    const sec = Math.round(ms / 1000)
+    const min = Math.round(sec / 60)
+    const hr = Math.round(min / 60)
+    const day = Math.round(hr / 24)
+    if (ms >= 0 && day < 30) {
+      return this.timeUntil({ date, locale })
+    } else {
+      return null
+    }
+  }
+
+  timeAgo ({ date = this.date, locale = this.locale } = {}) {
+    const ms = new Date().getTime() - date.getTime()
+    return this.timeAgoFromMs({ ms, date, locale })
+  }
+
+  timeAgoFromMs ({ ms, locale = this.locale } = {}) {
+    const sec = Math.round(ms / 1000)
+    const min = Math.round(sec / 60)
+    const hr = Math.round(min / 60)
+    const day = Math.round(hr / 24)
+    const month = Math.round(day / 30)
+    const year = Math.round(month / 12)
+
+    if (ms < 0) {
+      return formatRelativeTime(locale, 0, 'second')
+    } else if (sec < 10) {
+      return formatRelativeTime(locale, 0, 'second')
+    } else if (sec < 45) {
+      return formatRelativeTime(locale, -sec, 'second')
+    } else if (sec < 90) {
+      return formatRelativeTime(locale, -min, 'minute')
+    } else if (min < 45) {
+      return formatRelativeTime(locale, -min, 'minute')
+    } else if (min < 90) {
+      return formatRelativeTime(locale, -hr, 'hour')
+    } else if (hr < 24) {
+      return formatRelativeTime(locale, -hr, 'hour')
+    } else if (hr < 36) {
+      return formatRelativeTime(locale, -day, 'day')
+    } else if (day < 30) {
+      return formatRelativeTime(locale, -day, 'day')
+    } else if (month < 12) {
+      return formatRelativeTime(locale, -month, 'month')
+    } else if (month < 18) {
+      return formatRelativeTime(locale, -year, 'year')
+    } else {
+      return formatRelativeTime(locale, -year, 'year')
+    }
+  }
+
+  timeUntil ({ date = this.date, locale = this.locale } = {}) {
+    const ms = date.getTime() - new Date().getTime()
+    return this.timeUntilFromMs({ ms, locale })
+  }
+
+  timeUntilFromMs ({ ms, locale = this.locale } = {}) {
+    const sec = Math.round(ms / 1000)
+    const min = Math.round(sec / 60)
+    const hr = Math.round(min / 60)
+    const day = Math.round(hr / 24)
+    const month = Math.round(day / 30)
+    const year = Math.round(month / 12)
+
+    if (month >= 18) {
+      return formatRelativeTime(locale, year, 'year')
+    } else if (month >= 12) {
+      return formatRelativeTime(locale, year, 'year')
+    } else if (day >= 45) {
+      return formatRelativeTime(locale, month, 'month')
+    } else if (day >= 30) {
+      return formatRelativeTime(locale, month, 'month')
+    } else if (hr >= 36) {
+      return formatRelativeTime(locale, day, 'day')
+    } else if (hr >= 24) {
+      return formatRelativeTime(locale, day, 'day')
+    } else if (min >= 90) {
+      return formatRelativeTime(locale, hr, 'hour')
+    } else if (min >= 45) {
+      return formatRelativeTime(locale, hr, 'hour')
+    } else if (sec >= 90) {
+      return formatRelativeTime(locale, min, 'minute')
+    } else if (sec >= 45) {
+      return formatRelativeTime(locale, min, 'minute')
+    } else if (sec >= 10) {
+      return formatRelativeTime(locale, sec, 'second')
+    } else {
+      return formatRelativeTime(locale, 0, 'second')
+    }
+  }
+
+  formatDate ({ date = this.date } = {}) {
+    let format = isDayFirst() ? '%e %b' : '%b %e'
+
+    if (!isThisYear(date)) {
+      format += isYearSeparator() ? ', %Y' : ' %Y'
+    }
+
+    return strftime(date, format)
+  }
+
+  formatTime ({ date = this.date } = {}) {
+    const formatter = timeFormatter()
+
+    if (formatter) {
+      return formatter.format(date)
+    } else {
+      return strftime(date, '%l:%M%P')
+    }
+  }
+}
+
+function formatRelativeTime (locale, value, unit) {
+  const formatter = makeRelativeFormat(locale, { numeric: 'auto' })
+
+  if (formatter) {
+    return formatter.format(value, unit)
+  } else {
+    return formatEnRelativeTime(value, unit)
+  }
+}
+
+// Simplified "en" RelativeTimeFormat.format function
+//
+// Values should roughly match
+//   new Intl.RelativeTimeFormat('en', {numeric: 'auto'}).format(value, unit)
+//
+function formatEnRelativeTime (value, unit) {
+  if (value === 0) {
+    switch (unit) {
+      case 'year':
+      case 'quarter':
+      case 'month':
+      case 'week':
+        return `this ${unit}`
+      case 'day':
+        return 'today'
+      case 'hour':
+      case 'minute':
+        return `in 0 ${unit}s`
+      case 'second':
+        return 'now'
+    }
+  } else if (value === 1) {
+    switch (unit) {
+      case 'year':
+      case 'quarter':
+      case 'month':
+      case 'week':
+        return `next ${unit}`
+      case 'day':
+        return 'tomorrow'
+      case 'hour':
+      case 'minute':
+      case 'second':
+        return `in 1 ${unit}`
+    }
+  } else if (value === -1) {
+    switch (unit) {
+      case 'year':
+      case 'quarter':
+      case 'month':
+      case 'week':
+        return `last ${unit}`
+      case 'day':
+        return 'yesterday'
+      case 'hour':
+      case 'minute':
+      case 'second':
+        return `1 ${unit} ago`
+    }
+  } else if (value > 1) {
+    switch (unit) {
+      case 'year':
+      case 'quarter':
+      case 'month':
+      case 'week':
+      case 'day':
+      case 'hour':
+      case 'minute':
+      case 'second':
+        return `in ${value} ${unit}s`
+    }
+  } else if (value < -1) {
+    switch (unit) {
+      case 'year':
+      case 'quarter':
+      case 'month':
+      case 'week':
+      case 'day':
+      case 'hour':
+      case 'minute':
+      case 'second':
+        return `${-value} ${unit}s ago`
+    }
+  }
+
+  throw new RangeError(`Invalid unit argument for format() '${unit}'`)
+}
+
+class TonicRelativeTime extends Tonic {
+  render () {
+    let date = this.props.date || ''
+    const locale = this.props.locale || localeFromElement(this)
+
+    if (typeof date === 'string') {
+      date = this.props.date = new Date(this.props.date)
+    }
+
+    if (date.toString() === 'Invalid Date') {
+      date = new Date()
+    }
+
+    if (this.props.refresh) {
+      this.interval = setInterval(() => {
+        this.reRender(props => ({
+          ...props,
+          date
+        }))
+      }, +this.props.refresh)
+    }
+
+    const t = new RelativeTime(date, locale)
+    return t.toString()
+  }
+}
+
+const timeFormatter = makeFormatter({
+  hour: 'numeric',
+  minute: '2-digit'
+})
+
+module.exports = { TonicRelativeTime, RelativeTime }
+
+},{"@optoolco/tonic":13}],20:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
@@ -3009,7 +3680,7 @@ TonicRouter.matcher = (() => {
 
 module.exports = { TonicRouter }
 
-},{"../mode":9,"@optoolco/tonic":10}],18:[function(require,module,exports){
+},{"../mode":12,"@optoolco/tonic":13}],21:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicSelect extends Tonic {
@@ -3022,7 +3693,7 @@ class TonicSelect extends Tonic {
     }
   }
 
-  stylesheet () {
+  static stylesheet () {
     return `
       tonic-select .tonic--wrapper {
         position: relative;
@@ -3043,8 +3714,8 @@ class TonicSelect extends Tonic {
 
       tonic-select.tonic--loading select {
         color: transparent;
-        background-color: var(--tonic-window);
-        border-color: var(--tonic-border);
+        background-color: var(--tonic-window, #fff);
+        border-color: var(--tonic-border, #ccc);
       }
 
       tonic-select.tonic--loading .tonic--wrapper:before {
@@ -3056,7 +3727,7 @@ class TonicSelect extends Tonic {
         left: 50%;
         opacity: 1;
         transform: translateX(-50%);
-        border: 2px solid var(--tonic-medium);
+        border: 2px solid var(--tonic-medium, #999);
         border-radius: 50%;
         border-top-color: transparent;
         animation: spin 1s linear 0s infinite;
@@ -3064,12 +3735,12 @@ class TonicSelect extends Tonic {
       }
 
       tonic-select select {
-        color: var(--tonic-primary);
-        font: 14px var(--tonic-monospace);
-        background-color: var(--tonic-window);
+        color: var(--tonic-primary, #333);
+        font: 14px var(--tonic-monospace, 'Andale Mono', monospace);
+        background-color: var(--tonic-window, #fff);
         background-repeat: no-repeat;
         background-position: center right;
-        border: 1px solid var(--tonic-border);
+        border: 1px solid var(--tonic-border, #ccc);
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
@@ -3081,12 +3752,12 @@ class TonicSelect extends Tonic {
       }
 
       tonic-select select[disabled] {
-        background-color: var(--tonic-background);
+        background-color: var(--tonic-background, #fff);
       }
 
       tonic-select label {
-        color: var(--tonic-medium);
-        font: 12px/14px var(--tonic-subheader);
+        color: var(--tonic-medium, #999);
+        font: 12px/14px var(--tonic-subheader, 'Arial', sans-serif);
         font-weight: 500;
         text-transform: uppercase;
         letter-spacing: 1px;
@@ -3171,7 +3842,7 @@ class TonicSelect extends Tonic {
 
   renderLabel () {
     if (!this.props.label) return ''
-    return `<label>${this.props.label}</label>`
+    return this.html`<label>${this.props.label}</label>`
   }
 
   styles () {
@@ -3221,30 +3892,24 @@ class TonicSelect extends Tonic {
       tabindex
     } = this.props
 
-    const disabledAttr = disabled && disabled === 'true' ? 'disabled="true"' : ''
-    const multipleAttr = multiple && multiple === 'true' ? 'multiple="true"' : ''
-    const nameAttr = name ? `name="${name}"` : ''
-    const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
-    const sizeAttr = size ? `size="${size}"` : ''
-
     if (width) this.style.width = width
     if (height) this.style.width = height
     if (theme) this.classList.add(`tonic--theme--${theme}`)
+    if (name) this.removeAttribute('name')
     if (tabindex) this.removeAttribute('tabindex')
-
-    const attributes = [
-      disabledAttr,
-      multipleAttr,
-      nameAttr,
-      required,
-      sizeAttr,
-      tabAttr
-    ].join(' ')
 
     return this.html`
       <div class="tonic--wrapper" styles="wrapper">
         ${this.renderLabel()}
-        <select styles="select" ${attributes}>
+        <select ... ${{
+          styles: 'select',
+          disabled: disabled === 'true',
+          multiple: multiple === 'true',
+          name,
+          tabindex,
+          required,
+          size
+        }}>
           ${this.childNodes}
         </select>
       </div>
@@ -3262,11 +3927,11 @@ TonicSelect.svg.default = () => TonicSelect.svg.toURL(`
 
 module.exports = { TonicSelect }
 
-},{"@optoolco/tonic":10}],19:[function(require,module,exports){
+},{"@optoolco/tonic":13}],22:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicSprite extends Tonic {
-  stylesheet () {
+  static stylesheet () {
     return `
       tonic-sprite svg {
         visibility: hidden;
@@ -3329,14 +3994,14 @@ class TonicSprite extends Tonic {
 
 module.exports = { TonicSprite }
 
-},{"@optoolco/tonic":10}],20:[function(require,module,exports){
+},{"@optoolco/tonic":13}],23:[function(require,module,exports){
 (function (setImmediate){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
 
 class TonicTabs extends Tonic {
-  stylesheet () {
+  static stylesheet () {
     return `
       tonic-tabs .tonic--tab {
         -webkit-appearance: none;
@@ -3468,7 +4133,7 @@ class TonicTabs extends Tonic {
 }
 
 class TonicTabPanel extends Tonic {
-  stylesheet () {
+  static stylesheet () {
     return `
       tonic-tab-panel {
         display: block;
@@ -3510,7 +4175,7 @@ module.exports = {
 }
 
 }).call(this,require("timers").setImmediate)
-},{"../mode":9,"@optoolco/tonic":10,"timers":12}],21:[function(require,module,exports){
+},{"../mode":12,"@optoolco/tonic":13,"timers":2}],24:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
@@ -3529,15 +4194,15 @@ class TonicTextarea extends Tonic {
     }
   }
 
-  stylesheet () {
+  static stylesheet () {
     return `
       tonic-textarea textarea {
-        color: var(--tonic-primary);
+        color: var(--tonic-primary, #333);
         width: 100%;
-        font: 14px var(--tonic-monospace);
+        font: 14px var(--tonic-monospace, 'Andale Mono', monospace);
         padding: 10px;
         background-color: transparent;
-        border: 1px solid var(--tonic-border);
+        border: 1px solid var(--tonic-border, #ccc);
         transition: border 0.2s ease-in-out;
         -webkit-appearance: none;
         -moz-appearance: none;
@@ -3545,21 +4210,21 @@ class TonicTextarea extends Tonic {
       }
 
       tonic-textarea textarea:focus {
-        border: 1px solid var(--tonic-primary);
+        border: 1px solid var(--tonic-primary, #333);
       }
 
       tonic-textarea textarea:invalid {
-        border-color: var(--tonic-danger);
+        border-color: var(--tonic-danger, #f66);
       }
 
       tonic-textarea textarea[disabled] {
-        background-color: var(--tonic-background);
+        background-color: var(--tonic-background, #fff);
       }
 
       tonic-textarea label {
-        color: var(--tonic-medium);
+        color: var(--tonic-medium, #999);
         font-weight: 500;
-        font: 12px/14px var(--tonic-subheader);
+        font: 12px/14px var(--tonic-subheader,  'Arial', sans-serif);
         text-transform: uppercase;
         letter-spacing: 1px;
         padding-bottom: 10px;
@@ -3594,7 +4259,11 @@ class TonicTextarea extends Tonic {
 
   renderLabel () {
     if (typeof this.props.label === 'undefined') return ''
-    return `<label for="tonic--textarea_${this.props.id}">${this.props.label}</label>`
+    return this.html`
+      <label
+        for="tonic--textarea_${this.props.id}"
+      >${this.props.label}</label>
+    `
   }
 
   willConnect () {
@@ -3635,22 +4304,7 @@ class TonicTextarea extends Tonic {
       width
     } = this.props
 
-    const ariaLabelAttr = label ? `aria-label="${label}"` : ''
-    const ariaLabelledByAttr = ariaLabelledby ? `aria-labelledby="${ariaLabelledby}"` : ''
-    const colsAttr = cols ? `cols="${cols}"` : ''
-    const disabledAttr = disabled && disabled === 'true' ? 'disabled="true"' : ''
-    const maxAttr = maxlength ? `maxlength="${maxlength}"` : ''
-    const minAttr = minlength ? `minlength="${minlength}"` : ''
-    const nameAttr = name ? `name="${name}"` : ''
-    const placeholderAttr = placeholder ? `placeholder="${placeholder}"` : ''
-    const rowsAttr = rows ? `rows="${rows}"` : ''
-    const spellcheckAttr = spellcheck ? `spellcheck="${spellcheck}"` : ''
-    const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
-    const autofocusAttr = autofocus ? 'autofocus' : ''
-    const requiredAttr = required ? 'required' : ''
-    const readonlyAttr = readonly ? 'readonly' : ''
-
-    if (ariaLabelledByAttr) this.removeAttribute('ariaLabelled')
+    if (ariaLabelledby) this.removeAttribute('ariaLabelled')
     if (width) this.style.width = width
     if (height) this.style.height = height
     if (tabindex) this.removeAttribute('tabindex')
@@ -3659,30 +4313,27 @@ class TonicTextarea extends Tonic {
 
     if (this.props.value === 'undefined') this.props.value = ''
 
-    const attributes = [
-      ariaLabelAttr,
-      ariaLabelledByAttr,
-      autofocusAttr,
-      colsAttr,
-      disabledAttr,
-      maxAttr,
-      minAttr,
-      nameAttr,
-      placeholderAttr,
-      readonlyAttr,
-      requiredAttr,
-      rowsAttr,
-      spellcheckAttr,
-      tabAttr
-    ].join(' ')
-
-    return `
+    return this.html`
       <div class="tonic--wrapper">
         ${this.renderLabel()}
-        <textarea
-          styles="textarea"
-          id="tonic--textarea_${this.props.id}"
-          ${attributes}>${this.props.value}</textarea>
+        <textarea ... ${{
+          styles: 'textarea',
+          id: `tonic--textarea_${this.props.id}`,
+          'aria-label': label,
+          'aria-labelledby': ariaLabelledby,
+          cols,
+          disabled: disabled === 'true',
+          maxlength,
+          minlength,
+          name,
+          placeholder,
+          rows,
+          spellcheck,
+          tabindex,
+          autofocus,
+          required,
+          readonly
+        }}>${this.props.value}</textarea>
       </div>
     `
   }
@@ -3690,7 +4341,7 @@ class TonicTextarea extends Tonic {
 
 module.exports = { TonicTextarea }
 
-},{"../mode":9,"@optoolco/tonic":10}],22:[function(require,module,exports){
+},{"../mode":12,"@optoolco/tonic":13}],25:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicToasterInline extends Tonic {
@@ -3700,7 +4351,7 @@ class TonicToasterInline extends Tonic {
     }
   }
 
-  stylesheet () {
+  static stylesheet () {
     return `
       tonic-toaster-inline svg {
         width: inherit;
@@ -3710,8 +4361,8 @@ class TonicToasterInline extends Tonic {
       tonic-toaster-inline .tonic--notification {
         max-height: 0;
         position: relative;
-        background-color: var(--tonic-window);
-        border: 1px solid var(--tonic-border);
+        background-color: var(--tonic-window, #fff);
+        border: 1px solid var(--tonic-border, #ccc);
         border-radius: 3px;
         -webkit-transform: scale(0.95);
         -ms-transform: scale(0.95);
@@ -3749,13 +4400,13 @@ class TonicToasterInline extends Tonic {
       }
 
       tonic-toaster-inline .tonic--title {
-        color: var(--tonic-primary);
-        font: 14px/18px var(--tonic-subheader);
+        color: var(--tonic-primary, #333);
+        font: 14px/18px var(--tonic-subheader, 'Arial', sans-serif);
       }
 
       tonic-toaster-inline .tonic--message {
-        font: 14px/18px var(--tonic-subheader);
-        color: var(--tonic-medium);
+        font: 14px/18px var(--tonic-subheader, 'Arial', sans-serif);
+        color: var(--tonic-medium, #999);
       }
 
       tonic-toaster-inline .tonic--notification .tonic--icon {
@@ -3832,8 +4483,8 @@ class TonicToasterInline extends Tonic {
           <use
             href="#close"
             xlink:href="#close"
-            color="var(--tonic-primary)"
-            fill="var(--tonic-primary)">
+            color="var(--tonic-primary, #333)"
+            fill="var(--tonic-primary, #333)">
           </use>
         </svg>
       </div>
@@ -3850,8 +4501,8 @@ class TonicToasterInline extends Tonic {
           <use
             href="#${type}"
             xlink:href="#${type}"
-            color="var(--tonic-${type})"
-            fill="var(--tonic-${type})">
+            color="var(--tonic-${type}, #f66)"
+            fill="var(--tonic-${type}, #f66)">
           </use>
         </svg>
       </div>
@@ -3861,7 +4512,7 @@ class TonicToasterInline extends Tonic {
   styles () {
     return {
       type: {
-        'border-color': `var(--tonic-${this.props.type})`
+        'border-color': `var(--tonic-${this.props.type}, #f66)`
       }
     }
   }
@@ -3878,18 +4529,16 @@ class TonicToasterInline extends Tonic {
       this.setAttribute('theme', theme)
     }
 
-    let typeClasses = ''
-    let styles = []
-
+    const classes = ['tonic--notification']
     if (type) {
-      typeClasses = `tonic--alert tonic--${type}`
-      styles.push('type')
+      classes.push('tonic--alert', `tonic--${type}`)
     }
 
-    styles = styles.join('')
-
     return this.html`
-      <div class="tonic--notification ${typeClasses}" styles="${styles}">
+      <div ... ${{
+        class: classes.join(' '),
+        styles: type ? 'type' : ''
+      }}>
         ${this.renderIcon()}
         ${this.renderClose()}
         <div class="tonic--main">
@@ -3907,7 +4556,7 @@ class TonicToasterInline extends Tonic {
 
 module.exports = { TonicToasterInline }
 
-},{"@optoolco/tonic":10}],23:[function(require,module,exports){
+},{"@optoolco/tonic":13}],26:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicToaster extends Tonic {
@@ -3917,7 +4566,7 @@ class TonicToaster extends Tonic {
     }
   }
 
-  stylesheet () {
+  static stylesheet () {
     return `
       tonic-toaster * {
         box-sizing: border-box;
@@ -4150,17 +4799,21 @@ class TonicToaster extends Tonic {
       position
     } = this.props
 
-    const positionAttr = position ? `tonic--${position}` : ''
-
     if (theme) this.classList.add(`tonic--theme--${theme}`)
 
-    return `<div class="tonic--wrapper ${positionAttr}"></div>`
+    const classes = ['tonic--wrapper']
+    if (position) classes.push(`tonic--${position}`)
+
+    return this.html`
+      <div class="${classes.join(' ')}">
+      </div>
+    `
   }
 }
 
 module.exports = { TonicToaster }
 
-},{"@optoolco/tonic":10}],24:[function(require,module,exports){
+},{"@optoolco/tonic":13}],27:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
@@ -4194,7 +4847,7 @@ class TonicToggle extends Tonic {
     }))
   }
 
-  stylesheet () {
+  static stylesheet () {
     return `
       tonic-toggle .tonic--toggle--wrapper {
         height: 30px;
@@ -4202,9 +4855,9 @@ class TonicToggle extends Tonic {
       }
 
       tonic-toggle .tonic--toggle--wrapper > label {
-        color: var(--tonic-medium);
+        color: var(--tonic-medium, #999);
         font-weight: 500;
-        font: 12px/14px var(--tonic-subheader);
+        font: 12px/14px var(--tonic-subheader, 'Arial', sans-serif);
         text-transform: uppercase;
         letter-spacing: 1px;
         margin-left: 58px;
@@ -4220,7 +4873,7 @@ class TonicToggle extends Tonic {
       }
 
       tonic-toggle .tonic--switch label:before {
-        font: bold 12px var(--tonic-subheader);
+        font: bold 12px var(--tonic-subheader, 'Arial', sans-serif);
         text-transform: uppercase;
       }
 
@@ -4238,7 +4891,7 @@ class TonicToggle extends Tonic {
         padding: 2px;
         display: block;
         position: relative;
-        background-color: var(--tonic-border);
+        background-color: var(--tonic-border, #ccc);
         border-radius: 60px;
         transition: background 0.4s ease-in-out;
         cursor: default;
@@ -4263,7 +4916,7 @@ class TonicToggle extends Tonic {
         padding-top: 1px;
         font-size: 0.65em;
         letter-spacing: 0.05em;
-        background-color: var(--tonic-border);
+        background-color: var(--tonic-border, #ccc);
       }
 
       tonic-toggle .tonic--toggle + label:after {
@@ -4273,7 +4926,7 @@ class TonicToggle extends Tonic {
         top: 4px;
         left: 4px;
         bottom: 4px;
-        background-color: var(--tonic-window);
+        background-color: var(--tonic-window, #fff);
         border-radius: 52px;
         transition: background 0.4s ease-in-out, margin 0.4s ease-in-out;
         display: block;
@@ -4295,21 +4948,21 @@ class TonicToggle extends Tonic {
       }
 
       tonic-toggle .tonic--toggle:disabled + label:after {
-        background-color: var(--tonic-window);
+        background-color: var(--tonic-window, #fff);
       }
 
       tonic-toggle .tonic--toggle:checked + label {
-        background-color: var(--tonic-accent);
+        background-color: var(--tonic-accent, #f66);
       }
 
       tonic-toggle .tonic--toggle:checked + label:before {
-        background-color: var(--tonic-accent);
+        background-color: var(--tonic-accent, #f66);
         color: var(--tonic-background);
       }
 
       tonic-toggle .tonic--toggle:checked + label:after {
         margin-left: 18px;
-        background-color: var(--tonic-background);
+        background-color: var(--tonic-background, #fff);
       }
     `
   }
@@ -4328,7 +4981,7 @@ class TonicToggle extends Tonic {
 
     if (!label) return ''
 
-    return `<label for="tonic--toggle--${id}">${label}</label>`
+    return this.html`<label for="tonic--toggle--${id}">${label}</label>`
   }
 
   render () {
@@ -4348,38 +5001,28 @@ class TonicToggle extends Tonic {
       tabindex
     } = this.props
 
-    const disabledAttr = disabled && disabled === 'true' ? 'disabled' : ''
-
-    const tabAttr = tabindex ? `tabindex="${tabindex}"` : ''
     if (tabindex) this.removeAttribute('tabindex')
-
     if (theme) this.classList.add(`tonic--theme--${theme}`)
 
     let checked
-
     if (typeof this.state.checked !== 'undefined') {
       checked = this.state.checked
     } else {
       checked = this.props.checked === 'true'
     }
-
     this.state.checked = checked
-    checked = checked ? 'checked' : ''
 
-    const attributes = [
-      disabledAttr,
-      checked
-    ].join(' ')
-
-    return `
+    return this.html`
       <div class="tonic--toggle--wrapper">
         <div class="tonic--switch">
-          <input
-            ${tabAttr}
-            type="checkbox"
-            class="tonic--toggle"
-            id="tonic--toggle--${id}"
-            ${attributes}/>
+          <input ... ${{
+            type: 'checkbox',
+            class: 'tonic--toggle',
+            id: `tonic--toggle--${id}`,
+            disabled: disabled === 'true',
+            tabindex,
+            checked
+          }}/>
           <label for="tonic--toggle--${id}"></label>
         </div>
         ${this.renderLabel()}
@@ -4390,7 +5033,7 @@ class TonicToggle extends Tonic {
 
 module.exports = { TonicToggle }
 
-},{"../mode":9,"@optoolco/tonic":10}],25:[function(require,module,exports){
+},{"../mode":12,"@optoolco/tonic":13}],28:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicTooltip extends Tonic {
@@ -4422,16 +5065,16 @@ class TonicTooltip extends Tonic {
     }
   }
 
-  stylesheet () {
+  static stylesheet () {
     return `
       tonic-tooltip .tonic--tooltip {
-        color: var(--tonic-primary);
+        color: var(--tonic-primary, #333);
         position: fixed;
-        background: var(--tonic-window);
+        background: var(--tonic-window, #fff);
         visibility: hidden;
         z-index: -1;
         opacity: 0;
-        border: 1px solid var(--tonic-border);
+        border: 1px solid var(--tonic-border, #ccc);
         border-radius: 2px;
         transition: visibility 0.2s ease-in-out, opacity 0.2s ease-in-out, z-index 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
       }
@@ -4448,7 +5091,7 @@ class TonicTooltip extends Tonic {
         height: 12px;
         position: absolute;
         z-index: -1;
-        background-color: var(--tonic-window);
+        background-color: var(--tonic-window, #fff);
         -webkit-transform: rotate(45deg);
         -ms-transform: rotate(45deg);
         transform: rotate(45deg);
@@ -4464,16 +5107,16 @@ class TonicTooltip extends Tonic {
       tonic-tooltip .tonic--top .tonic--tooltip-arrow {
         margin-bottom: -6px;
         bottom: 100%;
-        border-top-color: var(--tonic-border);
-        border-left-color: var(--tonic-border);
+        border-top-color: var(--tonic-border, #ccc);
+        border-left-color: var(--tonic-border, #ccc);
       }
 
       tonic-tooltip .tonic--bottom .tonic--tooltip-arrow {
         margin-top: -6px;
         position: absolute;
         top: 100%;
-        border-bottom-color: var(--tonic-border);
-        border-right-color: var(--tonic-border);
+        border-bottom-color: var(--tonic-border, #ccc);
+        border-right-color: var(--tonic-border, #ccc);
       }
     `
   }
@@ -4550,5 +5193,5 @@ class TonicTooltip extends Tonic {
 
 module.exports = { TonicTooltip }
 
-},{"@optoolco/tonic":10}]},{},[7])(7)
+},{"@optoolco/tonic":13}]},{},[10])(10)
 });

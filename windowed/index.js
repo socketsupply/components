@@ -328,23 +328,8 @@ class Windowed extends Tonic {
        * TODO: @Raynos when we mutate `outer.scrollTop` the
        *    windowed component cannot correctly recycle and
        *    re-use `this.pages` ; This leads to unnecessary
-       *    repainting of even creation of new pages.
+       *    updatePage() or even creation of new pages.
        */
-
-      // TODO: This logic here is buggy and leads to duplicate
-      //    pages being created and rendered visually on top
-      //    of each other.
-
-      // const delta = this.prependCounter - this.shiftCounter
-      // const pageDelta = Math.floor(delta / this.props.rowsPerPage)
-      // for (const pageKey of Object.keys(this.pages)) {
-      //   const p = this.pages[pageKey]
-      //   const newIndex = Number(pageKey) + pageDelta
-      //   console.log('delete this.pages[] because it moved')
-      //   delete this.pages[pageKey]
-      //   this.pages[newIndex] = p
-      // }
-
       this.prependCounter = 0
       this.shiftCounter = 0
       this.popCounter = 0

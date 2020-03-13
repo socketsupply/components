@@ -84,8 +84,7 @@ class Windowed extends Tonic {
   }
 
   unshift (o) {
-    this.rows = this.rows || []
-    this.rows.unshift(o)
+    this.splice(0, 0, o)
   }
 
   pop () {
@@ -315,7 +314,6 @@ class Windowed extends Tonic {
     ) {
       // TODO: This logic is fragile / has edge cases.
       currentScrollTop += this.prependCounter * this.rowHeight
-      currentScrollTop += this.popCounter * this.rowHeight
       currentScrollTop -= this.shiftCounter * this.rowHeight
       outer.scrollTop = currentScrollTop
 

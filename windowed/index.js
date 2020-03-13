@@ -159,7 +159,7 @@ class Windowed extends Tonic {
       )
     }
 
-    if (this.rows.length > maxRows) {
+    if (this.rows && this.rows.length > maxRows) {
       const toDelete = this.rows.length - maxRows
 
       if (this.prefetchDirection === 'bottom') {

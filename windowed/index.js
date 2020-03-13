@@ -7,6 +7,7 @@ class Windowed extends Tonic {
     super(o)
 
     this.prependCounter = 0
+    this.popCounter = 0
     this.shiftCounter = 0
     this.noMoreBottomRows = false
     this.currentVisibleRowIndex = -1
@@ -83,8 +84,7 @@ class Windowed extends Tonic {
   }
 
   unshift (o) {
-    this.rows = this.rows || []
-    this.rows.unshift(o)
+    this.splice(0, 0, o)
   }
 
   pop () {
@@ -153,6 +153,12 @@ class Windowed extends Tonic {
 
   checkMaxRows () {
     const maxRows = this.props.maxRowsLength
+    if (maxRows % this.props.rowsPerPage !== 0) {
+      throw new Error(
+        'Invalid maxRowsLength value. Must be multiple of rowsPerPage'
+      )
+    }
+
     if (this.rows.length > maxRows) {
       const toDelete = this.rows.length - maxRows
 
@@ -163,7 +169,7 @@ class Windowed extends Tonic {
       } else if (this.prefetchDirection === 'top') {
         this.rows.length = maxRows
         this.noMoreBottomRows = false
-        this.prependCounter += toDelete
+        this.popCounter += toDelete
       }
     }
   }
@@ -286,6 +292,10 @@ class Windowed extends Tonic {
 
       this.pagesAvailable.push(this.pages[pageKey])
       inner.removeChild(this.pages[pageKey])
+      // TODO: Figure this out at boundaries.
+      //    When we are scrolling and triggering `prefetchBottom()`
+      //    we are deleting this.pages too much causing unnecessary
+      //    work to happen.
       delete this.pages[pageKey]
     }
 
@@ -296,8 +306,13 @@ class Windowed extends Tonic {
     }
 
     let shiftHappened = false
-    let prependHappened = false
-    if (this.prependCounter > 0 || this.shiftCounter > 0) {
+    let popHappened = false
+    if (
+      this.prependCounter > 0 ||
+      this.shiftCounter > 0 ||
+      this.popCounter > 0
+    ) {
+      // TODO: This logic is fragile / has edge cases.
       currentScrollTop += this.prependCounter * this.rowHeight
       currentScrollTop -= this.shiftCounter * this.rowHeight
       outer.scrollTop = currentScrollTop
@@ -305,21 +320,19 @@ class Windowed extends Tonic {
       if (this.shiftCounter > 0) {
         shiftHappened = true
       }
-      if (this.prependCounter > 0) {
-        prependHappened = true
+      if (this.popCounter > 0) {
+        popHappened = true
       }
 
-      const delta = this.prependCounter - this.shiftCounter
-      const pageDelta = Math.floor(delta / this.props.rowsPerPage)
-      for (const pageKey of Object.keys(this.pages)) {
-        const p = this.pages[pageKey]
-        const newIndex = Number(pageKey) + pageDelta
-        delete this.pages[pageKey]
-        this.pages[newIndex] = p
-      }
-
+      /**
+       * TODO: @Raynos when we mutate `outer.scrollTop` the
+       *    windowed component cannot correctly recycle and
+       *    re-use `this.pages` ; This leads to unnecessary
+       *    updatePage() or even creation of new pages.
+       */
       this.prependCounter = 0
       this.shiftCounter = 0
+      this.popCounter = 0
     }
 
     // Set the current visible row index used for tracking
@@ -348,7 +361,8 @@ class Windowed extends Tonic {
       top.innerHTML = this.renderLoadingTop()
     }
 
-    if (!prependHappened && (
+    // TODO: Sometimes prefetchTop() does not get called.
+    if (!popHappened && (
       this.rows.length === this.props.maxRowsLength &&
       start <= this.props.prefetchThreshold
     )) {

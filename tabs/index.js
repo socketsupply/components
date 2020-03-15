@@ -50,6 +50,12 @@ class TonicTabs extends Tonic {
         panel.setAttribute('hidden', '')
         tab.setAttribute('aria-selected', 'false')
       }
+
+      if (panel.firstElementChild &&
+          panel.firstElementChild.onTabShow
+      ) {
+        panel.firstElementChild.onTabShow()
+      }
     }
   }
 

@@ -2,6 +2,8 @@ const Tonic = require('@optoolco/tonic')
 
 const mode = require('../mode')
 
+const CustomEvent = window.CustomEvent
+
 class TonicTabs extends Tonic {
   static stylesheet () {
     return `
@@ -46,9 +48,15 @@ class TonicTabs extends Tonic {
         panel.removeAttribute('hidden')
         tab.setAttribute('aria-selected', 'true')
         this.state.selected = id
+        this.dispatchEvent(new CustomEvent(
+          'tabvisible', { detail: { id }, bubbles: true }
+        ))
       } else {
         panel.setAttribute('hidden', '')
         tab.setAttribute('aria-selected', 'false')
+        this.dispatchEvent(new CustomEvent(
+          'tabhidden', { detail: { id }, bubbles: true }
+        ))
       }
     }
   }

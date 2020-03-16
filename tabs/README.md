@@ -113,3 +113,16 @@ for the `selected` attribute on the `tonic-tabs` component.
 | `click()` | Click event. |
 | `get value` | Get the currently selected tab. |
 | `set selected(String)` | Set the currently selected tab. |
+
+### Events
+
+*for `tonic-tabs`*
+
+`tabvisible` ; event emitted when a tab becomes visible. Contains
+`ev.detail.id` for which tab is visible.
+
+`tabhidden` ; event emitted when a tab becomes hidden. Contains
+`ev.detail.id` for which tab is hidden.
+
+The `tabvisible` & `tabhidden` events get fired whenever a tab
+is changed and get triggered both from click & keyboard events.

@@ -49,11 +49,14 @@ class TonicTabs extends Tonic {
         tab.setAttribute('aria-selected', 'true')
         this.state.selected = id
         this.dispatchEvent(new CustomEvent(
-          'tabshow', { detail: { id }, bubbles: true }
+          'tabvisible', { detail: { id }, bubbles: true }
         ))
       } else {
         panel.setAttribute('hidden', '')
         tab.setAttribute('aria-selected', 'false')
+        this.dispatchEvent(new CustomEvent(
+          'tabhidden', { detail: { id }, bubbles: true }
+        ))
       }
     }
   }

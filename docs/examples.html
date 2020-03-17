@@ -2450,6 +2450,14 @@ for the <code>selected</code> attribute on the <code>tonic-tabs</code> component
 <td align="left">Set the currently selected tab.</td>
 </tr>
 </tbody></table>
+<h3>Events</h3>
+<p><em>for <code>tonic-tabs</code></em></p>
+<p><code>tabvisible</code> ; event emitted when a tab becomes visible. Contains
+<code>event.detail.id</code> for which tab is visible.</p>
+<p><code>tabhidden</code> ; event emitted when a tab becomes hidden. Contains
+<code>event.detail.id</code> for which tab is hidden.</p>
+<p>The <code>tabvisible</code> &amp; <code>tabhidden</code> events get fired whenever a tab
+is changed and get triggered both from click &amp; keyboard events.</p>
 
     </section>
   

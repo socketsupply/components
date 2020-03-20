@@ -9,6 +9,17 @@ class TonicToggle extends Tonic {
     }
   }
 
+  get form () {
+    let el = this
+
+    do {
+      if (el.tagName === 'FORM') return el
+      if (el.tagName === 'TONIC-FORM') return el
+      el = el.parentElement || el.parentNode
+    } while (el !== null && el.nodeType === 1)
+    return null
+  }
+
   get value () {
     const state = this.getState()
     let value

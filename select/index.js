@@ -10,6 +10,17 @@ class TonicSelect extends Tonic {
     }
   }
 
+  get form () {
+    let el = this
+
+    do {
+      if (el.tagName === 'FORM') return el
+      if (el.tagName === 'TONIC-FORM') return el
+      el = el.parentElement || el.parentNode
+    } while (el !== null && el.nodeType === 1)
+    return null
+  }
+
   static stylesheet () {
     return `
       tonic-select .tonic--wrapper {

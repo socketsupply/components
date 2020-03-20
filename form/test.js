@@ -53,7 +53,7 @@ tape('{{form-1}} get data from form', t => {
   const inputB = qs('#b', component)
   const inputD = qs('#d', component)
 
-  t.plan(2)
+  t.plan(3)
 
   t.ok(inputA && inputB && inputD, 'the component contains the correct number of inputs')
 
@@ -66,6 +66,7 @@ tape('{{form-1}} get data from form', t => {
   }
 
   t.deepEqual(expected, component.value)
+  t.equal(inputA.form, component)
 
   t.end()
 })

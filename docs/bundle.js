@@ -5972,6 +5972,10 @@ class TonicTooltip extends Tonic {
       }, 256)
     }
 
+    if (!el) {
+      console.warn('Broken tooltip for: ' + target)
+      return
+    }
     el.addEventListener('mouseenter', e => {
       this.show(el)
     })

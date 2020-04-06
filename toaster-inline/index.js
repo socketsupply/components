@@ -9,7 +9,8 @@ class TonicToasterInline extends Tonic {
 
   static stylesheet () {
     return `
-      tonic-toaster-inline svg {
+      tonic-toaster-inline > div > .tonic--close svg,
+      tonic-toaster-inline > div > .tonic--icon svg {
         width: inherit;
         height: inherit;
       }
@@ -151,6 +152,7 @@ class TonicToasterInline extends Tonic {
     const type = this.props.type
 
     if (!type) return ''
+
     return this.html`
       <div class="tonic--icon">
         <svg>
@@ -186,6 +188,7 @@ class TonicToasterInline extends Tonic {
     }
 
     const classes = ['tonic--notification']
+
     if (type) {
       classes.push('tonic--alert', `tonic--${type}`)
     }

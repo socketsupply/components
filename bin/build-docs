@@ -164,7 +164,7 @@ async function compile () {
 
     if (file === 'intro.md') {
       const version = pkg.devDependencies['@optoolco/tonic']
-      s = s.replace('{{version}}', version.slice(1))
+      s = s.replace('{{version}}', version)
     }
 
     const title = parseHeading(s)

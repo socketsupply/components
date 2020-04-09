@@ -1797,7 +1797,7 @@ const { TonicRelativeTime } = require('./relative-time')
 const { TonicRouter } = require('./router')
 const { TonicSelect } = require('./select')
 const { TonicSprite } = require('./sprite')
-const { TonicTabs, TonicTabPanel } = require('./tabs')
+const { TonicTabs, TonicTab, TonicTabPanel } = require('./tabs')
 const { TonicTextarea } = require('./textarea')
 const { TonicTooltip } = require('./tooltip')
 const { TonicToasterInline } = require('./toaster-inline')
@@ -1834,6 +1834,7 @@ function components (Tonic, opts) {
   Tonic.add(TonicSelect)
   Tonic.add(TonicSprite)
   Tonic.add(TonicTabs)
+  Tonic.add(TonicTab)
   Tonic.add(TonicTabPanel)
   Tonic.add(TonicTextarea)
   Tonic.add(TonicTooltip)
@@ -2307,10 +2308,17 @@ class Tonic extends window.HTMLElement {
     window.customElements.define(htmlName, c)
 
     if (c.stylesheet) {
-      const styleNode = document.createElement('style')
-      styleNode.appendChild(document.createTextNode(c.stylesheet()))
-      if (document.head) document.head.appendChild(styleNode)
+      Tonic.registerStyles(c.stylesheet)
     }
+  }
+
+  static registerStyles (stylesheetFn) {
+    if (Tonic._stylesheetRegistry.includes(stylesheetFn)) return
+    Tonic._stylesheetRegistry.push(stylesheetFn)
+
+    const styleNode = document.createElement('style')
+    styleNode.appendChild(document.createTextNode(stylesheetFn()))
+    if (document.head) document.head.appendChild(styleNode)
   }
 
   static escape (s) {
@@ -2367,8 +2375,16 @@ class Tonic extends window.HTMLElement {
 
     this.pendingReRender = new Promise(resolve => {
       window.requestAnimationFrame(() => {
-        Tonic._maybePromise(this._set(this.root, this.render))
+        const p = this._set(this.root, this.render)
         this.pendingReRender = null
+
+        if (p && p.then) {
+          Tonic._maybePromise(p.then(() => {
+            if (this.updated) this.updated(oldProps)
+            resolve()
+          }))
+          return
+        }
 
         if (this.updated) this.updated(oldProps)
         resolve()
@@ -2392,7 +2408,16 @@ class Tonic extends window.HTMLElement {
     Tonic._maybePromise(this[e.type](e))
   }
 
-  async _set (target, render, content = '') {
+  _drainIterator (target, iterator) {
+    const p = iterator.next()
+    return p.then((result) => {
+      this._set(target, null, result.value)
+      if (result.done) return
+      return this._drainIterator(target, iterator)
+    })
+  }
+
+  _set (target, render, content = '') {
     for (const node of target.querySelectorAll(Tonic._tags)) {
       if (!node.isTonicComponent) continue
       if (!node.id || !Tonic._refIds.includes(node.id)) continue
@@ -2400,19 +2425,22 @@ class Tonic extends window.HTMLElement {
     }
 
     if (render instanceof Tonic.AsyncFunction) {
-      content = await render.call(this) || ''
+      const promise = render.call(this) || ''
+      return promise.then((content) => {
+        return this._apply(target, content)
+      })
     } else if (render instanceof Tonic.AsyncFunctionGenerator) {
       const itr = render.call(this)
-      while (true) {
-        const { value, done } = await itr.next()
-        this._set(target, null, value)
-        if (done) break
-      }
-      return
+      return this._drainIterator(target, itr)
     } else if (render instanceof Function) {
       content = render.call(this) || ''
+      return this._apply(target, content)
     }
 
+    return this._apply(target, content)
+  }
+
+  _apply (target, content) {
     if (content && content.isTonicRaw) {
       content = content.rawText
     }
@@ -2538,6 +2566,7 @@ Object.assign(Tonic, {
   _states: {},
   _children: {},
   _reg: {},
+  _stylesheetRegistry: [],
   _index: 0,
   version: typeof require !== 'undefined' ? require('./package').version : null,
   SPREAD: /\.\.\.\s?(__\w+__\w+__)/g,
@@ -2551,43 +2580,40 @@ if (typeof module === 'object') module.exports = Tonic
 
 },{"./package":24}],24:[function(require,module,exports){
 module.exports={
-  "_args": [
-    [
-      "@optoolco/tonic@11.0.3",
-      "/Users/paolofragomeni/projects/optoolco/components"
-    ]
-  ],
-  "_development": true,
-  "_from": "@optoolco/tonic@11.0.3",
-  "_id": "@optoolco/tonic@11.0.3",
+  "_from": "@optoolco/tonic@next",
+  "_id": "@optoolco/tonic@11.1.1",
   "_inBundle": false,
-  "_integrity": "sha512-0hDou0iEQQueM7Ej68rcqcM9WrEy4YKWwTMpN7Pl7izZt+e/GcmMAf+B06buFYkrvxxY3per9HZG4e4WM84M4A==",
+  "_integrity": "sha512-Io+TzPTOAqhSKGYtJaj8HCLvQSrK2BtQukNOdFlLAFfxpml9br9zxyg7vbKPqi4LTLNK6T1Hi5+LIAKAktzt2w==",
   "_location": "/@optoolco/tonic",
   "_phantomChildren": {},
   "_requested": {
-    "type": "version",
+    "type": "tag",
     "registry": true,
-    "raw": "@optoolco/tonic@11.0.3",
+    "raw": "@optoolco/tonic@next",
     "name": "@optoolco/tonic",
     "escapedName": "@optoolco%2ftonic",
     "scope": "@optoolco",
-    "rawSpec": "11.0.3",
+    "rawSpec": "next",
     "saveSpec": null,
-    "fetchSpec": "11.0.3"
+    "fetchSpec": "next"
   },
   "_requiredBy": [
-    "#DEV:/"
+    "#DEV:/",
+    "#USER"
   ],
-  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-11.0.3.tgz",
-  "_spec": "11.0.3",
-  "_where": "/Users/paolofragomeni/projects/optoolco/components",
+  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-11.1.1.tgz",
+  "_shasum": "4dbf15382b5b3e868d3aa9a2b3abeb7a0573dba3",
+  "_spec": "@optoolco/tonic@next",
+  "_where": "/home/raynos/optoolco/components",
   "author": {
     "name": "optoolco"
   },
   "bugs": {
     "url": "https://github.com/optoolco/tonic/issues"
   },
+  "bundleDependencies": false,
   "dependencies": {},
+  "deprecated": false,
   "description": "A composable component inspired by React.",
   "devDependencies": {
     "benchmark": "^2.1.4",
@@ -2613,7 +2639,7 @@ module.exports={
     "minify": "terser index.js -c unused,dead_code,hoist_vars,loops=false,hoist_props=true,hoist_funs,toplevel,keep_classnames,keep_fargs=false -o dist/tonic.min.js",
     "test": "npm run minify && browserify test/index.js | tape-puppet"
   },
-  "version": "11.0.3"
+  "version": "11.1.1"
 }
 
 },{}],25:[function(require,module,exports){
@@ -4879,7 +4905,7 @@ class TonicTabs extends Tonic {
 
   get value () {
     const currentTab = this.querySelector('[aria-selected="true"]')
-    if (currentTab) return currentTab.id
+    if (currentTab) return currentTab.parentNode.id
   }
 
   set selected (value) {
@@ -4887,15 +4913,12 @@ class TonicTabs extends Tonic {
     if (tab) tab.click()
   }
 
-  qsa (s) {
-    return [...this.querySelectorAll(s)]
-  }
-
-  setVisibility (id) {
-    const tabs = this.querySelectorAll('.tonic--tab')
+  setVisibility (id, forAttr) {
+    const tabs = this.querySelectorAll('tonic-tab')
 
     for (const tab of tabs) {
       const control = tab.getAttribute('for')
+      const anchor = tab.querySelector('a')
 
       if (!control) {
         throw new Error(`No "for" attribute found for tab id "${tab.id}".`)
@@ -4907,16 +4930,20 @@ class TonicTabs extends Tonic {
         throw new Error(`No panel found that matches the id (${control})`)
       }
 
-      if (tab.id === id) {
+      if (tab.id === id || control === forAttr) {
         panel.removeAttribute('hidden')
-        tab.setAttribute('aria-selected', 'true')
+        if (tab.id === id) {
+          anchor.setAttribute('aria-selected', 'true')
+        } else {
+          anchor.setAttribute('aria-selected', 'false')
+        }
         this.state.selected = id
         this.dispatchEvent(new CustomEvent(
           'tabvisible', { detail: { id }, bubbles: true }
         ))
       } else {
         panel.setAttribute('hidden', '')
-        tab.setAttribute('aria-selected', 'false')
+        anchor.setAttribute('aria-selected', 'false')
         this.dispatchEvent(new CustomEvent(
           'tabhidden', { detail: { id }, bubbles: true }
         ))
@@ -4929,11 +4956,11 @@ class TonicTabs extends Tonic {
     if (!tab) return
 
     e.preventDefault()
-    this.setVisibility(tab.id)
+    this.setVisibility(tab.parentNode.id, tab.getAttribute('for'))
   }
 
   keydown (e) {
-    const triggers = this.qsa('.tonic--tab')
+    const triggers = this.querySelectorAll('.tonic--tab')
 
     switch (e.code) {
       case 'ArrowLeft':
@@ -4953,7 +4980,7 @@ class TonicTabs extends Tonic {
 
         e.preventDefault()
 
-        const id = isActive.getAttribute('id')
+        const id = isActive.parentNode.getAttribute('id')
         this.setVisibility(id)
         break
       }
@@ -4977,33 +5004,7 @@ class TonicTabs extends Tonic {
 
     this.setAttribute('role', 'tablist')
 
-    return [...this.childNodes].map((node, index) => {
-      if (node.nodeType !== 1) return ''
-
-      const ariaControls = node.getAttribute('for')
-
-      if (!ariaControls) {
-        return this.html`
-          ${node}
-        `
-      }
-
-      if (node.attributes.class) {
-        node.attributes.class.value += ' tonic--tab'
-      }
-
-      return this.html`
-        <a
-          ...${node.attributes}
-          class="tonic--tab"
-          href="#"
-          role="tab"
-          aria-controls="${ariaControls}"
-          aria-selected="false">
-          ${node.childNodes}
-        </a>
-      `
-    }).join('')
+    return this.html`${this.childNodes}`
   }
 }
 
@@ -5044,8 +5045,29 @@ class TonicTabPanel extends Tonic {
   }
 }
 
+class TonicTab extends Tonic {
+  render () {
+    const ariaControls = this.props.for
+
+    return this.html`
+      <a
+        id="${this.id}-anchor"
+        for="${this.props.for}"
+        class="tonic--tab"
+        href="#"
+        role="tab"
+        aria-controls="${ariaControls}"
+        aria-selected="false"
+      >
+        ${this.childNodes}
+      </a>
+    `
+  }
+}
+
 module.exports = {
   TonicTabs,
+  TonicTab,
   TonicTabPanel
 }
 
@@ -5581,6 +5603,7 @@ class TonicToaster extends Tonic {
     main.className = 'tonic--main'
 
     if (type) {
+      notification.dataset.type = type
       notification.classList.add('tonic--alert')
     }
 

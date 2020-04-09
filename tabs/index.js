@@ -28,7 +28,7 @@ class TonicTabs extends Tonic {
     return [...this.querySelectorAll(s)]
   }
 
-  setVisibility (id) {
+  setVisibility (id, forAttr) {
     const tabs = this.querySelectorAll('.tonic--tab')
 
     for (const tab of tabs) {
@@ -44,9 +44,13 @@ class TonicTabs extends Tonic {
         throw new Error(`No panel found that matches the id (${control})`)
       }
 
-      if (tab.id === id) {
+      if (tab.id === id || control === forAttr) {
         panel.removeAttribute('hidden')
-        tab.setAttribute('aria-selected', 'true')
+        if (tab.id === id) {
+          tab.setAttribute('aria-selected', 'true')
+        } else {
+          tab.setAttribute('aria-selected', 'false')
+        }
         this.state.selected = id
         this.dispatchEvent(new CustomEvent(
           'tabvisible', { detail: { id }, bubbles: true }
@@ -66,7 +70,7 @@ class TonicTabs extends Tonic {
     if (!tab) return
 
     e.preventDefault()
-    this.setVisibility(tab.id)
+    this.setVisibility(tab.id, tab.getAttribute('for'))
   }
 
   keydown (e) {

@@ -157,7 +157,7 @@ class TonicTabPanel extends Tonic {
 }
 
 class TonicTab extends Tonic {
-  render() {
+  render () {
     const ariaControls = this.props.for
 
     return this.html`

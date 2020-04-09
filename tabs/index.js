@@ -16,7 +16,7 @@ class TonicTabs extends Tonic {
 
   get value () {
     const currentTab = this.querySelector('[aria-selected="true"]')
-    if (currentTab) return currentTab.id
+    if (currentTab) return currentTab.parentNode.id
   }
 
   set selected (value) {
@@ -24,15 +24,12 @@ class TonicTabs extends Tonic {
     if (tab) tab.click()
   }
 
-  qsa (s) {
-    return [...this.querySelectorAll(s)]
-  }
-
   setVisibility (id, forAttr) {
-    const tabs = this.querySelectorAll('.tonic--tab')
+    const tabs = this.querySelectorAll('tonic-tab')
 
     for (const tab of tabs) {
       const control = tab.getAttribute('for')
+      const anchor = tab.querySelector('a')
 
       if (!control) {
         throw new Error(`No "for" attribute found for tab id "${tab.id}".`)
@@ -47,9 +44,9 @@ class TonicTabs extends Tonic {
       if (tab.id === id || control === forAttr) {
         panel.removeAttribute('hidden')
         if (tab.id === id) {
-          tab.setAttribute('aria-selected', 'true')
+          anchor.setAttribute('aria-selected', 'true')
         } else {
-          tab.setAttribute('aria-selected', 'false')
+          anchor.setAttribute('aria-selected', 'false')
         }
         this.state.selected = id
         this.dispatchEvent(new CustomEvent(
@@ -57,7 +54,7 @@ class TonicTabs extends Tonic {
         ))
       } else {
         panel.setAttribute('hidden', '')
-        tab.setAttribute('aria-selected', 'false')
+        anchor.setAttribute('aria-selected', 'false')
         this.dispatchEvent(new CustomEvent(
           'tabhidden', { detail: { id }, bubbles: true }
         ))
@@ -70,11 +67,11 @@ class TonicTabs extends Tonic {
     if (!tab) return
 
     e.preventDefault()
-    this.setVisibility(tab.id, tab.getAttribute('for'))
+    this.setVisibility(tab.parentNode.id, tab.getAttribute('for'))
   }
 
   keydown (e) {
-    const triggers = this.qsa('.tonic--tab')
+    const triggers = this.querySelectorAll('.tonic--tab')
 
     switch (e.code) {
       case 'ArrowLeft':
@@ -94,7 +91,7 @@ class TonicTabs extends Tonic {
 
         e.preventDefault()
 
-        const id = isActive.getAttribute('id')
+        const id = isActive.parentNode.getAttribute('id')
         this.setVisibility(id)
         break
       }
@@ -118,33 +115,7 @@ class TonicTabs extends Tonic {
 
     this.setAttribute('role', 'tablist')
 
-    return [...this.childNodes].map((node, index) => {
-      if (node.nodeType !== 1) return ''
-
-      const ariaControls = node.getAttribute('for')
-
-      if (!ariaControls) {
-        return this.html`
-          ${node}
-        `
-      }
-
-      if (node.attributes.class) {
-        node.attributes.class.value += ' tonic--tab'
-      }
-
-      return this.html`
-        <a
-          ...${node.attributes}
-          class="tonic--tab"
-          href="#"
-          role="tab"
-          aria-controls="${ariaControls}"
-          aria-selected="false">
-          ${node.childNodes}
-        </a>
-      `
-    }).join('')
+    return this.html`${this.childNodes}`
   }
 }
 
@@ -185,7 +156,28 @@ class TonicTabPanel extends Tonic {
   }
 }
 
+class TonicTab extends Tonic {
+  render() {
+    const ariaControls = this.props.for
+
+    return this.html`
+      <a
+        id="${this.id}-anchor"
+        for="${this.props.for}"
+        class="tonic--tab"
+        href="#"
+        role="tab"
+        aria-controls="${ariaControls}"
+        aria-selected="false"
+      >
+        ${this.childNodes}
+      </a>
+    `
+  }
+}
+
 module.exports = {
   TonicTabs,
+  TonicTab,
   TonicTabPanel
 }

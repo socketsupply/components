@@ -7721,10 +7721,10 @@ class Dialog extends Tonic {
     super()
 
     this.addEventListener('click', e => {
-      const el = Tonic.match(e.target, '.tonic--close')
+      const el = Tonic.match(e.target, '.tonic--dialog-close')
       if (el) this.hide()
 
-      const overlay = e.target.matches('.tonic--overlay')
+      const overlay = e.target.matches('.tonic--dialog-overlay')
       if (overlay) this.hide()
     })
   }
@@ -7844,7 +7844,7 @@ class Dialog extends Tonic {
     return {
       then (resolve) {
         const listener = event => {
-          const close = Tonic.match(event.target, '.tonic--close')
+          const close = Tonic.match(event.target, '.tonic--dialog-close')
           const value = Tonic.match(event.target, '[value]')
 
           if (close || value) {
@@ -7881,7 +7881,7 @@ class Dialog extends Tonic {
 
     if (overlay !== 'false') {
       const overlayElement = document.createElement('div')
-      overlayElement.className = 'tonic--overlay'
+      overlayElement.className = 'tonic--overlay tonic--dialog-overlay'
       overlayElement.style.backgroundColor = backgroundColor
       wrapper.appendChild(overlayElement)
     }
@@ -7893,7 +7893,7 @@ class Dialog extends Tonic {
 
     // create template
     const closeIcon = document.createElement('div')
-    closeIcon.className = 'tonic--close'
+    closeIcon.className = 'tonic--close tonic--dialog-close'
 
     // create SVG
     const svgns = 'http://www.w3.org/2000/svg'

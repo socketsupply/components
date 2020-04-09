@@ -134,6 +134,7 @@ class TonicToaster extends Tonic {
     main.className = 'tonic--main'
 
     if (type) {
+      notification.dataset.type = type
       notification.classList.add('tonic--alert')
     }
 

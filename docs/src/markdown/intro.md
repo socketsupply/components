@@ -27,7 +27,7 @@
   <h3>Features</h3>
   <div class="col">
     <ul>
-      <li>Only 250 lines of code.</li>
+      <li>314 lines of code.</li>
       <li>One-way data binding.</li>
       <li>Mix in your own Routers, Reducers, Validators, etc.</li>
     </ul>

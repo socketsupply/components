@@ -344,6 +344,7 @@ class Windowed extends Tonic {
     const totalHeight = this.rows.length * this.props.rowHeight
     if (
       viewEnd === totalHeight &&
+      this.prefetchBottom &&
       this.renderLoadingBottom &&
       !this.noMoreBottomRows
     ) {
@@ -354,6 +355,7 @@ class Windowed extends Tonic {
     if (
       this.rows.length === this.props.maxRowsLength &&
       viewStart === 0 &&
+      this.prefetchTop &&
       this.renderLoadingTop &&
       !this.noMoreTopRows
     ) {

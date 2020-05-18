@@ -152,9 +152,7 @@ class TonicToggle extends Tonic {
   }
 
   change (e) {
-    this.setState(state => Object.assign({}, state, {
-      checked: e.target.checked
-    }))
+    this.state.checked = e.target.checked
   }
 
   renderLabel () {

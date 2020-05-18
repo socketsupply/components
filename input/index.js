@@ -183,27 +183,23 @@ class TonicInput extends Tonic {
   setupEvents () {
     const input = this.querySelector('input')
 
-    const set = (k, v, event) => {
-      this.setState(state => Object.assign({}, state, { [k]: v }))
-    }
-
     const relay = name => {
       this.dispatchEvent(new window.CustomEvent(name, { bubbles: true }))
     }
 
     input.addEventListener('focus', e => {
-      set('focus', true)
+      this.state.focus = true
       relay('focus')
     })
 
     input.addEventListener('blur', e => {
-      set('focus', false)
+      this.state.focus = false
       relay('blur')
     })
 
     input.addEventListener('input', e => {
-      set('value', e.target.value)
-      set('pos', e.target.selectionStart)
+      this.state.value = e.target.value
+      this.state.pos = e.target.selectionStart
     })
 
     const state = this.state

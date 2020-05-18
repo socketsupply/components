@@ -35,7 +35,7 @@ class TonicRange extends Tonic {
 
     input.style.backgroundSize = (value - min) * 100 / (max - min) + '% 100%'
 
-    this.setState(state => Object.assign({}, state, { value }))
+    this.state.value = value
   }
 
   input (e) {

@@ -92,7 +92,7 @@ class TonicRouter extends Tonic {
     }
 
     if (this.hasAttribute('match')) {
-      this.setState(TonicRouter.props)
+      this.state = TonicRouter.props
       return this.template.content
     }
 

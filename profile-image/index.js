@@ -137,13 +137,11 @@ class TonicProfileImage extends Tonic {
 
       const slot = this.querySelector('.tonic--image')
 
-      this.setState(state => Object.assign({}, state, {
-        size,
-        path,
-        mime: type,
-        mtime: lastModifiedDate,
-        data
-      }))
+      this.state.size = size
+      this.state.path = path
+      this.state.time = type
+      this.state.mtime = lastModifiedDate
+      this.state.data = data
 
       slot.style.backgroundImage = 'url("' + data + '")'
       const event = new window.Event('change', { bubbles: true })

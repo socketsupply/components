@@ -154,18 +154,18 @@
 
 <p><span class="status" data-before="current version" data-after="12.0.0"></span></p>
 <div class="row">
-  <h3>Features</h3>
+  <h3>Higlights</h3>
   <div class="col">
     <ul>
-      <li>314 lines of code.</li>
-      <li>One-way data binding.</li>
-      <li>Mix in your own Routers, Reducers, Validators, etc.</li>
+      <li>1 file. 1 class. ~350 lines of code.</li>
+      <li>No build tools required.</li>
+      <li>100% native web technology.</li>
     </ul>
   </div>
   <div class="col">
     <ul>
       <li>Composition &amp; component oriented.</li>
-      <li>Plain old HTML, no template languages.</li>
+      <li>No new template language.</li>
       <li>Event delegation by default.</li>
     </ul>
   </div>
@@ -500,21 +500,21 @@ interested in the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Even
       
       <h1 id="6-state">6. State</h1>
 <p>Props are received by the parent and should never be changed by the component
-that receives them. A component can however change its <code>state</code>. Each instance of
-a component has state object, <code>this.state</code>. This is just a plain-old javascript
-object. <code>this.setState()</code> can receive a value or a function.</p>
+that receives them. A component can change its <code>state</code>. Each instance of a
+component has state object, <code>this.state</code>. This is just a plain-old javascript
+object.</p>
 <pre><code class="language-js"><span class="hljs-comment">// Update a component's state</span>
-<span class="hljs-keyword">this</span>.setState(<span class="hljs-function"><span class="hljs-params">state</span> =&gt;</span> ({
-  ...state,
+<span class="hljs-keyword">this</span>.state = {
+  ...this.state,
   <span class="hljs-attr">color</span>: <span class="hljs-string">'red'</span>
 }))
 
 <span class="hljs-comment">// Reset a component's state</span>
-<span class="hljs-keyword">this</span>.setState({ <span class="hljs-attr">color</span>: <span class="hljs-string">'red'</span> })</code></pre>
+<span class="hljs-keyword">this</span>.state = { <span class="hljs-attr">color</span>: <span class="hljs-string">'red'</span> }</code></pre>
 <hr>
-<p><code>.setState()</code> will not cause a component to re-render. The reasoning behind this
-is that the <code>state</code> can be updated independently, as needed &mdash; rendering
-happens only when changes to the representation of the component are required.</p>
+<p>Setting state will not cause a component to re-render. This way you can
+make incremental updates. Components can be updated independently. And
+rendering only happens only when necessary.</p>
 
     </section>
   

@@ -4,7 +4,7 @@ const mode = require('../mode')
 
 class TonicProfileImage extends Tonic {
   get value () {
-    const state = this.getState()
+    const state = this.state
     return state.data || this.props.src
   }
 

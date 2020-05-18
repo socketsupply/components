@@ -2,7 +2,7 @@ const input = document.getElementById('tonic-input-example')
 const span = document.getElementById('tonic-input-state')
 
 const listener = e => {
-  const state = input.getState()
+  const state = input.state
   span.textContent = `Value: "${state.value || 'Empty'}", Focus: ${state.focus}`
 }
 

@@ -206,7 +206,7 @@ class TonicInput extends Tonic {
       set('pos', e.target.selectionStart)
     })
 
-    const state = this.getState()
+    const state = this.state
     if (!state.focus) return
 
     input.focus()

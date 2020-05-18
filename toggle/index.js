@@ -10,7 +10,7 @@ class TonicToggle extends Tonic {
   }
 
   get value () {
-    const state = this.getState()
+    const state = this.state
     let value
 
     if (typeof state.checked !== 'undefined') {

@@ -4,7 +4,7 @@ const mode = require('../mode')
 
 class TonicCheckbox extends Tonic {
   get value () {
-    const state = this.getState()
+    const state = this.state
     let value
 
     if ('checked' in this.props) {

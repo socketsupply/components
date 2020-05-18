@@ -62,6 +62,6 @@ document.body.appendChild(html`
       --tonic-warn: rgba(249, 169, 103, 1);
     }
     </style>
-    <test-form></test-form>
+    <test-form id="test-form"></test-form>
   </div>
 `)

@@ -145,7 +145,7 @@ document.body.appendChild(html`
 
   <div class="test-container">
     <span>Test Wrapper Comp</span>
-    <input-test-wrapper-comp></input-test-wrapper-comp>
+    <input-test-wrapper-comp id="wrap"></input-test-wrapper-comp>
   </div>
 
   <!-- <div class="test-container">

@@ -39,10 +39,7 @@ class TonicDialog extends Dialog {
   click (e) {
     if (!Tonic.match(e.target, '#update')) return
 
-    this.setState(state => ({
-      ...state,
-      message: `Date stamp ${Date.now()}`
-    }))
+    this.state.message = `Date stamp ${Date.now()}`
 
     this.reRender()
   }

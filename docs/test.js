@@ -6189,8 +6189,6 @@ function config (name) {
 (function (setImmediate){
 const Tonic = require('@optoolco/tonic')
 
-const mode = require('../mode')
-
 class TonicAccordion extends Tonic {
   defaults () {
     return {
@@ -6298,15 +6296,6 @@ class TonicAccordion extends Tonic {
   }
 
   render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-accordion')
-    }
-
     const {
       multiple
     } = this.props
@@ -6401,15 +6390,6 @@ class TonicAccordionSection extends Tonic {
   }
 
   render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-accordion-section')
-    }
-
     const {
       id,
       name,
@@ -6448,10 +6428,8 @@ module.exports = {
 }
 
 }).call(this,require("timers").setImmediate)
-},{"../mode":49,"@optoolco/tonic":50,"timers":30}],33:[function(require,module,exports){
+},{"@optoolco/tonic":49,"timers":30}],33:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
-
-const mode = require('../mode')
 
 class TonicBadge extends Tonic {
   defaults () {
@@ -6516,15 +6494,6 @@ class TonicBadge extends Tonic {
   }
 
   render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-badge')
-    }
-
     const {
       theme
     } = this.props
@@ -6553,7 +6522,7 @@ module.exports = {
   TonicBadge
 }
 
-},{"../mode":49,"@optoolco/tonic":50}],34:[function(require,module,exports){
+},{"@optoolco/tonic":49}],34:[function(require,module,exports){
 const tape = require('@pre-bundled/tape')
 const { qs } = require('qs')
 
@@ -6625,7 +6594,7 @@ tape('badge shows tonic--new style', t => {
   t.end()
 })
 
-},{"..":46,"../test/util":113,"@optoolco/tonic":50,"@pre-bundled/tape":52,"qs":92}],35:[function(require,module,exports){
+},{"..":46,"../test/util":112,"@optoolco/tonic":49,"@pre-bundled/tape":51,"qs":91}],35:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicButton extends Tonic {
@@ -6853,7 +6822,7 @@ class TonicButton extends Tonic {
 
 module.exports = { TonicButton }
 
-},{"@optoolco/tonic":50}],36:[function(require,module,exports){
+},{"@optoolco/tonic":49}],36:[function(require,module,exports){
 const tape = require('@pre-bundled/tape')
 const { qs } = require('qs')
 
@@ -7135,7 +7104,7 @@ tape('{{button-10}} has tabindex attribute', t => {
   t.end()
 })
 
-},{"..":46,"../test/util":113,"@optoolco/tonic":50,"@pre-bundled/tape":52,"qs":92}],37:[function(require,module,exports){
+},{"..":46,"../test/util":112,"@optoolco/tonic":49,"@pre-bundled/tape":51,"qs":91}],37:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicChart extends Tonic {
@@ -7238,7 +7207,7 @@ class TonicChart extends Tonic {
 
 module.exports = { TonicChart }
 
-},{"@optoolco/tonic":50}],38:[function(require,module,exports){
+},{"@optoolco/tonic":49}],38:[function(require,module,exports){
 const tape = require('@pre-bundled/tape')
 const { qs } = require('qs')
 
@@ -7275,14 +7244,12 @@ tape('got a chart', t => {
   t.end()
 })
 
-},{"..":46,"../test/util":113,"@optoolco/tonic":50,"@pre-bundled/tape":52,"qs":92}],39:[function(require,module,exports){
+},{"..":46,"../test/util":112,"@optoolco/tonic":49,"@pre-bundled/tape":51,"qs":91}],39:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
-
-const mode = require('../mode')
 
 class TonicCheckbox extends Tonic {
   get value () {
-    const state = this.getState()
+    const state = this.state
     let value
 
     if ('checked' in this.props) {
@@ -7426,15 +7393,6 @@ class TonicCheckbox extends Tonic {
   }
 
   render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-checkbox')
-    }
-
     const {
       id,
       disabled,
@@ -7476,7 +7434,7 @@ class TonicCheckbox extends Tonic {
 
 module.exports = { TonicCheckbox }
 
-},{"../mode":49,"@optoolco/tonic":50}],40:[function(require,module,exports){
+},{"@optoolco/tonic":49}],40:[function(require,module,exports){
 const tape = require('@pre-bundled/tape')
 const { qs } = require('qs')
 
@@ -7691,7 +7649,7 @@ tape('{{checkbox-6-5}} has title', t => {
   t.end()
 })
 
-},{"..":46,"../test/util":113,"@optoolco/tonic":50,"@pre-bundled/tape":52,"qs":92}],41:[function(require,module,exports){
+},{"..":46,"../test/util":112,"@optoolco/tonic":49,"@pre-bundled/tape":51,"qs":91}],41:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class Dialog extends Tonic {
@@ -7935,7 +7893,7 @@ class Dialog extends Tonic {
 
 module.exports = { Dialog }
 
-},{"@optoolco/tonic":50}],42:[function(require,module,exports){
+},{"@optoolco/tonic":49}],42:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const { html } = require('../test/util')
@@ -8058,7 +8016,7 @@ tape('{{dialog-1}} is constructed properly, opens and closes properly', async t 
   t.end()
 })
 
-},{"..":46,"../test/util":113,"./index":41,"@optoolco/tonic":50,"@pre-bundled/tape":52,"qs":92}],43:[function(require,module,exports){
+},{"..":46,"../test/util":112,"./index":41,"@optoolco/tonic":49,"@pre-bundled/tape":51,"qs":91}],43:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicForm extends Tonic {
@@ -8149,7 +8107,7 @@ class TonicForm extends Tonic {
 
 module.exports = { TonicForm }
 
-},{"@optoolco/tonic":50}],44:[function(require,module,exports){
+},{"@optoolco/tonic":49}],44:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicIcon extends Tonic {
@@ -8214,7 +8172,7 @@ class TonicIcon extends Tonic {
 
 module.exports = { TonicIcon }
 
-},{"@optoolco/tonic":50}],45:[function(require,module,exports){
+},{"@optoolco/tonic":49}],45:[function(require,module,exports){
 const tape = require('@pre-bundled/tape')
 const { qs } = require('qs')
 
@@ -8355,7 +8313,7 @@ tape('{{icon-5}} has tabindex attribute', t => {
   t.end()
 })
 
-},{"..":46,"../test/util":113,"@optoolco/tonic":50,"@pre-bundled/tape":52,"qs":92}],46:[function(require,module,exports){
+},{"..":46,"../test/util":112,"@optoolco/tonic":49,"@pre-bundled/tape":51,"qs":91}],46:[function(require,module,exports){
 let Tonic
 try {
   Tonic = require('@optoolco/tonic')
@@ -8366,12 +8324,10 @@ try {
 
 const version = Tonic.version
 const major = version ? version.split('.')[0] : '0'
-if (parseInt(major, 10) < 11) {
-  console.error('Out of data dependency. Try `npm install @optoolco/tonic@11`.')
-  throw new Error('Invalid Tonic version. requires at least v11')
+if (parseInt(major, 10) < 12) {
+  console.error('Out of data dependency. Try `npm install @optoolco/tonic@12`.')
+  throw new Error('Invalid Tonic version. requires at least v12')
 }
-
-const mode = require('./mode')
 
 const { TonicAccordion, TonicAccordionSection } = require('./accordion')
 const { TonicBadge } = require('./badge')
@@ -8404,10 +8360,6 @@ module.exports = components
 components.Tonic = Tonic
 
 function components (Tonic, opts) {
-  if (opts && opts.strict === true) {
-    mode.strict = true
-  }
-
   Tonic.add(TonicAccordion)
   Tonic.add(TonicAccordionSection)
   Tonic.add(TonicBadge)
@@ -8435,10 +8387,8 @@ function components (Tonic, opts) {
   Tonic.add(TonicToggle)
 }
 
-},{"./accordion":32,"./badge":33,"./button":35,"./chart":37,"./checkbox":39,"./form":43,"./icon":44,"./input":47,"./mode":49,"./popover":95,"./profile-image":97,"./progress-bar":99,"./range":101,"./relative-time":103,"./router":104,"./select":106,"./sprite":108,"./tabs":109,"./textarea":114,"./toaster":118,"./toaster-inline":116,"./toggle":120,"./tooltip":122,"@optoolco/tonic":50}],47:[function(require,module,exports){
+},{"./accordion":32,"./badge":33,"./button":35,"./chart":37,"./checkbox":39,"./form":43,"./icon":44,"./input":47,"./popover":94,"./profile-image":96,"./progress-bar":98,"./range":100,"./relative-time":102,"./router":103,"./select":105,"./sprite":107,"./tabs":108,"./textarea":113,"./toaster":117,"./toaster-inline":115,"./toggle":119,"./tooltip":121,"@optoolco/tonic":49}],47:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
-
-const mode = require('../mode')
 
 class TonicInput extends Tonic {
   defaults () {
@@ -8621,30 +8571,26 @@ class TonicInput extends Tonic {
   setupEvents () {
     const input = this.querySelector('input')
 
-    const set = (k, v, event) => {
-      this.setState(state => Object.assign({}, state, { [k]: v }))
-    }
-
     const relay = name => {
       this.dispatchEvent(new window.CustomEvent(name, { bubbles: true }))
     }
 
     input.addEventListener('focus', e => {
-      set('focus', true)
+      this.state.focus = true
       relay('focus')
     })
 
     input.addEventListener('blur', e => {
-      set('focus', false)
+      this.state.focus = false
       relay('blur')
     })
 
     input.addEventListener('input', e => {
-      set('value', e.target.value)
-      set('pos', e.target.selectionStart)
+      this.state.value = e.target.value
+      this.state.pos = e.target.selectionStart
     })
 
-    const state = this.getState()
+    const state = this.state
     if (!state.focus) return
 
     input.focus()
@@ -8696,15 +8642,6 @@ class TonicInput extends Tonic {
   }
 
   render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-input')
-    }
-
     const {
       ariaInvalid,
       ariaLabelledby,
@@ -8785,7 +8722,7 @@ class TonicInput extends Tonic {
 
 module.exports = { TonicInput }
 
-},{"../mode":49,"@optoolco/tonic":50}],48:[function(require,module,exports){
+},{"@optoolco/tonic":49}],48:[function(require,module,exports){
 const tape = require('@pre-bundled/tape')
 const { qs } = require('qs')
 
@@ -8933,7 +8870,7 @@ document.body.appendChild(html`
 
   <div class="test-container">
     <span>Test Wrapper Comp</span>
-    <input-test-wrapper-comp></input-test-wrapper-comp>
+    <input-test-wrapper-comp id="wrap"></input-test-wrapper-comp>
   </div>
 
   <!-- <div class="test-container">
@@ -9195,14 +9132,12 @@ tape('input wrapper component interactions', t => {
   })
 })
 
-},{"..":46,"../test/util":113,"@optoolco/tonic":50,"@pre-bundled/tape":52,"qs":92}],49:[function(require,module,exports){
-module.exports = { strict: false }
-
-},{}],50:[function(require,module,exports){
+},{"..":46,"../test/util":112,"@optoolco/tonic":49,"@pre-bundled/tape":51,"qs":91}],49:[function(require,module,exports){
 class TonicRaw {
-  constructor (rawText) {
+  constructor (rawText, templateStrings) {
     this.isTonicRaw = true
     this.rawText = rawText
+    this.templateStrings = templateStrings
   }
 
   valueOf () { return this.rawText }
@@ -9212,10 +9147,9 @@ class TonicRaw {
 class Tonic extends window.HTMLElement {
   constructor () {
     super()
-    const state = Tonic._states[this.id]
-    delete Tonic._states[this.id]
-    this.isTonicComponent = true
-    this.state = state || {}
+    const state = Tonic._states[super.id]
+    delete Tonic._states[super.id]
+    this._state = state || {}
     this.props = {}
     this.elements = [...this.children]
     this.elements.__children__ = true
@@ -9242,6 +9176,24 @@ class Tonic extends window.HTMLElement {
     [...o].forEach(o => (x[o.name] = o.value))
     return x
   }
+
+  _checkId () {
+    const _id = super.id
+    if (!_id) throw new Error(`Component: ${this.tagName} has no id`)
+    return _id
+  }
+
+  get state () {
+    return (this._checkId(), this._state)
+  }
+
+  set state (newState) {
+    this._state = (this._checkId(), newState)
+  }
+
+  get id () { return this._checkId() }
+
+  set id (newId) { super.id = newId }
 
   _events () {
     const hp = Object.getOwnPropertyNames(window.HTMLElement.prototype)
@@ -9282,8 +9234,6 @@ class Tonic extends window.HTMLElement {
   }
 
   static add (c, htmlName) {
-    c.prototype._props = Tonic.getPropertyNames(c.prototype)
-
     const hasValidName = htmlName || (c.name && c.name.length > 1)
     if (!hasValidName) {
       throw Error('Mangling. https://bit.ly/2TkJ6zP')
@@ -9291,6 +9241,14 @@ class Tonic extends window.HTMLElement {
 
     if (!htmlName) htmlName = Tonic._splitName(c.name).toLowerCase()
     if (window.customElements.get(htmlName)) return
+
+    if (!c.prototype.isTonicComponent) {
+      const tmp = { [c.name]: class extends Tonic {} }[c.name]
+      tmp.prototype.render = c
+      c = tmp
+    }
+
+    c.prototype._props = Tonic.getPropertyNames(c.prototype)
 
     Tonic._reg[htmlName] = c
     Tonic._tags = Object.keys(Tonic._reg).join()
@@ -9306,6 +9264,7 @@ class Tonic extends window.HTMLElement {
     Tonic._stylesheetRegistry.push(stylesheetFn)
 
     const styleNode = document.createElement('style')
+    if (Tonic.nonce) styleNode.setAttribute('nonce', Tonic.nonce)
     styleNode.appendChild(document.createTextNode(stylesheetFn()))
     if (document.head) document.head.appendChild(styleNode)
   }
@@ -9314,11 +9273,11 @@ class Tonic extends window.HTMLElement {
     return s.replace(Tonic.ESC, c => Tonic.MAP[c])
   }
 
-  static raw (s) {
-    return new TonicRaw(s)
+  static raw (s, templateStrings) {
+    return new TonicRaw(s, templateStrings)
   }
 
-  html ([s, ...strings], ...values) {
+  html (strings, ...values) {
     const refs = o => {
       if (o && o.__children__) return this._placehold(o)
       if (o && o.isTonicRaw) return o.rawText
@@ -9346,17 +9305,22 @@ class Tonic extends window.HTMLElement {
       return o
     }
 
-    const reduce = (a, b) => a.concat(b, strings.shift())
-    const str = values.map(refs).reduce(reduce, [s]).join('')
-    return Tonic.raw(str)
-  }
+    const out = []
+    for (let i = 0; i < strings.length - 1; i++) {
+      out.push(strings[i], refs(values[i]))
+    }
+    out.push(strings[strings.length - 1])
 
-  setState (o) {
-    this.state = typeof o === 'function' ? o(this.state) : o
-  }
-
-  getState () {
-    return this.state
+    const htmlStr = out.join('').replace(Tonic.SPREAD, (_, p) => {
+      const o = Tonic._data[p.split('__')[1]][p]
+      return Object.entries(o).map(([key, value]) => {
+        const k = key.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
+        if (value === true) return k
+        else if (value) return `${k}="${Tonic.escape(String(value))}"`
+        else return ''
+      }).filter(Boolean).join(' ')
+    })
+    return Tonic.raw(htmlStr, strings)
   }
 
   scheduleReRender (oldProps) {
@@ -9409,8 +9373,10 @@ class Tonic extends window.HTMLElement {
   _set (target, render, content = '') {
     for (const node of target.querySelectorAll(Tonic._tags)) {
       if (!node.isTonicComponent) continue
-      if (!node.id || !Tonic._refIds.includes(node.id)) continue
-      Tonic._states[node.id] = node.getState()
+
+      const id = node.getAttribute('id')
+      if (!id || !Tonic._refIds.includes(id)) continue
+      Tonic._states[id] = node.state
     }
 
     if (render instanceof Tonic.AsyncFunction) {
@@ -9435,18 +9401,8 @@ class Tonic extends window.HTMLElement {
     }
 
     if (typeof content === 'string') {
-      content = content.replace(Tonic.SPREAD, (_, p) => {
-        const o = Tonic._data[p.split('__')[1]][p]
-        return Object.entries(o).map(([key, value]) => {
-          const k = key.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
-          if (value === true) return k
-          else if (value) return `${k}="${Tonic.escape(String(value))}"`
-          else return ''
-        }).filter(Boolean).join(' ')
-      })
-
       if (this.stylesheet) {
-        content = `<style>${this.stylesheet()}</style>${content}`
+        content = `<style nonce=${Tonic.nonce || ''}>${this.stylesheet()}</style>${content}`
       }
 
       target.innerHTML = content
@@ -9465,7 +9421,7 @@ class Tonic extends window.HTMLElement {
       const walk = (node, fn) => {
         if (node.nodeType === 3) {
           const id = node.textContent.trim()
-          if (children[id]) fn(node, children[id])
+          if (children[id]) fn(node, children[id], id)
         }
 
         const childNodes = node.childNodes
@@ -9476,11 +9432,11 @@ class Tonic extends window.HTMLElement {
         }
       }
 
-      walk(target, (node, children) => {
+      walk(target, (node, children, id) => {
         for (const child of children) {
           node.parentNode.insertBefore(child, node)
         }
-        delete Tonic._children[this._id][node.id]
+        delete Tonic._children[this._id][id]
         node.parentNode.removeChild(node)
       })
     } else {
@@ -9497,8 +9453,8 @@ class Tonic extends window.HTMLElement {
       this.render = this.wrap
     }
 
-    if (this.id && !Tonic._refIds.includes(this.id)) {
-      Tonic._refIds.push(this.id)
+    if (super.id && !Tonic._refIds.includes(super.id)) {
+      Tonic._refIds.push(super.id)
     }
     const cc = s => s.replace(/-(.)/g, (_, m) => m.toUpperCase())
 
@@ -9541,12 +9497,12 @@ class Tonic extends window.HTMLElement {
 
   disconnectedCallback () {
     Tonic._maybePromise(this.disconnected && this.disconnected())
-    this.elements.length = 0
-    this.nodes.length = 0
     delete Tonic._data[this._id]
     delete Tonic._children[this._id]
   }
 }
+
+Tonic.prototype.isTonicComponent = true
 
 Object.assign(Tonic, {
   _tags: '',
@@ -9567,12 +9523,12 @@ Object.assign(Tonic, {
 
 if (typeof module === 'object') module.exports = Tonic
 
-},{"./package":51}],51:[function(require,module,exports){
+},{"./package":50}],50:[function(require,module,exports){
 module.exports={
   "_from": "@optoolco/tonic@next",
-  "_id": "@optoolco/tonic@11.1.1",
+  "_id": "@optoolco/tonic@12.0.0",
   "_inBundle": false,
-  "_integrity": "sha512-Io+TzPTOAqhSKGYtJaj8HCLvQSrK2BtQukNOdFlLAFfxpml9br9zxyg7vbKPqi4LTLNK6T1Hi5+LIAKAktzt2w==",
+  "_integrity": "sha512-kRjYMv5VYGSDTSzSBPX0nCNT4NWZwyjzvdWLlhkLDeCJvw3IqZLBSP4hmoRdh4lGMbxOI/i+JfTmxCDjbj6OXg==",
   "_location": "/@optoolco/tonic",
   "_phantomChildren": {},
   "_requested": {
@@ -9590,8 +9546,8 @@ module.exports={
     "#DEV:/",
     "#USER"
   ],
-  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-11.1.1.tgz",
-  "_shasum": "4dbf15382b5b3e868d3aa9a2b3abeb7a0573dba3",
+  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-12.0.0.tgz",
+  "_shasum": "efe407a8c22464e898f2e664e0df9fbe7d8de58f",
   "_spec": "@optoolco/tonic@next",
   "_where": "/home/raynos/optoolco/components",
   "author": {
@@ -9628,10 +9584,10 @@ module.exports={
     "minify": "terser index.js -c unused,dead_code,hoist_vars,loops=false,hoist_props=true,hoist_funs,toplevel,keep_classnames,keep_fargs=false -o dist/tonic.min.js",
     "test": "npm run minify && browserify test/index.js | tape-puppet"
   },
-  "version": "11.1.1"
+  "version": "12.0.0"
 }
 
-},{}],52:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 (function (process,setImmediate){
 var defined = require("./pre-bundled/node_modules/defined");
 var createDefaultStream = require('./lib/default_stream');
@@ -9792,7 +9748,7 @@ function createHarness(conf_) {
 }
 
 }).call(this,require('_process'),require("timers").setImmediate)
-},{"./lib/default_stream":53,"./lib/results":54,"./lib/test":55,"./pre-bundled/node_modules/defined":60,"./pre-bundled/node_modules/through":91,"_process":13,"timers":30}],53:[function(require,module,exports){
+},{"./lib/default_stream":52,"./lib/results":53,"./lib/test":54,"./pre-bundled/node_modules/defined":59,"./pre-bundled/node_modules/through":90,"_process":13,"timers":30}],52:[function(require,module,exports){
 (function (process){
 var through = require("../pre-bundled/node_modules/through");
 var fs = require('fs');
@@ -9826,7 +9782,7 @@ module.exports = function () {
 };
 
 }).call(this,require('_process'))
-},{"../pre-bundled/node_modules/through":91,"_process":13,"fs":3}],54:[function(require,module,exports){
+},{"../pre-bundled/node_modules/through":90,"_process":13,"fs":3}],53:[function(require,module,exports){
 (function (process,setImmediate){
 var defined = require("../pre-bundled/node_modules/defined");
 var EventEmitter = require('events').EventEmitter;
@@ -10042,7 +9998,7 @@ function invalidYaml(str) {
 }
 
 }).call(this,require('_process'),require("timers").setImmediate)
-},{"../pre-bundled/node_modules/defined":60,"../pre-bundled/node_modules/function-bind":76,"../pre-bundled/node_modules/has":79,"../pre-bundled/node_modules/inherits":80,"../pre-bundled/node_modules/object-inspect":82,"../pre-bundled/node_modules/resumer":86,"../pre-bundled/node_modules/through":91,"_process":13,"events":4,"timers":30}],55:[function(require,module,exports){
+},{"../pre-bundled/node_modules/defined":59,"../pre-bundled/node_modules/function-bind":75,"../pre-bundled/node_modules/has":78,"../pre-bundled/node_modules/inherits":79,"../pre-bundled/node_modules/object-inspect":81,"../pre-bundled/node_modules/resumer":85,"../pre-bundled/node_modules/through":90,"_process":13,"events":4,"timers":30}],54:[function(require,module,exports){
 (function (process,setImmediate,__dirname){
 var deepEqual = require("../pre-bundled/node_modules/deep-equal");
 var defined = require("../pre-bundled/node_modules/defined");
@@ -10599,7 +10555,7 @@ Test.skip = function (name_, _opts, _cb) {
 // vim: set softtabstop=4 shiftwidth=4:
 
 }).call(this,require('_process'),require("timers").setImmediate,"/node_modules/@pre-bundled/tape/lib")
-},{"../pre-bundled/node_modules/deep-equal":56,"../pre-bundled/node_modules/defined":60,"../pre-bundled/node_modules/for-each":74,"../pre-bundled/node_modules/function-bind":76,"../pre-bundled/node_modules/has":79,"../pre-bundled/node_modules/inherits":80,"../pre-bundled/node_modules/string.prototype.trim":88,"_process":13,"events":4,"path":11,"timers":30}],56:[function(require,module,exports){
+},{"../pre-bundled/node_modules/deep-equal":55,"../pre-bundled/node_modules/defined":59,"../pre-bundled/node_modules/for-each":73,"../pre-bundled/node_modules/function-bind":75,"../pre-bundled/node_modules/has":78,"../pre-bundled/node_modules/inherits":79,"../pre-bundled/node_modules/string.prototype.trim":87,"_process":13,"events":4,"path":11,"timers":30}],55:[function(require,module,exports){
 var pSlice = Array.prototype.slice;
 var objectKeys = require('./lib/keys.js');
 var isArguments = require('./lib/is_arguments.js');
@@ -10695,7 +10651,7 @@ function objEquiv(a, b, opts) {
   return typeof a === typeof b;
 }
 
-},{"./lib/is_arguments.js":57,"./lib/keys.js":58}],57:[function(require,module,exports){
+},{"./lib/is_arguments.js":56,"./lib/keys.js":57}],56:[function(require,module,exports){
 var supportsArgumentsClass = (function(){
   return Object.prototype.toString.call(arguments)
 })() == '[object Arguments]';
@@ -10717,7 +10673,7 @@ function unsupported(object){
     false;
 };
 
-},{}],58:[function(require,module,exports){
+},{}],57:[function(require,module,exports){
 exports = module.exports = typeof Object.keys === 'function'
   ? Object.keys : shim;
 
@@ -10728,7 +10684,7 @@ function shim (obj) {
   return keys;
 }
 
-},{}],59:[function(require,module,exports){
+},{}],58:[function(require,module,exports){
 'use strict';
 
 var keys = require('object-keys');
@@ -10788,14 +10744,14 @@ defineProperties.supportsDescriptors = !!supportsDescriptors;
 
 module.exports = defineProperties;
 
-},{"object-keys":84}],60:[function(require,module,exports){
+},{"object-keys":83}],59:[function(require,module,exports){
 module.exports = function () {
     for (var i = 0; i < arguments.length; i++) {
         if (arguments[i] !== undefined) return arguments[i];
     }
 };
 
-},{}],61:[function(require,module,exports){
+},{}],60:[function(require,module,exports){
 'use strict';
 
 /* globals
@@ -11007,7 +10963,7 @@ module.exports = function GetIntrinsic(name, allowMissing) {
 	return value;
 };
 
-},{"function-bind":76,"has-symbols":77}],62:[function(require,module,exports){
+},{"function-bind":75,"has-symbols":76}],61:[function(require,module,exports){
 'use strict';
 
 var GetIntrinsic = require('./GetIntrinsic');
@@ -11553,7 +11509,7 @@ var ES5 = {
 
 module.exports = ES5;
 
-},{"./GetIntrinsic":61,"./helpers/assertRecord":63,"./helpers/callBound":65,"./helpers/isFinite":66,"./helpers/isNaN":67,"./helpers/isPrefixOf":68,"./helpers/isPropertyDescriptor":69,"./helpers/mod":70,"./helpers/sign":71,"es-to-primitive/es5":72,"has":79,"is-callable":81}],63:[function(require,module,exports){
+},{"./GetIntrinsic":60,"./helpers/assertRecord":62,"./helpers/callBound":64,"./helpers/isFinite":65,"./helpers/isNaN":66,"./helpers/isPrefixOf":67,"./helpers/isPropertyDescriptor":68,"./helpers/mod":69,"./helpers/sign":70,"es-to-primitive/es5":71,"has":78,"is-callable":80}],62:[function(require,module,exports){
 'use strict';
 
 var GetIntrinsic = require('../GetIntrinsic');
@@ -11603,7 +11559,7 @@ module.exports = function assertRecord(ES, recordType, argumentName, value) {
 	}
 };
 
-},{"../GetIntrinsic":61,"has":79}],64:[function(require,module,exports){
+},{"../GetIntrinsic":60,"has":78}],63:[function(require,module,exports){
 'use strict';
 
 var bind = require('function-bind');
@@ -11622,7 +11578,7 @@ module.exports.apply = function applyBind() {
 	return bind.apply($apply, arguments);
 };
 
-},{"../GetIntrinsic":61,"function-bind":76}],65:[function(require,module,exports){
+},{"../GetIntrinsic":60,"function-bind":75}],64:[function(require,module,exports){
 'use strict';
 
 var GetIntrinsic = require('../GetIntrinsic');
@@ -11639,21 +11595,21 @@ module.exports = function callBoundIntrinsic(name, allowMissing) {
 	return intrinsic;
 };
 
-},{"../GetIntrinsic":61,"./callBind":64}],66:[function(require,module,exports){
+},{"../GetIntrinsic":60,"./callBind":63}],65:[function(require,module,exports){
 'use strict';
 
 var $isNaN = Number.isNaN || function (a) { return a !== a; };
 
 module.exports = Number.isFinite || function (x) { return typeof x === 'number' && !$isNaN(x) && x !== Infinity && x !== -Infinity; };
 
-},{}],67:[function(require,module,exports){
+},{}],66:[function(require,module,exports){
 'use strict';
 
 module.exports = Number.isNaN || function isNaN(a) {
 	return a !== a;
 };
 
-},{}],68:[function(require,module,exports){
+},{}],67:[function(require,module,exports){
 'use strict';
 
 var $strSlice = require('../helpers/callBound')('String.prototype.slice');
@@ -11668,7 +11624,7 @@ module.exports = function isPrefixOf(prefix, string) {
 	return $strSlice(string, 0, prefix.length) === prefix;
 };
 
-},{"../helpers/callBound":65}],69:[function(require,module,exports){
+},{"../helpers/callBound":64}],68:[function(require,module,exports){
 'use strict';
 
 var GetIntrinsic = require('../GetIntrinsic');
@@ -11701,7 +11657,7 @@ module.exports = function IsPropertyDescriptor(ES, Desc) {
 	return true;
 };
 
-},{"../GetIntrinsic":61,"has":79}],70:[function(require,module,exports){
+},{"../GetIntrinsic":60,"has":78}],69:[function(require,module,exports){
 'use strict';
 
 module.exports = function mod(number, modulo) {
@@ -11709,14 +11665,14 @@ module.exports = function mod(number, modulo) {
 	return Math.floor(remain >= 0 ? remain : remain + modulo);
 };
 
-},{}],71:[function(require,module,exports){
+},{}],70:[function(require,module,exports){
 'use strict';
 
 module.exports = function sign(number) {
 	return number >= 0 ? 1 : -1;
 };
 
-},{}],72:[function(require,module,exports){
+},{}],71:[function(require,module,exports){
 'use strict';
 
 var toStr = Object.prototype.toString;
@@ -11763,14 +11719,14 @@ module.exports = function ToPrimitive(input) {
 	return ES5internalSlots['[[DefaultValue]]'](input);
 };
 
-},{"./helpers/isPrimitive":73,"is-callable":81}],73:[function(require,module,exports){
+},{"./helpers/isPrimitive":72,"is-callable":80}],72:[function(require,module,exports){
 'use strict';
 
 module.exports = function isPrimitive(value) {
 	return value === null || (typeof value !== 'function' && typeof value !== 'object');
 };
 
-},{}],74:[function(require,module,exports){
+},{}],73:[function(require,module,exports){
 'use strict';
 
 var isCallable = require('is-callable');
@@ -11834,7 +11790,7 @@ var forEach = function forEach(list, iterator, thisArg) {
 
 module.exports = forEach;
 
-},{"is-callable":81}],75:[function(require,module,exports){
+},{"is-callable":80}],74:[function(require,module,exports){
 'use strict';
 
 /* eslint no-invalid-this: 1 */
@@ -11888,14 +11844,14 @@ module.exports = function bind(that) {
     return bound;
 };
 
-},{}],76:[function(require,module,exports){
+},{}],75:[function(require,module,exports){
 'use strict';
 
 var implementation = require('./implementation');
 
 module.exports = Function.prototype.bind || implementation;
 
-},{"./implementation":75}],77:[function(require,module,exports){
+},{"./implementation":74}],76:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -11912,7 +11868,7 @@ module.exports = function hasNativeSymbols() {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./shams":78}],78:[function(require,module,exports){
+},{"./shams":77}],77:[function(require,module,exports){
 'use strict';
 
 /* eslint complexity: [2, 18], max-statements: [2, 33] */
@@ -11956,16 +11912,16 @@ module.exports = function hasSymbols() {
 	return true;
 };
 
-},{}],79:[function(require,module,exports){
+},{}],78:[function(require,module,exports){
 'use strict';
 
 var bind = require('function-bind');
 
 module.exports = bind.call(Function.call, Object.prototype.hasOwnProperty);
 
-},{"function-bind":76}],80:[function(require,module,exports){
+},{"function-bind":75}],79:[function(require,module,exports){
 arguments[4][8][0].apply(exports,arguments)
-},{"dup":8}],81:[function(require,module,exports){
+},{"dup":8}],80:[function(require,module,exports){
 'use strict';
 
 var fnToStr = Function.prototype.toString;
@@ -12004,7 +11960,7 @@ module.exports = function isCallable(value) {
 	return strClass === fnClass || strClass === genClass;
 };
 
-},{}],82:[function(require,module,exports){
+},{}],81:[function(require,module,exports){
 var hasMap = typeof Map === 'function' && Map.prototype;
 var mapSizeDescriptor = Object.getOwnPropertyDescriptor && hasMap ? Object.getOwnPropertyDescriptor(Map.prototype, 'size') : null;
 var mapSize = hasMap && mapSizeDescriptor && typeof mapSizeDescriptor.get === 'function' ? mapSizeDescriptor.get : null;
@@ -12263,7 +12219,7 @@ function arrObjKeys (obj, inspect) {
     return xs;
 }
 
-},{"./util.inspect":2}],83:[function(require,module,exports){
+},{"./util.inspect":2}],82:[function(require,module,exports){
 'use strict';
 
 var keysShim;
@@ -12387,7 +12343,7 @@ if (!Object.keys) {
 }
 module.exports = keysShim;
 
-},{"./isArguments":85}],84:[function(require,module,exports){
+},{"./isArguments":84}],83:[function(require,module,exports){
 'use strict';
 
 var slice = Array.prototype.slice;
@@ -12421,7 +12377,7 @@ keysShim.shim = function shimObjectKeys() {
 
 module.exports = keysShim;
 
-},{"./implementation":83,"./isArguments":85}],85:[function(require,module,exports){
+},{"./implementation":82,"./isArguments":84}],84:[function(require,module,exports){
 'use strict';
 
 var toStr = Object.prototype.toString;
@@ -12440,7 +12396,7 @@ module.exports = function isArguments(value) {
 	return isArgs;
 };
 
-},{}],86:[function(require,module,exports){
+},{}],85:[function(require,module,exports){
 (function (process,setImmediate){
 var through = require('through');
 var nextTick = typeof setImmediate !== 'undefined'
@@ -12473,7 +12429,7 @@ module.exports = function (write, end) {
 };
 
 }).call(this,require('_process'),require("timers").setImmediate)
-},{"_process":13,"through":91,"timers":30}],87:[function(require,module,exports){
+},{"_process":13,"through":90,"timers":30}],86:[function(require,module,exports){
 'use strict';
 
 var bind = require('function-bind');
@@ -12488,7 +12444,7 @@ module.exports = function trim() {
 	return replace(replace(S, leftWhitespace, ''), rightWhitespace, '');
 };
 
-},{"es-abstract/es5":62,"function-bind":76}],88:[function(require,module,exports){
+},{"es-abstract/es5":61,"function-bind":75}],87:[function(require,module,exports){
 'use strict';
 
 var bind = require('function-bind');
@@ -12508,7 +12464,7 @@ define(boundTrim, {
 
 module.exports = boundTrim;
 
-},{"./implementation":87,"./polyfill":89,"./shim":90,"define-properties":59,"function-bind":76}],89:[function(require,module,exports){
+},{"./implementation":86,"./polyfill":88,"./shim":89,"define-properties":58,"function-bind":75}],88:[function(require,module,exports){
 'use strict';
 
 var implementation = require('./implementation');
@@ -12522,7 +12478,7 @@ module.exports = function getPolyfill() {
 	return implementation;
 };
 
-},{"./implementation":87}],90:[function(require,module,exports){
+},{"./implementation":86}],89:[function(require,module,exports){
 'use strict';
 
 var define = require('define-properties');
@@ -12534,7 +12490,7 @@ module.exports = function shimStringTrim() {
 	return polyfill;
 };
 
-},{"./polyfill":89,"define-properties":59}],91:[function(require,module,exports){
+},{"./polyfill":88,"define-properties":58}],90:[function(require,module,exports){
 (function (process){
 var Stream = require('stream')
 
@@ -12646,13 +12602,13 @@ function through (write, end, opts) {
 
 
 }).call(this,require('_process'))
-},{"_process":13,"stream":29}],92:[function(require,module,exports){
+},{"_process":13,"stream":29}],91:[function(require,module,exports){
 const qs = (s, p) => (p || document).querySelector(s)
 const qsa = (s, p) => [...(p || document).querySelectorAll(s)]
 
 module.exports = { qs, qsa }
 
-},{}],93:[function(require,module,exports){
+},{}],92:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class Panel extends Tonic {
@@ -12893,7 +12849,7 @@ class Panel extends Tonic {
 
 module.exports = { Panel }
 
-},{"@optoolco/tonic":50}],94:[function(require,module,exports){
+},{"@optoolco/tonic":49}],93:[function(require,module,exports){
 const tape = require('@pre-bundled/tape')
 const { qs } = require('qs')
 const Tonic = require('@optoolco/tonic')
@@ -13143,7 +13099,7 @@ function sleep (n) {
   })
 }
 
-},{"..":46,"../test/util":113,"./index":93,"@optoolco/tonic":50,"@pre-bundled/tape":52,"qs":92}],95:[function(require,module,exports){
+},{"..":46,"../test/util":112,"./index":92,"@optoolco/tonic":49,"@pre-bundled/tape":51,"qs":91}],94:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicPopover extends Tonic {
@@ -13343,7 +13299,7 @@ class TonicPopover extends Tonic {
 
 module.exports = { TonicPopover }
 
-},{"@optoolco/tonic":50}],96:[function(require,module,exports){
+},{"@optoolco/tonic":49}],95:[function(require,module,exports){
 const tape = require('@pre-bundled/tape')
 const { qs } = require('qs')
 const { html } = require('../test/util')
@@ -13417,14 +13373,12 @@ function sleep (ms) {
   })
 }
 
-},{"..":46,"../test/util":113,"@optoolco/tonic":50,"@pre-bundled/tape":52,"qs":92}],97:[function(require,module,exports){
+},{"..":46,"../test/util":112,"@optoolco/tonic":49,"@pre-bundled/tape":51,"qs":91}],96:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
-
-const mode = require('../mode')
 
 class TonicProfileImage extends Tonic {
   get value () {
-    const state = this.getState()
+    const state = this.state
     return state.data || this.props.src
   }
 
@@ -13557,13 +13511,11 @@ class TonicProfileImage extends Tonic {
 
       const slot = this.querySelector('.tonic--image')
 
-      this.setState(state => Object.assign({}, state, {
-        size,
-        path,
-        mime: type,
-        mtime: lastModifiedDate,
-        data
-      }))
+      this.state.size = size
+      this.state.path = path
+      this.state.time = type
+      this.state.mtime = lastModifiedDate
+      this.state.data = data
 
       slot.style.backgroundImage = 'url("' + data + '")'
       const event = new window.Event('change', { bubbles: true })
@@ -13573,15 +13525,6 @@ class TonicProfileImage extends Tonic {
   }
 
   render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-profile-image')
-    }
-
     const {
       theme,
       editable
@@ -13633,7 +13576,7 @@ TonicProfileImage.svg.default = () => TonicProfileImage.svg.toURL(`
 
 module.exports = { TonicProfileImage }
 
-},{"../mode":49,"@optoolco/tonic":50}],98:[function(require,module,exports){
+},{"@optoolco/tonic":49}],97:[function(require,module,exports){
 const tape = require('@pre-bundled/tape')
 const { qs } = require('qs')
 const { html } = require('../test/util')
@@ -13772,10 +13715,8 @@ tape('test a profile image', t => {
   t.end()
 })
 
-},{"..":46,"../test/util":113,"@optoolco/tonic":50,"@pre-bundled/tape":52,"qs":92}],99:[function(require,module,exports){
+},{"..":46,"../test/util":112,"@optoolco/tonic":49,"@pre-bundled/tape":51,"qs":91}],98:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
-
-const mode = require('../mode')
 
 class TonicProgressBar extends Tonic {
   set value (value) {
@@ -13838,15 +13779,6 @@ class TonicProgressBar extends Tonic {
   }
 
   render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-progress-bar')
-    }
-
     if (this.props.theme) {
       this.classList.add(`tonic--theme--${this.props.theme}`)
     }
@@ -13864,7 +13796,7 @@ class TonicProgressBar extends Tonic {
 
 module.exports = { TonicProgressBar }
 
-},{"../mode":49,"@optoolco/tonic":50}],100:[function(require,module,exports){
+},{"@optoolco/tonic":49}],99:[function(require,module,exports){
 const tape = require('@pre-bundled/tape')
 const { qs } = require('qs')
 const { html } = require('../test/util')
@@ -14014,10 +13946,8 @@ tape('get a progress bar', t => {
   t.end()
 })
 
-},{"..":46,"../test/util":113,"@optoolco/tonic":50,"@pre-bundled/tape":52,"qs":92}],101:[function(require,module,exports){
+},{"..":46,"../test/util":112,"@optoolco/tonic":49,"@pre-bundled/tape":51,"qs":91}],100:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
-
-const mode = require('../mode')
 
 class TonicRange extends Tonic {
   defaults () {
@@ -14052,7 +13982,7 @@ class TonicRange extends Tonic {
 
     input.style.backgroundSize = (value - min) * 100 / (max - min) + '% 100%'
 
-    this.setState(state => Object.assign({}, state, { value }))
+    this.state.value = value
   }
 
   input (e) {
@@ -14176,15 +14106,6 @@ class TonicRange extends Tonic {
   }
 
   render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-range')
-    }
-
     const {
       width,
       height,
@@ -14228,7 +14149,7 @@ class TonicRange extends Tonic {
 
 module.exports = { TonicRange }
 
-},{"../mode":49,"@optoolco/tonic":50}],102:[function(require,module,exports){
+},{"@optoolco/tonic":49}],101:[function(require,module,exports){
 const tape = require('@pre-bundled/tape')
 const { qs } = require('qs')
 const { html } = require('../test/util')
@@ -14386,7 +14307,7 @@ tape('test a range elem', t => {
   t.end()
 })
 
-},{"..":46,"../test/util":113,"@optoolco/tonic":50,"@pre-bundled/tape":52,"qs":92}],103:[function(require,module,exports){
+},{"..":46,"../test/util":112,"@optoolco/tonic":49,"@pre-bundled/tape":51,"qs":91}],102:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const weekdays = [
@@ -14868,10 +14789,8 @@ const timeFormatter = makeFormatter({
 
 module.exports = { TonicRelativeTime, RelativeTime }
 
-},{"@optoolco/tonic":50}],104:[function(require,module,exports){
+},{"@optoolco/tonic":49}],103:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
-
-const mode = require('../mode')
 
 class TonicRouter extends Tonic {
   constructor () {
@@ -14953,17 +14872,8 @@ class TonicRouter extends Tonic {
   }
 
   render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-router')
-    }
-
     if (this.hasAttribute('match')) {
-      this.setState(TonicRouter.props)
+      this.state = TonicRouter.props
       return this.template.content
     }
 
@@ -15168,7 +15078,7 @@ TonicRouter.matcher = (() => {
 
 module.exports = { TonicRouter }
 
-},{"../mode":49,"@optoolco/tonic":50}],105:[function(require,module,exports){
+},{"@optoolco/tonic":49}],104:[function(require,module,exports){
 const { html } = require('../test/util')
 const components = require('..')
 components(require('@optoolco/tonic'))
@@ -15215,7 +15125,7 @@ select.addEventListener('change', e => {
 })
 
 page2.addEventListener('match', () => {
-  const { number } = page2.getState()
+  const { number } = page2.state
   const el = document.getElementById('page2-number')
   if (!el) return
   el.textContent = number
@@ -15223,7 +15133,7 @@ page2.addEventListener('match', () => {
 
 // TODO: convert to tape tests
 
-},{"..":46,"../test/util":113,"@optoolco/tonic":50}],106:[function(require,module,exports){
+},{"..":46,"../test/util":112,"@optoolco/tonic":49}],105:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicSelect extends Tonic {
@@ -15470,7 +15380,7 @@ TonicSelect.svg.default = () => TonicSelect.svg.toURL(`
 
 module.exports = { TonicSelect }
 
-},{"@optoolco/tonic":50}],107:[function(require,module,exports){
+},{"@optoolco/tonic":49}],106:[function(require,module,exports){
 const tape = require('@pre-bundled/tape')
 const { qs } = require('qs')
 const { html } = require('../test/util')
@@ -15684,7 +15594,7 @@ tape('test a select', t => {
   t.end()
 })
 
-},{"..":46,"../test/util":113,"@optoolco/tonic":50,"@pre-bundled/tape":52,"qs":92}],108:[function(require,module,exports){
+},{"..":46,"../test/util":112,"@optoolco/tonic":49,"@pre-bundled/tape":51,"qs":91}],107:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicSprite extends Tonic {
@@ -15751,11 +15661,9 @@ class TonicSprite extends Tonic {
 
 module.exports = { TonicSprite }
 
-},{"@optoolco/tonic":50}],109:[function(require,module,exports){
+},{"@optoolco/tonic":49}],108:[function(require,module,exports){
 (function (setImmediate){
 const Tonic = require('@optoolco/tonic')
-
-const mode = require('../mode')
 
 const CustomEvent = window.CustomEvent
 
@@ -15859,15 +15767,6 @@ class TonicTabs extends Tonic {
   }
 
   render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-tabs')
-    }
-
     this.setAttribute('role', 'tablist')
 
     return this.html`${this.childNodes}`
@@ -15894,15 +15793,6 @@ class TonicTabPanel extends Tonic {
   }
 
   render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-tab-panel')
-    }
-
     this.setAttribute('role', 'tabpanel')
 
     return this.html`
@@ -15938,7 +15828,7 @@ module.exports = {
 }
 
 }).call(this,require("timers").setImmediate)
-},{"../mode":49,"@optoolco/tonic":50,"timers":30}],110:[function(require,module,exports){
+},{"@optoolco/tonic":49,"timers":30}],109:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 const tape = require('@pre-bundled/tape')
 const { qs } = require('qs')
@@ -16098,7 +15988,7 @@ tape('{{tabs-3}} has correct default state', t => {
   t.end()
 })
 
-},{"..":46,"../test/util":113,"@optoolco/tonic":50,"@pre-bundled/tape":52,"qs":92}],111:[function(require,module,exports){
+},{"..":46,"../test/util":112,"@optoolco/tonic":49,"@pre-bundled/tape":51,"qs":91}],110:[function(require,module,exports){
 const tape = require('@pre-bundled/tape')
 const stream = tape.createStream({ objectMode: true })
 
@@ -16167,7 +16057,7 @@ stream.on('data', data => {
 
 module.exports = tape
 
-},{"@pre-bundled/tape":52}],112:[function(require,module,exports){
+},{"@pre-bundled/tape":51}],111:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 const components = require('../..')
 
@@ -16211,7 +16101,7 @@ function ready () {
 
 document.addEventListener('DOMContentLoaded', ready)
 
-},{"../..":46,"../../badge/test":34,"../../button/test":36,"../../chart/test":38,"../../checkbox/test":40,"../../dialog/test":42,"../../icon/test":45,"../../input/test":48,"../../panel/test":94,"../../popover/test":96,"../../profile-image/test":98,"../../progress-bar/test":100,"../../range/test":102,"../../router/test":105,"../../select/test":107,"../../tabs/test":110,"../../textarea/test":115,"../../toaster-inline/test":117,"../../toaster/test":119,"../../toggle/test":121,"../../tooltip/test":123,"../../windowed/test":124,"./tape.js":111,"@optoolco/tonic":50}],113:[function(require,module,exports){
+},{"../..":46,"../../badge/test":34,"../../button/test":36,"../../chart/test":38,"../../checkbox/test":40,"../../dialog/test":42,"../../icon/test":45,"../../input/test":48,"../../panel/test":93,"../../popover/test":95,"../../profile-image/test":97,"../../progress-bar/test":99,"../../range/test":101,"../../router/test":104,"../../select/test":106,"../../tabs/test":109,"../../textarea/test":114,"../../toaster-inline/test":116,"../../toaster/test":118,"../../toggle/test":120,"../../tooltip/test":122,"../../windowed/test":123,"./tape.js":110,"@optoolco/tonic":49}],112:[function(require,module,exports){
 'use strict'
 
 const Tonic = require('@optoolco/tonic')
@@ -16240,10 +16130,8 @@ function html ([str, ...strings], ...values) {
   return comp
 }
 
-},{"@optoolco/tonic":50}],114:[function(require,module,exports){
+},{"@optoolco/tonic":49}],113:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
-
-const mode = require('../mode')
 
 class TonicTextarea extends Tonic {
   defaults () {
@@ -16340,15 +16228,6 @@ class TonicTextarea extends Tonic {
   }
 
   render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-text-area')
-    }
-
     const {
       ariaLabelledby,
       autofocus,
@@ -16406,7 +16285,7 @@ class TonicTextarea extends Tonic {
 
 module.exports = { TonicTextarea }
 
-},{"../mode":49,"@optoolco/tonic":50}],115:[function(require,module,exports){
+},{"@optoolco/tonic":49}],114:[function(require,module,exports){
 const { html } = require('../test/util')
 const components = require('..')
 components(require('@optoolco/tonic'))
@@ -16560,7 +16439,7 @@ document.body.appendChild(html`
 
 // TODO: write tests
 
-},{"..":46,"../test/util":113,"@optoolco/tonic":50}],116:[function(require,module,exports){
+},{"..":46,"../test/util":112,"@optoolco/tonic":49}],115:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicToasterInline extends Tonic {
@@ -16778,7 +16657,7 @@ class TonicToasterInline extends Tonic {
 
 module.exports = { TonicToasterInline }
 
-},{"@optoolco/tonic":50}],117:[function(require,module,exports){
+},{"@optoolco/tonic":49}],116:[function(require,module,exports){
 
 const { html } = require('../test/util')
 const components = require('..')
@@ -16999,7 +16878,7 @@ document.body.appendChild(html`
 </section>
 `)
 
-},{"..":46,"../test/util":113,"@optoolco/tonic":50}],118:[function(require,module,exports){
+},{"..":46,"../test/util":112,"@optoolco/tonic":49}],117:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicToaster extends Tonic {
@@ -17257,7 +17136,7 @@ class TonicToaster extends Tonic {
 
 module.exports = { TonicToaster }
 
-},{"@optoolco/tonic":50}],119:[function(require,module,exports){
+},{"@optoolco/tonic":49}],118:[function(require,module,exports){
 const tape = require('@pre-bundled/tape')
 const { qs } = require('qs')
 
@@ -17536,10 +17415,8 @@ tape('{{toaster}} is created on the right', async t => {
   t.end()
 })
 
-},{"..":46,"../test/util":113,"@optoolco/tonic":50,"@pre-bundled/tape":52,"qs":92}],120:[function(require,module,exports){
+},{"..":46,"../test/util":112,"@optoolco/tonic":49,"@pre-bundled/tape":51,"qs":91}],119:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
-
-const mode = require('../mode')
 
 class TonicToggle extends Tonic {
   defaults () {
@@ -17549,7 +17426,7 @@ class TonicToggle extends Tonic {
   }
 
   get value () {
-    const state = this.getState()
+    const state = this.state
     let value
 
     if (typeof state.checked !== 'undefined') {
@@ -17691,9 +17568,7 @@ class TonicToggle extends Tonic {
   }
 
   change (e) {
-    this.setState(state => Object.assign({}, state, {
-      checked: e.target.checked
-    }))
+    this.state.checked = e.target.checked
   }
 
   renderLabel () {
@@ -17708,15 +17583,6 @@ class TonicToggle extends Tonic {
   }
 
   render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-toggle')
-    }
-
     const {
       id,
       disabled,
@@ -17756,7 +17622,7 @@ class TonicToggle extends Tonic {
 
 module.exports = { TonicToggle }
 
-},{"../mode":49,"@optoolco/tonic":50}],121:[function(require,module,exports){
+},{"@optoolco/tonic":49}],120:[function(require,module,exports){
 const tape = require('@pre-bundled/tape')
 const { qs } = require('qs')
 
@@ -17878,7 +17744,7 @@ tape('{{toggle-2}} has tabindex attribute', t => {
   t.end()
 })
 
-},{"..":46,"../test/util":113,"@optoolco/tonic":50,"@pre-bundled/tape":52,"qs":92}],122:[function(require,module,exports){
+},{"..":46,"../test/util":112,"@optoolco/tonic":49,"@pre-bundled/tape":51,"qs":91}],121:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicTooltip extends Tonic {
@@ -18042,7 +17908,7 @@ class TonicTooltip extends Tonic {
 
 module.exports = { TonicTooltip }
 
-},{"@optoolco/tonic":50}],123:[function(require,module,exports){
+},{"@optoolco/tonic":49}],122:[function(require,module,exports){
 const { html } = require('../test/util')
 const components = require('..')
 components(require('@optoolco/tonic'))
@@ -18118,7 +17984,7 @@ document.body.appendChild(html`
 
 // TODO write tests
 
-},{"..":46,"../test/util":113,"@optoolco/tonic":50}],124:[function(require,module,exports){
+},{"..":46,"../test/util":112,"@optoolco/tonic":49}],123:[function(require,module,exports){
 const { html } = require('../test/util')
 
 document.body.appendChild(html`
@@ -18134,4 +18000,4 @@ document.body.appendChild(html`
 
 // TODO: tests
 
-},{"../test/util":113}]},{},[112]);
+},{"../test/util":112}]},{},[111]);

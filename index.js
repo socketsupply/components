@@ -8,12 +8,10 @@ try {
 
 const version = Tonic.version
 const major = version ? version.split('.')[0] : '0'
-if (parseInt(major, 10) < 11) {
-  console.error('Out of data dependency. Try `npm install @optoolco/tonic@11`.')
-  throw new Error('Invalid Tonic version. requires at least v11')
+if (parseInt(major, 10) < 12) {
+  console.error('Out of data dependency. Try `npm install @optoolco/tonic@12`.')
+  throw new Error('Invalid Tonic version. requires at least v12')
 }
-
-const mode = require('./mode')
 
 const { TonicAccordion, TonicAccordionSection } = require('./accordion')
 const { TonicBadge } = require('./badge')
@@ -46,10 +44,6 @@ module.exports = components
 components.Tonic = Tonic
 
 function components (Tonic, opts) {
-  if (opts && opts.strict === true) {
-    mode.strict = true
-  }
-
   Tonic.add(TonicAccordion)
   Tonic.add(TonicAccordionSection)
   Tonic.add(TonicBadge)

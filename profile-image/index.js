@@ -1,10 +1,8 @@
 const Tonic = require('@optoolco/tonic')
 
-const mode = require('../mode')
-
 class TonicProfileImage extends Tonic {
   get value () {
-    const state = this.getState()
+    const state = this.state
     return state.data || this.props.src
   }
 
@@ -137,13 +135,11 @@ class TonicProfileImage extends Tonic {
 
       const slot = this.querySelector('.tonic--image')
 
-      this.setState(state => Object.assign({}, state, {
-        size,
-        path,
-        mime: type,
-        mtime: lastModifiedDate,
-        data
-      }))
+      this.state.size = size
+      this.state.path = path
+      this.state.time = type
+      this.state.mtime = lastModifiedDate
+      this.state.data = data
 
       slot.style.backgroundImage = 'url("' + data + '")'
       const event = new window.Event('change', { bubbles: true })
@@ -153,15 +149,6 @@ class TonicProfileImage extends Tonic {
   }
 
   render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-profile-image')
-    }
-
     const {
       theme,
       editable

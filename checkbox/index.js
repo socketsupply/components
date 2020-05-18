@@ -1,10 +1,8 @@
 const Tonic = require('@optoolco/tonic')
 
-const mode = require('../mode')
-
 class TonicCheckbox extends Tonic {
   get value () {
-    const state = this.getState()
+    const state = this.state
     let value
 
     if ('checked' in this.props) {
@@ -148,15 +146,6 @@ class TonicCheckbox extends Tonic {
   }
 
   render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-checkbox')
-    }
-
     const {
       id,
       disabled,

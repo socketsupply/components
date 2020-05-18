@@ -899,10 +899,7 @@ your own dialog class which can be registered and then used as a tag.</p>
   click (e) {
     <span class="hljs-keyword">if</span> (!Tonic.match(e.target, <span class="hljs-string">'#update'</span>)) <span class="hljs-keyword">return</span>
 
-    <span class="hljs-keyword">this</span>.setState(<span class="hljs-function"><span class="hljs-params">state</span> =&gt;</span> ({
-      ...state,
-      <span class="hljs-attr">message</span>: <span class="hljs-string">`Date stamp <span class="hljs-subst">${<span class="hljs-built_in">Date</span>.now()}</span>`</span>
-    }))
+    <span class="hljs-keyword">this</span>.state.message = <span class="hljs-string">`Date stamp <span class="hljs-subst">${<span class="hljs-built_in">Date</span>.now()}</span>`</span>
 
     <span class="hljs-keyword">this</span>.reRender()
   }

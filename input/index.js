@@ -1,7 +1,5 @@
 const Tonic = require('@optoolco/tonic')
 
-const mode = require('../mode')
-
 class TonicInput extends Tonic {
   defaults () {
     return {
@@ -183,30 +181,26 @@ class TonicInput extends Tonic {
   setupEvents () {
     const input = this.querySelector('input')
 
-    const set = (k, v, event) => {
-      this.setState(state => Object.assign({}, state, { [k]: v }))
-    }
-
     const relay = name => {
       this.dispatchEvent(new window.CustomEvent(name, { bubbles: true }))
     }
 
     input.addEventListener('focus', e => {
-      set('focus', true)
+      this.state.focus = true
       relay('focus')
     })
 
     input.addEventListener('blur', e => {
-      set('focus', false)
+      this.state.focus = false
       relay('blur')
     })
 
     input.addEventListener('input', e => {
-      set('value', e.target.value)
-      set('pos', e.target.selectionStart)
+      this.state.value = e.target.value
+      this.state.pos = e.target.selectionStart
     })
 
-    const state = this.getState()
+    const state = this.state
     if (!state.focus) return
 
     input.focus()
@@ -258,15 +252,6 @@ class TonicInput extends Tonic {
   }
 
   render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-input')
-    }
-
     const {
       ariaInvalid,
       ariaLabelledby,

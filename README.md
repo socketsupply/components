@@ -33,15 +33,6 @@ const bundle = require('@optoolco/components')
 bundle(Tonic)
 ```
 
-#### Strict mode for better error message
-
-```js
-const Tonic = require('@optoolco/tonic')
-const bundle = require('@optoolco/components')
-
-bundle(Tonic, { strict: true })
-```
-
 ### THEME
 Tonic uses CSS variables (which work in all major browsers) to theme components.
 The following variables are observed but are not required.

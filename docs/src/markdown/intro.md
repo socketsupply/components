@@ -24,18 +24,18 @@
 <span class="status" data-before="current version" data-after="{{version}}"></span>
 
 <div class="row">
-  <h3>Features</h3>
+  <h3>Higlights</h3>
   <div class="col">
     <ul>
-      <li>314 lines of code.</li>
-      <li>One-way data binding.</li>
-      <li>Mix in your own Routers, Reducers, Validators, etc.</li>
+      <li>1 file. 1 class. ~350 lines of code.</li>
+      <li>No build tools required.</li>
+      <li>100% native web technology.</li>
     </ul>
   </div>
   <div class="col">
     <ul>
       <li>Composition &amp; component oriented.</li>
-      <li>Plain old HTML, no template languages.</li>
+      <li>No new template language.</li>
       <li>Event delegation by default.</li>
     </ul>
   </div>

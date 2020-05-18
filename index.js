@@ -13,8 +13,6 @@ if (parseInt(major, 10) < 11) {
   throw new Error('Invalid Tonic version. requires at least v11')
 }
 
-const mode = require('./mode')
-
 const { TonicAccordion, TonicAccordionSection } = require('./accordion')
 const { TonicBadge } = require('./badge')
 const { TonicButton } = require('./button')
@@ -46,10 +44,6 @@ module.exports = components
 components.Tonic = Tonic
 
 function components (Tonic, opts) {
-  if (opts && opts.strict === true) {
-    mode.strict = true
-  }
-
   Tonic.add(TonicAccordion)
   Tonic.add(TonicAccordionSection)
   Tonic.add(TonicBadge)

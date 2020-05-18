@@ -1,7 +1,5 @@
 const Tonic = require('@optoolco/tonic')
 
-const mode = require('../mode')
-
 class TonicProfileImage extends Tonic {
   get value () {
     const state = this.state
@@ -151,15 +149,6 @@ class TonicProfileImage extends Tonic {
   }
 
   render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-profile-image')
-    }
-
     const {
       theme,
       editable

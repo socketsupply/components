@@ -1,7 +1,5 @@
 const Tonic = require('@optoolco/tonic')
 
-const mode = require('../mode')
-
 class TonicTextarea extends Tonic {
   defaults () {
     return {
@@ -97,15 +95,6 @@ class TonicTextarea extends Tonic {
   }
 
   render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-text-area')
-    }
-
     const {
       ariaLabelledby,
       autofocus,

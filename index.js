@@ -8,9 +8,9 @@ try {
 
 const version = Tonic.version
 const major = version ? version.split('.')[0] : '0'
-if (parseInt(major, 10) < 11) {
-  console.error('Out of data dependency. Try `npm install @optoolco/tonic@11`.')
-  throw new Error('Invalid Tonic version. requires at least v11')
+if (parseInt(major, 10) < 12) {
+  console.error('Out of data dependency. Try `npm install @optoolco/tonic@12`.')
+  throw new Error('Invalid Tonic version. requires at least v12')
 }
 
 const { TonicAccordion, TonicAccordionSection } = require('./accordion')

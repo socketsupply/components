@@ -17419,20 +17419,14 @@ tape('{{toaster}} is created on the right', async t => {
 const Tonic = require('@optoolco/tonic')
 
 class TonicToggle extends Tonic {
-  defaults () {
-    return {
-      checked: false
-    }
-  }
-
   get value () {
     const state = this.state
     let value
 
-    if (typeof state.checked !== 'undefined') {
-      value = state.checked
-    } else {
+    if ('checked' in this.props) {
       value = this.props.checked
+    } else {
+      value = state.checked
     }
 
     return (value === true) || (value === 'true')
@@ -17440,11 +17434,10 @@ class TonicToggle extends Tonic {
 
   set value (value) {
     const checked = (value === true) || (value === 'true')
-    this.state.checked = checked
 
-    this.reRender(props => Object.assign(props, {
-      checked
-    }))
+    this.state.checked = checked
+    this.props.checked = checked
+    this.reRender()
   }
 
   static stylesheet () {
@@ -17593,13 +17586,10 @@ class TonicToggle extends Tonic {
     if (tabindex) this.removeAttribute('tabindex')
     if (theme) this.classList.add(`tonic--theme--${theme}`)
 
-    let checked
-    if (typeof this.state.checked !== 'undefined') {
-      checked = this.state.checked
-    } else {
-      checked = this.props.checked === 'true'
+    const checked = this.value
+    if (typeof this.state.checked === 'undefined') {
+      this.state.checked = checked
     }
-    this.state.checked = checked
 
     return this.html`
       <div class="tonic--toggle--wrapper">

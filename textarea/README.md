@@ -39,6 +39,7 @@ The `Textarea` component creates a text area.
 | `maxlength` | *string* | Set the maximum character length. |  |
 | `minlength` | *string* | Set the minimum character length. |  |
 | `name` | *string* | Text area with `name` attribute. | |
+| `persistSize` | *boolean* | Persist the resized width and height | `false` |
 | `placeholder` | *string* | Add placeholder to text area. |  |
 | `radius` | *string* | Set radius of text area. | `2px` |
 | `readonly` | *boolean* | Set text area to `readonly`. | `false` |

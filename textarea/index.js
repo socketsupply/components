@@ -1,6 +1,16 @@
 const Tonic = require('@optoolco/tonic')
 
 class TonicTextarea extends Tonic {
+  mutate (e) {
+    const { width, height } = e.target.style
+
+    this.state = {
+      ...this.state,
+      width,
+      height
+    }
+  }
+
   defaults () {
     return {
       placeholder: '',
@@ -55,7 +65,8 @@ class TonicTextarea extends Tonic {
 
   styles () {
     const {
-      width,
+      width = this.state.width,
+      height = this.state.height,
       radius,
       resize
     } = this.props
@@ -63,6 +74,7 @@ class TonicTextarea extends Tonic {
     return {
       textarea: {
         width,
+        height,
         borderRadius: radius,
         resize: resize
       }
@@ -88,10 +100,18 @@ class TonicTextarea extends Tonic {
 
   willConnect () {
     const {
-      value
+      value,
+      persistSize
     } = this.props
 
     this.props.value = typeof value === 'undefined' ? this.textContent : value
+
+    if (persistSize === 'true') {
+      const cb = (changes) => this.mutate(changes.pop())
+      new window.MutationObserver(cb).observe(this, {
+        attributes: true, subtree: true, attributeFilter: ['style']
+      })
+    }
   }
 
   render () {

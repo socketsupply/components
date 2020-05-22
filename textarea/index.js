@@ -108,9 +108,15 @@ class TonicTextarea extends Tonic {
 
     if (persistSize === 'true') {
       const cb = (changes) => this.mutate(changes.pop())
-      new window.MutationObserver(cb).observe(this, {
+      this.observer = new window.MutationObserver(cb).observe(this, {
         attributes: true, subtree: true, attributeFilter: ['style']
       })
+    }
+  }
+
+  disconnected () {
+    if (this.observer) {
+      this.observer.disconnect()
     }
   }
 

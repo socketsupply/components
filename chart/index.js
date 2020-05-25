@@ -1,17 +1,6 @@
 const Tonic = require('@optoolco/tonic')
 
 class TonicChart extends Tonic {
-  constructor (o) {
-    super(o)
-
-    try {
-      const dynamicRequire = require
-      this.Chart = dynamicRequire('chart.js')
-    } catch (err) {
-      console.error('could not find "chart.js" dependency. npm install?')
-    }
-  }
-
   static stylesheet () {
     return `
       tonic-chart {
@@ -24,6 +13,10 @@ class TonicChart extends Tonic {
         position: relative;
       }
     `
+  }
+
+  setChart (Chart) {
+    this.Chart = Chart
   }
 
   draw (data = {}, options = {}) {
@@ -50,6 +43,12 @@ class TonicChart extends Tonic {
 
   async connected () {
     let data = null
+
+    if (this.props.chartLibrary) {
+      this.Chart = this.props.chartLibrary
+    }
+
+    if (!this.Chart) return
 
     const options = {
       ...this.props,

@@ -5,13 +5,39 @@ const { html } = require('../test/util')
 const components = require('..')
 components(require('@optoolco/tonic'))
 
+// const CHART_OPTS = {
+//   tooltips: {
+//     enabled: false
+//   },
+//   legend: {
+//     display: false
+//   },
+//   drawTicks: true,
+//   drawBorder: true
+// }
+
+const CHART_DATA = {
+  labels: ['Foo', 'Bar', 'Bazz'],
+  datasets: [{
+    label: 'Quxx (millions)',
+    backgroundColor: ['#c3c3c3', '#f06653', '#8f8f8f'],
+    data: [278, 467, 34]
+  }]
+}
+
 document.body.appendChild(html`
 <section id="chart">
   <h2>Chart</h2>
 
   <div id="chart-1" class="test-container">
     <span>Default</span>
-    <tonic-chart width=400px height=400px></tonic-chart>
+    <tonic-chart
+      type="horizontalBar"
+      width=400px
+      height=400px
+      src="${CHART_DATA}"
+      chart-library="${require('chart.js')}"
+    ></tonic-chart>
   </div>
 </section>
 `)
@@ -29,7 +55,8 @@ tape('got a chart', t => {
   t.equal(canvas.height, 400)
 
   const styles = window.getComputedStyle(canvas)
-  t.equal(styles.display, 'inline-block')
+  t.equal(styles.display, 'block')
+  t.equal(canvas.getAttribute('class'), 'chartjs-render-monitor')
 
   t.end()
 })

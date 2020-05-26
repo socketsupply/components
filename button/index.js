@@ -21,7 +21,7 @@ class TonicButton extends Tonic {
     return {
       height: '40px',
       width: '150px',
-      margin: '5px',
+      margin: '0px',
       autofocus: 'false',
       async: false,
       radius: '2px',

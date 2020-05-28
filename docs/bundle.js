@@ -642,7 +642,7 @@ class TonicButton extends Tonic {
     return {
       height: '40px',
       width: '150px',
-      margin: '5px',
+      margin: '0px',
       autofocus: 'false',
       async: false,
       radius: '2px',
@@ -858,17 +858,6 @@ button.addEventListener('click', e => {
 const Tonic = require('@optoolco/tonic')
 
 class TonicChart extends Tonic {
-  constructor (o) {
-    super(o)
-
-    try {
-      const dynamicRequire = require
-      this.Chart = dynamicRequire('chart.js')
-    } catch (err) {
-      console.error('could not find "chart.js" dependency. npm install?')
-    }
-  }
-
   static stylesheet () {
     return `
       tonic-chart {
@@ -881,6 +870,10 @@ class TonicChart extends Tonic {
         position: relative;
       }
     `
+  }
+
+  setChart (Chart) {
+    this.Chart = Chart
   }
 
   draw (data = {}, options = {}) {
@@ -907,6 +900,12 @@ class TonicChart extends Tonic {
 
   async connected () {
     let data = null
+
+    if (this.props.chartLibrary) {
+      this.Chart = this.props.chartLibrary
+    }
+
+    if (!this.Chart) return
 
     const options = {
       ...this.props,
@@ -4959,6 +4958,16 @@ arguments[4][9][0].apply(exports,arguments)
 const Tonic = require('@optoolco/tonic')
 
 class TonicTextarea extends Tonic {
+  mutate (e) {
+    const { width, height } = e.target.style
+
+    this.state = {
+      ...this.state,
+      width,
+      height
+    }
+  }
+
   defaults () {
     return {
       placeholder: '',
@@ -5013,7 +5022,8 @@ class TonicTextarea extends Tonic {
 
   styles () {
     const {
-      width,
+      width = this.state.width,
+      height = this.state.height,
       radius,
       resize
     } = this.props
@@ -5021,6 +5031,7 @@ class TonicTextarea extends Tonic {
     return {
       textarea: {
         width,
+        height,
         borderRadius: radius,
         resize: resize
       }
@@ -5046,10 +5057,24 @@ class TonicTextarea extends Tonic {
 
   willConnect () {
     const {
-      value
+      value,
+      persistSize
     } = this.props
 
     this.props.value = typeof value === 'undefined' ? this.textContent : value
+
+    if (persistSize === 'true') {
+      const cb = (changes) => this.mutate(changes.pop())
+      this.observer = new window.MutationObserver(cb).observe(this, {
+        attributes: true, subtree: true, attributeFilter: ['style']
+      })
+    }
+  }
+
+  disconnected () {
+    if (this.observer) {
+      this.observer.disconnect()
+    }
   }
 
   render () {

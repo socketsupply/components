@@ -636,6 +636,7 @@ registerComponents(Tonic) <span class="hljs-comment">// registers all the compon
   type="horizontalBar"
   width="300px"
   height="150px"
+  chart-library="${require('chart.js')}"
   src="/chartdata.json">
 </tonic-chart></p>
 <h2>Code</h2>
@@ -655,7 +656,8 @@ registerComponents(Tonic) <span class="hljs-comment">// registers all the compon
   <span class="hljs-attr">type</span>=<span class="hljs-string">"horizontalBar"</span>
   <span class="hljs-attr">width</span>=<span class="hljs-string">"300"</span>
   <span class="hljs-attr">height</span>=<span class="hljs-string">"150px"</span>
-  <span class="hljs-attr">options</span>=<span class="hljs-string">${opts}</span>
+  <span class="hljs-attr">options</span>=<span class="hljs-string">"${opts}"</span>
+  <span class="hljs-attr">chart-library</span>=<span class="hljs-string">"${require('chart.js')}"</span>
   <span class="hljs-attr">src</span>=<span class="hljs-string">"/chartdata.json"</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-chart</span>&gt;</span></code></pre>
 <h4>JSON</h4>
@@ -688,6 +690,12 @@ registerComponents(Tonic) <span class="hljs-comment">// registers all the compon
 <td align="left"><code>type</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">The type of the bar chart.</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>chart-library</code></td>
+<td align="left"><em>function</em></td>
+<td align="left">The <code>require(&#39;chart.js&#39;)</code> module</td>
 <td align="left"></td>
 </tr>
 <tr>
@@ -726,6 +734,10 @@ registerComponents(Tonic) <span class="hljs-comment">// registers all the compon
 <tbody><tr>
 <td align="left"><code>draw(Object, Object)</code></td>
 <td align="left">Draws (or re-draws) the chart. The first parameter is the data and the second is options.</td>
+</tr>
+<tr>
+<td align="left"><code>setChart(Function)</code></td>
+<td align="left">Sets the chart library; call with <code>setChart(require(&#39;chart.js))</code>. This is an alternative to the <code>chart-library</code> HTML attribute</td>
 </tr>
 </tbody></table>
 
@@ -2553,6 +2565,12 @@ is changed and get triggered both from click &amp; keyboard events.</p>
 <td align="left"><em>string</em></td>
 <td align="left">Text area with <code>name</code> attribute.</td>
 <td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>persistSize</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">Persist the resized width and height</td>
+<td align="left"><code>false</code></td>
 </tr>
 <tr>
 <td align="left"><code>placeholder</code></td>

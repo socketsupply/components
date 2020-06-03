@@ -19,7 +19,10 @@ class TonicTabs extends Tonic {
 
   set selected (value) {
     const tab = document.getElementById(value)
-    if (tab) tab.click()
+
+    if (tab) {
+      tab.querySelector('.tonic--tab').click()
+    }
   }
 
   setVisibility (id, forAttr) {

@@ -3,10 +3,9 @@ An example component that uses [chart.js][0] `2.8.0`.
 
 <tonic-chart
   type="horizontalBar"
+  src="/chartdata.json"
   width="300px"
-  height="150px"
-  chart-library="${require('chart.js')}"
-  src="/chartdata.json">
+  height="150px">
 </tonic-chart>
 
 ## Code

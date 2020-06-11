@@ -6,7 +6,7 @@ The `tonic-tabs` and `tonic-tab-panel` components create a tab list that activat
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
-    <tonic-tabs selected="tab-2">
+    <tonic-tabs selected="tab-2" id="tabs-a">
       <tonic-tab
         id="tab-1"
         for="tab-panel-1">One</tonic-tab>
@@ -40,7 +40,7 @@ for the `selected` attribute on the `tonic-tabs` component.
 
 #### HTML
 ```html
-<tonic-tabs selected="tab-2">
+<tonic-tabs selected="tab-2" id="my-tabs">
 
   <tonic-tab
     id="tab-1"

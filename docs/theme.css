@@ -1,7 +1,7 @@
 body {
-  --tonic-body: 'Avenir-Light', sans-serif;
-  --tonic-header: 'Avenir-Light', sans-serif;
-  --tonic-subheader: 'Avenir-Medium', sans-serif;
+  --tonic-body: 'Inter', sans-serif;
+  --tonic-header: 'Inter-Black', sans-serif;
+  --tonic-subheader: 'Inter-Medium', sans-serif;
   --tonic-monospace: 'IBM Plex Mono', monospace;
 }
 

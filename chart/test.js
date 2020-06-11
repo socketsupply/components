@@ -36,7 +36,7 @@ document.body.appendChild(html`
       width=400px
       height=400px
       src="${CHART_DATA}"
-      chart-library="${require('chart.js')}"
+      library="${require('chart.js')}"
     ></tonic-chart>
   </div>
 </section>

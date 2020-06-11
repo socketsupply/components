@@ -15,7 +15,7 @@ class TonicChart extends Tonic {
     `
   }
 
-  setChart (Chart) {
+  set library (Chart) {
     this.Chart = Chart
   }
 
@@ -23,11 +23,20 @@ class TonicChart extends Tonic {
     const root = this.querySelector('canvas')
     const type = this.props.type || options.type
 
+    if (!this.Chart) {
+      console.error('No chart constructor found')
+      return
+    }
+
     return new this.Chart(root, {
       type,
       options,
       data
     })
+  }
+
+  async redraw () {
+    return this.connected()
   }
 
   async fetch (url, opts = {}) {
@@ -43,9 +52,8 @@ class TonicChart extends Tonic {
 
   async connected () {
     let data = null
-
-    if (this.props.chartLibrary) {
-      this.Chart = this.props.chartLibrary
+    if (this.props.library) {
+      this.Chart = this.props.library
     }
 
     if (!this.Chart) return

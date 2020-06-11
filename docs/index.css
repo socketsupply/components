@@ -15,20 +15,12 @@
   color: var(--tonic-medium);
 }
 @font-face {
-  font-family: Avenir-Light;
-  src: url("/fonts/Avenir-Light.ttf");
+  font-family: Inter;
+  src: url("/fonts/Inter.ttf");
 }
 @font-face {
-  font-family: Avenir-Book;
-  src: url("/fonts/Avenir-Book.ttf");
-}
-@font-face {
-  font-family: Avenir-Medium;
-  src: url("/fonts/Avenir-Medium.ttf");
-}
-@font-face {
-  font-family: Avenir-Heavy;
-  src: url("/fonts/Avenir-Heavy.ttf");
+  font-family: Inter-Black;
+  src: url("/fonts/Inter-Black.ttf");
 }
 @font-face {
   font-family: 'Source Code Pro';
@@ -224,10 +216,10 @@ body {
   margin: 0;
   background-color: var(--tonic-window);
 }
-body[data-group="custom"] [data-group="component"] {
+body[data-group="custom "] [data-group="component"] {
   display: none;
 }
-body[data-group="custom"] [data-group="custom"] {
+body[data-group="custom "] [data-group="custom"] {
   display: block;
 }
 body [data-group="custom"] {
@@ -260,7 +252,7 @@ h2,
 h3,
 h4,
 h5 {
-  font-weight: normal;
+  font-weight: 900;
   margin: 20px 0;
 }
 h1 {
@@ -393,7 +385,7 @@ body > nav li {
   margin: 20px 0;
 }
 body > nav li a {
-  font: 17px var(--tonic-header);
+  font: 17px var(--tonic-body);
   font-weight: 400;
   padding: 5px 8px;
   background-color: transparent;
@@ -556,14 +548,15 @@ body > main pre {
   overflow: scroll;
   white-space: pre-line;
   border-radius: 3px;
-  border: 1px solid var(--tonic-border);
-  background-color: var(--tonic-background);
+  background-color: var(--tonic-button);
 }
 body > main pre code {
   border: 0;
   padding: 0;
   white-space: pre;
   overflow: scroll;
+  background: none;
+  color: var(--tonic-window);
 }
 body > main pre code i {
   color: #999;
@@ -786,7 +779,6 @@ body section#intro span.first-word {
   color: var(--tonic-primary);
 }
 body section#intro p.intro-copy {
-  color: var(--tonic-medium);
   max-width: 670px;
   font: 30px var(--tonic-header);
   text-align: center;
@@ -796,6 +788,30 @@ body section#intro p.intro-copy {
   body section#intro p.intro-copy {
     font: 26px var(--tonic-header);
   }
+}
+body section#intro .col ul {
+  font: 16px var(--tonic-subheader);
+  margin: 25px 0;
+  -ms-flex-preferred-size: 50%;
+      flex-basis: 50%;
+  list-style: none;
+}
+body section#intro .col ul li {
+  line-height: 28px;
+}
+body section#intro .col ul li:before {
+  content: '';
+  width: 9px;
+  height: 4px;
+  display: inline-block;
+  vertical-align: super;
+  margin-right: 9px;
+  border-bottom: 2px solid var(--tonic-primary);
+  border-left: 2px solid var(--tonic-primary);
+  -webkit-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+  position: relative;
+  top: 2px;
 }
 body content-tooltip pre {
   margin: 0;

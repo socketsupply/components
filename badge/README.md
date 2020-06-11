@@ -6,7 +6,7 @@ The `Badge` component creates a notification badge with a counter and unread ale
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
-    <tonic-badge count=5></tonic-badge>
+    <tonic-badge count=5 id="badge-a"></tonic-badge>
     <div class="button-group">
       <span id="add-notification">Add</span>
       <span id="subtract-notification">Subtract</span>
@@ -20,7 +20,7 @@ To update the notification count, pass in the `count` property.
 
 #### HTML
 ```html
-<tonic-badge></tonic-badge>
+<tonic-badge id="my-badge"></tonic-badge>
 ```
 
 #### JS

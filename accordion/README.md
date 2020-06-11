@@ -6,7 +6,7 @@ The `Accordion` component creates a set of interactive headings that hide and sh
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
-    <tonic-accordion>
+    <tonic-accordion id="accordion-a">
       <tonic-accordion-section
         name="accordion-test-1"
         id="accordion-test-1"
@@ -35,7 +35,7 @@ Add the `multiple` property to the `tonic-accordion` component to allow multiple
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
-    <tonic-accordion data-allow-multiple="true">
+    <tonic-accordion data-allow-multiple="true" id="accordion-b">
       <tonic-accordion-section
         name="multiple-accordion-test-1"
         id="multiple-accordion-test-1"
@@ -62,7 +62,7 @@ Add the `multiple` property to the `tonic-accordion` component to allow multiple
 
 #### HTML
 ```html
-  <tonic-accordion>
+  <tonic-accordion id="my-accordion">
     <tonic-accordion-section
       name="bucket-test-1"
       id="bucket-test-1"

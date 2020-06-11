@@ -237,7 +237,7 @@ registerComponents(Tonic) <span class="hljs-comment">// registers all the compon
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
-    <tonic-accordion>
+    <tonic-accordion id="accordion-a">
       <tonic-accordion-section
         name="accordion-test-1"
         id="accordion-test-1"
@@ -265,7 +265,7 @@ registerComponents(Tonic) <span class="hljs-comment">// registers all the compon
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
-    <tonic-accordion data-allow-multiple="true">
+    <tonic-accordion data-allow-multiple="true" id="accordion-b">
       <tonic-accordion-section
         name="multiple-accordion-test-1"
         id="multiple-accordion-test-1"
@@ -290,7 +290,7 @@ registerComponents(Tonic) <span class="hljs-comment">// registers all the compon
 
 <h2>Code</h2>
 <h4>HTML</h4>
-<pre><code class="language-html">  <span class="hljs-tag">&lt;<span class="hljs-name">tonic-accordion</span>&gt;</span>
+<pre><code class="language-html">  <span class="hljs-tag">&lt;<span class="hljs-name">tonic-accordion</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"my-accordion"</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">tonic-accordion-section</span>
       <span class="hljs-attr">name</span>=<span class="hljs-string">"bucket-test-1"</span>
       <span class="hljs-attr">id</span>=<span class="hljs-string">"bucket-test-1"</span>
@@ -394,7 +394,7 @@ registerComponents(Tonic) <span class="hljs-comment">// registers all the compon
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
-    <tonic-badge count=5></tonic-badge>
+    <tonic-badge count=5 id="badge-a"></tonic-badge>
     <div class="button-group">
       <span id="add-notification">Add</span>
       <span id="subtract-notification">Subtract</span>
@@ -405,7 +405,7 @@ registerComponents(Tonic) <span class="hljs-comment">// registers all the compon
 <h2>Code</h2>
 <p>To update the notification count, pass in the <code>count</code> property.</p>
 <h4>HTML</h4>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-badge</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">tonic-badge</span>&gt;</span></code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-badge</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"my-badge"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">tonic-badge</span>&gt;</span></code></pre>
 <h4>JS</h4>
 <pre><code class="language-js">tonicBadge.value = <span class="hljs-number">5</span></code></pre>
 <h2>Api</h2>
@@ -634,10 +634,9 @@ registerComponents(Tonic) <span class="hljs-comment">// registers all the compon
 <p>An example component that uses <a href="https://www.chartjs.org/">chart.js</a> <code>2.8.0</code>.</p>
 <p><tonic-chart
   type="horizontalBar"
+  src="/chartdata.json"
   width="300px"
-  height="150px"
-  chart-library="${require('chart.js')}"
-  src="/chartdata.json">
+  height="150px">
 </tonic-chart></p>
 <h2>Code</h2>
 <h4>HTML</h4>
@@ -2314,7 +2313,7 @@ property, for example...</p>
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
-    <tonic-tabs selected="tab-2">
+    <tonic-tabs selected="tab-2" id="tabs-a">
       <tonic-tab
         id="tab-1"
         for="tab-panel-1">One</tonic-tab>
@@ -2344,7 +2343,7 @@ property, for example...</p>
 <p>The selected tab should specified by providing an <code>id</code> as the value
 for the <code>selected</code> attribute on the <code>tonic-tabs</code> component.</p>
 <h4>HTML</h4>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-tabs</span> <span class="hljs-attr">selected</span>=<span class="hljs-string">"tab-2"</span>&gt;</span>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-tabs</span> <span class="hljs-attr">selected</span>=<span class="hljs-string">"tab-2"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"my-tabs"</span>&gt;</span>
 
   <span class="hljs-tag">&lt;<span class="hljs-name">tonic-tab</span>
     <span class="hljs-attr">id</span>=<span class="hljs-string">"tab-1"</span>
@@ -2483,7 +2482,7 @@ is changed and get triggered both from click &amp; keyboard events.</p>
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
-  <tonic-textarea label="Text Area" rows="6" placeholder="Type in me">It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair, we had everything before us, we had nothing before us, we were all going direct to Heaven, we were all going direct the other way—in short, the period was so far like the present period, that some of its noisiest authorities insisted on its being received, for good or for evil, in the superlative degree of comparison only.</tonic-textarea>
+  <tonic-textarea id="textarea-a" label="Text Area" rows="6" placeholder="Type in me">It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair, we had everything before us, we had nothing before us, we were all going direct to Heaven, we were all going direct the other way—in short, the period was so far like the present period, that some of its noisiest authorities insisted on its being received, for good or for evil, in the superlative degree of comparison only.</tonic-textarea>
   </div>
 </div>
 
@@ -2492,6 +2491,7 @@ is changed and get triggered both from click &amp; keyboard events.</p>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-textarea</span>
   <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Placeholder"</span>
   <span class="hljs-attr">rows</span>=<span class="hljs-string">"6"</span>
+  <span class="hljs-attr">id</span>=<span class="hljs-string">"my-textarea"</span>
   <span class="hljs-attr">label</span>=<span class="hljs-string">"Text Area"</span>&gt;</span>
   <span class="hljs-comment">&lt;!-- Content Goes Here --&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-textarea</span>&gt;</span></code></pre>

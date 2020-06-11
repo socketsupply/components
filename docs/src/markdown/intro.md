@@ -8,7 +8,7 @@
   </div>
   <div class="tonic-icon">
     <svg>
-      <use xlink:href="./logo-sprite.svg#tonic_icon">
+      <use xlink:href="./logo-sprite.svg#tonic_logo">
     </svg>
     <div class="label">
       <a href="https://twitter.com/tonicframework">@tonicframework</a>

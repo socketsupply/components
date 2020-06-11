@@ -68,7 +68,8 @@ class TonicRouter extends Tonic {
   }
 
   willConnect () {
-    this.id = this.getAttribute('path')
+    const attrId = this.getAttribute('id')
+    this.id = attrId || this.getAttribute('path')
     this.template = document.createElement('template')
     this.template.innerHTML = this.innerHTML
     TonicRouter.route([this], true)

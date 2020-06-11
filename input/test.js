@@ -38,7 +38,6 @@ class InputWrapper extends Tonic {
   }
 
   render () {
-    console.log('render()', JSON.stringify(this.state))
     return this.html`
       <div>
         <tonic-input id='tonic-input-wrapped'>

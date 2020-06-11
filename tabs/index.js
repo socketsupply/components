@@ -144,6 +144,7 @@ class TonicTabPanel extends Tonic {
       tonic-tab-panel {
         display: block;
       }
+
       tonic-tab-panel[hidden] {
         display: none;
       }
@@ -159,6 +160,7 @@ class TonicTabPanel extends Tonic {
 
   render () {
     this.setAttribute('role', 'tabpanel')
+    this.setAttribute('hidden', '')
 
     return this.html`
       ${this.childNodes}

@@ -622,9 +622,10 @@ body > main > footer span {
   display: inline-block;
   -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
+  margin-top: 20px;
 }
 body > main > footer svg {
-  height: 30px;
+  height: 60px;
   width: 175px;
   margin: 0 auto;
   display: block;
@@ -790,7 +791,7 @@ body section#intro p.intro-copy {
   }
 }
 body section#intro .col ul {
-  font: 16px var(--tonic-subheader);
+  font: 16px var(--tonic-body);
   margin: 25px 0;
   -ms-flex-preferred-size: 50%;
       flex-basis: 50%;

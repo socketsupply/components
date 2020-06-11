@@ -714,6 +714,11 @@ body section#intro .github {
   color: var(--tonic-info);
   margin-top: 40px;
 }
+@media (max-width: 840px) {
+  body section#intro .github {
+    top: -13px;
+  }
+}
 body section#intro .github img {
   vertical-align: middle;
 }

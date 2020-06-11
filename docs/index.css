@@ -699,7 +699,7 @@ body section#intro {
   padding-top: 30px;
 }
 body section#intro .tonic-icon svg {
-  width: 115px;
+  width: 155px;
   margin: 0 auto;
   display: block;
 }
@@ -709,7 +709,7 @@ body section#intro .tonic-icon svg use {
 }
 body section#intro .github {
   position: absolute;
-  top: -12px;
+  top: -2px;
   right: 35px;
   color: var(--tonic-info);
   margin-top: 40px;

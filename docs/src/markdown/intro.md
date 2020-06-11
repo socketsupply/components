@@ -1,11 +1,6 @@
 # Intro
 
 <div class="hero">
-  <div class="logo">
-    <svg>
-      <use xlink:href="./logo-sprite.svg#tonic_logo">
-    </svg>
-  </div>
   <div class="tonic-icon">
     <svg>
       <use xlink:href="./logo-sprite.svg#tonic_logo">

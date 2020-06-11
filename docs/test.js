@@ -8789,7 +8789,6 @@ class InputWrapper extends Tonic {
   }
 
   render () {
-    console.log('render()', JSON.stringify(this.state))
     return this.html`
       <div>
         <tonic-input id='tonic-input-wrapped'>
@@ -35643,6 +35642,8 @@ class TonicRouter extends Tonic {
   }
 
   willConnect () {
+    const attrId = this.getAttribute('id')
+    this.id = attrId || this.getAttribute('path')
     this.template = document.createElement('template')
     this.template.innerHTML = this.innerHTML
     TonicRouter.route([this], true)
@@ -36451,6 +36452,11 @@ const Tonic = require('@optoolco/tonic')
 const CustomEvent = window.CustomEvent
 
 class TonicTabs extends Tonic {
+  constructor () {
+    super()
+    this.panels = {}
+  }
+
   static stylesheet () {
     return `
       tonic-tabs .tonic--tab {
@@ -36467,7 +36473,10 @@ class TonicTabs extends Tonic {
 
   set selected (value) {
     const tab = document.getElementById(value)
-    if (tab) tab.click()
+
+    if (tab) {
+      this.setVisibility(tab.id, tab.getAttribute('for'))
+    }
   }
 
   setVisibility (id, forAttr) {
@@ -36481,7 +36490,15 @@ class TonicTabs extends Tonic {
         throw new Error(`No "for" attribute found for tab id "${tab.id}".`)
       }
 
-      const panel = document.getElementById(control)
+      let panel = null
+
+      if (this.props.detatchOnHide && this.panels[control]) {
+        const store = this.panels[control]
+        panel = store.node
+        store.parent.appendChild(panel)
+      } else {
+        panel = document.getElementById(control)
+      }
 
       if (!panel) {
         throw new Error(`No panel found that matches the id (${control})`)
@@ -36494,12 +36511,21 @@ class TonicTabs extends Tonic {
         } else {
           anchor.setAttribute('aria-selected', 'false')
         }
+
         this.state.selected = id
+
         this.dispatchEvent(new CustomEvent(
           'tabvisible', { detail: { id }, bubbles: true }
         ))
       } else {
         panel.setAttribute('hidden', '')
+        if (this.props.detatchOnHide) {
+          this.panels[panel.id] = {
+            parent: panel.parentElement,
+            node: panel
+          }
+          panel.remove()
+        }
         anchor.setAttribute('aria-selected', 'false')
         this.dispatchEvent(new CustomEvent(
           'tabhidden', { detail: { id }, bubbles: true }
@@ -36513,6 +36539,7 @@ class TonicTabs extends Tonic {
     if (!tab) return
 
     e.preventDefault()
+
     this.setVisibility(tab.parentNode.id, tab.getAttribute('for'))
   }
 
@@ -36549,6 +36576,10 @@ class TonicTabs extends Tonic {
     setImmediate(() => this.setVisibility(id))
   }
 
+  disconnected () {
+    delete this.panels
+  }
+
   render () {
     this.setAttribute('role', 'tablist')
 
@@ -36562,6 +36593,7 @@ class TonicTabPanel extends Tonic {
       tonic-tab-panel {
         display: block;
       }
+
       tonic-tab-panel[hidden] {
         display: none;
       }
@@ -36577,6 +36609,7 @@ class TonicTabPanel extends Tonic {
 
   render () {
     this.setAttribute('role', 'tabpanel')
+    this.setAttribute('hidden', '')
 
     return this.html`
       ${this.childNodes}

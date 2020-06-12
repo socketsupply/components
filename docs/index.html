@@ -214,11 +214,10 @@ function will be inserted into the component tag.</p>
     <section id="composition">
       
       <h1 id="composition">Composition</h1>
-<p>You may want to move the children of a component inside some additional layout
-when the <code>render()</code> function is executed. The <code>this.children</code> property is helpful
-for this. This is not a &quot;special&quot; member of the <code>props</code> object like React
-(which is unintuitive), it&#39;s a member of the class instance.</p>
-<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Parent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+<p>Once you add components, they can be nested any way you want. The
+property <code>this.children</code> will get this component&#39;s child elements
+so that you can read, mutate or wrap them.</p>
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ParentComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   render () {
     <span class="hljs-keyword">return</span> <span class="hljs-string">`
       &lt;div class=&quot;parent&quot;&gt;
@@ -230,9 +229,9 @@ for this. This is not a &quot;special&quot; member of the <code>props</code> obj
   }
 }
 
-Tonic.add(Parent)
+Tonic.add(ParentComponent)
 
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Child</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ChildComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   render () {
     <span class="hljs-keyword">return</span> <span class="hljs-string">`
       &lt;div class=&quot;child&quot;&gt;
@@ -242,21 +241,21 @@ Tonic.add(Parent)
   }
 }
 
-Tonic.add(Child)</code></pre>
+Tonic.add(ChildComponent)</code></pre>
 <h3>Input HTML</h3>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">child</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;hello world&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">child</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span></code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">parent-component</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">child-component</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;hello world&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">child-component</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">parent-component</span>&gt;</span></code></pre>
 <h3>Output HTML</h3>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">parent</span>&gt;</span>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">parent-component</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;parent&quot;</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">another-component</span>&gt;</span>
-      <span class="hljs-tag">&lt;<span class="hljs-name">child</span>&gt;</span>
+      <span class="hljs-tag">&lt;<span class="hljs-name">child-component</span>&gt;</span>
         <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">&quot;child&quot;</span>&gt;</span>hello world<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-      <span class="hljs-tag">&lt;/<span class="hljs-name">child</span>&gt;</span>
+      <span class="hljs-tag">&lt;/<span class="hljs-name">child-component</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">another-component</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">parent</span>&gt;</span></code></pre>
+<span class="hljs-tag">&lt;/<span class="hljs-name">parent-component</span>&gt;</span></code></pre>
 
     </section>
   

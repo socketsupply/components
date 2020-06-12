@@ -387,13 +387,6 @@ body .theme-picker svg use {
 body .theme-picker svg:hover {
   opacity: 1;
 }
-@media $mobile {
-  body table {
-    display: block;
-    max-width: 100%;
-    overflow: scroll;
-  }
-}
 body > main ul {
   font: 15px/30px var(--tonic-body);
   list-style: disc;
@@ -571,6 +564,13 @@ body > main table {
   margin-bottom: 15px;
   border-collapse: collapse;
   border: 1px solid var(--tonic-border);
+}
+@media (max-width: 850px) {
+  body > main table {
+    display: block;
+    max-width: 100%;
+    overflow: scroll;
+  }
 }
 body > main th {
   font: 13px/16px var(--tonic-subheader);

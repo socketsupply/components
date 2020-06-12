@@ -152,12 +152,6 @@ body
       &:hover
         opacity 1
 
-  table
-    @media $mobile
-      display block
-      max-width 100%
-      overflow scroll
-
   > main
     ul
       font 15px/30px var(--tonic-body)
@@ -313,6 +307,11 @@ body
       margin-bottom 15px
       border-collapse collapse
       border 1px solid var(--tonic-border)
+
+      @media (max-width: 850px)
+        display block
+        max-width 100%
+        overflow scroll
 
     th
       font 13px/16px var(--tonic-subheader)

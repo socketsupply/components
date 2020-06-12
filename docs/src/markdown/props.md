@@ -1,14 +1,13 @@
 # Properties
 
-Properties are used by a component to help it decide how it should appear or
-how it should behave. Properties are read only. In this case, `message` is our
-property and `Hello, World` is our property value.
+`Props` are properties that are passed to the component in the form of html
+attributes. For example...
 
 ```js
 class MyApp extends Tonic {
   render () {
     return `
-      <my-greeting message='Hello, World'></my-greeting>
+      <my-greeting message="Hello, World"></my-greeting>
     `
   }
 }
@@ -30,9 +29,9 @@ class MyGreeting extends Tonic {
 
 ---
 
-Tonic has no templating language, it uses HTML! Remember, HTML only understands
-string values. If we want to pass more complex values to a component, prefix the
-string returned by the render function with `this.html`.
+Tonic has no templating language, it uses HTML! But since HTML only
+understands string values, we need some help to pass more complex
+values to a component, for that we use `this.html`.
 
 ```js
 const data = { greeting: 'hello, world' }
@@ -69,12 +68,12 @@ class MyComponent extends Tonic {
 You can use the "spread" operator to expand object literals into html properties.
 
 ```js
-class FooBar extends Tonic {
+class MyComponent extends Tonic {
   render () {
     const o = {
       a: 'testing',
       b: 2.2,
-      fooBar: '"ok"'
+      fooBar: 'ok'
     }
 
     return this.html`
@@ -91,23 +90,23 @@ class FooBar extends Tonic {
 The above compoent renders the following output.
 
 ```html
-<foo-bar>
-  <spread-component a="testing" b="2.2" foo-bar="&quot;ok&quot;">
-    <div a="testing" b="2.2" foo-bar="&amp;quot;ok&amp;quot;">
+<my-component>
+  <another-component a="testing" b="2.2" foo-bar="ok">
+    <div a="testing" b="2.2" foo-bar="ok">
     </div>
-  </spread-component>
+  </another-component>
 
-  <div a="testing" b="2.2" foo-bar="&quot;ok&quot;">
+  <div a="testing" b="2.2" foo-bar="ok">
   </div>
-</foo-bar>
+</my-component>
 ```
 
 ### Updating properties
 
-If you want to manually update a component, you should think of your document's
-hierarchy and where in it the update should take place. It's better to update a
-component higher up in the hierarchy and let the data cascade downward to child
-components.
+Virtual DOMs are not proven to imrpove performance, but have proved to increase
+complexity. So, Tonic does not use them. Instead, you re-render a component when
+you think the time is right. The rule of thumb is to only re-render what is
+absolutely needed.
 
 ---
 

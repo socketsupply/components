@@ -144,11 +144,11 @@ async function compile () {
   const customFiles = [
     'intro.md',
     'gettingstarted.md',
+    'props.md',
+    'state.md',
     'composition.md',
     'events.md',
     'methods.md',
-    'props.md',
-    'state.md',
     'styles.md',
     'csp.md'
   ]

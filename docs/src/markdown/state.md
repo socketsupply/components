@@ -1,9 +1,7 @@
 # State
 
-Props are received by the parent and should never be changed by the component
-that receives them. A component can change its `state`. Each instance of a
-component has state object, `this.state`. This is just a plain-old javascript
-object.
+`this.state` is just a plain-old javascript object that will persist across
+re-renders.
 
 ```js
 // Update a component's state

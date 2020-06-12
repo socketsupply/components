@@ -1,24 +1,22 @@
 # Styling
 
-Components should ship with as little CSS as possible and try to inherit
-whenever possible from the document's stylesheets. Tonic supports two approaches
-to styling components.
+Tonic supports multiple approaches to safely styling components.
 
-### Approach 1. Inline styles
+### Option 1. Inline styles
 
-It is a security risk to add inline styles from html. A CSP policy will usually
-prevent this. Use the `styles()` method to inline styles safely. Tonic will
-apply the style properties when the `render()` method is called.
+Inline styles are a security risk. Tonic provides the `styles()` method so you
+can inline styles safely. Tonic will apply the style properties when the `render()`
+method is called.
 
 ```js
 class MyGreeting extends Tonic {
   styles () {
     return {
-      fontStyle: {
+      a: {
         color: this.props.fg,
         fontSize: '30px'
       },
-      background: {
+      b: {
         backgroundColor: this.props.bg,
         padding: '10px'
       }
@@ -26,7 +24,7 @@ class MyGreeting extends Tonic {
   }
 
   render () {
-    return `<div styles="fontStyle background">${this.children}</div>`
+    return `<div styles="a b">${this.children}</div>`
   }
 }
 ```
@@ -35,24 +33,35 @@ class MyGreeting extends Tonic {
 <my-greeting fg="white" bg="red">Hello, World</my-greeting>
 ```
 
-### Approach 2. Dynamic Stylesheets
-Use the `stylesheet()` function to inline a stylesheet into the document where
-the component is rendered. Since the value is css, you can use any `css-in-js`
-library.
+### Option 2. Dynamic Stylesheets
+The `stylesheet()` method will add a styleaheet to your compoonent.
 
 ```js
 class MyGreeting extends Tonic {
   stylesheet () {
     return `
-
       my-greeting div {
-        display: inline-block;
-        border: 1px dotted #666;
-        line-height: 90px;
+        display: ${this.props.display};
       }
+    `
+  }
 
-      my-greeting .tonic--my-greeting--show {
-        display: flex;
+  render () {
+    return `<div></div>`
+  }
+}
+```
+
+### Option 3. Static Stylesheets
+The static `stylesheet()` method will add a styleaheet to the document,
+but only once.
+
+```js
+class MyGreeting extends Tonic {
+  static stylesheet () {
+    return `
+      my-greeting div {
+        border: 1px dotted #666;
       }
     `
   }

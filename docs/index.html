@@ -66,6 +66,16 @@
   
 
     <li>
+      <a href="#properties" class="">Properties</a>
+    </li>
+  
+
+    <li>
+      <a href="#state" class="">State</a>
+    </li>
+  
+
+    <li>
       <a href="#composition" class="">Composition</a>
     </li>
   
@@ -77,16 +87,6 @@
 
     <li>
       <a href="#methods" class="">Methods</a>
-    </li>
-  
-
-    <li>
-      <a href="#properties" class="">Properties</a>
-    </li>
-  
-
-    <li>
-      <a href="#state" class="">State</a>
     </li>
   
 
@@ -207,6 +207,130 @@ function will be inserted into the component tag.</p>
     <span class="hljs-tag">&lt;/<span class="hljs-name">my-greeting</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
+
+    </section>
+  
+
+    <section id="properties">
+      
+      <h1 id="properties">Properties</h1>
+<p><code>Props</code> are properties that are passed to the component in the form of html
+attributes. For example...</p>
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyApp</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+  render () {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`
+      &lt;my-greeting message=&quot;Hello, World&quot;&gt;&lt;/my-greeting&gt;
+    `</span>
+  }
+}</code></pre>
+<hr>
+<p>Properties added to a component appear on the <code>this.props</code> object.</p>
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyGreeting</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+  render () {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`
+      &lt;h1&gt;<span class="hljs-subst">${<span class="hljs-built_in">this</span>.props.message}</span>&lt;/h1&gt;
+    `</span>
+  }
+}</code></pre>
+<hr>
+<p>Tonic has no templating language, it uses HTML! But since HTML only
+understands string values, we need some help to pass more complex
+values to a component, for that we use <code>this.html</code>.</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> data = { <span class="hljs-attr">greeting</span>: <span class="hljs-string">&#x27;hello, world&#x27;</span> }
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyApp</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+  render () {
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`
+      &lt;my-component title=<span class="hljs-subst">${data}</span>&gt;&lt;/my-component&gt;
+    `</span>
+  }
+}</code></pre>
+<hr>
+<p>Now <code>this.props</code> has a reference to the <code>data</code> object.</p>
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+  render () {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`
+      &lt;h1&gt;<span class="hljs-subst">${<span class="hljs-built_in">this</span>.props.data.greeting}</span>&lt;/h1&gt;
+    `</span>
+  }
+}</code></pre>
+<blockquote>
+<p><i><b>Note</b>: A property named <code>fooBar=&#39;30&#39;</code> will become lowercased
+(as per the HTML spec). If you want the property name to be camel cased when
+added to the props object, use <code>foo-bar=&#39;30&#39;</code> to get <code>this.props.fooBar</code>.</i></p>
+</blockquote>
+<hr>
+<p>You can use the &quot;spread&quot; operator to expand object literals into html properties.</p>
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+  render () {
+    <span class="hljs-keyword">const</span> o = {
+      <span class="hljs-attr">a</span>: <span class="hljs-string">&#x27;testing&#x27;</span>,
+      <span class="hljs-attr">b</span>: <span class="hljs-number">2.2</span>,
+      <span class="hljs-attr">fooBar</span>: <span class="hljs-string">&#x27;ok&#x27;</span>
+    }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`
+      &lt;spread-component ...<span class="hljs-subst">${o}</span>&gt;
+      &lt;/spread-component&gt;
+
+      &lt;div ...<span class="hljs-subst">${o}</span>&gt;
+      &lt;/div&gt;
+    `</span>
+  }
+}</code></pre>
+<p>The above compoent renders the following output.</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">my-component</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">another-component</span> <span class="hljs-attr">a</span>=<span class="hljs-string">&quot;testing&quot;</span> <span class="hljs-attr">b</span>=<span class="hljs-string">&quot;2.2&quot;</span> <span class="hljs-attr">foo-bar</span>=<span class="hljs-string">&quot;ok&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">a</span>=<span class="hljs-string">&quot;testing&quot;</span> <span class="hljs-attr">b</span>=<span class="hljs-string">&quot;2.2&quot;</span> <span class="hljs-attr">foo-bar</span>=<span class="hljs-string">&quot;ok&quot;</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">another-component</span>&gt;</span>
+
+  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">a</span>=<span class="hljs-string">&quot;testing&quot;</span> <span class="hljs-attr">b</span>=<span class="hljs-string">&quot;2.2&quot;</span> <span class="hljs-attr">foo-bar</span>=<span class="hljs-string">&quot;ok&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">my-component</span>&gt;</span></code></pre>
+<h3>Updating properties</h3>
+<p>Virtual DOMs are not proven to imrpove performance, but have proved to increase
+complexity. So, Tonic does not use them. Instead, you re-render a component when
+you think the time is right. The rule of thumb is to only re-render what is
+absolutely needed.</p>
+<hr>
+<p>To manually update a component you can use the <code>.reRender()</code> method. This method
+receives either an object or a function. For example...</p>
+<pre><code class="language-js"><span class="hljs-comment">// Update a component&#x27;s properties</span>
+<span class="hljs-built_in">this</span>.reRender(<span class="hljs-function"><span class="hljs-params">props</span> =&gt;</span> ({
+  ...props,
+  <span class="hljs-attr">color</span>: <span class="hljs-string">&#x27;red&#x27;</span>
+}))
+
+<span class="hljs-comment">// Reset a component&#x27;s properties</span>
+<span class="hljs-built_in">this</span>.reRender({ <span class="hljs-attr">color</span>: <span class="hljs-string">&#x27;red&#x27;</span> })
+
+<span class="hljs-comment">// Re-render a component with its existing properties</span>
+<span class="hljs-built_in">this</span>.reRender()</code></pre>
+<hr>
+<p>The <code>.reRender()</code> method can also be called directly on a component.</p>
+<pre><code class="language-js"><span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&#x27;parent&#x27;</span>).reRender({ <span class="hljs-attr">data</span>: [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>, ..<span class="hljs-number">.9999</span>] })</code></pre>
+
+    </section>
+  
+
+    <section id="state">
+      
+      <h1 id="state">State</h1>
+<p><code>this.state</code> is just a plain-old javascript object that will persist across
+re-renders.</p>
+<pre><code class="language-js"><span class="hljs-comment">// Update a component&#x27;s state</span>
+<span class="hljs-built_in">this</span>.state = {
+  ...this.state,
+  <span class="hljs-attr">color</span>: <span class="hljs-string">&#x27;red&#x27;</span>
+}))
+
+<span class="hljs-comment">// Reset a component&#x27;s state</span>
+<span class="hljs-built_in">this</span>.state = { <span class="hljs-attr">color</span>: <span class="hljs-string">&#x27;red&#x27;</span> }</code></pre>
+<hr>
+<p>Setting state will not cause a component to re-render. This way you can
+make incremental updates. Components can be updated independently. And
+rendering only happens only when necessary.</p>
 
     </section>
   
@@ -365,151 +489,22 @@ instance of your component is created.</p>
     </section>
   
 
-    <section id="properties">
-      
-      <h1 id="properties">Properties</h1>
-<p>Properties are used by a component to help it decide how it should appear or
-how it should behave. Properties are read only. In this case, <code>message</code> is our
-property and <code>Hello, World</code> is our property value.</p>
-<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyApp</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
-  render () {
-    <span class="hljs-keyword">return</span> <span class="hljs-string">`
-      &lt;my-greeting message=&#x27;Hello, World&#x27;&gt;&lt;/my-greeting&gt;
-    `</span>
-  }
-}</code></pre>
-<hr>
-<p>Properties added to a component appear on the <code>this.props</code> object.</p>
-<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyGreeting</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
-  render () {
-    <span class="hljs-keyword">return</span> <span class="hljs-string">`
-      &lt;h1&gt;<span class="hljs-subst">${<span class="hljs-built_in">this</span>.props.message}</span>&lt;/h1&gt;
-    `</span>
-  }
-}</code></pre>
-<hr>
-<p>Tonic has no templating language, it uses HTML! Remember, HTML only understands
-string values. If we want to pass more complex values to a component, prefix the
-string returned by the render function with <code>this.html</code>.</p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> data = { <span class="hljs-attr">greeting</span>: <span class="hljs-string">&#x27;hello, world&#x27;</span> }
-
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyApp</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
-  render () {
-    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`
-      &lt;my-component title=<span class="hljs-subst">${data}</span>&gt;&lt;/my-component&gt;
-    `</span>
-  }
-}</code></pre>
-<hr>
-<p>Now <code>this.props</code> has a reference to the <code>data</code> object.</p>
-<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
-  render () {
-    <span class="hljs-keyword">return</span> <span class="hljs-string">`
-      &lt;h1&gt;<span class="hljs-subst">${<span class="hljs-built_in">this</span>.props.data.greeting}</span>&lt;/h1&gt;
-    `</span>
-  }
-}</code></pre>
-<blockquote>
-<p><i><b>Note</b>: A property named <code>fooBar=&#39;30&#39;</code> will become lowercased
-(as per the HTML spec). If you want the property name to be camel cased when
-added to the props object, use <code>foo-bar=&#39;30&#39;</code> to get <code>this.props.fooBar</code>.</i></p>
-</blockquote>
-<hr>
-<p>You can use the &quot;spread&quot; operator to expand object literals into html properties.</p>
-<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">FooBar</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
-  render () {
-    <span class="hljs-keyword">const</span> o = {
-      <span class="hljs-attr">a</span>: <span class="hljs-string">&#x27;testing&#x27;</span>,
-      <span class="hljs-attr">b</span>: <span class="hljs-number">2.2</span>,
-      <span class="hljs-attr">fooBar</span>: <span class="hljs-string">&#x27;&quot;ok&quot;&#x27;</span>
-    }
-
-    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`
-      &lt;spread-component ...<span class="hljs-subst">${o}</span>&gt;
-      &lt;/spread-component&gt;
-
-      &lt;div ...<span class="hljs-subst">${o}</span>&gt;
-      &lt;/div&gt;
-    `</span>
-  }
-}</code></pre>
-<p>The above compoent renders the following output.</p>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">foo-bar</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">spread-component</span> <span class="hljs-attr">a</span>=<span class="hljs-string">&quot;testing&quot;</span> <span class="hljs-attr">b</span>=<span class="hljs-string">&quot;2.2&quot;</span> <span class="hljs-attr">foo-bar</span>=<span class="hljs-string">&quot;<span class="hljs-symbol">&amp;quot;</span>ok<span class="hljs-symbol">&amp;quot;</span>&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">a</span>=<span class="hljs-string">&quot;testing&quot;</span> <span class="hljs-attr">b</span>=<span class="hljs-string">&quot;2.2&quot;</span> <span class="hljs-attr">foo-bar</span>=<span class="hljs-string">&quot;<span class="hljs-symbol">&amp;amp;</span>quot;ok<span class="hljs-symbol">&amp;amp;</span>quot;&quot;</span>&gt;</span>
-    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">spread-component</span>&gt;</span>
-
-  <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">a</span>=<span class="hljs-string">&quot;testing&quot;</span> <span class="hljs-attr">b</span>=<span class="hljs-string">&quot;2.2&quot;</span> <span class="hljs-attr">foo-bar</span>=<span class="hljs-string">&quot;<span class="hljs-symbol">&amp;quot;</span>ok<span class="hljs-symbol">&amp;quot;</span>&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">foo-bar</span>&gt;</span></code></pre>
-<h3>Updating properties</h3>
-<p>If you want to manually update a component, you should think of your document&#39;s
-hierarchy and where in it the update should take place. It&#39;s better to update a
-component higher up in the hierarchy and let the data cascade downward to child
-components.</p>
-<hr>
-<p>To manually update a component you can use the <code>.reRender()</code> method. This method
-receives either an object or a function. For example...</p>
-<pre><code class="language-js"><span class="hljs-comment">// Update a component&#x27;s properties</span>
-<span class="hljs-built_in">this</span>.reRender(<span class="hljs-function"><span class="hljs-params">props</span> =&gt;</span> ({
-  ...props,
-  <span class="hljs-attr">color</span>: <span class="hljs-string">&#x27;red&#x27;</span>
-}))
-
-<span class="hljs-comment">// Reset a component&#x27;s properties</span>
-<span class="hljs-built_in">this</span>.reRender({ <span class="hljs-attr">color</span>: <span class="hljs-string">&#x27;red&#x27;</span> })
-
-<span class="hljs-comment">// Re-render a component with its existing properties</span>
-<span class="hljs-built_in">this</span>.reRender()</code></pre>
-<hr>
-<p>The <code>.reRender()</code> method can also be called directly on a component.</p>
-<pre><code class="language-js"><span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&#x27;parent&#x27;</span>).reRender({ <span class="hljs-attr">data</span>: [<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>, ..<span class="hljs-number">.9999</span>] })</code></pre>
-
-    </section>
-  
-
-    <section id="state">
-      
-      <h1 id="state">State</h1>
-<p>Props are received by the parent and should never be changed by the component
-that receives them. A component can change its <code>state</code>. Each instance of a
-component has state object, <code>this.state</code>. This is just a plain-old javascript
-object.</p>
-<pre><code class="language-js"><span class="hljs-comment">// Update a component&#x27;s state</span>
-<span class="hljs-built_in">this</span>.state = {
-  ...this.state,
-  <span class="hljs-attr">color</span>: <span class="hljs-string">&#x27;red&#x27;</span>
-}))
-
-<span class="hljs-comment">// Reset a component&#x27;s state</span>
-<span class="hljs-built_in">this</span>.state = { <span class="hljs-attr">color</span>: <span class="hljs-string">&#x27;red&#x27;</span> }</code></pre>
-<hr>
-<p>Setting state will not cause a component to re-render. This way you can
-make incremental updates. Components can be updated independently. And
-rendering only happens only when necessary.</p>
-
-    </section>
-  
-
     <section id="styling">
       
       <h1 id="styling">Styling</h1>
-<p>Components should ship with as little CSS as possible and try to inherit
-whenever possible from the document&#39;s stylesheets. Tonic supports two approaches
-to styling components.</p>
-<h3>Approach 1. Inline styles</h3>
-<p>It is a security risk to add inline styles from html. A CSP policy will usually
-prevent this. Use the <code>styles()</code> method to inline styles safely. Tonic will
-apply the style properties when the <code>render()</code> method is called.</p>
+<p>Tonic supports multiple approaches to safely styling components.</p>
+<h3>Option 1. Inline styles</h3>
+<p>Inline styles are a security risk. Tonic provides the <code>styles()</code> method so you
+can inline styles safely. Tonic will apply the style properties when the <code>render()</code>
+method is called.</p>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyGreeting</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   styles () {
     <span class="hljs-keyword">return</span> {
-      <span class="hljs-attr">fontStyle</span>: {
+      <span class="hljs-attr">a</span>: {
         <span class="hljs-attr">color</span>: <span class="hljs-built_in">this</span>.props.fg,
         <span class="hljs-attr">fontSize</span>: <span class="hljs-string">&#x27;30px&#x27;</span>
       },
-      <span class="hljs-attr">background</span>: {
+      <span class="hljs-attr">b</span>: {
         <span class="hljs-attr">backgroundColor</span>: <span class="hljs-built_in">this</span>.props.bg,
         <span class="hljs-attr">padding</span>: <span class="hljs-string">&#x27;10px&#x27;</span>
       }
@@ -517,26 +512,33 @@ apply the style properties when the <code>render()</code> method is called.</p>
   }
 
   render () {
-    <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div styles=&quot;fontStyle background&quot;&gt;<span class="hljs-subst">${<span class="hljs-built_in">this</span>.children}</span>&lt;/div&gt;`</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div styles=&quot;a b&quot;&gt;<span class="hljs-subst">${<span class="hljs-built_in">this</span>.children}</span>&lt;/div&gt;`</span>
   }
 }</code></pre>
 <pre><code class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">my-greeting</span> <span class="hljs-attr">fg</span>=<span class="hljs-string">&quot;white&quot;</span> <span class="hljs-attr">bg</span>=<span class="hljs-string">&quot;red&quot;</span>&gt;</span>Hello, World<span class="hljs-tag">&lt;/<span class="hljs-name">my-greeting</span>&gt;</span></code></pre>
-<h3>Approach 2. Dynamic Stylesheets</h3>
-<p>Use the <code>stylesheet()</code> function to inline a stylesheet into the document where
-the component is rendered. Since the value is css, you can use any <code>css-in-js</code>
-library.</p>
+<h3>Option 2. Dynamic Stylesheets</h3>
+<p>The <code>stylesheet()</code> method will add a styleaheet to your compoonent.</p>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyGreeting</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   stylesheet () {
     <span class="hljs-keyword">return</span> <span class="hljs-string">`
-
       my-greeting div {
-        display: inline-block;
-        border: 1px dotted #666;
-        line-height: 90px;
+        display: <span class="hljs-subst">${<span class="hljs-built_in">this</span>.props.display}</span>;
       }
+    `</span>
+  }
 
-      my-greeting .tonic--my-greeting--show {
-        display: flex;
+  render () {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div&gt;&lt;/div&gt;`</span>
+  }
+}</code></pre>
+<h3>Option 3. Static Stylesheets</h3>
+<p>The static <code>stylesheet()</code> method will add a styleaheet to the document,
+but only once.</p>
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyGreeting</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+  <span class="hljs-keyword">static</span> stylesheet () {
+    <span class="hljs-keyword">return</span> <span class="hljs-string">`
+      my-greeting div {
+        border: 1px dotted #666;
       }
     `</span>
   }

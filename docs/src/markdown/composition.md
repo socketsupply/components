@@ -1,12 +1,11 @@
 # Composition
 
-You may want to move the children of a component inside some additional layout
-when the `render()` function is executed. The `this.children` property is helpful
-for this. This is not a "special" member of the `props` object like React
-(which is unintuitive), it's a member of the class instance.
+Once you add components, they can be nested any way you want. The
+property `this.children` will get this component's child elements
+so that you can read, mutate or wrap them.
 
 ```js
-class Parent extends Tonic {
+class ParentComponent extends Tonic {
   render () {
     return `
       <div class="parent">
@@ -18,9 +17,9 @@ class Parent extends Tonic {
   }
 }
 
-Tonic.add(Parent)
+Tonic.add(ParentComponent)
 
-class Child extends Tonic {
+class ChildComponent extends Tonic {
   render () {
     return `
       <div class="child">
@@ -30,27 +29,27 @@ class Child extends Tonic {
   }
 }
 
-Tonic.add(Child)
+Tonic.add(ChildComponent)
 ```
 
 ### Input HTML
 
 ```html
-<parent>
-  <child value="hello world"></child>
-</parent>
+<parent-component>
+  <child-component value="hello world"></child-component>
+</parent-component>
 ```
 
 ### Output HTML
 
 ```html
-<parent>
+<parent-component>
   <div class="parent">
     <another-component>
-      <child>
+      <child-component>
         <div class="child">hello world</div>
-      </child>
+      </child-component>
     </another-component>
   </div>
-</parent>
+</parent-component>
 ```

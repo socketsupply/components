@@ -387,6 +387,13 @@ body .theme-picker svg use {
 body .theme-picker svg:hover {
   opacity: 1;
 }
+@media $mobile {
+  body table {
+    display: block;
+    max-width: 100%;
+    overflow: scroll;
+  }
+}
 body > main ul {
   font: 15px/30px var(--tonic-body);
   list-style: disc;

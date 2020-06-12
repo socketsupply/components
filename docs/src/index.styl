@@ -43,6 +43,7 @@
 @require '../../toggle/readme.styl'
 @require '../../tooltip/readme.styl'
 @require '../../windowed/readme.styl'
+@require 'hl.styl'
 
 body
   text-rendering optimizeLegibility
@@ -68,11 +69,8 @@ body
     display block
 
   &[data-page="docs"]
-    #intro
-      padding-top 100px
-
-      h1
-        display none
+    #intro h1
+      display none
 
 blockquote
   border-left 4px solid var(--tonic-info)
@@ -145,7 +143,6 @@ body
     svg
       width 18px
       height 18px
-      margin auto
       transition opacity 0.2s ease
       opacity 0.5
       cursor pointer
@@ -160,11 +157,7 @@ body
       font 15px/30px var(--tonic-body)
       list-style disc
       padding 0
-      padding-left 40px
       margin 30px 0
-      @media (max-width: 850px)
-        padding-left 20px
-        margin 10px 0
 
       li
         margin 10px 0
@@ -178,7 +171,9 @@ body
     bottom 0
     overflow scroll
     overflow-x hidden
-    border-right 1px solid var(--tonic-border)
+    background var(--tonic-primary)
+    color var(--tonic-background)
+
     @media (max-width: 850px)
       display none
 
@@ -199,26 +194,25 @@ body
 
         &.active,
         &:hover
-          border-bottom 1px solid var(--tonic-primary)
+          border-bottom 1px solid
 
     ul
       list-style none
       padding 0
-      margin-left -10px
 
     li
       margin 20px 0
       a
         font 17px var(--tonic-body)
         font-weight 400
-        padding 5px 8px
-        background-color transparent
-        border-radius 3px
+        border-bottom 1px solid transparent
+        padding-bottom 2px
         transition background-color 0.2s ease
+
         &:hover
           color var(--tonic-accent)
         &.selected
-          color var(--tonic-accent)
+          border-bottom 1px solid
 
     a.logo
       display inline-block
@@ -239,7 +233,6 @@ body
     bottom 0
     overflow scroll
     @media (max-width: 850px)
-      position relative
       left 0
       padding 30px
 
@@ -263,7 +256,6 @@ body
 
       .label
         margin auto
-        text-align center
         margin-bottom 50px
         font-style italic
         letter-spacing 1px
@@ -477,12 +469,16 @@ body
       display inline-block
 
   section#intro
-    padding-top 30px
+    height 100%
+
+    .hero
+      top 50%
+      position absolute
+      transform translateY(-50%)
 
     .tonic-icon
       svg
         width 155px
-        margin 0 auto
         display block
         use
           fill var(--tonic-primary)
@@ -537,7 +533,7 @@ body
 
     .col
       width 50%
-      padding 10px 0
+      padding 0
       padding-right 30px
       display table-cell
       @media (max-width: 850px)
@@ -559,8 +555,8 @@ body
     p.intro-copy
       max-width 670px
       font 30px var(--tonic-header)
-      text-align center
-      margin 0 auto
+      margin 0
+      margin-bottom 50px
       @media (max-width: 850px)
         font 26px var(--tonic-header)
 

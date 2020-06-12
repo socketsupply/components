@@ -4,7 +4,6 @@ const path = require('path')
 const marked = require('marked')
 const hl = require('highlight.js')
 const fetch = require('node-fetch')
-const pkg = require('../package.json')
 
 const renderer = new marked.Renderer()
 
@@ -52,14 +51,6 @@ function createNonceFile () {
 }
 
 function createPage (nonce, data, className) {
-  data = data.sort((a, b) => {
-    if (a.title === 'API' || b.title === 'API') return -1
-    return a.title.localeCompare(b.title)
-  })
-
-  const i = data.findIndex(d => d.title === 'Intro')
-  if (i > -1) data.splice(0, 0, data.splice(i, 1)[0])
-
   const toc = data.map(data => data.link).join('\n')
   const sections = data.map(data => data.section).join('\n')
 
@@ -107,8 +98,8 @@ function createPage (nonce, data, className) {
   `
 }
 
-let componentDocs = []
-let developerDocs = []
+const componentDocs = []
+const developerDocs = []
 
 function wrapLink (title) {
   const id = title.replace(/\s/g, '-').toLowerCase()
@@ -150,16 +141,21 @@ function parseHeading (s) {
 
 async function compile () {
   const markdownDir = path.join(docsDir, 'src', 'markdown')
-  const customFiles = fs.readdirSync(markdownDir)
+  const customFiles = [
+    'intro.md',
+    'gettingstarted.md',
+    'composition.md',
+    'events.md',
+    'methods.md',
+    'props.md',
+    'state.md',
+    'styles.md',
+    'csp.md'
+  ]
 
   for (const file of customFiles) {
-    let s = read(markdownDir, file)
+    const s = read(markdownDir, file)
     if (!s) continue
-
-    if (file === 'intro.md') {
-      const version = pkg.devDependencies['@optoolco/tonic']
-      s = s.replace('{{version}}', version)
-    }
 
     const title = parseHeading(s)
     developerDocs.push({
@@ -215,7 +211,7 @@ async function compile () {
 
     const s = await (await fetch(url)).text()
 
-    developerDocs.unshift({
+    developerDocs.push({
       title,
       link: wrapLink(title, 'custom'),
       section: wrapSection({

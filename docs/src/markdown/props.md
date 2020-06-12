@@ -1,4 +1,4 @@
-# 2. Properties
+# Properties
 
 Properties are used by a component to help it decide how it should appear or
 how it should behave. Properties are read only. In this case, `message` is our

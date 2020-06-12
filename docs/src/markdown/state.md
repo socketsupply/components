@@ -1,4 +1,4 @@
-# 6. State
+# State
 
 Props are received by the parent and should never be changed by the component
 that receives them. A component can change its `state`. Each instance of a

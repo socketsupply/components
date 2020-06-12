@@ -1,4 +1,4 @@
-# 1. Getting Started
+# Getting Started
 
 Building a component with Tonic starts by creating a [Javascript Class][0].
 The class should have at least one method named *render* which usually returns

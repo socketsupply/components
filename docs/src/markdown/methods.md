@@ -1,4 +1,4 @@
-# 3. Methods
+# Methods
 
 A method is a function of a component. It can help to organize the internal
 logic of a component.

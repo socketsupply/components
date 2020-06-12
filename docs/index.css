@@ -201,6 +201,72 @@ example-windowed .td {
   opacity: 0;
   z-index: -1;
 }
+.hljs {
+  display: block;
+  overflow-x: auto;
+  padding: 0.5em;
+  background: #f0f0f0;
+}
+.hljs,
+.hljs-subst {
+  color: var(--tonic-medium);
+}
+.hljs-comment {
+  color: #aaa;
+}
+.hljs-keyword,
+.hljs-attribute,
+.hljs-selector-tag,
+.hljs-meta-keyword,
+.hljs-doctag,
+.hljs-name {
+  font-weight: bold;
+}
+.hljs-type,
+.hljs-string,
+.hljs-number,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-quote,
+.hljs-template-tag,
+.hljs-deletion {
+  color: #38b9ff;
+}
+.hljs-title,
+.hljs-section {
+  color: #38b9ff;
+  font-weight: bold;
+}
+.hljs-regexp,
+.hljs-symbol,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-link,
+.hljs-selector-attr,
+.hljs-selector-pseudo {
+  color: #38b9ff;
+}
+.hljs-literal {
+  color: #38b9ff;
+}
+.hljs-built_in,
+.hljs-bullet,
+.hljs-code,
+.hljs-addition {
+  color: #38b9ff;
+}
+.hljs-meta {
+  color: #1f7199;
+}
+.hljs-meta-string {
+  color: #bc6060;
+}
+.hljs-emphasis {
+  font-style: italic;
+}
+.hljs-strong {
+  font-weight: bold;
+}
 body {
   text-rendering: optimizeLegibility;
   font-smoothing: antialiased;
@@ -227,9 +293,6 @@ body [data-group="custom"] {
 }
 body [data-group="component"] {
   display: block;
-}
-body[data-page="docs"] #intro {
-  padding-top: 100px;
 }
 body[data-page="docs"] #intro h1 {
   display: none;
@@ -312,7 +375,6 @@ body .theme-picker {
 body .theme-picker svg {
   width: 18px;
   height: 18px;
-  margin: auto;
   -webkit-transition: opacity 0.2s ease;
   transition: opacity 0.2s ease;
   opacity: 0.5;
@@ -329,14 +391,7 @@ body > main ul {
   font: 15px/30px var(--tonic-body);
   list-style: disc;
   padding: 0;
-  padding-left: 40px;
   margin: 30px 0;
-}
-@media (max-width: 850px) {
-  body > main ul {
-    padding-left: 20px;
-    margin: 10px 0;
-  }
 }
 body > main ul li {
   margin: 10px 0;
@@ -350,7 +405,8 @@ body > nav {
   bottom: 0;
   overflow: scroll;
   overflow-x: hidden;
-  border-right: 1px solid var(--tonic-border);
+  background: var(--tonic-primary);
+  color: var(--tonic-background);
 }
 @media (max-width: 850px) {
   body > nav {
@@ -374,12 +430,11 @@ body > nav .page-selection a:first-of-type {
 }
 body > nav .page-selection a.active,
 body > nav .page-selection a:hover {
-  border-bottom: 1px solid var(--tonic-primary);
+  border-bottom: 1px solid;
 }
 body > nav ul {
   list-style: none;
   padding: 0;
-  margin-left: -10px;
 }
 body > nav li {
   margin: 20px 0;
@@ -387,9 +442,8 @@ body > nav li {
 body > nav li a {
   font: 17px var(--tonic-body);
   font-weight: 400;
-  padding: 5px 8px;
-  background-color: transparent;
-  border-radius: 3px;
+  border-bottom: 1px solid transparent;
+  padding-bottom: 2px;
   -webkit-transition: background-color 0.2s ease;
   transition: background-color 0.2s ease;
 }
@@ -397,7 +451,7 @@ body > nav li a:hover {
   color: var(--tonic-accent);
 }
 body > nav li a.selected {
-  color: var(--tonic-accent);
+  border-bottom: 1px solid;
 }
 body > nav a.logo {
   display: inline-block;
@@ -421,7 +475,6 @@ body > main {
 }
 @media (max-width: 850px) {
   body > main {
-    position: relative;
     left: 0;
     padding: 30px;
   }
@@ -457,7 +510,6 @@ body > main .hero {
 }
 body > main .hero .label {
   margin: auto;
-  text-align: center;
   margin-bottom: 50px;
   font-style: italic;
   letter-spacing: 1px;
@@ -696,11 +748,16 @@ body .component-github-link a {
   display: inline-block;
 }
 body section#intro {
-  padding-top: 30px;
+  height: 100%;
+}
+body section#intro .hero {
+  top: 50%;
+  position: absolute;
+  -webkit-transform: translateY(-50%);
+          transform: translateY(-50%);
 }
 body section#intro .tonic-icon svg {
   width: 155px;
-  margin: 0 auto;
   display: block;
 }
 body section#intro .tonic-icon svg use {
@@ -762,7 +819,7 @@ body section#intro p:not(.intro-copy) {
 }
 body section#intro .col {
   width: 50%;
-  padding: 10px 0;
+  padding: 0;
   padding-right: 30px;
   display: table-cell;
 }
@@ -787,8 +844,8 @@ body section#intro span.first-word {
 body section#intro p.intro-copy {
   max-width: 670px;
   font: 30px var(--tonic-header);
-  text-align: center;
-  margin: 0 auto;
+  margin: 0;
+  margin-bottom: 50px;
 }
 @media (max-width: 850px) {
   body section#intro p.intro-copy {

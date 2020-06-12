@@ -115,7 +115,7 @@ function wrapLink (title) {
 function githubLink (title) {
   return `
     <div class="component-github-link">
-      <a href="https://github.com/optoolco/components/tree/master/src/${title.toLowerCase()}/">Github</a>
+      <a href="https://github.com/optoolco/components/tree/master/${title.toLowerCase()}/">Github</a>
     </div>
   `
 }

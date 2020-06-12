@@ -152,6 +152,11 @@ body
       &:hover
         opacity 1
 
+  table
+    @media $mobile
+      display block
+      overflow scroll
+
   > main
     ul
       font 15px/30px var(--tonic-body)
@@ -250,9 +255,7 @@ body
         border-bottom-color var(--tonic-accent)
 
     .hero
-      margin-top 0
-      @media (max-width: 850px)
-        margin-bottom 100px
+      margin-top 20px
 
       .label
         margin auto
@@ -536,13 +539,11 @@ body
       padding 0
       padding-right 30px
       display table-cell
+
       @media (max-width: 850px)
         width 100%
         padding 0
         display block
-
-      li
-        font-size 18px
 
     tonic-button
       text-align center
@@ -556,7 +557,8 @@ body
       max-width 670px
       font 30px var(--tonic-header)
       margin 0
-      margin-bottom 50px
+      margin-bottom 20px
+
       @media (max-width: 850px)
         font 26px var(--tonic-header)
 
@@ -568,6 +570,9 @@ body
 
       li
         line-height 28px
+          @media $mobile
+            line-height unset
+
         &:before
           content ''
           width 9px

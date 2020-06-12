@@ -501,12 +501,7 @@ body > main a:hover {
   border-bottom-color: var(--tonic-accent);
 }
 body > main .hero {
-  margin-top: 0;
-}
-@media (max-width: 850px) {
-  body > main .hero {
-    margin-bottom: 100px;
-  }
+  margin-top: 20px;
 }
 body > main .hero .label {
   margin: auto;
@@ -830,9 +825,6 @@ body section#intro .col {
     display: block;
   }
 }
-body section#intro .col li {
-  font-size: 18px;
-}
 body section#intro tonic-button {
   text-align: center;
   margin: 50px 0;
@@ -845,7 +837,7 @@ body section#intro p.intro-copy {
   max-width: 670px;
   font: 30px var(--tonic-header);
   margin: 0;
-  margin-bottom: 50px;
+  margin-bottom: 20px;
 }
 @media (max-width: 850px) {
   body section#intro p.intro-copy {
@@ -859,8 +851,10 @@ body section#intro .col ul {
       flex-basis: 50%;
   list-style: none;
 }
-body section#intro .col ul li {
-  line-height: 28px;
+@media $mobile {
+  body section#intro .col ul li line-height 28px {
+    line-height: unset;
+  }
 }
 body section#intro .col ul li:before {
   content: '';

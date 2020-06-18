@@ -10,6 +10,8 @@ class Windowed extends Tonic {
     this.noMoreBottomRows = false
     this.currentVisibleRowIndex = -1
     this.prefetchDirection = null
+    this.topIsTruncated = false
+    this.bottomIsTruncated = false
   }
 
   get length () {
@@ -164,10 +166,25 @@ class Windowed extends Tonic {
         this.rows.splice(0, toDelete)
         this.noMoreTopRows = false
         this.shiftCounter += toDelete
-      } else if (this.prefetchDirection === 'top') {
+
+        this.topIsTruncated = true
+        this.bottomIsTruncated = false
+        if (this.onTopTruncate) {
+          this.onTopTruncate()
+        }
+      } else if (
+        this.prefetchDirection === 'top'
+          // || this.prefetchDirection === null
+      ) {
         this.rows.length = maxRows
         this.noMoreBottomRows = false
         this.popCounter += toDelete
+
+        this.bottomIsTruncated = true
+        this.topIsTruncated = false
+        if (this.onBottomTruncate) {
+          this.onBottomTruncate()
+        }
       }
     }
   }

@@ -314,6 +314,7 @@ class Windowed extends Tonic {
       currentScrollTop += this.prependCounter * this.rowHeight
       currentScrollTop -= this.shiftCounter * this.rowHeight
       outer.scrollTop = currentScrollTop
+      this.state.scrollTop = currentScrollTop
 
       if (this.shiftCounter > 0) {
         shiftHappened = true

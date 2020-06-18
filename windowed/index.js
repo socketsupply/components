@@ -256,9 +256,7 @@ class Windowed extends Tonic {
    */
   scrollToId (offsetId) {
     const index = this.rows.findIndex(o => o.id === offsetId)
-    if (index === -1) {
-      throw new Error('offsetId does not exist in this.rows')
-    }
+    if (typeof index !== 'number') return
     if (this.rowHeight === null) {
       throw new Error('Cannot call scrollToId() before load()')
     }

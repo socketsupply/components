@@ -247,6 +247,13 @@ class Windowed extends Tonic {
     return page
   }
 
+  /**
+   * Logic for scrolling to an offset. This is nuanced because
+   * we try to avoid touching `offsetTop` to avoid causing unnecessary
+   * repaints or layout calculations.
+   *
+   * @param {number} offsetId
+   */
   scrollToId (offsetId) {
     const index = this.rows.findIndex(o => o.id === offsetId)
     if (index === -1) {

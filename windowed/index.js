@@ -174,7 +174,7 @@ class Windowed extends Tonic {
         }
       } else if (
         this.prefetchDirection === 'top'
-          // || this.prefetchDirection === null
+      // || this.prefetchDirection === null
       ) {
         this.rows.length = maxRows
         this.noMoreBottomRows = false

@@ -2537,30 +2537,31 @@ if (typeof module === 'object') module.exports = Tonic
 
 },{"./package":23}],23:[function(require,module,exports){
 module.exports={
-  "_from": "@optoolco/tonic@12.0.0",
+  "_from": "@optoolco/tonic@next",
   "_id": "@optoolco/tonic@12.0.0",
   "_inBundle": false,
   "_integrity": "sha512-kRjYMv5VYGSDTSzSBPX0nCNT4NWZwyjzvdWLlhkLDeCJvw3IqZLBSP4hmoRdh4lGMbxOI/i+JfTmxCDjbj6OXg==",
   "_location": "/@optoolco/tonic",
   "_phantomChildren": {},
   "_requested": {
-    "type": "version",
+    "type": "tag",
     "registry": true,
-    "raw": "@optoolco/tonic@12.0.0",
+    "raw": "@optoolco/tonic@next",
     "name": "@optoolco/tonic",
     "escapedName": "@optoolco%2ftonic",
     "scope": "@optoolco",
-    "rawSpec": "12.0.0",
+    "rawSpec": "next",
     "saveSpec": null,
-    "fetchSpec": "12.0.0"
+    "fetchSpec": "next"
   },
   "_requiredBy": [
-    "#DEV:/"
+    "#DEV:/",
+    "#USER"
   ],
   "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-12.0.0.tgz",
   "_shasum": "efe407a8c22464e898f2e664e0df9fbe7d8de58f",
-  "_spec": "@optoolco/tonic@12.0.0",
-  "_where": "/Users/paolofragomeni/projects/optoolco/components",
+  "_spec": "@optoolco/tonic@next",
+  "_where": "/home/raynos/optoolco/components",
   "author": {
     "name": "optoolco"
   },
@@ -26809,6 +26810,9 @@ class Windowed extends Tonic {
     this.noMoreBottomRows = false
     this.currentVisibleRowIndex = -1
     this.prefetchDirection = null
+    this.topIsTruncated = false
+    this.bottomIsTruncated = false
+    this.rowHeight = null
   }
 
   get length () {
@@ -26963,10 +26967,25 @@ class Windowed extends Tonic {
         this.rows.splice(0, toDelete)
         this.noMoreTopRows = false
         this.shiftCounter += toDelete
-      } else if (this.prefetchDirection === 'top') {
+
+        this.topIsTruncated = true
+        this.bottomIsTruncated = false
+        if (this.onTopTruncate) {
+          this.onTopTruncate()
+        }
+      } else if (
+        this.prefetchDirection === 'top'
+      // || this.prefetchDirection === null
+      ) {
         this.rows.length = maxRows
         this.noMoreBottomRows = false
         this.popCounter += toDelete
+
+        this.bottomIsTruncated = true
+        this.topIsTruncated = false
+        if (this.onBottomTruncate) {
+          this.onBottomTruncate()
+        }
       }
     }
   }
@@ -27026,6 +27045,33 @@ class Windowed extends Tonic {
     const inner = this.querySelector('.tonic--windowed--inner')
     inner.appendChild(page)
     return page
+  }
+
+  /**
+   * Logic for scrolling to an offset. This is nuanced because
+   * we try to avoid touching `offsetTop` to avoid causing unnecessary
+   * repaints or layout calculations.
+   *
+   * @param {number} offsetId
+   */
+  scrollToId (offsetId) {
+    const index = this.rows.findIndex(o => o.id === offsetId)
+    if (index === -1) {
+      throw new Error('offsetId does not exist in this.rows')
+    }
+    if (this.rowHeight === null) {
+      throw new Error('Cannot call scrollToId() before load()')
+    }
+
+    const scrollTop = index * this.rowHeight
+
+    const outer = this.querySelector('.tonic--windowed--outer')
+    if (!outer) {
+      throw new Error('Cannot call scrollToId() in empty or loading state')
+    }
+
+    outer.scrollTop = scrollTop
+    this.rePaint({ fromScroll: true, scrollTop: scrollTop })
   }
 
   createNewPage () {
@@ -27113,6 +27159,7 @@ class Windowed extends Tonic {
       currentScrollTop += this.prependCounter * this.rowHeight
       currentScrollTop -= this.shiftCounter * this.rowHeight
       outer.scrollTop = currentScrollTop
+      this.state.scrollTop = currentScrollTop
 
       if (this.shiftCounter > 0) {
         shiftHappened = true

@@ -12,6 +12,7 @@ class Windowed extends Tonic {
     this.prefetchDirection = null
     this.topIsTruncated = false
     this.bottomIsTruncated = false
+    this.rowHeight = null
   }
 
   get length () {
@@ -244,6 +245,33 @@ class Windowed extends Tonic {
     const inner = this.querySelector('.tonic--windowed--inner')
     inner.appendChild(page)
     return page
+  }
+
+  /**
+   * Logic for scrolling to an offset. This is nuanced because
+   * we try to avoid touching `offsetTop` to avoid causing unnecessary
+   * repaints or layout calculations.
+   *
+   * @param {number} offsetId
+   */
+  scrollToId (offsetId) {
+    const index = this.rows.findIndex(o => o.id === offsetId)
+    if (index === -1) {
+      throw new Error('offsetId does not exist in this.rows')
+    }
+    if (this.rowHeight === null) {
+      throw new Error('Cannot call scrollToId() before load()')
+    }
+
+    const scrollTop = index * this.rowHeight
+
+    const outer = this.querySelector('.tonic--windowed--outer')
+    if (!outer) {
+      throw new Error('Cannot call scrollToId() in empty or loading state')
+    }
+
+    outer.scrollTop = scrollTop
+    this.rePaint({ fromScroll: true, scrollTop: scrollTop })
   }
 
   createNewPage () {

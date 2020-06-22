@@ -70,7 +70,10 @@ setInvalid.addEventListener('click', (e) => {
 | `required` | *boolean* | Makes the input `required`. | `false` |
 | `readonly` | *boolean* | Makes the input `readonly`. | `false` |
 | `spellcheck` | *boolean* | Enable `spellcheck` on the input. | `false` |
-| `src` | *string* | Adds an icon to the input. | |
+| `src` | *string* | The src to use for the icon. | |
+| `symbol-id` | *string* | The symbol id to use for the icon. | |
+| `fill` | *string* | The fill color to use for the icon. | |
+| `color` | *string* | The path color to use for the icon. | |
 | `tabindex` | *number* | Add a `tabindex` for the input. | |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 | `type` | *string* | Type of input (text, password, email). | `text` |

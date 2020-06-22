@@ -48,22 +48,27 @@ class TonicInput extends Tonic {
         position: relative;
       }
 
+      tonic-input[symbol-id] .tonic--right tonic-icon,
       tonic-input[src] .tonic--right tonic-icon {
         right: 10px;
       }
 
+      tonic-input[symbol-id] .tonic--right input,
       tonic-input[src] .tonic--right input {
         padding-right: 40px;
       }
 
+      tonic-input[symbol-id] .tonic--left tonic-icon,
       tonic-input[src] .tonic--left tonic-icon {
         left: 10px;
       }
 
+      tonic-input[symbol-id] .tonic--left input,
       tonic-input[src] .tonic--left input {
         padding-left: 40px;
       }
 
+      tonic-input[symbol-id] tonic-icon,
       tonic-input[src] tonic-icon {
         position: absolute;
         bottom: 7px;
@@ -168,12 +173,26 @@ class TonicInput extends Tonic {
   }
 
   renderIcon () {
-    if (!this.props.src) return ''
+    if (!this.props.src && !this.props.symbolId) return ''
+
+    const opts = {}
+
+    if (this.props.src) {
+      opts.src = this.props.src
+    } else if (this.props.symbolId) {
+      opts.symbolId = this.props.symbolId
+    }
+
+    if (this.props.color) {
+      opts.color = this.props.color
+    }
+
+    if (this.props.fill) {
+      opts.fill = this.props.fill
+    }
 
     return this.html`
-      <tonic-icon
-        src="${this.props.src}"
-        color="${this.props.color}">
+      <tonic-icon ...${opts}>
       </tonic-icon>
     `
   }

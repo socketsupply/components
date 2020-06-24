@@ -90,7 +90,6 @@ class TonicInput extends Tonic {
         padding: 10px;
         background-color: transparent;
         border: 1px solid var(--tonic-border, #ccc);
-        transition: border 0.2s ease-in-out;
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;

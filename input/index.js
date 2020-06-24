@@ -95,14 +95,17 @@ class TonicInput extends Tonic {
         appearance: none;
       }
 
+      tonic-input input[invalid],
       tonic-input input:invalid {
         border-color: var(--tonic-error, #f66);
       }
 
+      tonic-input input[invalid]:focus,
       tonic-input input:invalid:focus {
         border-color: var(--tonic-error, #f66);
       }
 
+      tonic-input input[invalid] ~ .tonic--invalid,
       tonic-input input:invalid ~ .tonic--invalid {
         transform: translateY(0);
         visibility: visible;
@@ -237,8 +240,10 @@ class TonicInput extends Tonic {
     setTimeout(() => {
       if (this.props.invalid) {
         input.setCustomValidity(this.props.errorMessage)
+        input.setAttribute('invalid', this.props.errorMessage)
       } else {
         input.setCustomValidity('')
+        input.removeAttribute('invalid')
       }
     }, 32)
 

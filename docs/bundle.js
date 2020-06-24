@@ -1847,22 +1847,27 @@ class TonicInput extends Tonic {
         position: relative;
       }
 
+      tonic-input[symbol-id] .tonic--right tonic-icon,
       tonic-input[src] .tonic--right tonic-icon {
         right: 10px;
       }
 
+      tonic-input[symbol-id] .tonic--right input,
       tonic-input[src] .tonic--right input {
         padding-right: 40px;
       }
 
+      tonic-input[symbol-id] .tonic--left tonic-icon,
       tonic-input[src] .tonic--left tonic-icon {
         left: 10px;
       }
 
+      tonic-input[symbol-id] .tonic--left input,
       tonic-input[src] .tonic--left input {
         padding-left: 40px;
       }
 
+      tonic-input[symbol-id] tonic-icon,
       tonic-input[src] tonic-icon {
         position: absolute;
         bottom: 7px;
@@ -1967,12 +1972,26 @@ class TonicInput extends Tonic {
   }
 
   renderIcon () {
-    if (!this.props.src) return ''
+    if (!this.props.src && !this.props.symbolId) return ''
+
+    const opts = {}
+
+    if (this.props.src) {
+      opts.src = this.props.src
+    } else if (this.props.symbolId) {
+      opts.symbolId = this.props.symbolId
+    }
+
+    if (this.props.color) {
+      opts.color = this.props.color
+    }
+
+    if (this.props.fill) {
+      opts.fill = this.props.fill
+    }
 
     return this.html`
-      <tonic-icon
-        src="${this.props.src}"
-        color="${this.props.color}">
+      <tonic-icon ...${opts}>
       </tonic-icon>
     `
   }
@@ -2537,31 +2556,30 @@ if (typeof module === 'object') module.exports = Tonic
 
 },{"./package":23}],23:[function(require,module,exports){
 module.exports={
-  "_from": "@optoolco/tonic@next",
+  "_from": "@optoolco/tonic@12.0.0",
   "_id": "@optoolco/tonic@12.0.0",
   "_inBundle": false,
   "_integrity": "sha512-kRjYMv5VYGSDTSzSBPX0nCNT4NWZwyjzvdWLlhkLDeCJvw3IqZLBSP4hmoRdh4lGMbxOI/i+JfTmxCDjbj6OXg==",
   "_location": "/@optoolco/tonic",
   "_phantomChildren": {},
   "_requested": {
-    "type": "tag",
+    "type": "version",
     "registry": true,
-    "raw": "@optoolco/tonic@next",
+    "raw": "@optoolco/tonic@12.0.0",
     "name": "@optoolco/tonic",
     "escapedName": "@optoolco%2ftonic",
     "scope": "@optoolco",
-    "rawSpec": "next",
+    "rawSpec": "12.0.0",
     "saveSpec": null,
-    "fetchSpec": "next"
+    "fetchSpec": "12.0.0"
   },
   "_requiredBy": [
-    "#DEV:/",
-    "#USER"
+    "#DEV:/"
   ],
   "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-12.0.0.tgz",
   "_shasum": "efe407a8c22464e898f2e664e0df9fbe7d8de58f",
-  "_spec": "@optoolco/tonic@next",
-  "_where": "/home/raynos/optoolco/components",
+  "_spec": "@optoolco/tonic@12.0.0",
+  "_where": "/Users/paolofragomeni/projects/optoolco/components",
   "author": {
     "name": "optoolco"
   },
@@ -27056,9 +27074,7 @@ class Windowed extends Tonic {
    */
   scrollToId (offsetId) {
     const index = this.rows.findIndex(o => o.id === offsetId)
-    if (index === -1) {
-      throw new Error('offsetId does not exist in this.rows')
-    }
+    if (typeof index !== 'number') return
     if (this.rowHeight === null) {
       throw new Error('Cannot call scrollToId() before load()')
     }

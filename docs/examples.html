@@ -283,24 +283,24 @@ registerComponents(Tonic) <span class="hljs-comment">// registers all the compon
 
 <h2>Code</h2>
 <h4>HTML</h4>
-<pre><code class="language-html">  <span class="hljs-tag">&lt;<span class="hljs-name">tonic-accordion</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"my-accordion"</span>&gt;</span>
+<pre><code class="language-html">  <span class="hljs-tag">&lt;<span class="hljs-name">tonic-accordion</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;my-accordion&quot;</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">tonic-accordion-section</span>
-      <span class="hljs-attr">name</span>=<span class="hljs-string">"bucket-test-1"</span>
-      <span class="hljs-attr">id</span>=<span class="hljs-string">"bucket-test-1"</span>
-      <span class="hljs-attr">data</span>=<span class="hljs-string">"preview"</span>
-      <span class="hljs-attr">label</span>=<span class="hljs-string">"Accordion Test 1"</span>&gt;</span>
+      <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;bucket-test-1&quot;</span>
+      <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;bucket-test-1&quot;</span>
+      <span class="hljs-attr">data</span>=<span class="hljs-string">&quot;preview&quot;</span>
+      <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Accordion Test 1&quot;</span>&gt;</span>
       Whatever
     <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-accordion-section</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">tonic-accordion-section</span>
-      <span class="hljs-attr">name</span>=<span class="hljs-string">"bucket-test-2"</span>
-      <span class="hljs-attr">id</span>=<span class="hljs-string">"bucket-test-2"</span>
-      <span class="hljs-attr">label</span>=<span class="hljs-string">"Accordion Test 2"</span>&gt;</span>
+      <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;bucket-test-2&quot;</span>
+      <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;bucket-test-2&quot;</span>
+      <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Accordion Test 2&quot;</span>&gt;</span>
       Some Content
     <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-accordion-section</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">tonic-accordion-section</span>
-      <span class="hljs-attr">name</span>=<span class="hljs-string">"bucket-test-3"</span>
-      <span class="hljs-attr">id</span>=<span class="hljs-string">"bucket-test-3"</span>
-      <span class="hljs-attr">label</span>=<span class="hljs-string">"Accordion Test 3"</span>&gt;</span>
+      <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;bucket-test-3&quot;</span>
+      <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;bucket-test-3&quot;</span>
+      <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Accordion Test 3&quot;</span>&gt;</span>
       The visual design includes features intended to help users understand that the accordion provides enhanced keyboard navigation functions. When an accordion header button has keyboard focus, the styling of the accordion container and all its header buttons is changed.
     <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-accordion-section</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-accordion</span>&gt;</span></code></pre>
@@ -398,7 +398,7 @@ registerComponents(Tonic) <span class="hljs-comment">// registers all the compon
 <h2>Code</h2>
 <p>To update the notification count, pass in the <code>count</code> property.</p>
 <h4>HTML</h4>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-badge</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"my-badge"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">tonic-badge</span>&gt;</span></code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-badge</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;my-badge&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">tonic-badge</span>&gt;</span></code></pre>
 <h4>JS</h4>
 <pre><code class="language-js">tonicBadge.value = <span class="hljs-number">5</span></code></pre>
 <h2>Api</h2>
@@ -476,9 +476,9 @@ registerComponents(Tonic) <span class="hljs-comment">// registers all the compon
 <h2>Code</h2>
 <h4>HTML</h4>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-button</span>
-  <span class="hljs-attr">async</span>=<span class="hljs-string">"true"</span>
-  <span class="hljs-attr">id</span>=<span class="hljs-string">"tonic-button-example"</span>
-  <span class="hljs-attr">value</span>=<span class="hljs-string">"click-me"</span>&gt;</span>Click me
+  <span class="hljs-attr">async</span>=<span class="hljs-string">&quot;true&quot;</span>
+  <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;tonic-button-example&quot;</span>
+  <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;click-me&quot;</span>&gt;</span>Click me
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-button</span>&gt;</span></code></pre>
 <h4>JS</h4>
 <pre><code class="language-js">%js%</code></pre>
@@ -645,20 +645,20 @@ registerComponents(Tonic) <span class="hljs-comment">// registers all the compon
   <span class="hljs-attr">drawBorder</span>: <span class="hljs-literal">true</span>
 }</code></pre>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-chart</span>
-  <span class="hljs-attr">type</span>=<span class="hljs-string">"horizontalBar"</span>
-  <span class="hljs-attr">width</span>=<span class="hljs-string">"300"</span>
-  <span class="hljs-attr">height</span>=<span class="hljs-string">"150px"</span>
-  <span class="hljs-attr">options</span>=<span class="hljs-string">"${opts}"</span>
-  <span class="hljs-attr">chart-library</span>=<span class="hljs-string">"${require('chart.js')}"</span>
-  <span class="hljs-attr">src</span>=<span class="hljs-string">"/chartdata.json"</span>&gt;</span>
+  <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;horizontalBar&quot;</span>
+  <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;300&quot;</span>
+  <span class="hljs-attr">height</span>=<span class="hljs-string">&quot;150px&quot;</span>
+  <span class="hljs-attr">options</span>=<span class="hljs-string">&quot;${opts}&quot;</span>
+  <span class="hljs-attr">chart-library</span>=<span class="hljs-string">&quot;${require(&#x27;chart.js&#x27;)}&quot;</span>
+  <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/chartdata.json&quot;</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-chart</span>&gt;</span></code></pre>
 <h4>JSON</h4>
 <pre><code class="language-json">{
-  <span class="hljs-attr">"labels"</span>: [<span class="hljs-string">"Foo"</span>, <span class="hljs-string">"Bar"</span>, <span class="hljs-string">"Bazz"</span>],
-  <span class="hljs-attr">"datasets"</span>: [{
-    <span class="hljs-attr">"label"</span>: <span class="hljs-string">"Quxx (millions)"</span>,
-    <span class="hljs-attr">"backgroundColor"</span>: [<span class="hljs-string">"#c3c3c3"</span>, <span class="hljs-string">"#f06653"</span>, <span class="hljs-string">"#8f8f8f"</span>],
-    <span class="hljs-attr">"data"</span>: [<span class="hljs-number">278</span>, <span class="hljs-number">467</span>, <span class="hljs-number">34</span>]
+  <span class="hljs-attr">&quot;labels&quot;</span>: [<span class="hljs-string">&quot;Foo&quot;</span>, <span class="hljs-string">&quot;Bar&quot;</span>, <span class="hljs-string">&quot;Bazz&quot;</span>],
+  <span class="hljs-attr">&quot;datasets&quot;</span>: [{
+    <span class="hljs-attr">&quot;label&quot;</span>: <span class="hljs-string">&quot;Quxx (millions)&quot;</span>,
+    <span class="hljs-attr">&quot;backgroundColor&quot;</span>: [<span class="hljs-string">&quot;#c3c3c3&quot;</span>, <span class="hljs-string">&quot;#f06653&quot;</span>, <span class="hljs-string">&quot;#8f8f8f&quot;</span>],
+    <span class="hljs-attr">&quot;data&quot;</span>: [<span class="hljs-number">278</span>, <span class="hljs-number">467</span>, <span class="hljs-number">34</span>]
   }]
 }</code></pre>
 <h2>Api</h2>
@@ -763,8 +763,8 @@ label. You can also create a custom checkbox using SVG icons.</p>
 <h2>Code</h2>
 <h4>HTML</h4>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-checkbox</span>
-  <span class="hljs-attr">id</span>=<span class="hljs-string">"tonic-checkbox-example"</span>
-  <span class="hljs-attr">label</span>=<span class="hljs-string">"Checkbox with Label"</span>&gt;</span>
+  <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;tonic-checkbox-example&quot;</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Checkbox with Label&quot;</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-checkbox</span>&gt;</span></code></pre>
 <h2>Api</h2>
 <h3>Properties</h3>
@@ -890,32 +890,32 @@ your own dialog class which can be registered and then used as a tag.</p>
 
 <h2>Code</h2>
 <h4>HTML</h4>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">example-dialog</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"example-dialog"</span> <span class="hljs-attr">message</span>=<span class="hljs-string">"Click update for timestamp"</span>&gt;</span>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">example-dialog</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;example-dialog&quot;</span> <span class="hljs-attr">message</span>=<span class="hljs-string">&quot;Click update for timestamp&quot;</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">example-dialog</span>&gt;</span></code></pre>
 <h4>JS</h4>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> { Dialog } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'@optoolco/components/dialog'</span>)
+<pre><code class="language-js"><span class="hljs-keyword">const</span> { Dialog } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;@optoolco/components/dialog&#x27;</span>)
 
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TonicDialog</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Dialog</span> </span>{
   willConnect () {
-    <span class="hljs-keyword">this</span>.state.message = <span class="hljs-keyword">this</span>.props.message
+    <span class="hljs-built_in">this</span>.state.message = <span class="hljs-built_in">this</span>.props.message
   }
 
   click (e) {
-    <span class="hljs-keyword">if</span> (!Tonic.match(e.target, <span class="hljs-string">'#update'</span>)) <span class="hljs-keyword">return</span>
+    <span class="hljs-keyword">if</span> (!Tonic.match(e.target, <span class="hljs-string">&#x27;#update&#x27;</span>)) <span class="hljs-keyword">return</span>
 
-    <span class="hljs-keyword">this</span>.state.message = <span class="hljs-string">`Date stamp <span class="hljs-subst">${<span class="hljs-built_in">Date</span>.now()}</span>`</span>
+    <span class="hljs-built_in">this</span>.state.message = <span class="hljs-string">`Date stamp <span class="hljs-subst">${<span class="hljs-built_in">Date</span>.now()}</span>`</span>
 
-    <span class="hljs-keyword">this</span>.reRender()
+    <span class="hljs-built_in">this</span>.reRender()
   }
 
   render () {
     <span class="hljs-keyword">return</span> <span class="hljs-string">`
       &lt;header&gt;Dialog&lt;/header&gt;
       &lt;main&gt;
-        <span class="hljs-subst">${<span class="hljs-keyword">this</span>.state.message}</span>
+        <span class="hljs-subst">${<span class="hljs-built_in">this</span>.state.message}</span>
       &lt;/main&gt;
       &lt;footer&gt;
-        &lt;tonic-button id="update"&gt;Update&lt;/tonic-button&gt;
+        &lt;tonic-button id=&quot;update&quot;&gt;Update&lt;/tonic-button&gt;
       &lt;/footer&gt;
     `</span>
   }
@@ -923,10 +923,10 @@ your own dialog class which can be registered and then used as a tag.</p>
 
 Tonic.add(TonicDialog)
 
-<span class="hljs-keyword">const</span> link = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'example-dialog-link'</span>)
-<span class="hljs-keyword">const</span> dialog = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'example-dialog'</span>)
+<span class="hljs-keyword">const</span> link = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&#x27;example-dialog-link&#x27;</span>)
+<span class="hljs-keyword">const</span> dialog = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&#x27;example-dialog&#x27;</span>)
 
-link.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; dialog.show())</code></pre>
+link.addEventListener(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> dialog.show())</code></pre>
 <h2>Api</h2>
 <h3>Properties</h3>
 <table>
@@ -1033,21 +1033,21 @@ will be.</p>
 
 <h2>Code</h2>
 <h4>HTML</h4>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-form</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"f"</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">tonic-input</span> <span class="hljs-attr">data-key</span>=<span class="hljs-string">"ka"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"a"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"va"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">tonic-input</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">tonic-input</span> <span class="hljs-attr">data-key</span>=<span class="hljs-string">"foo.kb"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"b"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"vb"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">tonic-input</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">tonic-input</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"c"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"vc"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">tonic-input</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">tonic-input</span> <span class="hljs-attr">data-key</span>=<span class="hljs-string">"bar.0.buzz"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"d"</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"vd"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">tonic-input</span>&gt;</span>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-form</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;f&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">tonic-input</span> <span class="hljs-attr">data-key</span>=<span class="hljs-string">&quot;ka&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;a&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;va&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">tonic-input</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">tonic-input</span> <span class="hljs-attr">data-key</span>=<span class="hljs-string">&quot;foo.kb&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;b&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;vb&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">tonic-input</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">tonic-input</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;c&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;vc&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">tonic-input</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">tonic-input</span> <span class="hljs-attr">data-key</span>=<span class="hljs-string">&quot;bar.0.buzz&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;d&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;vd&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">tonic-input</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-form</span>&gt;</span></code></pre>
 <hr>
 <h4>JS</h4>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> form = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'f'</span>)
+<pre><code class="language-js"><span class="hljs-keyword">const</span> form = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&#x27;f&#x27;</span>)
 <span class="hljs-keyword">const</span> expected = {
-  <span class="hljs-attr">ka</span>: <span class="hljs-string">'va'</span>,
+  <span class="hljs-attr">ka</span>: <span class="hljs-string">&#x27;va&#x27;</span>,
   <span class="hljs-attr">foo</span>: {
-    <span class="hljs-attr">kb</span>: <span class="hljs-string">'vb'</span>
+    <span class="hljs-attr">kb</span>: <span class="hljs-string">&#x27;vb&#x27;</span>
   },
-  <span class="hljs-attr">bar</span>: [{ <span class="hljs-attr">buzz</span>: <span class="hljs-string">'vd'</span> }]
+  <span class="hljs-attr">bar</span>: [{ <span class="hljs-attr">buzz</span>: <span class="hljs-string">&#x27;vd&#x27;</span> }]
 }
 
 assert(form.value === expected)</code></pre>
@@ -1095,11 +1095,11 @@ assert(form.value === expected)</code></pre>
       <h1 id="icon">Icon</h1>
 <p>The <code>Icon</code> component is used to create an SVG icon with a custom size and color.</p>
 <p>Your single SVG sprite file should have the following base structure, using <code>&lt;symbol&gt;</code> and an <code>id</code> to refer to the specific icon:</p>
-<pre><code>&lt;svg version=<span class="hljs-string">"1.1"</span> xmlns=<span class="hljs-string">"http://www.w3.org/2000/svg"</span>&gt;
-  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">symbol</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"example"</span>&gt;</span>
+<pre><code>&lt;svg version=<span class="hljs-string">&quot;1.1&quot;</span> xmlns=<span class="hljs-string">&quot;http://www.w3.org/2000/svg&quot;</span>&gt;
+  <span class="xml"><span class="hljs-tag">&lt;<span class="hljs-name">symbol</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;example&quot;</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">path</span> /&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">symbol</span>&gt;</span></span>
-&lt;<span class="hljs-regexp">/svg&gt;</span></code></pre><h2>Demo</h2>
+&lt;/svg&gt;</code></pre><h2>Demo</h2>
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
@@ -1114,10 +1114,10 @@ assert(form.value === expected)</code></pre>
 <h2>Code</h2>
 <h4>HTML</h4>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-icon</span>
-  <span class="hljs-attr">symbol-id</span>=<span class="hljs-string">"example"</span>
-  <span class="hljs-attr">src</span>=<span class="hljs-string">"/sprite.svg"</span>
-  <span class="hljs-attr">fill</span>=<span class="hljs-string">"red"</span>
-  <span class="hljs-attr">size</span>=<span class="hljs-string">"40px"</span>&gt;</span>
+  <span class="hljs-attr">symbol-id</span>=<span class="hljs-string">&quot;example&quot;</span>
+  <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;/sprite.svg&quot;</span>
+  <span class="hljs-attr">fill</span>=<span class="hljs-string">&quot;red&quot;</span>
+  <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;40px&quot;</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-icon</span>&gt;</span></code></pre>
 <h2>Api</h2>
 <h3>Properties</h3>
@@ -1187,20 +1187,20 @@ assert(form.value === expected)</code></pre>
 <h2>Code</h2>
 <h4>HTML</h4>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-input</span>
-  <span class="hljs-attr">label</span>=<span class="hljs-string">"Email Address"</span>
-  <span class="hljs-attr">type</span>=<span class="hljs-string">"email"</span>
-  <span class="hljs-attr">width</span>=<span class="hljs-string">"280px"</span>
-  <span class="hljs-attr">id</span>=<span class="hljs-string">"tonic-input-example"</span>
-  <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Enter a valid email address"</span>
-  <span class="hljs-attr">spellcheck</span>=<span class="hljs-string">"false"</span>
-  <span class="hljs-attr">error-message</span>=<span class="hljs-string">"Invalid Email"</span>&gt;</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Email Address&quot;</span>
+  <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;email&quot;</span>
+  <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;280px&quot;</span>
+  <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;tonic-input-example&quot;</span>
+  <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Enter a valid email address&quot;</span>
+  <span class="hljs-attr">spellcheck</span>=<span class="hljs-string">&quot;false&quot;</span>
+  <span class="hljs-attr">error-message</span>=<span class="hljs-string">&quot;Invalid Email&quot;</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-input</span>&gt;</span></code></pre>
 <hr>
 <p>The input will validate automatically if you specify the <code>type</code> or the <code>pattern</code> attribute.</p>
 <p>You can also validate or invalidate an input with Javascript using the methods <code>setValid()</code> and <code>setInvalid()</code></p>
 <h4>JS</h4>
-<pre><code class="language-js">setInvalid.addEventListener(<span class="hljs-string">'click'</span>, (e) =&gt; {
-  input.setInvalid(<span class="hljs-string">'There was a problem'</span>)
+<pre><code class="language-js">setInvalid.addEventListener(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function">(<span class="hljs-params">e</span>) =&gt;</span> {
+  input.setInvalid(<span class="hljs-string">&#x27;There was a problem&#x27;</span>)
 })</code></pre>
 <h2>Api</h2>
 <h3>Properties</h3>
@@ -1306,7 +1306,25 @@ assert(form.value === expected)</code></pre>
 <tr>
 <td align="left"><code>src</code></td>
 <td align="left"><em>string</em></td>
-<td align="left">Adds an icon to the input.</td>
+<td align="left">The src to use for the icon.</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>symbol-id</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">The symbol id to use for the icon.</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>fill</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">The fill color to use for the icon.</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>color</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">The path color to use for the icon.</td>
 <td align="left"></td>
 </tr>
 <tr>
@@ -1397,8 +1415,8 @@ your own panel class which can be registered and then used as a tag.</p>
 <h2>Code</h2>
 <h4>HTML</h4>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-panel</span>
-  <span class="hljs-attr">id</span>=<span class="hljs-string">"content-panel-example"</span>
-  <span class="hljs-attr">overlay</span>=<span class="hljs-string">"true"</span>&gt;</span>
+  <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;content-panel-example&quot;</span>
+  <span class="hljs-attr">overlay</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-panel</span>&gt;</span></code></pre>
 <h4>JS</h4>
 <pre><code class="language-js">%js%</code></pre>
@@ -1521,7 +1539,7 @@ your own panel class which can be registered and then used as a tag.</p>
 
 <h2>Code</h2>
 <h4>HTML</h4>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-popover</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"popover-example"</span> <span class="hljs-attr">width</span>=<span class="hljs-string">"175px"</span> <span class="hljs-attr">for</span>=<span class="hljs-string">"popover-example-trigger"</span>&gt;</span>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-popover</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;popover-example&quot;</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;175px&quot;</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;popover-example-trigger&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>Item 1<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>Item 2<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span>&gt;</span>Item 3<span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
@@ -1634,9 +1652,9 @@ and color.</p>
 <h2>Code</h2>
 <h4>HTML</h4>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-profile-image</span>
-  <span class="hljs-attr">id</span>=<span class="hljs-string">"profile-image-example-editable"</span>
-  <span class="hljs-attr">size</span>=<span class="hljs-string">"150px"</span>
-  <span class="hljs-attr">editable</span>=<span class="hljs-string">"true"</span>&gt;</span>
+  <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;profile-image-example-editable&quot;</span>
+  <span class="hljs-attr">size</span>=<span class="hljs-string">&quot;150px&quot;</span>
+  <span class="hljs-attr">editable</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-profile-image</span>&gt;</span></code></pre>
 <h4>JS</h4>
 <pre><code class="language-js">%js%</code></pre>
@@ -1744,7 +1762,7 @@ and color.</p>
 
 <h2>Code</h2>
 <h4>HTML</h4>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-progress-bar</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"progress-bar-example"</span>&gt;</span>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-progress-bar</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;progress-bar-example&quot;</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-progress-bar</span>&gt;</span></code></pre>
 <h2>Api</h2>
 <h3>Properties</h3>
@@ -1835,8 +1853,8 @@ and color.</p>
 <h2>Code</h2>
 <h4>HTML</h4>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-range</span>
-  <span class="hljs-attr">label</span>=<span class="hljs-string">"The value is %i%"</span>
-  <span class="hljs-attr">id</span>=<span class="hljs-string">"tonic-range-example"</span>&gt;</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;The value is %i%&quot;</span>
+  <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;tonic-range-example&quot;</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-range</span>&gt;</span></code></pre>
 <h2>Api</h2>
 <h3>Properties</h3>
@@ -1981,9 +1999,9 @@ date value. This is almost entirely based on Github&#39;s <a href="https://githu
 <h2>Code</h2>
 <h4>HTML</h4>
 <pre><code class="language-html">&lt;tonic-relative-time
-  date="${new Date()}"
-  refresh="1e4"
-  locale="en"
+  date=&quot;${new Date()}&quot;
+  refresh=&quot;1e4&quot;
+  locale=&quot;en&quot;
 &lt;/tonic-relative-time&gt;</code></pre>
 <h2>Api</h2>
 <h3>Properties</h3>
@@ -2047,12 +2065,12 @@ date value. This is almost entirely based on Github&#39;s <a href="https://githu
 
 <h2>Code</h2>
 <h4>HTML</h4>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-router</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"page1"</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"/examples.html"</span>&gt;</span>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-router</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;page1&quot;</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;/examples.html&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">i</span>&gt;</span>Hello, World<span class="hljs-tag">&lt;/<span class="hljs-name">i</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-router</span>&gt;</span>
 
-<span class="hljs-tag">&lt;<span class="hljs-name">tonic-router</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"page2"</span> <span class="hljs-attr">path</span>=<span class="hljs-string">"/bar/:number"</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">b</span>&gt;</span>number<span class="hljs-tag">&lt;/<span class="hljs-name">b</span>&gt;</span> prop has the value <span class="hljs-tag">&lt;<span class="hljs-name">b</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"page2-number"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">b</span>&gt;</span>.
+<span class="hljs-tag">&lt;<span class="hljs-name">tonic-router</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;page2&quot;</span> <span class="hljs-attr">path</span>=<span class="hljs-string">&quot;/bar/:number&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">b</span>&gt;</span>number<span class="hljs-tag">&lt;/<span class="hljs-name">b</span>&gt;</span> prop has the value <span class="hljs-tag">&lt;<span class="hljs-name">b</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;page2-number&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">b</span>&gt;</span>.
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-router</span>&gt;</span>
 
 <span class="hljs-tag">&lt;<span class="hljs-name">tonic-router</span> <span class="hljs-attr">none</span>&gt;</span>404<span class="hljs-tag">&lt;/<span class="hljs-name">tonic-router</span>&gt;</span></code></pre>
@@ -2127,10 +2145,10 @@ date value. This is almost entirely based on Github&#39;s <a href="https://githu
 
 <h2>Code</h2>
 <h4>HTML</h4>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-select</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"select"</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"a"</span>&gt;</span>Option A<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"b"</span>&gt;</span>Option B<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">"c"</span>&gt;</span>Option C<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-select</span> <span class="hljs-attr">name</span>=<span class="hljs-string">&quot;select&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;a&quot;</span>&gt;</span>Option A<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;b&quot;</span>&gt;</span>Option B<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;c&quot;</span>&gt;</span>Option C<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-select</span>&gt;</span></code></pre>
 <h4>JS</h4>
 <pre><code class="language-js">%js%</code></pre>
@@ -2285,8 +2303,8 @@ property, for example...</p>
 <h4>JS</h4>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   render () {
-    <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>.html<span class="hljs-string">`
-      &lt;tonic-icon symbol-id="close" size="40px"&gt;&lt;/tonic-icon&gt;
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`
+      &lt;tonic-icon symbol-id=&quot;close&quot; size=&quot;40px&quot;&gt;&lt;/tonic-icon&gt;
     `</span>
   }
 }</code></pre>
@@ -2336,38 +2354,38 @@ property, for example...</p>
 <p>The selected tab should specified by providing an <code>id</code> as the value
 for the <code>selected</code> attribute on the <code>tonic-tabs</code> component.</p>
 <h4>HTML</h4>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-tabs</span> <span class="hljs-attr">selected</span>=<span class="hljs-string">"tab-2"</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"my-tabs"</span>&gt;</span>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-tabs</span> <span class="hljs-attr">selected</span>=<span class="hljs-string">&quot;tab-2&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;my-tabs&quot;</span>&gt;</span>
 
   <span class="hljs-tag">&lt;<span class="hljs-name">tonic-tab</span>
-    <span class="hljs-attr">id</span>=<span class="hljs-string">"tab-1"</span>
-    <span class="hljs-attr">for</span>=<span class="hljs-string">"tab-panel-1"</span>&gt;</span>
+    <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;tab-1&quot;</span>
+    <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;tab-panel-1&quot;</span>&gt;</span>
     One
   <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-tab</span>&gt;</span>
 
   <span class="hljs-tag">&lt;<span class="hljs-name">tonic-tab</span>
-    <span class="hljs-attr">id</span>=<span class="hljs-string">"tab-2"</span>
-    <span class="hljs-attr">for</span>=<span class="hljs-string">"tab-panel-2"</span>&gt;</span>
+    <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;tab-2&quot;</span>
+    <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;tab-panel-2&quot;</span>&gt;</span>
     Two
   <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-tab</span>&gt;</span>
 
   <span class="hljs-tag">&lt;<span class="hljs-name">tonic-tab</span>
-    <span class="hljs-attr">id</span>=<span class="hljs-string">"tab-3"</span>
-    <span class="hljs-attr">for</span>=<span class="hljs-string">"tab-panel-3"</span>&gt;</span>
+    <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;tab-3&quot;</span>
+    <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;tab-panel-3&quot;</span>&gt;</span>
     Three
   <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-tab</span>&gt;</span>
 
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-tabs</span>&gt;</span></code></pre>
 <hr>
 <h4>HTML</h4>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-tab-panel</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"tab-panel-1"</span>&gt;</span>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-tab-panel</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;tab-panel-1&quot;</span>&gt;</span>
   Content One
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-tab-panel</span>&gt;</span>
 
-<span class="hljs-tag">&lt;<span class="hljs-name">tonic-tab-panel</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"tab-panel-2"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">tonic-tab-panel</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;tab-panel-2&quot;</span>&gt;</span>
   Content Two
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-tab-panel</span>&gt;</span>
 
-<span class="hljs-tag">&lt;<span class="hljs-name">tonic-tab-panel</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"tab-panel-3"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">tonic-tab-panel</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;tab-panel-3&quot;</span>&gt;</span>
   Content Three
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-tab-panel</span>&gt;</span></code></pre>
 <h2>API</h2>
@@ -2482,10 +2500,10 @@ is changed and get triggered both from click &amp; keyboard events.</p>
 <h2>Code</h2>
 <h4>Html</h4>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-textarea</span>
-  <span class="hljs-attr">placeholder</span>=<span class="hljs-string">"Placeholder"</span>
-  <span class="hljs-attr">rows</span>=<span class="hljs-string">"6"</span>
-  <span class="hljs-attr">id</span>=<span class="hljs-string">"my-textarea"</span>
-  <span class="hljs-attr">label</span>=<span class="hljs-string">"Text Area"</span>&gt;</span>
+  <span class="hljs-attr">placeholder</span>=<span class="hljs-string">&quot;Placeholder&quot;</span>
+  <span class="hljs-attr">rows</span>=<span class="hljs-string">&quot;6&quot;</span>
+  <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;my-textarea&quot;</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Text Area&quot;</span>&gt;</span>
   <span class="hljs-comment">&lt;!-- Content Goes Here --&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-textarea</span>&gt;</span></code></pre>
 <h2>Api</h2>
@@ -2670,19 +2688,19 @@ is changed and get triggered both from click &amp; keyboard events.</p>
 <h2>Code</h2>
 <p>The following code should be included once on the page:</p>
 <h4>HTML</h4>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-toaster</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"tonic-toaster-example"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">tonic-toaster</span>&gt;</span></code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-toaster</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;tonic-toaster-example&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">tonic-toaster</span>&gt;</span></code></pre>
 <hr>
 <p>To create a new toaster item:</p>
 <h4>JS</h4>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> notification = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">'tonic-toaster'</span>)
+<pre><code class="language-js"><span class="hljs-keyword">const</span> notification = <span class="hljs-built_in">document</span>.querySelector(<span class="hljs-string">&#x27;tonic-toaster&#x27;</span>)
 
 <span class="hljs-built_in">document</span>
-  .getElementById(<span class="hljs-string">'tonic-toaster-example'</span>)
-  .addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
+  .getElementById(<span class="hljs-string">&#x27;tonic-toaster-example&#x27;</span>)
+  .addEventListener(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> {
     notification.create({
-      <span class="hljs-attr">type</span>: <span class="hljs-string">'success'</span>,
-      <span class="hljs-attr">title</span>: <span class="hljs-string">'Greetings'</span>,
-      <span class="hljs-attr">message</span>: <span class="hljs-string">'Hello, World'</span>
+      <span class="hljs-attr">type</span>: <span class="hljs-string">&#x27;success&#x27;</span>,
+      <span class="hljs-attr">title</span>: <span class="hljs-string">&#x27;Greetings&#x27;</span>,
+      <span class="hljs-attr">message</span>: <span class="hljs-string">&#x27;Hello, World&#x27;</span>
     })
   })</code></pre>
 <h2>Api</h2>
@@ -2816,22 +2834,22 @@ screen either for a duration or until the user acknowledges it.</p>
 
 <h2>Code</h2>
 <h4>HTML</h4>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-toaster-inline</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"toaster-1"</span>&gt;</span>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-toaster-inline</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;toaster-1&quot;</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-toaster-inline</span>&gt;</span></code></pre>
 <h4>JS</h4>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> toaster1 = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'toaster-1'</span>)
-<span class="hljs-keyword">const</span> toasterLink1 = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">'toaster-link-1'</span>)
+<pre><code class="language-js"><span class="hljs-keyword">const</span> toaster1 = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&#x27;toaster-1&#x27;</span>)
+<span class="hljs-keyword">const</span> toasterLink1 = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&#x27;toaster-link-1&#x27;</span>)
 
-toasterLink1.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; {
+toasterLink1.addEventListener(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> {
   toaster1.show()
 })</code></pre>
 <hr>
 <p>An inline toaster that is displayed initially:</p>
 <h4>HTML</h4>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-toaster-inline</span>
-  <span class="hljs-attr">id</span>=<span class="hljs-string">"toaster-2"</span>
-  <span class="hljs-attr">dismiss</span>=<span class="hljs-string">"false"</span>
-  <span class="hljs-attr">display</span>=<span class="hljs-string">"true"</span>&gt;</span>
+  <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;toaster-2&quot;</span>
+  <span class="hljs-attr">dismiss</span>=<span class="hljs-string">&quot;false&quot;</span>
+  <span class="hljs-attr">display</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
   Displayed initially. Uses HTML.
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-toaster-inline</span>&gt;</span></code></pre>
 <p>NOTE: An inline toaster item that is displayed initially must declare each property in the HTML and display it using <code>display=&quot;true&quot;</code>. This will create the notification.</p>
@@ -2950,8 +2968,8 @@ toasterLink1.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; 
 <h2>Code</h2>
 <h4>HTML</h4>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-toggle</span>
-  <span class="hljs-attr">id</span>=<span class="hljs-string">"toggle-example"</span>
-  <span class="hljs-attr">label</span>=<span class="hljs-string">"Change"</span>&gt;</span>
+  <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;toggle-example&quot;</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Change&quot;</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-toggle</span>&gt;</span></code></pre>
 <h2>Api</h2>
 <h3>Properties</h3>
@@ -3055,10 +3073,10 @@ toasterLink1.addEventListener(<span class="hljs-string">'click'</span>, e =&gt; 
 <h2>Code</h2>
 <p>The element that will be used to trigger the display of the tooltip must contain an <code>id</code> that matches the <code>for</code> attribute on the <code>tonic-tooltip</code> element.</p>
 <h4>HTML</h4>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">id</span>=<span class="hljs-string">"tonic-tooltip-example"</span>&gt;</span>Hover over this text<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;tonic-tooltip-example&quot;</span>&gt;</span>Hover over this text<span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
 
-<span class="hljs-tag">&lt;<span class="hljs-name">tonic-tooltip</span> <span class="hljs-attr">for</span>=<span class="hljs-string">"tonic-tooltip-example"</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"./tonic.svg"</span> <span class="hljs-attr">width</span>=<span class="hljs-string">"100px"</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">tonic-tooltip</span> <span class="hljs-attr">for</span>=<span class="hljs-string">&quot;tonic-tooltip-example&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;./tonic.svg&quot;</span> <span class="hljs-attr">width</span>=<span class="hljs-string">&quot;100px&quot;</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-tooltip</span>&gt;</span></code></pre>
 <h2>Api</h2>
 <h3>Properties</h3>

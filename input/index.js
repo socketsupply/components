@@ -210,6 +210,7 @@ class TonicInput extends Tonic {
     })
 
     input.addEventListener('blur', e => {
+      if (this.state.rerendering) return
       this.state.focus = false
       relay('blur')
     })
@@ -220,8 +221,8 @@ class TonicInput extends Tonic {
     })
 
     const state = this.state
-    if (!state.focus) return
 
+    if (!state.focus) return
     input.focus()
 
     try {
@@ -229,6 +230,11 @@ class TonicInput extends Tonic {
     } catch (err) {
       console.warn(err)
     }
+  }
+
+  async reRender (...args) {
+    this.state.rerendering = true
+    return super.reRender(...args)
   }
 
   updated () {
@@ -243,6 +249,7 @@ class TonicInput extends Tonic {
     }, 32)
 
     this.setupEvents()
+    this.state.rerendering = false
   }
 
   connected () {

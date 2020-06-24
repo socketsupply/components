@@ -210,6 +210,7 @@ class TonicInput extends Tonic {
     })
 
     input.addEventListener('blur', e => {
+      if (this.state.rerendering) return
       this.state.focus = false
       relay('blur')
     })
@@ -243,6 +244,12 @@ class TonicInput extends Tonic {
     }, 32)
 
     this.setupEvents()
+    this.state.rerendering = false
+  }
+
+  async reRender (...args) {
+    this.state.rerendering = true
+    return super.reRender(...args)
   }
 
   connected () {

@@ -83,8 +83,8 @@ class Dialog extends Tonic {
         width: 25px;
         height: 25px;
         position: absolute;
-        top: 25px;
-        right: 25px;
+        top: 16px;
+        right: 16px;
         cursor: pointer;
       }
 

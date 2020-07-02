@@ -19,7 +19,7 @@ class TonicButton extends Tonic {
 
   defaults () {
     return {
-      height: '40px',
+      height: '38px',
       width: '150px',
       margin: '0px',
       autofocus: 'false',
@@ -40,12 +40,12 @@ class TonicButton extends Tonic {
       tonic-button button {
         color: var(--tonic-button, #333);
         width: auto;
-        min-height: 40px;
+        min-height: 38px;
         font: 12px var(--tonic-subheader, 'Arial', sans-serif);
         font-weight: 400;
         text-transform: uppercase;
         letter-spacing: 1px;
-        padding: 8px 8px 5px 8px;
+        padding: 8px;
         position: relative;
         background-color: transparent;
         border: 1px solid var(--tonic-button, #333);

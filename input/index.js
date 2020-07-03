@@ -71,7 +71,7 @@ class TonicInput extends Tonic {
       tonic-input[symbol-id] tonic-icon,
       tonic-input[src] tonic-icon {
         position: absolute;
-        bottom: 7px;
+        bottom: 4px;
       }
 
       tonic-input label {

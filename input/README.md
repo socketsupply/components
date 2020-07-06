@@ -36,6 +36,19 @@ The `Input` component creates an input that can be invalidated.
 </tonic-input>
 ```
 
+Native auto-complete is also supported.
+
+```html
+<tonic-input
+  label="Email Address"
+  type="email"
+  id="tonic-input-example"
+>
+  <option value="a">primary@foo.com</option>
+  <option value="b">secondary@foo.com</option>
+</tonic-input>
+```
+
 ---
 
 The input will validate automatically if you specify the `type` or the `pattern` attribute.

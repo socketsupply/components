@@ -8476,16 +8476,23 @@ class TonicInput extends Tonic {
   }
 
   setValid () {
-    this.reRender(props => Object.assign({}, props, {
-      invalid: false
-    }))
+    const input = this.querySelector('input')
+    if (!input) return
+
+    input.setCustomValidity('')
+    input.removeAttribute('invalid')
   }
 
   setInvalid (msg) {
-    this.reRender(props => Object.assign({}, props, {
-      invalid: true,
-      errorMessage: msg
-    }))
+    const input = this.querySelector('input')
+    if (!input) return
+
+    input.setCustomValidity(msg)
+    input.setAttribute('invalid', msg)
+    const span = this.querySelector('.tonic--invalid span')
+    if (!span) return
+
+    span.textContent = msg
   }
 
   static stylesheet () {
@@ -8517,7 +8524,7 @@ class TonicInput extends Tonic {
       tonic-input[symbol-id] tonic-icon,
       tonic-input[src] tonic-icon {
         position: absolute;
-        bottom: 7px;
+        bottom: 4px;
       }
 
       tonic-input label {
@@ -8766,6 +8773,10 @@ class TonicInput extends Tonic {
     const classes = ['tonic--wrapper']
     if (position) classes.push(`tonic--${position}`)
 
+    const list = this.elements.length
+      ? this.props.id + '_datalist'
+      : null
+
     const attributes = {
       ariaInvalid,
       ariaLabel: label,
@@ -8784,7 +8795,18 @@ class TonicInput extends Tonic {
       spellcheck,
       tabindex,
       title,
-      value
+      value,
+      list
+    }
+
+    let datalist = ''
+
+    if (list) {
+      datalist = this.html`
+        <datalist id="${list}">
+          ${this.elements}
+        </datalist>
+      `
     }
 
     return this.html`
@@ -8798,9 +8820,12 @@ class TonicInput extends Tonic {
           id: `tonic--input_${this.props.id}`,
           ...attributes
         }}/>
+
         <div class="tonic--invalid">
           <span id="tonic--error-${this.props.id}">${errorMessage}</span>
         </div>
+
+        ${datalist}
       </div>
     `
   }

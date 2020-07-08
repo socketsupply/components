@@ -1195,6 +1195,15 @@ assert(form.value === expected)</code></pre>
   <span class="hljs-attr">spellcheck</span>=<span class="hljs-string">&quot;false&quot;</span>
   <span class="hljs-attr">error-message</span>=<span class="hljs-string">&quot;Invalid Email&quot;</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-input</span>&gt;</span></code></pre>
+<p>Native auto-complete is also supported.</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-input</span>
+  <span class="hljs-attr">label</span>=<span class="hljs-string">&quot;Email Address&quot;</span>
+  <span class="hljs-attr">type</span>=<span class="hljs-string">&quot;email&quot;</span>
+  <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;tonic-input-example&quot;</span>
+&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;a&quot;</span>&gt;</span>primary@foo.com<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;b&quot;</span>&gt;</span>secondary@foo.com<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">tonic-input</span>&gt;</span></code></pre>
 <hr>
 <p>The input will validate automatically if you specify the <code>type</code> or the <code>pattern</code> attribute.</p>
 <p>You can also validate or invalidate an input with Javascript using the methods <code>setValid()</code> and <code>setInvalid()</code></p>

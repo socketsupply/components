@@ -78,7 +78,7 @@ class TonicInput extends Tonic {
       tonic-input[symbol-id] tonic-icon,
       tonic-input[src] tonic-icon {
         position: absolute;
-        bottom: 4px;
+        bottom: 8px;
       }
 
       tonic-input label {
@@ -313,7 +313,7 @@ class TonicInput extends Tonic {
     } = this.props
 
     if (ariaLabelledby) this.removeAttribute('ariaLabelledby')
-    if (height) this.style.width = height
+    if (height) this.style.height = height
     if (name) this.removeAttribute('name')
     if (tabindex) this.removeAttribute('tabindex')
     if (theme) this.classList.add(`tonic--theme--${theme}`)

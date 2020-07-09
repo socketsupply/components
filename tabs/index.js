@@ -37,6 +37,7 @@ class TonicTabs extends Tonic {
   }
 
   async setVisibility (id, forAttr) {
+    const renderAll = this.props.renderAll === 'true'
     const tabs = this.querySelectorAll('tonic-tab')
 
     for (const tab of tabs) {
@@ -91,8 +92,15 @@ class TonicTabs extends Tonic {
           'tabvisible', { detail: { id }, bubbles: true }
         ))
       } else {
+        if (!panel.visible && renderAll) {
+          panel.visible = true
+          if (panel.parentElement && panel.reRender) {
+            await panel.reRender()
+          }
+        }
+
         panel.setAttribute('hidden', '')
-        if (panel.parentElement) {
+        if (panel.parentElement && !renderAll) {
           this.panels[panel.id] = {
             parent: panel.parentElement,
             node: panel

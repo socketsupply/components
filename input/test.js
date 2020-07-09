@@ -6,8 +6,6 @@ const components = require('..')
 const Tonic = require('@optoolco/tonic')
 components(Tonic)
 
-const requestAnimationFrame = window.requestAnimationFrame
-
 class InputWrapper extends Tonic {
   constructor (o) {
     super(o)

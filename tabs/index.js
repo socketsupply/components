@@ -36,7 +36,7 @@ class TonicTabs extends Tonic {
     this.panels = this.panels || {}
   }
 
-  setVisibility (id, forAttr) {
+  async setVisibility (id, forAttr) {
     const tabs = this.querySelectorAll('tonic-tab')
 
     for (const tab of tabs) {
@@ -75,12 +75,15 @@ class TonicTabs extends Tonic {
         if (!panel.visible) {
           panel.visible = true
           if (panel.parentElement && panel.reRender) {
-            panel.reRender()
+            await panel.reRender()
           }
         }
 
         if (!panel.parentElement) {
           panelStore.parent.appendChild(panel)
+          if (panel.preventRenderOnReconnect && panel.reRender) {
+            await panel.reRender()
+          }
         }
 
         this.state.selected = id
@@ -176,6 +179,7 @@ class TonicTabPanel extends Tonic {
     super(o)
 
     this.visible = this.visible || false
+    this.__originalChildren = this.nodes
 
     if (!this.visible) {
       this.setAttribute('hidden', '')
@@ -200,7 +204,7 @@ class TonicTabPanel extends Tonic {
   render () {
     // console.trace('TabPanel.render()', this.id, this.visible)
     if (this.visible) {
-      return this.html`${this.childNodes}`
+      return this.html`${this.__originalChildren}`
     }
     return ''
   }

@@ -695,10 +695,6 @@ function functionBindPolyfill(context) {
 
 var base64 = require('base64-js')
 var ieee754 = require('ieee754')
-var customInspectSymbol =
-  (typeof Symbol === 'function' && typeof Symbol.for === 'function')
-    ? Symbol.for('nodejs.util.inspect.custom')
-    : null
 
 exports.Buffer = Buffer
 exports.SlowBuffer = SlowBuffer
@@ -735,9 +731,7 @@ function typedArraySupport () {
   // Can typed array instances can be augmented?
   try {
     var arr = new Uint8Array(1)
-    var proto = { foo: function () { return 42 } }
-    Object.setPrototypeOf(proto, Uint8Array.prototype)
-    Object.setPrototypeOf(arr, proto)
+    arr.__proto__ = { __proto__: Uint8Array.prototype, foo: function () { return 42 } }
     return arr.foo() === 42
   } catch (e) {
     return false
@@ -766,7 +760,7 @@ function createBuffer (length) {
   }
   // Return an augmented `Uint8Array` instance
   var buf = new Uint8Array(length)
-  Object.setPrototypeOf(buf, Buffer.prototype)
+  buf.__proto__ = Buffer.prototype
   return buf
 }
 
@@ -816,7 +810,7 @@ function from (value, encodingOrOffset, length) {
   }
 
   if (value == null) {
-    throw new TypeError(
+    throw TypeError(
       'The first argument must be one of type string, Buffer, ArrayBuffer, Array, ' +
       'or Array-like Object. Received type ' + (typeof value)
     )
@@ -868,8 +862,8 @@ Buffer.from = function (value, encodingOrOffset, length) {
 
 // Note: Change prototype *after* Buffer.from is defined to workaround Chrome bug:
 // https://github.com/feross/buffer/pull/148
-Object.setPrototypeOf(Buffer.prototype, Uint8Array.prototype)
-Object.setPrototypeOf(Buffer, Uint8Array)
+Buffer.prototype.__proto__ = Uint8Array.prototype
+Buffer.__proto__ = Uint8Array
 
 function assertSize (size) {
   if (typeof size !== 'number') {
@@ -973,8 +967,7 @@ function fromArrayBuffer (array, byteOffset, length) {
   }
 
   // Return an augmented `Uint8Array` instance
-  Object.setPrototypeOf(buf, Buffer.prototype)
-
+  buf.__proto__ = Buffer.prototype
   return buf
 }
 
@@ -1296,9 +1289,6 @@ Buffer.prototype.inspect = function inspect () {
   if (this.length > max) str += ' ... '
   return '<Buffer ' + str + '>'
 }
-if (customInspectSymbol) {
-  Buffer.prototype[customInspectSymbol] = Buffer.prototype.inspect
-}
 
 Buffer.prototype.compare = function compare (target, start, end, thisStart, thisEnd) {
   if (isInstance(target, Uint8Array)) {
@@ -1424,7 +1414,7 @@ function bidirectionalIndexOf (buffer, val, byteOffset, encoding, dir) {
         return Uint8Array.prototype.lastIndexOf.call(buffer, val, byteOffset)
       }
     }
-    return arrayIndexOf(buffer, [val], byteOffset, encoding, dir)
+    return arrayIndexOf(buffer, [ val ], byteOffset, encoding, dir)
   }
 
   throw new TypeError('val must be string, number or Buffer')
@@ -1753,7 +1743,7 @@ function hexSlice (buf, start, end) {
 
   var out = ''
   for (var i = start; i < end; ++i) {
-    out += hexSliceLookupTable[buf[i]]
+    out += toHex(buf[i])
   }
   return out
 }
@@ -1790,8 +1780,7 @@ Buffer.prototype.slice = function slice (start, end) {
 
   var newBuf = this.subarray(start, end)
   // Return an augmented `Uint8Array` instance
-  Object.setPrototypeOf(newBuf, Buffer.prototype)
-
+  newBuf.__proto__ = Buffer.prototype
   return newBuf
 }
 
@@ -2280,8 +2269,6 @@ Buffer.prototype.fill = function fill (val, start, end, encoding) {
     }
   } else if (typeof val === 'number') {
     val = val & 255
-  } else if (typeof val === 'boolean') {
-    val = Number(val)
   }
 
   // Invalid ranges are not set to a default, so can range check early.
@@ -2337,6 +2324,11 @@ function base64clean (str) {
     str = str + '='
   }
   return str
+}
+
+function toHex (n) {
+  if (n < 16) return '0' + n.toString(16)
+  return n.toString(16)
 }
 
 function utf8ToBytes (string, units) {
@@ -2468,20 +2460,6 @@ function numberIsNaN (obj) {
   // For IE11 support
   return obj !== obj // eslint-disable-line no-self-compare
 }
-
-// Create lookup table for `toString('hex')`
-// See: https://github.com/feross/buffer/issues/219
-var hexSliceLookupTable = (function () {
-  var alphabet = '0123456789abcdef'
-  var table = new Array(256)
-  for (var i = 0; i < 16; ++i) {
-    var i16 = i * 16
-    for (var j = 0; j < 16; ++j) {
-      table[i16 + j] = alphabet[i] + alphabet[j]
-    }
-  }
-  return table
-})()
 
 }).call(this,require("buffer").Buffer)
 },{"base64-js":1,"buffer":5,"ieee754":7}],6:[function(require,module,exports){
@@ -8524,7 +8502,7 @@ class TonicInput extends Tonic {
       tonic-input[symbol-id] tonic-icon,
       tonic-input[src] tonic-icon {
         position: absolute;
-        bottom: 4px;
+        bottom: 8px;
       }
 
       tonic-input label {
@@ -8759,7 +8737,7 @@ class TonicInput extends Tonic {
     } = this.props
 
     if (ariaLabelledby) this.removeAttribute('ariaLabelledby')
-    if (height) this.style.width = height
+    if (height) this.style.height = height
     if (name) this.removeAttribute('name')
     if (tabindex) this.removeAttribute('tabindex')
     if (theme) this.classList.add(`tonic--theme--${theme}`)
@@ -8842,8 +8820,6 @@ const components = require('..')
 const Tonic = require('@optoolco/tonic')
 components(Tonic)
 
-const requestAnimationFrame = window.requestAnimationFrame
-
 class InputWrapper extends Tonic {
   constructor (o) {
     super(o)
@@ -8865,7 +8841,6 @@ class InputWrapper extends Tonic {
   }
 
   click (ev) {
-    console.log('click ev')
     const el = Tonic.match(ev.target, '[data-event]')
     if (!el || el.dataset.event !== 'copy') return
 
@@ -9233,13 +9208,13 @@ tape('input wrapper component interactions', t => {
 
   buttons[0].click()
 
-  requestAnimationFrame(() => {
+  setTimeout(() => {
     display = comp.querySelector('span.display')
     t.equal(display.textContent, 'someText')
     t.equal(comp.state.inputEvents, 1)
 
     t.end()
-  })
+  }, 20)
 })
 
 },{"..":46,"../test/util":114,"@optoolco/tonic":49,"@pre-bundled/tape":51,"qs":93}],49:[function(require,module,exports){
@@ -9260,6 +9235,7 @@ class Tonic extends window.HTMLElement {
     const state = Tonic._states[super.id]
     delete Tonic._states[super.id]
     this._state = state || {}
+    this.preventRenderOnReconnect = false
     this.props = {}
     this.elements = [...this.children]
     this.elements.__children__ = true
@@ -9289,7 +9265,10 @@ class Tonic extends window.HTMLElement {
 
   _checkId () {
     const _id = super.id
-    if (!_id) throw new Error(`Component: ${this.tagName} has no id`)
+    if (!_id) {
+      const html = this.outerHTML.replace(this.innerHTML, '...')
+      throw new Error(`Component: ${html} has no id`)
+    }
     return _id
   }
 
@@ -9437,7 +9416,7 @@ class Tonic extends window.HTMLElement {
     if (this.pendingReRender) return this.pendingReRender
 
     this.pendingReRender = new Promise(resolve => {
-      window.requestAnimationFrame(() => {
+      window.setTimeout(() => {
         const p = this._set(this.root, this.render)
         this.pendingReRender = null
 
@@ -9451,7 +9430,7 @@ class Tonic extends window.HTMLElement {
 
         if (this.updated) this.updated(oldProps)
         resolve()
-      })
+      }, 0)
     })
 
     return this.pendingReRender
@@ -9592,16 +9571,18 @@ class Tonic extends window.HTMLElement {
       this.props
     )
 
-    if (!this._source) {
-      this._source = this.innerHTML
-    } else {
-      this.innerHTML = this._source
-    }
-
     this._id = this._id || Tonic._createId()
 
     this.willConnect && this.willConnect()
-    Tonic._maybePromise(this._set(this.root, this.render))
+    if (!this.preventRenderOnReconnect) {
+      if (!this._source) {
+        this._source = this.innerHTML
+      } else {
+        this.innerHTML = this._source
+      }
+
+      Tonic._maybePromise(this._set(this.root, this.render))
+    }
     Tonic._maybePromise(this.connected && this.connected())
   }
 
@@ -9635,30 +9616,27 @@ if (typeof module === 'object') module.exports = Tonic
 
 },{"./package":50}],50:[function(require,module,exports){
 module.exports={
-  "_from": "@optoolco/tonic@12.0.0",
-  "_id": "@optoolco/tonic@12.0.0",
+  "_from": "github:optoolco/tonic#a940798b13d2dcfd1c3fe1f4725674b08abee08b",
+  "_id": "@optoolco/tonic@12.0.1",
   "_inBundle": false,
-  "_integrity": "sha512-kRjYMv5VYGSDTSzSBPX0nCNT4NWZwyjzvdWLlhkLDeCJvw3IqZLBSP4hmoRdh4lGMbxOI/i+JfTmxCDjbj6OXg==",
+  "_integrity": "",
   "_location": "/@optoolco/tonic",
   "_phantomChildren": {},
   "_requested": {
-    "type": "version",
-    "registry": true,
-    "raw": "@optoolco/tonic@12.0.0",
-    "name": "@optoolco/tonic",
-    "escapedName": "@optoolco%2ftonic",
-    "scope": "@optoolco",
-    "rawSpec": "12.0.0",
-    "saveSpec": null,
-    "fetchSpec": "12.0.0"
+    "type": "git",
+    "raw": "optoolco/tonic#a940798b13d2dcfd1c3fe1f4725674b08abee08b",
+    "rawSpec": "optoolco/tonic#a940798b13d2dcfd1c3fe1f4725674b08abee08b",
+    "saveSpec": "github:optoolco/tonic#a940798b13d2dcfd1c3fe1f4725674b08abee08b",
+    "fetchSpec": null,
+    "gitCommittish": "a940798b13d2dcfd1c3fe1f4725674b08abee08b"
   },
   "_requiredBy": [
-    "#DEV:/"
+    "#DEV:/",
+    "#USER"
   ],
-  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-12.0.0.tgz",
-  "_shasum": "efe407a8c22464e898f2e664e0df9fbe7d8de58f",
-  "_spec": "@optoolco/tonic@12.0.0",
-  "_where": "/Users/paolofragomeni/projects/optoolco/components",
+  "_resolved": "github:optoolco/tonic#a940798b13d2dcfd1c3fe1f4725674b08abee08b",
+  "_spec": "optoolco/tonic#a940798b13d2dcfd1c3fe1f4725674b08abee08b",
+  "_where": "/home/raynos/optoolco/components",
   "author": {
     "name": "optoolco"
   },
@@ -9693,7 +9671,7 @@ module.exports={
     "minify": "terser index.js -c unused,dead_code,hoist_vars,loops=false,hoist_props=true,hoist_funs,toplevel,keep_classnames,keep_fargs=false -o dist/tonic.min.js",
     "test": "npm run minify && browserify test/index.js | tape-puppet"
   },
-  "version": "12.0.0"
+  "version": "12.0.1"
 }
 
 },{}],51:[function(require,module,exports){
@@ -36536,8 +36514,10 @@ const Tonic = require('@optoolco/tonic')
 const CustomEvent = window.CustomEvent
 
 class TonicTabs extends Tonic {
-  constructor () {
-    super()
+  constructor (o) {
+    super(o)
+
+    this._setVisibilitySynchronously = false
     this.panels = {}
   }
 
@@ -36563,6 +36543,10 @@ class TonicTabs extends Tonic {
     }
   }
 
+  willConnect () {
+    this.panels = this.panels || {}
+  }
+
   setVisibility (id, forAttr) {
     const tabs = this.querySelectorAll('tonic-tab')
 
@@ -36574,42 +36558,56 @@ class TonicTabs extends Tonic {
         throw new Error(`No "for" attribute found for tab id "${tab.id}".`)
       }
 
-      let panel = null
-
-      if (this.props.detatchOnHide && this.panels[control]) {
-        const store = this.panels[control]
-        panel = store.node
-        store.parent.appendChild(panel)
-      } else {
-        panel = document.getElementById(control)
+      const panelStore = this.panels[control]
+      let panel = document.getElementById(control)
+      if (!panel && panelStore) {
+        panel = panelStore.node
       }
 
       if (!panel) {
+        if (this._setVisibilitySynchronously) {
+          return setImmediate(() => {
+            this.setVisibility(id, forAttr)
+          })
+        }
+
         throw new Error(`No panel found that matches the id (${control})`)
       }
 
       if (tab.id === id || control === forAttr) {
         panel.removeAttribute('hidden')
+
         if (tab.id === id) {
           anchor.setAttribute('aria-selected', 'true')
         } else {
           anchor.setAttribute('aria-selected', 'false')
         }
 
-        this.state.selected = id
+        if (!panel.visible) {
+          panel.visible = true
+          if (panel.parentElement && panel.reRender) {
+            panel.reRender()
+          }
+        }
 
+        if (!panel.parentElement) {
+          panelStore.parent.appendChild(panel)
+        }
+
+        this.state.selected = id
         this.dispatchEvent(new CustomEvent(
           'tabvisible', { detail: { id }, bubbles: true }
         ))
       } else {
         panel.setAttribute('hidden', '')
-        if (this.props.detatchOnHide) {
+        if (panel.parentElement) {
           this.panels[panel.id] = {
             parent: panel.parentElement,
             node: panel
           }
           panel.remove()
         }
+
         anchor.setAttribute('aria-selected', 'false')
         this.dispatchEvent(new CustomEvent(
           'tabhidden', { detail: { id }, bubbles: true }
@@ -36649,7 +36647,7 @@ class TonicTabs extends Tonic {
         e.preventDefault()
 
         const id = isActive.parentNode.getAttribute('id')
-        this.setVisibility(id)
+        this.setVisibility(id, isActive.getAttribute('for'))
         break
       }
     }
@@ -36657,16 +36655,17 @@ class TonicTabs extends Tonic {
 
   connected () {
     const id = this.state.selected || this.props.selected
-    setImmediate(() => this.setVisibility(id))
-  }
+    if (!id) {
+      throw new Error('missing selected property.')
+    }
 
-  disconnected () {
-    delete this.panels
+    this._setVisibilitySynchronously = true
+    this.setVisibility(id)
+    this._setVisibilitySynchronously = false
   }
 
   render () {
     this.setAttribute('role', 'tablist')
-
     return this.html`${this.childNodes}`
   }
 }
@@ -36684,20 +36683,37 @@ class TonicTabPanel extends Tonic {
     `
   }
 
+  constructor (o) {
+    super(o)
+
+    this.visible = this.visible || false
+
+    if (!this.visible) {
+      this.setAttribute('hidden', '')
+    }
+    this.setAttribute('role', 'tabpanel')
+  }
+
   connected () {
-    const tab = document.querySelector(`.tonic--tab[for="${this.props.id}"]`)
-    if (!tab) return
-    const tabid = tab.getAttribute('id')
-    this.setAttribute('aria-labelledby', tabid)
+    const tab = document.querySelector(
+      `.tonic--tab[for="${this.props.id}"]`
+    )
+    if (tab) {
+      const tabid = tab.getAttribute('id')
+      this.setAttribute('aria-labelledby', tabid)
+    }
+  }
+
+  disconnected () {
+    this.preventRenderOnReconnect = true
   }
 
   render () {
-    this.setAttribute('role', 'tabpanel')
-    this.setAttribute('hidden', '')
-
-    return this.html`
-      ${this.childNodes}
-    `
+    // console.trace('TabPanel.render()', this.id, this.visible)
+    if (this.visible) {
+      return this.html`${this.childNodes}`
+    }
+    return ''
   }
 }
 
@@ -36881,12 +36897,187 @@ class ComponentContainer extends Tonic {
 
 Tonic.add(ComponentContainer)
 
+class TabTextBox extends Tonic {
+  constructor (o) {
+    super(o)
+
+    TabTextBox.allocationCounter++
+    this.renderCounter = 0
+    this.willConnectCounter = 0
+    this.connectedCounter = 0
+    this.disconnectedCounter = 0
+  }
+
+  willConnect () {
+    this.willConnectCounter++
+  }
+
+  connected () {
+    // if (this.props.text === 'Text two') {
+    //   console.trace('connected()')
+    // }
+    this.connectedCounter++
+  }
+
+  disconnected () {
+    // if (this.props.text === 'Text two') {
+    //   console.trace('disconnected()')
+    // }
+    this.disconnectedCounter++
+    this.preventRenderOnReconnect = true
+  }
+
+  render () {
+    // if (this.props.text === 'Text two') {
+    //   console.trace('render()')
+    // }
+    this.renderCounter++
+    return this.html`<span>${this.props.text}</span>`
+  }
+}
+Tonic.add(TabTextBox)
+
+TabTextBox.allocationCounter = 0
+
 tape('{{tabs-3}} has correct default state', t => {
   const container = qs('component-container')
 
   t.ok(container, 'rendered')
   t.end()
 })
+
+tape('tabs only render what is visible', async t => {
+  document.body.appendChild(html`
+    <div id="tabs-4" class="test-container">
+      <tonic-tabs id="tc-tabs-4" selected="tc4-tab1">
+        <tonic-tab id="tc4-tab1" for="tc4-panel1">one</tonic-tab>
+        <tonic-tab id="tc4-tab2" for="tc4-panel2">two</tonic-tab>
+        <tonic-tab id="tc4-tab3" for="tc4-panel3">three</tonic-tab>
+      </tonic-tabs>
+      <main>
+        <tonic-tab-panel id="tc4-panel1">
+          <tab-text-box text="Text one"></text-box>
+        </tonic-tab-panel>
+        <tonic-tab-panel id="tc4-panel2">
+          <tab-text-box text="Text two"></text-box>
+        </tonic-tab-panel>
+        <tonic-tab-panel id="tc4-panel3">
+          <tab-text-box text="Text three"></text-box>
+        </tonic-tab-panel>
+      </main>
+    </div>
+  `)
+
+  const container = document.getElementById('tabs-4')
+  const $ = (query) => {
+    return [...container.querySelectorAll(query)]
+  }
+
+  {
+    const tabs = $('tonic-tab')
+    const panels = $('tonic-tab-panel')
+
+    t.equal(tabs.length, 3, 'expected 3 tabs')
+    t.equal(panels.length, 1, 'expect 1 panel')
+    t.equal(panels[0].id, 'tc4-panel1', 'correct panel shown')
+
+    const textboxs = $('tab-text-box')
+
+    t.equal(textboxs.length, 1, 'expect 1 textbox')
+    t.equal(textboxs[0].textContent, 'Text one')
+    t.equal(TabTextBox.allocationCounter, 3, 'expect 3 allocations')
+    t.equal(textboxs[0].renderCounter, 1, 'expect 1 render')
+    t.equal(textboxs[0].connectedCounter, 1, 'expect 1 connected')
+    t.equal(textboxs[0].disconnectedCounter, 0, 'expect 1 disconnected')
+  }
+
+  const anchorTwo = $('#tc4-tab2 a')[0]
+  anchorTwo.click()
+
+  await sleep(3)
+
+  {
+    const panels = $('tonic-tab-panel')
+    t.equal(panels.length, 1, 'expect 1 panel')
+    t.equal(panels[0].id, 'tc4-panel2', 'correct panel shown')
+
+    const textboxs = $('tab-text-box')
+
+    t.equal(textboxs.length, 1, 'expect 1 textbox')
+    t.equal(textboxs[0].textContent, 'Text two')
+    t.equal(TabTextBox.allocationCounter, 3, 'expect 3 allocations')
+    t.equal(textboxs[0].renderCounter, 1, 'expect 1 render')
+    t.equal(textboxs[0].connectedCounter, 2, 'expect 2 connected')
+    t.equal(textboxs[0].disconnectedCounter, 1, 'expected 1 disconnected')
+  }
+
+  const anchorThree = $('#tc4-tab3 a')[0]
+  anchorThree.click()
+
+  await sleep(3)
+
+  {
+    const panels = $('tonic-tab-panel')
+    t.equal(panels.length, 1, 'expect 1 panel')
+    t.equal(panels[0].id, 'tc4-panel3', 'correct panel shown')
+
+    const textboxs = $('tab-text-box')
+
+    t.equal(textboxs.length, 1, 'expect 1 textbox')
+    t.equal(textboxs[0].textContent, 'Text three')
+    t.equal(TabTextBox.allocationCounter, 3, 'expect 3 allocations')
+    t.equal(textboxs[0].renderCounter, 1, 'expect 1 render')
+    t.equal(textboxs[0].connectedCounter, 2, 'expect 2 connected')
+    t.equal(textboxs[0].disconnectedCounter, 1, 'expected 1 disconnected')
+  }
+
+  const anchorOne = $('#tc4-tab1 a')[0]
+  anchorOne.click()
+
+  await sleep(3)
+
+  {
+    const panels = $('tonic-tab-panel')
+    t.equal(panels.length, 1, 'expect 1 panel')
+    t.equal(panels[0].id, 'tc4-panel1', 'correct panel shown')
+
+    const textboxs = $('tab-text-box')
+
+    t.equal(textboxs.length, 1, 'expect 1 textbox')
+    t.equal(textboxs[0].textContent, 'Text one')
+    t.equal(TabTextBox.allocationCounter, 3, 'expect 3 allocations')
+    t.equal(textboxs[0].renderCounter, 1, 'expect 1 render')
+    t.equal(textboxs[0].connectedCounter, 2, 'expect 2 connected')
+    t.equal(textboxs[0].disconnectedCounter, 1, 'expected 1 disconnected')
+  }
+
+  anchorTwo.click()
+
+  await sleep(3)
+
+  {
+    const panels = $('tonic-tab-panel')
+    t.equal(panels.length, 1, 'expect 1 panel')
+    t.equal(panels[0].id, 'tc4-panel2', 'correct panel shown')
+
+    const textboxs = $('tab-text-box')
+
+    t.equal(textboxs.length, 1, 'expect 1 textbox')
+    t.equal(textboxs[0].textContent, 'Text two')
+    t.equal(TabTextBox.allocationCounter, 3, 'expect 3 allocations')
+    t.equal(textboxs[0].renderCounter, 1, 'expect 1 render')
+    t.equal(textboxs[0].connectedCounter, 3, 'expect 2 connected')
+    t.equal(textboxs[0].disconnectedCounter, 2, 'expected 1 disconnected')
+  }
+
+  t.end()
+})
+
+function sleep (n) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, n)
+  })
+}
 
 },{"..":46,"../test/util":114,"@optoolco/tonic":49,"@pre-bundled/tape":51,"qs":93}],112:[function(require,module,exports){
 const tape = require('@pre-bundled/tape')

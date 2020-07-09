@@ -6,6 +6,7 @@ class TonicTabs extends Tonic {
   constructor (o) {
     super(o)
 
+    this._setVisibilitySynchronously = false
     this.panels = {}
   }
 
@@ -31,6 +32,10 @@ class TonicTabs extends Tonic {
     }
   }
 
+  willConnect () {
+    this.panels = this.panels || {}
+  }
+
   setVisibility (id, forAttr) {
     const tabs = this.querySelectorAll('tonic-tab')
 
@@ -49,6 +54,12 @@ class TonicTabs extends Tonic {
       }
 
       if (!panel) {
+        if (this._setVisibilitySynchronously) {
+          return setImmediate(() => {
+            this.setVisibility(id, forAttr)
+          })
+        }
+
         throw new Error(`No panel found that matches the id (${control})`)
       }
 
@@ -137,11 +148,9 @@ class TonicTabs extends Tonic {
       throw new Error('missing selected property.')
     }
 
+    this._setVisibilitySynchronously = true
     this.setVisibility(id)
-  }
-
-  disconnected () {
-    delete this.panels
+    this._setVisibilitySynchronously = false
   }
 
   render () {
@@ -189,7 +198,7 @@ class TonicTabPanel extends Tonic {
   }
 
   render () {
-    console.trace('TabPanel.render()', this.id, this.visible)
+    // console.trace('TabPanel.render()', this.id, this.visible)
     if (this.visible) {
       return this.html`${this.childNodes}`
     }

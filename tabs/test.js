@@ -150,11 +150,11 @@ class ComponentContainer extends Tonic {
 
 Tonic.add(ComponentContainer)
 
-class TabTextBox extends Tonic {
+class TestTabTextBox extends Tonic {
   constructor (o) {
     super(o)
 
-    TabTextBox.allocationCounter++
+    TestTabTextBox.allocationCounter++
     this.renderCounter = 0
     this.willConnectCounter = 0
     this.connectedCounter = 0
@@ -188,9 +188,9 @@ class TabTextBox extends Tonic {
     return this.html`<span>${this.props.text}</span>`
   }
 }
-Tonic.add(TabTextBox)
+Tonic.add(TestTabTextBox)
 
-TabTextBox.allocationCounter = 0
+TestTabTextBox.allocationCounter = 0
 
 tape('{{tabs-3}} has correct default state', t => {
   const container = qs('component-container')
@@ -209,13 +209,13 @@ tape('tabs only render what is visible', async t => {
       </tonic-tabs>
       <main>
         <tonic-tab-panel id="tc4-panel1">
-          <tab-text-box text="Text one"></text-box>
+          <test-tab-text-box text="Text one"></text-box>
         </tonic-tab-panel>
         <tonic-tab-panel id="tc4-panel2">
-          <tab-text-box text="Text two"></text-box>
+          <test-tab-text-box text="Text two"></text-box>
         </tonic-tab-panel>
         <tonic-tab-panel id="tc4-panel3">
-          <tab-text-box text="Text three"></text-box>
+          <test-tab-text-box text="Text three"></text-box>
         </tonic-tab-panel>
       </main>
     </div>
@@ -234,11 +234,11 @@ tape('tabs only render what is visible', async t => {
     t.equal(panels.length, 1, 'expect 1 panel')
     t.equal(panels[0].id, 'tc4-panel1', 'correct panel shown')
 
-    const textboxs = $('tab-text-box')
+    const textboxs = $('test-tab-text-box')
 
     t.equal(textboxs.length, 1, 'expect 1 textbox')
     t.equal(textboxs[0].textContent, 'Text one')
-    t.equal(TabTextBox.allocationCounter, 3, 'expect 3 allocations')
+    t.equal(TestTabTextBox.allocationCounter, 3, 'expect 3 allocations')
     t.equal(textboxs[0].renderCounter, 1, 'expect 1 render')
     t.equal(textboxs[0].connectedCounter, 1, 'expect 1 connected')
     t.equal(textboxs[0].disconnectedCounter, 0, 'expect 1 disconnected')
@@ -254,11 +254,11 @@ tape('tabs only render what is visible', async t => {
     t.equal(panels.length, 1, 'expect 1 panel')
     t.equal(panels[0].id, 'tc4-panel2', 'correct panel shown')
 
-    const textboxs = $('tab-text-box')
+    const textboxs = $('test-tab-text-box')
 
     t.equal(textboxs.length, 1, 'expect 1 textbox')
     t.equal(textboxs[0].textContent, 'Text two')
-    t.equal(TabTextBox.allocationCounter, 3, 'expect 3 allocations')
+    t.equal(TestTabTextBox.allocationCounter, 3, 'expect 3 allocations')
     t.equal(textboxs[0].renderCounter, 1, 'expect 1 render')
     t.equal(textboxs[0].connectedCounter, 2, 'expect 2 connected')
     t.equal(textboxs[0].disconnectedCounter, 1, 'expected 1 disconnected')
@@ -274,11 +274,11 @@ tape('tabs only render what is visible', async t => {
     t.equal(panels.length, 1, 'expect 1 panel')
     t.equal(panels[0].id, 'tc4-panel3', 'correct panel shown')
 
-    const textboxs = $('tab-text-box')
+    const textboxs = $('test-tab-text-box')
 
     t.equal(textboxs.length, 1, 'expect 1 textbox')
     t.equal(textboxs[0].textContent, 'Text three')
-    t.equal(TabTextBox.allocationCounter, 3, 'expect 3 allocations')
+    t.equal(TestTabTextBox.allocationCounter, 3, 'expect 3 allocations')
     t.equal(textboxs[0].renderCounter, 1, 'expect 1 render')
     t.equal(textboxs[0].connectedCounter, 2, 'expect 2 connected')
     t.equal(textboxs[0].disconnectedCounter, 1, 'expected 1 disconnected')
@@ -294,11 +294,11 @@ tape('tabs only render what is visible', async t => {
     t.equal(panels.length, 1, 'expect 1 panel')
     t.equal(panels[0].id, 'tc4-panel1', 'correct panel shown')
 
-    const textboxs = $('tab-text-box')
+    const textboxs = $('test-tab-text-box')
 
     t.equal(textboxs.length, 1, 'expect 1 textbox')
     t.equal(textboxs[0].textContent, 'Text one')
-    t.equal(TabTextBox.allocationCounter, 3, 'expect 3 allocations')
+    t.equal(TestTabTextBox.allocationCounter, 3, 'expect 3 allocations')
     t.equal(textboxs[0].renderCounter, 1, 'expect 1 render')
     t.equal(textboxs[0].connectedCounter, 2, 'expect 2 connected')
     t.equal(textboxs[0].disconnectedCounter, 1, 'expected 1 disconnected')
@@ -313,11 +313,11 @@ tape('tabs only render what is visible', async t => {
     t.equal(panels.length, 1, 'expect 1 panel')
     t.equal(panels[0].id, 'tc4-panel2', 'correct panel shown')
 
-    const textboxs = $('tab-text-box')
+    const textboxs = $('test-tab-text-box')
 
     t.equal(textboxs.length, 1, 'expect 1 textbox')
     t.equal(textboxs[0].textContent, 'Text two')
-    t.equal(TabTextBox.allocationCounter, 3, 'expect 3 allocations')
+    t.equal(TestTabTextBox.allocationCounter, 3, 'expect 3 allocations')
     t.equal(textboxs[0].renderCounter, 1, 'expect 1 render')
     t.equal(textboxs[0].connectedCounter, 3, 'expect 2 connected')
     t.equal(textboxs[0].disconnectedCounter, 2, 'expected 1 disconnected')

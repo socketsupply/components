@@ -987,11 +987,15 @@ class TonicCheckbox extends Tonic {
   }
 
   set value (value) {
+    this._setValue(value)
+  }
+
+  async _setValue (value) {
     const checked = (value === true) || (value === 'true')
 
     this.state.checked = checked
     this.props.checked = checked
-    this.reRender()
+    await this.reRender()
   }
 
   defaults () {
@@ -1008,6 +1012,11 @@ class TonicCheckbox extends Tonic {
         -webkit-user-select: none;
         -moz-user-select: none;
         user-select: none;
+      }
+
+      tonic-checkbox a {
+        height: auto;
+        padding: 6px;
       }
 
       tonic-checkbox input[type="checkbox"] {
@@ -1029,10 +1038,12 @@ class TonicCheckbox extends Tonic {
       }
 
       tonic-checkbox .tonic--icon {
+        position: absolute;
         display: inline-block;
         width: 100%;
         height: 100%;
         background-size: contain;
+        margin: 4px;
       }
 
       tonic-checkbox .tonic--icon svg {
@@ -1041,8 +1052,9 @@ class TonicCheckbox extends Tonic {
       }
 
       tonic-checkbox label:nth-of-type(2) {
-        padding-top: 2px;
-        margin-left: 10px;
+        display: inline-block;
+        line-height: 22px;
+        margin: 2px 30px;
       }
     `
   }
@@ -1117,6 +1129,13 @@ class TonicCheckbox extends Tonic {
     `
   }
 
+  async keydown (e) {
+    if (e.code === 'Space') {
+      await this._setValue(!this.value)
+      this.querySelector('a').focus()
+    }
+  }
+
   render () {
     const {
       id,
@@ -1135,7 +1154,7 @@ class TonicCheckbox extends Tonic {
     if (theme) this.classList.add(`tonic--theme--${theme}`)
 
     return this.html`
-      <div class="tonic--checkbox--wrapper">
+      <a href="#" class="tonic--checkbox--wrapper">
         <input ... ${{
           type: 'checkbox',
           id: `tonic--checkbox--${id}`,
@@ -1152,7 +1171,7 @@ class TonicCheckbox extends Tonic {
           ${this.renderIcon()}
         </label>
         ${this.renderLabel()}
-      </div>
+      </a>
     `
   }
 }
@@ -25658,6 +25677,7 @@ class TonicTabs extends Tonic {
 
   async setVisibility (id, forAttr) {
     const renderAll = this.props.renderAll === 'true'
+    const detatchOnHide = this.props.detatchOnHide
     const tabs = this.querySelectorAll('tonic-tab')
 
     for (const tab of tabs) {
@@ -25695,12 +25715,12 @@ class TonicTabs extends Tonic {
 
         if (!panel.visible) {
           panel.visible = true
-          if (panel.parentElement && panel.reRender) {
+          if (panel.parentElement && panel.reRender && detatchOnHide) {
             await panel.reRender()
           }
         }
 
-        if (!panel.parentElement) {
+        if (!panel.parentElement && detatchOnHide) {
           panelStore.parent.appendChild(panel)
           if (
             panel.preventRenderOnReconnect && panel.reRender &&
@@ -25715,7 +25735,7 @@ class TonicTabs extends Tonic {
           'tabvisible', { detail: { id }, bubbles: true }
         ))
       } else {
-        if (!panel.visible && renderAll) {
+        if (!panel.visible && renderAll && detatchOnHide) {
           panel.visible = true
           if (panel.parentElement && panel.reRender) {
             await panel.reRender()
@@ -25723,7 +25743,7 @@ class TonicTabs extends Tonic {
         }
 
         panel.setAttribute('hidden', '')
-        if (panel.parentElement && !renderAll) {
+        if (detatchOnHide && panel.parentElement && !renderAll) {
           this.panels[panel.id] = {
             parent: panel.parentElement,
             node: panel
@@ -25749,7 +25769,7 @@ class TonicTabs extends Tonic {
   }
 
   keydown (e) {
-    const triggers = this.querySelectorAll('.tonic--tab')
+    const triggers = [...this.querySelectorAll('.tonic--tab')]
 
     switch (e.code) {
       case 'ArrowLeft':
@@ -25829,15 +25849,21 @@ class TonicTabPanel extends Tonic {
   }
 
   disconnected () {
-    this.preventRenderOnReconnect = true
+    if (this.props.detatch) {
+      this.preventRenderOnReconnect = true
+    }
   }
 
   render () {
-    // console.trace('TabPanel.render()', this.id, this.visible)
-    if (this.visible) {
-      return this.html`${this.__originalChildren}`
+    if (!this.visible && this.props.detatch) {
+      return ''
     }
-    return ''
+
+    if (this.props.detatch) {
+      return this.html`${this.__originalChildren}`
+    } else {
+      return this.html`${this.childNodes}`
+    }
   }
 }
 

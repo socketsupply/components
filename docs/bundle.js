@@ -2598,26 +2598,30 @@ if (typeof module === 'object') module.exports = Tonic
 
 },{"./package":23}],23:[function(require,module,exports){
 module.exports={
-  "_from": "github:optoolco/tonic#a940798b13d2dcfd1c3fe1f4725674b08abee08b",
-  "_id": "@optoolco/tonic@12.0.1",
+  "_from": "@optoolco/tonic@latest",
+  "_id": "@optoolco/tonic@12.0.2",
   "_inBundle": false,
-  "_integrity": "",
+  "_integrity": "sha512-chYtWENSTnYre3A+TSTkSIvnRwofXTVFJgfmiI5CDIsSS+Nyh5TYechuCMsVtW0lrQs2j84s6JThl8QObD6u1w==",
   "_location": "/@optoolco/tonic",
   "_phantomChildren": {},
   "_requested": {
-    "type": "git",
-    "raw": "optoolco/tonic#a940798b13d2dcfd1c3fe1f4725674b08abee08b",
-    "rawSpec": "optoolco/tonic#a940798b13d2dcfd1c3fe1f4725674b08abee08b",
-    "saveSpec": "github:optoolco/tonic#a940798b13d2dcfd1c3fe1f4725674b08abee08b",
-    "fetchSpec": null,
-    "gitCommittish": "a940798b13d2dcfd1c3fe1f4725674b08abee08b"
+    "type": "tag",
+    "registry": true,
+    "raw": "@optoolco/tonic@latest",
+    "name": "@optoolco/tonic",
+    "escapedName": "@optoolco%2ftonic",
+    "scope": "@optoolco",
+    "rawSpec": "latest",
+    "saveSpec": null,
+    "fetchSpec": "latest"
   },
   "_requiredBy": [
     "#DEV:/",
     "#USER"
   ],
-  "_resolved": "github:optoolco/tonic#a940798b13d2dcfd1c3fe1f4725674b08abee08b",
-  "_spec": "optoolco/tonic#a940798b13d2dcfd1c3fe1f4725674b08abee08b",
+  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-12.0.2.tgz",
+  "_shasum": "dfa520a11a7ce4a149907167c50c8319da913566",
+  "_spec": "@optoolco/tonic@latest",
   "_where": "/home/raynos/optoolco/components",
   "author": {
     "name": "optoolco"
@@ -2653,7 +2657,7 @@ module.exports={
     "minify": "terser index.js -c unused,dead_code,hoist_vars,loops=false,hoist_props=true,hoist_funs,toplevel,keep_classnames,keep_fargs=false -o dist/tonic.min.js",
     "test": "npm run minify && browserify test/index.js | tape-puppet"
   },
-  "version": "12.0.1"
+  "version": "12.0.2"
 }
 
 },{}],24:[function(require,module,exports){
@@ -25652,7 +25656,8 @@ class TonicTabs extends Tonic {
     this.panels = this.panels || {}
   }
 
-  setVisibility (id, forAttr) {
+  async setVisibility (id, forAttr) {
+    const renderAll = this.props.renderAll === 'true'
     const tabs = this.querySelectorAll('tonic-tab')
 
     for (const tab of tabs) {
@@ -25691,12 +25696,18 @@ class TonicTabs extends Tonic {
         if (!panel.visible) {
           panel.visible = true
           if (panel.parentElement && panel.reRender) {
-            panel.reRender()
+            await panel.reRender()
           }
         }
 
         if (!panel.parentElement) {
           panelStore.parent.appendChild(panel)
+          if (
+            panel.preventRenderOnReconnect && panel.reRender &&
+            panel.children.length === 0
+          ) {
+            await panel.reRender()
+          }
         }
 
         this.state.selected = id
@@ -25704,8 +25715,15 @@ class TonicTabs extends Tonic {
           'tabvisible', { detail: { id }, bubbles: true }
         ))
       } else {
+        if (!panel.visible && renderAll) {
+          panel.visible = true
+          if (panel.parentElement && panel.reRender) {
+            await panel.reRender()
+          }
+        }
+
         panel.setAttribute('hidden', '')
-        if (panel.parentElement) {
+        if (panel.parentElement && !renderAll) {
           this.panels[panel.id] = {
             parent: panel.parentElement,
             node: panel
@@ -25792,6 +25810,7 @@ class TonicTabPanel extends Tonic {
     super(o)
 
     this.visible = this.visible || false
+    this.__originalChildren = this.nodes
 
     if (!this.visible) {
       this.setAttribute('hidden', '')
@@ -25816,7 +25835,7 @@ class TonicTabPanel extends Tonic {
   render () {
     // console.trace('TabPanel.render()', this.id, this.visible)
     if (this.visible) {
-      return this.html`${this.childNodes}`
+      return this.html`${this.__originalChildren}`
     }
     return ''
   }

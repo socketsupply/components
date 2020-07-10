@@ -166,24 +166,15 @@ class TestTabTextBox extends Tonic {
   }
 
   connected () {
-    // if (this.props.text === 'Text two') {
-    //   console.trace('connected()')
-    // }
     this.connectedCounter++
   }
 
   disconnected () {
-    // if (this.props.text === 'Text two') {
-    //   console.trace('disconnected()')
-    // }
     this.disconnectedCounter++
     this.preventRenderOnReconnect = true
   }
 
   render () {
-    // if (this.props.text === 'Text two') {
-    //   console.trace('render()')
-    // }
     this.renderCounter++
     return this.html`<span>${this.props.text}</span>`
   }
@@ -202,19 +193,19 @@ tape('{{tabs-3}} has correct default state', t => {
 tape('tabs only render what is visible', async t => {
   document.body.appendChild(html`
     <div id="tabs-4" class="test-container">
-      <tonic-tabs id="tc-tabs-4" selected="tc4-tab1">
+      <tonic-tabs id="tc-tabs-4" selected="tc4-tab1" detatch-on-hide="true">
         <tonic-tab id="tc4-tab1" for="tc4-panel1">one</tonic-tab>
         <tonic-tab id="tc4-tab2" for="tc4-panel2">two</tonic-tab>
         <tonic-tab id="tc4-tab3" for="tc4-panel3">three</tonic-tab>
       </tonic-tabs>
       <main>
-        <tonic-tab-panel id="tc4-panel1">
+        <tonic-tab-panel id="tc4-panel1" detatch="true">
           <test-tab-text-box text="Text one"></text-box>
         </tonic-tab-panel>
-        <tonic-tab-panel id="tc4-panel2">
+        <tonic-tab-panel id="tc4-panel2" detatch="true">
           <test-tab-text-box text="Text two"></text-box>
         </tonic-tab-panel>
-        <tonic-tab-panel id="tc4-panel3">
+        <tonic-tab-panel id="tc4-panel3" detatch="true">
           <test-tab-text-box text="Text three"></text-box>
         </tonic-tab-panel>
       </main>

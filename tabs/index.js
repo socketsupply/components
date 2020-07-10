@@ -38,6 +38,7 @@ class TonicTabs extends Tonic {
 
   async setVisibility (id, forAttr) {
     const renderAll = this.props.renderAll === 'true'
+    const detatchOnHide = this.props.detatchOnHide
     const tabs = this.querySelectorAll('tonic-tab')
 
     for (const tab of tabs) {
@@ -73,14 +74,14 @@ class TonicTabs extends Tonic {
           anchor.setAttribute('aria-selected', 'false')
         }
 
-        if (!panel.visible) {
+        if (!panel.visible && detatchOnHide) {
           panel.visible = true
           if (panel.parentElement && panel.reRender) {
             await panel.reRender()
           }
         }
 
-        if (!panel.parentElement) {
+        if (!panel.parentElement && detatchOnHide) {
           panelStore.parent.appendChild(panel)
           if (
             panel.preventRenderOnReconnect && panel.reRender &&
@@ -95,7 +96,7 @@ class TonicTabs extends Tonic {
           'tabvisible', { detail: { id }, bubbles: true }
         ))
       } else {
-        if (!panel.visible && renderAll) {
+        if (!panel.visible && renderAll && detatchOnHide) {
           panel.visible = true
           if (panel.parentElement && panel.reRender) {
             await panel.reRender()
@@ -103,7 +104,7 @@ class TonicTabs extends Tonic {
         }
 
         panel.setAttribute('hidden', '')
-        if (panel.parentElement && !renderAll) {
+        if (detatchOnHide && panel.parentElement && !renderAll) {
           this.panels[panel.id] = {
             parent: panel.parentElement,
             node: panel
@@ -209,15 +210,21 @@ class TonicTabPanel extends Tonic {
   }
 
   disconnected () {
-    this.preventRenderOnReconnect = true
+    if (this.props.detatch) {
+      this.preventRenderOnReconnect = true
+    }
   }
 
   render () {
-    // console.trace('TabPanel.render()', this.id, this.visible)
-    if (this.visible) {
-      return this.html`${this.__originalChildren}`
+    if (!this.visible && this.props.detatch) {
+      return ''
     }
-    return ''
+
+    if (this.props.detatch) {
+      return this.html`${this.__originalChildren}`
+    } else {
+      return this.html`${this.childNodes}`
+    }
   }
 }
 

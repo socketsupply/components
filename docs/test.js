@@ -9616,26 +9616,30 @@ if (typeof module === 'object') module.exports = Tonic
 
 },{"./package":50}],50:[function(require,module,exports){
 module.exports={
-  "_from": "github:optoolco/tonic#a940798b13d2dcfd1c3fe1f4725674b08abee08b",
-  "_id": "@optoolco/tonic@12.0.1",
+  "_from": "@optoolco/tonic@latest",
+  "_id": "@optoolco/tonic@12.0.2",
   "_inBundle": false,
-  "_integrity": "",
+  "_integrity": "sha512-chYtWENSTnYre3A+TSTkSIvnRwofXTVFJgfmiI5CDIsSS+Nyh5TYechuCMsVtW0lrQs2j84s6JThl8QObD6u1w==",
   "_location": "/@optoolco/tonic",
   "_phantomChildren": {},
   "_requested": {
-    "type": "git",
-    "raw": "optoolco/tonic#a940798b13d2dcfd1c3fe1f4725674b08abee08b",
-    "rawSpec": "optoolco/tonic#a940798b13d2dcfd1c3fe1f4725674b08abee08b",
-    "saveSpec": "github:optoolco/tonic#a940798b13d2dcfd1c3fe1f4725674b08abee08b",
-    "fetchSpec": null,
-    "gitCommittish": "a940798b13d2dcfd1c3fe1f4725674b08abee08b"
+    "type": "tag",
+    "registry": true,
+    "raw": "@optoolco/tonic@latest",
+    "name": "@optoolco/tonic",
+    "escapedName": "@optoolco%2ftonic",
+    "scope": "@optoolco",
+    "rawSpec": "latest",
+    "saveSpec": null,
+    "fetchSpec": "latest"
   },
   "_requiredBy": [
     "#DEV:/",
     "#USER"
   ],
-  "_resolved": "github:optoolco/tonic#a940798b13d2dcfd1c3fe1f4725674b08abee08b",
-  "_spec": "optoolco/tonic#a940798b13d2dcfd1c3fe1f4725674b08abee08b",
+  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-12.0.2.tgz",
+  "_shasum": "dfa520a11a7ce4a149907167c50c8319da913566",
+  "_spec": "@optoolco/tonic@latest",
   "_where": "/home/raynos/optoolco/components",
   "author": {
     "name": "optoolco"
@@ -9671,7 +9675,7 @@ module.exports={
     "minify": "terser index.js -c unused,dead_code,hoist_vars,loops=false,hoist_props=true,hoist_funs,toplevel,keep_classnames,keep_fargs=false -o dist/tonic.min.js",
     "test": "npm run minify && browserify test/index.js | tape-puppet"
   },
-  "version": "12.0.1"
+  "version": "12.0.2"
 }
 
 },{}],51:[function(require,module,exports){
@@ -36547,7 +36551,8 @@ class TonicTabs extends Tonic {
     this.panels = this.panels || {}
   }
 
-  setVisibility (id, forAttr) {
+  async setVisibility (id, forAttr) {
+    const renderAll = this.props.renderAll === 'true'
     const tabs = this.querySelectorAll('tonic-tab')
 
     for (const tab of tabs) {
@@ -36586,12 +36591,18 @@ class TonicTabs extends Tonic {
         if (!panel.visible) {
           panel.visible = true
           if (panel.parentElement && panel.reRender) {
-            panel.reRender()
+            await panel.reRender()
           }
         }
 
         if (!panel.parentElement) {
           panelStore.parent.appendChild(panel)
+          if (
+            panel.preventRenderOnReconnect && panel.reRender &&
+            panel.children.length === 0
+          ) {
+            await panel.reRender()
+          }
         }
 
         this.state.selected = id
@@ -36599,8 +36610,15 @@ class TonicTabs extends Tonic {
           'tabvisible', { detail: { id }, bubbles: true }
         ))
       } else {
+        if (!panel.visible && renderAll) {
+          panel.visible = true
+          if (panel.parentElement && panel.reRender) {
+            await panel.reRender()
+          }
+        }
+
         panel.setAttribute('hidden', '')
-        if (panel.parentElement) {
+        if (panel.parentElement && !renderAll) {
           this.panels[panel.id] = {
             parent: panel.parentElement,
             node: panel
@@ -36687,6 +36705,7 @@ class TonicTabPanel extends Tonic {
     super(o)
 
     this.visible = this.visible || false
+    this.__originalChildren = this.nodes
 
     if (!this.visible) {
       this.setAttribute('hidden', '')
@@ -36711,7 +36730,7 @@ class TonicTabPanel extends Tonic {
   render () {
     // console.trace('TabPanel.render()', this.id, this.visible)
     if (this.visible) {
-      return this.html`${this.childNodes}`
+      return this.html`${this.__originalChildren}`
     }
     return ''
   }
@@ -36897,11 +36916,11 @@ class ComponentContainer extends Tonic {
 
 Tonic.add(ComponentContainer)
 
-class TabTextBox extends Tonic {
+class TestTabTextBox extends Tonic {
   constructor (o) {
     super(o)
 
-    TabTextBox.allocationCounter++
+    TestTabTextBox.allocationCounter++
     this.renderCounter = 0
     this.willConnectCounter = 0
     this.connectedCounter = 0
@@ -36935,9 +36954,9 @@ class TabTextBox extends Tonic {
     return this.html`<span>${this.props.text}</span>`
   }
 }
-Tonic.add(TabTextBox)
+Tonic.add(TestTabTextBox)
 
-TabTextBox.allocationCounter = 0
+TestTabTextBox.allocationCounter = 0
 
 tape('{{tabs-3}} has correct default state', t => {
   const container = qs('component-container')
@@ -36956,13 +36975,13 @@ tape('tabs only render what is visible', async t => {
       </tonic-tabs>
       <main>
         <tonic-tab-panel id="tc4-panel1">
-          <tab-text-box text="Text one"></text-box>
+          <test-tab-text-box text="Text one"></text-box>
         </tonic-tab-panel>
         <tonic-tab-panel id="tc4-panel2">
-          <tab-text-box text="Text two"></text-box>
+          <test-tab-text-box text="Text two"></text-box>
         </tonic-tab-panel>
         <tonic-tab-panel id="tc4-panel3">
-          <tab-text-box text="Text three"></text-box>
+          <test-tab-text-box text="Text three"></text-box>
         </tonic-tab-panel>
       </main>
     </div>
@@ -36981,11 +37000,11 @@ tape('tabs only render what is visible', async t => {
     t.equal(panels.length, 1, 'expect 1 panel')
     t.equal(panels[0].id, 'tc4-panel1', 'correct panel shown')
 
-    const textboxs = $('tab-text-box')
+    const textboxs = $('test-tab-text-box')
 
     t.equal(textboxs.length, 1, 'expect 1 textbox')
     t.equal(textboxs[0].textContent, 'Text one')
-    t.equal(TabTextBox.allocationCounter, 3, 'expect 3 allocations')
+    t.equal(TestTabTextBox.allocationCounter, 3, 'expect 3 allocations')
     t.equal(textboxs[0].renderCounter, 1, 'expect 1 render')
     t.equal(textboxs[0].connectedCounter, 1, 'expect 1 connected')
     t.equal(textboxs[0].disconnectedCounter, 0, 'expect 1 disconnected')
@@ -37001,11 +37020,11 @@ tape('tabs only render what is visible', async t => {
     t.equal(panels.length, 1, 'expect 1 panel')
     t.equal(panels[0].id, 'tc4-panel2', 'correct panel shown')
 
-    const textboxs = $('tab-text-box')
+    const textboxs = $('test-tab-text-box')
 
     t.equal(textboxs.length, 1, 'expect 1 textbox')
     t.equal(textboxs[0].textContent, 'Text two')
-    t.equal(TabTextBox.allocationCounter, 3, 'expect 3 allocations')
+    t.equal(TestTabTextBox.allocationCounter, 3, 'expect 3 allocations')
     t.equal(textboxs[0].renderCounter, 1, 'expect 1 render')
     t.equal(textboxs[0].connectedCounter, 2, 'expect 2 connected')
     t.equal(textboxs[0].disconnectedCounter, 1, 'expected 1 disconnected')
@@ -37021,11 +37040,11 @@ tape('tabs only render what is visible', async t => {
     t.equal(panels.length, 1, 'expect 1 panel')
     t.equal(panels[0].id, 'tc4-panel3', 'correct panel shown')
 
-    const textboxs = $('tab-text-box')
+    const textboxs = $('test-tab-text-box')
 
     t.equal(textboxs.length, 1, 'expect 1 textbox')
     t.equal(textboxs[0].textContent, 'Text three')
-    t.equal(TabTextBox.allocationCounter, 3, 'expect 3 allocations')
+    t.equal(TestTabTextBox.allocationCounter, 3, 'expect 3 allocations')
     t.equal(textboxs[0].renderCounter, 1, 'expect 1 render')
     t.equal(textboxs[0].connectedCounter, 2, 'expect 2 connected')
     t.equal(textboxs[0].disconnectedCounter, 1, 'expected 1 disconnected')
@@ -37041,11 +37060,11 @@ tape('tabs only render what is visible', async t => {
     t.equal(panels.length, 1, 'expect 1 panel')
     t.equal(panels[0].id, 'tc4-panel1', 'correct panel shown')
 
-    const textboxs = $('tab-text-box')
+    const textboxs = $('test-tab-text-box')
 
     t.equal(textboxs.length, 1, 'expect 1 textbox')
     t.equal(textboxs[0].textContent, 'Text one')
-    t.equal(TabTextBox.allocationCounter, 3, 'expect 3 allocations')
+    t.equal(TestTabTextBox.allocationCounter, 3, 'expect 3 allocations')
     t.equal(textboxs[0].renderCounter, 1, 'expect 1 render')
     t.equal(textboxs[0].connectedCounter, 2, 'expect 2 connected')
     t.equal(textboxs[0].disconnectedCounter, 1, 'expected 1 disconnected')
@@ -37060,11 +37079,11 @@ tape('tabs only render what is visible', async t => {
     t.equal(panels.length, 1, 'expect 1 panel')
     t.equal(panels[0].id, 'tc4-panel2', 'correct panel shown')
 
-    const textboxs = $('tab-text-box')
+    const textboxs = $('test-tab-text-box')
 
     t.equal(textboxs.length, 1, 'expect 1 textbox')
     t.equal(textboxs[0].textContent, 'Text two')
-    t.equal(TabTextBox.allocationCounter, 3, 'expect 3 allocations')
+    t.equal(TestTabTextBox.allocationCounter, 3, 'expect 3 allocations')
     t.equal(textboxs[0].renderCounter, 1, 'expect 1 render')
     t.equal(textboxs[0].connectedCounter, 3, 'expect 2 connected')
     t.equal(textboxs[0].disconnectedCounter, 2, 'expected 1 disconnected')

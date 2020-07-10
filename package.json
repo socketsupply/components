@@ -49,7 +49,7 @@
     "testcafe": "1.6.1"
   },
   "devDependencies": {
-    "@optoolco/tonic": "12.0.0",
+    "@optoolco/tonic": "12.0.2",
     "@pre-bundled/send": "0.16.2-patch-1",
     "@pre-bundled/tape": "4.11.0",
     "chart.js": "^2.9.2",

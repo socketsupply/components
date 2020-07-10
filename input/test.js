@@ -6,8 +6,6 @@ const components = require('..')
 const Tonic = require('@optoolco/tonic')
 components(Tonic)
 
-const requestAnimationFrame = window.requestAnimationFrame
-
 class InputWrapper extends Tonic {
   constructor (o) {
     super(o)
@@ -29,7 +27,6 @@ class InputWrapper extends Tonic {
   }
 
   click (ev) {
-    console.log('click ev')
     const el = Tonic.match(ev.target, '[data-event]')
     if (!el || el.dataset.event !== 'copy') return
 
@@ -397,11 +394,11 @@ tape('input wrapper component interactions', t => {
 
   buttons[0].click()
 
-  requestAnimationFrame(() => {
+  setTimeout(() => {
     display = comp.querySelector('span.display')
     t.equal(display.textContent, 'someText')
     t.equal(comp.state.inputEvents, 1)
 
     t.end()
-  })
+  }, 20)
 })

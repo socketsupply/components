@@ -150,9 +150,184 @@ class ComponentContainer extends Tonic {
 
 Tonic.add(ComponentContainer)
 
+class TestTabTextBox extends Tonic {
+  constructor (o) {
+    super(o)
+
+    TestTabTextBox.allocationCounter++
+    this.renderCounter = 0
+    this.willConnectCounter = 0
+    this.connectedCounter = 0
+    this.disconnectedCounter = 0
+  }
+
+  willConnect () {
+    this.willConnectCounter++
+  }
+
+  connected () {
+    // if (this.props.text === 'Text two') {
+    //   console.trace('connected()')
+    // }
+    this.connectedCounter++
+  }
+
+  disconnected () {
+    // if (this.props.text === 'Text two') {
+    //   console.trace('disconnected()')
+    // }
+    this.disconnectedCounter++
+    this.preventRenderOnReconnect = true
+  }
+
+  render () {
+    // if (this.props.text === 'Text two') {
+    //   console.trace('render()')
+    // }
+    this.renderCounter++
+    return this.html`<span>${this.props.text}</span>`
+  }
+}
+Tonic.add(TestTabTextBox)
+
+TestTabTextBox.allocationCounter = 0
+
 tape('{{tabs-3}} has correct default state', t => {
   const container = qs('component-container')
 
   t.ok(container, 'rendered')
   t.end()
 })
+
+tape('tabs only render what is visible', async t => {
+  document.body.appendChild(html`
+    <div id="tabs-4" class="test-container">
+      <tonic-tabs id="tc-tabs-4" selected="tc4-tab1">
+        <tonic-tab id="tc4-tab1" for="tc4-panel1">one</tonic-tab>
+        <tonic-tab id="tc4-tab2" for="tc4-panel2">two</tonic-tab>
+        <tonic-tab id="tc4-tab3" for="tc4-panel3">three</tonic-tab>
+      </tonic-tabs>
+      <main>
+        <tonic-tab-panel id="tc4-panel1">
+          <test-tab-text-box text="Text one"></text-box>
+        </tonic-tab-panel>
+        <tonic-tab-panel id="tc4-panel2">
+          <test-tab-text-box text="Text two"></text-box>
+        </tonic-tab-panel>
+        <tonic-tab-panel id="tc4-panel3">
+          <test-tab-text-box text="Text three"></text-box>
+        </tonic-tab-panel>
+      </main>
+    </div>
+  `)
+
+  const container = document.getElementById('tabs-4')
+  const $ = (query) => {
+    return [...container.querySelectorAll(query)]
+  }
+
+  {
+    const tabs = $('tonic-tab')
+    const panels = $('tonic-tab-panel')
+
+    t.equal(tabs.length, 3, 'expected 3 tabs')
+    t.equal(panels.length, 1, 'expect 1 panel')
+    t.equal(panels[0].id, 'tc4-panel1', 'correct panel shown')
+
+    const textboxs = $('test-tab-text-box')
+
+    t.equal(textboxs.length, 1, 'expect 1 textbox')
+    t.equal(textboxs[0].textContent, 'Text one')
+    t.equal(TestTabTextBox.allocationCounter, 3, 'expect 3 allocations')
+    t.equal(textboxs[0].renderCounter, 1, 'expect 1 render')
+    t.equal(textboxs[0].connectedCounter, 1, 'expect 1 connected')
+    t.equal(textboxs[0].disconnectedCounter, 0, 'expect 1 disconnected')
+  }
+
+  const anchorTwo = $('#tc4-tab2 a')[0]
+  anchorTwo.click()
+
+  await sleep(3)
+
+  {
+    const panels = $('tonic-tab-panel')
+    t.equal(panels.length, 1, 'expect 1 panel')
+    t.equal(panels[0].id, 'tc4-panel2', 'correct panel shown')
+
+    const textboxs = $('test-tab-text-box')
+
+    t.equal(textboxs.length, 1, 'expect 1 textbox')
+    t.equal(textboxs[0].textContent, 'Text two')
+    t.equal(TestTabTextBox.allocationCounter, 3, 'expect 3 allocations')
+    t.equal(textboxs[0].renderCounter, 1, 'expect 1 render')
+    t.equal(textboxs[0].connectedCounter, 2, 'expect 2 connected')
+    t.equal(textboxs[0].disconnectedCounter, 1, 'expected 1 disconnected')
+  }
+
+  const anchorThree = $('#tc4-tab3 a')[0]
+  anchorThree.click()
+
+  await sleep(3)
+
+  {
+    const panels = $('tonic-tab-panel')
+    t.equal(panels.length, 1, 'expect 1 panel')
+    t.equal(panels[0].id, 'tc4-panel3', 'correct panel shown')
+
+    const textboxs = $('test-tab-text-box')
+
+    t.equal(textboxs.length, 1, 'expect 1 textbox')
+    t.equal(textboxs[0].textContent, 'Text three')
+    t.equal(TestTabTextBox.allocationCounter, 3, 'expect 3 allocations')
+    t.equal(textboxs[0].renderCounter, 1, 'expect 1 render')
+    t.equal(textboxs[0].connectedCounter, 2, 'expect 2 connected')
+    t.equal(textboxs[0].disconnectedCounter, 1, 'expected 1 disconnected')
+  }
+
+  const anchorOne = $('#tc4-tab1 a')[0]
+  anchorOne.click()
+
+  await sleep(3)
+
+  {
+    const panels = $('tonic-tab-panel')
+    t.equal(panels.length, 1, 'expect 1 panel')
+    t.equal(panels[0].id, 'tc4-panel1', 'correct panel shown')
+
+    const textboxs = $('test-tab-text-box')
+
+    t.equal(textboxs.length, 1, 'expect 1 textbox')
+    t.equal(textboxs[0].textContent, 'Text one')
+    t.equal(TestTabTextBox.allocationCounter, 3, 'expect 3 allocations')
+    t.equal(textboxs[0].renderCounter, 1, 'expect 1 render')
+    t.equal(textboxs[0].connectedCounter, 2, 'expect 2 connected')
+    t.equal(textboxs[0].disconnectedCounter, 1, 'expected 1 disconnected')
+  }
+
+  anchorTwo.click()
+
+  await sleep(3)
+
+  {
+    const panels = $('tonic-tab-panel')
+    t.equal(panels.length, 1, 'expect 1 panel')
+    t.equal(panels[0].id, 'tc4-panel2', 'correct panel shown')
+
+    const textboxs = $('test-tab-text-box')
+
+    t.equal(textboxs.length, 1, 'expect 1 textbox')
+    t.equal(textboxs[0].textContent, 'Text two')
+    t.equal(TestTabTextBox.allocationCounter, 3, 'expect 3 allocations')
+    t.equal(textboxs[0].renderCounter, 1, 'expect 1 render')
+    t.equal(textboxs[0].connectedCounter, 3, 'expect 2 connected')
+    t.equal(textboxs[0].disconnectedCounter, 2, 'expected 1 disconnected')
+  }
+
+  t.end()
+})
+
+function sleep (n) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, n)
+  })
+}

@@ -82,7 +82,10 @@ class TonicTabs extends Tonic {
 
         if (!panel.parentElement) {
           panelStore.parent.appendChild(panel)
-          if (panel.preventRenderOnReconnect && panel.reRender) {
+          if (
+            panel.preventRenderOnReconnect && panel.reRender &&
+            panel.children.length === 0
+          ) {
             await panel.reRender()
           }
         }

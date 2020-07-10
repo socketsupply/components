@@ -74,9 +74,9 @@ class TonicTabs extends Tonic {
           anchor.setAttribute('aria-selected', 'false')
         }
 
-        if (!panel.visible && detatchOnHide) {
+        if (!panel.visible) {
           panel.visible = true
-          if (panel.parentElement && panel.reRender) {
+          if (panel.parentElement && panel.reRender && detatchOnHide) {
             await panel.reRender()
           }
         }
@@ -130,7 +130,7 @@ class TonicTabs extends Tonic {
   }
 
   keydown (e) {
-    const triggers = this.querySelectorAll('.tonic--tab')
+    const triggers = [...this.querySelectorAll('.tonic--tab')]
 
     switch (e.code) {
       case 'ArrowLeft':

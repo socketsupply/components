@@ -15,11 +15,15 @@ class TonicCheckbox extends Tonic {
   }
 
   set value (value) {
+    this._setValue(value)
+  }
+
+  async _setValue (value) {
     const checked = (value === true) || (value === 'true')
 
     this.state.checked = checked
     this.props.checked = checked
-    this.reRender()
+    await this.reRender()
   }
 
   defaults () {
@@ -36,6 +40,11 @@ class TonicCheckbox extends Tonic {
         -webkit-user-select: none;
         -moz-user-select: none;
         user-select: none;
+      }
+
+      tonic-checkbox a {
+        height: auto;
+        padding: 6px;
       }
 
       tonic-checkbox input[type="checkbox"] {
@@ -57,10 +66,12 @@ class TonicCheckbox extends Tonic {
       }
 
       tonic-checkbox .tonic--icon {
+        position: absolute;
         display: inline-block;
         width: 100%;
         height: 100%;
         background-size: contain;
+        margin: 4px;
       }
 
       tonic-checkbox .tonic--icon svg {
@@ -69,8 +80,9 @@ class TonicCheckbox extends Tonic {
       }
 
       tonic-checkbox label:nth-of-type(2) {
-        padding-top: 2px;
-        margin-left: 10px;
+        display: inline-block;
+        line-height: 22px;
+        margin: 2px 30px;
       }
     `
   }
@@ -145,6 +157,13 @@ class TonicCheckbox extends Tonic {
     `
   }
 
+  async keydown (e) {
+    if (e.code === 'Space') {
+      await this._setValue(!this.value)
+      this.querySelector('a').focus()
+    }
+  }
+
   render () {
     const {
       id,
@@ -163,7 +182,7 @@ class TonicCheckbox extends Tonic {
     if (theme) this.classList.add(`tonic--theme--${theme}`)
 
     return this.html`
-      <div class="tonic--checkbox--wrapper">
+      <a href="#" class="tonic--checkbox--wrapper">
         <input ... ${{
           type: 'checkbox',
           id: `tonic--checkbox--${id}`,
@@ -180,7 +199,7 @@ class TonicCheckbox extends Tonic {
           ${this.renderIcon()}
         </label>
         ${this.renderLabel()}
-      </div>
+      </a>
     `
   }
 }

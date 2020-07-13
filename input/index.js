@@ -21,7 +21,8 @@ class TonicInput extends Tonic {
   }
 
   get value () {
-    return this.state.value || this.props.value
+    return this.state.value !== undefined
+      ? this.state.value : this.props.value
   }
 
   set value (value) {

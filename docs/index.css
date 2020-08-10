@@ -75,6 +75,11 @@ tonic-badge {
   display: inline-block;
   padding-top: 15px;
 }
+.loader-content {
+  position: relative;
+  height: 100px;
+  width: 100px;
+}
 tonic-panel h3 {
   margin: 0;
 }

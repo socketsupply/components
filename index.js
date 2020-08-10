@@ -8,8 +8,9 @@ try {
 
 const version = Tonic.version
 const major = version ? version.split('.')[0] : '0'
+
 if (parseInt(major, 10) < 12) {
-  console.error('Out of data dependency. Try `npm install @optoolco/tonic@12`.')
+  console.error('Out of date dependency. Try `npm install @optoolco/tonic@12`.')
   throw new Error('Invalid Tonic version. requires at least v12')
 }
 
@@ -21,6 +22,7 @@ const { TonicCheckbox } = require('./checkbox')
 const { TonicForm } = require('./form')
 const { TonicIcon } = require('./icon')
 const { TonicInput } = require('./input')
+const { TonicLoader } = require('./loader')
 const { TonicPopover } = require('./popover')
 const { TonicProfileImage } = require('./profile-image')
 const { TonicProgressBar } = require('./progress-bar')
@@ -53,6 +55,7 @@ function components (Tonic, opts) {
   Tonic.add(TonicForm)
   Tonic.add(TonicInput)
   Tonic.add(TonicIcon)
+  Tonic.add(TonicLoader)
   Tonic.add(TonicPopover)
   Tonic.add(TonicProfileImage)
   Tonic.add(TonicProgressBar)

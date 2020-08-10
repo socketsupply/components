@@ -211,7 +211,7 @@ class TonicButton extends Tonic {
           styles: 'button',
           async: String(async),
           disabled: disabled && disabled !== 'false',
-          autofocus,
+          autofocus: autofocus === 'true' ? 'autofocus' : '',
           alt: label,
           value,
           type,

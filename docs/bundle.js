@@ -458,7 +458,7 @@ class TonicAccordionSection extends Tonic {
         border-right: 1px solid var(--tonic-primary, #333);
       }
 
-      tonic-accordion-section .tonic--accordion-header[aria-expanded="true"] .tonic--arrow:before {
+      tonic-accordion-section .tonic--accordion-header button[aria-expanded="true"] .tonic--arrow:before {
         -webkit-transform: translateY(-50%) translateX(-50%) rotate(315deg);
         -moz-transform: translateY(-50%) translateX(-50%) rotate(315deg);
         transform: translateY(-50%) translateX(-50%) rotate(315deg);
@@ -832,7 +832,7 @@ class TonicButton extends Tonic {
           styles: 'button',
           async: String(async),
           disabled: disabled && disabled !== 'false',
-          autofocus,
+          autofocus: autofocus === 'true' ? 'autofocus' : '',
           alt: label,
           value,
           type,
@@ -1839,7 +1839,8 @@ class TonicInput extends Tonic {
   }
 
   get value () {
-    return this.state.value || this.props.value
+    return this.state.value !== undefined
+      ? this.state.value : this.props.value
   }
 
   set value (value) {
@@ -2236,7 +2237,6 @@ class Tonic extends window.HTMLElement {
     const state = Tonic._states[super.id]
     delete Tonic._states[super.id]
     this._state = state || {}
-    this.preventRenderOnReconnect = false
     this.props = {}
     this.elements = [...this.children]
     this.elements.__children__ = true
@@ -2266,10 +2266,7 @@ class Tonic extends window.HTMLElement {
 
   _checkId () {
     const _id = super.id
-    if (!_id) {
-      const html = this.outerHTML.replace(this.innerHTML, '...')
-      throw new Error(`Component: ${html} has no id`)
-    }
+    if (!_id) throw new Error(`Component: ${this.tagName} has no id`)
     return _id
   }
 
@@ -2417,7 +2414,7 @@ class Tonic extends window.HTMLElement {
     if (this.pendingReRender) return this.pendingReRender
 
     this.pendingReRender = new Promise(resolve => {
-      window.setTimeout(() => {
+      window.requestAnimationFrame(() => {
         const p = this._set(this.root, this.render)
         this.pendingReRender = null
 
@@ -2431,7 +2428,7 @@ class Tonic extends window.HTMLElement {
 
         if (this.updated) this.updated(oldProps)
         resolve()
-      }, 0)
+      })
     })
 
     return this.pendingReRender
@@ -2572,18 +2569,16 @@ class Tonic extends window.HTMLElement {
       this.props
     )
 
+    if (!this._source) {
+      this._source = this.innerHTML
+    } else {
+      this.innerHTML = this._source
+    }
+
     this._id = this._id || Tonic._createId()
 
     this.willConnect && this.willConnect()
-    if (!this.preventRenderOnReconnect) {
-      if (!this._source) {
-        this._source = this.innerHTML
-      } else {
-        this.innerHTML = this._source
-      }
-
-      Tonic._maybePromise(this._set(this.root, this.render))
-    }
+    Tonic._maybePromise(this._set(this.root, this.render))
     Tonic._maybePromise(this.connected && this.connected())
   }
 
@@ -2617,31 +2612,30 @@ if (typeof module === 'object') module.exports = Tonic
 
 },{"./package":23}],23:[function(require,module,exports){
 module.exports={
-  "_from": "@optoolco/tonic@latest",
-  "_id": "@optoolco/tonic@12.0.2",
+  "_from": "@optoolco/tonic@12.0.0",
+  "_id": "@optoolco/tonic@12.0.0",
   "_inBundle": false,
-  "_integrity": "sha512-chYtWENSTnYre3A+TSTkSIvnRwofXTVFJgfmiI5CDIsSS+Nyh5TYechuCMsVtW0lrQs2j84s6JThl8QObD6u1w==",
+  "_integrity": "sha512-kRjYMv5VYGSDTSzSBPX0nCNT4NWZwyjzvdWLlhkLDeCJvw3IqZLBSP4hmoRdh4lGMbxOI/i+JfTmxCDjbj6OXg==",
   "_location": "/@optoolco/tonic",
   "_phantomChildren": {},
   "_requested": {
-    "type": "tag",
+    "type": "version",
     "registry": true,
-    "raw": "@optoolco/tonic@latest",
+    "raw": "@optoolco/tonic@12.0.0",
     "name": "@optoolco/tonic",
     "escapedName": "@optoolco%2ftonic",
     "scope": "@optoolco",
-    "rawSpec": "latest",
+    "rawSpec": "12.0.0",
     "saveSpec": null,
-    "fetchSpec": "latest"
+    "fetchSpec": "12.0.0"
   },
   "_requiredBy": [
-    "#DEV:/",
-    "#USER"
+    "#DEV:/"
   ],
-  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-12.0.2.tgz",
-  "_shasum": "dfa520a11a7ce4a149907167c50c8319da913566",
-  "_spec": "@optoolco/tonic@latest",
-  "_where": "/home/raynos/optoolco/components",
+  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-12.0.0.tgz",
+  "_shasum": "efe407a8c22464e898f2e664e0df9fbe7d8de58f",
+  "_spec": "@optoolco/tonic@12.0.0",
+  "_where": "/Users/paolofragomeni/projects/optoolco/components",
   "author": {
     "name": "optoolco"
   },
@@ -2676,7 +2670,7 @@ module.exports={
     "minify": "terser index.js -c unused,dead_code,hoist_vars,loops=false,hoist_props=true,hoist_funs,toplevel,keep_classnames,keep_fargs=false -o dist/tonic.min.js",
     "test": "npm run minify && browserify test/index.js | tape-puppet"
   },
-  "version": "12.0.2"
+  "version": "12.0.0"
 }
 
 },{}],24:[function(require,module,exports){

@@ -191,7 +191,7 @@ class TonicAccordionSection extends Tonic {
         border-right: 1px solid var(--tonic-primary, #333);
       }
 
-      tonic-accordion-section .tonic--accordion-header[aria-expanded="true"] .tonic--arrow:before {
+      tonic-accordion-section .tonic--accordion-header button[aria-expanded="true"] .tonic--arrow:before {
         -webkit-transform: translateY(-50%) translateX(-50%) rotate(315deg);
         -moz-transform: translateY(-50%) translateX(-50%) rotate(315deg);
         transform: translateY(-50%) translateX(-50%) rotate(315deg);

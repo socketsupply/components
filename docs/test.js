@@ -36721,7 +36721,10 @@ class TonicTabs extends Tonic {
           panel.remove()
         }
 
-        anchor.setAttribute('aria-selected', 'false')
+        if (anchor) {
+          anchor.setAttribute('aria-selected', 'false')
+        }
+
         this.dispatchEvent(new CustomEvent(
           'tabhidden', { detail: { id }, bubbles: true }
         ))

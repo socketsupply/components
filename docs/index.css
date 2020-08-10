@@ -130,7 +130,6 @@ tonic-tabs .tonic--tab {
 }
 tonic-tabs .tonic--tab:focus {
   border-bottom: 2px solid var(--tonic-accent);
-  outline: none;
 }
 tonic-tabs .tonic--tab[aria-selected="true"] {
   border-bottom: 2px solid var(--tonic-accent);
@@ -497,13 +496,6 @@ body > main .logo {
         -ms-flex-pack: center;
             justify-content: center;
   }
-}
-body > main a {
-  border-bottom: 1px solid var(--tonic-border);
-}
-body > main a:hover {
-  color: var(--tonic-accent);
-  border-bottom-color: var(--tonic-accent);
 }
 body > main .hero {
   margin-top: 20px;

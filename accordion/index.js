@@ -157,7 +157,7 @@ class TonicAccordionSection extends Tonic {
       }
 
       tonic-accordion-section button:focus .tonic--label {
-        border-bottom: 3px solid Highlight;
+        border-bottom: 2px solid var(--tonic-accent);
       }
 
       tonic-accordion-section [hidden] {

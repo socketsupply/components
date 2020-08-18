@@ -171,7 +171,9 @@ class TestTabTextBox extends Tonic {
 
   disconnected () {
     this.disconnectedCounter++
-    this.preventRenderOnReconnect = true
+    if (this.renderCounter > 0) {
+      this.preventRenderOnReconnect = true
+    }
   }
 
   render () {
@@ -251,7 +253,7 @@ tape('tabs only render what is visible', async t => {
     t.equal(textboxs[0].textContent, 'Text two')
     t.equal(TestTabTextBox.allocationCounter, 3, 'expect 3 allocations')
     t.equal(textboxs[0].renderCounter, 1, 'expect 1 render')
-    t.equal(textboxs[0].connectedCounter, 2, 'expect 2 connected')
+    t.equal(textboxs[0].connectedCounter, 1, 'expect 1 connected')
     t.equal(textboxs[0].disconnectedCounter, 1, 'expected 1 disconnected')
   }
 
@@ -271,7 +273,7 @@ tape('tabs only render what is visible', async t => {
     t.equal(textboxs[0].textContent, 'Text three')
     t.equal(TestTabTextBox.allocationCounter, 3, 'expect 3 allocations')
     t.equal(textboxs[0].renderCounter, 1, 'expect 1 render')
-    t.equal(textboxs[0].connectedCounter, 2, 'expect 2 connected')
+    t.equal(textboxs[0].connectedCounter, 1, 'expect 1 connected')
     t.equal(textboxs[0].disconnectedCounter, 1, 'expected 1 disconnected')
   }
 
@@ -310,7 +312,7 @@ tape('tabs only render what is visible', async t => {
     t.equal(textboxs[0].textContent, 'Text two')
     t.equal(TestTabTextBox.allocationCounter, 3, 'expect 3 allocations')
     t.equal(textboxs[0].renderCounter, 1, 'expect 1 render')
-    t.equal(textboxs[0].connectedCounter, 3, 'expect 2 connected')
+    t.equal(textboxs[0].connectedCounter, 2, 'expect 2 connected')
     t.equal(textboxs[0].disconnectedCounter, 2, 'expected 1 disconnected')
   }
 

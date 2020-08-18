@@ -100,7 +100,7 @@ tape('{{button-1}} has correct default state', t => {
   t.ok(wrapper, 'component was constructed with a wrapper')
   t.ok(button, 'component was constructed with a button element')
   t.ok(!button.hasAttribute('disabled'), 'does not have disabled attribute')
-  t.equal(button.getAttribute('autofocus'), 'false', 'autofocus is false')
+  t.equal(button.getAttribute('autofocus'), null, 'autofocus is false')
   t.equal(button.getAttribute('async'), 'false', 'async attribute is false')
   t.equal(isLoading, false, 'loading class is not applied')
 
@@ -183,7 +183,7 @@ tape('{{button-5}} has correct attributes', t => {
   t.plan(9)
 
   t.ok(button, 'the component was constructed with a button')
-  t.equal(button.getAttribute('autofocus'), 'true', 'button has autofocus="true" attribute')
+  t.equal(button.getAttribute('autofocus'), 'autofocus', 'button has autofocus="true" attribute')
   t.equal(button.getAttribute('type'), 'reset', 'button has type="reset" attribute')
   t.ok(buttonWrapper.style.margin === '10px', 'button wrapper has margin="10px"')
   t.ok(button.style.width === '200px', 'button has width of 200px')

@@ -24422,6 +24422,10 @@ class TonicRange extends Tonic {
         padding: 20px 0;
       }
 
+      tonic-range.tonic--no-label {
+        height: 30px;
+      }
+
       tonic-range label {
         font: 13px var(--tonic-subheader, 'Arial', sans-serif);
         letter-spacing: 1px;
@@ -24483,7 +24487,7 @@ class TonicRange extends Tonic {
         width: 18px;
         height: 18px;
         border: 0;
-        background: #fff;
+        background: var(--tonic-primary);
         border-radius: 100%;
         box-shadow: 0 0 3px 0px rgba(0,0,0,0.25);
         -webkit-appearance: none;
@@ -24541,6 +24545,7 @@ class TonicRange extends Tonic {
       min,
       max,
       step,
+      label,
       id,
       tabindex
     } = this.props
@@ -24548,6 +24553,7 @@ class TonicRange extends Tonic {
     if (width) this.style.width = width
     if (height) this.style.width = height
     if (theme) this.classList.add(`tonic--theme--${theme}`)
+    if (!label) this.classList.add('tonic--no-label')
     if (tabindex) this.removeAttribute('tabindex')
 
     const value = this.props.value || this.state.value

@@ -65,17 +65,21 @@ class TonicRange extends Tonic {
         padding: 0;
         width: 50%;
         height: 4px;
-        background-color: var(--tonic-background, #fff);
-        background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, var(--tonic-accent, #f66)), color-stop(100%, var(--tonic-accent, #f66)));
-        background-image: -webkit-linear-gradient(var(--tonic-accent, #f66), var(--tonic-accent, #f66));
-        background-image: -moz-linear-gradient(var(--tonic-accent, #f66), var(--tonic-accent, #f66));
-        background-image: -o-linear-gradient(var(--tonic-accent, #f66), var(--tonic-accent, #f66));
-        background-image: linear-gradient(var(--tonic-accent, #f66), var(--tonic-accent, #f66));
+        background-color: var(--tonic-secondary, #fff);
+        background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, var(--tonic-primary, #f66)), color-stop(100%, var(--tonic-primary, #f66)));
+        background-image: -webkit-linear-gradient(var(--tonic-primary, #f66), var(--tonic-primary, #f66));
+        background-image: -moz-linear-gradient(var(--tonic-primary, #f66), var(--tonic-primary, #f66));
+        background-image: -o-linear-gradient(var(--tonic-primary, #f66), var(--tonic-primary, #f66));
+        background-image: linear-gradient(var(--tonic-primary, #f66), var(--tonic-primary, #f66));
         background-size: 50% 100%;
         background-repeat: no-repeat;
         border-radius: 0;
         cursor: pointer;
         -webkit-appearance: none;
+      }
+
+      tonic-range input[type="range"]:focus {
+        outline-offset: 10px;
       }
 
       tonic-range input[type="range"]:disabled {

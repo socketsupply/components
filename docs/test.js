@@ -6368,7 +6368,7 @@ class TonicAccordionSection extends Tonic {
       }
 
       tonic-accordion-section button:focus .tonic--label {
-        border-bottom: 3px solid Highlight;
+        border-bottom: 2px solid var(--tonic-accent);
       }
 
       tonic-accordion-section [hidden] {
@@ -6947,7 +6947,7 @@ tape('{{button-1}} has correct default state', t => {
   t.ok(wrapper, 'component was constructed with a wrapper')
   t.ok(button, 'component was constructed with a button element')
   t.ok(!button.hasAttribute('disabled'), 'does not have disabled attribute')
-  t.equal(button.getAttribute('autofocus'), 'false', 'autofocus is false')
+  t.equal(button.getAttribute('autofocus'), null, 'autofocus is false')
   t.equal(button.getAttribute('async'), 'false', 'async attribute is false')
   t.equal(isLoading, false, 'loading class is not applied')
 
@@ -7030,7 +7030,7 @@ tape('{{button-5}} has correct attributes', t => {
   t.plan(9)
 
   t.ok(button, 'the component was constructed with a button')
-  t.equal(button.getAttribute('autofocus'), 'true', 'button has autofocus="true" attribute')
+  t.equal(button.getAttribute('autofocus'), 'autofocus', 'button has autofocus="true" attribute')
   t.equal(button.getAttribute('type'), 'reset', 'button has type="reset" attribute')
   t.ok(buttonWrapper.style.margin === '10px', 'button wrapper has margin="10px"')
   t.ok(button.style.width === '200px', 'button has width of 200px')
@@ -34956,17 +34956,21 @@ class TonicRange extends Tonic {
         padding: 0;
         width: 50%;
         height: 4px;
-        background-color: var(--tonic-background, #fff);
-        background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, var(--tonic-accent, #f66)), color-stop(100%, var(--tonic-accent, #f66)));
-        background-image: -webkit-linear-gradient(var(--tonic-accent, #f66), var(--tonic-accent, #f66));
-        background-image: -moz-linear-gradient(var(--tonic-accent, #f66), var(--tonic-accent, #f66));
-        background-image: -o-linear-gradient(var(--tonic-accent, #f66), var(--tonic-accent, #f66));
-        background-image: linear-gradient(var(--tonic-accent, #f66), var(--tonic-accent, #f66));
+        background-color: var(--tonic-secondary, #fff);
+        background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, var(--tonic-primary, #f66)), color-stop(100%, var(--tonic-primary, #f66)));
+        background-image: -webkit-linear-gradient(var(--tonic-primary, #f66), var(--tonic-primary, #f66));
+        background-image: -moz-linear-gradient(var(--tonic-primary, #f66), var(--tonic-primary, #f66));
+        background-image: -o-linear-gradient(var(--tonic-primary, #f66), var(--tonic-primary, #f66));
+        background-image: linear-gradient(var(--tonic-primary, #f66), var(--tonic-primary, #f66));
         background-size: 50% 100%;
         background-repeat: no-repeat;
         border-radius: 0;
         cursor: pointer;
         -webkit-appearance: none;
+      }
+
+      tonic-range input[type="range"]:focus {
+        outline-offset: 10px;
       }
 
       tonic-range input[type="range"]:disabled {
@@ -37041,7 +37045,9 @@ class TestTabTextBox extends Tonic {
 
   disconnected () {
     this.disconnectedCounter++
-    this.preventRenderOnReconnect = true
+    if (this.renderCounter > 0) {
+      this.preventRenderOnReconnect = true
+    }
   }
 
   render () {
@@ -37121,7 +37127,7 @@ tape('tabs only render what is visible', async t => {
     t.equal(textboxs[0].textContent, 'Text two')
     t.equal(TestTabTextBox.allocationCounter, 3, 'expect 3 allocations')
     t.equal(textboxs[0].renderCounter, 1, 'expect 1 render')
-    t.equal(textboxs[0].connectedCounter, 2, 'expect 2 connected')
+    t.equal(textboxs[0].connectedCounter, 1, 'expect 1 connected')
     t.equal(textboxs[0].disconnectedCounter, 1, 'expected 1 disconnected')
   }
 
@@ -37141,7 +37147,7 @@ tape('tabs only render what is visible', async t => {
     t.equal(textboxs[0].textContent, 'Text three')
     t.equal(TestTabTextBox.allocationCounter, 3, 'expect 3 allocations')
     t.equal(textboxs[0].renderCounter, 1, 'expect 1 render')
-    t.equal(textboxs[0].connectedCounter, 2, 'expect 2 connected')
+    t.equal(textboxs[0].connectedCounter, 1, 'expect 1 connected')
     t.equal(textboxs[0].disconnectedCounter, 1, 'expected 1 disconnected')
   }
 
@@ -37180,7 +37186,7 @@ tape('tabs only render what is visible', async t => {
     t.equal(textboxs[0].textContent, 'Text two')
     t.equal(TestTabTextBox.allocationCounter, 3, 'expect 3 allocations')
     t.equal(textboxs[0].renderCounter, 1, 'expect 1 render')
-    t.equal(textboxs[0].connectedCounter, 3, 'expect 2 connected')
+    t.equal(textboxs[0].connectedCounter, 2, 'expect 2 connected')
     t.equal(textboxs[0].disconnectedCounter, 2, 'expected 1 disconnected')
   }
 

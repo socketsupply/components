@@ -89,7 +89,7 @@ class Child extends Tonic {
     e.detail.bar = true
   }
   render () {
-    return `<div class="foo">Click Me</div>`
+    return this.html`<div class="foo">Click Me</div>`
   }
 }
 
@@ -100,7 +100,7 @@ class Parent extends Tonic {
     }
   }
   render () {
-    return `<child></child>`
+    return this.html`<child></child>`
   }
 }
 ```

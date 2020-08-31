@@ -45,19 +45,12 @@ class TonicTabs extends Tonic {
       const control = tab.getAttribute('for')
       const anchor = tab.querySelector('a')
 
-      if (!anchor) {
-        if (this._setVisibilitySynchronously) {
-          return setTimeout(() => this.setVisibility(id, forAttr))
-        }
-
-        throw new Error(`No tonic-tab found that matches the id (${control})`)
-      }
-
       if (!control) {
         throw new Error(`No "for" attribute found for tab id "${tab.id}".`)
       }
 
       const panelStore = this.panels[control]
+
       let panel = document.getElementById(control)
       if (!panel && panelStore) {
         panel = panelStore.node
@@ -65,9 +58,7 @@ class TonicTabs extends Tonic {
 
       if (!panel) {
         if (this._setVisibilitySynchronously) {
-          return setTimeout(() => {
-            this.setVisibility(id, forAttr)
-          })
+          return setTimeout(() => this.setVisibility(id, forAttr))
         }
 
         throw new Error(`No tonic-panel found that matches the id (${control})`)

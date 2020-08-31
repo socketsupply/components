@@ -70,6 +70,25 @@ function will be inserted into the component tag.
 </html>
 ```
 
+The render function can also be `async` or even an `async generator`.
+
+```js
+class GithubUrls extends Tonic {
+  //
+  // The render function can return a template-literal of HTML,
+  // it can also include other components.
+  //
+  async * render () {
+    yield this.html`<p>Loading...</p>`
+
+    const res = await fetch('https://api.github.com/')
+    const urls = await res.json()
+
+    return this.html`<div>${JSON.stringify(urls, 2, 2)}</div>`
+  }
+}
+```
+
 [0]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
 [1]:https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
 [2]:https://caniuse.com/#search=domcontentloaded

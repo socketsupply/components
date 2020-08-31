@@ -220,7 +220,11 @@ function will be inserted into the component tag.</p>
     <span class="hljs-keyword">const</span> res = <span class="hljs-keyword">await</span> fetch(<span class="hljs-string">&#x27;https://api.github.com/&#x27;</span>)
     <span class="hljs-keyword">const</span> urls = <span class="hljs-keyword">await</span> res.json()
 
-    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`&lt;div&gt;<span class="hljs-subst">${<span class="hljs-built_in">JSON</span>.stringify(urls, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>)}</span>&lt;/div&gt;`</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`
+      &lt;pre&gt;
+        <span class="hljs-subst">${<span class="hljs-built_in">JSON</span>.stringify(urls, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>)}</span>
+      &lt;/pre&gt;
+    `</span>
   }
 }</code></pre>
 
@@ -481,18 +485,23 @@ intercept the click event and pass along some data to the parent component.</p>
     e.detail.bar = <span class="hljs-literal">true</span>
   }
   render () {
-    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`&lt;div class=&quot;foo&quot;&gt;Click Me&lt;/div&gt;`</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`
+      Click Me
+    `</span>
   }
 }
 
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ParentElement</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   click (e) {
-    <span class="hljs-keyword">if</span> (e.target.matches(<span class="hljs-string">&#x27;.foo&#x27;</span>)) {
+    <span class="hljs-keyword">if</span> (e.target.matches(<span class="hljs-string">&#x27;child-element&#x27;</span>)) {
       <span class="hljs-built_in">console</span>.log(e.detail.bar)
     }
   }
   render () {
-    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`&lt;child-element&gt;&lt;/child-element&gt;`</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`
+      &lt;child-element&gt;
+      &lt;/child-element&gt;
+    `</span>
   }
 }</code></pre>
 <p>The event object has a <a href="https://developer.mozilla.org/en-US/docs/Web/API/Event/stopPropagation"><code>Event.stopPropagation()</code></a> method that is useful for

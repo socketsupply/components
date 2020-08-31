@@ -89,18 +89,23 @@ class ChildElement extends Tonic {
     e.detail.bar = true
   }
   render () {
-    return this.html`<div class="foo">Click Me</div>`
+    return this.html`
+      Click Me
+    `
   }
 }
 
 class ParentElement extends Tonic {
   click (e) {
-    if (e.target.matches('.foo')) {
+    if (e.target.matches('child-element')) {
       console.log(e.detail.bar)
     }
   }
   render () {
-    return this.html`<child-element></child-element>`
+    return this.html`
+      <child-element>
+      </child-element>
+    `
   }
 }
 ```

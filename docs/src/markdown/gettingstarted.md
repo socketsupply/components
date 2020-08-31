@@ -84,7 +84,11 @@ class GithubUrls extends Tonic {
     const res = await fetch('https://api.github.com/')
     const urls = await res.json()
 
-    return this.html`<div>${JSON.stringify(urls, 2, 2)}</div>`
+    return this.html`
+      <pre>
+        ${JSON.stringify(urls, 2, 2)}
+      </pre>
+    `
   }
 }
 ```

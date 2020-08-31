@@ -137,15 +137,15 @@
     <div class="col">
       <ul>
         <li>1 file. 1 class. ~350 lines of code</li>
-        <li>100% native web</li>
         <li>No build tools required</li>
+        <li>Based on native web components</li>
       </ul>
     </div>
     <div class="col">
       <ul>
+        <li>Built to last</li>
         <li>Composition oriented</li>
-        <li>Plain old html</li>
-        <li>Event delegation by default</li>
+        <li>Pretty much plain old html</li>
       </ul>
     </div>
   </div>
@@ -389,8 +389,11 @@ Tonic.add(ChildComponent)</code></pre>
     <section id="events">
       
       <h1 id="events">Events</h1>
-<p>Tonic helps you capture events that happen when someone interacts with your
-component. It also helps you organize that code.</p>
+<p>There are two kinds of events. <code>Lifecycle Events</code> and <code>Interaction Events</code>.
+Tonic uses the regular web component lifecycle events but improves on them,
+see the API section for more details.</p>
+<p>Tonic helps you capture interaction events without turning your html into
+property spaghetti. It also helps you organize and optimize it.</p>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Example</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   <span class="hljs-comment">//</span>
   <span class="hljs-comment">// You can listen to any DOM event that happens in your component</span>
@@ -403,6 +406,22 @@ component. It also helps you organize that code.</p>
 
   change (e) {
     <span class="hljs-comment">// ...</span>
+  }
+
+  willConnect () {
+    <span class="hljs-comment">// The component will connect.</span>
+  }
+
+  connected () {
+    <span class="hljs-comment">// The component has rendered.</span>
+  }
+
+  disconnected () {
+    <span class="hljs-comment">// The component has disconnected.</span>
+  }
+
+  updated () {
+    <span class="hljs-comment">// The component has re-rendered.</span>
   }
 
   click (e) {

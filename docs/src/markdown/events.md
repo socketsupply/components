@@ -1,7 +1,10 @@
 # Events
+There are two kinds of events. `Lifecycle Events` and `Interaction Events`.
+Tonic uses the regular web component lifecycle events but improves on them,
+see the API section for more details.
 
-Tonic helps you capture events that happen when someone interacts with your
-component. It also helps you organize that code.
+Tonic helps you capture interaction events without turning your html into
+property spaghetti. It also helps you organize and optimize it.
 
 ```js
 class Example extends Tonic {
@@ -16,6 +19,22 @@ class Example extends Tonic {
 
   change (e) {
     // ...
+  }
+
+  willConnect () {
+    // The component will connect.
+  }
+
+  connected () {
+    // The component has rendered.
+  }
+
+  disconnected () {
+    // The component has disconnected.
+  }
+
+  updated () {
+    // The component has re-rendered.
   }
 
   click (e) {

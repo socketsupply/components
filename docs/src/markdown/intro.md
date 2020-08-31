@@ -17,15 +17,15 @@
     <div class="col">
       <ul>
         <li>1 file. 1 class. ~350 lines of code</li>
-        <li>100% native web</li>
         <li>No build tools required</li>
+        <li>Based on native web components</li>
       </ul>
     </div>
     <div class="col">
       <ul>
+        <li>Built to last</li>
         <li>Composition oriented</li>
-        <li>Plain old html</li>
-        <li>Event delegation by default</li>
+        <li>Pretty much plain old html</li>
       </ul>
     </div>
   </div>

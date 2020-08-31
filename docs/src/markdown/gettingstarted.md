@@ -1,8 +1,7 @@
 # Getting Started
 
 Building a component with Tonic starts by creating a [Javascript Class][0].
-The class should have at least one method named *render* which usually returns
-a string of HTML.
+The class should have at least one method named *render* which usually returns HTML.
 
 ```js
 class MyGreeting extends Tonic {
@@ -11,17 +10,19 @@ class MyGreeting extends Tonic {
   // it can also include other components.
   //
   render () {
-    return `<div>Hello, World.</div>`
+    return this.html`<div>Hello, World.</div>`
   }
 }
 ```
 
 ---
 
-The name of your class will determine the html tag name for your component. A
-Camel cased class names will create hyphenated tag names, ie `MyGreeting` will
-become `<my-greeting></my-greeting>`. Web components require that you have two
-part names.
+The html tag for your component will match its class name.
+
+> <i><b>Note</b>: Tonic is a thin wrapper around `web components`. Web
+> components require a name with two or more parts. So your class name should
+> be `CamelCased` (starting with an uppercase letter). For exmaple, `MyGreeting`
+> becomes `<my-greeting></my-greeting>`.
 
 ---
 
@@ -33,7 +34,7 @@ Tonic.add(MyGreeting)
 
 ---
 
-After adding your Javascript to your HTML, you can start to use your component.
+After adding your Javascript to your HTML, you can use your component anywhere.
 
 ```html
 <html>
@@ -47,8 +48,8 @@ After adding your Javascript to your HTML, you can start to use your component.
 </html>
 ```
 
-> <i><b>Note</b>: Unrelated to Tonic, custom tags (in all browsers) require a
-> closing tag (even if they have no children).</i>
+> <i><b>Note</b>: Custom tags (in all browsers) require a closing tag (even if
+> they have no children). Tonic doesn't add any "magic" to change how this works.</i>
 
 ---
 

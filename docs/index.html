@@ -133,7 +133,6 @@
       <a href="https://twitter.com/tonicframework">@tonicframework</a>
     </div>
   </div>
-  <p class="intro-copy">Minimal Component Framework</p>
   <div class="row">
     <div class="col">
       <ul>
@@ -145,7 +144,7 @@
     <div class="col">
       <ul>
         <li>Composition oriented</li>
-        <li>No new template languages</li>
+        <li>Plain old html</li>
         <li>Event delegation by default</li>
       </ul>
     </div>
@@ -159,27 +158,29 @@
       
       <h1 id="getting-started">Getting Started</h1>
 <p>Building a component with Tonic starts by creating a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes">Javascript Class</a>.
-The class should have at least one method named <em>render</em> which usually returns
-a string of HTML.</p>
+The class should have at least one method named <em>render</em> which usually returns HTML.</p>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyGreeting</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   <span class="hljs-comment">//</span>
   <span class="hljs-comment">// The render function can return a template-literal of HTML,</span>
   <span class="hljs-comment">// it can also include other components.</span>
   <span class="hljs-comment">//</span>
   render () {
-    <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div&gt;Hello, World.&lt;/div&gt;`</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`&lt;div&gt;Hello, World.&lt;/div&gt;`</span>
   }
 }</code></pre>
 <hr>
-<p>The name of your class will determine the html tag name for your component. A
-Camel cased class names will create hyphenated tag names, ie <code>MyGreeting</code> will
-become <code>&lt;my-greeting&gt;&lt;/my-greeting&gt;</code>. Web components require that you have two
-part names.</p>
+<p>The html tag for your component will match its class name.</p>
+<blockquote>
+<p><i><b>Note</b>: Tonic is a thin wrapper around <code>web components</code>. Web
+components require a name with two or more parts. So your class name should
+be <code>CamelCased</code> (starting with an uppercase letter). For exmaple, <code>MyGreeting</code>
+becomes <code>&lt;my-greeting&gt;&lt;/my-greeting&gt;</code>.</p>
+</blockquote>
 <hr>
 <p>Next, register your component with <code>Tonic.add(ClassName)</code>.</p>
 <pre><code class="language-js">Tonic.add(MyGreeting)</code></pre>
 <hr>
-<p>After adding your Javascript to your HTML, you can start to use your component.</p>
+<p>After adding your Javascript to your HTML, you can use your component anywhere.</p>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;index.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
@@ -190,8 +191,8 @@ part names.</p>
   <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
 <blockquote>
-<p><i><b>Note</b>: Unrelated to Tonic, custom tags (in all browsers) require a
-closing tag (even if they have no children).</i></p>
+<p><i><b>Note</b>: Custom tags (in all browsers) require a closing tag (even if
+they have no children). Tonic doesn&#39;t add any &quot;magic&quot; to change how this works.</i></p>
 </blockquote>
 <hr>
 <p>When the component is rendered by the browser, the result of your render
@@ -218,39 +219,22 @@ function will be inserted into the component tag.</p>
 attributes. For example...</p>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyApp</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   render () {
-    <span class="hljs-keyword">return</span> <span class="hljs-string">`
-      &lt;my-greeting message=&quot;Hello, World&quot;&gt;&lt;/my-greeting&gt;
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`
+      &lt;my-greeting message=&quot;Hello, World&quot;&gt;
+      &lt;/my-greeting&gt;
     `</span>
   }
 }</code></pre>
 <hr>
 <p>Properties added to a component appear on the <code>this.props</code> object.</p>
-<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyGreeting</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
-  render () {
-    <span class="hljs-keyword">return</span> <span class="hljs-string">`
-      &lt;h1&gt;<span class="hljs-subst">${<span class="hljs-built_in">this</span>.props.message}</span>&lt;/h1&gt;
-    `</span>
-  }
-}</code></pre>
 <hr>
 <p>Tonic has no templating language, it uses HTML! But since HTML only
 understands string values, we need some help to pass more complex
 values to a component, for that we use <code>this.html</code>.</p>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> data = { <span class="hljs-attr">greeting</span>: <span class="hljs-string">&#x27;hello, world&#x27;</span> }
-
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyApp</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyGreeting</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   render () {
     <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`
-      &lt;my-component title=<span class="hljs-subst">${data}</span>&gt;&lt;/my-component&gt;
-    `</span>
-  }
-}</code></pre>
-<hr>
-<p>Now <code>this.props</code> has a reference to the <code>data</code> object.</p>
-<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
-  render () {
-    <span class="hljs-keyword">return</span> <span class="hljs-string">`
-      &lt;h1&gt;<span class="hljs-subst">${<span class="hljs-built_in">this</span>.props.data.greeting}</span>&lt;/h1&gt;
+      &lt;h1&gt;<span class="hljs-subst">${<span class="hljs-built_in">this</span>.props.message}</span>&lt;/h1&gt;
     `</span>
   }
 }</code></pre>
@@ -270,8 +254,8 @@ added to the props object, use <code>foo-bar=&#39;30&#39;</code> to get <code>th
     }
 
     <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`
-      &lt;spread-component ...<span class="hljs-subst">${o}</span>&gt;
-      &lt;/spread-component&gt;
+      &lt;some-component ...<span class="hljs-subst">${o}</span>&gt;
+      &lt;/some-component&gt;
 
       &lt;div ...<span class="hljs-subst">${o}</span>&gt;
       &lt;/div&gt;
@@ -280,19 +264,20 @@ added to the props object, use <code>foo-bar=&#39;30&#39;</code> to get <code>th
 }</code></pre>
 <p>The above compoent renders the following output.</p>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">my-component</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">another-component</span> <span class="hljs-attr">a</span>=<span class="hljs-string">&quot;testing&quot;</span> <span class="hljs-attr">b</span>=<span class="hljs-string">&quot;2.2&quot;</span> <span class="hljs-attr">foo-bar</span>=<span class="hljs-string">&quot;ok&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">some-component</span> <span class="hljs-attr">a</span>=<span class="hljs-string">&quot;testing&quot;</span> <span class="hljs-attr">b</span>=<span class="hljs-string">&quot;2.2&quot;</span> <span class="hljs-attr">foo-bar</span>=<span class="hljs-string">&quot;ok&quot;</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">a</span>=<span class="hljs-string">&quot;testing&quot;</span> <span class="hljs-attr">b</span>=<span class="hljs-string">&quot;2.2&quot;</span> <span class="hljs-attr">foo-bar</span>=<span class="hljs-string">&quot;ok&quot;</span>&gt;</span>
     <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">another-component</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">some-component</span>&gt;</span>
 
   <span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">a</span>=<span class="hljs-string">&quot;testing&quot;</span> <span class="hljs-attr">b</span>=<span class="hljs-string">&quot;2.2&quot;</span> <span class="hljs-attr">foo-bar</span>=<span class="hljs-string">&quot;ok&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">my-component</span>&gt;</span></code></pre>
 <h3>Updating properties</h3>
-<p>Virtual DOMs are not proven to imrpove performance, but have proved to increase
-complexity. So, Tonic does not use them. Instead, you re-render a component when
-you think the time is right. The rule of thumb is to only re-render what is
-absolutely needed.</p>
+<p>There is no evidence that Virtual DOMs improve performance accross a broad set
+of use cases, but it&#39;s certain that they greatly increase complexity. Tonic doesn&#39;t
+use them. Instead, we recommend <code>incremental updates</code>. Simply put, you re-render a
+component when you think the time is right. The rule of thumb is to only re-render
+what is absolutely needed.</p>
 <hr>
 <p>To manually update a component you can use the <code>.reRender()</code> method. This method
 receives either an object or a function. For example...</p>
@@ -318,14 +303,18 @@ receives either an object or a function. For example...</p>
       
       <h1 id="state">State</h1>
 <p><code>this.state</code> is just a plain-old javascript object that will persist across
-re-renders.</p>
-<pre><code class="language-js"><span class="hljs-comment">// Update a component&#x27;s state</span>
+re-renders. A component that uses state requires an <code>id</code> property.</p>
+<pre><code class="language-js"><span class="hljs-comment">//</span>
+<span class="hljs-comment">// Update a component&#x27;s state</span>
+<span class="hljs-comment">//</span>
 <span class="hljs-built_in">this</span>.state = {
   ...this.state,
   <span class="hljs-attr">color</span>: <span class="hljs-string">&#x27;red&#x27;</span>
 }))
 
+<span class="hljs-comment">//</span>
 <span class="hljs-comment">// Reset a component&#x27;s state</span>
+<span class="hljs-comment">//</span>
 <span class="hljs-built_in">this</span>.state = { <span class="hljs-attr">color</span>: <span class="hljs-string">&#x27;red&#x27;</span> }</code></pre>
 <hr>
 <p>Setting state will not cause a component to re-render. This way you can
@@ -480,7 +469,18 @@ instance of your component is created.</p>
   }
 
   myMethod (n) {
-    <span class="hljs-built_in">this</span>.innerHTML = <span class="hljs-string">`The number is <span class="hljs-subst">${n}</span>`</span>
+    <span class="hljs-built_in">this</span>.state.number = n
+    <span class="hljs-built_in">this</span>.reRender()
+  }
+
+  render () {
+    <span class="hljs-keyword">const</span> n = <span class="hljs-built_in">this</span>.state.number
+
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`
+      &lt;div&gt;
+        The number is <span class="hljs-subst">${n}</span>
+      &lt;/div&gt;
+    `</span>
   }
 }</code></pre>
 <p>After the component is created, the method <code>myMethod</code> method can be called.</p>
@@ -618,8 +618,8 @@ example, given the above policy you would add the following to your javascript..
 <td align="left">Escapes HTML characters from a string (based on <a href="https://github.com/mathiasbynens/he">he</a>).</td>
 </tr>
 <tr>
-<td align="left"><code>raw(String)</code></td>
-<td align="left">Insert raw text in html`...`. Useful when calling <code>super.render()</code> or otherwise delegating to <code>render()</code> of another component. Be careful with calling <code>raw</code> on untrusted text like user input as that is an XSS attack vector.</td>
+<td align="left"><code>unsafeRawString(String)</code></td>
+<td align="left">Insert raw text in html`...`. Be careful with calling <code>unsafeRawString</code> on untrusted text like user input as that is an XSS attack vector.</td>
 </tr>
 <tr>
 <td align="left"><code>match(Node, Selector)</code></td>

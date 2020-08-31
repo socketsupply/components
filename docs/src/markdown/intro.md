@@ -13,7 +13,6 @@
       <a href="https://twitter.com/tonicframework">@tonicframework</a>
     </div>
   </div>
-  <p class="intro-copy">Minimal Component Framework</p>
   <div class="row">
     <div class="col">
       <ul>
@@ -25,7 +24,7 @@
     <div class="col">
       <ul>
         <li>Composition oriented</li>
-        <li>No new template languages</li>
+        <li>Plain old html</li>
         <li>Event delegation by default</li>
       </ul>
     </div>

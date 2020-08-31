@@ -14,7 +14,18 @@ class MyComponent extends Tonic {
   }
 
   myMethod (n) {
-    this.innerHTML = `The number is ${n}`
+    this.state.number = n
+    this.reRender()
+  }
+
+  render () {
+    const n = this.state.number
+
+    return this.html`
+      <div>
+        The number is ${n}
+      </div>
+    `
   }
 }
 ```

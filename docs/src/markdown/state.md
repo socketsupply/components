@@ -1,16 +1,20 @@
 # State
 
 `this.state` is just a plain-old javascript object that will persist across
-re-renders.
+re-renders. A component that uses state requires an `id` property.
 
 ```js
+//
 // Update a component's state
+//
 this.state = {
   ...this.state,
   color: 'red'
 }))
 
+//
 // Reset a component's state
+//
 this.state = { color: 'red' }
 ```
 

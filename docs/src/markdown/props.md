@@ -6,8 +6,9 @@ attributes. For example...
 ```js
 class MyApp extends Tonic {
   render () {
-    return `
-      <my-greeting message="Hello, World"></my-greeting>
+    return this.html`
+      <my-greeting message="Hello, World">
+      </my-greeting>
     `
   }
 }
@@ -17,16 +18,6 @@ class MyApp extends Tonic {
 
 Properties added to a component appear on the `this.props` object.
 
-```js
-class MyGreeting extends Tonic {
-  render () {
-    return `
-      <h1>${this.props.message}</h1>
-    `
-  }
-}
-```
-
 ---
 
 Tonic has no templating language, it uses HTML! But since HTML only
@@ -34,26 +25,10 @@ understands string values, we need some help to pass more complex
 values to a component, for that we use `this.html`.
 
 ```js
-const data = { greeting: 'hello, world' }
-
-class MyApp extends Tonic {
+class MyGreeting extends Tonic {
   render () {
     return this.html`
-      <my-component title=${data}></my-component>
-    `
-  }
-}
-```
-
----
-
-Now `this.props` has a reference to the `data` object.
-
-```js
-class MyComponent extends Tonic {
-  render () {
-    return `
-      <h1>${this.props.data.greeting}</h1>
+      <h1>${this.props.message}</h1>
     `
   }
 }
@@ -77,8 +52,8 @@ class MyComponent extends Tonic {
     }
 
     return this.html`
-      <spread-component ...${o}>
-      </spread-component>
+      <some-component ...${o}>
+      </some-component>
 
       <div ...${o}>
       </div>
@@ -91,10 +66,10 @@ The above compoent renders the following output.
 
 ```html
 <my-component>
-  <another-component a="testing" b="2.2" foo-bar="ok">
+  <some-component a="testing" b="2.2" foo-bar="ok">
     <div a="testing" b="2.2" foo-bar="ok">
     </div>
-  </another-component>
+  </some-component>
 
   <div a="testing" b="2.2" foo-bar="ok">
   </div>
@@ -103,10 +78,11 @@ The above compoent renders the following output.
 
 ### Updating properties
 
-Virtual DOMs are not proven to imrpove performance, but have proved to increase
-complexity. So, Tonic does not use them. Instead, you re-render a component when
-you think the time is right. The rule of thumb is to only re-render what is
-absolutely needed.
+There is no evidence that Virtual DOMs improve performance accross a broad set
+of use cases, but it's certain that they greatly increase complexity. Tonic doesn't
+use them. Instead, we recommend `incremental updates`. Simply put, you re-render a
+component when you think the time is right. The rule of thumb is to only re-render
+what is absolutely needed.
 
 ---
 

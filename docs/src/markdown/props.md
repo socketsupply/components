@@ -25,10 +25,26 @@ understands string values, we need some help to pass more complex
 values to a component, for that we use `this.html`.
 
 ```js
+const foo = {
+  hi: 'Hello, world',
+  bye: 'Goodbye, and thanks for all the fish'
+}
+
+class MyApp extends Tonic {
+  render () {
+    return this.html`
+      <my-greeting messages="${foo}">
+      </my-greeting>
+    `
+  }
+}
+```
+
+```js
 class MyGreeting extends Tonic {
   render () {
     return this.html`
-      <h1>${this.props.message}</h1>
+      <h1>${this.props.messages.hi}</h1>
     `
   }
 }

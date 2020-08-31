@@ -9,7 +9,7 @@ class Dialog extends Tonic {
       if (el) this.hide()
 
       const overlay = e.target.matches('.tonic--dialog-overlay')
-      if (overlay) this.hide()
+      if (overlay && !this.props.preventOverlayClick) this.hide()
     })
   }
 

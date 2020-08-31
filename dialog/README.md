@@ -76,6 +76,7 @@ link.addEventListener('click', e => dialog.show())
 | `width` | *string* | Sets the width of the dialog. |  |
 | `height` | *string* | Sets the height of the dialog. |  |
 | `overlay` | *string* | Adds a background overlay. | `true` |
+| `prevent-overlay-click` | *string* | Prevents overlay click from closing dialog. | `false` |
 | `background-color` | *string* | Sets the background color of the overlay. | `rgba(0,0,0,0.5)` |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 

@@ -7913,7 +7913,7 @@ class Dialog extends Tonic {
 
       if (typeof content === 'string') {
         contentContainer.innerHTML = content
-      } else if (content.isTonicRaw) {
+      } else if (content.isTonicUnsafeString) {
         contentContainer.innerHTML = content.rawText
       } else {
         [...content.childNodes].forEach(el => contentContainer.appendChild(el))
@@ -33738,7 +33738,7 @@ class Panel extends Tonic {
 
       if (typeof content === 'string') {
         contentContainer.innerHTML = content
-      } else if (content.isTonicRaw) {
+      } else if (content.isTonicUnsafeString) {
         contentContainer.innerHTML = content.rawText
       } else {
         [...content.childNodes].forEach(el => contentContainer.appendChild(el))

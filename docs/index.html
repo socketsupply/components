@@ -231,10 +231,23 @@ attributes. For example...</p>
 <p>Tonic has no templating language, it uses HTML! But since HTML only
 understands string values, we need some help to pass more complex
 values to a component, for that we use <code>this.html</code>.</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> foo = {
+  <span class="hljs-attr">hi</span>: <span class="hljs-string">&#x27;Hello, world&#x27;</span>,
+  <span class="hljs-attr">bye</span>: <span class="hljs-string">&#x27;Goodbye, and thanks for all the fish&#x27;</span>
+}
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyApp</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+  render () {
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`
+      &lt;my-greeting messages=&quot;<span class="hljs-subst">${foo}</span>&quot;&gt;
+      &lt;/my-greeting&gt;
+    `</span>
+  }
+}</code></pre>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyGreeting</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   render () {
     <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`
-      &lt;h1&gt;<span class="hljs-subst">${<span class="hljs-built_in">this</span>.props.message}</span>&lt;/h1&gt;
+      &lt;h1&gt;<span class="hljs-subst">${<span class="hljs-built_in">this</span>.props.messages.hi}</span>&lt;/h1&gt;
     `</span>
   }
 }</code></pre>
@@ -332,7 +345,7 @@ property <code>this.children</code> will get this component&#39;s child elements
 so that you can read, mutate or wrap them.</p>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ParentComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   render () {
-    <span class="hljs-keyword">return</span> <span class="hljs-string">`
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`
       &lt;div class=&quot;parent&quot;&gt;
         &lt;another-component&gt;
           <span class="hljs-subst">${<span class="hljs-built_in">this</span>.children}</span>
@@ -346,7 +359,7 @@ Tonic.add(ParentComponent)
 
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ChildComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   render () {
-    <span class="hljs-keyword">return</span> <span class="hljs-string">`
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`
       &lt;div class=&quot;child&quot;&gt;
         <span class="hljs-subst">${<span class="hljs-built_in">this</span>.props.value}</span>
       &lt;/div&gt;
@@ -404,7 +417,7 @@ component. It also helps you organize that code.</p>
   }
 
   render () {
-    <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div&gt;&lt;/div&gt;`</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`&lt;div&gt;&lt;/div&gt;`</span>
   }
 }</code></pre>
 <p>The convention of most frameworks is to attach individual event listeners,
@@ -512,7 +525,7 @@ method is called.</p>
   }
 
   render () {
-    <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div styles=&quot;a b&quot;&gt;<span class="hljs-subst">${<span class="hljs-built_in">this</span>.children}</span>&lt;/div&gt;`</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`&lt;div styles=&quot;a b&quot;&gt;<span class="hljs-subst">${<span class="hljs-built_in">this</span>.children}</span>&lt;/div&gt;`</span>
   }
 }</code></pre>
 <pre><code class="language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">my-greeting</span> <span class="hljs-attr">fg</span>=<span class="hljs-string">&quot;white&quot;</span> <span class="hljs-attr">bg</span>=<span class="hljs-string">&quot;red&quot;</span>&gt;</span>Hello, World<span class="hljs-tag">&lt;/<span class="hljs-name">my-greeting</span>&gt;</span></code></pre>
@@ -528,7 +541,7 @@ method is called.</p>
   }
 
   render () {
-    <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div&gt;&lt;/div&gt;`</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`&lt;div&gt;&lt;/div&gt;`</span>
   }
 }</code></pre>
 <h3>Option 3. Static Stylesheets</h3>
@@ -544,7 +557,7 @@ but only once.</p>
   }
 
   render () {
-    <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div&gt;&lt;/div&gt;`</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`&lt;div&gt;&lt;/div&gt;`</span>
   }
 }</code></pre>
 

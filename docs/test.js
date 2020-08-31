@@ -8624,7 +8624,7 @@ class TonicInput extends Tonic {
     return this.html`
       <label
         for="tonic--input_${this.props.id}"
-      >${Tonic.raw(this.props.label)}</label>
+      >${this.props.label}</label>
     `
   }
 
@@ -9269,7 +9269,7 @@ class TonicLoader extends Tonic {
   }
 
   render () {
-    return `
+    return this.html`
       <div class="outer">
         <div class="inner">
           <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
@@ -9297,9 +9297,9 @@ class TonicLoader extends Tonic {
 module.exports = { TonicLoader }
 
 },{"@optoolco/tonic":50}],50:[function(require,module,exports){
-class TonicRaw {
+class TonicUnsafeString {
   constructor (rawText, templateStrings) {
-    this.isTonicRaw = true
+    this.isTonicUnsafeString = true
     this.rawText = rawText
     this.templateStrings = templateStrings
   }
@@ -9435,14 +9435,14 @@ class Tonic extends window.HTMLElement {
     return s.replace(Tonic.ESC, c => Tonic.MAP[c])
   }
 
-  static raw (s, templateStrings) {
-    return new TonicRaw(s, templateStrings)
+  static unsafeRawString (s, templateStrings) {
+    return new TonicUnsafeString(s, templateStrings)
   }
 
   html (strings, ...values) {
     const refs = o => {
       if (o && o.__children__) return this._placehold(o)
-      if (o && o.isTonicRaw) return o.rawText
+      if (o && o.isTonicUnsafeString) return o.rawText
       switch (Object.prototype.toString.call(o)) {
         case '[object HTMLCollection]':
         case '[object NodeList]': return this._placehold([...o])
@@ -9482,7 +9482,7 @@ class Tonic extends window.HTMLElement {
         else return ''
       }).filter(Boolean).join(' ')
     })
-    return Tonic.raw(htmlStr, strings)
+    return Tonic.unsafeRawString(htmlStr, strings)
   }
 
   scheduleReRender (oldProps) {
@@ -9550,8 +9550,10 @@ class Tonic extends window.HTMLElement {
   }
 
   _apply (target, content) {
-    if (content && content.isTonicRaw) {
+    if (content && content.isTonicUnsafeString) {
       content = content.rawText
+    } else if (typeof content === 'string') {
+      content = Tonic.escape(content)
     }
 
     if (typeof content === 'string') {
@@ -9689,35 +9691,29 @@ if (typeof module === 'object') module.exports = Tonic
 
 },{"./package":51}],51:[function(require,module,exports){
 module.exports={
-  "_args": [
-    [
-      "@optoolco/tonic@12.1.0",
-      "/home/raynos/optoolco/components"
-    ]
-  ],
-  "_development": true,
-  "_from": "@optoolco/tonic@12.1.0",
-  "_id": "@optoolco/tonic@12.1.0",
+  "_from": "@optoolco/tonic@13.0.0",
+  "_id": "@optoolco/tonic@13.0.0",
   "_inBundle": false,
-  "_integrity": "sha512-nY5tEW0rY7NKGET/ISLgs5v3Bp9RBRFGtSK91Rx63k6bDLAE2aXObWOo62C0s8Zt+ZntzwKCX2KIpNoO245JjQ==",
+  "_integrity": "sha512-XK+aIY3J9C6dqHiBfS/IqnzZOrGrmugGHTv9xMxsVejbdO2JivBKuTTcOIXie4XWB2AA3AVO6FJc9yP35N20fA==",
   "_location": "/@optoolco/tonic",
   "_phantomChildren": {},
   "_requested": {
     "type": "version",
     "registry": true,
-    "raw": "@optoolco/tonic@12.1.0",
+    "raw": "@optoolco/tonic@13.0.0",
     "name": "@optoolco/tonic",
     "escapedName": "@optoolco%2ftonic",
     "scope": "@optoolco",
-    "rawSpec": "12.1.0",
+    "rawSpec": "13.0.0",
     "saveSpec": null,
-    "fetchSpec": "12.1.0"
+    "fetchSpec": "13.0.0"
   },
   "_requiredBy": [
     "#DEV:/"
   ],
-  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-12.1.0.tgz",
-  "_spec": "12.1.0",
+  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-13.0.0.tgz",
+  "_shasum": "132f2cc8666d7d3331537e16904495b2d6d58755",
+  "_spec": "@optoolco/tonic@13.0.0",
   "_where": "/home/raynos/optoolco/components",
   "author": {
     "name": "optoolco"
@@ -9725,7 +9721,9 @@ module.exports={
   "bugs": {
     "url": "https://github.com/optoolco/tonic/issues"
   },
+  "bundleDependencies": false,
   "dependencies": {},
+  "deprecated": false,
   "description": "A composable component inspired by React.",
   "devDependencies": {
     "benchmark": "^2.1.4",
@@ -9751,7 +9749,7 @@ module.exports={
     "minify": "terser index.js -c unused,dead_code,hoist_vars,loops=false,hoist_props=true,hoist_funs,toplevel,keep_classnames,keep_fargs=false -o dist/tonic.min.js",
     "test": "npm run minify && browserify test/index.js | tape-puppet"
   },
-  "version": "12.1.0"
+  "version": "13.0.0"
 }
 
 },{}],52:[function(require,module,exports){
@@ -33793,7 +33791,7 @@ class ExamplePanel extends Panel {
   }
 
   render () {
-    return `
+    return this.html`
       <div class="tonic--header">Panel Example</div>
       <div class="tonic--main">
         <h3>${this.props.title || 'Hello'}

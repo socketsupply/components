@@ -1561,7 +1561,7 @@ class TonicInput extends Tonic {
     return this.html`
       <label
         for="tonic--input_${this.props.id}"
-      >${Tonic.raw(this.props.label)}</label>
+      >${this.props.label}</label>
     `
   }
 
@@ -1800,7 +1800,7 @@ class TonicLoader extends Tonic {
   }
 
   render () {
-    return `
+    return this.html`
       <div class="outer">
         <div class="inner">
           <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"

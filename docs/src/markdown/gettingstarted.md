@@ -74,10 +74,6 @@ The render function can also be `async` or even an `async generator`.
 
 ```js
 class GithubUrls extends Tonic {
-  //
-  // The render function can return a template-literal of HTML,
-  // it can also include other components.
-  //
   async * render () {
     yield this.html`<p>Loading...</p>`
 

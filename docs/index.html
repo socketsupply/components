@@ -210,10 +210,6 @@ function will be inserted into the component tag.</p>
 <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
 <p>The render function can also be <code>async</code> or even an <code>async generator</code>.</p>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GithubUrls</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
-  <span class="hljs-comment">//</span>
-  <span class="hljs-comment">// The render function can return a template-literal of HTML,</span>
-  <span class="hljs-comment">// it can also include other components.</span>
-  <span class="hljs-comment">//</span>
   <span class="hljs-keyword">async</span> * render () {
     <span class="hljs-keyword">yield</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`&lt;p&gt;Loading...&lt;/p&gt;`</span>
 

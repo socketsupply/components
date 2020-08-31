@@ -466,7 +466,7 @@ intercept the click event and pass along some data to the parent component.</p>
     e.detail.bar = <span class="hljs-literal">true</span>
   }
   render () {
-    <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;div class=&quot;foo&quot;&gt;Click Me&lt;/div&gt;`</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`&lt;div class=&quot;foo&quot;&gt;Click Me&lt;/div&gt;`</span>
   }
 }
 
@@ -477,7 +477,7 @@ intercept the click event and pass along some data to the parent component.</p>
     }
   }
   render () {
-    <span class="hljs-keyword">return</span> <span class="hljs-string">`&lt;child&gt;&lt;/child&gt;`</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`&lt;child&gt;&lt;/child&gt;`</span>
   }
 }</code></pre>
 <p>The event object has a <a href="https://developer.mozilla.org/en-US/docs/Web/API/Event/stopPropagation"><code>Event.stopPropagation()</code></a> method that is useful for

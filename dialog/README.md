@@ -45,7 +45,7 @@ class TonicDialog extends Dialog {
   }
 
   render () {
-    return `
+    return this.html`
       <header>Dialog</header>
       <main>
         ${this.state.message}

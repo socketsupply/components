@@ -10,7 +10,7 @@ class ExampleDialog extends Dialog {
   }
 
   body () {
-    return `
+    return this.html`
       <header>Dialog</header>
       <main>
         ${this.state.message || 'Ready'}
@@ -24,7 +24,7 @@ class ExampleDialog extends Dialog {
   loading () {
     this.state.loaded = true
 
-    return `
+    return this.html`
       <h3>Loading...</h3>
     `
   }

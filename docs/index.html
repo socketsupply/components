@@ -461,7 +461,7 @@ selector, and if not, tries to find the closest match.</p>
 <p>Here, when a particular element inside a child component is clicked, we
 intercept the click event and pass along some data to the parent component.</p>
 <h3>Example</h3>
-<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Child</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ChildElement</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   click (e) {
     e.detail.bar = <span class="hljs-literal">true</span>
   }
@@ -470,14 +470,14 @@ intercept the click event and pass along some data to the parent component.</p>
   }
 }
 
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Parent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ParentElement</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   click (e) {
     <span class="hljs-keyword">if</span> (e.target.matches(<span class="hljs-string">&#x27;.foo&#x27;</span>)) {
       <span class="hljs-built_in">console</span>.log(e.detail.bar)
     }
   }
   render () {
-    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`&lt;child&gt;&lt;/child&gt;`</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`&lt;child-element&gt;&lt;/child-element&gt;`</span>
   }
 }</code></pre>
 <p>The event object has a <a href="https://developer.mozilla.org/en-US/docs/Web/API/Event/stopPropagation"><code>Event.stopPropagation()</code></a> method that is useful for

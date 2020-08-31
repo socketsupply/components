@@ -84,7 +84,7 @@ intercept the click event and pass along some data to the parent component.
 
 ### Example
 ```js
-class Child extends Tonic {
+class ChildElement extends Tonic {
   click (e) {
     e.detail.bar = true
   }
@@ -93,14 +93,14 @@ class Child extends Tonic {
   }
 }
 
-class Parent extends Tonic {
+class ParentElement extends Tonic {
   click (e) {
     if (e.target.matches('.foo')) {
       console.log(e.detail.bar)
     }
   }
   render () {
-    return this.html`<child></child>`
+    return this.html`<child-element></child-element>`
   }
 }
 ```

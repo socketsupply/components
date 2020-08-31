@@ -23836,11 +23836,16 @@ class TonicPanel extends Panel {
   }
 
   async * render () {
-    return `
+    const title = this.props.title || 'Hello'
+    const content = this.props.extract
+      ? this.props.extract
+      : 'Click "get" to fetch the content from Wikipedia.'
+
+    return this.html`
       <div class="tonic--header">Panel Example</div>
       <div class="tonic--main">
-        <h3>${this.props.title || 'Hello'}
-        <p>${this.props.extract || 'Click "get" to fetch the content from Wikipedia.'}</p>
+        <h3>${title}</h3>
+        <p>${content}</p>
       </div>
       <div class="tonic--footer">
         <tonic-button value="close">Close</tonic-button>

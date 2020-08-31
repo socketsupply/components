@@ -23,7 +23,7 @@ class ExampleWindowed extends Windowed {
   // Creates a new DOM structure
   //
   renderRow (row, index) {
-    return `
+    return this.html`
       <div class="tr" data-id="${row.id}">
         <div class="td">${row.title}</div>
         <div class="td">${row.date}</div>
@@ -33,7 +33,7 @@ class ExampleWindowed extends Windowed {
   }
 
   render () {
-    return `
+    return this.html`
       <div class="th">
         <div class="td">Title</div>
         <div class="td">Date</div>

@@ -24,7 +24,7 @@ class MyGreeting extends Tonic {
   }
 
   render () {
-    return `<div styles="a b">${this.children}</div>`
+    return this.html`<div styles="a b">${this.children}</div>`
   }
 }
 ```
@@ -47,7 +47,7 @@ class MyGreeting extends Tonic {
   }
 
   render () {
-    return `<div></div>`
+    return this.html`<div></div>`
   }
 }
 ```
@@ -67,7 +67,7 @@ class MyGreeting extends Tonic {
   }
 
   render () {
-    return `<div></div>`
+    return this.html`<div></div>`
   }
 }
 ```

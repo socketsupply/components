@@ -30,7 +30,7 @@ class Example extends Tonic {
   }
 
   render () {
-    return `<div></div>`
+    return this.html`<div></div>`
   }
 }
 ```

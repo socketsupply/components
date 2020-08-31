@@ -7,7 +7,7 @@ so that you can read, mutate or wrap them.
 ```js
 class ParentComponent extends Tonic {
   render () {
-    return `
+    return this.html`
       <div class="parent">
         <another-component>
           ${this.children}
@@ -21,7 +21,7 @@ Tonic.add(ParentComponent)
 
 class ChildComponent extends Tonic {
   render () {
-    return `
+    return this.html`
       <div class="child">
         ${this.props.value}
       </div>

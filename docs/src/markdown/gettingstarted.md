@@ -22,7 +22,7 @@ The html tag for your component will match its class name.
 > <i><b>Note</b>: Tonic is a thin wrapper around `web components`. Web
 > components require a name with two or more parts. So your class name should
 > be `CamelCased` (starting with an uppercase letter). For exmaple, `MyGreeting`
-> becomes `<my-greeting></my-greeting>`.
+> becomes `<my-greeting></my-greeting>`.</i>
 
 ---
 

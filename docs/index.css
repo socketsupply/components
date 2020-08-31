@@ -750,24 +750,24 @@ body .component-github-link a {
   padding: 2px 4px;
   display: inline-block;
 }
-body section#intro {
+body[data-page="docs"] section#intro {
   height: 100%;
 }
-body section#intro .hero {
+body[data-page="docs"] section#intro .hero {
   top: 50%;
   position: absolute;
   -webkit-transform: translateY(-50%);
           transform: translateY(-50%);
 }
-body section#intro .tonic-icon svg {
+body[data-page="docs"] section#intro .tonic-icon svg {
   width: 155px;
   display: block;
 }
-body section#intro .tonic-icon svg use {
+body[data-page="docs"] section#intro .tonic-icon svg use {
   fill: var(--tonic-primary);
   color: var(--tonic-primary);
 }
-body section#intro .github {
+body[data-page="docs"] section#intro .github {
   position: absolute;
   top: -2px;
   right: 35px;
@@ -775,14 +775,14 @@ body section#intro .github {
   margin-top: 40px;
 }
 @media (max-width: 840px) {
-  body section#intro .github {
+  body[data-page="docs"] section#intro .github {
     top: -13px;
   }
 }
-body section#intro .github img {
+body[data-page="docs"] section#intro .github img {
   vertical-align: middle;
 }
-body section#intro .status {
+body[data-page="docs"] section#intro .status {
   width: 210px;
   font: 12px var(--tonic-subheader);
   text-transform: uppercase;
@@ -793,7 +793,7 @@ body section#intro .status {
       justify-content: space-around;
   margin: 0px auto;
 }
-body section#intro .status:before {
+body[data-page="docs"] section#intro .status:before {
   content: attr(data-before);
   color: var(--tonic-medium);
   text-align: center;
@@ -801,7 +801,7 @@ body section#intro .status:before {
   padding: 4px 8px;
   display: inline-block;
 }
-body section#intro .status:after {
+body[data-page="docs"] section#intro .status:after {
   content: attr(data-after);
   color: #fff;
   letter-spacing: 1px;
@@ -809,50 +809,50 @@ body section#intro .status:after {
   display: inline-block;
   background-color: var(--tonic-accent);
 }
-body section#intro .logo svg {
+body[data-page="docs"] section#intro .logo svg {
   width: 200px;
 }
-body section#intro .logo svg use {
+body[data-page="docs"] section#intro .logo svg use {
   fill: var(--tonic-primary);
   color: var(--tonic-primary);
 }
-body section#intro p:not(.intro-copy) {
+body[data-page="docs"] section#intro p:not(.intro-copy) {
   font-size: 17px;
   line-height: 28px;
 }
-body section#intro .col {
+body[data-page="docs"] section#intro .col {
   width: 50%;
   padding: 0;
   padding-right: 30px;
   display: table-cell;
 }
 @media (max-width: 850px) {
-  body section#intro .col {
+  body[data-page="docs"] section#intro .col {
     width: 100%;
     padding: 0;
     display: block;
   }
 }
-body section#intro tonic-button {
+body[data-page="docs"] section#intro tonic-button {
   text-align: center;
   margin: 50px 0;
   display: block;
 }
-body section#intro span.first-word {
+body[data-page="docs"] section#intro span.first-word {
   color: var(--tonic-primary);
 }
-body section#intro p.intro-copy {
+body[data-page="docs"] section#intro p.intro-copy {
   max-width: 670px;
   font: 30px var(--tonic-header);
   margin: 0;
   margin-bottom: 20px;
 }
 @media (max-width: 850px) {
-  body section#intro p.intro-copy {
+  body[data-page="docs"] section#intro p.intro-copy {
     font: 26px var(--tonic-header);
   }
 }
-body section#intro .col ul {
+body[data-page="docs"] section#intro .col ul {
   font: 16px var(--tonic-body);
   margin: 25px 0;
   -ms-flex-preferred-size: 50%;
@@ -860,11 +860,11 @@ body section#intro .col ul {
   list-style: none;
 }
 @media $mobile {
-  body section#intro .col ul li line-height 28px {
+  body[data-page="docs"] section#intro .col ul li line-height 28px {
     line-height: unset;
   }
 }
-body section#intro .col ul li:before {
+body[data-page="docs"] section#intro .col ul li:before {
   content: '';
   width: 9px;
   height: 4px;

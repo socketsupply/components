@@ -174,7 +174,7 @@ The class should have at least one method named <em>render</em> which usually re
 <p><i><b>Note</b>: Tonic is a thin wrapper around <code>web components</code>. Web
 components require a name with two or more parts. So your class name should
 be <code>CamelCased</code> (starting with an uppercase letter). For exmaple, <code>MyGreeting</code>
-becomes <code>&lt;my-greeting&gt;&lt;/my-greeting&gt;</code>.</p>
+becomes <code>&lt;my-greeting&gt;&lt;/my-greeting&gt;</code>.</i></p>
 </blockquote>
 <hr>
 <p>Next, register your component with <code>Tonic.add(ClassName)</code>.</p>
@@ -639,10 +639,6 @@ example, given the above policy you would add the following to your javascript..
 <td align="left">Set the properties of a component instance. Can also take a function which will receive the current props as an argument.</td>
 </tr>
 <tr>
-<td align="left"><code>setState(Object &#124; Function)</code></td>
-<td align="left">Set the state of a component instance. Can also take a function which will receive the current props as an argument.</td>
-</tr>
-<tr>
 <td align="left">html`...`</td>
 <td align="left">Interpolated HTML string (use as a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals">tagged template</a>). Provides...<br/> 1. Pass object references as properties.<br/> 2. Spread operator (ie <code>&lt;a ...${object}&gt;&lt;/a&gt;</code>) which turns ojbects into html properties.<br/> 3. Automatic string escaping.<br/> 4. Render <code>NamedNodeMap</code>, <code>HTMLElement</code>, <code>HTMLCollection</code>, or <code>NodeList</code> as html (ie <code>&lt;a&gt;${span}&lt;/a&gt;</code>).<br/></td>
 </tr>
@@ -706,7 +702,6 @@ example, given the above policy you would add the following to your javascript..
   
 
           <footer>
-            <div>
             <div>
               <span>Supported by</span>
               <svg>

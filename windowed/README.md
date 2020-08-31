@@ -11,9 +11,6 @@ This demo generates the data after you click the overlay. Generating 500000 rows
 <div class="example">
   <div class="header">Example</div>
   <div class="content windowed-example">
-    <div id="click-to-load">
-      <span>Click to Load</span>
-    </div>
     <example-windowed id="windowed" row-height=30>
     </example-windowed>
   </div>

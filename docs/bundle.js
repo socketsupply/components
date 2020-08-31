@@ -2296,6 +2296,7 @@ class Tonic extends window.HTMLElement {
     const state = Tonic._states[super.id]
     delete Tonic._states[super.id]
     this._state = state || {}
+    this.preventRenderOnReconnect = false
     this.props = {}
     this.elements = [...this.children]
     this.elements.__children__ = true
@@ -2306,12 +2307,6 @@ class Tonic extends window.HTMLElement {
 
   static _createId () {
     return `tonic${Tonic._index++}`
-  }
-
-  static _maybePromise (p) {
-    if (p && typeof p.then === 'function' && typeof p.catch === 'function') {
-      p.catch(err => setTimeout(() => { throw err }, 0))
-    }
   }
 
   static _splitName (s) {
@@ -2325,7 +2320,10 @@ class Tonic extends window.HTMLElement {
 
   _checkId () {
     const _id = super.id
-    if (!_id) throw new Error(`Component: ${this.tagName} has no id`)
+    if (!_id) {
+      const html = this.outerHTML.replace(this.innerHTML, '...')
+      throw new Error(`Component: ${html} has no id`)
+    }
     return _id
   }
 
@@ -2472,23 +2470,21 @@ class Tonic extends window.HTMLElement {
   scheduleReRender (oldProps) {
     if (this.pendingReRender) return this.pendingReRender
 
-    this.pendingReRender = new Promise(resolve => {
-      window.requestAnimationFrame(() => {
-        const p = this._set(this.root, this.render)
-        this.pendingReRender = null
+    this.pendingReRender = new Promise(resolve => window.setTimeout(() => {
+      if (!this.isInDocument(this.shadowRoot || this)) return
+      const p = this._set(this.shadowRoot || this, this.render)
+      this.pendingReRender = null
 
-        if (p && p.then) {
-          Tonic._maybePromise(p.then(() => {
-            if (this.updated) this.updated(oldProps)
-            resolve()
-          }))
-          return
-        }
+      if (p && p.then) {
+        return p.then(() => {
+          this.updated && this.updated(oldProps)
+          resolve()
+        })
+      }
 
-        if (this.updated) this.updated(oldProps)
-        resolve()
-      })
-    })
+      this.updated && this.updated(oldProps)
+      resolve()
+    }, 0))
 
     return this.pendingReRender
   }
@@ -2504,12 +2500,11 @@ class Tonic extends window.HTMLElement {
   }
 
   handleEvent (e) {
-    Tonic._maybePromise(this[e.type](e))
+    this[e.type](e)
   }
 
   _drainIterator (target, iterator) {
-    const p = iterator.next()
-    return p.then((result) => {
+    return iterator.next().then((result) => {
       this._set(target, null, result.value)
       if (result.done) return
       return this._drainIterator(target, iterator)
@@ -2526,19 +2521,14 @@ class Tonic extends window.HTMLElement {
     }
 
     if (render instanceof Tonic.AsyncFunction) {
-      const promise = render.call(this) || ''
-      return promise.then((content) => {
-        return this._apply(target, content)
-      })
+      return render.call(this).then(content => this._apply(target, content))
     } else if (render instanceof Tonic.AsyncFunctionGenerator) {
-      const itr = render.call(this)
-      return this._drainIterator(target, itr)
+      return this._drainIterator(target, render.call(this))
+    } else if (render === null) {
+      this._apply(target, content)
     } else if (render instanceof Function) {
-      content = render.call(this) || ''
-      return this._apply(target, content)
+      this._apply(target, render.call(this) || '')
     }
-
-    return this._apply(target, content)
   }
 
   _apply (target, content) {
@@ -2592,7 +2582,7 @@ class Tonic extends window.HTMLElement {
   }
 
   connectedCallback () {
-    this.root = this.shadowRoot || this
+    this.root = this.shadowRoot || this // here for back compat
 
     if (this.wrap) {
       this.wrapped = this.render
@@ -2628,21 +2618,31 @@ class Tonic extends window.HTMLElement {
       this.props
     )
 
-    if (!this._source) {
-      this._source = this.innerHTML
-    } else {
-      this.innerHTML = this._source
-    }
-
     this._id = this._id || Tonic._createId()
 
     this.willConnect && this.willConnect()
-    Tonic._maybePromise(this._set(this.root, this.render))
-    Tonic._maybePromise(this.connected && this.connected())
+
+    if (!this.isInDocument(this.root)) return
+    if (!this.preventRenderOnReconnect) {
+      if (!this._source) {
+        this._source = this.innerHTML
+      } else {
+        this.innerHTML = this._source
+      }
+      const p = this._set(this.root, this.render)
+      if (p && p.then) return p.then(() => this.connected && this.connected())
+    }
+
+    this.connected && this.connected()
+  }
+
+  isInDocument (target) {
+    const root = target.getRootNode()
+    return root === document || root.toString() === '[object ShadowRoot]'
   }
 
   disconnectedCallback () {
-    Tonic._maybePromise(this.disconnected && this.disconnected())
+    this.disconnected && this.disconnected()
     delete Tonic._data[this._id]
     delete Tonic._children[this._id]
   }
@@ -2671,29 +2671,29 @@ if (typeof module === 'object') module.exports = Tonic
 
 },{"./package":24}],24:[function(require,module,exports){
 module.exports={
-  "_from": "@optoolco/tonic@12.0.0",
-  "_id": "@optoolco/tonic@12.0.0",
+  "_from": "@optoolco/tonic@12.1.0",
+  "_id": "@optoolco/tonic@12.1.0",
   "_inBundle": false,
-  "_integrity": "sha512-kRjYMv5VYGSDTSzSBPX0nCNT4NWZwyjzvdWLlhkLDeCJvw3IqZLBSP4hmoRdh4lGMbxOI/i+JfTmxCDjbj6OXg==",
+  "_integrity": "sha512-nY5tEW0rY7NKGET/ISLgs5v3Bp9RBRFGtSK91Rx63k6bDLAE2aXObWOo62C0s8Zt+ZntzwKCX2KIpNoO245JjQ==",
   "_location": "/@optoolco/tonic",
   "_phantomChildren": {},
   "_requested": {
     "type": "version",
     "registry": true,
-    "raw": "@optoolco/tonic@12.0.0",
+    "raw": "@optoolco/tonic@12.1.0",
     "name": "@optoolco/tonic",
     "escapedName": "@optoolco%2ftonic",
     "scope": "@optoolco",
-    "rawSpec": "12.0.0",
+    "rawSpec": "12.1.0",
     "saveSpec": null,
-    "fetchSpec": "12.0.0"
+    "fetchSpec": "12.1.0"
   },
   "_requiredBy": [
     "#DEV:/"
   ],
-  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-12.0.0.tgz",
-  "_shasum": "efe407a8c22464e898f2e664e0df9fbe7d8de58f",
-  "_spec": "@optoolco/tonic@12.0.0",
+  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-12.1.0.tgz",
+  "_shasum": "01a55dac1112f32a54f671adaa6be7eec87cbd34",
+  "_spec": "@optoolco/tonic@12.1.0",
   "_where": "/Users/paolofragomeni/projects/optoolco/components",
   "author": {
     "name": "optoolco"
@@ -2729,7 +2729,7 @@ module.exports={
     "minify": "terser index.js -c unused,dead_code,hoist_vars,loops=false,hoist_props=true,hoist_funs,toplevel,keep_classnames,keep_fargs=false -o dist/tonic.min.js",
     "test": "npm run minify && browserify test/index.js | tape-puppet"
   },
-  "version": "12.0.0"
+  "version": "12.1.0"
 }
 
 },{}],25:[function(require,module,exports){
@@ -25699,7 +25699,6 @@ class TonicSprite extends Tonic {
 module.exports = { TonicSprite }
 
 },{"@optoolco/tonic":23}],46:[function(require,module,exports){
-(function (setImmediate){
 const Tonic = require('@optoolco/tonic')
 
 const CustomEvent = window.CustomEvent
@@ -25747,6 +25746,12 @@ class TonicTabs extends Tonic {
       const control = tab.getAttribute('for')
       const anchor = tab.querySelector('a')
 
+      if (!anchor) {
+        return setTimeout(() => {
+          this.setVisibility(id, forAttr)
+        })
+      }
+
       if (!control) {
         throw new Error(`No "for" attribute found for tab id "${tab.id}".`)
       }
@@ -25759,7 +25764,7 @@ class TonicTabs extends Tonic {
 
       if (!panel) {
         if (this._setVisibilitySynchronously) {
-          return setImmediate(() => {
+          return setTimeout(() => {
             this.setVisibility(id, forAttr)
           })
         }
@@ -25959,8 +25964,7 @@ module.exports = {
   TonicTabPanel
 }
 
-}).call(this,require("timers").setImmediate)
-},{"@optoolco/tonic":23,"timers":2}],47:[function(require,module,exports){
+},{"@optoolco/tonic":23}],47:[function(require,module,exports){
 arguments[4][11][0].apply(exports,arguments)
 },{"dup":11}],48:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
@@ -27595,9 +27599,8 @@ Tonic.add(ExampleWindowed)
 // on page load since 500K rows of data can take a few seconds to create.
 //
 const windowed = document.getElementsByTagName('example-windowed')[0]
-const overlay = document.getElementById('click-to-load')
 
-overlay.addEventListener('click', e => {
+window.requestIdleCallback(() => {
   const rows = []
 
   for (let i = 1; i < 500001; i++) {
@@ -27609,7 +27612,6 @@ overlay.addEventListener('click', e => {
     })
   }
 
-  overlay.classList.add('hidden')
   windowed.load(rows)
 })
 

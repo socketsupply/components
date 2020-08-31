@@ -540,7 +540,7 @@ body > main div.example .header {
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 1px;
-  padding: 12px 10px 9px 10px;
+  padding: 12px 10px 10px 10px;
   background-color: var(--tonic-background);
   border-bottom: 1px solid var(--tonic-border);
 }

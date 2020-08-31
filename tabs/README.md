@@ -41,25 +41,21 @@ for the `selected` attribute on the `tonic-tabs` component.
 #### HTML
 ```html
 <tonic-tabs selected="tab-2" id="my-tabs">
-
   <tonic-tab
     id="tab-1"
     for="tab-panel-1">
     One
   </tonic-tab>
-
   <tonic-tab
     id="tab-2"
     for="tab-panel-2">
     Two
   </tonic-tab>
-
   <tonic-tab
     id="tab-3"
     for="tab-panel-3">
     Three
   </tonic-tab>
-
 </tonic-tabs>
 ```
 

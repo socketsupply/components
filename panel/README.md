@@ -8,6 +8,7 @@ your own panel class which can be registered and then used as a tag.
 
 <tonic-panel
   id="content-panel-example"
+  width="75%"
   overlay="true">
 </tonic-panel>
 

@@ -51,8 +51,9 @@ Tonic.add(ExampleWindowed)
 // on page load since 500K rows of data can take a few seconds to create.
 //
 const windowed = document.getElementsByTagName('example-windowed')[0]
+const overlay = document.getElementById('click-to-load')
 
-window.requestIdleCallback(() => {
+overlay.addEventListener('click', e => {
   const rows = []
 
   for (let i = 1; i < 500001; i++) {
@@ -64,5 +65,6 @@ window.requestIdleCallback(() => {
     })
   }
 
+  overlay.classList.add('hidden')
   windowed.load(rows)
 })

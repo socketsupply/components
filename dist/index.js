@@ -2220,6 +2220,13 @@ if (typeof module === 'object') module.exports = Tonic
 
 },{"./package":14}],14:[function(require,module,exports){
 module.exports={
+  "_args": [
+    [
+      "@optoolco/tonic@12.1.0",
+      "/home/raynos/optoolco/components"
+    ]
+  ],
+  "_development": true,
   "_from": "@optoolco/tonic@12.1.0",
   "_id": "@optoolco/tonic@12.1.0",
   "_inBundle": false,
@@ -2241,8 +2248,7 @@ module.exports={
     "#DEV:/"
   ],
   "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-12.1.0.tgz",
-  "_shasum": "01a55dac1112f32a54f671adaa6be7eec87cbd34",
-  "_spec": "@optoolco/tonic@12.1.0",
+  "_spec": "12.1.0",
   "_where": "/home/raynos/optoolco/components",
   "author": {
     "name": "optoolco"
@@ -2250,9 +2256,7 @@ module.exports={
   "bugs": {
     "url": "https://github.com/optoolco/tonic/issues"
   },
-  "bundleDependencies": false,
   "dependencies": {},
-  "deprecated": false,
   "description": "A composable component inspired by React.",
   "devDependencies": {
     "benchmark": "^2.1.4",

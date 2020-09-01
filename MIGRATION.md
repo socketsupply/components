@@ -1,3 +1,11 @@
+# Migration from v10 to v11
+
+`@optoolco/components` now depends on `@optoolco/tonic@13`
+
+There's a breaking change in `tonic-input`. It used to support
+HTML in the `label=...` attribute. Now it only supports text
+content.
+
 # Migration from v9 to v10
 
 We made a breaking change to `tonic-chart`. Previously it had

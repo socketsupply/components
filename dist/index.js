@@ -267,8 +267,6 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
 (function (setImmediate){
 const Tonic = require('@optoolco/tonic')
 
-const mode = require('../mode')
-
 class TonicAccordion extends Tonic {
   defaults () {
     return {
@@ -376,15 +374,6 @@ class TonicAccordion extends Tonic {
   }
 
   render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-accordion')
-    }
-
     const {
       multiple
     } = this.props
@@ -435,7 +424,7 @@ class TonicAccordionSection extends Tonic {
       }
 
       tonic-accordion-section button:focus .tonic--label {
-        border-bottom: 3px solid Highlight;
+        border-bottom: 2px solid var(--tonic-accent);
       }
 
       tonic-accordion-section [hidden] {
@@ -469,7 +458,7 @@ class TonicAccordionSection extends Tonic {
         border-right: 1px solid var(--tonic-primary, #333);
       }
 
-      tonic-accordion-section .tonic--accordion-header[aria-expanded="true"] .tonic--arrow:before {
+      tonic-accordion-section .tonic--accordion-header button[aria-expanded="true"] .tonic--arrow:before {
         -webkit-transform: translateY(-50%) translateX(-50%) rotate(315deg);
         -moz-transform: translateY(-50%) translateX(-50%) rotate(315deg);
         transform: translateY(-50%) translateX(-50%) rotate(315deg);
@@ -479,15 +468,6 @@ class TonicAccordionSection extends Tonic {
   }
 
   render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-accordion-section')
-    }
-
     const {
       id,
       name,
@@ -526,10 +506,8 @@ module.exports = {
 }
 
 }).call(this,require("timers").setImmediate)
-},{"../mode":12,"@optoolco/tonic":13,"timers":2}],4:[function(require,module,exports){
+},{"@optoolco/tonic":13,"timers":2}],4:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
-
-const mode = require('../mode')
 
 class TonicBadge extends Tonic {
   defaults () {
@@ -594,15 +572,6 @@ class TonicBadge extends Tonic {
   }
 
   render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-badge')
-    }
-
     const {
       theme
     } = this.props
@@ -631,7 +600,7 @@ module.exports = {
   TonicBadge
 }
 
-},{"../mode":12,"@optoolco/tonic":13}],5:[function(require,module,exports){
+},{"@optoolco/tonic":13}],5:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicButton extends Tonic {
@@ -653,9 +622,9 @@ class TonicButton extends Tonic {
 
   defaults () {
     return {
-      height: '40px',
+      height: '38px',
       width: '150px',
-      margin: '5px',
+      margin: '0px',
       autofocus: 'false',
       async: false,
       radius: '2px',
@@ -674,12 +643,12 @@ class TonicButton extends Tonic {
       tonic-button button {
         color: var(--tonic-button, #333);
         width: auto;
-        min-height: 40px;
+        min-height: 38px;
         font: 12px var(--tonic-subheader, 'Arial', sans-serif);
         font-weight: 400;
         text-transform: uppercase;
         letter-spacing: 1px;
-        padding: 8px 8px 5px 8px;
+        padding: 8px;
         position: relative;
         background-color: transparent;
         border: 1px solid var(--tonic-button, #333);
@@ -845,7 +814,7 @@ class TonicButton extends Tonic {
           styles: 'button',
           async: String(async),
           disabled: disabled && disabled !== 'false',
-          autofocus,
+          autofocus: autofocus === 'true' ? 'autofocus' : '',
           alt: label,
           value,
           type,
@@ -863,17 +832,6 @@ module.exports = { TonicButton }
 const Tonic = require('@optoolco/tonic')
 
 class TonicChart extends Tonic {
-  constructor (o) {
-    super(o)
-
-    try {
-      const dynamicRequire = require
-      this.Chart = dynamicRequire('chart.js')
-    } catch (err) {
-      console.error('could not find "chart.js" dependency. npm install?')
-    }
-  }
-
   static stylesheet () {
     return `
       tonic-chart {
@@ -888,15 +846,28 @@ class TonicChart extends Tonic {
     `
   }
 
+  set library (Chart) {
+    this.Chart = Chart
+  }
+
   draw (data = {}, options = {}) {
     const root = this.querySelector('canvas')
     const type = this.props.type || options.type
+
+    if (!this.Chart) {
+      console.error('No chart constructor found')
+      return
+    }
 
     return new this.Chart(root, {
       type,
       options,
       data
     })
+  }
+
+  async redraw () {
+    return this.connected()
   }
 
   async fetch (url, opts = {}) {
@@ -912,6 +883,11 @@ class TonicChart extends Tonic {
 
   async connected () {
     let data = null
+    if (this.props.library) {
+      this.Chart = this.props.library
+    }
+
+    if (!this.Chart) return
 
     const options = {
       ...this.props,
@@ -965,11 +941,9 @@ module.exports = { TonicChart }
 },{"@optoolco/tonic":13}],7:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
-const mode = require('../mode')
-
 class TonicCheckbox extends Tonic {
   get value () {
-    const state = this.getState()
+    const state = this.state
     let value
 
     if ('checked' in this.props) {
@@ -982,11 +956,15 @@ class TonicCheckbox extends Tonic {
   }
 
   set value (value) {
+    this._setValue(value)
+  }
+
+  async _setValue (value) {
     const checked = (value === true) || (value === 'true')
 
     this.state.checked = checked
     this.props.checked = checked
-    this.reRender()
+    await this.reRender()
   }
 
   defaults () {
@@ -1003,6 +981,11 @@ class TonicCheckbox extends Tonic {
         -webkit-user-select: none;
         -moz-user-select: none;
         user-select: none;
+      }
+
+      tonic-checkbox a {
+        height: auto;
+        padding: 6px;
       }
 
       tonic-checkbox input[type="checkbox"] {
@@ -1024,10 +1007,12 @@ class TonicCheckbox extends Tonic {
       }
 
       tonic-checkbox .tonic--icon {
+        position: absolute;
         display: inline-block;
         width: 100%;
         height: 100%;
         background-size: contain;
+        margin: 4px;
       }
 
       tonic-checkbox .tonic--icon svg {
@@ -1036,8 +1021,9 @@ class TonicCheckbox extends Tonic {
       }
 
       tonic-checkbox label:nth-of-type(2) {
-        padding-top: 2px;
-        margin-left: 10px;
+        display: inline-block;
+        line-height: 22px;
+        margin: 2px 30px;
       }
     `
   }
@@ -1112,16 +1098,14 @@ class TonicCheckbox extends Tonic {
     `
   }
 
-  render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-checkbox')
+  async keydown (e) {
+    if (e.code === 'Space') {
+      await this._setValue(!this.value)
+      this.querySelector('a').focus()
     }
+  }
 
+  render () {
     const {
       id,
       disabled,
@@ -1139,7 +1123,7 @@ class TonicCheckbox extends Tonic {
     if (theme) this.classList.add(`tonic--theme--${theme}`)
 
     return this.html`
-      <div class="tonic--checkbox--wrapper">
+      <a href="#" class="tonic--checkbox--wrapper">
         <input ... ${{
           type: 'checkbox',
           id: `tonic--checkbox--${id}`,
@@ -1156,14 +1140,14 @@ class TonicCheckbox extends Tonic {
           ${this.renderIcon()}
         </label>
         ${this.renderLabel()}
-      </div>
+      </a>
     `
   }
 }
 
 module.exports = { TonicCheckbox }
 
-},{"../mode":12,"@optoolco/tonic":13}],8:[function(require,module,exports){
+},{"@optoolco/tonic":13}],8:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicForm extends Tonic {
@@ -1330,12 +1314,11 @@ try {
 
 const version = Tonic.version
 const major = version ? version.split('.')[0] : '0'
-if (parseInt(major, 10) < 11) {
-  console.error('Out of data dependency. Try `npm install @optoolco/tonic@11`.')
-  throw new Error('Invalid Tonic version. requires at least v11')
-}
 
-const mode = require('./mode')
+if (parseInt(major, 10) < 12) {
+  console.error('Out of date dependency. Try `npm install @optoolco/tonic@12`.')
+  throw new Error('Invalid Tonic version. requires at least v12')
+}
 
 const { TonicAccordion, TonicAccordionSection } = require('./accordion')
 const { TonicBadge } = require('./badge')
@@ -1345,6 +1328,7 @@ const { TonicCheckbox } = require('./checkbox')
 const { TonicForm } = require('./form')
 const { TonicIcon } = require('./icon')
 const { TonicInput } = require('./input')
+const { TonicLoader } = require('./loader')
 const { TonicPopover } = require('./popover')
 const { TonicProfileImage } = require('./profile-image')
 const { TonicProgressBar } = require('./progress-bar')
@@ -1353,7 +1337,7 @@ const { TonicRelativeTime } = require('./relative-time')
 const { TonicRouter } = require('./router')
 const { TonicSelect } = require('./select')
 const { TonicSprite } = require('./sprite')
-const { TonicTabs, TonicTabPanel } = require('./tabs')
+const { TonicTabs, TonicTab, TonicTabPanel } = require('./tabs')
 const { TonicTextarea } = require('./textarea')
 const { TonicTooltip } = require('./tooltip')
 const { TonicToasterInline } = require('./toaster-inline')
@@ -1368,10 +1352,6 @@ module.exports = components
 components.Tonic = Tonic
 
 function components (Tonic, opts) {
-  if (opts && opts.strict === true) {
-    mode.strict = true
-  }
-
   Tonic.add(TonicAccordion)
   Tonic.add(TonicAccordionSection)
   Tonic.add(TonicBadge)
@@ -1381,6 +1361,7 @@ function components (Tonic, opts) {
   Tonic.add(TonicForm)
   Tonic.add(TonicInput)
   Tonic.add(TonicIcon)
+  Tonic.add(TonicLoader)
   Tonic.add(TonicPopover)
   Tonic.add(TonicProfileImage)
   Tonic.add(TonicProgressBar)
@@ -1389,8 +1370,9 @@ function components (Tonic, opts) {
   Tonic.add(TonicRouter)
   Tonic.add(TonicSelect)
   Tonic.add(TonicSprite)
-  Tonic.add(TonicTabs)
   Tonic.add(TonicTabPanel)
+  Tonic.add(TonicTab)
+  Tonic.add(TonicTabs)
   Tonic.add(TonicTextarea)
   Tonic.add(TonicTooltip)
   Tonic.add(TonicToasterInline)
@@ -1398,10 +1380,8 @@ function components (Tonic, opts) {
   Tonic.add(TonicToggle)
 }
 
-},{"./accordion":3,"./badge":4,"./button":5,"./chart":6,"./checkbox":7,"./form":8,"./icon":9,"./input":11,"./mode":12,"./popover":15,"./profile-image":16,"./progress-bar":17,"./range":18,"./relative-time":19,"./router":20,"./select":21,"./sprite":22,"./tabs":23,"./textarea":24,"./toaster":26,"./toaster-inline":25,"./toggle":27,"./tooltip":28,"@optoolco/tonic":13}],11:[function(require,module,exports){
+},{"./accordion":3,"./badge":4,"./button":5,"./chart":6,"./checkbox":7,"./form":8,"./icon":9,"./input":11,"./loader":12,"./popover":15,"./profile-image":16,"./progress-bar":17,"./range":18,"./relative-time":19,"./router":20,"./select":21,"./sprite":22,"./tabs":23,"./textarea":24,"./toaster":26,"./toaster-inline":25,"./toggle":27,"./tooltip":28,"@optoolco/tonic":13}],11:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
-
-const mode = require('../mode')
 
 class TonicInput extends Tonic {
   defaults () {
@@ -1424,7 +1404,8 @@ class TonicInput extends Tonic {
   }
 
   get value () {
-    return this.state.value || this.props.value
+    return this.state.value !== undefined
+      ? this.state.value : this.props.value
   }
 
   set value (value) {
@@ -1433,16 +1414,23 @@ class TonicInput extends Tonic {
   }
 
   setValid () {
-    this.reRender(props => Object.assign({}, props, {
-      invalid: false
-    }))
+    const input = this.querySelector('input')
+    if (!input) return
+
+    input.setCustomValidity('')
+    input.removeAttribute('invalid')
   }
 
   setInvalid (msg) {
-    this.reRender(props => Object.assign({}, props, {
-      invalid: true,
-      errorMessage: msg
-    }))
+    const input = this.querySelector('input')
+    if (!input) return
+
+    input.setCustomValidity(msg)
+    input.setAttribute('invalid', msg)
+    const span = this.querySelector('.tonic--invalid span')
+    if (!span) return
+
+    span.textContent = msg
   }
 
   static stylesheet () {
@@ -1451,25 +1439,30 @@ class TonicInput extends Tonic {
         position: relative;
       }
 
+      tonic-input[symbol-id] .tonic--right tonic-icon,
       tonic-input[src] .tonic--right tonic-icon {
         right: 10px;
       }
 
+      tonic-input[symbol-id] .tonic--right input,
       tonic-input[src] .tonic--right input {
         padding-right: 40px;
       }
 
+      tonic-input[symbol-id] .tonic--left tonic-icon,
       tonic-input[src] .tonic--left tonic-icon {
         left: 10px;
       }
 
+      tonic-input[symbol-id] .tonic--left input,
       tonic-input[src] .tonic--left input {
         padding-left: 40px;
       }
 
+      tonic-input[symbol-id] tonic-icon,
       tonic-input[src] tonic-icon {
         position: absolute;
-        bottom: 7px;
+        bottom: 8px;
       }
 
       tonic-input label {
@@ -1488,20 +1481,22 @@ class TonicInput extends Tonic {
         padding: 10px;
         background-color: transparent;
         border: 1px solid var(--tonic-border, #ccc);
-        transition: border 0.2s ease-in-out;
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
       }
 
+      tonic-input input[invalid],
       tonic-input input:invalid {
         border-color: var(--tonic-error, #f66);
       }
 
+      tonic-input input[invalid]:focus,
       tonic-input input:invalid:focus {
         border-color: var(--tonic-error, #f66);
       }
 
+      tonic-input input[invalid] ~ .tonic--invalid,
       tonic-input input:invalid ~ .tonic--invalid {
         transform: translateY(0);
         visibility: visible;
@@ -1571,12 +1566,26 @@ class TonicInput extends Tonic {
   }
 
   renderIcon () {
-    if (!this.props.src) return ''
+    if (!this.props.src && !this.props.symbolId) return ''
+
+    const opts = {}
+
+    if (this.props.src) {
+      opts.src = this.props.src
+    } else if (this.props.symbolId) {
+      opts.symbolId = this.props.symbolId
+    }
+
+    if (this.props.color) {
+      opts.color = this.props.color
+    }
+
+    if (this.props.fill) {
+      opts.fill = this.props.fill
+    }
 
     return this.html`
-      <tonic-icon
-        src="${this.props.src}"
-        color="${this.props.color}">
+      <tonic-icon ...${opts}>
       </tonic-icon>
     `
   }
@@ -1584,30 +1593,27 @@ class TonicInput extends Tonic {
   setupEvents () {
     const input = this.querySelector('input')
 
-    const set = (k, v, event) => {
-      this.setState(state => Object.assign({}, state, { [k]: v }))
-    }
-
     const relay = name => {
       this.dispatchEvent(new window.CustomEvent(name, { bubbles: true }))
     }
 
     input.addEventListener('focus', e => {
-      set('focus', true)
+      this.state.focus = true
       relay('focus')
     })
 
     input.addEventListener('blur', e => {
-      set('focus', false)
+      if (this.state.rerendering) return
+      this.state.focus = false
       relay('blur')
     })
 
     input.addEventListener('input', e => {
-      set('value', e.target.value)
-      set('pos', e.target.selectionStart)
+      this.state.value = e.target.value
+      this.state.pos = e.target.selectionStart
     })
 
-    const state = this.getState()
+    const state = this.state
     if (!state.focus) return
 
     input.focus()
@@ -1625,12 +1631,20 @@ class TonicInput extends Tonic {
     setTimeout(() => {
       if (this.props.invalid) {
         input.setCustomValidity(this.props.errorMessage)
+        input.setAttribute('invalid', this.props.errorMessage)
       } else {
         input.setCustomValidity('')
+        input.removeAttribute('invalid')
       }
     }, 32)
 
     this.setupEvents()
+    this.state.rerendering = false
+  }
+
+  async reRender (...args) {
+    this.state.rerendering = true
+    return super.reRender(...args)
   }
 
   connected () {
@@ -1659,15 +1673,6 @@ class TonicInput extends Tonic {
   }
 
   render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-input')
-    }
-
     const {
       ariaInvalid,
       ariaLabelledby,
@@ -1692,7 +1697,7 @@ class TonicInput extends Tonic {
     } = this.props
 
     if (ariaLabelledby) this.removeAttribute('ariaLabelledby')
-    if (height) this.style.width = height
+    if (height) this.style.height = height
     if (name) this.removeAttribute('name')
     if (tabindex) this.removeAttribute('tabindex')
     if (theme) this.classList.add(`tonic--theme--${theme}`)
@@ -1705,6 +1710,10 @@ class TonicInput extends Tonic {
 
     const classes = ['tonic--wrapper']
     if (position) classes.push(`tonic--${position}`)
+
+    const list = this.elements.length
+      ? this.props.id + '_datalist'
+      : null
 
     const attributes = {
       ariaInvalid,
@@ -1724,7 +1733,18 @@ class TonicInput extends Tonic {
       spellcheck,
       tabindex,
       title,
-      value
+      value,
+      list
+    }
+
+    let datalist = ''
+
+    if (list) {
+      datalist = this.html`
+        <datalist id="${list}">
+          ${this.elements}
+        </datalist>
+      `
     }
 
     return this.html`
@@ -1738,9 +1758,12 @@ class TonicInput extends Tonic {
           id: `tonic--input_${this.props.id}`,
           ...attributes
         }}/>
+
         <div class="tonic--invalid">
           <span id="tonic--error-${this.props.id}">${errorMessage}</span>
         </div>
+
+        ${datalist}
       </div>
     `
   }
@@ -1748,14 +1771,68 @@ class TonicInput extends Tonic {
 
 module.exports = { TonicInput }
 
-},{"../mode":12,"@optoolco/tonic":13}],12:[function(require,module,exports){
-module.exports = { strict: false }
+},{"@optoolco/tonic":13}],12:[function(require,module,exports){
+const Tonic = require('@optoolco/tonic')
 
-},{}],13:[function(require,module,exports){
+class TonicLoader extends Tonic {
+  constructor () {
+    super()
+    this.attachShadow({ mode: 'open' })
+  }
+
+  stylesheet () {
+    return `
+      .outer {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+      }
+
+      .inner {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    `
+  }
+
+  render () {
+    return `
+      <div class="outer">
+        <div class="inner">
+          <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+           width="40px" height="40px" viewBox="0 0 40 40" enable-background="new 0 0 40 40" xml:space="preserve">
+          <path opacity="0.2" fill="#000" d="M20.201,5.169c-8.254,0-14.946,6.692-14.946,14.946c0,8.255,6.692,14.946,14.946,14.946
+            s14.946-6.691,14.946-14.946C35.146,11.861,28.455,5.169,20.201,5.169z M20.201,31.749c-6.425,0-11.634-5.208-11.634-11.634
+            c0-6.425,5.209-11.634,11.634-11.634c6.425,0,11.633,5.209,11.633,11.634C31.834,26.541,26.626,31.749,20.201,31.749z"/>
+          <path fill="#000" d="M26.013,10.047l1.654-2.866c-2.198-1.272-4.743-2.012-7.466-2.012h0v3.312h0
+            C22.32,8.481,24.301,9.057,26.013,10.047z">
+            <animateTransform attributeType="xml"
+              attributeName="transform"
+              type="rotate"
+              from="0 20 20"
+              to="360 20 20"
+              dur="0.8s"
+              repeatCount="indefinite"/>
+            </path>
+          </svg>
+        </div>
+      </div>
+    `
+  }
+}
+
+module.exports = { TonicLoader }
+
+},{"@optoolco/tonic":13}],13:[function(require,module,exports){
 class TonicRaw {
-  constructor (rawText) {
+  constructor (rawText, templateStrings) {
     this.isTonicRaw = true
     this.rawText = rawText
+    this.templateStrings = templateStrings
   }
 
   valueOf () { return this.rawText }
@@ -1765,10 +1842,10 @@ class TonicRaw {
 class Tonic extends window.HTMLElement {
   constructor () {
     super()
-    const state = Tonic._states[this.id]
-    delete Tonic._states[this.id]
-    this.isTonicComponent = true
-    this.state = state || {}
+    const state = Tonic._states[super.id]
+    delete Tonic._states[super.id]
+    this._state = state || {}
+    this.preventRenderOnReconnect = false
     this.props = {}
     this.elements = [...this.children]
     this.elements.__children__ = true
@@ -1781,12 +1858,6 @@ class Tonic extends window.HTMLElement {
     return `tonic${Tonic._index++}`
   }
 
-  static _maybePromise (p) {
-    if (p && typeof p.then === 'function' && typeof p.catch === 'function') {
-      p.catch(err => setTimeout(() => { throw err }, 0))
-    }
-  }
-
   static _splitName (s) {
     return s.match(/[A-Z][a-z]*/g).join('-')
   }
@@ -1795,6 +1866,27 @@ class Tonic extends window.HTMLElement {
     [...o].forEach(o => (x[o.name] = o.value))
     return x
   }
+
+  _checkId () {
+    const _id = super.id
+    if (!_id) {
+      const html = this.outerHTML.replace(this.innerHTML, '...')
+      throw new Error(`Component: ${html} has no id`)
+    }
+    return _id
+  }
+
+  get state () {
+    return (this._checkId(), this._state)
+  }
+
+  set state (newState) {
+    this._state = (this._checkId(), newState)
+  }
+
+  get id () { return this._checkId() }
+
+  set id (newId) { super.id = newId }
 
   _events () {
     const hp = Object.getOwnPropertyNames(window.HTMLElement.prototype)
@@ -1835,8 +1927,6 @@ class Tonic extends window.HTMLElement {
   }
 
   static add (c, htmlName) {
-    c.prototype._props = Tonic.getPropertyNames(c.prototype)
-
     const hasValidName = htmlName || (c.name && c.name.length > 1)
     if (!hasValidName) {
       throw Error('Mangling. https://bit.ly/2TkJ6zP')
@@ -1844,6 +1934,14 @@ class Tonic extends window.HTMLElement {
 
     if (!htmlName) htmlName = Tonic._splitName(c.name).toLowerCase()
     if (window.customElements.get(htmlName)) return
+
+    if (!c.prototype.isTonicComponent) {
+      const tmp = { [c.name]: class extends Tonic {} }[c.name]
+      tmp.prototype.render = c
+      c = tmp
+    }
+
+    c.prototype._props = Tonic.getPropertyNames(c.prototype)
 
     Tonic._reg[htmlName] = c
     Tonic._tags = Object.keys(Tonic._reg).join()
@@ -1859,6 +1957,7 @@ class Tonic extends window.HTMLElement {
     Tonic._stylesheetRegistry.push(stylesheetFn)
 
     const styleNode = document.createElement('style')
+    if (Tonic.nonce) styleNode.setAttribute('nonce', Tonic.nonce)
     styleNode.appendChild(document.createTextNode(stylesheetFn()))
     if (document.head) document.head.appendChild(styleNode)
   }
@@ -1867,11 +1966,11 @@ class Tonic extends window.HTMLElement {
     return s.replace(Tonic.ESC, c => Tonic.MAP[c])
   }
 
-  static raw (s) {
-    return new TonicRaw(s)
+  static raw (s, templateStrings) {
+    return new TonicRaw(s, templateStrings)
   }
 
-  html ([s, ...strings], ...values) {
+  html (strings, ...values) {
     const refs = o => {
       if (o && o.__children__) return this._placehold(o)
       if (o && o.isTonicRaw) return o.rawText
@@ -1899,39 +1998,42 @@ class Tonic extends window.HTMLElement {
       return o
     }
 
-    const reduce = (a, b) => a.concat(b, strings.shift())
-    const str = values.map(refs).reduce(reduce, [s]).join('')
-    return Tonic.raw(str)
-  }
+    const out = []
+    for (let i = 0; i < strings.length - 1; i++) {
+      out.push(strings[i], refs(values[i]))
+    }
+    out.push(strings[strings.length - 1])
 
-  setState (o) {
-    this.state = typeof o === 'function' ? o(this.state) : o
-  }
-
-  getState () {
-    return this.state
+    const htmlStr = out.join('').replace(Tonic.SPREAD, (_, p) => {
+      const o = Tonic._data[p.split('__')[1]][p]
+      return Object.entries(o).map(([key, value]) => {
+        const k = key.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
+        if (value === true) return k
+        else if (value) return `${k}="${Tonic.escape(String(value))}"`
+        else return ''
+      }).filter(Boolean).join(' ')
+    })
+    return Tonic.raw(htmlStr, strings)
   }
 
   scheduleReRender (oldProps) {
     if (this.pendingReRender) return this.pendingReRender
 
-    this.pendingReRender = new Promise(resolve => {
-      window.requestAnimationFrame(() => {
-        const p = this._set(this.root, this.render)
-        this.pendingReRender = null
+    this.pendingReRender = new Promise(resolve => window.setTimeout(() => {
+      if (!this.isInDocument(this.shadowRoot || this)) return
+      const p = this._set(this.shadowRoot || this, this.render)
+      this.pendingReRender = null
 
-        if (p && p.then) {
-          Tonic._maybePromise(p.then(() => {
-            if (this.updated) this.updated(oldProps)
-            resolve()
-          }))
-          return
-        }
+      if (p && p.then) {
+        return p.then(() => {
+          this.updated && this.updated(oldProps)
+          resolve()
+        })
+      }
 
-        if (this.updated) this.updated(oldProps)
-        resolve()
-      })
-    })
+      this.updated && this.updated(oldProps)
+      resolve()
+    }, 0))
 
     return this.pendingReRender
   }
@@ -1947,12 +2049,11 @@ class Tonic extends window.HTMLElement {
   }
 
   handleEvent (e) {
-    Tonic._maybePromise(this[e.type](e))
+    this[e.type](e)
   }
 
   _drainIterator (target, iterator) {
-    const p = iterator.next()
-    return p.then((result) => {
+    return iterator.next().then((result) => {
       this._set(target, null, result.value)
       if (result.done) return
       return this._drainIterator(target, iterator)
@@ -1962,24 +2063,21 @@ class Tonic extends window.HTMLElement {
   _set (target, render, content = '') {
     for (const node of target.querySelectorAll(Tonic._tags)) {
       if (!node.isTonicComponent) continue
-      if (!node.id || !Tonic._refIds.includes(node.id)) continue
-      Tonic._states[node.id] = node.getState()
+
+      const id = node.getAttribute('id')
+      if (!id || !Tonic._refIds.includes(id)) continue
+      Tonic._states[id] = node.state
     }
 
     if (render instanceof Tonic.AsyncFunction) {
-      const promise = render.call(this) || ''
-      return promise.then((content) => {
-        return this._apply(target, content)
-      })
+      return render.call(this).then(content => this._apply(target, content))
     } else if (render instanceof Tonic.AsyncFunctionGenerator) {
-      const itr = render.call(this)
-      return this._drainIterator(target, itr)
+      return this._drainIterator(target, render.call(this))
+    } else if (render === null) {
+      this._apply(target, content)
     } else if (render instanceof Function) {
-      content = render.call(this) || ''
-      return this._apply(target, content)
+      this._apply(target, render.call(this) || '')
     }
-
-    return this._apply(target, content)
   }
 
   _apply (target, content) {
@@ -1988,18 +2086,8 @@ class Tonic extends window.HTMLElement {
     }
 
     if (typeof content === 'string') {
-      content = content.replace(Tonic.SPREAD, (_, p) => {
-        const o = Tonic._data[p.split('__')[1]][p]
-        return Object.entries(o).map(([key, value]) => {
-          const k = key.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()
-          if (value === true) return k
-          else if (value) return `${k}="${Tonic.escape(String(value))}"`
-          else return ''
-        }).filter(Boolean).join(' ')
-      })
-
       if (this.stylesheet) {
-        content = `<style>${this.stylesheet()}</style>${content}`
+        content = `<style nonce=${Tonic.nonce || ''}>${this.stylesheet()}</style>${content}`
       }
 
       target.innerHTML = content
@@ -2018,7 +2106,7 @@ class Tonic extends window.HTMLElement {
       const walk = (node, fn) => {
         if (node.nodeType === 3) {
           const id = node.textContent.trim()
-          if (children[id]) fn(node, children[id])
+          if (children[id]) fn(node, children[id], id)
         }
 
         const childNodes = node.childNodes
@@ -2029,11 +2117,11 @@ class Tonic extends window.HTMLElement {
         }
       }
 
-      walk(target, (node, children) => {
+      walk(target, (node, children, id) => {
         for (const child of children) {
           node.parentNode.insertBefore(child, node)
         }
-        delete Tonic._children[this._id][node.id]
+        delete Tonic._children[this._id][id]
         node.parentNode.removeChild(node)
       })
     } else {
@@ -2043,15 +2131,15 @@ class Tonic extends window.HTMLElement {
   }
 
   connectedCallback () {
-    this.root = this.shadowRoot || this
+    this.root = this.shadowRoot || this // here for back compat
 
     if (this.wrap) {
       this.wrapped = this.render
       this.render = this.wrap
     }
 
-    if (this.id && !Tonic._refIds.includes(this.id)) {
-      Tonic._refIds.push(this.id)
+    if (super.id && !Tonic._refIds.includes(super.id)) {
+      Tonic._refIds.push(super.id)
     }
     const cc = s => s.replace(/-(.)/g, (_, m) => m.toUpperCase())
 
@@ -2079,27 +2167,37 @@ class Tonic extends window.HTMLElement {
       this.props
     )
 
-    if (!this._source) {
-      this._source = this.innerHTML
-    } else {
-      this.innerHTML = this._source
-    }
-
     this._id = this._id || Tonic._createId()
 
     this.willConnect && this.willConnect()
-    Tonic._maybePromise(this._set(this.root, this.render))
-    Tonic._maybePromise(this.connected && this.connected())
+
+    if (!this.isInDocument(this.root)) return
+    if (!this.preventRenderOnReconnect) {
+      if (!this._source) {
+        this._source = this.innerHTML
+      } else {
+        this.innerHTML = this._source
+      }
+      const p = this._set(this.root, this.render)
+      if (p && p.then) return p.then(() => this.connected && this.connected())
+    }
+
+    this.connected && this.connected()
+  }
+
+  isInDocument (target) {
+    const root = target.getRootNode()
+    return root === document || root.toString() === '[object ShadowRoot]'
   }
 
   disconnectedCallback () {
-    Tonic._maybePromise(this.disconnected && this.disconnected())
-    this.elements.length = 0
-    this.nodes.length = 0
+    this.disconnected && this.disconnected()
     delete Tonic._data[this._id]
     delete Tonic._children[this._id]
   }
 }
+
+Tonic.prototype.isTonicComponent = true
 
 Object.assign(Tonic, {
   _tags: '',
@@ -2122,30 +2220,29 @@ if (typeof module === 'object') module.exports = Tonic
 
 },{"./package":14}],14:[function(require,module,exports){
 module.exports={
-  "_from": "@optoolco/tonic@next",
-  "_id": "@optoolco/tonic@11.1.1",
+  "_from": "@optoolco/tonic@12.1.0",
+  "_id": "@optoolco/tonic@12.1.0",
   "_inBundle": false,
-  "_integrity": "sha512-Io+TzPTOAqhSKGYtJaj8HCLvQSrK2BtQukNOdFlLAFfxpml9br9zxyg7vbKPqi4LTLNK6T1Hi5+LIAKAktzt2w==",
+  "_integrity": "sha512-nY5tEW0rY7NKGET/ISLgs5v3Bp9RBRFGtSK91Rx63k6bDLAE2aXObWOo62C0s8Zt+ZntzwKCX2KIpNoO245JjQ==",
   "_location": "/@optoolco/tonic",
   "_phantomChildren": {},
   "_requested": {
-    "type": "tag",
+    "type": "version",
     "registry": true,
-    "raw": "@optoolco/tonic@next",
+    "raw": "@optoolco/tonic@12.1.0",
     "name": "@optoolco/tonic",
     "escapedName": "@optoolco%2ftonic",
     "scope": "@optoolco",
-    "rawSpec": "next",
+    "rawSpec": "12.1.0",
     "saveSpec": null,
-    "fetchSpec": "next"
+    "fetchSpec": "12.1.0"
   },
   "_requiredBy": [
-    "#DEV:/",
-    "#USER"
+    "#DEV:/"
   ],
-  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-11.1.1.tgz",
-  "_shasum": "4dbf15382b5b3e868d3aa9a2b3abeb7a0573dba3",
-  "_spec": "@optoolco/tonic@next",
+  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-12.1.0.tgz",
+  "_shasum": "01a55dac1112f32a54f671adaa6be7eec87cbd34",
+  "_spec": "@optoolco/tonic@12.1.0",
   "_where": "/home/raynos/optoolco/components",
   "author": {
     "name": "optoolco"
@@ -2181,7 +2278,7 @@ module.exports={
     "minify": "terser index.js -c unused,dead_code,hoist_vars,loops=false,hoist_props=true,hoist_funs,toplevel,keep_classnames,keep_fargs=false -o dist/tonic.min.js",
     "test": "npm run minify && browserify test/index.js | tape-puppet"
   },
-  "version": "11.1.1"
+  "version": "12.1.0"
 }
 
 },{}],15:[function(require,module,exports){
@@ -2387,11 +2484,9 @@ module.exports = { TonicPopover }
 },{"@optoolco/tonic":13}],16:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
-const mode = require('../mode')
-
 class TonicProfileImage extends Tonic {
   get value () {
-    const state = this.getState()
+    const state = this.state
     return state.data || this.props.src
   }
 
@@ -2524,13 +2619,11 @@ class TonicProfileImage extends Tonic {
 
       const slot = this.querySelector('.tonic--image')
 
-      this.setState(state => Object.assign({}, state, {
-        size,
-        path,
-        mime: type,
-        mtime: lastModifiedDate,
-        data
-      }))
+      this.state.size = size
+      this.state.path = path
+      this.state.time = type
+      this.state.mtime = lastModifiedDate
+      this.state.data = data
 
       slot.style.backgroundImage = 'url("' + data + '")'
       const event = new window.Event('change', { bubbles: true })
@@ -2540,15 +2633,6 @@ class TonicProfileImage extends Tonic {
   }
 
   render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-profile-image')
-    }
-
     const {
       theme,
       editable
@@ -2600,10 +2684,8 @@ TonicProfileImage.svg.default = () => TonicProfileImage.svg.toURL(`
 
 module.exports = { TonicProfileImage }
 
-},{"../mode":12,"@optoolco/tonic":13}],17:[function(require,module,exports){
+},{"@optoolco/tonic":13}],17:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
-
-const mode = require('../mode')
 
 class TonicProgressBar extends Tonic {
   set value (value) {
@@ -2666,15 +2748,6 @@ class TonicProgressBar extends Tonic {
   }
 
   render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-progress-bar')
-    }
-
     if (this.props.theme) {
       this.classList.add(`tonic--theme--${this.props.theme}`)
     }
@@ -2692,10 +2765,8 @@ class TonicProgressBar extends Tonic {
 
 module.exports = { TonicProgressBar }
 
-},{"../mode":12,"@optoolco/tonic":13}],18:[function(require,module,exports){
+},{"@optoolco/tonic":13}],18:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
-
-const mode = require('../mode')
 
 class TonicRange extends Tonic {
   defaults () {
@@ -2730,7 +2801,7 @@ class TonicRange extends Tonic {
 
     input.style.backgroundSize = (value - min) * 100 / (max - min) + '% 100%'
 
-    this.setState(state => Object.assign({}, state, { value }))
+    this.state.value = value
   }
 
   input (e) {
@@ -2745,6 +2816,10 @@ class TonicRange extends Tonic {
         display: flex;
         height: 50px;
         padding: 20px 0;
+      }
+
+      tonic-range.tonic--no-label {
+        height: 30px;
       }
 
       tonic-range label {
@@ -2762,17 +2837,21 @@ class TonicRange extends Tonic {
         padding: 0;
         width: 50%;
         height: 4px;
-        background-color: var(--tonic-background, #fff);
-        background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, var(--tonic-accent, #f66)), color-stop(100%, var(--tonic-accent, #f66)));
-        background-image: -webkit-linear-gradient(var(--tonic-accent, #f66), var(--tonic-accent, #f66));
-        background-image: -moz-linear-gradient(var(--tonic-accent, #f66), var(--tonic-accent, #f66));
-        background-image: -o-linear-gradient(var(--tonic-accent, #f66), var(--tonic-accent, #f66));
-        background-image: linear-gradient(var(--tonic-accent, #f66), var(--tonic-accent, #f66));
+        background-color: var(--tonic-secondary, #fff);
+        background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, var(--tonic-primary, #f66)), color-stop(100%, var(--tonic-primary, #f66)));
+        background-image: -webkit-linear-gradient(var(--tonic-primary, #f66), var(--tonic-primary, #f66));
+        background-image: -moz-linear-gradient(var(--tonic-primary, #f66), var(--tonic-primary, #f66));
+        background-image: -o-linear-gradient(var(--tonic-primary, #f66), var(--tonic-primary, #f66));
+        background-image: linear-gradient(var(--tonic-primary, #f66), var(--tonic-primary, #f66));
         background-size: 50% 100%;
         background-repeat: no-repeat;
         border-radius: 0;
         cursor: pointer;
         -webkit-appearance: none;
+      }
+
+      tonic-range input[type="range"]:focus {
+        outline-offset: 10px;
       }
 
       tonic-range input[type="range"]:disabled {
@@ -2804,7 +2883,7 @@ class TonicRange extends Tonic {
         width: 18px;
         height: 18px;
         border: 0;
-        background: #fff;
+        background: var(--tonic-primary);
         border-radius: 100%;
         box-shadow: 0 0 3px 0px rgba(0,0,0,0.25);
         -webkit-appearance: none;
@@ -2854,15 +2933,6 @@ class TonicRange extends Tonic {
   }
 
   render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-range')
-    }
-
     const {
       width,
       height,
@@ -2871,6 +2941,7 @@ class TonicRange extends Tonic {
       min,
       max,
       step,
+      label,
       id,
       tabindex
     } = this.props
@@ -2878,6 +2949,7 @@ class TonicRange extends Tonic {
     if (width) this.style.width = width
     if (height) this.style.width = height
     if (theme) this.classList.add(`tonic--theme--${theme}`)
+    if (!label) this.classList.add('tonic--no-label')
     if (tabindex) this.removeAttribute('tabindex')
 
     const value = this.props.value || this.state.value
@@ -2906,7 +2978,7 @@ class TonicRange extends Tonic {
 
 module.exports = { TonicRange }
 
-},{"../mode":12,"@optoolco/tonic":13}],19:[function(require,module,exports){
+},{"@optoolco/tonic":13}],19:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const weekdays = [
@@ -3391,8 +3463,6 @@ module.exports = { TonicRelativeTime, RelativeTime }
 },{"@optoolco/tonic":13}],20:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
-const mode = require('../mode')
-
 class TonicRouter extends Tonic {
   constructor () {
     super()
@@ -3461,6 +3531,8 @@ class TonicRouter extends Tonic {
   }
 
   willConnect () {
+    const attrId = this.getAttribute('id')
+    this.id = attrId || this.getAttribute('path')
     this.template = document.createElement('template')
     this.template.innerHTML = this.innerHTML
     TonicRouter.route([this], true)
@@ -3473,17 +3545,8 @@ class TonicRouter extends Tonic {
   }
 
   render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-router')
-    }
-
     if (this.hasAttribute('match')) {
-      this.setState(TonicRouter.props)
+      this.state = TonicRouter.props
       return this.template.content
     }
 
@@ -3688,7 +3751,7 @@ TonicRouter.matcher = (() => {
 
 module.exports = { TonicRouter }
 
-},{"../mode":12,"@optoolco/tonic":13}],21:[function(require,module,exports){
+},{"@optoolco/tonic":13}],21:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicSelect extends Tonic {
@@ -4003,12 +4066,18 @@ class TonicSprite extends Tonic {
 module.exports = { TonicSprite }
 
 },{"@optoolco/tonic":13}],23:[function(require,module,exports){
-(function (setImmediate){
 const Tonic = require('@optoolco/tonic')
 
-const mode = require('../mode')
+const CustomEvent = window.CustomEvent
 
 class TonicTabs extends Tonic {
+  constructor (o) {
+    super(o)
+
+    this._setVisibilitySynchronously = false
+    this.panels = {}
+  }
+
   static stylesheet () {
     return `
       tonic-tabs .tonic--tab {
@@ -4020,41 +4089,103 @@ class TonicTabs extends Tonic {
 
   get value () {
     const currentTab = this.querySelector('[aria-selected="true"]')
-    if (currentTab) return currentTab.id
+    if (currentTab) return currentTab.parentNode.id
   }
 
   set selected (value) {
     const tab = document.getElementById(value)
-    if (tab) tab.click()
+
+    if (tab) {
+      this.setVisibility(tab.id, tab.getAttribute('for'))
+    }
   }
 
-  qsa (s) {
-    return [...this.querySelectorAll(s)]
+  willConnect () {
+    this.panels = this.panels || {}
   }
 
-  setVisibility (id) {
-    const tabs = this.querySelectorAll('.tonic--tab')
+  async setVisibility (id, forAttr) {
+    const renderAll = this.props.renderAll === 'true'
+    const detatchOnHide = this.props.detatchOnHide
+    const tabs = this.querySelectorAll('tonic-tab')
 
     for (const tab of tabs) {
       const control = tab.getAttribute('for')
+      const anchor = tab.querySelector('a')
 
       if (!control) {
         throw new Error(`No "for" attribute found for tab id "${tab.id}".`)
       }
 
-      const panel = document.getElementById(control)
+      const panelStore = this.panels[control]
 
-      if (!panel) {
-        throw new Error(`No panel found that matches the id (${control})`)
+      let panel = document.getElementById(control)
+      if (!panel && panelStore) {
+        panel = panelStore.node
       }
 
-      if (tab.id === id) {
+      if (!panel) {
+        if (this._setVisibilitySynchronously) {
+          return setTimeout(() => this.setVisibility(id, forAttr))
+        }
+
+        throw new Error(`No tonic-panel found that matches the id (${control})`)
+      }
+
+      if (tab.id === id || control === forAttr) {
         panel.removeAttribute('hidden')
-        tab.setAttribute('aria-selected', 'true')
+
+        if (tab.id === id) {
+          anchor.setAttribute('aria-selected', 'true')
+        } else {
+          anchor.setAttribute('aria-selected', 'false')
+        }
+
+        if (!panel.visible) {
+          panel.visible = true
+          if (panel.parentElement && panel.reRender && detatchOnHide) {
+            await panel.reRender()
+          }
+        }
+
+        if (!panel.parentElement && detatchOnHide) {
+          panelStore.parent.appendChild(panel)
+          if (
+            panel.preventRenderOnReconnect && panel.reRender &&
+            panel.children.length === 0
+          ) {
+            await panel.reRender()
+          }
+        }
+
         this.state.selected = id
+        this.dispatchEvent(new CustomEvent(
+          'tabvisible', { detail: { id }, bubbles: true }
+        ))
       } else {
+        if (!panel.visible && renderAll && detatchOnHide) {
+          panel.visible = true
+          if (panel.parentElement && panel.reRender) {
+            await panel.reRender()
+          }
+        }
+
         panel.setAttribute('hidden', '')
-        tab.setAttribute('aria-selected', 'false')
+        if (detatchOnHide && panel.parentElement && !renderAll) {
+          this.panels[panel.id] = {
+            parent: panel.parentElement,
+            node: panel
+          }
+          panel.remove()
+        }
+
+        if (anchor) {
+          anchor.setAttribute('aria-selected', 'false')
+        }
+
+        this.dispatchEvent(new CustomEvent(
+          'tabhidden', { detail: { id }, bubbles: true }
+        ))
       }
     }
   }
@@ -4064,11 +4195,12 @@ class TonicTabs extends Tonic {
     if (!tab) return
 
     e.preventDefault()
-    this.setVisibility(tab.id)
+
+    this.setVisibility(tab.parentNode.id, tab.getAttribute('for'))
   }
 
   keydown (e) {
-    const triggers = this.qsa('.tonic--tab')
+    const triggers = [...this.querySelectorAll('.tonic--tab')]
 
     switch (e.code) {
       case 'ArrowLeft':
@@ -4088,8 +4220,8 @@ class TonicTabs extends Tonic {
 
         e.preventDefault()
 
-        const id = isActive.getAttribute('id')
-        this.setVisibility(id)
+        const id = isActive.parentNode.getAttribute('id')
+        this.setVisibility(id, isActive.getAttribute('for'))
         break
       }
     }
@@ -4097,48 +4229,18 @@ class TonicTabs extends Tonic {
 
   connected () {
     const id = this.state.selected || this.props.selected
-    setImmediate(() => this.setVisibility(id))
+    if (!id) {
+      throw new Error('missing selected property.')
+    }
+
+    this._setVisibilitySynchronously = true
+    this.setVisibility(id)
+    this._setVisibilitySynchronously = false
   }
 
   render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-tabs')
-    }
-
     this.setAttribute('role', 'tablist')
-
-    return [...this.childNodes].map((node, index) => {
-      if (node.nodeType !== 1) return ''
-
-      const ariaControls = node.getAttribute('for')
-
-      if (!ariaControls) {
-        return this.html`
-          ${node}
-        `
-      }
-
-      if (node.attributes.class) {
-        node.attributes.class.value += ' tonic--tab'
-      }
-
-      return this.html`
-        <a
-          ...${node.attributes}
-          class="tonic--tab"
-          href="#"
-          role="tab"
-          aria-controls="${ariaControls}"
-          aria-selected="false">
-          ${node.childNodes}
-        </a>
-      `
-    }).join('')
+    return this.html`${this.childNodes}`
   }
 }
 
@@ -4148,49 +4250,94 @@ class TonicTabPanel extends Tonic {
       tonic-tab-panel {
         display: block;
       }
+
       tonic-tab-panel[hidden] {
         display: none;
       }
     `
   }
 
+  constructor (o) {
+    super(o)
+
+    this.visible = this.visible || false
+    this.__originalChildren = this.nodes
+
+    if (!this.visible) {
+      this.setAttribute('hidden', '')
+    }
+    this.setAttribute('role', 'tabpanel')
+  }
+
   connected () {
-    const tab = document.querySelector(`.tonic--tab[for="${this.props.id}"]`)
-    if (!tab) return
-    const tabid = tab.getAttribute('id')
-    this.setAttribute('aria-labelledby', tabid)
+    const tab = document.querySelector(
+      `.tonic--tab[for="${this.props.id}"]`
+    )
+    if (tab) {
+      const tabid = tab.getAttribute('id')
+      this.setAttribute('aria-labelledby', tabid)
+    }
+  }
+
+  disconnected () {
+    if (this.props.detatch) {
+      this.preventRenderOnReconnect = true
+    }
   }
 
   render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-tab-panel')
+    if (!this.visible && this.props.detatch) {
+      return ''
     }
 
-    this.setAttribute('role', 'tabpanel')
+    if (this.props.detatch) {
+      return this.html`${this.__originalChildren}`
+    } else {
+      return this.html`${this.childNodes}`
+    }
+  }
+}
+
+class TonicTab extends Tonic {
+  render () {
+    const ariaControls = this.props.for
 
     return this.html`
-      ${this.childNodes}
+      <a
+        id="${this.id}-anchor"
+        for="${this.props.for}"
+        class="tonic--tab"
+        href="#"
+        role="tab"
+        aria-controls="${ariaControls}"
+        aria-selected="false"
+      >
+        ${this.childNodes}
+      </a>
     `
   }
 }
 
 module.exports = {
   TonicTabs,
+  TonicTab,
   TonicTabPanel
 }
 
-}).call(this,require("timers").setImmediate)
-},{"../mode":12,"@optoolco/tonic":13,"timers":2}],24:[function(require,module,exports){
+},{"@optoolco/tonic":13}],24:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
-const mode = require('../mode')
-
 class TonicTextarea extends Tonic {
+  mutate (e) {
+    const { width, height } = e.target.style
+
+    this.state = {
+      ...this.state,
+      width,
+      height
+    }
+  }
+
   defaults () {
     return {
       placeholder: '',
@@ -4245,7 +4392,8 @@ class TonicTextarea extends Tonic {
 
   styles () {
     const {
-      width,
+      width = this.state.width,
+      height = this.state.height,
       radius,
       resize
     } = this.props
@@ -4253,6 +4401,7 @@ class TonicTextarea extends Tonic {
     return {
       textarea: {
         width,
+        height,
         borderRadius: radius,
         resize: resize
       }
@@ -4278,22 +4427,27 @@ class TonicTextarea extends Tonic {
 
   willConnect () {
     const {
-      value
+      value,
+      persistSize
     } = this.props
 
     this.props.value = typeof value === 'undefined' ? this.textContent : value
+
+    if (persistSize === 'true') {
+      const cb = (changes) => this.mutate(changes.pop())
+      this.observer = new window.MutationObserver(cb).observe(this, {
+        attributes: true, subtree: true, attributeFilter: ['style']
+      })
+    }
+  }
+
+  disconnected () {
+    if (this.observer) {
+      this.observer.disconnect()
+    }
   }
 
   render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-text-area')
-    }
-
     const {
       ariaLabelledby,
       autofocus,
@@ -4351,7 +4505,7 @@ class TonicTextarea extends Tonic {
 
 module.exports = { TonicTextarea }
 
-},{"../mode":12,"@optoolco/tonic":13}],25:[function(require,module,exports){
+},{"@optoolco/tonic":13}],25:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicToasterInline extends Tonic {
@@ -4363,7 +4517,8 @@ class TonicToasterInline extends Tonic {
 
   static stylesheet () {
     return `
-      tonic-toaster-inline svg {
+      tonic-toaster-inline > div > .tonic--close svg,
+      tonic-toaster-inline > div > .tonic--icon svg {
         width: inherit;
         height: inherit;
       }
@@ -4505,6 +4660,7 @@ class TonicToasterInline extends Tonic {
     const type = this.props.type
 
     if (!type) return ''
+
     return this.html`
       <div class="tonic--icon">
         <svg>
@@ -4540,6 +4696,7 @@ class TonicToasterInline extends Tonic {
     }
 
     const classes = ['tonic--notification']
+
     if (type) {
       classes.push('tonic--alert', `tonic--${type}`)
     }
@@ -4703,6 +4860,7 @@ class TonicToaster extends Tonic {
     main.className = 'tonic--main'
 
     if (type) {
+      notification.dataset.type = type
       notification.classList.add('tonic--alert')
     }
 
@@ -4826,23 +4984,15 @@ module.exports = { TonicToaster }
 },{"@optoolco/tonic":13}],27:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
-const mode = require('../mode')
-
 class TonicToggle extends Tonic {
-  defaults () {
-    return {
-      checked: false
-    }
-  }
-
   get value () {
-    const state = this.getState()
+    const state = this.state
     let value
 
-    if (typeof state.checked !== 'undefined') {
-      value = state.checked
-    } else {
+    if ('checked' in this.props) {
       value = this.props.checked
+    } else {
+      value = state.checked
     }
 
     return (value === true) || (value === 'true')
@@ -4850,11 +5000,10 @@ class TonicToggle extends Tonic {
 
   set value (value) {
     const checked = (value === true) || (value === 'true')
-    this.state.checked = checked
 
-    this.reRender(props => Object.assign(props, {
-      checked
-    }))
+    this.state.checked = checked
+    this.props.checked = checked
+    this.reRender()
   }
 
   static stylesheet () {
@@ -4978,9 +5127,7 @@ class TonicToggle extends Tonic {
   }
 
   change (e) {
-    this.setState(state => Object.assign({}, state, {
-      checked: e.target.checked
-    }))
+    this.state.checked = e.target.checked
   }
 
   renderLabel () {
@@ -4995,15 +5142,6 @@ class TonicToggle extends Tonic {
   }
 
   render () {
-    if (mode.strict && !this.props.id) {
-      console.warn('In tonic the "id" attribute is used to persist state')
-      console.warn('You forgot to supply the "id" attribute.')
-      console.warn('')
-      console.warn('For element : ')
-      console.warn(`${this.outerHTML}`)
-      throw new Error('id attribute is mandatory on tonic-toggle')
-    }
-
     const {
       id,
       disabled,
@@ -5014,13 +5152,10 @@ class TonicToggle extends Tonic {
     if (tabindex) this.removeAttribute('tabindex')
     if (theme) this.classList.add(`tonic--theme--${theme}`)
 
-    let checked
-    if (typeof this.state.checked !== 'undefined') {
-      checked = this.state.checked
-    } else {
-      checked = this.props.checked === 'true'
+    const checked = this.value
+    if (typeof this.state.checked === 'undefined') {
+      this.state.checked = checked
     }
-    this.state.checked = checked
 
     return this.html`
       <div class="tonic--toggle--wrapper">
@@ -5043,7 +5178,7 @@ class TonicToggle extends Tonic {
 
 module.exports = { TonicToggle }
 
-},{"../mode":12,"@optoolco/tonic":13}],28:[function(require,module,exports){
+},{"@optoolco/tonic":13}],28:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicTooltip extends Tonic {
@@ -5059,6 +5194,10 @@ class TonicTooltip extends Tonic {
       }, 256)
     }
 
+    if (!el) {
+      console.warn('Broken tooltip for: ' + target)
+      return
+    }
     el.addEventListener('mouseenter', e => {
       this.show(el)
     })

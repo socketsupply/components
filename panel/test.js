@@ -15,7 +15,7 @@ class ExamplePanel extends Panel {
   }
 
   render () {
-    return `
+    return this.html`
       <div class="tonic--header">Panel Example</div>
       <div class="tonic--main">
         <h3>${this.props.title || 'Hello'}

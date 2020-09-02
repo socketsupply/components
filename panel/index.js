@@ -203,9 +203,12 @@ class Panel extends Tonic {
     const setContent = content => {
       if (!content) return
 
+      const isRaw = content.isTonicUnsafeString ||
+        content.isTonicRaw || content.isTonicTemplate
+
       if (typeof content === 'string') {
         contentContainer.innerHTML = content
-      } else if (content.isTonicUnsafeString) {
+      } else if (isRaw) {
         contentContainer.innerHTML = content.rawText
       } else {
         [...content.childNodes].forEach(el => contentContainer.appendChild(el))

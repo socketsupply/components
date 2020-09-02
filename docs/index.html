@@ -355,6 +355,34 @@ rendering only happens only when necessary.</p>
     <section id="composition">
       
       <h1 id="composition">Composition</h1>
+<h3>Nesting</h3>
+<p>With <code>Tonic</code> you can nest templates from other functions or methods.</p>
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyPage</span> </span>{
+  renderHeader () {
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`&lt;h1&gt;Header&lt;/h1&gt;`</span>
+  }
+  render () {
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`
+      <span class="hljs-subst">${<span class="hljs-built_in">this</span>.renderHeader()}</span>
+      &lt;main&gt;My page&lt;/main&gt;
+    `</span>
+  }
+}</code></pre>
+<p>This means you can break up your <code>render() {}</code> method into multiple
+methods or re-usable functions.</p>
+<h3>Conditionals</h3>
+<p>If you want to do conditional rendering you can use if statements.</p>
+<pre><code class="language-js"><span class="hljs-keyword">const</span> LoginPage {
+  render () {
+    <span class="hljs-keyword">let</span> message = <span class="hljs-string">&#x27;Please Log in&#x27;</span>
+    <span class="hljs-keyword">if</span> (<span class="hljs-built_in">this</span>.props.user) {
+      message = <span class="hljs-built_in">this</span>.html<span class="hljs-string">`&lt;div&gt;Welcome <span class="hljs-subst">${<span class="hljs-built_in">this</span>.props.user.name}</span>&lt;/div&gt;`</span>
+    }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`&lt;div class=&quot;message&quot;&gt;<span class="hljs-subst">${message}</span>&lt;/div&gt;`</span>
+  }
+}</code></pre>
+<h3>Children</h3>
 <p>Once you add components, they can be nested any way you want. The
 property <code>this.children</code> will get this component&#39;s child elements
 so that you can read, mutate or wrap them.</p>
@@ -397,6 +425,22 @@ Tonic.add(ChildComponent)</code></pre>
     <span class="hljs-tag">&lt;/<span class="hljs-name">another-component</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">parent-component</span>&gt;</span></code></pre>
+<h3>Repeating templates</h3>
+<p>You can embed an array of template results using <code>this.html</code></p>
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TodoList</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+  render () {
+    <span class="hljs-keyword">const</span> todos = <span class="hljs-built_in">this</span>.state.todos
+
+    <span class="hljs-keyword">const</span> lis = []
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">const</span> todo <span class="hljs-keyword">of</span> todos) {
+      lis.push(<span class="hljs-built_in">this</span>.html<span class="hljs-string">`&lt;li&gt;<span class="hljs-subst">${todo.value}</span>&lt;/li&gt;`</span>)
+    }
+
+    <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`&lt;ul&gt;<span class="hljs-subst">${lis}</span>&lt;/ul&gt;`</span>
+  }
+}</code></pre>
+<p>By using an array of template results, tonic will render your
+repeating templates for you.</p>
 
     </section>
   

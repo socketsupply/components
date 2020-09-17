@@ -21,6 +21,7 @@ body, *[theme="light"] {
   --tonic-success: rgba(133, 178, 116, 1);
   --tonic-warning: rgba(249, 169, 103, 1);
   --tonic-info: rgba(153, 157, 160, 1);
+  --tonic-overlay: rgba(255, 255, 255, 0.4);
 }
 
 *[theme="dark"] {
@@ -38,4 +39,5 @@ body, *[theme="light"] {
   --tonic-caution: rgba(240, 102, 83, 1);
   --tonic-success: rgba(133, 178, 116, 1);
   --tonic-warn: rgba(249, 169, 103, 1);
+  --tonic-overlay: rgba(0, 0, 0, 0.4);
 }

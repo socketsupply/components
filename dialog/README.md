@@ -6,7 +6,11 @@ your own dialog class which can be registered and then used as a tag.
 
 ## Demo
 
-<example-dialog id="example-dialog" message="Click update for timestamp">
+<example-dialog
+  id="example-dialog"
+  message="Click update for timestamp"
+  width="350px"
+  height="260px">
 </example-dialog>
 
 <div class="example">

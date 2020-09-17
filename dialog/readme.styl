@@ -1,33 +1,28 @@
-.tonic--dialog .tonic--dialog--content
-  padding-top 70px
-  padding-bottom 75px
-  box-shadow 0px 30px 90px -20px rgba(0,0,0,0.3), 0 0 1px #a2a9b1
-  border-radius 4px
+.tonic--dialog
+  display grid
+  grid-template-rows 44px 1fr 80px
 
-.tonic--dialog header
-  text-align center
-  height 70px
-  font 14px var(--tonic-subheader)
-  text-transform uppercase
-  letter-spacing 1.5px
-  position absolute
-  top 0
-  left 0
-  right 0
-  padding 26px 65px 25px 65px
+  > header
+    NoSelect()
+    line-height 44px
+    text-align center
+    color var(--tonic-medium)
+    display block
 
-.tonic--dialog main
-  text-align center
-  width auto
-  padding 20px
-  margin 0 auto
+  > main
+    padding 30px
+    position relative
+    text-align center
 
-.tonic--dialog footer
-  position absolute
-  bottom 0
-  left 0
-  right 0
-  height 75px
-  padding 12px
-  display flex
-  justify-content center
+  > footer
+    NoSelect()
+    text-align center
+    background-color var(--tonic-window)
+    padding 16px
+    text-align center
+    width 100%
+    display block
+
+  > .tonic--close
+    top 10px !important
+    right 10px !important

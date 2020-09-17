@@ -7760,11 +7760,12 @@ class Dialog extends Tonic {
         display: flex;
         z-index: 100;
         visibility: hidden;
-        transition: visibility 0s ease 0.5s;
+        transition: visibility 0s ease 0.2s;
       }
 
       .tonic--dialog .tonic--dialog--wrapper.tonic--show {
         visibility: visible;
+        transition: visibility 0s ease 0s;
       }
 
       .tonic--dialog .tonic--dialog--wrapper.tonic--show .tonic--overlay {
@@ -7786,7 +7787,7 @@ class Dialog extends Tonic {
         right: 0;
         bottom: 0;
         opacity: 0;
-        transition: opacity 0.3s ease-in-out;
+        transition: opacity 0.2s ease-in-out;
       }
 
       .tonic--dialog .tonic--dialog--content {
@@ -7802,7 +7803,7 @@ class Dialog extends Tonic {
         -webkit-transform: scale(0.8);
         -ms-transform: scale(0.8);
         transform: scale(0.8);
-        transition: all 0.3s ease-in-out;
+        transition: all 0.2s ease-in-out;
       }
 
       .tonic--dialog .tonic--dialog--content > .tonic--close {
@@ -7824,27 +7825,32 @@ class Dialog extends Tonic {
   show () {
     const that = this
 
-    return new Promise((resolve) => {
-      const node = this.querySelector('.tonic--dialog--wrapper')
-      node.classList.add('tonic--show')
-      node.addEventListener('transitionend', resolve, { once: true })
+    return new Promise(resolve => {
+      window.requestAnimationFrame(() => {
+        const node = this.querySelector('.tonic--dialog--wrapper')
+        const content = this.querySelector('.tonic--dialog--content')
+        node.classList.add('tonic--show')
+        content.addEventListener('transitionend', resolve, { once: true })
 
-      this._escapeHandler = e => {
-        if (e.keyCode === 27) that.hide()
-      }
+        this._escapeHandler = e => {
+          if (e.keyCode === 27) that.hide()
+        }
 
-      document.addEventListener('keyup', that._escapeHandler)
+        document.addEventListener('keyup', that._escapeHandler)
+      })
     })
   }
 
   hide () {
     const that = this
 
-    return new Promise((resolve) => {
-      const node = this.querySelector('.tonic--dialog--wrapper')
-      node.classList.remove('tonic--show')
-      node.addEventListener('transitionend', resolve, { once: true })
-      document.removeEventListener('keyup', that._escapeHandler)
+    return new Promise(resolve => {
+      window.requestAnimationFrame(() => {
+        const node = this.querySelector('.tonic--dialog--wrapper')
+        node.classList.remove('tonic--show')
+        node.addEventListener('transitionend', resolve, { once: true })
+        document.removeEventListener('keyup', that._escapeHandler)
+      })
     })
   }
 

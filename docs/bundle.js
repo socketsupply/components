@@ -1249,7 +1249,7 @@ class Dialog extends Tonic {
         transform: translate(-50%, -50%) scale(1.22);
         will-change: transform;
       }
-      
+
       .tonic--dialog.tonic--show {
         transform: translate(-50%, -50%) scale(1);
         opacity: 1;
@@ -1301,7 +1301,7 @@ class Dialog extends Tonic {
         transition: all 0.3s;
         background: var(--tonic-overlay);
       }
-      
+
       .tonic--dialog--overlay.tonic--show {
         opacity: 1;
       }
@@ -1310,8 +1310,8 @@ class Dialog extends Tonic {
         width: 25px;
         height: 25px;
         position: absolute;
-        top: 16px;
-        right: 16px;
+        top: 10px;
+        right: 10px;
         cursor: pointer;
       }
 

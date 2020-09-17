@@ -55,10 +55,6 @@ tonic-badge {
   width: 100%;
   display: block;
 }
-.tonic--dialog > .tonic--close {
-  top: 10px !important;
-  right: 10px !important;
-}
 #tonic-input-state {
   display: inline-block;
   padding-top: 15px;

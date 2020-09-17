@@ -38,7 +38,6 @@ class Dialog extends Tonic {
 
       .tonic--dialog .tonic--dialog--wrapper.tonic--show {
         visibility: visible;
-        transition: visibility 0s ease 0s;
       }
 
       .tonic--dialog .tonic--dialog--wrapper.tonic--show .tonic--overlay {

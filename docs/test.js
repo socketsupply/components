@@ -7363,7 +7363,7 @@ class TonicCheckbox extends Tonic {
       tonic-checkbox label:nth-of-type(2) {
         display: inline-block;
         line-height: 22px;
-        margin: 2px 30px;
+        margin: 2px 2px 2px 30px;
       }
     `
   }

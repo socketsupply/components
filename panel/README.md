@@ -1,16 +1,16 @@
 # Panel
-A `Panel` is not a component, it is a base class. You can extend it to create
-your own panel class which can be registered and then used as a tag.
+Similar to dialog, just a wrapper with hide and show.
 
 > *__Note:__ This component requires the `tonic-sprite` component.*
 
 ## Demo
-
-<example-panel
-  id="content-panel-example"
+<tonic-panel
   width="50%"
-  overlay="true">
-</example-panel>
+  id="tonic-panel-example">
+  <read-wikipedia
+    id="content-panel-example">
+  </read-wikipedia>
+<tonic-panel>
 
 <div class="example">
   <div class="header">Example</div>

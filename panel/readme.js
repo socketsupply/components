@@ -1,8 +1,7 @@
 const fetch = require('node-fetch')
 const Tonic = require('@optoolco/tonic')
-const { Panel } = require('./index')
 
-class ExamplePanel extends Panel {
+class ReadWikipedia extends Tonic {
   async getArticle (title) {
     try {
       const res = await fetch(`https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=${title}&origin=*`)
@@ -47,13 +46,13 @@ class ExamplePanel extends Panel {
   }
 }
 
-Tonic.add(ExamplePanel)
+Tonic.add(ReadWikipedia)
 
 //
 // For this example, a button element will trigger the
 // `.show()` method on the panel when it is clicked.
 //
 const panelLink = document.getElementById('content-panel-link-example')
-const panel = document.getElementById('content-panel-example')
+const panel = document.getElementById('tonic-panel-example')
 
 panelLink.addEventListener('click', e => panel.show())

@@ -52,7 +52,7 @@ class TonicDialog extends Tonic {
 
   static stylesheet () {
     return `
-      tonic-dialog {
+      .tonic--dialog {
         box-shadow: 0px 6px 15px 3px rgba(0, 0, 0, 0.2);
         background: var(--tonic-window);
         border-radius: 6px;
@@ -67,7 +67,7 @@ class TonicDialog extends Tonic {
         will-change: transform;
       }
 
-      tonic-dialog.tonic--show {
+      .tonic--dialog.tonic--show {
         transform: translate(-50%, -50%) scale(1);
         opacity: 1;
         animation-duration: .25s;
@@ -75,7 +75,7 @@ class TonicDialog extends Tonic {
         transition-timing-function: ease;
       }
 
-      tonic-dialog.tonic--hide {
+      .tonic--dialog.tonic--hide {
         transform: translate(-50%, -50%) scale(1.22);
         opacity: 0;
         animation-duration: .2s;
@@ -83,7 +83,7 @@ class TonicDialog extends Tonic {
         transition-timing-function: ease;
       }
 
-      tonic-dialog > .tonic--close {
+      .tonic--dialog > .tonic--close {
         width: 25px;
         height: 25px;
         position: absolute;
@@ -92,7 +92,7 @@ class TonicDialog extends Tonic {
         cursor: pointer;
       }
 
-      tonic-dialog > .tonic--close svg {
+      .tonic--dialog > .tonic--close svg {
         width: inherit;
         height: inherit;
       }

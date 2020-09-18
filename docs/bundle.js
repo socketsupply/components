@@ -1235,7 +1235,7 @@ class TonicDialog extends Tonic {
 
   static stylesheet () {
     return `
-      tonic-dialog {
+      .tonic--dialog {
         box-shadow: 0px 6px 15px 3px rgba(0, 0, 0, 0.2);
         background: var(--tonic-window);
         border-radius: 6px;
@@ -1250,7 +1250,7 @@ class TonicDialog extends Tonic {
         will-change: transform;
       }
 
-      tonic-dialog.tonic--show {
+      .tonic--dialog.tonic--show {
         transform: translate(-50%, -50%) scale(1);
         opacity: 1;
         animation-duration: .25s;
@@ -1258,7 +1258,7 @@ class TonicDialog extends Tonic {
         transition-timing-function: ease;
       }
 
-      tonic-dialog.tonic--hide {
+      .tonic--dialog.tonic--hide {
         transform: translate(-50%, -50%) scale(1.22);
         opacity: 0;
         animation-duration: .2s;
@@ -1266,7 +1266,7 @@ class TonicDialog extends Tonic {
         transition-timing-function: ease;
       }
 
-      tonic-dialog > .tonic--close {
+      .tonic--dialog > .tonic--close {
         width: 25px;
         height: 25px;
         position: absolute;
@@ -1275,7 +1275,7 @@ class TonicDialog extends Tonic {
         cursor: pointer;
       }
 
-      tonic-dialog > .tonic--close svg {
+      .tonic--dialog > .tonic--close svg {
         width: inherit;
         height: inherit;
       }
@@ -1751,6 +1751,7 @@ const { TonicForm } = require('./form')
 const { TonicIcon } = require('./icon')
 const { TonicInput } = require('./input')
 const { TonicLoader } = require('./loader')
+const { TonicPanel } = require('./panel')
 const { TonicPopover } = require('./popover')
 const { TonicProfileImage } = require('./profile-image')
 const { TonicProgressBar } = require('./progress-bar')
@@ -1785,6 +1786,7 @@ function components (Tonic, opts) {
   Tonic.add(TonicInput)
   Tonic.add(TonicIcon)
   Tonic.add(TonicLoader)
+  Tonic.add(TonicPanel)
   Tonic.add(TonicPopover)
   Tonic.add(TonicProfileImage)
   Tonic.add(TonicProgressBar)
@@ -1803,7 +1805,7 @@ function components (Tonic, opts) {
   Tonic.add(TonicToggle)
 }
 
-},{"./accordion":3,"./badge":4,"./button":6,"./chart":8,"./checkbox":10,"./dialog":12,"./form":16,"./icon":17,"./input":20,"./loader":22,"./popover":32,"./profile-image":34,"./progress-bar":36,"./range":38,"./relative-time":40,"./router":41,"./select":43,"./sprite":45,"./tabs":46,"./textarea":48,"./toaster":52,"./toaster-inline":50,"./toggle":54,"./tooltip":56,"@optoolco/tonic":23}],20:[function(require,module,exports){
+},{"./accordion":3,"./badge":4,"./button":6,"./chart":8,"./checkbox":10,"./dialog":12,"./form":16,"./icon":17,"./input":20,"./loader":22,"./panel":30,"./popover":32,"./profile-image":34,"./progress-bar":36,"./range":38,"./relative-time":40,"./router":41,"./select":43,"./sprite":45,"./tabs":46,"./textarea":48,"./toaster":52,"./toaster-inline":50,"./toggle":54,"./tooltip":56,"@optoolco/tonic":23}],20:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicInput extends Tonic {
@@ -23550,7 +23552,7 @@ module.exports = function scrollToY (el, Y, speed) {
 },{}],30:[function(require,module,exports){
 const { TonicDialog } = require('../dialog')
 
-class Panel extends TonicDialog {
+class TonicPanel extends TonicDialog {
   constructor () {
     super()
 
@@ -23621,14 +23623,13 @@ class Panel extends TonicDialog {
   }
 }
 
-module.exports = { Panel }
+module.exports = { TonicPanel }
 
 },{"../dialog":12}],31:[function(require,module,exports){
 const fetch = require('node-fetch')
 const Tonic = require('@optoolco/tonic')
-const { Panel } = require('./index')
 
-class ExamplePanel extends Panel {
+class ReadWikipedia extends Tonic {
   async getArticle (title) {
     try {
       const res = await fetch(`https://en.wikipedia.org/w/api.php?format=json&action=query&prop=extracts&exintro=&explaintext=&titles=${title}&origin=*`)
@@ -23673,18 +23674,18 @@ class ExamplePanel extends Panel {
   }
 }
 
-Tonic.add(ExamplePanel)
+Tonic.add(ReadWikipedia)
 
 //
 // For this example, a button element will trigger the
 // `.show()` method on the panel when it is clicked.
 //
 const panelLink = document.getElementById('content-panel-link-example')
-const panel = document.getElementById('content-panel-example')
+const panel = document.getElementById('tonic-panel-example')
 
 panelLink.addEventListener('click', e => panel.show())
 
-},{"./index":30,"@optoolco/tonic":23,"node-fetch":27}],32:[function(require,module,exports){
+},{"@optoolco/tonic":23,"node-fetch":27}],32:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicPopover extends Tonic {

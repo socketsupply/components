@@ -49,15 +49,15 @@
     "testcafe": "1.6.1"
   },
   "devDependencies": {
-    "@optoolco/tonic": "13.1.0",
+    "@optoolco/tonic": "^13.1.1",
     "@pre-bundled/send": "0.16.2-patch-1",
     "@pre-bundled/tape": "4.11.0",
     "chart.js": "^2.9.2",
     "highlight.js": "^10.1.0",
     "marked": "^0.7.0",
-    "minimist": "^1.2.0",
+    "minimist": "^1.2.5",
     "mkdirp": "^0.5.1",
-    "node-fetch": "^2.2.0",
+    "node-fetch": "^2.6.1",
     "npm-bin-deps": "1.8.1",
     "qs": "github:hxoht/qs",
     "scrolltoy": "github:voltraco/scrolltoy"

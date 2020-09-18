@@ -2270,9 +2270,10 @@ class TonicLoader extends Tonic {
 module.exports = { TonicLoader }
 
 },{"@optoolco/tonic":23}],23:[function(require,module,exports){
-class TonicRaw {
-  constructor (rawText, templateStrings) {
-    this.isTonicRaw = true
+class TonicTemplate {
+  constructor (rawText, templateStrings, unsafe) {
+    this.isTonicTemplate = true
+    this.unsafe = unsafe
     this.rawText = rawText
     this.templateStrings = templateStrings
   }
@@ -2408,18 +2409,22 @@ class Tonic extends window.HTMLElement {
     return s.replace(Tonic.ESC, c => Tonic.MAP[c])
   }
 
-  static raw (s, templateStrings) {
-    return new TonicRaw(s, templateStrings)
+  static unsafeRawString (s, templateStrings) {
+    return new TonicTemplate(s, templateStrings, true)
   }
 
   html (strings, ...values) {
     const refs = o => {
       if (o && o.__children__) return this._placehold(o)
-      if (o && o.isTonicRaw) return o.rawText
+      if (o && o.isTonicTemplate) return o.rawText
       switch (Object.prototype.toString.call(o)) {
         case '[object HTMLCollection]':
         case '[object NodeList]': return this._placehold([...o])
         case '[object Array]':
+          if (o.every(x => x.isTonicTemplate && !x.unsafe)) {
+            return new TonicTemplate(o.join('\n'), null, false)
+          }
+          return this._prop(o)
         case '[object Object]':
         case '[object Function]': return this._prop(o)
         case '[object NamedNodeMap]':
@@ -2455,7 +2460,7 @@ class Tonic extends window.HTMLElement {
         else return ''
       }).filter(Boolean).join(' ')
     })
-    return Tonic.raw(htmlStr, strings)
+    return new TonicTemplate(htmlStr, strings, false)
   }
 
   scheduleReRender (oldProps) {
@@ -2484,10 +2489,6 @@ class Tonic extends window.HTMLElement {
     const oldProps = { ...this.props }
     this.props = typeof o === 'function' ? o(oldProps) : o
     return this.scheduleReRender(oldProps)
-  }
-
-  getProps () {
-    return this.props
   }
 
   handleEvent (e) {
@@ -2523,8 +2524,10 @@ class Tonic extends window.HTMLElement {
   }
 
   _apply (target, content) {
-    if (content && content.isTonicRaw) {
+    if (content && content.isTonicTemplate) {
       content = content.rawText
+    } else if (typeof content === 'string') {
+      content = Tonic.escape(content)
     }
 
     if (typeof content === 'string') {
@@ -2574,11 +2577,6 @@ class Tonic extends window.HTMLElement {
 
   connectedCallback () {
     this.root = this.shadowRoot || this // here for back compat
-
-    if (this.wrap) {
-      this.wrapped = this.render
-      this.render = this.wrap
-    }
 
     if (super.id && !Tonic._refIds.includes(super.id)) {
       Tonic._refIds.push(super.id)
@@ -2652,39 +2650,40 @@ Object.assign(Tonic, {
   _index: 0,
   version: typeof require !== 'undefined' ? require('./package').version : null,
   SPREAD: /\.\.\.\s?(__\w+__\w+__)/g,
-  ESC: /["&'<>`]/g,
+  ESC: /["&'<>`/]/g,
   AsyncFunctionGenerator: async function * () {}.constructor,
   AsyncFunction: async function () {}.constructor,
-  MAP: { '"': '&quot;', '&': '&amp;', '\'': '&#x27;', '<': '&lt;', '>': '&gt;', '`': '&#x60;' }
+  MAP: { '"': '&quot;', '&': '&amp;', '\'': '&#x27;', '<': '&lt;', '>': '&gt;', '`': '&#x60;', '/': '&#x2F;' }
 })
 
 if (typeof module === 'object') module.exports = Tonic
 
 },{"./package":24}],24:[function(require,module,exports){
 module.exports={
-  "_from": "@optoolco/tonic@12.1.0",
-  "_id": "@optoolco/tonic@12.1.0",
+  "_from": "@optoolco/tonic@next",
+  "_id": "@optoolco/tonic@13.1.1",
   "_inBundle": false,
-  "_integrity": "sha512-nY5tEW0rY7NKGET/ISLgs5v3Bp9RBRFGtSK91Rx63k6bDLAE2aXObWOo62C0s8Zt+ZntzwKCX2KIpNoO245JjQ==",
+  "_integrity": "sha512-KGgLJQ8PW5T2fIj3Pl426hGARJzdE11b3usBcMdHHge1oKTkhs4nybJJ0C2P+iVfErFYXPwDcEToFM0kDPOiLg==",
   "_location": "/@optoolco/tonic",
   "_phantomChildren": {},
   "_requested": {
-    "type": "version",
+    "type": "tag",
     "registry": true,
-    "raw": "@optoolco/tonic@12.1.0",
+    "raw": "@optoolco/tonic@next",
     "name": "@optoolco/tonic",
     "escapedName": "@optoolco%2ftonic",
     "scope": "@optoolco",
-    "rawSpec": "12.1.0",
+    "rawSpec": "next",
     "saveSpec": null,
-    "fetchSpec": "12.1.0"
+    "fetchSpec": "next"
   },
   "_requiredBy": [
-    "#DEV:/"
+    "#DEV:/",
+    "#USER"
   ],
-  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-12.1.0.tgz",
-  "_shasum": "01a55dac1112f32a54f671adaa6be7eec87cbd34",
-  "_spec": "@optoolco/tonic@12.1.0",
+  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-13.1.1.tgz",
+  "_shasum": "e7a14d9a5cfe2cef1d0f671c085df924b2d3c5f4",
+  "_spec": "@optoolco/tonic@next",
   "_where": "/Users/paolofragomeni/projects/optoolco/components",
   "author": {
     "name": "optoolco"
@@ -2720,7 +2719,7 @@ module.exports={
     "minify": "terser index.js -c unused,dead_code,hoist_vars,loops=false,hoist_props=true,hoist_funs,toplevel,keep_classnames,keep_fargs=false -o dist/tonic.min.js",
     "test": "npm run minify && browserify test/index.js | tape-puppet"
   },
-  "version": "12.1.0"
+  "version": "13.1.1"
 }
 
 },{}],25:[function(require,module,exports){
@@ -23481,17 +23480,33 @@ return src;
 })));
 
 },{}],27:[function(require,module,exports){
+(function (global){
 "use strict";
 
-module.exports = exports = self.fetch;
+// ref: https://github.com/tc39/proposal-global
+var getGlobal = function () {
+	// the only reliable means to get the global object is
+	// `Function('return this')()`
+	// However, this causes CSP violations in Chrome apps.
+	if (typeof self !== 'undefined') { return self; }
+	if (typeof window !== 'undefined') { return window; }
+	if (typeof global !== 'undefined') { return global; }
+	throw new Error('unable to locate global object');
+}
+
+var global = getGlobal();
+
+module.exports = exports = global.fetch;
 
 // Needed for TypeScript and Webpack.
-exports.default = self.fetch.bind(self);
+if (global.fetch) {
+	exports.default = global.fetch.bind(global);
+}
 
-exports.Headers = self.Headers;
-exports.Request = self.Request;
-exports.Response = self.Response;
-
+exports.Headers = global.Headers;
+exports.Request = global.Request;
+exports.Response = global.Response;
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
 },{}],28:[function(require,module,exports){
 const qs = (s, p) => (p || document).querySelector(s)
 const qsa = (s, p) => [...(p || document).querySelectorAll(s)]

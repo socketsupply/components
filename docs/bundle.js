@@ -1245,7 +1245,7 @@ class Dialog extends Tonic {
         left: 50%;
         z-index: -1;
         opacity: 0;
-        transition: z-index .3s;
+        transition: z-index .25s;
         transform: translate(-50%, -50%) scale(1.22);
         will-change: transform;
       }
@@ -1253,8 +1253,9 @@ class Dialog extends Tonic {
       .tonic--dialog.tonic--show {
         transform: translate(-50%, -50%) scale(1);
         opacity: 1;
-        animation-duration: .3s;
+        animation-duration: .25s;
         animation-name: tonic--dialog--show;
+        transition-timing-function: ease;
         animation-delay: 0s;
       }
 
@@ -1263,6 +1264,7 @@ class Dialog extends Tonic {
         opacity: 0;
         animation-duration: .1s;
         animation-name: tonic--dialog--hide;
+        transition-timing-function: ease;
         animation-delay: 0s;
       }
 
@@ -1286,7 +1288,7 @@ class Dialog extends Tonic {
 
         to {
           opacity: 0;
-          transform: translate(-50%, -50%) scale(1.22);
+          transform: translate(-50%, -50%) scale(0.88);
         }
       }
 
@@ -1298,7 +1300,7 @@ class Dialog extends Tonic {
         bottom: 0;
         opacity: 0;
         z-index: -1;
-        transition: all 0.3s;
+        transition: all 0.2s;
         background: var(--tonic-overlay);
       }
 

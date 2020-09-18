@@ -7970,11 +7970,7 @@ const { html } = require('../test/util')
 const components = require('..')
 components(require('@optoolco/tonic'))
 
-const { Dialog } = require('./index')
-
-const sleep = n => new Promise(resolve => setTimeout(resolve, n))
-
-class ExampleDialog extends Dialog {
+class DialogInner extends Tonic {
   async click (e) {
     return Tonic.match(e.target, 'tonic-button')
   }
@@ -7992,7 +7988,7 @@ class ExampleDialog extends Dialog {
   }
 }
 
-Tonic.add(ExampleDialog)
+Tonic.add(DialogInner)
 
 document.body.appendChild(html`
 <section id="dialog">
@@ -8001,50 +7997,10 @@ document.body.appendChild(html`
   <div id="dialog-1" class="test-container">
     <span>Default Dialog</span>
     <tonic-button id="dialog-default-button">Open</tonic-button>
-    <example-dialog message="Hello!" id="dialog-default"></example-dialog>
+    <tonic-dialog id="dialog-default">
+      <dialog-inner message="Hello!"></dialog-inner>
+    </tonic-dialog>
   </div>
-
-  <!-- <div class="test-container">
-    <span>width="150px"</span>
-    <tonic-button id="dialog-width-button">Open</tonic-button>
-    <example-dialog message="width: 150px" width="150px" id="dialog-width"></example-dialog>
-  </div>
-
-  <div class="test-container">
-    <span>width="100%"</span>
-    <tonic-button id="dialog-full-width-button">Open</tonic-button>
-    <example-dialog message="width: 100%" width="100%" id="dialog-full-width"></example-dialog>
-  </div>
-
-  <div class="test-container">
-    <span>height="700px"</span>
-    <tonic-button id="dialog-height-button">Open</tonic-button>
-    <example-dialog message="height: 700px" height="700px" id="dialog-height"></example-dialog>
-  </div>
-
-  <div class="test-container">
-    <span>height="100%"</span>
-    <tonic-button id="dialog-full-height-button">Open</tonic-button>
-    <example-dialog message="height: 100%" height="100%" id="dialog-full-height"></example-dialog>
-  </div>
-
-  <div class="test-container">
-    <span>overlay="true"</span>
-    <tonic-button id="dialog-overlay-button">Open</tonic-button>
-    <example-dialog message="overlay: true" overlay="true" id="dialog-overlay"></example-dialog>
-  </div>
-
-  <div class="test-container">
-    <span>overlay="false"</span>
-    <tonic-button id="dialog-no-overlay-button">Open</tonic-button>
-    <example-dialog message="overlay: false" overlay="false" id="dialog-no-overlay"></example-dialog>
-  </div>
-
-  <div class="test-container">
-    <span>background-color="red"</span>
-    <tonic-button id="dialog-background-button">Open</tonic-button>
-    <example-dialog message="background-color: red" background-color="red" id="dialog-background"></example-dialog>
-  </div> -->
 
 </section>
 `)
@@ -8057,7 +8013,7 @@ const { qs } = require('qs')
 
 tape('{{dialog-1}} is constructed properly, opens and closes properly', async t => {
   const container = qs('#dialog-1')
-  const component = qs('example-dialog', container)
+  const component = qs('#dialog-default', container)
   const isShowingInitialState = component.classList.contains('tonic--show')
 
   t.plan(6)
@@ -8076,7 +8032,6 @@ tape('{{dialog-1}} is constructed properly, opens and closes properly', async t 
   const isShowingAfterOpen = component.classList.contains('tonic--show')
   t.equal(isShowingAfterOpen, true, 'the element has been opened, has show class')
 
-  await sleep(128)
   await component.hide()
 
   const isShowing = component.classList.contains('tonic--show')
@@ -8085,7 +8040,7 @@ tape('{{dialog-1}} is constructed properly, opens and closes properly', async t 
   t.end()
 })
 
-},{"..":46,"../test/util":115,"./index":41,"@optoolco/tonic":50,"@pre-bundled/tape":52,"qs":94}],43:[function(require,module,exports){
+},{"..":46,"../test/util":115,"@optoolco/tonic":50,"@pre-bundled/tape":52,"qs":94}],43:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicForm extends Tonic {
@@ -33566,10 +33521,15 @@ class TonicPanel extends TonicDialog {
   }
 
   stylesheet () {
-    const {
+    let {
       width,
+      mobileWidth,
       position
     } = this.props
+
+    if (document.body.clientWidth < 500) {
+      width = mobileWidth
+    }
 
     const range = [0, width]
 
@@ -33628,13 +33588,12 @@ module.exports = { TonicPanel }
 const tape = require('@pre-bundled/tape')
 const { qs } = require('qs')
 const Tonic = require('@optoolco/tonic')
-const { Panel } = require('./index')
 
 const { html } = require('../test/util')
 const components = require('..')
 components(require('@optoolco/tonic'))
 
-class ExamplePanel extends Panel {
+class PanelInner extends Tonic {
   async click (e) {
     if (e.target.value === 'close') {
       return this.hide()
@@ -33656,12 +33615,13 @@ class ExamplePanel extends Panel {
   }
 }
 
-Tonic.add(ExamplePanel)
+Tonic.add(PanelInner)
 
 document.body.appendChild(html`
 <section id="panel">
   <h2>Panel</h2>
 
+  <!-- Panel Default -->
   <div class="test-container">
     <span>Default Panel</span>
     <tonic-button id="example-panel-default-button">
@@ -33669,104 +33629,23 @@ document.body.appendChild(html`
     </tonic-button>
   </div>
 
-  <example-panel id="example-panel-default">
-  </example-panel>
-
-  <!-- Panel Default -->
-  <div class="test-container">
-    <span>name="panel-name"</span>
-    <tonic-button id="example-panel-name-button">
-      Open Panel
-    </tonic-button>
-  </div>
-
-  <example-panel
-    id="example-panel-name"
-    name="panel-name">
-  </example-panel>
-
-  <!-- Panel Overlay -->
-  <div class="test-container">
-    <span>overlay="true"</span>
-    <tonic-button id="example-panel-overlay-button">
-      Open Panel
-    </tonic-button>
-  </div>
-
-  <example-panel
-    id="example-panel-overlay"
-    overlay="true">
-  </example-panel>
-
-  <!-- Panel w/ Position Right -->
-  <div class="test-container">
-    <span>position="right"</span>
-    <tonic-button id="example-panel-position-right-button">
-      Open Panel
-    </tonic-button>
-  </div>
-
-  <example-panel
-    id="example-panel-position-right"
-    overlay="true"
-    position="right">
-  </example-panel>
+  <tonic-panel id="example-panel-default">
+    <panel-inner id="example-panel-inner-default">
+    </panel-inner>
+  </tonic-panel>
 
   <!-- Panel w/ Position Left -->
   <div class="test-container">
-    <span>position="left"</span>
+    <span>position="right"</span>
     <tonic-button id="example-panel-position-button">
       Open Panel
     </tonic-button>
   </div>
 
-  <example-panel
-    id="example-panel-position"
-    overlay="true"
-    position="left">
-  </example-panel>
-
-  <!-- Panel w/ Background Color -->
-  <div class="test-container">
-    <span>background-color="rgba(255,255,255,0.8)"</span>
-    <tonic-button id="example-panel-background-button">
-      Open Panel
-    </tonic-button>
-  </div>
-
-  <example-panel
-    id="example-panel-background"
-    overlay="true"
-    background-color="rgba(255,255,255,0.8)">
-  </example-panel>
-
-  <!-- Panel w/ Theme Light -->
-  <div class="test-container">
-    <span>theme="light"</span>
-    <tonic-button id="example-panel-theme-button">
-      Open Panel
-    </tonic-button>
-  </div>
-
-  <example-panel
-    id="example-panel-theme"
-    overlay="true"
-    theme="light">
-  </example-panel>
-
-  <!-- Panel w/ Theme Dark -->
-  <div class="test-container dark">
-    <span>theme="dark"</span>
-    <tonic-button id="example-panel-theme-dark-button">
-      Open Panel
-    </tonic-button>
-  </div>
-
-  <example-panel
-    id="example-panel-theme-dark"
-    overlay="true"
-    theme="dark">
-  </example-panel>
+  <tonic-panel id="example-panel-position" position="left">
+    <panel-inner id="example-panel-inner-position">
+    </panel-inner>
+  </tonic-panel>
 
 </section>
 `)
@@ -33780,60 +33659,12 @@ const panelDefault = document.getElementById('example-panel-default')
 panelDefaultButton.addEventListener('click', e => panelDefault.show())
 
 //
-// Panel Name
-//
-const panelNameButton = document.getElementById('example-panel-name-button')
-const panelName = document.getElementById('example-panel-name')
-
-panelNameButton.addEventListener('click', e => panelName.show())
-
-//
-// Panel Overlay
-//
-const panelOverlayButton = document.getElementById('example-panel-overlay-button')
-const panelOverlay = document.getElementById('example-panel-overlay')
-
-panelOverlayButton.addEventListener('click', e => panelOverlay.show())
-
-//
-// Panel w/ Position Right
-//
-const panelPositionRightButton = document.getElementById('example-panel-position-right-button')
-const panelPositionRight = document.getElementById('example-panel-position-right')
-
-panelPositionRightButton.addEventListener('click', e => panelPositionRight.show())
-
-//
 // Panel w/ Position Left
 //
 const panelPositionButton = document.getElementById('example-panel-position-button')
 const panelPosition = document.getElementById('example-panel-position')
 
 panelPositionButton.addEventListener('click', e => panelPosition.show())
-
-//
-// Panel w/ Background Color
-//
-const panelBackgroundButton = document.getElementById('example-panel-background-button')
-const panelBackground = document.getElementById('example-panel-background')
-
-panelBackgroundButton.addEventListener('click', e => panelBackground.show())
-
-//
-// Panel w/ Theme Light
-//
-const panelThemeLightButton = document.getElementById('example-panel-theme-button')
-const panelThemeLight = document.getElementById('example-panel-theme')
-
-panelThemeLightButton.addEventListener('click', e => panelThemeLight.show())
-
-//
-// Panel w/ Theme Dark
-//
-const panelThemeDarkButton = document.getElementById('example-panel-theme-dark-button')
-const panelThemeDark = document.getElementById('example-panel-theme-dark')
-
-panelThemeDarkButton.addEventListener('click', e => panelThemeDark.show())
 
 tape('opening a panel', async t => {
   const container = qs('#example-panel-default')
@@ -33861,7 +33692,7 @@ tape('opening a panel', async t => {
   t.end()
 })
 
-},{"..":46,"../test/util":115,"./index":95,"@optoolco/tonic":50,"@pre-bundled/tape":52,"qs":94}],97:[function(require,module,exports){
+},{"..":46,"../test/util":115,"@optoolco/tonic":50,"@pre-bundled/tape":52,"qs":94}],97:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicPopover extends Tonic {

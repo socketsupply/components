@@ -13,7 +13,7 @@ class ReadWikipedia extends Tonic {
 
   async click (e) {
     if (e.target.value === 'close') {
-      return this.hide()
+      return this.parentElement.hide()
     }
 
     if (e.target.value === 'get') {

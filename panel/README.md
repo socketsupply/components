@@ -6,6 +6,7 @@ Similar to dialog, just a wrapper with hide and show.
 ## Demo
 <tonic-panel
   width="50%"
+  width-mobile="100%"
   id="tonic-panel-example">
   <read-wikipedia
     id="content-panel-example">
@@ -43,11 +44,9 @@ Similar to dialog, just a wrapper with hide and show.
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
 | `id` | *string* | Adds the `id` attribute. | |
-| `name` | *string* | Adds the `name` attribute. | |
 | `position` | *string* | Changes the position of the panel (`left` or `right`). | `right` |
-| `overlay` | *boolean* | Shows an overlay behind the panel, blocks page interaction. | `false` |
-| `background-color` | *string* | Changes the background color of the overlay. | `rgba(0,0,0,0.5)` |
-| `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
+| `width` | *string* | Width of the panel. | |
+| `width-mobile` | *string* | Width of the panel on mobile. | |
 
 ### Instance Methods & Members
 

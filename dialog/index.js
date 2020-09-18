@@ -50,6 +50,12 @@ class Dialog extends Tonic {
       )
   }
 
+  updated () {
+    window.requestAnimationFrame(() => {
+      this.appendChild(this.closeIcon)
+    })
+  }
+
   static stylesheet () {
     return `
       .tonic--dialog {

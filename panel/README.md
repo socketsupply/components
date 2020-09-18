@@ -8,7 +8,7 @@ your own panel class which can be registered and then used as a tag.
 
 <tonic-panel
   id="content-panel-example"
-  width="75%"
+  width="50%"
   overlay="true">
 </tonic-panel>
 
@@ -44,7 +44,7 @@ your own panel class which can be registered and then used as a tag.
 | :--- | :--- | :--- | :--- |
 | `id` | *string* | Adds the `id` attribute. | |
 | `name` | *string* | Adds the `name` attribute. | |
-| `position` | *string* | Changes the position of the panel. | `right` |
+| `position` | *string* | Changes the position of the panel (`left` or `right`). | `right` |
 | `overlay` | *boolean* | Shows an overlay behind the panel, blocks page interaction. | `false` |
 | `background-color` | *string* | Changes the background color of the overlay. | `rgba(0,0,0,0.5)` |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
@@ -55,4 +55,3 @@ your own panel class which can be registered and then used as a tag.
 | :--- | :--- |
 | `show()` | Shows the panel. |
 | `hide()` | Hides the panel. |
-| `click()` | Click event. |

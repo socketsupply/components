@@ -9,21 +9,15 @@ class TonicPanel extends TonicDialog {
 
   defaults () {
     return {
-      position: 'right',
-      width: '50%'
+      position: 'right'
     }
   }
 
   stylesheet () {
-    let {
+    const {
       width,
-      widthMobile,
       position
     } = this.props
-
-    if (document.body.clientWidth < 500) {
-      width = widthMobile
-    }
 
     const range = [0, width]
 
@@ -34,6 +28,7 @@ class TonicPanel extends TonicDialog {
     return `
       .tonic--dialog.tonic--panel,
       .tonic--dialog.tonic--show.tonic--panel {
+        left: unset;
         border-radius: 0;
         top: 0;
         width: ${width};

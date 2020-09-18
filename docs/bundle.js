@@ -1333,6 +1333,10 @@ class TonicDialog extends Tonic {
     overlay.style.zIndex = z
 
     return new Promise(resolve => {
+      if (this.props.widthMobile && document.body.clientWidth < 500) {
+        this.props.width = this.props.widthMobile
+      }
+
       this.style.width = this.props.width
       this.style.height = this.props.height
 
@@ -23561,21 +23565,15 @@ class TonicPanel extends TonicDialog {
 
   defaults () {
     return {
-      position: 'right',
-      width: '50%'
+      position: 'right'
     }
   }
 
   stylesheet () {
-    let {
+    const {
       width,
-      mobileWidth,
       position
     } = this.props
-
-    if (document.body.clientWidth < 500) {
-      width = mobileWidth
-    }
 
     const range = [0, width]
 
@@ -23586,6 +23584,7 @@ class TonicPanel extends TonicDialog {
     return `
       .tonic--dialog.tonic--panel,
       .tonic--dialog.tonic--show.tonic--panel {
+        left: unset;
         border-radius: 0;
         top: 0;
         width: ${width};

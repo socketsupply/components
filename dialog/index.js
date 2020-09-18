@@ -150,6 +150,10 @@ class TonicDialog extends Tonic {
     overlay.style.zIndex = z
 
     return new Promise(resolve => {
+      if (this.props.widthMobile && document.body.clientWidth < 500) {
+        this.props.width = this.props.widthMobile
+      }
+
       this.style.width = this.props.width
       this.style.height = this.props.height
 

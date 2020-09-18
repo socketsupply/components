@@ -11,7 +11,7 @@ Similar to dialog, just a wrapper with hide and show.
   <read-wikipedia
     id="content-panel-example">
   </read-wikipedia>
-<tonic-panel>
+</tonic-panel>
 
 <div class="example">
   <div class="header">Example</div>
@@ -25,16 +25,12 @@ Similar to dialog, just a wrapper with hide and show.
 ## Code
 
 #### HTML
+
 ```html
 <tonic-panel
   id="content-panel-example"
   overlay="true">
 </tonic-panel>
-```
-
-#### JS
-```js
-%js%
 ```
 
 ## Api

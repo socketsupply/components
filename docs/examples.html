@@ -1449,12 +1449,12 @@ positioned container, it will center itself.</p>
 <h2>Demo</h2>
 <p><tonic-panel
   width="50%"
-  mobile-width="100%"
+  width-mobile="100%"
   id="tonic-panel-example">
   <read-wikipedia
     id="content-panel-example">
   </read-wikipedia>
-<tonic-panel></p>
+</tonic-panel></p>
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
@@ -1470,8 +1470,6 @@ positioned container, it will center itself.</p>
   <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;content-panel-example&quot;</span>
   <span class="hljs-attr">overlay</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-panel</span>&gt;</span></code></pre>
-<h4>JS</h4>
-<pre><code class="language-js">%js%</code></pre>
 <h2>Api</h2>
 <h3>Properties</h3>
 <table>
@@ -1490,34 +1488,22 @@ positioned container, it will center itself.</p>
 <td align="left"></td>
 </tr>
 <tr>
-<td align="left"><code>name</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Adds the <code>name</code> attribute.</td>
-<td align="left"></td>
-</tr>
-<tr>
 <td align="left"><code>position</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">Changes the position of the panel (<code>left</code> or <code>right</code>).</td>
 <td align="left"><code>right</code></td>
 </tr>
 <tr>
-<td align="left"><code>overlay</code></td>
-<td align="left"><em>boolean</em></td>
-<td align="left">Shows an overlay behind the panel, blocks page interaction.</td>
-<td align="left"><code>false</code></td>
+<td align="left"><code>width</code></td>
+<td align="left"><em>string</em></td>
+<td align="left">Width of the panel.</td>
+<td align="left"></td>
 </tr>
 <tr>
-<td align="left"><code>background-color</code></td>
+<td align="left"><code>width-mobile</code></td>
 <td align="left"><em>string</em></td>
-<td align="left">Changes the background color of the overlay.</td>
-<td align="left"><code>rgba(0,0,0,0.5)</code></td>
-</tr>
-<tr>
-<td align="left"><code>theme</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
-<td align="left"><code>light</code></td>
+<td align="left">Width of the panel on mobile.</td>
+<td align="left"></td>
 </tr>
 </tbody></table>
 <h3>Instance Methods &amp; Members</h3>

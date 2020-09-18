@@ -225,18 +225,11 @@ tape('opening a panel', async t => {
 
   await container.show()
 
-  t.ok(!container.hasAttribute('hidden'))
+  t.equal(container.hasAttribute('hidden'), false, 'is not hidden')
 
-  await sleep(128)
   await container.hide()
 
   t.ok(container.hasAttribute('hidden'))
 
   t.end()
 })
-
-function sleep (n) {
-  return new Promise(resolve => {
-    setTimeout(resolve, n)
-  })
-}

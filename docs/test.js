@@ -7779,7 +7779,7 @@ class TonicDialog extends Tonic {
 
   static stylesheet () {
     return `
-      tonic-dialog {
+      .tonic--dialog {
         box-shadow: 0px 6px 15px 3px rgba(0, 0, 0, 0.2);
         background: var(--tonic-window);
         border-radius: 6px;
@@ -7794,7 +7794,7 @@ class TonicDialog extends Tonic {
         will-change: transform;
       }
 
-      tonic-dialog.tonic--show {
+      .tonic--dialog.tonic--show {
         transform: translate(-50%, -50%) scale(1);
         opacity: 1;
         animation-duration: .25s;
@@ -7802,7 +7802,7 @@ class TonicDialog extends Tonic {
         transition-timing-function: ease;
       }
 
-      tonic-dialog.tonic--hide {
+      .tonic--dialog.tonic--hide {
         transform: translate(-50%, -50%) scale(1.22);
         opacity: 0;
         animation-duration: .2s;
@@ -7810,7 +7810,7 @@ class TonicDialog extends Tonic {
         transition-timing-function: ease;
       }
 
-      tonic-dialog > .tonic--close {
+      .tonic--dialog > .tonic--close {
         width: 25px;
         height: 25px;
         position: absolute;
@@ -7819,7 +7819,7 @@ class TonicDialog extends Tonic {
         cursor: pointer;
       }
 
-      tonic-dialog > .tonic--close svg {
+      .tonic--dialog > .tonic--close svg {
         width: inherit;
         height: inherit;
       }
@@ -8409,6 +8409,7 @@ const { TonicForm } = require('./form')
 const { TonicIcon } = require('./icon')
 const { TonicInput } = require('./input')
 const { TonicLoader } = require('./loader')
+const { TonicPanel } = require('./panel')
 const { TonicPopover } = require('./popover')
 const { TonicProfileImage } = require('./profile-image')
 const { TonicProgressBar } = require('./progress-bar')
@@ -8443,6 +8444,7 @@ function components (Tonic, opts) {
   Tonic.add(TonicInput)
   Tonic.add(TonicIcon)
   Tonic.add(TonicLoader)
+  Tonic.add(TonicPanel)
   Tonic.add(TonicPopover)
   Tonic.add(TonicProfileImage)
   Tonic.add(TonicProgressBar)
@@ -8461,7 +8463,7 @@ function components (Tonic, opts) {
   Tonic.add(TonicToggle)
 }
 
-},{"./accordion":32,"./badge":33,"./button":35,"./chart":37,"./checkbox":39,"./dialog":41,"./form":43,"./icon":44,"./input":47,"./loader":49,"./popover":97,"./profile-image":99,"./progress-bar":101,"./range":103,"./relative-time":105,"./router":106,"./select":108,"./sprite":110,"./tabs":111,"./textarea":116,"./toaster":120,"./toaster-inline":118,"./toggle":122,"./tooltip":124,"@optoolco/tonic":50}],47:[function(require,module,exports){
+},{"./accordion":32,"./badge":33,"./button":35,"./chart":37,"./checkbox":39,"./dialog":41,"./form":43,"./icon":44,"./input":47,"./loader":49,"./panel":95,"./popover":97,"./profile-image":99,"./progress-bar":101,"./range":103,"./relative-time":105,"./router":106,"./select":108,"./sprite":110,"./tabs":111,"./textarea":116,"./toaster":120,"./toaster-inline":118,"./toggle":122,"./tooltip":124,"@optoolco/tonic":50}],47:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicInput extends Tonic {
@@ -33549,7 +33551,7 @@ module.exports = { qs, qsa }
 },{}],95:[function(require,module,exports){
 const { TonicDialog } = require('../dialog')
 
-class Panel extends TonicDialog {
+class TonicPanel extends TonicDialog {
   constructor () {
     super()
 
@@ -33620,7 +33622,7 @@ class Panel extends TonicDialog {
   }
 }
 
-module.exports = { Panel }
+module.exports = { TonicPanel }
 
 },{"../dialog":41}],96:[function(require,module,exports){
 const tape = require('@pre-bundled/tape')

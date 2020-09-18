@@ -64,10 +64,10 @@ show-random footer {
   height: 100px;
   width: 100px;
 }
-.tonic--panel h3 {
+read-wikipedia h3 {
   margin: 0;
 }
-.tonic--panel > header {
+read-wikipedia header {
   padding: 20px;
   position: absolute;
   top: 0;
@@ -75,7 +75,7 @@ show-random footer {
   right: 0;
   height: 90px;
 }
-.tonic--panel > main {
+read-wikipedia main {
   padding: 40px 20px;
   position: absolute;
   text-align: left;
@@ -85,7 +85,7 @@ show-random footer {
   bottom: 70px;
   overflow: scroll;
 }
-.tonic--panel > footer {
+read-wikipedia footer {
   position: absolute;
   left: 0;
   right: 0;

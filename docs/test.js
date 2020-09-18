@@ -7742,7 +7742,7 @@ class Dialog extends Tonic {
 
     this.closeIcon = document.createElement('div')
     this.closeIcon.className = 'tonic--close'
-    this.closeIcon.addEventListener('click', e => this.hide())
+    this.closeIcon.addEventListener('click', () => this.hide())
 
     const svgns = 'http://www.w3.org/2000/svg'
     const xlinkns = 'http://www.w3.org/1999/xlink'
@@ -7769,7 +7769,7 @@ class Dialog extends Tonic {
     }
   }
 
-  getZIndex () {
+  _getZIndex () {
     return Array.from(document.querySelectorAll('body *'))
       .map(elt => parseFloat(window.getComputedStyle(elt).zIndex))
       .reduce((z, highest = Number.MIN_SAFE_INTEGER) =>
@@ -7780,7 +7780,7 @@ class Dialog extends Tonic {
   static stylesheet () {
     return `
       .tonic--dialog {
-        box-shadow: 0px 4px 16px 3px rgba(0, 0, 0, 0.3);
+        box-shadow: 0px 6px 15px 3px rgba(0, 0, 0, 0.2);
         background: var(--tonic-window);
         border-radius: 6px;
         position: fixed;
@@ -7868,19 +7868,15 @@ class Dialog extends Tonic {
     `
   }
 
-  updated () {
-    window.requestAnimationFrame(() => {
-      this.appendChild(this.closeIcon)
-    })
-  }
-
   show () {
-    const z = this.getZIndex()
+    const z = this._getZIndex()
 
     const overlay = document.querySelector('.tonic--dialog--overlay')
     overlay.classList.add('tonic--show')
     this.style.zIndex = z + 100
     overlay.style.zIndex = z
+
+    this.appendChild(this.closeIcon)
 
     return new Promise(resolve => {
       this.style.width = this.props.width

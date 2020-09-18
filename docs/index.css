@@ -43,7 +43,7 @@ tonic-badge {
   display: block;
 }
 .tonic--dialog > main {
-  padding: 30px;
+  padding: 0 30px 10px;
   position: relative;
   text-align: center;
 }

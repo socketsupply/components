@@ -53,7 +53,7 @@ class Dialog extends Tonic {
   static stylesheet () {
     return `
       .tonic--dialog {
-        box-shadow: 0px 4px 16px 3px rgba(0, 0, 0, 0.3);
+        box-shadow: 0px 6px 15px 3px rgba(0, 0, 0, 0.2);
         background: var(--tonic-window);
         border-radius: 6px;
         position: fixed;

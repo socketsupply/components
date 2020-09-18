@@ -4,6 +4,10 @@ your own dialog class which can be registered and then used as a tag.
 
 > *__Note:__ This component requires the `tonic-sprite` component.*
 
+All dialogs have different use cases. Anything could go inside them. So this
+class tries to accomodate a wide range of use cases by being the minimum of
+what is needed to start with.
+
 ## Demo
 
 <example-dialog
@@ -67,6 +71,41 @@ const link = document.getElementById('example-dialog-link')
 const dialog = document.getElementById('example-dialog')
 
 link.addEventListener('click', e => dialog.show())
+```
+
+#### CSS
+
+Example styles that a project might set up outside the component's css.
+
+```css
+.tonic--dialog {
+  display: grid;
+  grid-template-rows: 44px 1fr 80px;
+}
+
+.tonic--dialog > header {
+  user-select: none;
+  line-height 44px;
+  text-align center;
+  color var(--tonic-medium);
+  display block;
+}
+
+.tonic--dialog > main {
+  padding 0 30px 10px;
+  position relative;
+  text-align center;
+}
+
+.tonic--dialog > footer {
+  user-select: none;
+  text-align center;
+  background-color var(--tonic-window);
+  padding 16px;
+  text-align center;
+  width 100%;
+  display block;
+}
 ```
 
 ## Api

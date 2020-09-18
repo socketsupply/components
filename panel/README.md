@@ -6,11 +6,11 @@ your own panel class which can be registered and then used as a tag.
 
 ## Demo
 
-<tonic-panel
+<example-panel
   id="content-panel-example"
   width="50%"
   overlay="true">
-</tonic-panel>
+</example-panel>
 
 <div class="example">
   <div class="header">Example</div>

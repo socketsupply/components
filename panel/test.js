@@ -16,13 +16,15 @@ class ExamplePanel extends Panel {
 
   render () {
     return this.html`
-      <div class="tonic--header">Panel Example</div>
-      <div class="tonic--main">
+      <header>Panel Example</header>
+
+      <main>
         <h3>${this.props.title || 'Hello'}
-      </div>
-      <div class="tonic--footer">
+      </main>
+
+      <footer>
         <tonic-button value="close">Close</tonic-button>
-      </div>
+      </footer>
     `
   }
 }
@@ -208,35 +210,27 @@ panelThemeDarkButton.addEventListener('click', e => panelThemeDark.show())
 
 tape('opening a panel', async t => {
   const container = qs('#example-panel-default')
-  const wrapper = qs('.tonic--wrapper', container)
-  const overlay = qs('.tonic--overlay', wrapper)
-  const inner = qs('.tonic--panel--inner', wrapper)
-  const contentContainer = qs('.tonic--dialog--content-container', inner)
-  const main = qs('.tonic--main', contentContainer)
+  const overlay = qs('.tonic--overlay')
+  const main = qs('main', container)
   const h3 = qs('h3', main)
 
   t.ok(container)
-  t.ok(wrapper)
   t.ok(overlay)
-  t.ok(inner)
   t.ok(main)
   t.ok(h3)
 
   t.equal(h3.textContent.trim(), 'Hello')
 
-  const styles1 = window.getComputedStyle(inner)
-  t.equal(styles1.visibility, 'hidden')
+  t.ok(container.hasAttribute('hidden'))
 
   await container.show()
 
-  const styles2 = window.getComputedStyle(inner)
-  t.equal(styles2.visibility, 'visible')
+  t.ok(!container.hasAttribute('hidden'))
 
   await sleep(128)
   await container.hide()
 
-  const styles3 = window.getComputedStyle(inner)
-  t.equal(styles3.visibility, 'hidden')
+  t.ok(container.hasAttribute('hidden'))
 
   t.end()
 })

@@ -7887,9 +7887,18 @@ class Dialog extends Tonic {
     return new Promise(resolve => {
       this.style.width = this.props.width
       this.style.height = this.props.height
-      this.addEventListener('animationend', resolve, { once: true })
+
+      let ended = false
+      this.addEventListener('animationend', () => {
+        ended = true
+        resolve()
+      }, { once: true })
+
+      setTimeout(() => !ended && resolve(), 512)
+
       this.classList.remove('tonic--hide')
       this.classList.add('tonic--show')
+      this.removeAttribute('hidden')
 
       this._escapeHandler = e => {
         if (e.keyCode === 27) this.hide()
@@ -7905,12 +7914,22 @@ class Dialog extends Tonic {
     overlay.style.zIndex = -1
     const that = this
 
+    this.setAttribute('hidden', true)
+
     return new Promise(resolve => {
-      this.addEventListener('animationend', resolve, { once: true })
-      this.classList.remove('tonic--show')
-      this.classList.add('tonic--hide')
       this.style.zIndex = -1
       document.removeEventListener('keyup', that._escapeHandler)
+
+      let ended = false
+      this.addEventListener('animationend', () => {
+        ended = true
+        resolve()
+      }, { once: true })
+
+      setTimeout(() => !ended && resolve(), 512)
+
+      this.classList.remove('tonic--show')
+      this.classList.add('tonic--hide')
     })
   }
 
@@ -8034,29 +8053,28 @@ const { qs } = require('qs')
 tape('{{dialog-1}} is constructed properly, opens and closes properly', async t => {
   const container = qs('#dialog-1')
   const component = qs('example-dialog', container)
-  const wrapper = qs('.tonic--dialog--wrapper', component)
-  const close = qs('.tonic--close', component)
-  const isShowingInitialState = wrapper.classList.contains('tonic--show')
+  const isShowingInitialState = component.classList.contains('tonic--show')
 
-  t.plan(7)
+  t.plan(6)
 
   t.equal(isShowingInitialState, false, 'the element has no show class')
-  t.ok(wrapper, 'the component contains the wrapper')
-  t.ok(close, 'the component contains the close button')
   t.ok(component.hasAttribute('id'), 'the component has an id')
 
-  const styles = window.getComputedStyle(wrapper)
+  const styles = window.getComputedStyle(component)
   t.equal(styles.position, 'fixed')
 
   await component.show()
 
-  const isShowingAfterOpen = wrapper.classList.contains('tonic--show')
+  const close = qs('.tonic--close', component)
+  t.ok(close, 'the component contains the close button')
+
+  const isShowingAfterOpen = component.classList.contains('tonic--show')
   t.equal(isShowingAfterOpen, true, 'the element has been opened, has show class')
 
   await sleep(128)
   await component.hide()
 
-  const isShowing = wrapper.classList.contains('tonic--show')
+  const isShowing = component.classList.contains('tonic--show')
   t.equal(isShowing, false, 'the element has been closed, has no show class')
 
   t.end()
@@ -33616,13 +33634,15 @@ class ExamplePanel extends Panel {
 
   render () {
     return this.html`
-      <div class="tonic--header">Panel Example</div>
-      <div class="tonic--main">
+      <header>Panel Example</header>
+
+      <main>
         <h3>${this.props.title || 'Hello'}
-      </div>
-      <div class="tonic--footer">
+      </main>
+
+      <footer>
         <tonic-button value="close">Close</tonic-button>
-      </div>
+      </footer>
     `
   }
 }
@@ -33808,35 +33828,27 @@ panelThemeDarkButton.addEventListener('click', e => panelThemeDark.show())
 
 tape('opening a panel', async t => {
   const container = qs('#example-panel-default')
-  const wrapper = qs('.tonic--wrapper', container)
-  const overlay = qs('.tonic--overlay', wrapper)
-  const inner = qs('.tonic--panel--inner', wrapper)
-  const contentContainer = qs('.tonic--dialog--content-container', inner)
-  const main = qs('.tonic--main', contentContainer)
+  const overlay = qs('.tonic--overlay')
+  const main = qs('main', container)
   const h3 = qs('h3', main)
 
   t.ok(container)
-  t.ok(wrapper)
   t.ok(overlay)
-  t.ok(inner)
   t.ok(main)
   t.ok(h3)
 
   t.equal(h3.textContent.trim(), 'Hello')
 
-  const styles1 = window.getComputedStyle(inner)
-  t.equal(styles1.visibility, 'hidden')
+  t.ok(container.hasAttribute('hidden'))
 
   await container.show()
 
-  const styles2 = window.getComputedStyle(inner)
-  t.equal(styles2.visibility, 'visible')
+  t.ok(!container.hasAttribute('hidden'))
 
   await sleep(128)
   await container.hide()
 
-  const styles3 = window.getComputedStyle(inner)
-  t.equal(styles3.visibility, 'hidden')
+  t.ok(container.hasAttribute('hidden'))
 
   t.end()
 })

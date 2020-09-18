@@ -160,9 +160,18 @@ class Dialog extends Tonic {
     return new Promise(resolve => {
       this.style.width = this.props.width
       this.style.height = this.props.height
-      this.addEventListener('animationend', resolve, { once: true })
+
+      let ended = false
+      this.addEventListener('animationend', () => {
+        ended = true
+        resolve()
+      }, { once: true })
+
+      setTimeout(() => !ended && resolve(), 512)
+
       this.classList.remove('tonic--hide')
       this.classList.add('tonic--show')
+      this.removeAttribute('hidden')
 
       this._escapeHandler = e => {
         if (e.keyCode === 27) this.hide()
@@ -178,12 +187,22 @@ class Dialog extends Tonic {
     overlay.style.zIndex = -1
     const that = this
 
+    this.setAttribute('hidden', true)
+
     return new Promise(resolve => {
-      this.addEventListener('animationend', resolve, { once: true })
-      this.classList.remove('tonic--show')
-      this.classList.add('tonic--hide')
       this.style.zIndex = -1
       document.removeEventListener('keyup', that._escapeHandler)
+
+      let ended = false
+      this.addEventListener('animationend', () => {
+        ended = true
+        resolve()
+      }, { once: true })
+
+      setTimeout(() => !ended && resolve(), 512)
+
+      this.classList.remove('tonic--show')
+      this.classList.add('tonic--hide')
     })
   }
 

@@ -878,6 +878,9 @@ your own dialog class which can be registered and then used as a tag.</p>
 <blockquote>
 <p><em><strong>Note:</strong> This component requires the <code>tonic-sprite</code> component.</em></p>
 </blockquote>
+<p>All dialogs have different use cases. Anything could go inside them. So this
+class tries to accomodate a wide range of use cases by being the minimum of
+what is needed to start with.</p>
 <h2>Demo</h2>
 <p><example-dialog
   id="example-dialog"
@@ -934,6 +937,36 @@ Tonic.add(TonicDialog)
 <span class="hljs-keyword">const</span> dialog = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&#x27;example-dialog&#x27;</span>)
 
 link.addEventListener(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> dialog.show())</code></pre>
+<h4>CSS</h4>
+<p>Example styles that a project might set up outside the component&#39;s css.</p>
+<pre><code class="language-css">.tonic--dialog {
+  display: grid;
+  grid-template-rows: 44px 1fr 80px;
+}
+
+.tonic--dialog &gt; header {
+  user-select: none;
+  line-height 44px;
+  text-align center;
+  color var(--tonic-medium);
+  display block;
+}
+
+.tonic--dialog &gt; main {
+  padding 0 30px 10px;
+  position relative;
+  text-align center;
+}
+
+.tonic--dialog &gt; footer {
+  user-select: none;
+  text-align center;
+  background-color var(--tonic-window);
+  padding 16px;
+  text-align center;
+  width 100%;
+  display block;
+}</code></pre>
 <h2>Api</h2>
 <h3>Properties</h3>
 <table>
@@ -1449,7 +1482,7 @@ your own panel class which can be registered and then used as a tag.</p>
 <h2>Demo</h2>
 <p><tonic-panel
   id="content-panel-example"
-  width="75%"
+  width="50%"
   overlay="true">
 </tonic-panel></p>
 <div class="example">
@@ -1495,7 +1528,7 @@ your own panel class which can be registered and then used as a tag.</p>
 <tr>
 <td align="left"><code>position</code></td>
 <td align="left"><em>string</em></td>
-<td align="left">Changes the position of the panel.</td>
+<td align="left">Changes the position of the panel (<code>left</code> or <code>right</code>).</td>
 <td align="left"><code>right</code></td>
 </tr>
 <tr>

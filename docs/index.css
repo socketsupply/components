@@ -76,7 +76,7 @@ tonic-panel .tonic--header {
   height: 90px;
 }
 tonic-panel .tonic--main {
-  padding: 20px;
+  padding: 40px 20px;
   position: absolute;
   top: 90px;
   left: 0;

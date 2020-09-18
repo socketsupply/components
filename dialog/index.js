@@ -5,6 +5,7 @@ class Dialog extends Tonic {
     super()
 
     this.classList.add('tonic--dialog')
+    this.setAttribute('hidden', true)
 
     if (!document.querySelector('.tonic--dialog--overlay')) {
       const div = document.createElement('div')

@@ -23567,10 +23567,15 @@ class TonicPanel extends TonicDialog {
   }
 
   stylesheet () {
-    const {
+    let {
       width,
+      mobileWidth,
       position
     } = this.props
+
+    if (document.body.clientWidth < 500) {
+      width = mobileWidth
+    }
 
     const range = [0, width]
 
@@ -23641,7 +23646,7 @@ class ReadWikipedia extends Tonic {
 
   async click (e) {
     if (e.target.value === 'close') {
-      return this.hide()
+      return this.parentElement.hide()
     }
 
     if (e.target.value === 'get') {

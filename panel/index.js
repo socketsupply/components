@@ -15,10 +15,15 @@ class TonicPanel extends TonicDialog {
   }
 
   stylesheet () {
-    const {
+    let {
       width,
+      widthMobile,
       position
     } = this.props
+
+    if (document.body.clientWidth < 500) {
+      width = widthMobile
+    }
 
     const range = [0, width]
 

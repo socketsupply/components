@@ -1,6 +1,6 @@
 const Tonic = require('@optoolco/tonic')
 
-class Dialog extends Tonic {
+class TonicDialog extends Tonic {
   constructor () {
     super()
 
@@ -16,7 +16,6 @@ class Dialog extends Tonic {
 
     this.closeIcon = document.createElement('div')
     this.closeIcon.className = 'tonic--close'
-    this.closeIcon.addEventListener('click', () => this.hide())
 
     const svgns = 'http://www.w3.org/2000/svg'
     const xlinkns = 'http://www.w3.org/1999/xlink'
@@ -51,15 +50,9 @@ class Dialog extends Tonic {
       )
   }
 
-  updated () {
-    window.requestAnimationFrame(() => {
-      this.appendChild(this.closeIcon)
-    })
-  }
-
   static stylesheet () {
     return `
-      .tonic--dialog {
+      tonic-dialog {
         box-shadow: 0px 6px 15px 3px rgba(0, 0, 0, 0.2);
         background: var(--tonic-window);
         border-radius: 6px;
@@ -74,22 +67,34 @@ class Dialog extends Tonic {
         will-change: transform;
       }
 
-      .tonic--dialog.tonic--show {
+      tonic-dialog.tonic--show {
         transform: translate(-50%, -50%) scale(1);
         opacity: 1;
         animation-duration: .25s;
         animation-name: tonic--dialog--show;
         transition-timing-function: ease;
-        animation-delay: 0s;
       }
 
-      .tonic--dialog.tonic--hide {
+      tonic-dialog.tonic--hide {
         transform: translate(-50%, -50%) scale(1.22);
         opacity: 0;
-        animation-duration: .1s;
+        animation-duration: .2s;
         animation-name: tonic--dialog--hide;
         transition-timing-function: ease;
-        animation-delay: 0s;
+      }
+
+      tonic-dialog > .tonic--close {
+        width: 25px;
+        height: 25px;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+      }
+
+      tonic-dialog > .tonic--close svg {
+        width: inherit;
+        height: inherit;
       }
 
       @keyframes tonic--dialog--show {
@@ -131,48 +136,33 @@ class Dialog extends Tonic {
       .tonic--dialog--overlay.tonic--show {
         opacity: 1;
       }
-
-      .tonic--dialog > .tonic--close {
-        width: 25px;
-        height: 25px;
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        cursor: pointer;
-      }
-
-      .tonic--dialog > .tonic--close svg {
-        width: inherit;
-        height: inherit;
-      }
     `
   }
 
   show () {
     const z = this._getZIndex()
+    this.appendChild(this.closeIcon)
+    this.removeAttribute('hidden')
 
     const overlay = document.querySelector('.tonic--dialog--overlay')
     overlay.classList.add('tonic--show')
     this.style.zIndex = z + 100
     overlay.style.zIndex = z
 
-    this.appendChild(this.closeIcon)
-
     return new Promise(resolve => {
       this.style.width = this.props.width
       this.style.height = this.props.height
 
-      let ended = false
-      this.addEventListener('animationend', () => {
-        ended = true
+      const done = () => {
+        clearTimeout(timer)
         resolve()
-      }, { once: true })
+      }
 
-      setTimeout(() => !ended && resolve(), 512)
+      const timer = setTimeout(done, 512)
+      this.addEventListener('animationend', done, { once: true })
 
       this.classList.remove('tonic--hide')
       this.classList.add('tonic--show')
-      this.removeAttribute('hidden')
 
       this._escapeHandler = e => {
         if (e.keyCode === 27) this.hide()
@@ -186,21 +176,19 @@ class Dialog extends Tonic {
     const overlay = document.querySelector('.tonic--dialog--overlay')
     overlay.classList.remove('tonic--show')
     overlay.style.zIndex = -1
-    const that = this
-
-    this.setAttribute('hidden', true)
 
     return new Promise(resolve => {
       this.style.zIndex = -1
-      document.removeEventListener('keyup', that._escapeHandler)
+      document.removeEventListener('keyup', this._escapeHandler)
 
-      let ended = false
-      this.addEventListener('animationend', () => {
-        ended = true
+      const done = () => {
+        clearTimeout(timer)
+        this.setAttribute('hidden', true)
         resolve()
-      }, { once: true })
+      }
 
-      setTimeout(() => !ended && resolve(), 512)
+      const timer = setTimeout(done, 512)
+      this.addEventListener('animationend', done, { once: true })
 
       this.classList.remove('tonic--show')
       this.classList.add('tonic--hide')
@@ -228,6 +216,22 @@ class Dialog extends Tonic {
       }
     }
   }
+
+  click (e) {
+    if (Tonic.match(e.target, '.tonic--close')) {
+      this.hide()
+    }
+  }
+
+  updated () {
+    this.appendChild(this.closeIcon)
+  }
+
+  render () {
+    return this.html`
+      ${this.children}
+    `
+  }
 }
 
-module.exports = { Dialog }
+module.exports = { TonicDialog }

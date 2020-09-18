@@ -873,21 +873,21 @@ label. You can also create a custom checkbox using SVG icons.</p>
     </div>
   
       <h1 id="dialog">Dialog</h1>
-<p>A <code>Dialog</code> is not a component, it is a base class. You can extend it to create
-your own dialog class which can be registered and then used as a tag.</p>
-<blockquote>
-<p><em><strong>Note:</strong> This component requires the <code>tonic-sprite</code> component.</em></p>
-</blockquote>
 <p>All dialogs have different use cases. Anything could go inside them. So this
 class tries to accomodate a wide range of use cases by being the minimum of
 what is needed to start with.</p>
+<blockquote>
+<p><em><strong>Note:</strong> This component requires the <code>tonic-sprite</code> component.</em></p>
+</blockquote>
 <h2>Demo</h2>
-<p><example-dialog
+<p><tonic-dialog
   id="example-dialog"
-  message="Click update for timestamp"
   width="350px"
   height="260px">
-</example-dialog></p>
+  <show-random
+    id="show-random">
+  </show-random>
+</tonic-dialog></p>
 <div class="example">
   <div class="header">Example</div>
   <div class="content">
@@ -900,7 +900,9 @@ what is needed to start with.</p>
 
 <h2>Code</h2>
 <h4>HTML</h4>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">example-dialog</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;example-dialog&quot;</span> <span class="hljs-attr">message</span>=<span class="hljs-string">&quot;Click update for timestamp&quot;</span>&gt;</span>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">example-dialog</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">my-component</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">my-component</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">example-dialog</span>&gt;</span></code></pre>
 <h4>JS</h4>
 <pre><code class="language-js"><span class="hljs-keyword">const</span> { Dialog } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;@optoolco/components/dialog&#x27;</span>)
@@ -985,12 +987,6 @@ link.addEventListener(<span class="hljs-string">&#x27;click&#x27;</span>, <span 
 <td align="left"></td>
 </tr>
 <tr>
-<td align="left"><code>name</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Adds a <code>name</code> attribute.</td>
-<td align="left"></td>
-</tr>
-<tr>
 <td align="left"><code>width</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">Sets the width of the dialog.</td>
@@ -1001,30 +997,6 @@ link.addEventListener(<span class="hljs-string">&#x27;click&#x27;</span>, <span 
 <td align="left"><em>string</em></td>
 <td align="left">Sets the height of the dialog.</td>
 <td align="left"></td>
-</tr>
-<tr>
-<td align="left"><code>overlay</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Adds a background overlay.</td>
-<td align="left"><code>true</code></td>
-</tr>
-<tr>
-<td align="left"><code>prevent-overlay-click</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Prevents overlay click from closing dialog.</td>
-<td align="left"><code>false</code></td>
-</tr>
-<tr>
-<td align="left"><code>background-color</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Sets the background color of the overlay.</td>
-<td align="left"><code>rgba(0,0,0,0.5)</code></td>
-</tr>
-<tr>
-<td align="left"><code>theme</code></td>
-<td align="left"><em>string</em></td>
-<td align="left">Adds a theme color (<code>light</code>, <code>dark</code> or whatever is defined in your base CSS.</td>
-<td align="left"><code>light</code></td>
 </tr>
 </tbody></table>
 <h3>Instance Methods &amp; Members</h3>
@@ -1042,10 +1014,6 @@ link.addEventListener(<span class="hljs-string">&#x27;click&#x27;</span>, <span 
 <tr>
 <td align="left"><code>hide()</code></td>
 <td align="left">Hides the dialog. Returns a promise that can be awaited while the animation finishes.</td>
-</tr>
-<tr>
-<td align="left"><code>click()</code></td>
-<td align="left">Click event.</td>
 </tr>
 </tbody></table>
 

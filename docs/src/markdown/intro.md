@@ -23,9 +23,9 @@
     </div>
     <div class="col">
       <ul>
-        <li>Built to last</li>
+        <li>Boring</li>
         <li>Composition oriented</li>
-        <li>Pretty much plain old html</li>
+        <li>Event delegation by default</li>
       </ul>
     </div>
   </div>

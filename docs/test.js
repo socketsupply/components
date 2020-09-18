@@ -7732,6 +7732,7 @@ class Dialog extends Tonic {
     super()
 
     this.classList.add('tonic--dialog')
+    this.setAttribute('hidden', true)
 
     if (!document.querySelector('.tonic--dialog--overlay')) {
       const div = document.createElement('div')
@@ -33843,21 +33844,14 @@ tape('opening a panel', async t => {
 
   await container.show()
 
-  t.ok(!container.hasAttribute('hidden'))
+  t.equal(container.hasAttribute('hidden'), false, 'is not hidden')
 
-  await sleep(128)
   await container.hide()
 
   t.ok(container.hasAttribute('hidden'))
 
   t.end()
 })
-
-function sleep (n) {
-  return new Promise(resolve => {
-    setTimeout(resolve, n)
-  })
-}
 
 },{"..":46,"../test/util":115,"./index":95,"@optoolco/tonic":50,"@pre-bundled/tape":52,"qs":94}],97:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')

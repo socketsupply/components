@@ -57,7 +57,7 @@ tape('opening popover', async t => {
   t.equal(styles.visibility, 'hidden')
 
   button.querySelector('button').click()
-  await sleep(128)
+  await sleep(512)
 
   const styles2 = window.getComputedStyle(divs[0])
   t.equal(styles2.visibility, 'visible')

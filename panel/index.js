@@ -1,6 +1,6 @@
-const { Dialog } = require('../dialog')
+const { TonicDialog } = require('../dialog')
 
-class Panel extends Dialog {
+class Panel extends TonicDialog {
   constructor () {
     super()
 

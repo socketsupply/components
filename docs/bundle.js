@@ -1183,7 +1183,7 @@ module.exports = { TonicCheckbox }
 },{}],12:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
-class Dialog extends Tonic {
+class TonicDialog extends Tonic {
   constructor () {
     super()
 
@@ -1199,7 +1199,6 @@ class Dialog extends Tonic {
 
     this.closeIcon = document.createElement('div')
     this.closeIcon.className = 'tonic--close'
-    this.closeIcon.addEventListener('click', () => this.hide())
 
     const svgns = 'http://www.w3.org/2000/svg'
     const xlinkns = 'http://www.w3.org/1999/xlink'
@@ -1234,15 +1233,9 @@ class Dialog extends Tonic {
       )
   }
 
-  updated () {
-    window.requestAnimationFrame(() => {
-      this.appendChild(this.closeIcon)
-    })
-  }
-
   static stylesheet () {
     return `
-      .tonic--dialog {
+      tonic-dialog {
         box-shadow: 0px 6px 15px 3px rgba(0, 0, 0, 0.2);
         background: var(--tonic-window);
         border-radius: 6px;
@@ -1257,22 +1250,34 @@ class Dialog extends Tonic {
         will-change: transform;
       }
 
-      .tonic--dialog.tonic--show {
+      tonic-dialog.tonic--show {
         transform: translate(-50%, -50%) scale(1);
         opacity: 1;
         animation-duration: .25s;
         animation-name: tonic--dialog--show;
         transition-timing-function: ease;
-        animation-delay: 0s;
       }
 
-      .tonic--dialog.tonic--hide {
+      tonic-dialog.tonic--hide {
         transform: translate(-50%, -50%) scale(1.22);
         opacity: 0;
-        animation-duration: .1s;
+        animation-duration: .2s;
         animation-name: tonic--dialog--hide;
         transition-timing-function: ease;
-        animation-delay: 0s;
+      }
+
+      tonic-dialog > .tonic--close {
+        width: 25px;
+        height: 25px;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+      }
+
+      tonic-dialog > .tonic--close svg {
+        width: inherit;
+        height: inherit;
       }
 
       @keyframes tonic--dialog--show {
@@ -1314,48 +1319,33 @@ class Dialog extends Tonic {
       .tonic--dialog--overlay.tonic--show {
         opacity: 1;
       }
-
-      .tonic--dialog > .tonic--close {
-        width: 25px;
-        height: 25px;
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        cursor: pointer;
-      }
-
-      .tonic--dialog > .tonic--close svg {
-        width: inherit;
-        height: inherit;
-      }
     `
   }
 
   show () {
     const z = this._getZIndex()
+    this.appendChild(this.closeIcon)
+    this.removeAttribute('hidden')
 
     const overlay = document.querySelector('.tonic--dialog--overlay')
     overlay.classList.add('tonic--show')
     this.style.zIndex = z + 100
     overlay.style.zIndex = z
 
-    this.appendChild(this.closeIcon)
-
     return new Promise(resolve => {
       this.style.width = this.props.width
       this.style.height = this.props.height
 
-      let ended = false
-      this.addEventListener('animationend', () => {
-        ended = true
+      const done = () => {
+        clearTimeout(timer)
         resolve()
-      }, { once: true })
+      }
 
-      setTimeout(() => !ended && resolve(), 512)
+      const timer = setTimeout(done, 512)
+      this.addEventListener('animationend', done, { once: true })
 
       this.classList.remove('tonic--hide')
       this.classList.add('tonic--show')
-      this.removeAttribute('hidden')
 
       this._escapeHandler = e => {
         if (e.keyCode === 27) this.hide()
@@ -1369,21 +1359,19 @@ class Dialog extends Tonic {
     const overlay = document.querySelector('.tonic--dialog--overlay')
     overlay.classList.remove('tonic--show')
     overlay.style.zIndex = -1
-    const that = this
-
-    this.setAttribute('hidden', true)
 
     return new Promise(resolve => {
       this.style.zIndex = -1
-      document.removeEventListener('keyup', that._escapeHandler)
+      document.removeEventListener('keyup', this._escapeHandler)
 
-      let ended = false
-      this.addEventListener('animationend', () => {
-        ended = true
+      const done = () => {
+        clearTimeout(timer)
+        this.setAttribute('hidden', true)
         resolve()
-      }, { once: true })
+      }
 
-      setTimeout(() => !ended && resolve(), 512)
+      const timer = setTimeout(done, 512)
+      this.addEventListener('animationend', done, { once: true })
 
       this.classList.remove('tonic--show')
       this.classList.add('tonic--hide')
@@ -1411,52 +1399,53 @@ class Dialog extends Tonic {
       }
     }
   }
+
+  click (e) {
+    if (Tonic.match(e.target, '.tonic--close')) {
+      this.hide()
+    }
+  }
+
+  updated () {
+    this.appendChild(this.closeIcon)
+  }
+
+  render () {
+    return this.html`
+      ${this.children}
+    `
+  }
 }
 
-module.exports = { Dialog }
+module.exports = { TonicDialog }
 
 },{"@optoolco/tonic":23}],13:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
-const { Dialog } = require('./index')
 
-class ExampleDialog extends Dialog {
+class ShowRandom extends Tonic {
   async click (e) {
-    if (Tonic.match(e.target, 'tonic-button')) {
-      this.state.message = String(Date.now())
+    if (Tonic.match(e.target, '#update')) {
+      this.state.message = String(Math.random())
       this.reRender()
     }
   }
 
-  body () {
+  render () {
     return this.html`
       <header>Dialog</header>
+
       <main>
         ${this.state.message || 'Ready'}
       </main>
+
       <footer>
         <tonic-button id="update">Update</tonic-button>
       </footer>
     `
   }
-
-  loading () {
-    this.state.loaded = true
-
-    return this.html`
-      <h3>Loading...</h3>
-    `
-  }
-
-  async * render () {
-    if (!this.state.loaded) {
-      yield this.loading()
-    }
-
-    return this.body()
-  }
 }
 
-Tonic.add(ExampleDialog)
+Tonic.add(ShowRandom)
 
 const link = document.getElementById('example-dialog-link')
 const dialog = document.getElementById('example-dialog')
@@ -1466,7 +1455,7 @@ link.addEventListener('click', async e => {
   await dialog.show()
 })
 
-},{"./index":12,"@optoolco/tonic":23}],14:[function(require,module,exports){
+},{"@optoolco/tonic":23}],14:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 const scrollToY = require('scrolltoy')
 const { qs, qsa } = require('qs')
@@ -1757,6 +1746,7 @@ const { TonicBadge } = require('./badge')
 const { TonicButton } = require('./button')
 const { TonicChart } = require('./chart')
 const { TonicCheckbox } = require('./checkbox')
+const { TonicDialog } = require('./dialog')
 const { TonicForm } = require('./form')
 const { TonicIcon } = require('./icon')
 const { TonicInput } = require('./input')
@@ -1790,6 +1780,7 @@ function components (Tonic, opts) {
   Tonic.add(TonicButton)
   Tonic.add(TonicChart)
   Tonic.add(TonicCheckbox)
+  Tonic.add(TonicDialog)
   Tonic.add(TonicForm)
   Tonic.add(TonicInput)
   Tonic.add(TonicIcon)
@@ -1812,7 +1803,7 @@ function components (Tonic, opts) {
   Tonic.add(TonicToggle)
 }
 
-},{"./accordion":3,"./badge":4,"./button":6,"./chart":8,"./checkbox":10,"./form":16,"./icon":17,"./input":20,"./loader":22,"./popover":32,"./profile-image":34,"./progress-bar":36,"./range":38,"./relative-time":40,"./router":41,"./select":43,"./sprite":45,"./tabs":46,"./textarea":48,"./toaster":52,"./toaster-inline":50,"./toggle":54,"./tooltip":56,"@optoolco/tonic":23}],20:[function(require,module,exports){
+},{"./accordion":3,"./badge":4,"./button":6,"./chart":8,"./checkbox":10,"./dialog":12,"./form":16,"./icon":17,"./input":20,"./loader":22,"./popover":32,"./profile-image":34,"./progress-bar":36,"./range":38,"./relative-time":40,"./router":41,"./select":43,"./sprite":45,"./tabs":46,"./textarea":48,"./toaster":52,"./toaster-inline":50,"./toggle":54,"./tooltip":56,"@optoolco/tonic":23}],20:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicInput extends Tonic {
@@ -23557,9 +23548,9 @@ module.exports = function scrollToY (el, Y, speed) {
 }
 
 },{}],30:[function(require,module,exports){
-const { Dialog } = require('../dialog')
+const { TonicDialog } = require('../dialog')
 
-class Panel extends Dialog {
+class Panel extends TonicDialog {
   constructor () {
     super()
 

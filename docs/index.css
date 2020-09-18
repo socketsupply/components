@@ -32,22 +32,22 @@ tonic-accordion {
 tonic-badge {
   display: inline-block;
 }
-.tonic--dialog {
+show-random {
   display: grid;
   grid-template-rows: 44px 1fr 80px;
 }
-.tonic--dialog > header {
+show-random header {
   line-height: 44px;
   text-align: center;
   color: var(--tonic-medium);
   display: block;
 }
-.tonic--dialog > main {
-  padding: 0 30px 10px;
+show-random main {
+  padding: 30px;
   position: relative;
   text-align: center;
 }
-.tonic--dialog > footer {
+show-random footer {
   text-align: center;
   background-color: var(--tonic-window);
   padding: 16px;

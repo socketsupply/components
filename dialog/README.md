@@ -1,21 +1,20 @@
 # Dialog
-A `Dialog` is not a component, it is a base class. You can extend it to create
-your own dialog class which can be registered and then used as a tag.
-
-> *__Note:__ This component requires the `tonic-sprite` component.*
 
 All dialogs have different use cases. Anything could go inside them. So this
 class tries to accomodate a wide range of use cases by being the minimum of
 what is needed to start with.
 
-## Demo
+> *__Note:__ This component requires the `tonic-sprite` component.*
 
-<example-dialog
+## Demo
+<tonic-dialog
   id="example-dialog"
-  message="Click update for timestamp"
   width="350px"
   height="260px">
-</example-dialog>
+  <show-random
+    id="show-random">
+  </show-random>
+</tonic-dialog>
 
 <div class="example">
   <div class="header">Example</div>
@@ -31,7 +30,9 @@ what is needed to start with.
 
 #### HTML
 ```html
-<example-dialog id="example-dialog" message="Click update for timestamp">
+<example-dialog>
+  <my-component>
+  </my-component>
 </example-dialog>
 ```
 
@@ -115,13 +116,8 @@ Example styles that a project might set up outside the component's css.
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
 | `id` | *string* | Adds an `id` attribute. |  |
-| `name` | *string* | Adds a `name` attribute. |  |
 | `width` | *string* | Sets the width of the dialog. |  |
 | `height` | *string* | Sets the height of the dialog. |  |
-| `overlay` | *string* | Adds a background overlay. | `true` |
-| `prevent-overlay-click` | *string* | Prevents overlay click from closing dialog. | `false` |
-| `background-color` | *string* | Sets the background color of the overlay. | `rgba(0,0,0,0.5)` |
-| `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
 
 ### Instance Methods & Members
 
@@ -129,4 +125,3 @@ Example styles that a project might set up outside the component's css.
 | :--- | :--- |
 | `show()` | Shows the dialog. Returns a promise that can be awaited while the animation finishes. |
 | `hide()` | Hides the dialog. Returns a promise that can be awaited while the animation finishes. |
-| `click()` | Click event. |

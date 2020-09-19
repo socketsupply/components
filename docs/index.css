@@ -700,28 +700,23 @@ body .mobile-nav {
     display: block;
   }
 }
-body .mobile-nav,
-body .github {
+body .mobile-nav {
   font: 13px var(--tonic-subheader);
   text-transform: uppercase;
   letter-spacing: 1px;
   margin-bottom: 50px;
   padding: 0;
 }
-body .mobile-nav a,
-body .github a {
+body .mobile-nav a {
   display: inline-block;
   margin-right: 17px;
   padding: 0px 0px 5px 0px;
 }
-body .mobile-nav a:first-of-type,
-body .github a:first-of-type {
+body .mobile-nav a:first-of-type {
   margin-right: 15px;
 }
 body .mobile-nav a.active,
-body .github a.active,
-body .mobile-nav a:hover,
-body .github a:hover {
+body .mobile-nav a:hover {
   border-bottom-color: var(--tonic-primary);
 }
 body .mobile-nav a {
@@ -763,20 +758,12 @@ body[data-page="docs"] section#intro .tonic-icon svg use {
   fill: var(--tonic-primary);
   color: var(--tonic-primary);
 }
-body[data-page="docs"] section#intro .github {
+body[data-page="docs"] section#intro .theme {
   position: absolute;
   top: -2px;
   right: 10px;
   color: var(--tonic-info);
   margin-top: 40px;
-}
-@media (max-width: 840px) {
-  body[data-page="docs"] section#intro .github {
-    top: -13px;
-  }
-}
-body[data-page="docs"] section#intro .github img {
-  vertical-align: middle;
 }
 body[data-page="docs"] section#intro .status {
   width: 210px;

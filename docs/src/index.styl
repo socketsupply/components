@@ -448,7 +448,7 @@ body
     @media (max-width: 850px)
       display block
 
-  .mobile-nav, .github
+  .mobile-nav
     font 13px var(--tonic-subheader)
     text-transform uppercase
     letter-spacing 1px
@@ -459,12 +459,14 @@ body
       display inline-block
       margin-right 17px
       padding 0px 0px 5px 0px
-      border-bottom 2px solid var(--tonic-border)
       &:first-of-type
         margin-right 15px
       &.active,
       &:hover
         border-bottom-color var(--tonic-primary)
+
+  .mobile-nav a
+    border-bottom 2px solid var(--tonic-border)
 
   .component-github-link
     position absolute
@@ -499,18 +501,12 @@ body
           fill var(--tonic-primary)
           color var(--tonic-primary)
 
-    .github
+    .theme
       position absolute
       top -2px
-      right 35px
+      right 10px
       color var(--tonic-info)
       margin-top 40px
-
-      @media (max-width 840px)
-        top -13px
-
-      img
-        vertical-align middle
 
     .status
       width 210px

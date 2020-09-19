@@ -713,7 +713,6 @@ body .github a {
   display: inline-block;
   margin-right: 17px;
   padding: 0px 0px 5px 0px;
-  border-bottom: 2px solid var(--tonic-border);
 }
 body .mobile-nav a:first-of-type,
 body .github a:first-of-type {
@@ -724,6 +723,9 @@ body .github a.active,
 body .mobile-nav a:hover,
 body .github a:hover {
   border-bottom-color: var(--tonic-primary);
+}
+body .mobile-nav a {
+  border-bottom: 2px solid var(--tonic-border);
 }
 body .component-github-link {
   position: absolute;
@@ -764,7 +766,7 @@ body[data-page="docs"] section#intro .tonic-icon svg use {
 body[data-page="docs"] section#intro .github {
   position: absolute;
   top: -2px;
-  right: 35px;
+  right: 10px;
   color: var(--tonic-info);
   margin-top: 40px;
 }

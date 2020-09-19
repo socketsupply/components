@@ -39,10 +39,6 @@ class TonicTextarea extends Tonic {
         appearance: none;
       }
 
-      tonic-textarea textarea:focus {
-        border: 1px solid var(--tonic-primary, #333);
-      }
-
       tonic-textarea textarea:invalid {
         border-color: var(--tonic-danger, #f66);
       }

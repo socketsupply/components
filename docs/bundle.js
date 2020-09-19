@@ -1933,10 +1933,6 @@ class TonicInput extends Tonic {
         transition: opacity 0.2s ease, transform 0.2s ease, visibility 1s ease 0s;
       }
 
-      tonic-input input:focus {
-        border-color: var(--tonic-primary, #333);
-      }
-
       tonic-input input[disabled] {
         background-color: var(--tonic-background, #fff);
       }
@@ -25844,10 +25840,6 @@ class TonicTextarea extends Tonic {
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
-      }
-
-      tonic-textarea textarea:focus {
-        border: 1px solid var(--tonic-primary, #333);
       }
 
       tonic-textarea textarea:invalid {

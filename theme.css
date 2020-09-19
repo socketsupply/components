@@ -13,7 +13,7 @@ body, *[theme="light"] {
   --tonic-medium: rgba(153, 157, 160, 1);
   --tonic-accent: rgba(56, 185, 255, 1);
   --tonic-button: rgba(54, 57, 61, 1);
-  --tonic-border: rgba(232, 232, 228, 1);
+  --tonic-border: rgba(212 212 208, 1);
   --tonic-background: rgba(247, 247, 245, 1);
   --tonic-error: rgba(240, 102, 83, 1);
   --tonic-notification: rgba(240, 102, 83, 1);

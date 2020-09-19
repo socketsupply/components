@@ -45,7 +45,7 @@ class TonicTextarea extends Tonic {
 
       tonic-textarea textarea:focus {
         outline: none;
-        background-color: var(--tonic-input-background);
+        background-color: var(--tonic-input-focus);
       }
 
       tonic-textarea textarea[disabled] {

@@ -33,10 +33,7 @@ The `popover` component creates a popover activated by a click event. It is posi
 </style>
 
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <div id="popover-example-trigger">+</div>
-  </div>
+  <div id="popover-example-trigger">+</div>
 </div>
 
 ## Code

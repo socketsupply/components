@@ -7,14 +7,11 @@ screen either for a duration or until the user acknowledges it.
 ## Demo
 
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-button
-      id="toaster-link-1"
-      value="notify">
-      Notify Me
-    </tonic-button>
-  </div>
+  <tonic-button
+    id="toaster-link-1"
+    value="notify">
+    Notify Me
+  </tonic-button>
 </div>
 
 <div>

@@ -5,14 +5,11 @@ The `Toggle` component creates a toggle.
 ## Demo
 
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-toggle
-      id="toggle-example"
-      checked="true"
-      label="Change">
-    </tonic-toggle>
-  </div>
+  <tonic-toggle
+    id="toggle-example"
+    checked="true"
+    label="Change">
+  </tonic-toggle>
 </div>
 
 ## Code

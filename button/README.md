@@ -1,17 +1,14 @@
 # Button
 
-The `Button` component creates a button.
+A `Button` component with a built-in loading state.
 
 ## Demo
 
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-button
-      async="true"
-      id="tonic-button-example"
-      value="click-me">Click me</tonic-button>
-  </div>
+  <tonic-button
+    async="true"
+    id="tonic-button-example"
+    value="click-me">Click me</tonic-button>
 </div>
 
 ## Code
@@ -23,11 +20,6 @@ The `Button` component creates a button.
   id="tonic-button-example"
   value="click-me">Click me
 </tonic-button>
-```
-
-#### JS
-```js
-%js%
 ```
 
 ## Api

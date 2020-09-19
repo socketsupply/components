@@ -2,19 +2,30 @@ body {
   --tonic-body: 'Inter', sans-serif;
   --tonic-header: 'Inter-Black', sans-serif;
   --tonic-subheader: 'Inter-Medium', sans-serif;
-  --tonic-monospace: 'IBM Plex Mono', monospace;
+  --tonic-monospace: 'Source Code Pro', monospace;
 }
 
 body, *[theme="light"] {
-  --tonic-window: rgba(255, 255, 255, 1);
-  --tonic-primary: rgba(54, 57, 61, 1);
-  --tonic-disabled: rgba(152, 161, 175, 1);
-  --tonic-secondary: rgba(232, 232, 228, 1);
-  --tonic-medium: rgba(153, 157, 160, 1);
-  --tonic-accent: rgba(56, 185, 255, 1);
-  --tonic-button: rgba(54, 57, 61, 1);
-  --tonic-border: rgba(212 212 208, 1);
   --tonic-background: rgba(247, 247, 245, 1);
+  --tonic-window: rgba(255, 255, 255, 1);
+  --tonic-accent: rgba(56, 185, 255, 1);
+  --tonic-primary: rgba(54, 57, 61, 1);
+  --tonic-secondary: rgba(232, 232, 228, 1);
+  --tonic-light: rgba(153, 157, 160, 1);
+  --tonic-medium: rgba(153, 157, 160, 1);
+  --tonic-dark: rgba(54, 57, 61, 1);
+  --tonic-disabled: rgba(152, 161, 175, 1);
+  --tonic-button-shadow: rgb(0, 0, 0, 33%);
+  --tonic-button-background: rgb(245, 245, 245, 1);
+  --tonic-button-background-focus: rgb(237, 237, 237, 1);
+  --tonic-input-text: rgba(54, 57, 61, 1);
+  --tonic-input-text-hover: rgb(228, 228, 228, 1);
+  --tonic-input-border: rgba(201, 201, 201, 1);
+  --tonic-input-border-hover: rgba(54, 57, 61, 1);
+  --tonic-input-background: rgba(250, 250, 250, 1);
+  --tonic-input-background-hover: rgb(238, 238, 238, 1);
+  --tonic-input-focus: rgba(239, 239, 239, 1);
+  --tonic-border: rgba(201, 201, 201, 1);
   --tonic-error: rgba(240, 102, 83, 1);
   --tonic-notification: rgba(240, 102, 83, 1);
   --tonic-danger: rgba(240, 102, 83, 1);
@@ -25,15 +36,25 @@ body, *[theme="light"] {
 }
 
 *[theme="dark"] {
-  --tonic-window: rgba(45, 47, 49, 1);
+  --tonic-background: rgba(53, 53, 53, 1);
+  --tonic-window: rgba(49, 49, 49, 1);
+  --tonic-accent: rgba(56, 185, 255, 1);
   --tonic-primary: rgba(255, 255, 255, 1);
-  --tonic-disabled: rgba(170, 170, 170, 1);
   --tonic-secondary: rgba(195, 195, 195, 1);
   --tonic-medium: rgba(153, 157, 160, 1);
-  --tonic-accent: rgba(56, 185, 255, 1);
-  --tonic-button: rgba(255, 255, 255, 1);
-  --tonic-border: rgb(107, 107, 107);
-  --tonic-background: rgba(60, 60, 60, 1);
+  --tonic-disabled: rgba(170, 170, 170, 1);
+  --tonic-dark: rgb(41, 41, 41, 1);
+  --tonic-button-shadow: rgb(0, 0, 0, 1);
+  --tonic-button-background: rgb(74, 74, 74, 1);
+  --tonic-button-background-focus: rgb(84, 84, 84, 1);
+  --tonic-input-text: rgba(255, 255, 255, 1);
+  --tonic-input-text-hover: rgba(255, 255, 255, 1);
+  --tonic-input-background: rgba(62, 62, 62, 1);
+  --tonic-input-background-hover: rgb(80, 80, 80, 1);
+  --tonic-input-border: rgba(80, 80, 80, 1);
+  --tonic-input-border-hover: rgba(105, 105, 105, 1);
+  --tonic-input-focus: rgba(31, 31, 31, 1);
+  --tonic-border: rgba(70, 72, 76, 1);
   --tonic-error: rgba(240, 102, 83, 1);
   --tonic-notification: rgba(240, 102, 83, 1);
   --tonic-caution: rgba(240, 102, 83, 1);

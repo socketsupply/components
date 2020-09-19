@@ -5,14 +5,11 @@ The `Range` component creates a range input, or slider.
 ## Demo
 
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-range
-      label="The value is %i%"
-      value="80"
-      id="tonic-range-example">
-    </tonic-range>
-  </div>
+  <tonic-range
+    label="The value is %i%"
+    value="80"
+    id="tonic-range-example">
+  </tonic-range>
 </div>
 
 ## Code

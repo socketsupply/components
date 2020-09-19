@@ -517,8 +517,13 @@ body > main span.req {
   float: right;
 }
 body > main div.example {
+  position: relative;
   width: 100%;
-  border: 1px solid var(--tonic-border);
+  padding-right: 50%;
+  min-height: 50px;
+}
+body > main div.example.full-width {
+  padding-right: 0;
 }
 body > main div.example .header {
   font: 13px/16px var(--tonic-subheader);
@@ -534,6 +539,9 @@ body > main div.example .content {
   padding: 15px;
 }
 @media (max-width: 850px) {
+  body > main div.example {
+    padding-right: 0;
+  }
   body > main div.example ~ h2,
   body > main div.example ~ h3,
   body > main div.example ~ h4,
@@ -588,8 +596,8 @@ body > main pre {
   text-indent: -2px;
   overflow: scroll;
   white-space: pre-line;
-  border-radius: 3px;
-  background-color: var(--tonic-button);
+  border-radius: 2px;
+  background-color: var(--tonic-dark);
 }
 body > main pre code {
   border: 0;
@@ -597,7 +605,7 @@ body > main pre code {
   white-space: pre;
   overflow: scroll;
   background: none;
-  color: var(--tonic-window);
+  color: #fff;
 }
 body > main pre code i {
   color: #999;

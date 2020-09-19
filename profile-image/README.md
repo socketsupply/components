@@ -7,14 +7,11 @@ and color.
 ## Demo
 
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-profile-image
-      id="profile-image-example-editable"
-      size="150px"
-      editable="true">
-    </tonic-profile-image>
-  </div>
+  <tonic-profile-image
+    id="profile-image-example-editable"
+    size="150px"
+    editable="true">
+  </tonic-profile-image>
 </div>
 
 ## Code

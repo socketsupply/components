@@ -63,7 +63,7 @@ class TonicDialog extends Tonic {
         z-index: -1;
         opacity: 0;
         transition: z-index .25s;
-        transform: translate(-50%, -50%) scale(1.22);
+        transform: translate(-50%, -50%) scale(0.88);
         will-change: transform;
       }
 
@@ -76,7 +76,7 @@ class TonicDialog extends Tonic {
       }
 
       .tonic--dialog.tonic--hide {
-        transform: translate(-50%, -50%) scale(1.22);
+        transform: translate(-50%, -50%) scale(0.88);
         opacity: 0;
         animation-duration: .2s;
         animation-name: tonic--dialog--hide;
@@ -99,7 +99,7 @@ class TonicDialog extends Tonic {
 
       @keyframes tonic--dialog--show {
         from {
-          transform: translate(-50%, -50%) scale(1.22);
+          transform: translate(-50%, -50%) scale(0.88);
           opacity: 0;
         }
 

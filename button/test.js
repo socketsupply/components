@@ -112,7 +112,7 @@ tape('has styles', t => {
   const button = qs('button', container)
 
   const styles = window.getComputedStyle(button)
-  t.equal(styles.color, 'rgb(51, 51, 51)')
+  t.equal(styles.color, 'rgb(54, 57, 61)')
 
   t.end()
 })

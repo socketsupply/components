@@ -279,6 +279,7 @@ class TonicAccordion extends Tonic {
       tonic-accordion {
         display: block;
         border: 1px solid var(--tonic-border, black);
+        border-radius: 2px;
       }
     `
   }
@@ -411,6 +412,8 @@ class TonicAccordionSection extends Tonic {
         padding: 20px;
         position: relative;
         background: transparent;
+        color: var(--tonic-primary);
+        font-weight: bold;
         border: 0;
         -webkit-appearance: none;
         -moz-appearance: none;
@@ -538,6 +541,7 @@ class TonicBadge extends Tonic {
         padding: 10px;
         position: relative;
         background-color: var(--tonic-background, #fff);
+        border: 1px solid var(--tonic-input-border, transparent);
         border-radius: 8px;
       }
 
@@ -646,7 +650,7 @@ class TonicButton extends Tonic {
       autofocus: 'false',
       async: false,
       radius: '2px',
-      borderWidth: '1px',
+      borderWidth: '0px',
       textColorDisabled: 'var(--tonic-disabled)',
       backgroundColor: 'transparent'
     }
@@ -656,29 +660,71 @@ class TonicButton extends Tonic {
     return `
       tonic-button {
         display: inline-block;
+        user-select: none;
       }
 
       tonic-button button {
-        color: var(--tonic-button, #333);
+        color: var(--tonic-input-text, rgba(54, 57, 61, 1));
         width: auto;
         min-height: 38px;
         font: 12px var(--tonic-subheader, 'Arial', sans-serif);
-        font-weight: 400;
+        font-weight: bold;
         text-transform: uppercase;
         letter-spacing: 1px;
         padding: 8px;
         position: relative;
-        background-color: transparent;
-        border: 1px solid var(--tonic-button, #333);
-        transition: all 0.3s ease;
+        background-color: var(--tonic-button-background, transparent);
+        transition: background 0.3s ease, border 0.3s ease, color 0.3s ease;
+        box-shadow: 0 1px 2px var(--tonic-button-shadow);
         appearance: none;
       }
 
+      tonic-button button:focus {
+        background-color: var(--tonic-button-background-focus, rgba(247, 247, 245, 1));
+        outline: none;
+      }
+
+      /*
+      tonic-button button:focus:after {
+        content: ' ';
+        position: absolute;
+        top: -1px;
+        left: -1px;
+        right: -1px;
+        bottom: -1px;
+        box-shadow:
+          -2px -2px var(--tonic-accent),
+          2px 2px var(--tonic-accent),
+          2px -2px var(--tonic-accent),
+          -2px 2px var(--tonic-accent);
+        border-radius: 2px;
+      }
+      */
+
       tonic-button button[disabled],
       tonic-button button.tonic--active {
-        color: var(--tonic-medium, #999);
-        background-color: var(--tonic-background, #fff);
-        border-color: var(--tonic-background, #fff);
+        color: var(--tonic-medium, rgba(153, 157, 160, 1));
+        background-color: var(--tonic-background, rgba(247, 247, 245, 1));
+      }
+
+      tonic-button button:active {
+        animation-duration: .2s;
+        animation-name: tonic--button--activate;
+        transition-timing-function: ease;
+      }
+
+      @keyframes tonic--button--activate {
+        0% {
+          transform: scale(1);
+        }
+
+        50% {
+          transform: scale(0.95);
+        }
+
+        100% {
+          transform: scale(1);
+        }
       }
 
       tonic-button button[disabled] {
@@ -688,24 +734,19 @@ class TonicButton extends Tonic {
 
       tonic-button button:not([disabled]):hover,
       tonic-button button:not(.tonic--loading):hover {
-        color: var(--tonic-window, #fff) !important;
-        background-color: var(--tonic-button, #333) !important;
-        border-color: var(--tonic-button, #333) !important;
+        background-color: var(--tonic-input-background-hover, rgba(54, 57, 61, 1)) !important;
         cursor: pointer;
       }
 
       tonic-button button.tonic--loading {
         color: transparent !important;
-        background: var(--tonic-medium, #999);
-        border-color: var(--tonic-medium, #999);
-        transition: all 0.3s ease;
+        transition: all 0.3s ease-in;
         pointer-events: none;
       }
 
       tonic-button button.tonic--loading:hover {
         color: transparent !important;
-        background: var(--tonic-medium, #999) !important;
-        border-color: var(--tonic-medium, #999) !important;
+        background: var(--tonic-medium, rgba(153, 157, 160, 1)) !important;
       }
 
       tonic-button button.tonic--loading:before {
@@ -717,7 +758,7 @@ class TonicButton extends Tonic {
         left: 50%;
         opacity: 1;
         transform: translateX(-50%) translateY(-50%);
-        border: 2px solid white;
+        border: 2px solid var(--tonic-input-text);
         border-radius: 50%;
         border-top-color: transparent;
         animation: spin 1s linear 0s infinite;
@@ -848,8 +889,10 @@ module.exports = { TonicButton }
 
 },{"@optoolco/tonic":23}],7:[function(require,module,exports){
 const button = document.getElementById('tonic-button-example')
+let timeout = null
 button.addEventListener('click', e => {
-  setTimeout(() => {
+  clearTimeout(timeout)
+  timeout = setTimeout(() => {
     button.loading(false)
   }, 3e3)
 })
@@ -1246,7 +1289,7 @@ class TonicDialog extends Tonic {
         z-index: -1;
         opacity: 0;
         transition: z-index .25s;
-        transform: translate(-50%, -50%) scale(1.22);
+        transform: translate(-50%, -50%) scale(0.88);
         will-change: transform;
       }
 
@@ -1259,7 +1302,7 @@ class TonicDialog extends Tonic {
       }
 
       .tonic--dialog.tonic--hide {
-        transform: translate(-50%, -50%) scale(1.22);
+        transform: translate(-50%, -50%) scale(0.88);
         opacity: 0;
         animation-duration: .2s;
         animation-name: tonic--dialog--hide;
@@ -1282,7 +1325,7 @@ class TonicDialog extends Tonic {
 
       @keyframes tonic--dialog--show {
         from {
-          transform: translate(-50%, -50%) scale(1.22);
+          transform: translate(-50%, -50%) scale(0.88);
           opacity: 0;
         }
 
@@ -1908,11 +1951,16 @@ class TonicInput extends Tonic {
         color: var(--tonic-primary, #333);
         font: 14px var(--tonic-monospace, 'Andale Mono', monospace);
         padding: 10px;
-        background-color: transparent;
-        border: 1px solid var(--tonic-border, #ccc);
+        background-color: var(--tonic-input-background, transparent);
+        border: 1px solid var(--tonic-input-border, #ccc);
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
+      }
+
+      tonic-input input:focus {
+        background-color: var(--tonic-input-focus);
+        outline: none;
       }
 
       tonic-input input[invalid],
@@ -24283,11 +24331,11 @@ class TonicRange extends Tonic {
         width: 50%;
         height: 4px;
         background-color: var(--tonic-secondary, #fff);
-        background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, var(--tonic-primary, #f66)), color-stop(100%, var(--tonic-primary, #f66)));
-        background-image: -webkit-linear-gradient(var(--tonic-primary, #f66), var(--tonic-primary, #f66));
-        background-image: -moz-linear-gradient(var(--tonic-primary, #f66), var(--tonic-primary, #f66));
-        background-image: -o-linear-gradient(var(--tonic-primary, #f66), var(--tonic-primary, #f66));
-        background-image: linear-gradient(var(--tonic-primary, #f66), var(--tonic-primary, #f66));
+        background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, var(--tonic-accent, #f66)), color-stop(100%, var(--tonic-accent, #f66)));
+        background-image: -webkit-linear-gradient(var(--tonic-accent, #f66), var(--tonic-accent, #f66));
+        background-image: -moz-linear-gradient(var(--tonic-accent, #f66), var(--tonic-accent, #f66));
+        background-image: -o-linear-gradient(var(--tonic-accent, #f66), var(--tonic-accent, #f66));
+        background-image: linear-gradient(var(--tonic-accent, #f66), var(--tonic-accent, #f66));
         background-size: 50% 100%;
         background-repeat: no-repeat;
         border-radius: 0;
@@ -24296,7 +24344,7 @@ class TonicRange extends Tonic {
       }
 
       tonic-range input[type="range"]:focus {
-        outline-offset: 10px;
+        outline-offset: 4px;
       }
 
       tonic-range input[type="range"]:disabled {
@@ -24328,7 +24376,7 @@ class TonicRange extends Tonic {
         width: 18px;
         height: 18px;
         border: 0;
-        background: var(--tonic-primary);
+        background: var(--tonic-window);
         border-radius: 100%;
         box-shadow: 0 0 3px 0px rgba(0,0,0,0.25);
         -webkit-appearance: none;
@@ -24338,7 +24386,7 @@ class TonicRange extends Tonic {
         width: 18px;
         height: 18px;
         border: 0;
-        background: #fff;
+        background: var(--tonic-window);
         border-radius: 100%;
         box-shadow: 0 0 1px 0px rgba(0,0,0,0.1);
       }
@@ -25269,7 +25317,7 @@ class TonicSelect extends Tonic {
       tonic-select select {
         color: var(--tonic-primary, #333);
         font: 14px var(--tonic-monospace, 'Andale Mono', monospace);
-        background-color: var(--tonic-window, #fff);
+        background-color: var(--tonic-input-background, #f66);
         background-repeat: no-repeat;
         background-position: center right;
         border: 1px solid var(--tonic-border, #ccc);
@@ -25277,6 +25325,11 @@ class TonicSelect extends Tonic {
         -moz-appearance: none;
         appearance: none;
         position: relative;
+      }
+
+      tonic-select select:focus {
+        background-color: var(--tonic-input-focus);
+        outline: none;
       }
 
       tonic-select select:not([multiple]) {
@@ -25558,6 +25611,11 @@ class TonicTabs extends Tonic {
         -webkit-appearance: none;
         user-select: none;
       }
+
+      tonic-tab a:focus {
+        outline: none;
+        background-color: var(--tonic-input-background);
+      }
     `
   }
 
@@ -25834,7 +25892,7 @@ class TonicTextarea extends Tonic {
         width: 100%;
         font: 14px var(--tonic-monospace, 'Andale Mono', monospace);
         padding: 10px;
-        background-color: transparent;
+        background-color: var(--tonic-input-background, transparent);
         border: 1px solid var(--tonic-border, #ccc);
         transition: border 0.2s ease-in-out;
         -webkit-appearance: none;
@@ -25844,6 +25902,11 @@ class TonicTextarea extends Tonic {
 
       tonic-textarea textarea:invalid {
         border-color: var(--tonic-danger, #f66);
+      }
+
+      tonic-textarea textarea:focus {
+        outline: none;
+        background-color: var(--tonic-input-background);
       }
 
       tonic-textarea textarea[disabled] {

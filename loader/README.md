@@ -6,11 +6,8 @@ positioned container, it will center itself.
 ## Demo
 
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content loader-content">
-    <tonic-loader>
-    </tonic-loader>
-  </div>
+  <tonic-loader>
+  </tonic-loader>
 </div>
 
 ## Code

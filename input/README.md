@@ -5,19 +5,16 @@ The `Input` component creates an input that can be invalidated.
 ## Demo
 
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-input
-      label="Email Address"
-      type="email"
-      width="280px"
-      id="tonic-input-example"
-      placeholder="Enter a valid email address"
-      spellcheck="false"
-      error-message="Invalid Email">
-    </tonic-input>
-    <span id="tonic-input-state"><span>
-  </div>
+  <tonic-input
+    label="Email Address"
+    type="email"
+    width="280px"
+    id="tonic-input-example"
+    placeholder="Enter a valid email address"
+    spellcheck="false"
+    error-message="Invalid Email">
+  </tonic-input>
+  <span id="tonic-input-state"><span>
 </div>
 
 ## Code

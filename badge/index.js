@@ -29,6 +29,7 @@ class TonicBadge extends Tonic {
         padding: 10px;
         position: relative;
         background-color: var(--tonic-background, #fff);
+        border: 1px solid var(--tonic-input-border, transparent);
         border-radius: 8px;
       }
 

@@ -70,11 +70,11 @@ class TonicRange extends Tonic {
         width: 50%;
         height: 4px;
         background-color: var(--tonic-secondary, #fff);
-        background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, var(--tonic-primary, #f66)), color-stop(100%, var(--tonic-primary, #f66)));
-        background-image: -webkit-linear-gradient(var(--tonic-primary, #f66), var(--tonic-primary, #f66));
-        background-image: -moz-linear-gradient(var(--tonic-primary, #f66), var(--tonic-primary, #f66));
-        background-image: -o-linear-gradient(var(--tonic-primary, #f66), var(--tonic-primary, #f66));
-        background-image: linear-gradient(var(--tonic-primary, #f66), var(--tonic-primary, #f66));
+        background-image: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, var(--tonic-accent, #f66)), color-stop(100%, var(--tonic-accent, #f66)));
+        background-image: -webkit-linear-gradient(var(--tonic-accent, #f66), var(--tonic-accent, #f66));
+        background-image: -moz-linear-gradient(var(--tonic-accent, #f66), var(--tonic-accent, #f66));
+        background-image: -o-linear-gradient(var(--tonic-accent, #f66), var(--tonic-accent, #f66));
+        background-image: linear-gradient(var(--tonic-accent, #f66), var(--tonic-accent, #f66));
         background-size: 50% 100%;
         background-repeat: no-repeat;
         border-radius: 0;
@@ -83,7 +83,7 @@ class TonicRange extends Tonic {
       }
 
       tonic-range input[type="range"]:focus {
-        outline-offset: 10px;
+        outline-offset: 4px;
       }
 
       tonic-range input[type="range"]:disabled {
@@ -115,7 +115,7 @@ class TonicRange extends Tonic {
         width: 18px;
         height: 18px;
         border: 0;
-        background: var(--tonic-primary);
+        background: var(--tonic-window);
         border-radius: 100%;
         box-shadow: 0 0 3px 0px rgba(0,0,0,0.25);
         -webkit-appearance: none;
@@ -125,7 +125,7 @@ class TonicRange extends Tonic {
         width: 18px;
         height: 18px;
         border: 0;
-        background: #fff;
+        background: var(--tonic-window);
         border-radius: 100%;
         box-shadow: 0 0 1px 0px rgba(0,0,0,0.1);
       }

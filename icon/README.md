@@ -14,14 +14,11 @@ Your single SVG sprite file should have the following base structure, using `<sy
 ## Demo
 
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-icon
-      symbol-id="example"
-      src="/sprite.svg"
-      fill="red"
-      size="40px"></tonic-icon>
-  </div>
+  <tonic-icon
+    symbol-id="example"
+    src="/sprite.svg"
+    fill="red"
+    size="40px"></tonic-icon>
 </div>
 
 ## Code

@@ -1,6 +1,7 @@
 # Chart
 An example component that uses [chart.js][0] `2.8.0`.
 
+## Demo
 <tonic-chart
   type="horizontalBar"
   src="/chartdata.json"

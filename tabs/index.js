@@ -16,6 +16,11 @@ class TonicTabs extends Tonic {
         -webkit-appearance: none;
         user-select: none;
       }
+
+      tonic-tab a:focus {
+        outline: none;
+        background-color: var(--tonic-input-background);
+      }
     `
   }
 

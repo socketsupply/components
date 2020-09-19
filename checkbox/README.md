@@ -8,14 +8,11 @@ label. You can also create a custom checkbox using SVG icons.
 ## Demo
 
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-checkbox
-      id="tonic-checkbox-example"
-      checked="true"
-      label="Checkbox with Label">
-    </tonic-checkbox>
-  </div>
+  <tonic-checkbox
+    id="tonic-checkbox-example"
+    checked="true"
+    label="Checkbox with Label">
+  </tonic-checkbox>
 </div>
 
 ## Code

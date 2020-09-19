@@ -4,58 +4,52 @@ The `Accordion` component creates a set of interactive headings that hide and sh
 ## Demo
 
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-accordion id="accordion-a">
-      <tonic-accordion-section
-        name="accordion-test-1"
-        id="accordion-test-1"
-        data="preview"
-        label="Accordion Test 1">
-        Whatever
-      </tonic-accordion-section>
-      <tonic-accordion-section
-        name="accordion-test-2"
-        id="accordion-test-2"
-        label="Accordion Test 2">
-        Some Content
-      </tonic-accordion-section>
-      <tonic-accordion-section
-        name="accordion-test-3"
-        id="accordion-test-3"
-        label="Accordion Test 3">
-        The visual design includes features intended to help users understand that the accordion provides enhanced keyboard navigation functions. When an accordion header button has keyboard focus, the styling of the accordion container and all its header buttons is changed.
-      </tonic-accordion-section>
-    </tonic-accordion>
-  </div>
+  <tonic-accordion id="accordion-a">
+    <tonic-accordion-section
+      name="accordion-test-1"
+      id="accordion-test-1"
+      data="preview"
+      label="Accordion Test 1">
+      Whatever
+    </tonic-accordion-section>
+    <tonic-accordion-section
+      name="accordion-test-2"
+      id="accordion-test-2"
+      label="Accordion Test 2">
+      Some Content
+    </tonic-accordion-section>
+    <tonic-accordion-section
+      name="accordion-test-3"
+      id="accordion-test-3"
+      label="Accordion Test 3">
+      The visual design includes features intended to help users understand that the accordion provides enhanced keyboard navigation functions. When an accordion header button has keyboard focus, the styling of the accordion container and all its header buttons is changed.
+    </tonic-accordion-section>
+  </tonic-accordion>
 </div>
 
 Add the `multiple` property to the `tonic-accordion` component to allow multiple sections to be expanded at one time.
 
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-accordion data-allow-multiple="true" id="accordion-b">
-      <tonic-accordion-section
-        name="multiple-accordion-test-1"
-        id="multiple-accordion-test-1"
-        label="Multiple Accordion Test 1">
-        Whatever
-      </tonic-accordion-section>
-      <tonic-accordion-section
-        name="multiple-accordion-test-2"
-        id="multiple-accordion-test-2"
-        label="Multiple Accordion Test 2">
-        Some Content
-      </tonic-accordion-section>
-      <tonic-accordion-section
-        name="multiple-accordion-test-3"
-        id="multiple-accordion-test-3"
-        label="Multiple Accordion Test 3">
-        The visual design includes features intended to help users understand that the accordion provides enhanced keyboard navigation functions. When an accordion header button has keyboard focus, the styling of the accordion container and all its header buttons is changed.
-      </tonic-accordion-section>
-    </tonic-accordion>
-  </div>
+  <tonic-accordion data-allow-multiple="true" id="accordion-b">
+    <tonic-accordion-section
+      name="multiple-accordion-test-1"
+      id="multiple-accordion-test-1"
+      label="Multiple Accordion Test 1">
+      Whatever
+    </tonic-accordion-section>
+    <tonic-accordion-section
+      name="multiple-accordion-test-2"
+      id="multiple-accordion-test-2"
+      label="Multiple Accordion Test 2">
+      Some Content
+    </tonic-accordion-section>
+    <tonic-accordion-section
+      name="multiple-accordion-test-3"
+      id="multiple-accordion-test-3"
+      label="Multiple Accordion Test 3">
+      The visual design includes features intended to help users understand that the accordion provides enhanced keyboard navigation functions. When an accordion header button has keyboard focus, the styling of the accordion container and all its header buttons is changed.
+    </tonic-accordion-section>
+  </tonic-accordion>
 </div>
 
 ## Code

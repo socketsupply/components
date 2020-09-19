@@ -4,26 +4,23 @@ The `Router` component will render its children components if the browser's curr
 ## Demo
 
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-select
-      id="tonic-router-select"
-      value="/"
-      label="Select a URL">
-      <option value="/examples.html">/</option>
-      <option value="/bar/100">/bar/100</option>
-      <option value="/beepboop">/beepboop</option>
-    </tonic-select>
-    <tonic-router id="page1" path="/examples.html">
-      <i>Hello, World</i>
-    </tonic-router>
-    <tonic-router id="page2" path="/bar/:number">
-      <b>number</b> prop has the value <b id="page2-number"></b>.
-    </tonic-router>
-    <tonic-router>
-      404
-    </tonic-router>
-  </div>
+  <tonic-select
+    id="tonic-router-select"
+    value="/"
+    label="Select a URL">
+    <option value="/examples.html">/</option>
+    <option value="/bar/100">/bar/100</option>
+    <option value="/beepboop">/beepboop</option>
+  </tonic-select>
+  <tonic-router id="page1" path="/examples.html">
+    <i>Hello, World</i>
+  </tonic-router>
+  <tonic-router id="page2" path="/bar/:number">
+    <b>number</b> prop has the value <b id="page2-number"></b>.
+  </tonic-router>
+  <tonic-router>
+    404
+  </tonic-router>
 </div>
 
 ## Code

@@ -4,29 +4,26 @@ The `tonic-tabs` and `tonic-tab-panel` components create a tab list that activat
 ## Demo
 
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-tabs selected="tab-2" id="tabs-a">
-      <tonic-tab
-        id="tab-1"
-        for="tab-panel-1">One</tonic-tab>
-      <tonic-tab
-        id="tab-2"
-        for="tab-panel-2">Two</tonic-tab>
-      <tonic-tab
-        id="tab-3"
-        for="tab-panel-3">Three</tonic-tab>
-    </tonic-tabs>
-    <tonic-tab-panel id="tab-panel-1">
-      Content One
-    </tonic-tab-panel>
-    <tonic-tab-panel id="tab-panel-2">
-      Content Two
-    </tonic-tab-panel>
-    <tonic-tab-panel id="tab-panel-3">
-      Content Three
-    </tonic-tab-panel>
-  </div>
+  <tonic-tabs selected="tab-2" id="tabs-a">
+    <tonic-tab
+      id="tab-1"
+      for="tab-panel-1">One</tonic-tab>
+    <tonic-tab
+      id="tab-2"
+      for="tab-panel-2">Two</tonic-tab>
+    <tonic-tab
+      id="tab-3"
+      for="tab-panel-3">Three</tonic-tab>
+  </tonic-tabs>
+  <tonic-tab-panel id="tab-panel-1">
+    Content One
+  </tonic-tab-panel>
+  <tonic-tab-panel id="tab-panel-2">
+    Content Two
+  </tonic-tab-panel>
+  <tonic-tab-panel id="tab-panel-3">
+    Content Three
+  </tonic-tab-panel>
 </div>
 
 ## Code
@@ -114,11 +111,8 @@ for the `selected` attribute on the `tonic-tabs` component.
 
 *for `tonic-tabs`*
 
-`tabvisible` ; event emitted when a tab becomes visible. Contains
-`event.detail.id` for which tab is visible.
-
-`tabhidden` ; event emitted when a tab becomes hidden. Contains
-`event.detail.id` for which tab is hidden.
-
-The `tabvisible` & `tabhidden` events get fired whenever a tab
-is changed and get triggered both from click & keyboard events.
+| Event | Description |
+| :--- | :--- |
+| `tabvisible` | Emitted when a tab becomes visible. Contains `event.detail.id` for which tab is visible. |
+| `tabhidden` | Emitted when a tab becomes hidden. Contains `event.detail.id` for which tab is hidden. |
+| `tabvisible`, `tabhidden` | Emitted when a tab is changed and get triggered both from click & keyboard events. |

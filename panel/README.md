@@ -14,12 +14,9 @@ Similar to dialog, just a wrapper with hide and show.
 </tonic-panel>
 
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-button id="content-panel-link-example">
-      Click to open
-    </tonic-button>
-  </div>
+  <tonic-button id="content-panel-link-example">
+    Click to open
+  </tonic-button>
 </div>
 
 ## Code

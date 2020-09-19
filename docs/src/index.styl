@@ -280,8 +280,13 @@ body
       float right
 
     div.example
+      position relative
       width 100%
-      border 1px solid var(--tonic-border)
+      padding-right 50%
+      min-height 50px
+
+      &.full-width
+        padding-right 0
 
       .header
         font 13px/16px var(--tonic-subheader)
@@ -294,7 +299,10 @@ body
       .content
         max-width 450px
         padding 15px
+
       @media (max-width: 850px)
+        padding-right 0
+
         & ~ h2,
         & ~ h3,
         & ~ h4,
@@ -346,8 +354,8 @@ body
       text-indent -2px
       overflow scroll
       white-space pre-line
-      border-radius 3px
-      background-color var(--tonic-button)
+      border-radius 2px
+      background-color var(--tonic-dark)
 
       code
         border 0
@@ -355,7 +363,7 @@ body
         white-space pre
         overflow scroll
         background none
-        color var(--tonic-window)
+        color #fff
 
         i
           color #999

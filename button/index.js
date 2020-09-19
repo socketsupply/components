@@ -25,7 +25,7 @@ class TonicButton extends Tonic {
       autofocus: 'false',
       async: false,
       radius: '2px',
-      borderWidth: '1px',
+      borderWidth: '0px',
       textColorDisabled: 'var(--tonic-disabled)',
       backgroundColor: 'transparent'
     }
@@ -35,29 +35,71 @@ class TonicButton extends Tonic {
     return `
       tonic-button {
         display: inline-block;
+        user-select: none;
       }
 
       tonic-button button {
-        color: var(--tonic-button, #333);
+        color: var(--tonic-input-text, rgba(54, 57, 61, 1));
         width: auto;
         min-height: 38px;
         font: 12px var(--tonic-subheader, 'Arial', sans-serif);
-        font-weight: 400;
+        font-weight: bold;
         text-transform: uppercase;
         letter-spacing: 1px;
         padding: 8px;
         position: relative;
-        background-color: transparent;
-        border: 1px solid var(--tonic-button, #333);
-        transition: all 0.3s ease;
+        background-color: var(--tonic-button-background, transparent);
+        transition: background 0.3s ease, border 0.3s ease, color 0.3s ease;
+        box-shadow: 0 1px 2px var(--tonic-button-shadow);
         appearance: none;
       }
 
+      tonic-button button:focus {
+        background-color: var(--tonic-button-background-focus, rgba(247, 247, 245, 1));
+        outline: none;
+      }
+
+      /*
+      tonic-button button:focus:after {
+        content: ' ';
+        position: absolute;
+        top: -1px;
+        left: -1px;
+        right: -1px;
+        bottom: -1px;
+        box-shadow:
+          -2px -2px var(--tonic-accent),
+          2px 2px var(--tonic-accent),
+          2px -2px var(--tonic-accent),
+          -2px 2px var(--tonic-accent);
+        border-radius: 2px;
+      }
+      */
+
       tonic-button button[disabled],
       tonic-button button.tonic--active {
-        color: var(--tonic-medium, #999);
-        background-color: var(--tonic-background, #fff);
-        border-color: var(--tonic-background, #fff);
+        color: var(--tonic-medium, rgba(153, 157, 160, 1));
+        background-color: var(--tonic-background, rgba(247, 247, 245, 1));
+      }
+
+      tonic-button button:active {
+        animation-duration: .2s;
+        animation-name: tonic--button--activate;
+        transition-timing-function: ease;
+      }
+
+      @keyframes tonic--button--activate {
+        0% {
+          transform: scale(1);
+        }
+
+        50% {
+          transform: scale(0.95);
+        }
+
+        100% {
+          transform: scale(1);
+        }
       }
 
       tonic-button button[disabled] {
@@ -67,24 +109,19 @@ class TonicButton extends Tonic {
 
       tonic-button button:not([disabled]):hover,
       tonic-button button:not(.tonic--loading):hover {
-        color: var(--tonic-window, #fff) !important;
-        background-color: var(--tonic-button, #333) !important;
-        border-color: var(--tonic-button, #333) !important;
+        background-color: var(--tonic-input-background-hover, rgba(54, 57, 61, 1)) !important;
         cursor: pointer;
       }
 
       tonic-button button.tonic--loading {
         color: transparent !important;
-        background: var(--tonic-medium, #999);
-        border-color: var(--tonic-medium, #999);
-        transition: all 0.3s ease;
+        transition: all 0.3s ease-in;
         pointer-events: none;
       }
 
       tonic-button button.tonic--loading:hover {
         color: transparent !important;
-        background: var(--tonic-medium, #999) !important;
-        border-color: var(--tonic-medium, #999) !important;
+        background: var(--tonic-medium, rgba(153, 157, 160, 1)) !important;
       }
 
       tonic-button button.tonic--loading:before {
@@ -96,7 +133,7 @@ class TonicButton extends Tonic {
         left: 50%;
         opacity: 1;
         transform: translateX(-50%) translateY(-50%);
-        border: 2px solid white;
+        border: 2px solid var(--tonic-input-text);
         border-radius: 50%;
         border-top-color: transparent;
         animation: spin 1s linear 0s infinite;

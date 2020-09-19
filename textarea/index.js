@@ -31,7 +31,7 @@ class TonicTextarea extends Tonic {
         width: 100%;
         font: 14px var(--tonic-monospace, 'Andale Mono', monospace);
         padding: 10px;
-        background-color: transparent;
+        background-color: var(--tonic-input-background, transparent);
         border: 1px solid var(--tonic-border, #ccc);
         transition: border 0.2s ease-in-out;
         -webkit-appearance: none;
@@ -41,6 +41,11 @@ class TonicTextarea extends Tonic {
 
       tonic-textarea textarea:invalid {
         border-color: var(--tonic-danger, #f66);
+      }
+
+      tonic-textarea textarea:focus {
+        outline: none;
+        background-color: var(--tonic-input-background);
       }
 
       tonic-textarea textarea[disabled] {

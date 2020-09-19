@@ -7,14 +7,11 @@ The `Toaster` component creates a container for all toaster items to be added to
 
 <tonic-toaster></tonic-toaster>
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-button
-      id="tonic-toaster-example"
-      value="notify-me">
-      Notify Me
-      </tonic-button>
-  </div>
+  <tonic-button
+    id="tonic-toaster-example"
+    value="notify-me">
+    Notify Me
+    </tonic-button>
 </div>
 
 ## Code

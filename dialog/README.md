@@ -17,48 +17,39 @@ what is needed to start with.
 </tonic-dialog>
 
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-button
-      id="example-dialog-link">
-      Click To Open
-    </tonic-button>
-  </div>
+  <tonic-button id="example-dialog-link">Open</tonic-button>
 </div>
 
 ## Code
 
 #### HTML
 ```html
-<example-dialog>
-  <my-component>
-  </my-component>
-</example-dialog>
+<button id="open-dialog">Open Dialog</button>
+
+<tonic-dialog id="example-dialog">
+  <show-random>
+  </show-random>
+</tonic-dialog>
 ```
 
 #### JS
 ```js
-const { Dialog } = require('@optoolco/components/dialog')
-
-class TonicDialog extends Dialog {
-  willConnect () {
-    this.state.message = this.props.message
-  }
-
-  click (e) {
-    if (!Tonic.match(e.target, '#update')) return
-
-    this.state.message = `Date stamp ${Date.now()}`
-
-    this.reRender()
+class ShowRandom extends Tonic {
+  async click (e) {
+    if (Tonic.match(e.target, '#update')) {
+      this.state.message = String(Math.random())
+      this.reRender()
+    }
   }
 
   render () {
     return this.html`
       <header>Dialog</header>
+
       <main>
-        ${this.state.message}
+        ${this.state.message || 'Ready'}
       </main>
+
       <footer>
         <tonic-button id="update">Update</tonic-button>
       </footer>
@@ -66,12 +57,12 @@ class TonicDialog extends Dialog {
   }
 }
 
-Tonic.add(TonicDialog)
+Tonic.add(ShowRandom)
 
-const link = document.getElementById('example-dialog-link')
+const link = document.getElementById('open-dialog')
 const dialog = document.getElementById('example-dialog')
 
-link.addEventListener('click', e => dialog.show())
+link.addEventListener('click', async e => dialog.show())
 ```
 
 #### CSS

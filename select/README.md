@@ -5,14 +5,11 @@ The `Select` component creates a select input.
 ## Demo
 
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-select name="select" label="Select an Option" id="options-example-1">
-      <option value="a">Option A</option>
-      <option value="b">Option B</option>
-      <option value="c">Option C</option>
-    </tonic-select>
-  </div>
+  <tonic-select name="select" label="Select an Option" id="options-example-1">
+    <option value="a">Option A</option>
+    <option value="b">Option B</option>
+    <option value="c">Option C</option>
+  </tonic-select>
 </div>
 
 ## Code
@@ -24,11 +21,6 @@ The `Select` component creates a select input.
   <option value="b">Option B</option>
   <option value="c">Option C</option>
 </tonic-select>
-```
-
-#### JS
-```js
-%js%
 ```
 
 ## Api

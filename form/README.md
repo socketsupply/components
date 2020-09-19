@@ -10,15 +10,12 @@ will be.
 ## Demo
 
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-form id="f">
-      <tonic-input data-key="ka" id="a" value="va"></tonic-input>
-      <tonic-input data-key="foo.kb" id="b" value="vb"></tonic-input>
-      <tonic-input id="c" value="vc"></tonic-input>
-      <tonic-input data-key="bar.0.buzz" id="d" value="vd"></tonic-input>
-    </tonic-form>
-  </div>
+  <tonic-form id="f">
+    <tonic-input data-key="ka" id="a" value="va"></tonic-input>
+    <tonic-input data-key="foo.kb" id="b" value="vb"></tonic-input>
+    <tonic-input id="c" value="vc"></tonic-input>
+    <tonic-input data-key="bar.0.buzz" id="d" value="vd"></tonic-input>
+  </tonic-form>
 </div>
 
 ## Code

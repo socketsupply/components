@@ -54,7 +54,7 @@ class TonicSelect extends Tonic {
       tonic-select select {
         color: var(--tonic-primary, #333);
         font: 14px var(--tonic-monospace, 'Andale Mono', monospace);
-        background-color: var(--tonic-window, #fff);
+        background-color: var(--tonic-input-background, #f66);
         background-repeat: no-repeat;
         background-position: center right;
         border: 1px solid var(--tonic-border, #ccc);
@@ -62,6 +62,11 @@ class TonicSelect extends Tonic {
         -moz-appearance: none;
         appearance: none;
         position: relative;
+      }
+
+      tonic-select select:focus {
+        background-color: var(--tonic-input-focus);
+        outline: none;
       }
 
       tonic-select select:not([multiple]) {

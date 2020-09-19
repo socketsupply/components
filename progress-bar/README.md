@@ -4,14 +4,11 @@ The `ProgressBar` component creates an updatable progress bar.
 ## Demo
 
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-progress-bar id="progress-bar-example">
-    </tonic-progress-bar>
-    <div class="button-group">
-      <span id="start-progress">Start</span>
-      <span id="stop-progress">Stop</span>
-    </div>
+  <tonic-progress-bar id="progress-bar-example">
+  </tonic-progress-bar>
+  <div class="button-group">
+    <span id="start-progress">Start</span>
+    <span id="stop-progress">Stop</span>
   </div>
 </div>
 

@@ -206,7 +206,6 @@
     <section id="intro">
       
       <h1>Examples</h1>
-<h3>Intro</h3>
 <p>
   Component <b>examples</b> can be used as a starting point for a
   component library or app. See the github link in each example and the
@@ -233,57 +232,51 @@ registerComponents(Tonic) <span class="hljs-comment">// Register the components 
 <p>The <code>Accordion</code> component creates a set of interactive headings that hide and show content sections, with <strong>Keyboard Support</strong></p>
 <h2>Demo</h2>
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-accordion id="accordion-a">
-      <tonic-accordion-section
-        name="accordion-test-1"
-        id="accordion-test-1"
-        data="preview"
-        label="Accordion Test 1">
-        Whatever
-      </tonic-accordion-section>
-      <tonic-accordion-section
-        name="accordion-test-2"
-        id="accordion-test-2"
-        label="Accordion Test 2">
-        Some Content
-      </tonic-accordion-section>
-      <tonic-accordion-section
-        name="accordion-test-3"
-        id="accordion-test-3"
-        label="Accordion Test 3">
-        The visual design includes features intended to help users understand that the accordion provides enhanced keyboard navigation functions. When an accordion header button has keyboard focus, the styling of the accordion container and all its header buttons is changed.
-      </tonic-accordion-section>
-    </tonic-accordion>
-  </div>
+  <tonic-accordion id="accordion-a">
+    <tonic-accordion-section
+      name="accordion-test-1"
+      id="accordion-test-1"
+      data="preview"
+      label="Accordion Test 1">
+      Whatever
+    </tonic-accordion-section>
+    <tonic-accordion-section
+      name="accordion-test-2"
+      id="accordion-test-2"
+      label="Accordion Test 2">
+      Some Content
+    </tonic-accordion-section>
+    <tonic-accordion-section
+      name="accordion-test-3"
+      id="accordion-test-3"
+      label="Accordion Test 3">
+      The visual design includes features intended to help users understand that the accordion provides enhanced keyboard navigation functions. When an accordion header button has keyboard focus, the styling of the accordion container and all its header buttons is changed.
+    </tonic-accordion-section>
+  </tonic-accordion>
 </div>
 
 <p>Add the <code>multiple</code> property to the <code>tonic-accordion</code> component to allow multiple sections to be expanded at one time.</p>
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-accordion data-allow-multiple="true" id="accordion-b">
-      <tonic-accordion-section
-        name="multiple-accordion-test-1"
-        id="multiple-accordion-test-1"
-        label="Multiple Accordion Test 1">
-        Whatever
-      </tonic-accordion-section>
-      <tonic-accordion-section
-        name="multiple-accordion-test-2"
-        id="multiple-accordion-test-2"
-        label="Multiple Accordion Test 2">
-        Some Content
-      </tonic-accordion-section>
-      <tonic-accordion-section
-        name="multiple-accordion-test-3"
-        id="multiple-accordion-test-3"
-        label="Multiple Accordion Test 3">
-        The visual design includes features intended to help users understand that the accordion provides enhanced keyboard navigation functions. When an accordion header button has keyboard focus, the styling of the accordion container and all its header buttons is changed.
-      </tonic-accordion-section>
-    </tonic-accordion>
-  </div>
+  <tonic-accordion data-allow-multiple="true" id="accordion-b">
+    <tonic-accordion-section
+      name="multiple-accordion-test-1"
+      id="multiple-accordion-test-1"
+      label="Multiple Accordion Test 1">
+      Whatever
+    </tonic-accordion-section>
+    <tonic-accordion-section
+      name="multiple-accordion-test-2"
+      id="multiple-accordion-test-2"
+      label="Multiple Accordion Test 2">
+      Some Content
+    </tonic-accordion-section>
+    <tonic-accordion-section
+      name="multiple-accordion-test-3"
+      id="multiple-accordion-test-3"
+      label="Multiple Accordion Test 3">
+      The visual design includes features intended to help users understand that the accordion provides enhanced keyboard navigation functions. When an accordion header button has keyboard focus, the styling of the accordion container and all its header buttons is changed.
+    </tonic-accordion-section>
+  </tonic-accordion>
 </div>
 
 <h2>Code</h2>
@@ -390,13 +383,10 @@ registerComponents(Tonic) <span class="hljs-comment">// Register the components 
 <p>The <code>Badge</code> component creates a notification badge with a counter and unread alert.</p>
 <h2>Demo</h2>
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-badge count=5 id="badge-a"></tonic-badge>
-    <div class="button-group">
-      <span id="add-notification">Add</span>
-      <span id="subtract-notification">Subtract</span>
-    </div>
+  <tonic-badge count=5 id="badge-a"></tonic-badge>
+  <div class="button-group">
+    <span id="add-notification">Add</span>
+    <span id="subtract-notification">Subtract</span>
   </div>
 </div>
 
@@ -404,8 +394,6 @@ registerComponents(Tonic) <span class="hljs-comment">// Register the components 
 <p>To update the notification count, pass in the <code>count</code> property.</p>
 <h4>HTML</h4>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-badge</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;my-badge&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">tonic-badge</span>&gt;</span></code></pre>
-<h4>JS</h4>
-<pre><code class="language-js">tonicBadge.value = <span class="hljs-number">5</span></code></pre>
 <h2>Api</h2>
 <h3>Properties</h3>
 <table>
@@ -466,16 +454,13 @@ registerComponents(Tonic) <span class="hljs-comment">// Register the components 
     </div>
   
       <h1 id="button">Button</h1>
-<p>The <code>Button</code> component creates a button.</p>
+<p>A <code>Button</code> component with a built-in loading state.</p>
 <h2>Demo</h2>
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-button
-      async="true"
-      id="tonic-button-example"
-      value="click-me">Click me</tonic-button>
-  </div>
+  <tonic-button
+    async="true"
+    id="tonic-button-example"
+    value="click-me">Click me</tonic-button>
 </div>
 
 <h2>Code</h2>
@@ -485,8 +470,6 @@ registerComponents(Tonic) <span class="hljs-comment">// Register the components 
   <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;tonic-button-example&quot;</span>
   <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;click-me&quot;</span>&gt;</span>Click me
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-button</span>&gt;</span></code></pre>
-<h4>JS</h4>
-<pre><code class="language-js">%js%</code></pre>
 <h2>Api</h2>
 <h3>Properties</h3>
 <table>
@@ -630,6 +613,7 @@ registerComponents(Tonic) <span class="hljs-comment">// Register the components 
   
       <h1 id="chart">Chart</h1>
 <p>An example component that uses <a href="https://www.chartjs.org/">chart.js</a> <code>2.8.0</code>.</p>
+<h2>Demo</h2>
 <p><tonic-chart
   type="horizontalBar"
   src="/chartdata.json"
@@ -755,14 +739,11 @@ label. You can also create a custom checkbox using SVG icons.</p>
 </blockquote>
 <h2>Demo</h2>
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-checkbox
-      id="tonic-checkbox-example"
-      checked="true"
-      label="Checkbox with Label">
-    </tonic-checkbox>
-  </div>
+  <tonic-checkbox
+    id="tonic-checkbox-example"
+    checked="true"
+    label="Checkbox with Label">
+  </tonic-checkbox>
 </div>
 
 <h2>Code</h2>
@@ -890,43 +871,34 @@ what is needed to start with.</p>
   </show-random>
 </tonic-dialog></p>
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-button
-      id="example-dialog-link">
-      Click To Open
-    </tonic-button>
-  </div>
+  <tonic-button id="example-dialog-link">Open</tonic-button>
 </div>
 
 <h2>Code</h2>
 <h4>HTML</h4>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">example-dialog</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">my-component</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">my-component</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">example-dialog</span>&gt;</span></code></pre>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;open-dialog&quot;</span>&gt;</span>Open Dialog<span class="hljs-tag">&lt;/<span class="hljs-name">button</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">tonic-dialog</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;example-dialog&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">show-random</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">show-random</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">tonic-dialog</span>&gt;</span></code></pre>
 <h4>JS</h4>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> { Dialog } = <span class="hljs-built_in">require</span>(<span class="hljs-string">&#x27;@optoolco/components/dialog&#x27;</span>)
-
-<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TonicDialog</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Dialog</span> </span>{
-  willConnect () {
-    <span class="hljs-built_in">this</span>.state.message = <span class="hljs-built_in">this</span>.props.message
-  }
-
-  click (e) {
-    <span class="hljs-keyword">if</span> (!Tonic.match(e.target, <span class="hljs-string">&#x27;#update&#x27;</span>)) <span class="hljs-keyword">return</span>
-
-    <span class="hljs-built_in">this</span>.state.message = <span class="hljs-string">`Date stamp <span class="hljs-subst">${<span class="hljs-built_in">Date</span>.now()}</span>`</span>
-
-    <span class="hljs-built_in">this</span>.reRender()
+<pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ShowRandom</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
+  <span class="hljs-keyword">async</span> click (e) {
+    <span class="hljs-keyword">if</span> (Tonic.match(e.target, <span class="hljs-string">&#x27;#update&#x27;</span>)) {
+      <span class="hljs-built_in">this</span>.state.message = <span class="hljs-built_in">String</span>(<span class="hljs-built_in">Math</span>.random())
+      <span class="hljs-built_in">this</span>.reRender()
+    }
   }
 
   render () {
     <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`
       &lt;header&gt;Dialog&lt;/header&gt;
+
       &lt;main&gt;
-        <span class="hljs-subst">${<span class="hljs-built_in">this</span>.state.message}</span>
+        <span class="hljs-subst">${<span class="hljs-built_in">this</span>.state.message || <span class="hljs-string">&#x27;Ready&#x27;</span>}</span>
       &lt;/main&gt;
+
       &lt;footer&gt;
         &lt;tonic-button id=&quot;update&quot;&gt;Update&lt;/tonic-button&gt;
       &lt;/footer&gt;
@@ -934,12 +906,12 @@ what is needed to start with.</p>
   }
 }
 
-Tonic.add(TonicDialog)
+Tonic.add(ShowRandom)
 
-<span class="hljs-keyword">const</span> link = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&#x27;example-dialog-link&#x27;</span>)
+<span class="hljs-keyword">const</span> link = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&#x27;open-dialog&#x27;</span>)
 <span class="hljs-keyword">const</span> dialog = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&#x27;example-dialog&#x27;</span>)
 
-link.addEventListener(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-function"><span class="hljs-params">e</span> =&gt;</span> dialog.show())</code></pre>
+link.addEventListener(<span class="hljs-string">&#x27;click&#x27;</span>, <span class="hljs-keyword">async</span> e =&gt; dialog.show())</code></pre>
 <h4>CSS</h4>
 <p>Example styles that a project might set up outside the component&#39;s css.</p>
 <pre><code class="language-css">.tonic--dialog {
@@ -1035,15 +1007,12 @@ which to get the value and use it are responsibilies of the parent component.</p
 will be.</p>
 <h2>Demo</h2>
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-form id="f">
-      <tonic-input data-key="ka" id="a" value="va"></tonic-input>
-      <tonic-input data-key="foo.kb" id="b" value="vb"></tonic-input>
-      <tonic-input id="c" value="vc"></tonic-input>
-      <tonic-input data-key="bar.0.buzz" id="d" value="vd"></tonic-input>
-    </tonic-form>
-  </div>
+  <tonic-form id="f">
+    <tonic-input data-key="ka" id="a" value="va"></tonic-input>
+    <tonic-input data-key="foo.kb" id="b" value="vb"></tonic-input>
+    <tonic-input id="c" value="vc"></tonic-input>
+    <tonic-input data-key="bar.0.buzz" id="d" value="vd"></tonic-input>
+  </tonic-form>
 </div>
 
 <h2>Code</h2>
@@ -1116,14 +1085,11 @@ assert(form.value === expected)</code></pre>
   <span class="hljs-tag">&lt;/<span class="hljs-name">symbol</span>&gt;</span></span>
 &lt;/svg&gt;</code></pre><h2>Demo</h2>
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-icon
-      symbol-id="example"
-      src="/sprite.svg"
-      fill="red"
-      size="40px"></tonic-icon>
-  </div>
+  <tonic-icon
+    symbol-id="example"
+    src="/sprite.svg"
+    fill="red"
+    size="40px"></tonic-icon>
 </div>
 
 <h2>Code</h2>
@@ -1184,19 +1150,16 @@ assert(form.value === expected)</code></pre>
 <p>The <code>Input</code> component creates an input that can be invalidated.</p>
 <h2>Demo</h2>
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-input
-      label="Email Address"
-      type="email"
-      width="280px"
-      id="tonic-input-example"
-      placeholder="Enter a valid email address"
-      spellcheck="false"
-      error-message="Invalid Email">
-    </tonic-input>
-    <span id="tonic-input-state"><span>
-  </div>
+  <tonic-input
+    label="Email Address"
+    type="email"
+    width="280px"
+    id="tonic-input-example"
+    placeholder="Enter a valid email address"
+    spellcheck="false"
+    error-message="Invalid Email">
+  </tonic-input>
+  <span id="tonic-input-state"><span>
 </div>
 
 <h2>Code</h2>
@@ -1421,11 +1384,8 @@ assert(form.value === expected)</code></pre>
 positioned container, it will center itself.</p>
 <h2>Demo</h2>
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content loader-content">
-    <tonic-loader>
-    </tonic-loader>
-  </div>
+  <tonic-loader>
+  </tonic-loader>
 </div>
 
 <h2>Code</h2>
@@ -1457,12 +1417,9 @@ positioned container, it will center itself.</p>
   </read-wikipedia>
 </tonic-panel></p>
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-button id="content-panel-link-example">
-      Click to open
-    </tonic-button>
-  </div>
+  <tonic-button id="content-panel-link-example">
+    Click to open
+  </tonic-button>
 </div>
 
 <h2>Code</h2>
@@ -1566,10 +1523,7 @@ positioned container, it will center itself.</p>
 </style>
 
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <div id="popover-example-trigger">+</div>
-  </div>
+  <div id="popover-example-trigger">+</div>
 </div>
 
 <h2>Code</h2>
@@ -1674,14 +1628,11 @@ and color.</p>
 </blockquote>
 <h2>Demo</h2>
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-profile-image
-      id="profile-image-example-editable"
-      size="150px"
-      editable="true">
-    </tonic-profile-image>
-  </div>
+  <tonic-profile-image
+    id="profile-image-example-editable"
+    size="150px"
+    editable="true">
+  </tonic-profile-image>
 </div>
 
 <h2>Code</h2>
@@ -1784,14 +1735,11 @@ and color.</p>
 <p>The <code>ProgressBar</code> component creates an updatable progress bar.</p>
 <h2>Demo</h2>
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-progress-bar id="progress-bar-example">
-    </tonic-progress-bar>
-    <div class="button-group">
-      <span id="start-progress">Start</span>
-      <span id="stop-progress">Stop</span>
-    </div>
+  <tonic-progress-bar id="progress-bar-example">
+  </tonic-progress-bar>
+  <div class="button-group">
+    <span id="start-progress">Start</span>
+    <span id="stop-progress">Stop</span>
   </div>
 </div>
 
@@ -1875,14 +1823,11 @@ and color.</p>
 <p>The <code>Range</code> component creates a range input, or slider.</p>
 <h2>Demo</h2>
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-range
-      label="The value is %i%"
-      value="80"
-      id="tonic-range-example">
-    </tonic-range>
-  </div>
+  <tonic-range
+    label="The value is %i%"
+    value="80"
+    id="tonic-range-example">
+  </tonic-range>
 </div>
 
 <h2>Code</h2>
@@ -2021,14 +1966,11 @@ and color.</p>
 date value. This is almost entirely based on Github&#39;s <a href="https://github.com/github/time-elements">Time Elements</a>.</p>
 <h2>Demo</h2>
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-relative-time
-      date="${new Date()}"
-      refresh="1e4"
-      locale="en"
-    </tonic-relative-time>
-  </div>
+  <tonic-relative-time
+    date="${new Date()}"
+    refresh="1e4"
+    locale="en"
+  </tonic-relative-time>
 </div>
 
 <h2>Code</h2>
@@ -2076,26 +2018,23 @@ date value. This is almost entirely based on Github&#39;s <a href="https://githu
 <p>The <code>Router</code> component will render its children components if the browser&#39;s current url matches its <code>path</code> property. This component will detect <code>pushstate</code>, <code>popstate</code> and <code>replacestate</code> events and re-render with the attributes of the url as props.</p>
 <h2>Demo</h2>
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-select
-      id="tonic-router-select"
-      value="/"
-      label="Select a URL">
-      <option value="/examples.html">/</option>
-      <option value="/bar/100">/bar/100</option>
-      <option value="/beepboop">/beepboop</option>
-    </tonic-select>
-    <tonic-router id="page1" path="/examples.html">
-      <i>Hello, World</i>
-    </tonic-router>
-    <tonic-router id="page2" path="/bar/:number">
-      <b>number</b> prop has the value <b id="page2-number"></b>.
-    </tonic-router>
-    <tonic-router>
-      404
-    </tonic-router>
-  </div>
+  <tonic-select
+    id="tonic-router-select"
+    value="/"
+    label="Select a URL">
+    <option value="/examples.html">/</option>
+    <option value="/bar/100">/bar/100</option>
+    <option value="/beepboop">/beepboop</option>
+  </tonic-select>
+  <tonic-router id="page1" path="/examples.html">
+    <i>Hello, World</i>
+  </tonic-router>
+  <tonic-router id="page2" path="/bar/:number">
+    <b>number</b> prop has the value <b id="page2-number"></b>.
+  </tonic-router>
+  <tonic-router>
+    404
+  </tonic-router>
 </div>
 
 <h2>Code</h2>
@@ -2168,14 +2107,11 @@ date value. This is almost entirely based on Github&#39;s <a href="https://githu
 <p>The <code>Select</code> component creates a select input.</p>
 <h2>Demo</h2>
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-select name="select" label="Select an Option" id="options-example-1">
-      <option value="a">Option A</option>
-      <option value="b">Option B</option>
-      <option value="c">Option C</option>
-    </tonic-select>
-  </div>
+  <tonic-select name="select" label="Select an Option" id="options-example-1">
+    <option value="a">Option A</option>
+    <option value="b">Option B</option>
+    <option value="c">Option C</option>
+  </tonic-select>
 </div>
 
 <h2>Code</h2>
@@ -2185,8 +2121,6 @@ date value. This is almost entirely based on Github&#39;s <a href="https://githu
   <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;b&quot;</span>&gt;</span>Option B<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;c&quot;</span>&gt;</span>Option C<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-select</span>&gt;</span></code></pre>
-<h4>JS</h4>
-<pre><code class="language-js">%js%</code></pre>
 <h2>Api</h2>
 <h3>Properties</h3>
 <table>
@@ -2357,29 +2291,26 @@ property, for example...</p>
 <p>The <code>tonic-tabs</code> and <code>tonic-tab-panel</code> components create a tab list that activates sections when clicked on.</p>
 <h2>Demo</h2>
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-tabs selected="tab-2" id="tabs-a">
-      <tonic-tab
-        id="tab-1"
-        for="tab-panel-1">One</tonic-tab>
-      <tonic-tab
-        id="tab-2"
-        for="tab-panel-2">Two</tonic-tab>
-      <tonic-tab
-        id="tab-3"
-        for="tab-panel-3">Three</tonic-tab>
-    </tonic-tabs>
-    <tonic-tab-panel id="tab-panel-1">
-      Content One
-    </tonic-tab-panel>
-    <tonic-tab-panel id="tab-panel-2">
-      Content Two
-    </tonic-tab-panel>
-    <tonic-tab-panel id="tab-panel-3">
-      Content Three
-    </tonic-tab-panel>
-  </div>
+  <tonic-tabs selected="tab-2" id="tabs-a">
+    <tonic-tab
+      id="tab-1"
+      for="tab-panel-1">One</tonic-tab>
+    <tonic-tab
+      id="tab-2"
+      for="tab-panel-2">Two</tonic-tab>
+    <tonic-tab
+      id="tab-3"
+      for="tab-panel-3">Three</tonic-tab>
+  </tonic-tabs>
+  <tonic-tab-panel id="tab-panel-1">
+    Content One
+  </tonic-tab-panel>
+  <tonic-tab-panel id="tab-panel-2">
+    Content Two
+  </tonic-tab-panel>
+  <tonic-tab-panel id="tab-panel-3">
+    Content Three
+  </tonic-tab-panel>
 </div>
 
 <h2>Code</h2>
@@ -2502,12 +2433,26 @@ for the <code>selected</code> attribute on the <code>tonic-tabs</code> component
 </tbody></table>
 <h3>Events</h3>
 <p><em>for <code>tonic-tabs</code></em></p>
-<p><code>tabvisible</code> ; event emitted when a tab becomes visible. Contains
-<code>event.detail.id</code> for which tab is visible.</p>
-<p><code>tabhidden</code> ; event emitted when a tab becomes hidden. Contains
-<code>event.detail.id</code> for which tab is hidden.</p>
-<p>The <code>tabvisible</code> &amp; <code>tabhidden</code> events get fired whenever a tab
-is changed and get triggered both from click &amp; keyboard events.</p>
+<table>
+<thead>
+<tr>
+<th align="left">Event</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>tabvisible</code></td>
+<td align="left">Emitted when a tab becomes visible. Contains <code>event.detail.id</code> for which tab is visible.</td>
+</tr>
+<tr>
+<td align="left"><code>tabhidden</code></td>
+<td align="left">Emitted when a tab becomes hidden. Contains <code>event.detail.id</code> for which tab is hidden.</td>
+</tr>
+<tr>
+<td align="left"><code>tabvisible</code>, <code>tabhidden</code></td>
+<td align="left">Emitted when a tab is changed and get triggered both from click &amp; keyboard events.</td>
+</tr>
+</tbody></table>
 
     </section>
   
@@ -2522,10 +2467,7 @@ is changed and get triggered both from click &amp; keyboard events.</p>
 <p>The <code>Textarea</code> component creates a text area.</p>
 <h2>Demo</h2>
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
   <tonic-textarea id="textarea-a" label="Text Area" rows="6" placeholder="Type in me">It was the best of times, it was the worst of times, it was the age of wisdom, it was the age of foolishness, it was the epoch of belief, it was the epoch of incredulity, it was the season of Light, it was the season of Darkness, it was the spring of hope, it was the winter of despair, we had everything before us, we had nothing before us, we were all going direct to Heaven, we were all going direct the other way—in short, the period was so far like the present period, that some of its noisiest authorities insisted on its being received, for good or for evil, in the superlative degree of comparison only.</tonic-textarea>
-  </div>
 </div>
 
 <h2>Code</h2>
@@ -2706,14 +2648,11 @@ is changed and get triggered both from click &amp; keyboard events.</p>
 <h2>Demo</h2>
 <p><tonic-toaster></tonic-toaster></p>
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-button
-      id="tonic-toaster-example"
-      value="notify-me">
-      Notify Me
-      </tonic-button>
-  </div>
+  <tonic-button
+    id="tonic-toaster-example"
+    value="notify-me">
+    Notify Me
+    </tonic-button>
 </div>
 
 <h2>Code</h2>
@@ -2839,14 +2778,11 @@ screen either for a duration or until the user acknowledges it.</p>
 </blockquote>
 <h2>Demo</h2>
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-button
-      id="toaster-link-1"
-      value="notify">
-      Notify Me
-    </tonic-button>
-  </div>
+  <tonic-button
+    id="toaster-link-1"
+    value="notify">
+    Notify Me
+  </tonic-button>
 </div>
 
 <div>
@@ -2986,14 +2922,11 @@ toasterLink1.addEventListener(<span class="hljs-string">&#x27;click&#x27;</span>
 <p>The <code>Toggle</code> component creates a toggle.</p>
 <h2>Demo</h2>
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-toggle
-      id="toggle-example"
-      checked="true"
-      label="Change">
-    </tonic-toggle>
-  </div>
+  <tonic-toggle
+    id="toggle-example"
+    checked="true"
+    label="Change">
+  </tonic-toggle>
 </div>
 
 <h2>Code</h2>
@@ -3090,15 +3023,12 @@ toasterLink1.addEventListener(<span class="hljs-string">&#x27;click&#x27;</span>
 <p>The <code>Tooltip</code> component creates a dynamically positioned pop-up tooltip filled with custom content that shows during the <code>hover</code> state of the corresponding trigger element.</p>
 <h2>Demo</h2>
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <span id="tonic-tooltip-example">
-      Hover over this text
-    </span>
-    <tonic-tooltip for="tonic-tooltip-example">
-      <img src="./tonic.svg" width="100px">
-    </tonic-tooltip>
-  </div>
+  <span id="tonic-tooltip-example">
+    Hover over this text
+  </span>
+  <tonic-tooltip for="tonic-tooltip-example">
+    <img src="./tonic.svg" width="100px">
+  </tonic-tooltip>
 </div>
 
 <h2>Code</h2>
@@ -3178,23 +3108,18 @@ toasterLink1.addEventListener(<span class="hljs-string">&#x27;click&#x27;</span>
 has been rendered.</p>
 <h2>Demo</h2>
 <p>This demo generates the data after you click the overlay. Generating 500000 rows of data can take a second or two.</p>
-<div class="example">
-  <div class="header">Example</div>
-  <div class="content windowed-example">
-    <div id="click-to-load">
-      <span>Click to Load</span>
-    </div>
-    <example-windowed id="windowed" row-height=30>
-    </example-windowed>
+<div class="example full-width">
+  <div id="click-to-load">
+    <span>Click to Load</span>
   </div>
+  <example-windowed id="windowed" row-height=30>
+  </example-windowed>
 </div>
 
 <h2>Code</h2>
 <h4>HTML</h4>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">example-windowed</span> <span class="hljs-attr">row-height</span>=<span class="hljs-string">30</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">example-windowed</span>&gt;</span></code></pre>
-<h4>JS</h4>
-<pre><code class="language-js">%js%</code></pre>
 <h2>Api</h2>
 <h3>Properties</h3>
 <table>

@@ -6,14 +6,11 @@ date value. This is almost entirely based on Github's [Time Elements][0].
 ## Demo
 
 <div class="example">
-  <div class="header">Example</div>
-  <div class="content">
-    <tonic-relative-time
-      date="${new Date()}"
-      refresh="1e4"
-      locale="en"
-    </tonic-relative-time>
-  </div>
+  <tonic-relative-time
+    date="${new Date()}"
+    refresh="1e4"
+    locale="en"
+  </tonic-relative-time>
 </div>
 
 ## Code

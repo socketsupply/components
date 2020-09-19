@@ -12,6 +12,7 @@ class TonicAccordion extends Tonic {
       tonic-accordion {
         display: block;
         border: 1px solid var(--tonic-border, black);
+        border-radius: 2px;
       }
     `
   }
@@ -144,6 +145,8 @@ class TonicAccordionSection extends Tonic {
         padding: 20px;
         position: relative;
         background: transparent;
+        color: var(--tonic-primary);
+        font-weight: bold;
         border: 0;
         -webkit-appearance: none;
         -moz-appearance: none;

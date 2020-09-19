@@ -68,12 +68,13 @@ class TonicToggle extends Tonic {
         position: relative;
         background-color: var(--tonic-border, #ccc);
         border-radius: 60px;
-        transition: background 0.4s ease-in-out;
+        transition: background 0.2s ease-in-out;
         cursor: default;
       }
 
       tonic-toggle .tonic--toggle:focus + label {
         outline: -webkit-focus-ring-color auto 5px;
+        outline-offset: 4px;
       }
 
       tonic-toggle .tonic--toggle + label:before {
@@ -87,7 +88,7 @@ class TonicToggle extends Tonic {
         bottom: 1px;
         display: block;
         border-radius: 60px;
-        transition: background 0.4s ease-in-out;
+        transition: background 0.2s ease-in-out;
         padding-top: 1px;
         font-size: 0.65em;
         letter-spacing: 0.05em;
@@ -103,7 +104,7 @@ class TonicToggle extends Tonic {
         bottom: 4px;
         background-color: var(--tonic-window, #fff);
         border-radius: 52px;
-        transition: background 0.4s ease-in-out, margin 0.4s ease-in-out;
+        transition: background 0.2s ease-in-out, margin 0.2s ease-in-out;
         display: block;
         z-index: 2;
       }

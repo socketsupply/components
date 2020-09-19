@@ -107,6 +107,7 @@ class TonicToaster extends Tonic {
         position: absolute;
         left: 20px;
         top: 50%;
+        margin-top: -6px;
         -webkit-transform: translateY(-50%);
         -ms-transform: translateY(-50%);
         transform: translateY(-50%);

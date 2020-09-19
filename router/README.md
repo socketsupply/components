@@ -39,14 +39,6 @@ The `Router` component will render its children components if the browser's curr
 <tonic-router none>404</tonic-router>
 ```
 
-#### JS
-
-```js
-%js%
-```
-
-
-
 ## Api
 
 ### Properties

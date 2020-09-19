@@ -25,11 +25,6 @@ and color.
 </tonic-profile-image>
 ```
 
-#### JS
-```js
-%js%
-```
-
 ## Api
 
 ### Properties

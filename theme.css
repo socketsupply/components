@@ -25,7 +25,7 @@ body, *[theme="light"] {
   --tonic-input-border: rgba(201, 201, 201, 1);
   --tonic-input-border-hover: rgba(54, 57, 61, 1);
   --tonic-input-background-focus: rgba(238, 238, 238, 1);
-  --tonic-border: rgba(200, 200, 200, 1);
+  --tonic-border: rgba(224, 224, 224, 1);
   --tonic-error: rgba(240, 102, 83, 1);
   --tonic-notification: rgba(240, 102, 83, 1);
   --tonic-danger: rgba(240, 102, 83, 1);

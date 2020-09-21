@@ -24,7 +24,7 @@ body, *[theme="light"] {
   --tonic-input-text-hover: rgba(228, 228, 228, 1);
   --tonic-input-border: rgba(201, 201, 201, 1);
   --tonic-input-border-hover: rgba(54, 57, 61, 1);
-  --tonic-input-background-focus: rgba(238, 238, 238);
+  --tonic-input-background-focus: rgba(238, 238, 238, 1);
   --tonic-border: rgba(200, 200, 200, 1);
   --tonic-error: rgba(240, 102, 83, 1);
   --tonic-notification: rgba(240, 102, 83, 1);
@@ -47,7 +47,7 @@ body, *[theme="light"] {
   --tonic-button-text: rgba(255, 255, 255, 1);
   --tonic-button-shadow: rgba(0, 0, 0, 1);
   --tonic-button-background: rgba(74, 74, 74, 1);
-  --tonic-button-background-hover: rgba(153, 157, 160, 1);
+  --tonic-button-background-hover: rgba(94, 94, 94, 1);
   --tonic-button-background-focus: rgba(84, 84, 84, 1);
   --tonic-input-text: rgba(255, 255, 255, 1);
   --tonic-input-text-hover: rgba(255, 255, 255, 1);

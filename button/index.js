@@ -39,7 +39,7 @@ class TonicButton extends Tonic {
       }
 
       tonic-button button {
-        color: var(--tonic-input-text, rgba(54, 57, 61, 1));
+        color: var(--tonic-button-text, var(--tonic-primary, rgba(54, 57, 61, 1)));
         width: auto;
         min-height: 38px;
         font: 12px var(--tonic-subheader, 'Arial', sans-serif);
@@ -59,27 +59,10 @@ class TonicButton extends Tonic {
         outline: none;
       }
 
-      /*
-      tonic-button button:focus:after {
-        content: ' ';
-        position: absolute;
-        top: -1px;
-        left: -1px;
-        right: -1px;
-        bottom: -1px;
-        box-shadow:
-          -2px -2px var(--tonic-accent),
-          2px 2px var(--tonic-accent),
-          2px -2px var(--tonic-accent),
-          -2px 2px var(--tonic-accent);
-        border-radius: 2px;
-      }
-      */
-
       tonic-button button[disabled],
       tonic-button button.tonic--active {
         color: var(--tonic-medium, rgba(153, 157, 160, 1));
-        background-color: var(--tonic-background, rgba(247, 247, 245, 1));
+        background-color: var(--tonic-button-background-disabled, rgba(247, 247, 245, 1));
       }
 
       tonic-button button:active {
@@ -109,7 +92,7 @@ class TonicButton extends Tonic {
 
       tonic-button button:not([disabled]):hover,
       tonic-button button:not(.tonic--loading):hover {
-        background-color: var(--tonic-input-background-hover, rgba(54, 57, 61, 1)) !important;
+        background-color: var(--tonic-button-background-hover, rgba(54, 57, 61, 1)) !important;
         cursor: pointer;
       }
 
@@ -133,7 +116,7 @@ class TonicButton extends Tonic {
         left: 50%;
         opacity: 1;
         transform: translateX(-50%) translateY(-50%);
-        border: 2px solid var(--tonic-input-text);
+        border: 2px solid var(--tonic-primary, var(--tonic-button-text));
         border-radius: 50%;
         border-top-color: transparent;
         animation: spin 1s linear 0s infinite;

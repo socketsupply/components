@@ -664,7 +664,7 @@ class TonicButton extends Tonic {
       }
 
       tonic-button button {
-        color: var(--tonic-input-text, rgba(54, 57, 61, 1));
+        color: var(--tonic-button-text, var(--tonic-primary, rgba(54, 57, 61, 1)));
         width: auto;
         min-height: 38px;
         font: 12px var(--tonic-subheader, 'Arial', sans-serif);
@@ -684,27 +684,10 @@ class TonicButton extends Tonic {
         outline: none;
       }
 
-      /*
-      tonic-button button:focus:after {
-        content: ' ';
-        position: absolute;
-        top: -1px;
-        left: -1px;
-        right: -1px;
-        bottom: -1px;
-        box-shadow:
-          -2px -2px var(--tonic-accent),
-          2px 2px var(--tonic-accent),
-          2px -2px var(--tonic-accent),
-          -2px 2px var(--tonic-accent);
-        border-radius: 2px;
-      }
-      */
-
       tonic-button button[disabled],
       tonic-button button.tonic--active {
         color: var(--tonic-medium, rgba(153, 157, 160, 1));
-        background-color: var(--tonic-background, rgba(247, 247, 245, 1));
+        background-color: var(--tonic-button-background-disabled, rgba(247, 247, 245, 1));
       }
 
       tonic-button button:active {
@@ -734,7 +717,7 @@ class TonicButton extends Tonic {
 
       tonic-button button:not([disabled]):hover,
       tonic-button button:not(.tonic--loading):hover {
-        background-color: var(--tonic-input-background-hover, rgba(54, 57, 61, 1)) !important;
+        background-color: var(--tonic-button-background-hover, rgba(54, 57, 61, 1)) !important;
         cursor: pointer;
       }
 
@@ -758,7 +741,7 @@ class TonicButton extends Tonic {
         left: 50%;
         opacity: 1;
         transform: translateX(-50%) translateY(-50%);
-        border: 2px solid var(--tonic-input-text);
+        border: 2px solid var(--tonic-primary, var(--tonic-button-text));
         border-radius: 50%;
         border-top-color: transparent;
         animation: spin 1s linear 0s infinite;
@@ -1951,15 +1934,15 @@ class TonicInput extends Tonic {
         color: var(--tonic-primary, #333);
         font: 14px var(--tonic-monospace, 'Andale Mono', monospace);
         padding: 10px;
-        background-color: var(--tonic-input-background, transparent);
-        border: 1px solid var(--tonic-input-border, #ccc);
+        background-color: var(--tonic-input-background, var(--tonic-background, transparent));
+        border: 1px solid var(--tonic-border, #ccc);
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
       }
 
       tonic-input input:focus {
-        background-color: var(--tonic-input-focus);
+        background-color: var(--tonic-input-background-focus, rgba(241, 241, 241, 0.75));
         outline: none;
       }
 
@@ -25317,7 +25300,7 @@ class TonicSelect extends Tonic {
       tonic-select select {
         color: var(--tonic-primary, #333);
         font: 14px var(--tonic-monospace, 'Andale Mono', monospace);
-        background-color: var(--tonic-input-background, #f66);
+        background-color: var(--tonic-input-background, var(--tonic-background, #f66));
         background-repeat: no-repeat;
         background-position: center right;
         border: 1px solid var(--tonic-border, #ccc);
@@ -25328,7 +25311,7 @@ class TonicSelect extends Tonic {
       }
 
       tonic-select select:focus {
-        background-color: var(--tonic-input-focus);
+        background-color: var(--tonic-input-background-focus, rgba(241, 241, 241, 0.75));
         outline: none;
       }
 
@@ -25892,7 +25875,7 @@ class TonicTextarea extends Tonic {
         width: 100%;
         font: 14px var(--tonic-monospace, 'Andale Mono', monospace);
         padding: 10px;
-        background-color: var(--tonic-input-background, transparent);
+        background-color: var(--tonic-input-background, var(--tonic-background, transparent));
         border: 1px solid var(--tonic-border, #ccc);
         transition: border 0.2s ease-in-out;
         -webkit-appearance: none;
@@ -25906,7 +25889,7 @@ class TonicTextarea extends Tonic {
 
       tonic-textarea textarea:focus {
         outline: none;
-        background-color: var(--tonic-input-focus);
+        background-color: var(--tonic-input-background-focus, rgba(241, 241, 241, 0.75));
       }
 
       tonic-textarea textarea[disabled] {

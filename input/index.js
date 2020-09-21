@@ -96,15 +96,15 @@ class TonicInput extends Tonic {
         color: var(--tonic-primary, #333);
         font: 14px var(--tonic-monospace, 'Andale Mono', monospace);
         padding: 10px;
-        background-color: var(--tonic-input-background, transparent);
-        border: 1px solid var(--tonic-input-border, #ccc);
+        background-color: var(--tonic-input-background, var(--tonic-background, transparent));
+        border: 1px solid var(--tonic-border, #ccc);
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
       }
 
       tonic-input input:focus {
-        background-color: var(--tonic-input-focus);
+        background-color: var(--tonic-input-background-focus, rgba(241, 241, 241, 0.75));
         outline: none;
       }
 

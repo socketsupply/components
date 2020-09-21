@@ -96,9 +96,11 @@ class TonicTabs extends Tonic {
         }
 
         this.state.selected = id
-        this.dispatchEvent(new CustomEvent(
-          'tabvisible', { detail: { id }, bubbles: true }
-        ))
+        if (!this._setVisibilitySynchronously) {
+          this.dispatchEvent(new CustomEvent(
+            'tabvisible', { detail: { id }, bubbles: true }
+          ))
+        }
       } else {
         if (!panel.visible && renderAll && detatchOnHide) {
           panel.visible = true
@@ -120,9 +122,11 @@ class TonicTabs extends Tonic {
           anchor.setAttribute('aria-selected', 'false')
         }
 
-        this.dispatchEvent(new CustomEvent(
-          'tabhidden', { detail: { id }, bubbles: true }
-        ))
+        if (!this._setVisibilitySynchronously) {
+          this.dispatchEvent(new CustomEvent(
+            'tabhidden', { detail: { id }, bubbles: true }
+          ))
+        }
       }
     }
   }

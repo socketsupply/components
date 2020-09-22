@@ -131,15 +131,20 @@ class TonicAccordionSection extends Tonic {
         border-bottom: 1px solid var(--tonic-border, black);
       }
 
-      tonic-accordion-section h4 {
+      tonic-accordion-section .tonic--accordion-header {
+        display: flex;
         margin: 0;
       }
 
-      tonic-accordion-section .tonic--accordion-header {
-        display: flex;
+      tonic-accordion-section .tonic--accordion-panel[hidden] {
+        display: none;
       }
 
-      tonic-accordion-section button {
+      tonic-accordion-section .tonic--accordion-panel {
+        padding: 10px 50px 20px 20px;
+      }
+
+      tonic-accordion-section .tonic--accordion-header button {
         font-size: 14px;
         text-align: left;
         padding: 20px;
@@ -155,20 +160,12 @@ class TonicAccordionSection extends Tonic {
         width: 100%;
       }
 
-      tonic-accordion-section button:focus {
+      tonic-accordion-section .tonic--accordion-header button:focus {
         outline: none;
       }
 
-      tonic-accordion-section button:focus .tonic--label {
+      tonic-accordion-section .tonic--accordion-header button:focus .tonic--label {
         border-bottom: 2px solid var(--tonic-accent);
-      }
-
-      tonic-accordion-section [hidden] {
-        display: none;
-      }
-
-      tonic-accordion-section .tonic--accordion-panel {
-        padding: 10px 50px 20px 20px;
       }
 
       tonic-accordion-section .tonic--accordion-header .tonic--arrow {
@@ -211,9 +208,7 @@ class TonicAccordionSection extends Tonic {
     } = this.props
 
     return this.html`
-      <h4
-        class="tonic--accordion-header"
-        role="heading">
+      <div class="tonic--accordion-header" role="heading">
         <button
           class="tonic--title"
           id="tonic--accordion-header-${id}"
@@ -223,7 +218,7 @@ class TonicAccordionSection extends Tonic {
           <span class="tonic--label">${label}</span>
           <span class="tonic--arrow"></span>
         </button>
-      </h4>
+      </div>
       <div
         class="tonic--accordion-panel"
         id="tonic--accordion-panel-${id}"

@@ -14,6 +14,7 @@ body, *[theme="light"] {
   --tonic-light: rgba(153, 157, 160, 1);
   --tonic-medium: rgba(153, 157, 160, 1);
   --tonic-dark: rgba(54, 57, 61, 1);
+  --tonic-shadow: rgb(150, 150, 150, 0.3);
   --tonic-disabled: rgba(152, 161, 175, 1);
   --tonic-button-text: rgba(54, 57, 61, 1);
   --tonic-button-shadow: rgba(0, 0, 0, 33%);
@@ -44,6 +45,7 @@ body, *[theme="light"] {
   --tonic-medium: rgba(153, 157, 160, 1);
   --tonic-disabled: rgba(170, 170, 170, 1);
   --tonic-dark: rgba(41, 41, 41, 1);
+  --tonic-shadow: rgb(0, 0, 0, 0.3);
   --tonic-button-text: rgba(255, 255, 255, 1);
   --tonic-button-shadow: rgba(0, 0, 0, 1);
   --tonic-button-background: rgba(74, 74, 74, 1);

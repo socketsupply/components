@@ -460,6 +460,17 @@ registerComponents(Tonic) <span class="hljs-comment">// Register the components 
   <tonic-button
     async="true"
     id="tonic-button-example"
+    class="tonic-button-example"
+    value="click-me">Click me</tonic-button>
+  <tonic-button
+    async="true"
+    class="danger tonic-button-example"
+    id="tonic-button-example"
+    value="click-me">Click me</tonic-button>
+  <tonic-button
+    async="true"
+    class="outline tonic-button-example"
+    id="tonic-button-example"
     value="click-me">Click me</tonic-button>
 </div>
 
@@ -470,6 +481,14 @@ registerComponents(Tonic) <span class="hljs-comment">// Register the components 
   <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;tonic-button-example&quot;</span>
   <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;click-me&quot;</span>&gt;</span>Click me
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-button</span>&gt;</span></code></pre>
+<h3>CSS</h3>
+<p>An example of how to modify a button with a specific class.</p>
+<pre><code class="language-css"><span class="hljs-selector-tag">tonic-button</span><span class="hljs-selector-class">.danger</span> {
+  <span class="hljs-attribute">--tonic-button-text</span>: <span class="hljs-built_in">rgba</span>(<span class="hljs-number">255</span>, <span class="hljs-number">255</span>, <span class="hljs-number">255</span>, <span class="hljs-number">1</span>);
+  <span class="hljs-attribute">--tonic-button-background</span>: <span class="hljs-built_in">rgba</span>(<span class="hljs-number">240</span>, <span class="hljs-number">102</span>, <span class="hljs-number">83</span>, <span class="hljs-number">1</span>);
+  <span class="hljs-attribute">--tonic-button-background-hover</span>: <span class="hljs-built_in">rgba</span>(<span class="hljs-number">250</span>, <span class="hljs-number">112</span>, <span class="hljs-number">93</span>, <span class="hljs-number">1</span>);
+  <span class="hljs-attribute">--tonic-button-background-focus</span>: <span class="hljs-built_in">rgba</span>(<span class="hljs-number">245</span>, <span class="hljs-number">106</span>, <span class="hljs-number">88</span>, <span class="hljs-number">1</span>);
+}</code></pre>
 <h2>Api</h2>
 <h3>Properties</h3>
 <table>

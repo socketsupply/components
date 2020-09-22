@@ -49,7 +49,7 @@ class TonicButton extends Tonic {
         padding: 8px;
         position: relative;
         background-color: var(--tonic-button-background, transparent);
-        transition: background 0.3s ease, border 0.3s ease, color 0.3s ease;
+        transition: background 0.3s ease, color 0.3s ease;
         box-shadow: 0 1px 2px var(--tonic-button-shadow);
         appearance: none;
       }
@@ -64,6 +64,7 @@ class TonicButton extends Tonic {
         color: var(--tonic-medium, rgba(153, 157, 160, 1));
         background-color: var(--tonic-button-background-disabled, rgba(247, 247, 245, 1));
       }
+      tonic-button button[disabled],
 
       tonic-button button:active {
         animation-duration: .2s;
@@ -116,7 +117,7 @@ class TonicButton extends Tonic {
         left: 50%;
         opacity: 1;
         transform: translateX(-50%) translateY(-50%);
-        border: 2px solid var(--tonic-primary, var(--tonic-button-text));
+        border: 2px solid var(--tonic-button-text, var(--tonic-primary, black));
         border-radius: 50%;
         border-top-color: transparent;
         animation: spin 1s linear 0s infinite;

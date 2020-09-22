@@ -8,6 +8,17 @@ A `Button` component with a built-in loading state.
   <tonic-button
     async="true"
     id="tonic-button-example"
+    class="tonic-button-example"
+    value="click-me">Click me</tonic-button>
+  <tonic-button
+    async="true"
+    class="danger tonic-button-example"
+    id="tonic-button-example"
+    value="click-me">Click me</tonic-button>
+  <tonic-button
+    async="true"
+    class="outline tonic-button-example"
+    id="tonic-button-example"
     value="click-me">Click me</tonic-button>
 </div>
 
@@ -20,6 +31,18 @@ A `Button` component with a built-in loading state.
   id="tonic-button-example"
   value="click-me">Click me
 </tonic-button>
+```
+
+### CSS
+An example of how to modify a button with a specific class.
+
+```css
+tonic-button.danger {
+  --tonic-button-text: rgba(255, 255, 255, 1);
+  --tonic-button-background: rgba(240, 102, 83, 1);
+  --tonic-button-background-hover: rgba(250, 112, 93, 1);
+  --tonic-button-background-focus: rgba(245, 106, 88, 1);
+}
 ```
 
 ## Api

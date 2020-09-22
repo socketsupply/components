@@ -271,6 +271,28 @@ body {
   margin: 0;
   background-color: var(--tonic-window);
 }
+body tonic-button.danger {
+  --tonic-button-text: #fff;
+  --tonic-button-background: #f06453;
+  --tonic-button-background-hover: #ff5037;
+  --tonic-button-background-focus: #dc503c;
+}
+body tonic-button.outline {
+  --tonic-button-text: var(--tonic-primary);
+  --tonic-button-background: transparent;
+  --tonic-button-background-hover: var(--tonic-primary);
+  --tonic-button-background-focus: transparent;
+}
+body tonic-button.outline button {
+  border-color: var(--tonic-primary);
+  border-width: 1px !important;
+}
+body tonic-button.outline button:focus {
+  border-width: 2px !important;
+}
+body tonic-button.outline button:hover {
+  --tonic-button-text: #fff;
+}
 body[data-group="custom "] [data-group="component"] {
   display: none;
 }
@@ -521,6 +543,9 @@ body > main div.example {
   width: 100%;
   padding-right: 50%;
   min-height: 50px;
+}
+body > main div.example > tonic-button {
+  margin: 20px 20px 0px 0;
 }
 body > main div.example.full-width {
   padding-right: 0;

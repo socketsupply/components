@@ -58,6 +58,28 @@ body
   margin 0
   background-color var(--tonic-window)
 
+  tonic-button.danger
+    --tonic-button-text rgba(255, 255, 255, 1)
+    --tonic-button-background rgba(240, 100, 83, 1)
+    --tonic-button-background-hover rgba(255, 80, 55, 1)
+    --tonic-button-background-focus rgba(220, 80, 60, 1)
+
+  tonic-button.outline
+    --tonic-button-text var(--tonic-primary)
+    --tonic-button-background transparent
+    --tonic-button-background-hover var(--tonic-primary)
+    --tonic-button-background-focus transparent
+
+    button
+      border-color var(--tonic-primary)
+      border-width 1px !important
+    
+    button:focus
+      border-width 2px !important
+
+    button:hover
+      --tonic-button-text rgba(255, 255, 255, 1)
+
   &[data-group="custom "]
     [data-group="component"]
       display none
@@ -284,6 +306,9 @@ body
       width 100%
       padding-right 50%
       min-height 50px
+
+      > tonic-button
+        margin 20px 20px 0px 0
 
       &.full-width
         padding-right 0

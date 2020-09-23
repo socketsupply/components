@@ -7762,7 +7762,7 @@ class TonicDialog extends Tonic {
     }
 
     this.closeIcon = document.createElement('div')
-    this.closeIcon.className = 'tonic--close'
+    this.closeIcon.className = 'tonic--dialog--close'
 
     const svgns = 'http://www.w3.org/2000/svg'
     const xlinkns = 'http://www.w3.org/1999/xlink'
@@ -7830,7 +7830,7 @@ class TonicDialog extends Tonic {
         transition-timing-function: ease;
       }
 
-      .tonic--dialog > .tonic--close {
+      .tonic--dialog > .tonic--dialog--close {
         width: 25px;
         height: 25px;
         position: absolute;
@@ -7839,7 +7839,7 @@ class TonicDialog extends Tonic {
         cursor: pointer;
       }
 
-      .tonic--dialog > .tonic--close svg {
+      .tonic--dialog > .tonic--dialog--close svg {
         width: inherit;
         height: inherit;
       }
@@ -7969,7 +7969,7 @@ class TonicDialog extends Tonic {
   }
 
   click (e) {
-    if (Tonic.match(e.target, '.tonic--close')) {
+    if (Tonic.match(e.target, '.tonic--dialog--close')) {
       this.hide()
     }
   }

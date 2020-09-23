@@ -205,7 +205,7 @@ class TonicDialog extends Tonic {
     return {
       then (resolve) {
         const listener = event => {
-          const close = Tonic.match(event.target, '.tonic--dialog-close')
+          const close = Tonic.match(event.target, '.tonic--dialog--close')
           const value = Tonic.match(event.target, '[value]')
 
           if (close || value) {

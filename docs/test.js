@@ -8050,7 +8050,7 @@ tape('{{dialog-1}} is constructed properly, opens and closes properly', async t 
 
   await component.show()
 
-  const close = qs('.tonic--close', component)
+  const close = qs('.tonic--dialog--close', component)
   t.ok(close, 'the component contains the close button')
 
   const isShowingAfterOpen = component.classList.contains('tonic--show')
@@ -8446,6 +8446,11 @@ function components (Tonic, opts) {
 const Tonic = require('@optoolco/tonic')
 
 class TonicInput extends Tonic {
+  constructor () {
+    super()
+    this._modified = false
+  }
+
   defaults () {
     return {
       type: 'text',
@@ -8471,6 +8476,7 @@ class TonicInput extends Tonic {
   }
 
   set value (value) {
+    this._modified = true
     this.querySelector('input').value = value
     this.state.value = value
   }
@@ -8672,6 +8678,7 @@ class TonicInput extends Tonic {
     })
 
     input.addEventListener('input', e => {
+      this._modified = true
       this.state.value = e.target.value
       this.state.pos = e.target.selectionStart
     })
@@ -8765,8 +8772,11 @@ class TonicInput extends Tonic {
     if (tabindex) this.removeAttribute('tabindex')
     if (theme) this.classList.add(`tonic--theme--${theme}`)
 
-    const value = typeof this.state.value === 'string'
-      ? this.state.value : this.props.value
+    const value = this._modified
+      ? typeof this.state.value === 'string'
+        ? this.state.value
+        : this.props.value
+      : this.props.value
 
     const errorMessage = this.props.errorMessage ||
       this.props.errormessage || 'Invalid'
@@ -8856,7 +8866,6 @@ class InputWrapper extends Tonic {
   }
 
   input () {
-    console.log('input ev')
     this.state.inputEvents++
 
     const input = this.querySelector('tonic-input')
@@ -8882,6 +8891,7 @@ class InputWrapper extends Tonic {
     `
   }
 }
+
 Tonic.add(InputWrapper, 'input-test-wrapper-comp')
 
 document.body.appendChild(html`

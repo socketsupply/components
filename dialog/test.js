@@ -60,7 +60,7 @@ tape('{{dialog-1}} is constructed properly, opens and closes properly', async t 
 
   await component.show()
 
-  const close = qs('.tonic--close', component)
+  const close = qs('.tonic--dialog--close', component)
   t.ok(close, 'the component contains the close button')
 
   const isShowingAfterOpen = component.classList.contains('tonic--show')

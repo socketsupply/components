@@ -19,7 +19,6 @@ class InputWrapper extends Tonic {
   }
 
   input () {
-    console.log('input ev')
     this.state.inputEvents++
 
     const input = this.querySelector('tonic-input')
@@ -45,6 +44,7 @@ class InputWrapper extends Tonic {
     `
   }
 }
+
 Tonic.add(InputWrapper, 'input-test-wrapper-comp')
 
 document.body.appendChild(html`

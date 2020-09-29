@@ -1,3 +1,12 @@
+# Migration from v11 to v12
+
+There was a breaking change in dialog.
+
+You now have to `const { TonicDialog } = require('@optoolco/components/dialog')`
+The class was renamed from `Dialog` => `TonicDialog`.
+
+The dialog class was also rewritten.
+
 # Migration from v10 to v11
 
 `@optoolco/components` now depends on `@optoolco/tonic@13`

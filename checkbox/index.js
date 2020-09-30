@@ -42,7 +42,7 @@ class TonicCheckbox extends Tonic {
         user-select: none;
       }
 
-      tonic-checkbox a {
+      tonic-checkbox > div {
         height: auto;
         padding: 6px;
       }
@@ -160,7 +160,7 @@ class TonicCheckbox extends Tonic {
   async keydown (e) {
     if (e.code === 'Space') {
       await this._setValue(!this.value)
-      this.querySelector('a').focus()
+      this.querySelector('.tonic--checkbox--wrapper').focus()
     }
   }
 
@@ -182,7 +182,7 @@ class TonicCheckbox extends Tonic {
     if (theme) this.classList.add(`tonic--theme--${theme}`)
 
     return this.html`
-      <a href="#" class="tonic--checkbox--wrapper">
+      <div tabindex="0" class="tonic--checkbox--wrapper">
         <input ... ${{
           type: 'checkbox',
           id: `tonic--checkbox--${id}`,
@@ -199,7 +199,7 @@ class TonicCheckbox extends Tonic {
           ${this.renderIcon()}
         </label>
         ${this.renderLabel()}
-      </a>
+      </div>
     `
   }
 }

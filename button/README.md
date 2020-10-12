@@ -68,6 +68,8 @@ tonic-button.danger {
 | `target` | *string* | If you specify target, it will open an href in a new window, unless target is `_self` | `_self` |
 | `tabindex` | *number* | Add a `tabindex` for the button. | |
 | `theme` | *string* | Adds a theme color (`light`, `dark` or whatever is defined in your base CSS. | `light` |
+| `symbol-id` | *string* | When `type=icon`, this id will be used to refer to the svg symbol. | |
+| `sizse` | *string* | When `type=icon`, this id will be used as the size of the icon. | |
 
 ### Instance Methods & Members
 

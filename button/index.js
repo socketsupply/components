@@ -19,8 +19,8 @@ class TonicButton extends Tonic {
 
   defaults () {
     return {
-      height: '38px',
-      width: '150px',
+      height: this.props.type === 'icon' ? 'auto' : '38px',
+      width: this.props.type === 'icon' ? 'auto' : '150px',
       margin: '0px',
       autofocus: 'false',
       async: false,
@@ -52,6 +52,12 @@ class TonicButton extends Tonic {
         transition: background 0.3s ease, color 0.3s ease;
         box-shadow: 0 1px 2px var(--tonic-button-shadow);
         appearance: none;
+      }
+
+      tonic-button[type="icon"] button {
+        background: none;
+        box-shadow: none;
+        width: auto;
       }
 
       tonic-button button:focus {
@@ -208,7 +214,9 @@ class TonicButton extends Tonic {
       autofocus,
       active,
       async,
-      tabindex
+      tabindex,
+      size,
+      symbolId
     } = this.props
 
     let classes = []
@@ -217,6 +225,19 @@ class TonicButton extends Tonic {
     classes = classes.join(' ')
 
     if (tabindex) this.removeAttribute('tabindex')
+
+    let content = ''
+
+    if (type === 'icon') {
+      content = this.html`
+        <tonic-icon
+          size="${size || '18px'}"
+          symbol-id="${symbolId}"
+        ></tonic-icon>
+      `
+    } else {
+      content = this.childNodes
+    }
 
     return this.html`
       <div class="tonic--button--wrapper" styles="wrapper">
@@ -229,10 +250,11 @@ class TonicButton extends Tonic {
           type,
           tabindex,
           class: classes
-        }}>${this.childNodes}</button>
+        }}>${content}</button>
       </div>
     `
   }
 }
 
 module.exports = { TonicButton }
+

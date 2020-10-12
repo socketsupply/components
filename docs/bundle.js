@@ -838,14 +838,6 @@ class TonicButton extends Tonic {
 
     if (tabindex) this.removeAttribute('tabindex')
 
-    let label = ''
-
-    if (this.querySelector('style')) {
-      label = this.querySelector('button').textContent
-    } else {
-      label = this.textContent || type || 'Button'
-    }
-
     return this.html`
       <div class="tonic--button--wrapper" styles="wrapper">
         <button ... ${{
@@ -853,12 +845,11 @@ class TonicButton extends Tonic {
           async: String(async),
           disabled: disabled && disabled !== 'false',
           autofocus: autofocus === 'true' ? 'autofocus' : '',
-          alt: label,
           value,
           type,
           tabindex,
           class: classes
-        }}>${label}</button>
+        }}>${this.childNodes}</button>
       </div>
     `
   }

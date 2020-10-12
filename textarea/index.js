@@ -31,7 +31,7 @@ class TonicTextarea extends Tonic {
         width: 100%;
         font: 14px var(--tonic-monospace, 'Andale Mono', monospace);
         padding: 10px;
-        background-color: var(--tonic-input-background, var(--tonic-background, transparent));
+        background-color: var(--tonic-textarea-background, var(--tonic-background, transparent));
         border: 1px solid var(--tonic-border, #ccc);
         transition: border 0.2s ease-in-out;
         -webkit-appearance: none;
@@ -45,7 +45,7 @@ class TonicTextarea extends Tonic {
 
       tonic-textarea textarea:focus {
         outline: none;
-        background-color: var(--tonic-input-background-focus, rgba(241, 241, 241, 0.75));
+        background-color: var(--tonic-textarea-background-focus, rgba(241, 241, 241, 0.75));
       }
 
       tonic-textarea textarea[disabled] {
@@ -61,6 +61,71 @@ class TonicTextarea extends Tonic {
         padding-bottom: 10px;
         display: block;
       }
+
+      tonic-textarea textarea[invalid],
+      tonic-textarea textarea:invalid {
+        border-color: var(--tonic-error, #f66);
+      }
+
+      tonic-textarea textarea[invalid]:focus,
+      tonic-textarea textarea:invalid:focus {
+        border-color: var(--tonic-error, #f66);
+      }
+
+      tonic-textarea textarea[invalid] ~ .tonic--invalid,
+      tonic-textarea textarea:invalid ~ .tonic--invalid {
+        transform: translateY(0);
+        visibility: visible;
+        opacity: 1;
+        transition: opacity 0.2s ease, transform 0.2s ease, visibility 1s ease 0s;
+      }
+
+      tonic-textarea textarea[disabled] {
+        background-color: var(--tonic-background, #fff);
+      }
+
+      tonic-textarea[label] .tonic--invalid {
+        margin-bottom: 13px;
+      }
+
+      tonic-textarea .tonic--invalid {
+        font-size: 14px;
+        text-align: center;
+        margin-bottom: 13px;
+        position: absolute;
+        bottom: 100%;
+        left: 0;
+        right: 0;
+        transform: translateY(-10px);
+        transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s ease 1s;
+        visibility: hidden;
+        opacity: 0;
+      }
+
+      tonic-textarea .tonic--invalid span {
+        color: white;
+        padding: 2px 6px;
+        background-color: var(--tonic-error, #f66);
+        border-radius: 2px;
+        position: relative;
+        display: inline-block;
+        margin: 0 auto;
+      }
+
+      tonic-textarea .tonic--invalid span:after {
+        content: '';
+        width: 0;
+        height: 0;
+        display: block;
+        position: absolute;
+        bottom: -6px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-top: 6px solid var(--tonic-error, #f66);
+      }
+
     `
   }
 
@@ -88,6 +153,26 @@ class TonicTextarea extends Tonic {
 
   set value (value) {
     this.querySelector('textarea').value = value
+  }
+
+  setValid () {
+    const input = this.querySelector('textarea')
+    if (!input) return
+
+    input.setCustomValidity('')
+    input.removeAttribute('invalid')
+  }
+
+  setInvalid (msg) {
+    const input = this.querySelector('textarea')
+    if (!input) return
+
+    input.setCustomValidity(msg)
+    input.setAttribute('invalid', msg)
+    const span = this.querySelector('.tonic--invalid span')
+    if (!span) return
+
+    span.textContent = msg
   }
 
   renderLabel () {
@@ -121,6 +206,22 @@ class TonicTextarea extends Tonic {
     }
   }
 
+  keyup (e) {
+    if (!this.props.pattern) {
+      return
+    }
+
+    if (!this.regex) {
+      this.regex = new RegExp(this.props.pattern)
+    }
+
+    const value = e.target.value.trim()
+
+    value.match(this.regex)
+      ? this.setValid()
+      : this.setInvalid('Invalid')
+  }
+
   render () {
     const {
       ariaLabelledby,
@@ -149,6 +250,8 @@ class TonicTextarea extends Tonic {
     if (theme) this.classList.add(`tonic--theme--${theme}`)
     if (name) this.removeAttribute('name')
 
+    const errorMessage = this.props.errorMessage || 'Invalid'
+
     if (this.props.value === 'undefined') this.props.value = ''
 
     return this.html`
@@ -172,6 +275,9 @@ class TonicTextarea extends Tonic {
           required,
           readonly
         }}>${this.props.value}</textarea>
+        <div class="tonic--invalid">
+          <span id="tonic--error-${this.props.id}">${errorMessage}</span>
+        </div>
       </div>
     `
   }

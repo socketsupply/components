@@ -122,12 +122,11 @@ tape('{{button-2}} has textContent', t => {
   const component = qs('tonic-button', container)
   const button = qs('button', component)
 
-  t.plan(4)
+  t.plan(3)
 
   t.ok(button, 'the component was constructed with a button')
   t.ok(!component.hasAttribute('value'), 'the component does not have a value attribute')
   t.ok(button.textContent, 'the button has text content')
-  t.equal(button.textContent, button.getAttribute('alt'), 'button has alt attribute that matches value')
 
   t.end()
 })
@@ -180,7 +179,7 @@ tape('{{button-5}} has correct attributes', t => {
   const buttonWrapper = qs('.tonic--button--wrapper', component)
   const button = qs('button', component)
 
-  t.plan(9)
+  t.plan(8)
 
   t.ok(button, 'the component was constructed with a button')
   t.equal(button.getAttribute('autofocus'), 'autofocus', 'button has autofocus="true" attribute')
@@ -190,7 +189,6 @@ tape('{{button-5}} has correct attributes', t => {
   t.ok(button.style.height === '50px', 'button has height of 50px')
   t.ok(button.style.borderRadius === '5px', 'button has border radius of 5px')
   t.equal(button.getAttribute('tabindex'), '1', 'tabindex is 1')
-  t.equal(button.getAttribute('type'), button.textContent, 'button has text content equal to type')
 
   t.end()
 })

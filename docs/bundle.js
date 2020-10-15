@@ -639,8 +639,8 @@ class TonicButton extends Tonic {
 
   defaults () {
     return {
-      height: '38px',
-      width: '150px',
+      height: this.props.type === 'icon' ? 'auto' : '38px',
+      width: this.props.type === 'icon' ? 'auto' : '150px',
       margin: '0px',
       autofocus: 'false',
       async: false,
@@ -672,6 +672,12 @@ class TonicButton extends Tonic {
         transition: background 0.3s ease, color 0.3s ease;
         box-shadow: 0 1px 2px var(--tonic-button-shadow);
         appearance: none;
+      }
+
+      tonic-button[type="icon"] button {
+        background: none;
+        box-shadow: none;
+        width: auto;
       }
 
       tonic-button button:focus {
@@ -828,7 +834,9 @@ class TonicButton extends Tonic {
       autofocus,
       active,
       async,
-      tabindex
+      tabindex,
+      size,
+      symbolId
     } = this.props
 
     let classes = []
@@ -837,6 +845,19 @@ class TonicButton extends Tonic {
     classes = classes.join(' ')
 
     if (tabindex) this.removeAttribute('tabindex')
+
+    let content = ''
+
+    if (type === 'icon') {
+      content = this.html`
+        <tonic-icon
+          size="${size || '18px'}"
+          symbol-id="${symbolId}"
+        ></tonic-icon>
+      `
+    } else {
+      content = this.childNodes
+    }
 
     return this.html`
       <div class="tonic--button--wrapper" styles="wrapper">
@@ -849,7 +870,7 @@ class TonicButton extends Tonic {
           type,
           tabindex,
           class: classes
-        }}>${this.childNodes}</button>
+        }}>${content}</button>
       </div>
     `
   }
@@ -1836,7 +1857,6 @@ class TonicInput extends Tonic {
   defaults () {
     return {
       type: 'text',
-      value: '',
       placeholder: '',
       color: 'var(--tonic-primary)',
       spellcheck: false,
@@ -1853,8 +1873,13 @@ class TonicInput extends Tonic {
   }
 
   get value () {
-    return this.state.value !== undefined
-      ? this.state.value : this.props.value
+    if (this._modified) {
+      return typeof this.state.value === 'string'
+        ? this.state.value : this.props.value
+    } else {
+      return typeof this.props.value === 'string'
+        ? this.props.value : this.state.value
+    }
   }
 
   set value (value) {
@@ -2154,11 +2179,7 @@ class TonicInput extends Tonic {
     if (tabindex) this.removeAttribute('tabindex')
     if (theme) this.classList.add(`tonic--theme--${theme}`)
 
-    const value = this._modified
-      ? typeof this.state.value === 'string'
-        ? this.state.value
-        : this.props.value
-      : this.props.value
+    const value = this.value
 
     const errorMessage = this.props.errorMessage ||
       this.props.errormessage || 'Invalid'
@@ -2686,31 +2707,30 @@ if (typeof module === 'object') module.exports = Tonic
 
 },{"./package":24}],24:[function(require,module,exports){
 module.exports={
-  "_from": "@optoolco/tonic@next",
+  "_from": "@optoolco/tonic@^13.1.1",
   "_id": "@optoolco/tonic@13.1.1",
   "_inBundle": false,
   "_integrity": "sha512-KGgLJQ8PW5T2fIj3Pl426hGARJzdE11b3usBcMdHHge1oKTkhs4nybJJ0C2P+iVfErFYXPwDcEToFM0kDPOiLg==",
   "_location": "/@optoolco/tonic",
   "_phantomChildren": {},
   "_requested": {
-    "type": "tag",
+    "type": "range",
     "registry": true,
-    "raw": "@optoolco/tonic@next",
+    "raw": "@optoolco/tonic@^13.1.1",
     "name": "@optoolco/tonic",
     "escapedName": "@optoolco%2ftonic",
     "scope": "@optoolco",
-    "rawSpec": "next",
+    "rawSpec": "^13.1.1",
     "saveSpec": null,
-    "fetchSpec": "next"
+    "fetchSpec": "^13.1.1"
   },
   "_requiredBy": [
-    "#DEV:/",
-    "#USER"
+    "#DEV:/"
   ],
   "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-13.1.1.tgz",
   "_shasum": "e7a14d9a5cfe2cef1d0f671c085df924b2d3c5f4",
-  "_spec": "@optoolco/tonic@next",
-  "_where": "/Users/paolofragomeni/projects/optoolco/components",
+  "_spec": "@optoolco/tonic@^13.1.1",
+  "_where": "/home/raynos/optoolco/components",
   "author": {
     "name": "optoolco"
   },

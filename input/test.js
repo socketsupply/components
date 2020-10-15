@@ -399,6 +399,9 @@ tape('input wrapper component interactions', t => {
     t.equal(display.textContent, 'someText')
     t.equal(comp.state.inputEvents, 1)
 
+    const input2 = comp.querySelector('input')
+    t.equal(input2.value, 'someText')
+
     t.end()
   }, 20)
 })

@@ -9,7 +9,6 @@ class TonicInput extends Tonic {
   defaults () {
     return {
       type: 'text',
-      value: '',
       placeholder: '',
       color: 'var(--tonic-primary)',
       spellcheck: false,
@@ -26,8 +25,13 @@ class TonicInput extends Tonic {
   }
 
   get value () {
-    return this.state.value !== undefined
-      ? this.state.value : this.props.value
+    if (this._modified) {
+      return typeof this.state.value === 'string'
+        ? this.state.value : this.props.value
+    } else {
+      return typeof this.props.value === 'string'
+        ? this.props.value : this.state.value
+    }
   }
 
   set value (value) {
@@ -327,11 +331,7 @@ class TonicInput extends Tonic {
     if (tabindex) this.removeAttribute('tabindex')
     if (theme) this.classList.add(`tonic--theme--${theme}`)
 
-    const value = this._modified
-      ? typeof this.state.value === 'string'
-        ? this.state.value
-        : this.props.value
-      : this.props.value
+    const value = this.value
 
     const errorMessage = this.props.errorMessage ||
       this.props.errormessage || 'Invalid'

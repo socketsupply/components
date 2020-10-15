@@ -257,4 +257,3 @@ class TonicButton extends Tonic {
 }
 
 module.exports = { TonicButton }
-

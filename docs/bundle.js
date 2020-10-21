@@ -639,8 +639,8 @@ class TonicButton extends Tonic {
 
   defaults () {
     return {
-      height: this.props.type === 'icon' ? 'auto' : '38px',
-      width: this.props.type === 'icon' ? 'auto' : '150px',
+      height: this.props.type === 'icon' ? '100%' : '38px',
+      width: this.props.type === 'icon' ? '100%' : '150px',
       margin: '0px',
       autofocus: 'false',
       async: false,
@@ -661,12 +661,11 @@ class TonicButton extends Tonic {
       tonic-button button {
         color: var(--tonic-button-text, var(--tonic-primary, rgba(54, 57, 61, 1)));
         width: auto;
-        min-height: 38px;
         font: 12px var(--tonic-subheader, 'Arial', sans-serif);
         font-weight: bold;
         text-transform: uppercase;
         letter-spacing: 1px;
-        padding: 8px;
+        padding: 6px;
         position: relative;
         background-color: var(--tonic-button-background, transparent);
         transition: background 0.3s ease, color 0.3s ease;
@@ -677,7 +676,6 @@ class TonicButton extends Tonic {
       tonic-button[type="icon"] button {
         background: none;
         box-shadow: none;
-        width: auto;
       }
 
       tonic-button button:focus {
@@ -2707,30 +2705,31 @@ if (typeof module === 'object') module.exports = Tonic
 
 },{"./package":24}],24:[function(require,module,exports){
 module.exports={
-  "_from": "@optoolco/tonic@^13.1.1",
+  "_from": "@optoolco/tonic@next",
   "_id": "@optoolco/tonic@13.1.1",
   "_inBundle": false,
   "_integrity": "sha512-KGgLJQ8PW5T2fIj3Pl426hGARJzdE11b3usBcMdHHge1oKTkhs4nybJJ0C2P+iVfErFYXPwDcEToFM0kDPOiLg==",
   "_location": "/@optoolco/tonic",
   "_phantomChildren": {},
   "_requested": {
-    "type": "range",
+    "type": "tag",
     "registry": true,
-    "raw": "@optoolco/tonic@^13.1.1",
+    "raw": "@optoolco/tonic@next",
     "name": "@optoolco/tonic",
     "escapedName": "@optoolco%2ftonic",
     "scope": "@optoolco",
-    "rawSpec": "^13.1.1",
+    "rawSpec": "next",
     "saveSpec": null,
-    "fetchSpec": "^13.1.1"
+    "fetchSpec": "next"
   },
   "_requiredBy": [
-    "#DEV:/"
+    "#DEV:/",
+    "#USER"
   ],
   "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-13.1.1.tgz",
   "_shasum": "e7a14d9a5cfe2cef1d0f671c085df924b2d3c5f4",
-  "_spec": "@optoolco/tonic@^13.1.1",
-  "_where": "/home/raynos/optoolco/components",
+  "_spec": "@optoolco/tonic@next",
+  "_where": "/Users/paolofragomeni/projects/optoolco/components",
   "author": {
     "name": "optoolco"
   },

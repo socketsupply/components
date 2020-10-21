@@ -19,8 +19,8 @@ class TonicButton extends Tonic {
 
   defaults () {
     return {
-      height: this.props.type === 'icon' ? 'auto' : '38px',
-      width: this.props.type === 'icon' ? 'auto' : '150px',
+      height: this.props.type === 'icon' ? '100%' : '38px',
+      width: this.props.type === 'icon' ? '100%' : '150px',
       margin: '0px',
       autofocus: 'false',
       async: false,
@@ -41,12 +41,11 @@ class TonicButton extends Tonic {
       tonic-button button {
         color: var(--tonic-button-text, var(--tonic-primary, rgba(54, 57, 61, 1)));
         width: auto;
-        min-height: 38px;
         font: 12px var(--tonic-subheader, 'Arial', sans-serif);
         font-weight: bold;
         text-transform: uppercase;
         letter-spacing: 1px;
-        padding: 8px;
+        padding: 6px;
         position: relative;
         background-color: var(--tonic-button-background, transparent);
         transition: background 0.3s ease, color 0.3s ease;
@@ -57,7 +56,6 @@ class TonicButton extends Tonic {
       tonic-button[type="icon"] button {
         background: none;
         box-shadow: none;
-        width: auto;
       }
 
       tonic-button button:focus {

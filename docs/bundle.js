@@ -640,7 +640,7 @@ class TonicButton extends Tonic {
   defaults () {
     return {
       height: this.props.type === 'icon' ? '100%' : '34px',
-      width: this.props.type === 'icon' ? '100%' : '150px',
+      width: this.props.type === 'icon' ? '100%' : '140px',
       margin: '0px',
       autofocus: 'false',
       async: false,
@@ -1271,8 +1271,9 @@ class TonicDialog extends Tonic {
   static stylesheet () {
     return `
       .tonic--dialog {
-        box-shadow: 0px 6px 15px 3px rgba(0, 0, 0, 0.2);
+        box-shadow: 0px 6px 35px 3px rgba(0, 0, 0, 0.2);
         background: var(--tonic-window);
+        border: 1px solid var(--tonic-border);
         border-radius: 6px;
         position: fixed;
         overflow: hidden;

@@ -25336,7 +25336,7 @@ class TonicSelect extends Tonic {
       }
 
       tonic-select select:not([multiple]) {
-        padding: 10px 30px 10px 10px;
+        padding: 8px 30px 8px 8px;
       }
 
       tonic-select select[disabled] {
@@ -25358,7 +25358,7 @@ class TonicSelect extends Tonic {
       }
 
       tonic-select[multiple] select option {
-        padding: 6px 10px;
+        padding: 6px 8px;
       }
 
       @keyframes spin {

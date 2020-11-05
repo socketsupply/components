@@ -6637,7 +6637,7 @@ class TonicButton extends Tonic {
 
   defaults () {
     return {
-      height: this.props.type === 'icon' ? '100%' : '38px',
+      height: this.props.type === 'icon' ? '100%' : '34px',
       width: this.props.type === 'icon' ? '100%' : '150px',
       margin: '0px',
       autofocus: 'false',
@@ -6661,6 +6661,7 @@ class TonicButton extends Tonic {
         width: auto;
         font: 12px var(--tonic-subheader, 'Arial', sans-serif);
         font-weight: bold;
+        font-size: 12px;
         text-transform: uppercase;
         letter-spacing: 1px;
         padding: 6px;
@@ -8558,7 +8559,7 @@ class TonicInput extends Tonic {
       tonic-input input {
         color: var(--tonic-primary, #333);
         font: 14px var(--tonic-monospace, 'Andale Mono', monospace);
-        padding: 10px;
+        padding: 8px;
         background-color: var(--tonic-input-background, var(--tonic-background, transparent));
         border: 1px solid var(--tonic-border, #ccc);
         -webkit-appearance: none;

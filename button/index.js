@@ -19,8 +19,8 @@ class TonicButton extends Tonic {
 
   defaults () {
     return {
-      height: this.props.type === 'icon' ? '100%' : '38px',
-      width: this.props.type === 'icon' ? '100%' : '150px',
+      height: this.props.type === 'icon' ? '100%' : '34px',
+      width: this.props.type === 'icon' ? '100%' : '140px',
       margin: '0px',
       autofocus: 'false',
       async: false,
@@ -43,6 +43,7 @@ class TonicButton extends Tonic {
         width: auto;
         font: 12px var(--tonic-subheader, 'Arial', sans-serif);
         font-weight: bold;
+        font-size: 12px;
         text-transform: uppercase;
         letter-spacing: 1px;
         padding: 6px;

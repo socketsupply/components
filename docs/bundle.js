@@ -799,9 +799,7 @@ class TonicButton extends Tonic {
       height,
       margin,
       radius,
-      fill,
       disabled,
-      borderColor,
       borderWidth,
       textColor,
       textColorDisabled
@@ -812,9 +810,7 @@ class TonicButton extends Tonic {
         width,
         height,
         color: disabled && disabled === 'true' ? textColorDisabled : textColor,
-        backgroundColor: fill,
         borderRadius: radius,
-        borderColor: fill || borderColor,
         borderWidth: borderWidth
       },
       wrapper: {
@@ -833,6 +829,7 @@ class TonicButton extends Tonic {
       autofocus,
       active,
       async,
+      fill,
       tabindex,
       size,
       symbolId
@@ -851,6 +848,7 @@ class TonicButton extends Tonic {
       content = this.html`
         <tonic-icon
           size="${size || '18px'}"
+          fill="${fill || 'var(--tonic-primary)'}"
           symbol-id="${symbolId}"
         ></tonic-icon>
       `

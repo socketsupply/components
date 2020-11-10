@@ -459,19 +459,27 @@ registerComponents(Tonic) <span class="hljs-comment">// Register the components 
 <div class="example">
   <tonic-button
     async="true"
-    id="tonic-button-example"
+    id="tonic-button-example-1"
     class="tonic-button-example"
     value="click-me">Click me</tonic-button>
   <tonic-button
     async="true"
     class="danger tonic-button-example"
-    id="tonic-button-example"
+    id="tonic-button-example-2"
     value="click-me">Click me</tonic-button>
   <tonic-button
     async="true"
     class="outline tonic-button-example"
-    id="tonic-button-example"
+    id="tonic-button-example-3"
     value="click-me">Click me</tonic-button>
+  <tonic-button
+    type="icon"
+    class="tonic-button-example"
+    id="tonic-button-example-4"
+    fill="var(--tonic-primary)"
+    symbol-id="edit"
+    size="22px"
+    value="click-me"></tonic-button>
 </div>
 
 <h2>Code</h2>
@@ -567,9 +575,9 @@ registerComponents(Tonic) <span class="hljs-comment">// Register the components 
 <td align="left"><code>2px</code></td>
 </tr>
 <tr>
-<td align="left"><code>fill</code></td>
+<td align="left"><code>background-color</code></td>
 <td align="left"><em>string</em></td>
-<td align="left">Filled button.</td>
+<td align="left">Button background color.</td>
 <td align="left"></td>
 </tr>
 <tr>

@@ -7,19 +7,27 @@ A `Button` component with a built-in loading state.
 <div class="example">
   <tonic-button
     async="true"
-    id="tonic-button-example"
+    id="tonic-button-example-1"
     class="tonic-button-example"
     value="click-me">Click me</tonic-button>
   <tonic-button
     async="true"
     class="danger tonic-button-example"
-    id="tonic-button-example"
+    id="tonic-button-example-2"
     value="click-me">Click me</tonic-button>
   <tonic-button
     async="true"
     class="outline tonic-button-example"
-    id="tonic-button-example"
+    id="tonic-button-example-3"
     value="click-me">Click me</tonic-button>
+  <tonic-button
+    type="icon"
+    class="tonic-button-example"
+    id="tonic-button-example-4"
+    fill="var(--tonic-primary)"
+    symbol-id="edit"
+    size="22px"
+    value="click-me"></tonic-button>
 </div>
 
 ## Code
@@ -62,7 +70,7 @@ tonic-button.danger {
 | `width` | *string* | Width of the button. | `150px` |
 | `height` | *string* | Height of the button. | `38px` |
 | `radius` | *string* | Radius of the button. | `2px` |
-| `fill` | *string* | Filled button. |  |
+| `background-color` | *string* | Button background color. |  |
 | `text-color` | *string* | TextColor of the button. |  |
 | `href` | *string* | Add a location (url) for click event. | |
 | `target` | *string* | If you specify target, it will open an href in a new window, unless target is `_self` | `_self` |

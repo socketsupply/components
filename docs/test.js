@@ -8521,7 +8521,7 @@ class TonicInput extends Tonic {
 
       tonic-input[symbol-id] .tonic--right tonic-icon,
       tonic-input[src] .tonic--right tonic-icon {
-        right: 10px;
+        right: 6px;
       }
 
       tonic-input[symbol-id] .tonic--right input,
@@ -8531,7 +8531,7 @@ class TonicInput extends Tonic {
 
       tonic-input[symbol-id] .tonic--left tonic-icon,
       tonic-input[src] .tonic--left tonic-icon {
-        left: 10px;
+        left: 6px;
       }
 
       tonic-input[symbol-id] .tonic--left input,
@@ -8542,7 +8542,7 @@ class TonicInput extends Tonic {
       tonic-input[symbol-id] tonic-icon,
       tonic-input[src] tonic-icon {
         position: absolute;
-        bottom: 8px;
+        bottom: 6px;
       }
 
       tonic-input label {
@@ -37083,7 +37083,7 @@ class TonicTextarea extends Tonic {
         width: 100%;
         font: 14px var(--tonic-monospace, 'Andale Mono', monospace);
         padding: 10px;
-        background-color: var(--tonic-textarea-background, var(--tonic-background, transparent));
+        background-color: var(--tonic-input-background, var(--tonic-background, transparent));
         border: 1px solid var(--tonic-border, #ccc);
         transition: border 0.2s ease-in-out;
         -webkit-appearance: none;
@@ -37097,7 +37097,7 @@ class TonicTextarea extends Tonic {
 
       tonic-textarea textarea:focus {
         outline: none;
-        background-color: var(--tonic-textarea-background-focus, rgba(241, 241, 241, 0.75));
+        background-color: var(--tonic-input-background-focus, rgba(241, 241, 241, 0.75));
       }
 
       tonic-textarea textarea[disabled] {

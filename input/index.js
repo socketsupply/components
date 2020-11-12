@@ -68,7 +68,7 @@ class TonicInput extends Tonic {
 
       tonic-input[symbol-id] .tonic--right tonic-icon,
       tonic-input[src] .tonic--right tonic-icon {
-        right: 10px;
+        right: 6px;
       }
 
       tonic-input[symbol-id] .tonic--right input,
@@ -78,7 +78,7 @@ class TonicInput extends Tonic {
 
       tonic-input[symbol-id] .tonic--left tonic-icon,
       tonic-input[src] .tonic--left tonic-icon {
-        left: 10px;
+        left: 6px;
       }
 
       tonic-input[symbol-id] .tonic--left input,
@@ -89,7 +89,7 @@ class TonicInput extends Tonic {
       tonic-input[symbol-id] tonic-icon,
       tonic-input[src] tonic-icon {
         position: absolute;
-        bottom: 8px;
+        bottom: 6px;
       }
 
       tonic-input label {

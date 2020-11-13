@@ -59,6 +59,13 @@ class TonicButton extends Tonic {
         box-shadow: none;
       }
 
+      tonic-button[type="icon"] tonic-icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
       tonic-button button:focus {
         background-color: var(--tonic-button-background-focus, rgba(247, 247, 245, 1));
         outline: none;

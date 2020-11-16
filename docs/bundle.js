@@ -1808,6 +1808,8 @@ const { TonicToasterInline } = require('./toaster-inline')
 const { TonicToaster } = require('./toaster')
 const { TonicToggle } = require('./toggle')
 
+let once = false
+
 //
 // An example collection of components.
 //
@@ -1816,6 +1818,11 @@ module.exports = components
 components.Tonic = Tonic
 
 function components (Tonic, opts) {
+  if (once) {
+    return
+  }
+  once = true
+
   Tonic.add(TonicAccordion)
   Tonic.add(TonicAccordionSection)
   Tonic.add(TonicBadge)
@@ -2424,7 +2431,9 @@ class Tonic extends window.HTMLElement {
     }
 
     if (!htmlName) htmlName = Tonic._splitName(c.name).toLowerCase()
-    if (window.customElements.get(htmlName)) return
+    if (window.customElements.get(htmlName)) {
+      throw new Error(`Cannot Tonic.add(${c.name}, '${htmlName}') twice`)
+    }
 
     if (!c.prototype.isTonicComponent) {
       const tmp = { [c.name]: class extends Tonic {} }[c.name]
@@ -2708,35 +2717,30 @@ if (typeof module === 'object') module.exports = Tonic
 
 },{"./package":24}],24:[function(require,module,exports){
 module.exports={
-  "_args": [
-    [
-      "@optoolco/tonic@13.1.1",
-      "/home/raynos/optoolco/components"
-    ]
-  ],
-  "_development": true,
-  "_from": "@optoolco/tonic@13.1.1",
-  "_id": "@optoolco/tonic@13.1.1",
+  "_from": "@optoolco/tonic@next",
+  "_id": "@optoolco/tonic@13.1.2",
   "_inBundle": false,
-  "_integrity": "sha512-KGgLJQ8PW5T2fIj3Pl426hGARJzdE11b3usBcMdHHge1oKTkhs4nybJJ0C2P+iVfErFYXPwDcEToFM0kDPOiLg==",
+  "_integrity": "sha512-FGYM9O0qcuqxbmh9j1QzuQELoThgRuHKxsv0BbVujC+puuCC4BtgAKT8Ie/W8gVNZwDVxwZ2VG3VGHY+ZIgG7Q==",
   "_location": "/@optoolco/tonic",
   "_phantomChildren": {},
   "_requested": {
-    "type": "version",
+    "type": "tag",
     "registry": true,
-    "raw": "@optoolco/tonic@13.1.1",
+    "raw": "@optoolco/tonic@next",
     "name": "@optoolco/tonic",
     "escapedName": "@optoolco%2ftonic",
     "scope": "@optoolco",
-    "rawSpec": "13.1.1",
+    "rawSpec": "next",
     "saveSpec": null,
-    "fetchSpec": "13.1.1"
+    "fetchSpec": "next"
   },
   "_requiredBy": [
-    "#DEV:/"
+    "#DEV:/",
+    "#USER"
   ],
-  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-13.1.1.tgz",
-  "_spec": "13.1.1",
+  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-13.1.2.tgz",
+  "_shasum": "2a0c3378058f3d2d6979d128644cef548f42ed87",
+  "_spec": "@optoolco/tonic@next",
   "_where": "/home/raynos/optoolco/components",
   "author": {
     "name": "optoolco"
@@ -2744,7 +2748,9 @@ module.exports={
   "bugs": {
     "url": "https://github.com/optoolco/tonic/issues"
   },
+  "bundleDependencies": false,
   "dependencies": {},
+  "deprecated": false,
   "description": "A composable component inspired by React.",
   "devDependencies": {
     "benchmark": "^2.1.4",
@@ -2770,7 +2776,7 @@ module.exports={
     "minify": "terser index.js -c unused,dead_code,hoist_vars,loops=false,hoist_props=true,hoist_funs,toplevel,keep_classnames,keep_fargs=false -o dist/tonic.min.js",
     "test": "npm run minify && browserify test/index.js | tape-puppet"
   },
-  "version": "13.1.1"
+  "version": "13.1.2"
 }
 
 },{}],25:[function(require,module,exports){

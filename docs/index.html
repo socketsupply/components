@@ -734,6 +734,10 @@ example, given the above policy you would add the following to your javascript..
 <td align="left">html`...`</td>
 <td align="left">Interpolated HTML string (use as a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals">tagged template</a>). Provides...<br/> 1. Pass object references as properties.<br/> 2. Spread operator (ie <code>&lt;a ...${object}&gt;&lt;/a&gt;</code>) which turns ojbects into html properties.<br/> 3. Automatic string escaping.<br/> 4. Render <code>NamedNodeMap</code>, <code>HTMLElement</code>, <code>HTMLCollection</code>, or <code>NodeList</code> as html (ie <code>&lt;a&gt;${span}&lt;/a&gt;</code>).<br/></td>
 </tr>
+<tr>
+<td align="left"><code>dispatch(String, Object?)</code></td>
+<td align="left">Dispatch a custom event from the component with an optional detail. A parent component can listen for the event by calling <code>this.addEventListener(String, this)</code> and implementing the event handler method.</td>
+</tr>
 </tbody></table>
 <h2>INSTANCE PROPERTIES</h2>
 <table>

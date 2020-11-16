@@ -19,6 +19,7 @@ class TonicCheckbox extends Tonic {
   }
 
   async _setValue (value) {
+    this.state._changing = true
     const checked = (value === true) || (value === 'true')
 
     this.state.checked = checked
@@ -97,12 +98,7 @@ class TonicCheckbox extends Tonic {
     if (this.state._changing) return
 
     e.stopPropagation()
-
-    const currentState = this.value
-    this.state._changing = true
-    this.value = !currentState
-
-    this.reRender()
+    this._setValue(!this.value)
   }
 
   updated () {

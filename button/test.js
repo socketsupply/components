@@ -193,21 +193,6 @@ tape('{{button-5}} has correct attributes', t => {
   t.end()
 })
 
-tape('{{button-6}} gets style derived from component "fill" attribute', t => {
-  const container = qs('#button-6')
-  const component = qs('tonic-button', container)
-  const button = qs('button', component)
-
-  t.ok(button, 'the component was constructed with a button')
-  t.ok(component.hasAttribute('fill'), 'the component has fill attribute')
-  t.equal(component.getAttribute('fill'), button.style.backgroundColor, 'the fill attribute matches button background color')
-  // Testing borderColor doesn't work in Safari, specific borderColor property isn't created
-  // t.equal(component.getAttribute('fill'), button.style.borderColor, 'the fill attribute matches button border color')
-  t.equal(window.getComputedStyle(button).borderColor, 'rgb(240, 102, 83)', 'the color was added')
-
-  t.end()
-})
-
 tape('{{button-7}} gets border style derived from component attributes', t => {
   const container = qs('#button-7')
   const component = qs('tonic-button', container)

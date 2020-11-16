@@ -7054,25 +7054,6 @@ tape('{{button-5}} has correct attributes', t => {
   t.end()
 })
 
-tape('{{button-6}} gets style derived from component "fill" attribute', t => {
-  const container = qs('#button-6')
-  const component = qs('tonic-button', container)
-  const button = qs('button', component)
-
-  console.log('fucker', button.style.backgroundColor,
-    component.getAttribute('fill')
-  )
-
-  t.ok(button, 'the component was constructed with a button')
-  t.ok(component.hasAttribute('fill'), 'the component has fill attribute')
-  t.equal(component.getAttribute('fill'), button.style.backgroundColor, 'the fill attribute matches button background color')
-  // Testing borderColor doesn't work in Safari, specific borderColor property isn't created
-  // t.equal(component.getAttribute('fill'), button.style.borderColor, 'the fill attribute matches button border color')
-  t.equal(window.getComputedStyle(button).borderColor, 'rgb(240, 102, 83)', 'the color was added')
-
-  t.end()
-})
-
 tape('{{button-7}} gets border style derived from component attributes', t => {
   const container = qs('#button-7')
   const component = qs('tonic-button', container)
@@ -9693,29 +9674,35 @@ if (typeof module === 'object') module.exports = Tonic
 
 },{"./package":51}],51:[function(require,module,exports){
 module.exports={
-  "_from": "@optoolco/tonic@^13.1.1",
+  "_args": [
+    [
+      "@optoolco/tonic@13.1.1",
+      "/home/raynos/optoolco/components"
+    ]
+  ],
+  "_development": true,
+  "_from": "@optoolco/tonic@13.1.1",
   "_id": "@optoolco/tonic@13.1.1",
   "_inBundle": false,
   "_integrity": "sha512-KGgLJQ8PW5T2fIj3Pl426hGARJzdE11b3usBcMdHHge1oKTkhs4nybJJ0C2P+iVfErFYXPwDcEToFM0kDPOiLg==",
   "_location": "/@optoolco/tonic",
   "_phantomChildren": {},
   "_requested": {
-    "type": "range",
+    "type": "version",
     "registry": true,
-    "raw": "@optoolco/tonic@^13.1.1",
+    "raw": "@optoolco/tonic@13.1.1",
     "name": "@optoolco/tonic",
     "escapedName": "@optoolco%2ftonic",
     "scope": "@optoolco",
-    "rawSpec": "^13.1.1",
+    "rawSpec": "13.1.1",
     "saveSpec": null,
-    "fetchSpec": "^13.1.1"
+    "fetchSpec": "13.1.1"
   },
   "_requiredBy": [
     "#DEV:/"
   ],
   "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-13.1.1.tgz",
-  "_shasum": "e7a14d9a5cfe2cef1d0f671c085df924b2d3c5f4",
-  "_spec": "@optoolco/tonic@^13.1.1",
+  "_spec": "13.1.1",
   "_where": "/home/raynos/optoolco/components",
   "author": {
     "name": "optoolco"
@@ -9723,9 +9710,7 @@ module.exports={
   "bugs": {
     "url": "https://github.com/optoolco/tonic/issues"
   },
-  "bundleDependencies": false,
   "dependencies": {},
-  "deprecated": false,
   "description": "A composable component inspired by React.",
   "devDependencies": {
     "benchmark": "^2.1.4",

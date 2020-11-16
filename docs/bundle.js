@@ -2708,29 +2708,35 @@ if (typeof module === 'object') module.exports = Tonic
 
 },{"./package":24}],24:[function(require,module,exports){
 module.exports={
-  "_from": "@optoolco/tonic@^13.1.1",
+  "_args": [
+    [
+      "@optoolco/tonic@13.1.1",
+      "/home/raynos/optoolco/components"
+    ]
+  ],
+  "_development": true,
+  "_from": "@optoolco/tonic@13.1.1",
   "_id": "@optoolco/tonic@13.1.1",
   "_inBundle": false,
   "_integrity": "sha512-KGgLJQ8PW5T2fIj3Pl426hGARJzdE11b3usBcMdHHge1oKTkhs4nybJJ0C2P+iVfErFYXPwDcEToFM0kDPOiLg==",
   "_location": "/@optoolco/tonic",
   "_phantomChildren": {},
   "_requested": {
-    "type": "range",
+    "type": "version",
     "registry": true,
-    "raw": "@optoolco/tonic@^13.1.1",
+    "raw": "@optoolco/tonic@13.1.1",
     "name": "@optoolco/tonic",
     "escapedName": "@optoolco%2ftonic",
     "scope": "@optoolco",
-    "rawSpec": "^13.1.1",
+    "rawSpec": "13.1.1",
     "saveSpec": null,
-    "fetchSpec": "^13.1.1"
+    "fetchSpec": "13.1.1"
   },
   "_requiredBy": [
     "#DEV:/"
   ],
   "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-13.1.1.tgz",
-  "_shasum": "e7a14d9a5cfe2cef1d0f671c085df924b2d3c5f4",
-  "_spec": "@optoolco/tonic@^13.1.1",
+  "_spec": "13.1.1",
   "_where": "/home/raynos/optoolco/components",
   "author": {
     "name": "optoolco"
@@ -2738,9 +2744,7 @@ module.exports={
   "bugs": {
     "url": "https://github.com/optoolco/tonic/issues"
   },
-  "bundleDependencies": false,
   "dependencies": {},
-  "deprecated": false,
   "description": "A composable component inspired by React.",
   "devDependencies": {
     "benchmark": "^2.1.4",

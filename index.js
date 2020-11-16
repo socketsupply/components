@@ -40,6 +40,8 @@ const { TonicToasterInline } = require('./toaster-inline')
 const { TonicToaster } = require('./toaster')
 const { TonicToggle } = require('./toggle')
 
+let once = false
+
 //
 // An example collection of components.
 //
@@ -48,6 +50,11 @@ module.exports = components
 components.Tonic = Tonic
 
 function components (Tonic, opts) {
+  if (once) {
+    return
+  }
+  once = true
+
   Tonic.add(TonicAccordion)
   Tonic.add(TonicAccordionSection)
   Tonic.add(TonicBadge)

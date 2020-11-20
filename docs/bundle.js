@@ -307,7 +307,8 @@ class TonicAccordion extends Tonic {
       panels.forEach(el => el.setAttribute('hidden', ''))
     }
 
-    const panelId = trigger.getAttribute('aria-controls')
+    const panelId = trigger.getAttribute('aria-controls') ||
+      `tonic--accordion-panel-${trigger.id}`
 
     if (isExpanded) {
       trigger.setAttribute('aria-expanded', 'false')
@@ -2431,9 +2432,7 @@ class Tonic extends window.HTMLElement {
     }
 
     if (!htmlName) htmlName = Tonic._splitName(c.name).toLowerCase()
-    if (window.customElements.get(htmlName)) {
-      throw new Error(`Cannot Tonic.add(${c.name}, '${htmlName}') twice`)
-    }
+    if (window.customElements.get(htmlName)) return
 
     if (!c.prototype.isTonicComponent) {
       const tmp = { [c.name]: class extends Tonic {} }[c.name]
@@ -2718,9 +2717,9 @@ if (typeof module === 'object') module.exports = Tonic
 },{"./package":24}],24:[function(require,module,exports){
 module.exports={
   "_from": "@optoolco/tonic@next",
-  "_id": "@optoolco/tonic@13.1.2",
+  "_id": "@optoolco/tonic@13.1.1",
   "_inBundle": false,
-  "_integrity": "sha512-FGYM9O0qcuqxbmh9j1QzuQELoThgRuHKxsv0BbVujC+puuCC4BtgAKT8Ie/W8gVNZwDVxwZ2VG3VGHY+ZIgG7Q==",
+  "_integrity": "sha512-KGgLJQ8PW5T2fIj3Pl426hGARJzdE11b3usBcMdHHge1oKTkhs4nybJJ0C2P+iVfErFYXPwDcEToFM0kDPOiLg==",
   "_location": "/@optoolco/tonic",
   "_phantomChildren": {},
   "_requested": {
@@ -2738,10 +2737,10 @@ module.exports={
     "#DEV:/",
     "#USER"
   ],
-  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-13.1.2.tgz",
-  "_shasum": "2a0c3378058f3d2d6979d128644cef548f42ed87",
+  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-13.1.1.tgz",
+  "_shasum": "e7a14d9a5cfe2cef1d0f671c085df924b2d3c5f4",
   "_spec": "@optoolco/tonic@next",
-  "_where": "/home/raynos/optoolco/components",
+  "_where": "/Users/paolofragomeni/projects/optoolco/components",
   "author": {
     "name": "optoolco"
   },
@@ -2776,7 +2775,7 @@ module.exports={
     "minify": "terser index.js -c unused,dead_code,hoist_vars,loops=false,hoist_props=true,hoist_funs,toplevel,keep_classnames,keep_fargs=false -o dist/tonic.min.js",
     "test": "npm run minify && browserify test/index.js | tape-puppet"
   },
-  "version": "13.1.2"
+  "version": "13.1.1"
 }
 
 },{}],25:[function(require,module,exports){

@@ -40,7 +40,8 @@ class TonicAccordion extends Tonic {
       panels.forEach(el => el.setAttribute('hidden', ''))
     }
 
-    const panelId = trigger.getAttribute('aria-controls')
+    const panelId = trigger.getAttribute('aria-controls') ||
+      `tonic--accordion-panel-${trigger.id}`
 
     if (isExpanded) {
       trigger.setAttribute('aria-expanded', 'false')

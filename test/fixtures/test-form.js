@@ -49,18 +49,13 @@ class TestForm extends Tonic {
 Tonic.add(TestForm)
 
 class CustomEventTest extends Tonic {
-  click (e) {
-    const el = Tonic.match(e.target, '[data-event]')
-    if (!el) return
-
-    if (el.dataset.event === 'click-me') {
-      this.dispatch('specialclick', { bar: 'hmm' })
-    }
-  }
-
   render () {
     return this.html`
-      <span class="test-click-me" data-event="click-me">
+      <span
+        class="test-click-me"
+        data-event="click-me"
+        data-bar="hmm"
+      >
         Click Me
       </span>
     `
@@ -72,16 +67,18 @@ class CustomEventParent extends Tonic {
   constructor () {
     super()
 
-    this.addEventListener('specialclick', this)
-
     this.state = {
       text: 'empty'
     }
   }
 
-  specialclick (ev) {
-    this.state.text = ev.detail.bar
-    this.reRender()
+  click (ev) {
+    const el = Tonic.match(ev.target, '[data-event]')
+
+    if (el.dataset.event === 'click-me') {
+      this.state.text = el.dataset.bar
+      this.reRender()
+    }
   }
 
   render () {

@@ -80,35 +80,25 @@ Tonic.match(el, 'selector')
 ```
 
 Here, when a particular element inside a child component is clicked, we
-intercept the click event and pass along some data to the parent component.
+attach a click event handler in the parent component by relying on bubbling.
 
 ### Example
 ```js
 class ChildElement extends Tonic {
-  click (e) {
-    const el = Tonic.match(e.target, '[data-event]')
-    if (!el) return
-
-    if (el.dataset.event === 'click-me') {
-      this.dispatch('specialclick', { bar: true })
-    }
-  }
   render () {
     return this.html`
-      <span data-event="click-me">Click Me</span>
+      <span data-event="click-me" data-bar="true">Click Me</span>
     `
   }
 }
 
 class ParentElement extends Tonic {
-  constructor () {
-    super()
+  click (ev) {
+    const el = Tonic.match(ev.target, '[data-event]')
 
-    this.addEventListener('specialclick', this)
-  }
-
-  specialclick (ev) {
-    console.log(ev.detail.bar)
+    if (el.dataset.event === 'click-me') {
+      console.log(el.dataset.bar)
+    }
   }
 
   render () {
@@ -119,10 +109,6 @@ class ParentElement extends Tonic {
   }
 }
 ```
-
-Tonic providers a helper `this.dispatch` method that you can use
-to dispatch custom events. The [`EventTarget.addEventListener`][10] method
-is built into the dom
 
 The event object has a [`Event.stopPropagation()`][8] method that is useful for
 preventing an event from bubbling up to parent components. You may also be

@@ -86,21 +86,31 @@ intercept the click event and pass along some data to the parent component.
 ```js
 class ChildElement extends Tonic {
   click (e) {
-    e.detail.bar = true
+    const el = Tonic.match(e.target, '[data-event]')
+    if (!el) return
+
+    if (el.dataset.event === 'click-me') {
+      this.dispatch('specialclick', { bar: true })
+    }
   }
   render () {
     return this.html`
-      Click Me
+      <span data-event="click-me">Click Me</span>
     `
   }
 }
 
 class ParentElement extends Tonic {
-  click (e) {
-    if (e.target.matches('child-element')) {
-      console.log(e.detail.bar)
-    }
+  constructor () {
+    super()
+
+    this.addEventListener('specialclick', this)
   }
+
+  specialclick (ev) {
+    console.log(ev.detail.bar)
+  }
+
   render () {
     return this.html`
       <child-element>
@@ -109,6 +119,10 @@ class ParentElement extends Tonic {
   }
 }
 ```
+
+Tonic providers a helper `this.dispatch` method that you can use
+to dispatch custom events. The [`EventTarget.addEventListener`][10] method
+is built into the dom
 
 The event object has a [`Event.stopPropagation()`][8] method that is useful for
 preventing an event from bubbling up to parent components. You may also be
@@ -119,3 +133,4 @@ interested in the [`Event.preventDefault()`][9] method.
 [7]:https://developer.mozilla.org/en-US/docs/Web/API/Element/closest
 [8]:https://developer.mozilla.org/en-US/docs/Web/API/Event/stopPropagation
 [9]:https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault
+[10]: https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener

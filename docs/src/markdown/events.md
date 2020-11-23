@@ -94,8 +94,8 @@ class ChildElement extends Tonic {
 }
 
 class ParentElement extends Tonic {
-  click (ev) {
-    const el = Tonic.match(ev.target, '[data-event]')
+  click (e) {
+    const el = Tonic.match(e.target, '[data-event]')
 
     if (el.dataset.event === 'click-me') {
       console.log(el.dataset.bar)

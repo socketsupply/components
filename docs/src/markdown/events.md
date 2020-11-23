@@ -79,28 +79,29 @@ selector, and if not, tries to find the closest match.
 Tonic.match(el, 'selector')
 ```
 
-Here, when a particular element inside a child component is clicked, we
-intercept the click event and pass along some data to the parent component.
+You can attach an event handler in any component, for example here
+we attach an event handler in a `ParentElement` component that handles
+clicks from DOM elements in `ChildElement`.
 
 ### Example
 ```js
 class ChildElement extends Tonic {
-  click (e) {
-    e.detail.bar = true
-  }
   render () {
     return this.html`
-      Click Me
+      <span data-event="click-me" data-bar="true">Click Me</span>
     `
   }
 }
 
 class ParentElement extends Tonic {
   click (e) {
-    if (e.target.matches('child-element')) {
-      console.log(e.detail.bar)
+    const el = Tonic.match(e.target, '[data-event]')
+
+    if (el.dataset.event === 'click-me') {
+      console.log(el.dataset.bar)
     }
   }
+
   render () {
     return this.html`
       <child-element>
@@ -119,3 +120,4 @@ interested in the [`Event.preventDefault()`][9] method.
 [7]:https://developer.mozilla.org/en-US/docs/Web/API/Element/closest
 [8]:https://developer.mozilla.org/en-US/docs/Web/API/Event/stopPropagation
 [9]:https://developer.mozilla.org/en-US/docs/Web/API/Event/preventDefault
+[10]: https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener

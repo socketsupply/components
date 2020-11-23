@@ -63,5 +63,6 @@ document.body.appendChild(html`
     }
     </style>
     <test-form id="test-form"></test-form>
+    <custom-event-parent id="custom-event-parent"></custom-event-parent>
   </div>
 `)

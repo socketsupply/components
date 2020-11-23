@@ -47,3 +47,46 @@ class TestForm extends Tonic {
 }
 
 Tonic.add(TestForm)
+
+class CustomEventTest extends Tonic {
+  render () {
+    return this.html`
+      <span
+        class="test-click-me"
+        data-event="click-me"
+        data-bar="hmm"
+      >
+        Click Me
+      </span>
+    `
+  }
+}
+Tonic.add(CustomEventTest)
+
+class CustomEventParent extends Tonic {
+  constructor () {
+    super()
+
+    this.state = {
+      text: 'empty'
+    }
+  }
+
+  click (ev) {
+    const el = Tonic.match(ev.target, '[data-event]')
+
+    if (el.dataset.event === 'click-me') {
+      this.state.text = el.dataset.bar
+      this.reRender()
+    }
+  }
+
+  render () {
+    return this.html`
+      <span>Text is: ${this.state.text}</span>
+      <custom-event-test>
+      </custom-event-test>
+    `
+  }
+}
+Tonic.add(CustomEventParent)

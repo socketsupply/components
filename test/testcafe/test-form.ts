@@ -24,3 +24,22 @@ test('can click button', async (t) => {
   })
   await t.expect(c).eql(1)
 });
+
+test('can dispatch custome vent', async (t) => {
+  const parent = Selector('custom-event-parent')
+
+  {
+    const span = parent.find('span').withText(/Text is: /i)
+    await t.expect(span.visible).eql(true)
+    await t.expect(span.textContent).eql('Text is: empty')
+  }
+
+  const clickMe = parent.find('.test-click-me')
+  await t.click(clickMe)
+
+  {
+    const span = parent.find('span').withText(/Text is: /i)
+    await t.expect(span.visible).eql(true)
+    await t.expect(span.textContent).eql('Text is: hmm')
+  }
+})

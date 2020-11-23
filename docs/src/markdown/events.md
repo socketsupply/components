@@ -79,8 +79,9 @@ selector, and if not, tries to find the closest match.
 Tonic.match(el, 'selector')
 ```
 
-Here, when a particular element inside a child component is clicked, we
-attach a click event handler in the parent component by relying on bubbling.
+You can attach an event handler in any component, for example here
+we attach an event handler in a `ParentElement` component that handles
+clicks from DOM elements in `ChildElement`.
 
 ### Example
 ```js

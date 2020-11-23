@@ -307,7 +307,8 @@ class TonicAccordion extends Tonic {
       panels.forEach(el => el.setAttribute('hidden', ''))
     }
 
-    const panelId = trigger.getAttribute('aria-controls')
+    const panelId = trigger.getAttribute('aria-controls') ||
+      `tonic--accordion-panel-${trigger.id}`
 
     if (isExpanded) {
       trigger.setAttribute('aria-expanded', 'false')
@@ -621,8 +622,8 @@ class TonicButton extends Tonic {
 
   defaults () {
     return {
-      height: this.props.type === 'icon' ? 'auto' : '38px',
-      width: this.props.type === 'icon' ? 'auto' : '150px',
+      height: this.props.type === 'icon' ? '100%' : '34px',
+      width: this.props.type === 'icon' ? '100%' : '140px',
       margin: '0px',
       autofocus: 'false',
       async: false,
@@ -643,12 +644,12 @@ class TonicButton extends Tonic {
       tonic-button button {
         color: var(--tonic-button-text, var(--tonic-primary, rgba(54, 57, 61, 1)));
         width: auto;
-        min-height: 38px;
         font: 12px var(--tonic-subheader, 'Arial', sans-serif);
         font-weight: bold;
+        font-size: 12px;
         text-transform: uppercase;
         letter-spacing: 1px;
-        padding: 8px;
+        padding: 6px;
         position: relative;
         background-color: var(--tonic-button-background, transparent);
         transition: background 0.3s ease, color 0.3s ease;
@@ -659,7 +660,13 @@ class TonicButton extends Tonic {
       tonic-button[type="icon"] button {
         background: none;
         box-shadow: none;
-        width: auto;
+      }
+
+      tonic-button[type="icon"] tonic-icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
       }
 
       tonic-button button:focus {
@@ -782,9 +789,7 @@ class TonicButton extends Tonic {
       height,
       margin,
       radius,
-      fill,
       disabled,
-      borderColor,
       borderWidth,
       textColor,
       textColorDisabled
@@ -795,9 +800,7 @@ class TonicButton extends Tonic {
         width,
         height,
         color: disabled && disabled === 'true' ? textColorDisabled : textColor,
-        backgroundColor: fill,
         borderRadius: radius,
-        borderColor: fill || borderColor,
         borderWidth: borderWidth
       },
       wrapper: {
@@ -816,6 +819,7 @@ class TonicButton extends Tonic {
       autofocus,
       active,
       async,
+      fill,
       tabindex,
       size,
       symbolId
@@ -834,6 +838,7 @@ class TonicButton extends Tonic {
       content = this.html`
         <tonic-icon
           size="${size || '18px'}"
+          fill="${fill || 'var(--tonic-primary)'}"
           symbol-id="${symbolId}"
         ></tonic-icon>
       `
@@ -992,6 +997,7 @@ class TonicCheckbox extends Tonic {
   }
 
   async _setValue (value) {
+    this.state._changing = true
     const checked = (value === true) || (value === 'true')
 
     this.state.checked = checked
@@ -1070,12 +1076,7 @@ class TonicCheckbox extends Tonic {
     if (this.state._changing) return
 
     e.stopPropagation()
-
-    const currentState = this.value
-    this.state._changing = true
-    this.value = !currentState
-
-    this.reRender()
+    this._setValue(!this.value)
   }
 
   updated () {
@@ -1235,8 +1236,9 @@ class TonicDialog extends Tonic {
   static stylesheet () {
     return `
       .tonic--dialog {
-        box-shadow: 0px 6px 15px 3px rgba(0, 0, 0, 0.2);
+        box-shadow: 0px 6px 35px 3px rgba(0, 0, 0, 0.2);
         background: var(--tonic-window);
+        border: 1px solid var(--tonic-border);
         border-radius: 6px;
         position: fixed;
         overflow: hidden;
@@ -1621,6 +1623,8 @@ const { TonicToasterInline } = require('./toaster-inline')
 const { TonicToaster } = require('./toaster')
 const { TonicToggle } = require('./toggle')
 
+let once = false
+
 //
 // An example collection of components.
 //
@@ -1629,6 +1633,11 @@ module.exports = components
 components.Tonic = Tonic
 
 function components (Tonic, opts) {
+  if (once) {
+    return
+  }
+  once = true
+
   Tonic.add(TonicAccordion)
   Tonic.add(TonicAccordionSection)
   Tonic.add(TonicBadge)
@@ -1730,7 +1739,7 @@ class TonicInput extends Tonic {
 
       tonic-input[symbol-id] .tonic--right tonic-icon,
       tonic-input[src] .tonic--right tonic-icon {
-        right: 10px;
+        right: 6px;
       }
 
       tonic-input[symbol-id] .tonic--right input,
@@ -1740,7 +1749,7 @@ class TonicInput extends Tonic {
 
       tonic-input[symbol-id] .tonic--left tonic-icon,
       tonic-input[src] .tonic--left tonic-icon {
-        left: 10px;
+        left: 6px;
       }
 
       tonic-input[symbol-id] .tonic--left input,
@@ -1751,7 +1760,7 @@ class TonicInput extends Tonic {
       tonic-input[symbol-id] tonic-icon,
       tonic-input[src] tonic-icon {
         position: absolute;
-        bottom: 8px;
+        bottom: 6px;
       }
 
       tonic-input label {
@@ -1767,7 +1776,7 @@ class TonicInput extends Tonic {
       tonic-input input {
         color: var(--tonic-primary, #333);
         font: 14px var(--tonic-monospace, 'Andale Mono', monospace);
-        padding: 10px;
+        padding: 8px;
         background-color: var(--tonic-input-background, var(--tonic-background, transparent));
         border: 1px solid var(--tonic-border, #ccc);
         -webkit-appearance: none;
@@ -2224,7 +2233,9 @@ class Tonic extends window.HTMLElement {
     }
 
     if (!htmlName) htmlName = Tonic._splitName(c.name).toLowerCase()
-    if (window.customElements.get(htmlName)) return
+    if (window.customElements.get(htmlName)) {
+      throw new Error(`Cannot Tonic.add(${c.name}, '${htmlName}') twice`)
+    }
 
     if (!c.prototype.isTonicComponent) {
       const tmp = { [c.name]: class extends Tonic {} }[c.name]
@@ -2259,6 +2270,11 @@ class Tonic extends window.HTMLElement {
 
   static unsafeRawString (s, templateStrings) {
     return new TonicTemplate(s, templateStrings, true)
+  }
+
+  dispatch (eventName, detail = null) {
+    const opts = { bubbles: true, detail }
+    this.dispatchEvent(new window.CustomEvent(eventName, opts))
   }
 
   html (strings, ...values) {
@@ -2508,29 +2524,30 @@ if (typeof module === 'object') module.exports = Tonic
 
 },{"./package":15}],15:[function(require,module,exports){
 module.exports={
-  "_from": "@optoolco/tonic@^13.1.1",
-  "_id": "@optoolco/tonic@13.1.1",
+  "_from": "@optoolco/tonic@13.1.3",
+  "_id": "@optoolco/tonic@13.1.3",
   "_inBundle": false,
-  "_integrity": "sha512-KGgLJQ8PW5T2fIj3Pl426hGARJzdE11b3usBcMdHHge1oKTkhs4nybJJ0C2P+iVfErFYXPwDcEToFM0kDPOiLg==",
+  "_integrity": "sha512-GECzc4Od1fXwrHHqpys7BqUib2kZOjNyoDEhikY5TjJcgBpP5SkgYjf4I8E7Y4TLlQ6jGechB+g7Sknwz5yZOA==",
   "_location": "/@optoolco/tonic",
   "_phantomChildren": {},
   "_requested": {
-    "type": "range",
+    "type": "version",
     "registry": true,
-    "raw": "@optoolco/tonic@^13.1.1",
+    "raw": "@optoolco/tonic@13.1.3",
     "name": "@optoolco/tonic",
     "escapedName": "@optoolco%2ftonic",
     "scope": "@optoolco",
-    "rawSpec": "^13.1.1",
+    "rawSpec": "13.1.3",
     "saveSpec": null,
-    "fetchSpec": "^13.1.1"
+    "fetchSpec": "13.1.3"
   },
   "_requiredBy": [
-    "#DEV:/"
+    "#DEV:/",
+    "#USER"
   ],
-  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-13.1.1.tgz",
-  "_shasum": "e7a14d9a5cfe2cef1d0f671c085df924b2d3c5f4",
-  "_spec": "@optoolco/tonic@^13.1.1",
+  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-13.1.3.tgz",
+  "_shasum": "62e53a736df2fc8b9aeaade8c57b20bfd5206ce9",
+  "_spec": "@optoolco/tonic@13.1.3",
   "_where": "/home/raynos/optoolco/components",
   "author": {
     "name": "optoolco"
@@ -2566,7 +2583,7 @@ module.exports={
     "minify": "terser index.js -c unused,dead_code,hoist_vars,loops=false,hoist_props=true,hoist_funs,toplevel,keep_classnames,keep_fargs=false -o dist/tonic.min.js",
     "test": "npm run minify && browserify test/index.js | tape-puppet"
   },
-  "version": "13.1.1"
+  "version": "13.1.3"
 }
 
 },{}],16:[function(require,module,exports){
@@ -4188,7 +4205,7 @@ class TonicSelect extends Tonic {
       }
 
       tonic-select select:not([multiple]) {
-        padding: 10px 30px 10px 10px;
+        padding: 8px 30px 8px 8px;
       }
 
       tonic-select select[disabled] {
@@ -4210,7 +4227,7 @@ class TonicSelect extends Tonic {
       }
 
       tonic-select[multiple] select option {
-        padding: 6px 10px;
+        padding: 6px 8px;
       }
 
       @keyframes spin {
@@ -4736,7 +4753,7 @@ class TonicTextarea extends Tonic {
         width: 100%;
         font: 14px var(--tonic-monospace, 'Andale Mono', monospace);
         padding: 10px;
-        background-color: var(--tonic-textarea-background, var(--tonic-background, transparent));
+        background-color: var(--tonic-input-background, var(--tonic-background, transparent));
         border: 1px solid var(--tonic-border, #ccc);
         transition: border 0.2s ease-in-out;
         -webkit-appearance: none;
@@ -4750,7 +4767,7 @@ class TonicTextarea extends Tonic {
 
       tonic-textarea textarea:focus {
         outline: none;
-        background-color: var(--tonic-textarea-background-focus, rgba(241, 241, 241, 0.75));
+        background-color: var(--tonic-input-background-focus, rgba(241, 241, 241, 0.75));
       }
 
       tonic-textarea textarea[disabled] {

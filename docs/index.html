@@ -513,26 +513,27 @@ that matches the given selector</li>
 <p>Tonic also provides a helper function which checks if the element matches the
 selector, and if not, tries to find the closest match.</p>
 <pre><code class="language-js">Tonic.match(el, <span class="hljs-string">&#x27;selector&#x27;</span>)</code></pre>
-<p>Here, when a particular element inside a child component is clicked, we
-intercept the click event and pass along some data to the parent component.</p>
+<p>You can attach an event handler in any component, for example here
+we attach an event handler in a <code>ParentElement</code> component that handles
+clicks from DOM elements in <code>ChildElement</code>.</p>
 <h3>Example</h3>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ChildElement</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
-  click (e) {
-    e.detail.bar = <span class="hljs-literal">true</span>
-  }
   render () {
     <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`
-      Click Me
+      &lt;span data-event=&quot;click-me&quot; data-bar=&quot;true&quot;&gt;Click Me&lt;/span&gt;
     `</span>
   }
 }
 
 <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ParentElement</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   click (e) {
-    <span class="hljs-keyword">if</span> (e.target.matches(<span class="hljs-string">&#x27;child-element&#x27;</span>)) {
-      <span class="hljs-built_in">console</span>.log(e.detail.bar)
+    <span class="hljs-keyword">const</span> el = Tonic.match(e.target, <span class="hljs-string">&#x27;[data-event]&#x27;</span>)
+
+    <span class="hljs-keyword">if</span> (el.dataset.event === <span class="hljs-string">&#x27;click-me&#x27;</span>) {
+      <span class="hljs-built_in">console</span>.log(el.dataset.bar)
     }
   }
+
   render () {
     <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`
       &lt;child-element&gt;

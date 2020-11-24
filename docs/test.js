@@ -8479,6 +8479,8 @@ class TonicInput extends Tonic {
     const input = this.querySelector('input')
     if (!input) return
 
+    msg = msg || this.props.errorMessage
+
     input.setCustomValidity(msg)
     input.setAttribute('invalid', msg)
     const span = this.querySelector('.tonic--invalid span')

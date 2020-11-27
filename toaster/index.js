@@ -14,8 +14,9 @@ class TonicToaster extends Tonic {
       }
 
       tonic-toaster svg {
-        width: inherit;
-        height: inherit;
+        width: 100%;
+        height: 100%;
+        position: absolute;
       }
 
       tonic-toaster .tonic--wrapper {
@@ -101,19 +102,18 @@ class TonicToaster extends Tonic {
         font: 14px/18px var(--tonic-body);
       }
 
-      tonic-toaster .tonic--notification .tonic--icon {
+      tonic-toaster .tonic--notification > .tonic--icon {
         width: 16px;
         height: 16px;
         position: absolute;
         left: 20px;
         top: 50%;
-        margin-top: -6px;
         -webkit-transform: translateY(-50%);
         -ms-transform: translateY(-50%);
         transform: translateY(-50%);
       }
 
-      tonic-toaster .tonic--notification .tonic--close {
+      tonic-toaster .tonic--notification > .tonic--close {
         width: 20px;
         height: 20px;
         position: absolute;
@@ -127,9 +127,18 @@ class TonicToaster extends Tonic {
     `
   }
 
+  _getZIndex () {
+    return Array.from(document.querySelectorAll('body *'))
+      .map(elt => parseFloat(window.getComputedStyle(elt).zIndex))
+      .reduce((z, highest = Number.MIN_SAFE_INTEGER) =>
+        isNaN(z) || z < highest ? highest : z
+      )
+  }
+
   create ({ message, title, duration, type, dismiss } = {}) {
     const notification = document.createElement('div')
     notification.className = 'tonic--notification'
+    this.style.zIndex = this._getZIndex()
 
     const main = document.createElement('div')
     main.className = 'tonic--main'

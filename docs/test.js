@@ -695,6 +695,10 @@ function functionBindPolyfill(context) {
 
 var base64 = require('base64-js')
 var ieee754 = require('ieee754')
+var customInspectSymbol =
+  (typeof Symbol === 'function' && typeof Symbol.for === 'function')
+    ? Symbol.for('nodejs.util.inspect.custom')
+    : null
 
 exports.Buffer = Buffer
 exports.SlowBuffer = SlowBuffer
@@ -731,7 +735,9 @@ function typedArraySupport () {
   // Can typed array instances can be augmented?
   try {
     var arr = new Uint8Array(1)
-    arr.__proto__ = { __proto__: Uint8Array.prototype, foo: function () { return 42 } }
+    var proto = { foo: function () { return 42 } }
+    Object.setPrototypeOf(proto, Uint8Array.prototype)
+    Object.setPrototypeOf(arr, proto)
     return arr.foo() === 42
   } catch (e) {
     return false
@@ -760,7 +766,7 @@ function createBuffer (length) {
   }
   // Return an augmented `Uint8Array` instance
   var buf = new Uint8Array(length)
-  buf.__proto__ = Buffer.prototype
+  Object.setPrototypeOf(buf, Buffer.prototype)
   return buf
 }
 
@@ -810,7 +816,7 @@ function from (value, encodingOrOffset, length) {
   }
 
   if (value == null) {
-    throw TypeError(
+    throw new TypeError(
       'The first argument must be one of type string, Buffer, ArrayBuffer, Array, ' +
       'or Array-like Object. Received type ' + (typeof value)
     )
@@ -862,8 +868,8 @@ Buffer.from = function (value, encodingOrOffset, length) {
 
 // Note: Change prototype *after* Buffer.from is defined to workaround Chrome bug:
 // https://github.com/feross/buffer/pull/148
-Buffer.prototype.__proto__ = Uint8Array.prototype
-Buffer.__proto__ = Uint8Array
+Object.setPrototypeOf(Buffer.prototype, Uint8Array.prototype)
+Object.setPrototypeOf(Buffer, Uint8Array)
 
 function assertSize (size) {
   if (typeof size !== 'number') {
@@ -967,7 +973,8 @@ function fromArrayBuffer (array, byteOffset, length) {
   }
 
   // Return an augmented `Uint8Array` instance
-  buf.__proto__ = Buffer.prototype
+  Object.setPrototypeOf(buf, Buffer.prototype)
+
   return buf
 }
 
@@ -1289,6 +1296,9 @@ Buffer.prototype.inspect = function inspect () {
   if (this.length > max) str += ' ... '
   return '<Buffer ' + str + '>'
 }
+if (customInspectSymbol) {
+  Buffer.prototype[customInspectSymbol] = Buffer.prototype.inspect
+}
 
 Buffer.prototype.compare = function compare (target, start, end, thisStart, thisEnd) {
   if (isInstance(target, Uint8Array)) {
@@ -1414,7 +1424,7 @@ function bidirectionalIndexOf (buffer, val, byteOffset, encoding, dir) {
         return Uint8Array.prototype.lastIndexOf.call(buffer, val, byteOffset)
       }
     }
-    return arrayIndexOf(buffer, [ val ], byteOffset, encoding, dir)
+    return arrayIndexOf(buffer, [val], byteOffset, encoding, dir)
   }
 
   throw new TypeError('val must be string, number or Buffer')
@@ -1743,7 +1753,7 @@ function hexSlice (buf, start, end) {
 
   var out = ''
   for (var i = start; i < end; ++i) {
-    out += toHex(buf[i])
+    out += hexSliceLookupTable[buf[i]]
   }
   return out
 }
@@ -1780,7 +1790,8 @@ Buffer.prototype.slice = function slice (start, end) {
 
   var newBuf = this.subarray(start, end)
   // Return an augmented `Uint8Array` instance
-  newBuf.__proto__ = Buffer.prototype
+  Object.setPrototypeOf(newBuf, Buffer.prototype)
+
   return newBuf
 }
 
@@ -2269,6 +2280,8 @@ Buffer.prototype.fill = function fill (val, start, end, encoding) {
     }
   } else if (typeof val === 'number') {
     val = val & 255
+  } else if (typeof val === 'boolean') {
+    val = Number(val)
   }
 
   // Invalid ranges are not set to a default, so can range check early.
@@ -2324,11 +2337,6 @@ function base64clean (str) {
     str = str + '='
   }
   return str
-}
-
-function toHex (n) {
-  if (n < 16) return '0' + n.toString(16)
-  return n.toString(16)
 }
 
 function utf8ToBytes (string, units) {
@@ -2460,6 +2468,20 @@ function numberIsNaN (obj) {
   // For IE11 support
   return obj !== obj // eslint-disable-line no-self-compare
 }
+
+// Create lookup table for `toString('hex')`
+// See: https://github.com/feross/buffer/issues/219
+var hexSliceLookupTable = (function () {
+  var alphabet = '0123456789abcdef'
+  var table = new Array(256)
+  for (var i = 0; i < 16; ++i) {
+    var i16 = i * 16
+    for (var j = 0; j < 16; ++j) {
+      table[i16 + j] = alphabet[i] + alphabet[j]
+    }
+  }
+  return table
+})()
 
 }).call(this,require("buffer").Buffer)
 },{"base64-js":1,"buffer":5,"ieee754":7}],6:[function(require,module,exports){
@@ -9400,9 +9422,7 @@ class Tonic extends window.HTMLElement {
     }
 
     if (!htmlName) htmlName = Tonic._splitName(c.name).toLowerCase()
-    if (window.customElements.get(htmlName)) {
-      throw new Error(`Cannot Tonic.add(${c.name}, '${htmlName}') twice`)
-    }
+    if (window.customElements.get(htmlName)) return
 
     if (!c.prototype.isTonicComponent) {
       const tmp = { [c.name]: class extends Tonic {} }[c.name]
@@ -9437,11 +9457,6 @@ class Tonic extends window.HTMLElement {
 
   static unsafeRawString (s, templateStrings) {
     return new TonicTemplate(s, templateStrings, true)
-  }
-
-  dispatch (eventName, detail = null) {
-    const opts = { bubbles: true, detail }
-    this.dispatchEvent(new window.CustomEvent(eventName, opts))
   }
 
   html (strings, ...values) {
@@ -9691,31 +9706,31 @@ if (typeof module === 'object') module.exports = Tonic
 
 },{"./package":51}],51:[function(require,module,exports){
 module.exports={
-  "_from": "@optoolco/tonic@13.1.3",
-  "_id": "@optoolco/tonic@13.1.3",
+  "_from": "@optoolco/tonic@next",
+  "_id": "@optoolco/tonic@13.1.1",
   "_inBundle": false,
-  "_integrity": "sha512-GECzc4Od1fXwrHHqpys7BqUib2kZOjNyoDEhikY5TjJcgBpP5SkgYjf4I8E7Y4TLlQ6jGechB+g7Sknwz5yZOA==",
+  "_integrity": "sha512-KGgLJQ8PW5T2fIj3Pl426hGARJzdE11b3usBcMdHHge1oKTkhs4nybJJ0C2P+iVfErFYXPwDcEToFM0kDPOiLg==",
   "_location": "/@optoolco/tonic",
   "_phantomChildren": {},
   "_requested": {
-    "type": "version",
+    "type": "tag",
     "registry": true,
-    "raw": "@optoolco/tonic@13.1.3",
+    "raw": "@optoolco/tonic@next",
     "name": "@optoolco/tonic",
     "escapedName": "@optoolco%2ftonic",
     "scope": "@optoolco",
-    "rawSpec": "13.1.3",
+    "rawSpec": "next",
     "saveSpec": null,
-    "fetchSpec": "13.1.3"
+    "fetchSpec": "next"
   },
   "_requiredBy": [
     "#DEV:/",
     "#USER"
   ],
-  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-13.1.3.tgz",
-  "_shasum": "62e53a736df2fc8b9aeaade8c57b20bfd5206ce9",
-  "_spec": "@optoolco/tonic@13.1.3",
-  "_where": "/home/raynos/optoolco/components",
+  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-13.1.1.tgz",
+  "_shasum": "e7a14d9a5cfe2cef1d0f671c085df924b2d3c5f4",
+  "_spec": "@optoolco/tonic@next",
+  "_where": "/Users/paolofragomeni/projects/optoolco/components",
   "author": {
     "name": "optoolco"
   },
@@ -9750,7 +9765,7 @@ module.exports={
     "minify": "terser index.js -c unused,dead_code,hoist_vars,loops=false,hoist_props=true,hoist_funs,toplevel,keep_classnames,keep_fargs=false -o dist/tonic.min.js",
     "test": "npm run minify && browserify test/index.js | tape-puppet"
   },
-  "version": "13.1.3"
+  "version": "13.1.1"
 }
 
 },{}],52:[function(require,module,exports){
@@ -36247,7 +36262,7 @@ class TonicSprite extends Tonic {
         <symbol id="close" viewBox="0 0 100 100">
           <title>Close</title>
           <desc>Close Icon</desc>
-          <path fill="currentColor" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4
+          <path fill="currentColor" d="M70.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4
             l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0
             l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
         </symbol>
@@ -37930,8 +37945,9 @@ class TonicToaster extends Tonic {
       }
 
       tonic-toaster svg {
-        width: inherit;
-        height: inherit;
+        width: 100%;
+        height: 100%;
+        position: absolute;
       }
 
       tonic-toaster .tonic--wrapper {
@@ -38017,19 +38033,18 @@ class TonicToaster extends Tonic {
         font: 14px/18px var(--tonic-body);
       }
 
-      tonic-toaster .tonic--notification .tonic--icon {
+      tonic-toaster .tonic--notification > .tonic--icon {
         width: 16px;
         height: 16px;
         position: absolute;
         left: 20px;
         top: 50%;
-        margin-top: -6px;
         -webkit-transform: translateY(-50%);
         -ms-transform: translateY(-50%);
         transform: translateY(-50%);
       }
 
-      tonic-toaster .tonic--notification .tonic--close {
+      tonic-toaster .tonic--notification > .tonic--close {
         width: 20px;
         height: 20px;
         position: absolute;
@@ -38043,9 +38058,18 @@ class TonicToaster extends Tonic {
     `
   }
 
+  _getZIndex () {
+    return Array.from(document.querySelectorAll('body *'))
+      .map(elt => parseFloat(window.getComputedStyle(elt).zIndex))
+      .reduce((z, highest = Number.MIN_SAFE_INTEGER) =>
+        isNaN(z) || z < highest ? highest : z
+      )
+  }
+
   create ({ message, title, duration, type, dismiss } = {}) {
     const notification = document.createElement('div')
     notification.className = 'tonic--notification'
+    this.style.zIndex = this._getZIndex()
 
     const main = document.createElement('div')
     main.className = 'tonic--main'

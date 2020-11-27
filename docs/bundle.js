@@ -2434,9 +2434,7 @@ class Tonic extends window.HTMLElement {
     }
 
     if (!htmlName) htmlName = Tonic._splitName(c.name).toLowerCase()
-    if (window.customElements.get(htmlName)) {
-      throw new Error(`Cannot Tonic.add(${c.name}, '${htmlName}') twice`)
-    }
+    if (window.customElements.get(htmlName)) return
 
     if (!c.prototype.isTonicComponent) {
       const tmp = { [c.name]: class extends Tonic {} }[c.name]
@@ -2471,11 +2469,6 @@ class Tonic extends window.HTMLElement {
 
   static unsafeRawString (s, templateStrings) {
     return new TonicTemplate(s, templateStrings, true)
-  }
-
-  dispatch (eventName, detail = null) {
-    const opts = { bubbles: true, detail }
-    this.dispatchEvent(new window.CustomEvent(eventName, opts))
   }
 
   html (strings, ...values) {
@@ -2725,31 +2718,31 @@ if (typeof module === 'object') module.exports = Tonic
 
 },{"./package":24}],24:[function(require,module,exports){
 module.exports={
-  "_from": "@optoolco/tonic@13.1.3",
-  "_id": "@optoolco/tonic@13.1.3",
+  "_from": "@optoolco/tonic@next",
+  "_id": "@optoolco/tonic@13.1.1",
   "_inBundle": false,
-  "_integrity": "sha512-GECzc4Od1fXwrHHqpys7BqUib2kZOjNyoDEhikY5TjJcgBpP5SkgYjf4I8E7Y4TLlQ6jGechB+g7Sknwz5yZOA==",
+  "_integrity": "sha512-KGgLJQ8PW5T2fIj3Pl426hGARJzdE11b3usBcMdHHge1oKTkhs4nybJJ0C2P+iVfErFYXPwDcEToFM0kDPOiLg==",
   "_location": "/@optoolco/tonic",
   "_phantomChildren": {},
   "_requested": {
-    "type": "version",
+    "type": "tag",
     "registry": true,
-    "raw": "@optoolco/tonic@13.1.3",
+    "raw": "@optoolco/tonic@next",
     "name": "@optoolco/tonic",
     "escapedName": "@optoolco%2ftonic",
     "scope": "@optoolco",
-    "rawSpec": "13.1.3",
+    "rawSpec": "next",
     "saveSpec": null,
-    "fetchSpec": "13.1.3"
+    "fetchSpec": "next"
   },
   "_requiredBy": [
     "#DEV:/",
     "#USER"
   ],
-  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-13.1.3.tgz",
-  "_shasum": "62e53a736df2fc8b9aeaade8c57b20bfd5206ce9",
-  "_spec": "@optoolco/tonic@13.1.3",
-  "_where": "/home/raynos/optoolco/components",
+  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-13.1.1.tgz",
+  "_shasum": "e7a14d9a5cfe2cef1d0f671c085df924b2d3c5f4",
+  "_spec": "@optoolco/tonic@next",
+  "_where": "/Users/paolofragomeni/projects/optoolco/components",
   "author": {
     "name": "optoolco"
   },
@@ -2784,7 +2777,7 @@ module.exports={
     "minify": "terser index.js -c unused,dead_code,hoist_vars,loops=false,hoist_props=true,hoist_funs,toplevel,keep_classnames,keep_fargs=false -o dist/tonic.min.js",
     "test": "npm run minify && browserify test/index.js | tape-puppet"
   },
-  "version": "13.1.3"
+  "version": "13.1.1"
 }
 
 },{}],25:[function(require,module,exports){
@@ -25566,7 +25559,7 @@ class TonicSprite extends Tonic {
         <symbol id="close" viewBox="0 0 100 100">
           <title>Close</title>
           <desc>Close Icon</desc>
-          <path fill="currentColor" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4
+          <path fill="currentColor" d="M70.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4
             l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0
             l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
         </symbol>
@@ -26414,8 +26407,9 @@ class TonicToaster extends Tonic {
       }
 
       tonic-toaster svg {
-        width: inherit;
-        height: inherit;
+        width: 100%;
+        height: 100%;
+        position: absolute;
       }
 
       tonic-toaster .tonic--wrapper {
@@ -26501,19 +26495,18 @@ class TonicToaster extends Tonic {
         font: 14px/18px var(--tonic-body);
       }
 
-      tonic-toaster .tonic--notification .tonic--icon {
+      tonic-toaster .tonic--notification > .tonic--icon {
         width: 16px;
         height: 16px;
         position: absolute;
         left: 20px;
         top: 50%;
-        margin-top: -6px;
         -webkit-transform: translateY(-50%);
         -ms-transform: translateY(-50%);
         transform: translateY(-50%);
       }
 
-      tonic-toaster .tonic--notification .tonic--close {
+      tonic-toaster .tonic--notification > .tonic--close {
         width: 20px;
         height: 20px;
         position: absolute;
@@ -26527,9 +26520,18 @@ class TonicToaster extends Tonic {
     `
   }
 
+  _getZIndex () {
+    return Array.from(document.querySelectorAll('body *'))
+      .map(elt => parseFloat(window.getComputedStyle(elt).zIndex))
+      .reduce((z, highest = Number.MIN_SAFE_INTEGER) =>
+        isNaN(z) || z < highest ? highest : z
+      )
+  }
+
   create ({ message, title, duration, type, dismiss } = {}) {
     const notification = document.createElement('div')
     notification.className = 'tonic--notification'
+    this.style.zIndex = this._getZIndex()
 
     const main = document.createElement('div')
     main.className = 'tonic--main'

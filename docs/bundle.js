@@ -26190,10 +26190,8 @@ class TonicToasterInline extends Tonic {
         background-color: var(--tonic-window, #fff);
         border: 1px solid var(--tonic-border, #ccc);
         border-radius: 3px;
-        -webkit-transform: scale(0.95);
-        -ms-transform: scale(0.95);
-        transform: scale(0.95);
-        transition: opacity 0.2s ease-in-out 0s, transform 0.3s ease-in-out 0s, max-height 0.3s ease-in-out;
+        transform: translateY(-50%);
+        transition: all 0.1s ease-in-out;
         opacity: 0;
         z-index: -1;
       }
@@ -26201,10 +26199,8 @@ class TonicToasterInline extends Tonic {
       tonic-toaster-inline .tonic--notification.tonic--show {
         max-height: 100%;
         margin: 10px 0;
-        -webkit-transform: scale(1);
-        -ms-transform: scale(1);
-        transform: scale(1);
-        transition: opacity 0.2s ease-in-out, transform 0.3s ease-in-out, max-height 0.3s ease-in-out;
+        transform: translateY(0);
+        transition: all 0.1s ease-in-out;
         opacity: 1;
         z-index: 1;
       }

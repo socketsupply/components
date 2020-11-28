@@ -17,7 +17,6 @@ class TonicToasterInline extends Tonic {
 
       tonic-toaster-inline .tonic--notification {
         max-height: 0;
-        position: relative;
         background-color: var(--tonic-window, #fff);
         border: 1px solid var(--tonic-border, #ccc);
         border-radius: 3px;
@@ -25,6 +24,7 @@ class TonicToasterInline extends Tonic {
         transition: all 0.1s ease-in-out;
         opacity: 0;
         z-index: -1;
+        position: absolute;
       }
 
       tonic-toaster-inline .tonic--notification.tonic--show {
@@ -34,6 +34,7 @@ class TonicToasterInline extends Tonic {
         transition: all 0.1s ease-in-out;
         opacity: 1;
         z-index: 1;
+        position: relative;
       }
 
       tonic-toaster-inline .tonic--notification.tonic--close {

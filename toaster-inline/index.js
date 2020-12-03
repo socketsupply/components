@@ -37,6 +37,11 @@ class TonicToasterInline extends Tonic {
         position: relative;
       }
 
+      tonic-toaster-inline[animate="false"] .tonic--notification,
+      tonic-toaster-inline[animate="false"] .tonic--notification.tonic--show {
+        transition: none;
+      }
+
       tonic-toaster-inline .tonic--notification.tonic--close {
         padding-right: 50px;
       }

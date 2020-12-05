@@ -327,19 +327,21 @@ receives either an object or a function. For example...</p>
       
       <h1 id="state">State</h1>
 <p><code>this.state</code> is just a plain-old javascript object that will persist across
-re-renders. A component that uses state requires an <code>id</code> property.</p>
+re-renders.</p>
 <pre><code class="language-js"><span class="hljs-comment">//</span>
 <span class="hljs-comment">// Update a component&#x27;s state</span>
 <span class="hljs-comment">//</span>
-<span class="hljs-built_in">this</span>.state = {
-  ...this.state,
-  <span class="hljs-attr">color</span>: <span class="hljs-string">&#x27;red&#x27;</span>
-}))
+<span class="hljs-built_in">this</span>.state.color = <span class="hljs-string">&#x27;red&#x27;</span>
 
 <span class="hljs-comment">//</span>
 <span class="hljs-comment">// Reset a component&#x27;s state</span>
 <span class="hljs-comment">//</span>
 <span class="hljs-built_in">this</span>.state = { <span class="hljs-attr">color</span>: <span class="hljs-string">&#x27;red&#x27;</span> }</code></pre>
+<p>A component that uses state requires an <code>id</code> property.</p>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">my-app</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;my-app&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">my-app</span>&gt;</span>
+<span class="hljs-comment">&lt;!-- always set a unique ID if you have multiple elems. --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">my-downloader</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;download-chrome&quot;</span> <span class="hljs-attr">app</span>=<span class="hljs-string">&quot;chrome&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">my-downloader</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">my-downloader</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;download-firefox&quot;</span> <span class="hljs-attr">app</span>=<span class="hljs-string">&quot;firefox&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">my-downloader</span>&gt;</span></code></pre>
 <hr>
 <p>Setting state will not cause a component to re-render. This way you can
 make incremental updates. Components can be updated independently. And
@@ -556,7 +558,7 @@ logic of a component.</p>
 <p>The <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes">constructor</a> is a special method that is called once each time an
 instance of your component is created.</p>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyComponent</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
-  <span class="hljs-keyword">constructor</span> () {
+  <span class="hljs-title">constructor</span> (<span class="hljs-params"></span>) {
     <span class="hljs-built_in">super</span>()
     <span class="hljs-comment">// ...</span>
   }

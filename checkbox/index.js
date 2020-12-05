@@ -1,14 +1,23 @@
 const Tonic = require('@optoolco/tonic')
 
 class TonicCheckbox extends Tonic {
+  constructor () {
+    super()
+    this._modified = false
+  }
+
   get value () {
     const state = this.state
+    const props = this.props
+
+    const propsValue = typeof props.checked !== 'undefined' ? props.checked : props.value
+    const stateValue = typeof state.checked !== 'undefined' ? state.checked : state.value
     let value
 
-    if ('checked' in this.props) {
-      value = this.props.checked
+    if (this._modified) {
+      value = typeof stateValue !== 'undefined' ? stateValue : propsValue
     } else {
-      value = state.checked
+      value = typeof propsValue !== 'undefined' ? propsValue : stateValue
     }
 
     return (value === true) || (value === 'true')
@@ -19,6 +28,7 @@ class TonicCheckbox extends Tonic {
   }
 
   async _setValue (value) {
+    this._modified = true
     this.state._changing = true
     const checked = (value === true) || (value === 'true')
 

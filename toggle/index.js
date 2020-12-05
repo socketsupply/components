@@ -1,24 +1,37 @@
 const Tonic = require('@optoolco/tonic')
 
 class TonicToggle extends Tonic {
+  constructor () {
+    super()
+    this._modified = false
+  }
+
   get value () {
     const state = this.state
+    const props = this.props
+
+    const propsValue = typeof props.checked !== 'undefined' ? props.checked : props.value
+    const stateValue = typeof state.checked !== 'undefined' ? state.checked : state.value
     let value
 
-    if ('checked' in this.props) {
-      value = this.props.checked
+    if (this._modified) {
+      value = typeof stateValue !== 'undefined' ? stateValue : propsValue
     } else {
-      value = state.checked
+      value = typeof propsValue !== 'undefined' ? propsValue : stateValue
     }
 
     return (value === true) || (value === 'true')
   }
 
-  set value (value) {
+  _setValue (value) {
+    this._modified = true
     const checked = (value === true) || (value === 'true')
 
     this.state.checked = checked
-    this.props.checked = checked
+  }
+
+  set value (value) {
+    this._setValue(value)
     this.reRender()
   }
 
@@ -144,7 +157,7 @@ class TonicToggle extends Tonic {
   }
 
   change (e) {
-    this.state.checked = e.target.checked
+    this._setValue(e.target.checked)
   }
 
   renderLabel () {
@@ -170,6 +183,7 @@ class TonicToggle extends Tonic {
     if (theme) this.classList.add(`tonic--theme--${theme}`)
 
     const checked = this.value
+
     if (typeof this.state.checked === 'undefined') {
       this.state.checked = checked
     }

@@ -1435,17 +1435,24 @@ class TonicDialog extends Tonic {
 
     return {
       then (resolve) {
+        const resolver = e => {
+          if (e.keyCode === 27) resolve({})
+        }
+
         const listener = event => {
           const close = Tonic.match(event.target, '.tonic--dialog--close')
           const value = Tonic.match(event.target, '[value]')
 
           if (close || value) {
             that.removeEventListener(eventName, listener)
+            document.removeEventListener('keyup', resolver)
           }
 
           if (close) return resolve({})
           if (value) resolve({ [event.target.value]: true })
         }
+
+        document.addEventListener('keyup', resolver)
 
         that.addEventListener(eventName, listener)
       }

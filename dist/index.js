@@ -979,14 +979,23 @@ module.exports = { TonicChart }
 const Tonic = require('@optoolco/tonic')
 
 class TonicCheckbox extends Tonic {
+  constructor () {
+    super()
+    this._modified = false
+  }
+
   get value () {
     const state = this.state
+    const props = this.props
+
+    const propsValue = typeof props.checked !== 'undefined' ? props.checked : props.value
+    const stateValue = typeof state.checked !== 'undefined' ? state.checked : state.value
     let value
 
-    if ('checked' in this.props) {
-      value = this.props.checked
+    if (this._modified) {
+      value = typeof stateValue !== 'undefined' ? stateValue : propsValue
     } else {
-      value = state.checked
+      value = typeof propsValue !== 'undefined' ? propsValue : stateValue
     }
 
     return (value === true) || (value === 'true')
@@ -997,6 +1006,7 @@ class TonicCheckbox extends Tonic {
   }
 
   async _setValue (value) {
+    this._modified = true
     this.state._changing = true
     const checked = (value === true) || (value === 'true')
 
@@ -4406,7 +4416,7 @@ class TonicSprite extends Tonic {
         <symbol id="close" viewBox="0 0 100 100">
           <title>Close</title>
           <desc>Close Icon</desc>
-          <path fill="currentColor" d="M80.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4
+          <path fill="currentColor" d="M70.7,22.6l-3.5-3.5c-0.1-0.1-0.3-0.1-0.4,0L50,45.9L23.2,19.1c-0.1-0.1-0.3-0.1-0.4,0l-3.5,3.5c-0.1,0.1-0.1,0.3,0,0.4
             l26.8,26.8L19.3,76.6c-0.1,0.1-0.1,0.3,0,0.4l3.5,3.5c0,0,0.1,0.1,0.2,0.1s0.1,0,0.2-0.1L50,53.6l25.9,25.9c0.1,0.1,0.3,0.1,0.4,0
             l3.5-3.5c0.1-0.1,0.1-0.3,0-0.4L53.9,49.8l26.8-26.8C80.8,22.8,80.8,22.7,80.7,22.6z"/>
         </symbol>
@@ -5029,27 +5039,29 @@ class TonicToasterInline extends Tonic {
 
       tonic-toaster-inline .tonic--notification {
         max-height: 0;
-        position: relative;
         background-color: var(--tonic-window, #fff);
         border: 1px solid var(--tonic-border, #ccc);
         border-radius: 3px;
-        -webkit-transform: scale(0.95);
-        -ms-transform: scale(0.95);
-        transform: scale(0.95);
-        transition: opacity 0.2s ease-in-out 0s, transform 0.3s ease-in-out 0s, max-height 0.3s ease-in-out;
+        transform: translateY(-50%);
+        transition: all 0.1s ease-in-out;
         opacity: 0;
         z-index: -1;
+        position: absolute;
       }
 
       tonic-toaster-inline .tonic--notification.tonic--show {
         max-height: 100%;
         margin: 10px 0;
-        -webkit-transform: scale(1);
-        -ms-transform: scale(1);
-        transform: scale(1);
-        transition: opacity 0.2s ease-in-out, transform 0.3s ease-in-out, max-height 0.3s ease-in-out;
+        transform: translateY(0);
+        transition: all 0.1s ease-in-out;
         opacity: 1;
         z-index: 1;
+        position: relative;
+      }
+
+      tonic-toaster-inline[animate="false"] .tonic--notification,
+      tonic-toaster-inline[animate="false"] .tonic--notification.tonic--show {
+        transition: none;
       }
 
       tonic-toaster-inline .tonic--notification.tonic--close {
@@ -5244,8 +5256,9 @@ class TonicToaster extends Tonic {
       }
 
       tonic-toaster svg {
-        width: inherit;
-        height: inherit;
+        width: 100%;
+        height: 100%;
+        position: absolute;
       }
 
       tonic-toaster .tonic--wrapper {
@@ -5331,19 +5344,18 @@ class TonicToaster extends Tonic {
         font: 14px/18px var(--tonic-body);
       }
 
-      tonic-toaster .tonic--notification .tonic--icon {
+      tonic-toaster .tonic--notification > .tonic--icon {
         width: 16px;
         height: 16px;
         position: absolute;
         left: 20px;
         top: 50%;
-        margin-top: -6px;
         -webkit-transform: translateY(-50%);
         -ms-transform: translateY(-50%);
         transform: translateY(-50%);
       }
 
-      tonic-toaster .tonic--notification .tonic--close {
+      tonic-toaster .tonic--notification > .tonic--close {
         width: 20px;
         height: 20px;
         position: absolute;
@@ -5357,9 +5369,18 @@ class TonicToaster extends Tonic {
     `
   }
 
+  _getZIndex () {
+    return Array.from(document.querySelectorAll('body *'))
+      .map(elt => parseFloat(window.getComputedStyle(elt).zIndex))
+      .reduce((z, highest = Number.MIN_SAFE_INTEGER) =>
+        isNaN(z) || z < highest ? highest : z
+      )
+  }
+
   create ({ message, title, duration, type, dismiss } = {}) {
     const notification = document.createElement('div')
     notification.className = 'tonic--notification'
+    this.style.zIndex = this._getZIndex()
 
     const main = document.createElement('div')
     main.className = 'tonic--main'
@@ -5490,24 +5511,37 @@ module.exports = { TonicToaster }
 const Tonic = require('@optoolco/tonic')
 
 class TonicToggle extends Tonic {
+  constructor () {
+    super()
+    this._modified = false
+  }
+
   get value () {
     const state = this.state
+    const props = this.props
+
+    const propsValue = typeof props.checked !== 'undefined' ? props.checked : props.value
+    const stateValue = typeof state.checked !== 'undefined' ? state.checked : state.value
     let value
 
-    if ('checked' in this.props) {
-      value = this.props.checked
+    if (this._modified) {
+      value = typeof stateValue !== 'undefined' ? stateValue : propsValue
     } else {
-      value = state.checked
+      value = typeof propsValue !== 'undefined' ? propsValue : stateValue
     }
 
     return (value === true) || (value === 'true')
   }
 
-  set value (value) {
+  _setValue (value) {
+    this._modified = true
     const checked = (value === true) || (value === 'true')
 
     this.state.checked = checked
-    this.props.checked = checked
+  }
+
+  set value (value) {
+    this._setValue(value)
     this.reRender()
   }
 
@@ -5633,7 +5667,7 @@ class TonicToggle extends Tonic {
   }
 
   change (e) {
-    this.state.checked = e.target.checked
+    this._setValue(e.target.checked)
   }
 
   renderLabel () {
@@ -5659,6 +5693,7 @@ class TonicToggle extends Tonic {
     if (theme) this.classList.add(`tonic--theme--${theme}`)
 
     const checked = this.value
+
     if (typeof this.state.checked === 'undefined') {
       this.state.checked = checked
     }

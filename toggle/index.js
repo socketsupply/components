@@ -195,7 +195,7 @@ class TonicToggle extends Tonic {
             type: 'checkbox',
             class: 'tonic--toggle',
             id: `tonic--toggle--${id}`,
-            disabled: disabled === 'true',
+            disabled: (disabled === true) || (disabled === 'true'),
             tabindex,
             checked
           }}/>

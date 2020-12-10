@@ -20,8 +20,10 @@ class TonicButton extends Tonic {
     const button = this.querySelector('button')
     if (disabledValue === 'true') {
       button.setAttribute('disabled', 'true')
+      this.setAttribute('disabled', 'true')
     } else {
       button.removeAttribute('disabled')
+      this.removeAttribute('disabled')
     }
   }
 

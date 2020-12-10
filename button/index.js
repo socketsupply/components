@@ -10,11 +10,19 @@ class TonicButton extends Tonic {
   }
 
   get disabled () {
-    return this.props.disabled === true
+    return this.querySelector('button').hasAttribute('disabled')
   }
 
-  set disabled (state) {
-    this.props.disabled = state
+  set disabled (disabledValue) {
+    disabledValue = String(disabledValue)
+    this.props.disabled = disabledValue
+
+    const button = this.querySelector('button')
+    if (disabledValue === 'true') {
+      button.setAttribute('disabled', 'true')
+    } else {
+      button.removeAttribute('disabled')
+    }
   }
 
   defaults () {

@@ -206,9 +206,11 @@ body
     top 0
     left 0
     bottom 0
-    overflow scroll
-    overflow-x hidden
+    overflow hidden
     color var(--tonic-info)
+
+    &:hover
+      overflow-y scroll
 
     @media (max-width: 850px)
       display none
@@ -388,10 +390,13 @@ body
       font-family 'Source Code Pro'
       padding 15px
       text-indent -2px
-      overflow scroll
+      overflow hidden
       white-space pre-line
       border-radius 2px
       background-color var(--tonic-dark)
+
+      &:hover
+        overflow scroll
 
       code
         border 0

@@ -613,11 +613,21 @@ class TonicButton extends Tonic {
   }
 
   get disabled () {
-    return this.props.disabled === true
+    return this.querySelector('button').hasAttribute('disabled')
   }
 
-  set disabled (state) {
-    this.props.disabled = state
+  set disabled (disabledValue) {
+    disabledValue = String(disabledValue)
+    this.props.disabled = disabledValue
+
+    const button = this.querySelector('button')
+    if (disabledValue === 'true') {
+      button.setAttribute('disabled', 'true')
+      this.setAttribute('disabled', 'true')
+    } else {
+      button.removeAttribute('disabled')
+      this.removeAttribute('disabled')
+    }
   }
 
   defaults () {
@@ -1171,7 +1181,7 @@ class TonicCheckbox extends Tonic {
           type: 'checkbox',
           id: `tonic--checkbox--${id}`,
           checked,
-          disabled: disabled === 'true',
+          disabled: (disabled === true) || (disabled === 'true'),
           title,
           tabindex
         }}/>
@@ -1398,17 +1408,24 @@ class TonicDialog extends Tonic {
 
     return {
       then (resolve) {
+        const resolver = e => {
+          if (e.keyCode === 27) resolve({})
+        }
+
         const listener = event => {
           const close = Tonic.match(event.target, '.tonic--dialog--close')
           const value = Tonic.match(event.target, '[value]')
 
           if (close || value) {
             that.removeEventListener(eventName, listener)
+            document.removeEventListener('keyup', resolver)
           }
 
           if (close) return resolve({})
           if (value) resolve({ [event.target.value]: true })
         }
+
+        document.addEventListener('keyup', resolver)
 
         that.addEventListener(eventName, listener)
       }
@@ -5705,7 +5722,7 @@ class TonicToggle extends Tonic {
             type: 'checkbox',
             class: 'tonic--toggle',
             id: `tonic--toggle--${id}`,
-            disabled: disabled === 'true',
+            disabled: (disabled === true) || (disabled === 'true'),
             tabindex,
             checked
           }}/>

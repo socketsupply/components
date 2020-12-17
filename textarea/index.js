@@ -49,7 +49,7 @@ class TonicTextarea extends Tonic {
       }
 
       tonic-textarea textarea[disabled] {
-        background-color: var(--tonic-background, #fff);
+        background-color: transparent;
       }
 
       tonic-textarea label {

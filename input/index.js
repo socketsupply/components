@@ -139,7 +139,7 @@ class TonicInput extends Tonic {
       }
 
       tonic-input input[disabled] {
-        background-color: var(--tonic-background, #fff);
+        background-color: transparent;
       }
 
       tonic-input[label] .tonic--invalid {

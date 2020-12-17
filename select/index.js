@@ -74,7 +74,7 @@ class TonicSelect extends Tonic {
       }
 
       tonic-select select[disabled] {
-        background-color: var(--tonic-background, #fff);
+        background-color: transparent;
       }
 
       tonic-select label {

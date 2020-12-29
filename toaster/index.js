@@ -135,7 +135,20 @@ class TonicToaster extends Tonic {
       )
   }
 
-  create ({ message, title, duration, type, dismiss } = {}) {
+  /**
+   * @param {{
+   *    message?: string,
+   *    title: string,
+   *    type: string,
+   *    duration?: number,
+   *    dismiss?: boolean
+   * }} options
+   */
+  create (options) {
+    options = options || {}
+    const { message, title, duration, type } = options
+    let dismiss = options.dismiss
+
     const notification = document.createElement('div')
     notification.className = 'tonic--notification'
     this.style.zIndex = this._getZIndex()

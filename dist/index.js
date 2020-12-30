@@ -1837,7 +1837,7 @@ class TonicInput extends Tonic {
       }
 
       tonic-input input[disabled] {
-        background-color: var(--tonic-background, #fff);
+        background-color: transparent;
       }
 
       tonic-input[label] .tonic--invalid {
@@ -4238,7 +4238,7 @@ class TonicSelect extends Tonic {
       }
 
       tonic-select select[disabled] {
-        background-color: var(--tonic-background, #fff);
+        background-color: transparent;
       }
 
       tonic-select label {
@@ -4800,7 +4800,7 @@ class TonicTextarea extends Tonic {
       }
 
       tonic-textarea textarea[disabled] {
-        background-color: var(--tonic-background, #fff);
+        background-color: transparent;
       }
 
       tonic-textarea label {
@@ -5394,7 +5394,20 @@ class TonicToaster extends Tonic {
       )
   }
 
-  create ({ message, title, duration, type, dismiss } = {}) {
+  /**
+   * @param {{
+   *    message?: string,
+   *    title: string,
+   *    type: string,
+   *    duration?: number,
+   *    dismiss?: boolean
+   * }} options
+   */
+  create (options) {
+    options = options || {}
+    const { message, title, duration, type } = options
+    let dismiss = options.dismiss
+
     const notification = document.createElement('div')
     notification.className = 'tonic--notification'
     this.style.zIndex = this._getZIndex()

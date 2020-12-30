@@ -1631,7 +1631,7 @@ function ready () {
 
 document.addEventListener('DOMContentLoaded', ready)
 
-},{"../..":19,"../../badge/readme":5,"../../button/readme":7,"../../chart/readme":9,"../../checkbox/readme":11,"../../dialog/readme":13,"../../icon/readme":18,"../../input/readme":21,"../../panel/readme":31,"../../popover/readme":33,"../../profile-image/readme":35,"../../progress-bar/readme":37,"../../range/readme":39,"../../router/readme":42,"../../select/readme":44,"../../tabs/readme":47,"../../textarea/readme":49,"../../toaster-inline/readme":51,"../../toaster/readme":53,"../../toggle/readme":55,"../../tooltip/readme":57,"../../windowed/readme":59,"./nonce":15,"@optoolco/tonic":23,"qs":28,"scrolltoy":29}],15:[function(require,module,exports){
+},{"../..":19,"../../badge/readme":5,"../../button/readme":7,"../../chart/readme":9,"../../checkbox/readme":11,"../../dialog/readme":13,"../../icon/readme":18,"../../input/readme":21,"../../panel/readme":31,"../../popover/readme":33,"../../profile-image/readme":35,"../../progress-bar/readme":37,"../../range/readme":39,"../../router/readme":42,"../../select/readme":44,"../../tabs/readme":47,"../../textarea/readme":49,"../../toaster-inline/readme":51,"../../toaster/readme":53,"../../toggle/readme":55,"../../tooltip/readme":57,"../../windowed/readme":59,"./nonce":15,"@optoolco/tonic":23,"qsa-min":28,"scrolltoy":29}],15:[function(require,module,exports){
 
     module.exports = 'U29tZSBzdXBlciBzZWNyZXQ='
   
@@ -2461,7 +2461,9 @@ class Tonic extends window.HTMLElement {
     }
 
     if (!htmlName) htmlName = Tonic._splitName(c.name).toLowerCase()
-    if (window.customElements.get(htmlName)) return
+    if (window.customElements.get(htmlName)) {
+      throw new Error(`Cannot Tonic.add(${c.name}, '${htmlName}') twice`)
+    }
 
     if (!c.prototype.isTonicComponent) {
       const tmp = { [c.name]: class extends Tonic {} }[c.name]
@@ -2496,6 +2498,11 @@ class Tonic extends window.HTMLElement {
 
   static unsafeRawString (s, templateStrings) {
     return new TonicTemplate(s, templateStrings, true)
+  }
+
+  dispatch (eventName, detail = null) {
+    const opts = { bubbles: true, detail }
+    this.dispatchEvent(new window.CustomEvent(eventName, opts))
   }
 
   html (strings, ...values) {
@@ -2745,31 +2752,31 @@ if (typeof module === 'object') module.exports = Tonic
 
 },{"./package":24}],24:[function(require,module,exports){
 module.exports={
-  "_from": "@optoolco/tonic@next",
-  "_id": "@optoolco/tonic@13.1.1",
+  "_from": "@optoolco/tonic@13.1.3",
+  "_id": "@optoolco/tonic@13.1.3",
   "_inBundle": false,
-  "_integrity": "sha512-KGgLJQ8PW5T2fIj3Pl426hGARJzdE11b3usBcMdHHge1oKTkhs4nybJJ0C2P+iVfErFYXPwDcEToFM0kDPOiLg==",
+  "_integrity": "sha512-GECzc4Od1fXwrHHqpys7BqUib2kZOjNyoDEhikY5TjJcgBpP5SkgYjf4I8E7Y4TLlQ6jGechB+g7Sknwz5yZOA==",
   "_location": "/@optoolco/tonic",
   "_phantomChildren": {},
   "_requested": {
-    "type": "tag",
+    "type": "version",
     "registry": true,
-    "raw": "@optoolco/tonic@next",
+    "raw": "@optoolco/tonic@13.1.3",
     "name": "@optoolco/tonic",
     "escapedName": "@optoolco%2ftonic",
     "scope": "@optoolco",
-    "rawSpec": "next",
+    "rawSpec": "13.1.3",
     "saveSpec": null,
-    "fetchSpec": "next"
+    "fetchSpec": "13.1.3"
   },
   "_requiredBy": [
     "#DEV:/",
     "#USER"
   ],
-  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-13.1.1.tgz",
-  "_shasum": "e7a14d9a5cfe2cef1d0f671c085df924b2d3c5f4",
-  "_spec": "@optoolco/tonic@next",
-  "_where": "/Users/paolofragomeni/projects/optoolco/components",
+  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-13.1.3.tgz",
+  "_shasum": "62e53a736df2fc8b9aeaade8c57b20bfd5206ce9",
+  "_spec": "@optoolco/tonic@13.1.3",
+  "_where": "/home/raynos/optoolco/components",
   "author": {
     "name": "optoolco"
   },
@@ -2804,7 +2811,7 @@ module.exports={
     "minify": "terser index.js -c unused,dead_code,hoist_vars,loops=false,hoist_props=true,hoist_funs,toplevel,keep_classnames,keep_fargs=false -o dist/tonic.min.js",
     "test": "npm run minify && browserify test/index.js | tape-puppet"
   },
-  "version": "13.1.1"
+  "version": "13.1.3"
 }
 
 },{}],25:[function(require,module,exports){
@@ -26557,7 +26564,20 @@ class TonicToaster extends Tonic {
       )
   }
 
-  create ({ message, title, duration, type, dismiss } = {}) {
+  /**
+   * @param {{
+   *    message?: string,
+   *    title: string,
+   *    type: string,
+   *    duration?: number,
+   *    dismiss?: boolean
+   * }} options
+   */
+  create (options) {
+    options = options || {}
+    const { message, title, duration, type } = options
+    let dismiss = options.dismiss
+
     const notification = document.createElement('div')
     notification.className = 'tonic--notification'
     this.style.zIndex = this._getZIndex()

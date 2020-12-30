@@ -1,6 +1,6 @@
 const Tonic = require('@optoolco/tonic')
 const tape = require('@pre-bundled/tape')
-const { qs } = require('qs')
+const { qs } = require('qsa-min')
 
 const { html } = require('../test/util')
 const components = require('..')

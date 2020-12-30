@@ -1527,7 +1527,7 @@ link.addEventListener('click', async e => {
 },{"@optoolco/tonic":23}],14:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 const scrollToY = require('scrolltoy')
-const { qs, qsa } = require('qs')
+const { qs, qsa } = require('qsa-min')
 const components = require('../..')
 const nonce = require('./nonce')
 

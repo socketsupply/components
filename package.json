@@ -59,7 +59,7 @@
     "mkdirp": "^0.5.1",
     "node-fetch": "^2.6.1",
     "npm-bin-deps": "1.8.1",
-    "qs": "github:hxoht/qs",
+    "qsa-min": "1.0.2",
     "scrolltoy": "github:voltraco/scrolltoy"
   },
   "dependencies": {}

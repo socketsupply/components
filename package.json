@@ -33,6 +33,7 @@
   },
   "standard": {
     "ignore": [
+      "index.d.ts",
       "_types/**/*.d.ts",
       "dist/**/*.js",
       "docs/**/*.js"

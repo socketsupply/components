@@ -276,4 +276,4 @@ class TonicToaster extends Tonic {
   }
 }
 
-module.exports = { TonicToaster }
+exports.TonicToaster = TonicToaster

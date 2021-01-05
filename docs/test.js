@@ -38225,7 +38225,7 @@ class TonicToaster extends Tonic {
   }
 }
 
-module.exports = { TonicToaster }
+exports.TonicToaster = TonicToaster
 
 },{"@optoolco/tonic":50}],121:[function(require,module,exports){
 const tape = require('@pre-bundled/tape')

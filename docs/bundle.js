@@ -26709,7 +26709,7 @@ class TonicToaster extends Tonic {
   }
 }
 
-module.exports = { TonicToaster }
+exports.TonicToaster = TonicToaster
 
 },{"@optoolco/tonic":23}],53:[function(require,module,exports){
 const notification = document.querySelector('tonic-toaster')

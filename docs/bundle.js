@@ -2774,12 +2774,13 @@ module.exports={
     "fetchSpec": "13.1.3"
   },
   "_requiredBy": [
-    "#DEV:/"
+    "#DEV:/",
+    "#USER"
   ],
   "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-13.1.3.tgz",
   "_shasum": "62e53a736df2fc8b9aeaade8c57b20bfd5206ce9",
   "_spec": "@optoolco/tonic@13.1.3",
-  "_where": "/Users/paolofragomeni/projects/optoolco/components",
+  "_where": "/home/raynos/optoolco/components",
   "author": {
     "name": "optoolco"
   },

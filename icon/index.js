@@ -10,6 +10,10 @@ class TonicIcon extends Tonic {
 
   static stylesheet () {
     return `
+      tonic-icon {
+        vertical-align: middle;
+      }
+
       tonic-icon svg path {
         fill: inherit;
       }

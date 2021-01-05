@@ -1,12 +1,11 @@
 'use strict'
 
-declare var window
+/* global fixture, test, window */
 import { Selector } from 'testcafe'
 
 fixture`Test form`
   .page`http://localhost:8030/`
 
-/* global window */
 test('can click button', async (t) => {
   const form = Selector('.tc-test-form')
 
@@ -20,10 +19,10 @@ test('can click button', async (t) => {
   await t.expect(span.visible).eql(true)
 
   const c = await t.eval(() => {
-    return Reflect.get(window, 'promiseCounter');
+    return window.promiseCounter
   })
   await t.expect(c).eql(1)
-});
+})
 
 test('can dispatch custome vent', async (t) => {
   const parent = Selector('custom-event-parent')

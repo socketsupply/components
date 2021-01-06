@@ -431,7 +431,7 @@ body > nav {
   color: var(--tonic-info);
 }
 body > nav:hover {
-  overflow-y: overlay;
+  overflow-y: auto;
 }
 @media (max-width: 850px) {
   body > nav {
@@ -498,7 +498,7 @@ body > main {
   left: 300px;
   right: 0;
   bottom: 0;
-  overflow: overlay;
+  overflow: auto;
 }
 @media (max-width: 850px) {
   body > main {
@@ -601,7 +601,7 @@ body > main table {
   body > main table {
     display: block;
     max-width: 100%;
-    overflow: overlay;
+    overflow: auto;
   }
 }
 body > main th {
@@ -638,13 +638,13 @@ body > main pre {
   background-color: var(--tonic-dark);
 }
 body > main pre:hover {
-  overflow: overlay;
+  overflow: auto;
 }
 body > main pre code {
   border: 0;
   padding: 0;
   white-space: pre;
-  overflow: overlay;
+  overflow: auto;
   background: none;
   color: #fff;
 }

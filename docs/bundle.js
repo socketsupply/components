@@ -25318,6 +25318,7 @@ class TonicSelect extends Tonic {
   defaults () {
     return {
       disabled: false,
+      invalid: false,
       iconArrow: TonicSelect.svg.default(),
       width: '250px',
       radius: '2px'
@@ -25383,6 +25384,66 @@ class TonicSelect extends Tonic {
         outline: none;
       }
 
+      tonic-select select[invalid],
+      tonic-select select:invalid {
+        border-color: var(--tonic-error, #f66);
+      }
+
+      tonic-select select[invalid]:focus,
+      tonic-select select:invalid:focus {
+        border-color: var(--tonic-error, #f66);
+      }
+
+      tonic-select select[invalid] ~ .tonic--invalid,
+      tonic-select select:invalid ~ .tonic--invalid {
+        transform: translateY(0);
+        visibility: visible;
+        opacity: 1;
+        transition: opacity 0.2s ease, transform 0.2s ease, visibility 1s ease 0s;
+      }
+
+      tonic-select[label] .tonic--invalid {
+        margin-bottom: -13px;
+      }
+
+      tonic-select .tonic--invalid {
+        font-size: 14px;
+        text-align: center;
+        margin-bottom: 13px;
+        position: absolute;
+        bottom: 100%;
+        left: 0;
+        right: 0;
+        transform: translateY(-10px);
+        transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s ease 1s;
+        visibility: hidden;
+        opacity: 0;
+      }
+
+      tonic-select .tonic--invalid span {
+        color: white;
+        padding: 2px 6px;
+        background-color: var(--tonic-error, #f66);
+        border-radius: 2px;
+        position: relative;
+        display: inline-block;
+        margin: 0 auto;
+      }
+
+      tonic-select .tonic--invalid span:after {
+        content: '';
+        width: 0;
+        height: 0;
+        display: block;
+        position: absolute;
+        bottom: -6px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-top: 6px solid var(--tonic-error, #f66);
+      }
+
       tonic-select select:not([multiple]) {
         padding: 8px 30px 8px 8px;
       }
@@ -25418,6 +25479,28 @@ class TonicSelect extends Tonic {
         }
       }
     `
+  }
+
+  setValid () {
+    const input = this.querySelector('select')
+    if (!input) return
+
+    input.setCustomValidity('')
+    input.removeAttribute('invalid')
+  }
+
+  setInvalid (msg) {
+    const input = this.querySelector('select')
+    if (!input) return
+
+    msg = msg || this.props.errorMessage
+
+    input.setCustomValidity(msg)
+    input.setAttribute('invalid', msg)
+    const span = this.querySelector('.tonic--invalid span')
+    if (!span) return
+
+    span.textContent = msg
   }
 
   get value () {
@@ -25534,6 +25617,9 @@ class TonicSelect extends Tonic {
     if (name) this.removeAttribute('name')
     if (tabindex) this.removeAttribute('tabindex')
 
+    const errorMessage = this.props.errorMessage ||
+      this.props.errormessage || 'Invalid'
+
     return this.html`
       <div class="tonic--wrapper" styles="wrapper">
         ${this.renderLabel()}
@@ -25548,6 +25634,10 @@ class TonicSelect extends Tonic {
         }}>
           ${this.childNodes}
         </select>
+
+        <div class="tonic--invalid">
+          <span id="tonic--error-${this.props.id}">${errorMessage}</span>
+        </div>
       </div>
     `
   }
@@ -25568,6 +25658,12 @@ const select = document.getElementById('options-example-1')
 const notification = document.getElementsByTagName('tonic-toaster')[0]
 
 select.addEventListener('change', ({ target }) => {
+  if (select.value === 'c') {
+    select.setInvalid('Bad choice')
+  } else {
+    select.setValid()
+  }
+
   notification.create({
     type: 'success',
     message: `Selected option was "${select.value}".`,

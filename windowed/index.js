@@ -54,7 +54,7 @@ class Windowed extends Tonic {
       outer: {
         width: '100%',
         height: 'inherit',
-        overflow: 'overlay'
+        overflow: 'auto'
       }
     }
   }

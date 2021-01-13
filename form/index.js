@@ -43,31 +43,12 @@ class TonicForm extends Tonic {
     return o
   }
 
-  validate () {
-    const elements = this.getElements()
-    let isValid = true
-
-    for (const el of elements) {
-      if (!el.setInvalid) continue
-      if (el.setValid) el.setValid()
-
-      for (const key in el.validity) {
-        if (!el.validity[key]) {
-          el.setInvalid(key)
-          isValid = false
-        }
-      }
-    }
-
-    return isValid
-  }
-
   setData (data) {
-    this.value = data
+    this.state = data
   }
 
   getData () {
-    return this.value
+    return this.state
   }
 
   getElements () {
@@ -76,7 +57,7 @@ class TonicForm extends Tonic {
 
   get value () {
     const elements = this.getElements()
-    const data = {}
+    const data = this.state
 
     for (const element of elements) {
       TonicForm.setPropertyValue(data, element.dataset.key, element.value)
@@ -95,6 +76,60 @@ class TonicForm extends Tonic {
       if (!value) continue
 
       element.value = value
+    }
+
+    this.state = data
+  }
+
+  validate () {
+    const elements = this.getElements()
+    let isValid = true
+
+    for (const el of elements) {
+      if (!el.setInvalid) continue
+      if (el.setValid) el.setValid()
+
+      let selector = ''
+
+      if (el.tagName === 'TONIC-INPUT') {
+        selector = 'input'
+      } else if (el.tagName === 'TONIC-TEXTAREA') {
+        selector = 'textarea'
+      } else if (el.tagName === 'TONIC-SELECT') {
+        selector = 'select'
+      } else if (el.tagName === 'TONIC-CHECKBOX') {
+        selector = 'checkbox'
+      } else if (el.tagName === 'TONIC-TOGGLE') {
+        selector = 'checkbox'
+      }
+
+      const input = selector ? el.querySelector(selector) : el
+      if (!input.checkValidity) continue
+
+      input.checkValidity()
+
+      for (const key in input.validity) {
+        if (!input.validity[key] || key === 'valid') continue
+
+        const customMessage = el.props.errorMessage || 'Required'
+        const message = key === 'customError' ? customMessage : key
+        el.setInvalid(message)
+        isValid = false
+      }
+    }
+
+    return isValid
+  }
+
+  connected () {
+    if (!this.props.fill) return
+
+    const elements = this.getElements()
+
+    for (const element of elements) {
+      const key = element.dataset.key
+      const value = TonicForm.getPropertyValue(this.state, key)
+      element.value = value || element.value || ''
     }
   }
 

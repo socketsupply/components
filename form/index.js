@@ -43,6 +43,19 @@ class TonicForm extends Tonic {
     return o
   }
 
+  validate () {
+    const elements = this.getElements()
+
+    for (const el of elements) {
+      if (!el.setInvalid) continue
+      if (el.setValid) el.setValid()
+
+      for (const key in el.validity) {
+        if (!el.validity[key]) el.setInvalid(key)
+      }
+    }
+  }
+
   setData (data) {
     this.value = data
   }

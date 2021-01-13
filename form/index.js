@@ -45,15 +45,21 @@ class TonicForm extends Tonic {
 
   validate () {
     const elements = this.getElements()
+    let isValid = true
 
     for (const el of elements) {
       if (!el.setInvalid) continue
       if (el.setValid) el.setValid()
 
       for (const key in el.validity) {
-        if (!el.validity[key]) el.setInvalid(key)
+        if (!el.validity[key]) {
+          el.setInvalid(key)
+          isValid = false
+        }
       }
     }
+
+    return isValid
   }
 
   setData (data) {

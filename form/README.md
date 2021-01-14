@@ -86,8 +86,8 @@ assert(form.value === expected)
 
 | Method | Description |
 | :--- | :--- |
-| `validate()` | Reset and run all validation for all components that implement setValid() and setInvalid(). |
-| `isValid()` | Attempt to call isValid() on all form elements that implement it. |
+| `validate({ decorate })` | Reset and run all validation for all components that implement `setValid()` and `setInvalid()`. If `decorate` is set to `false`, this function only checks for validity. |
+| `setValid()` | Attempt to call setValid() on all form elements that implement it. |
 
 ### Instance Members
 

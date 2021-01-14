@@ -78,6 +78,7 @@ assert(form.value === expected)
 | Property | Type | Description | Default |
 | :--- | :--- | :--- | :--- |
 | `id` | *string* | Input with `id` attribute. <span class="req">required</span> | |
+| `fill` | *boolean* | If specified, upon render, any child-element value that that specifies `data-key` will be filled with the form's coresponding state value unless a value is specified as a property. |
 
 ### Instance Methods
 

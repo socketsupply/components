@@ -103,7 +103,7 @@ class TonicForm extends Tonic {
     TonicForm.setPropertyValue(this.state, el.dataset.key, el.value)
   }
 
-  validate ({ decorate = true }) {
+  validate ({ decorate = true } = {}) {
     this.getData()
     const elements = this.getElements()
     let isValid = true

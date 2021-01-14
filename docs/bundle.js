@@ -1721,11 +1721,15 @@ class TonicForm extends Tonic {
     this.state = data
   }
 
-  isValid () {
+  setValid () {
     const elements = this.getElements()
 
     for (const element of elements) {
-      if (element.isValid) element.isValid()
+      if (element.setValid) {
+        element.state.edited = false
+        element.removeAttribute('edited')
+        element.setValid()
+      }
     }
   }
 
@@ -1740,7 +1744,7 @@ class TonicForm extends Tonic {
     TonicForm.setPropertyValue(this.state, el.dataset.key, el.value)
   }
 
-  validate () {
+  validate ({ decorate = true }) {
     this.getData()
     const elements = this.getElements()
     let isValid = true
@@ -1769,11 +1773,11 @@ class TonicForm extends Tonic {
 
       for (const key in input.validity) {
         if ((key === 'valid') || (key === 'customError') || !input.validity[key]) {
-          el.setValid()
+          if (decorate) el.setValid()
           continue
         }
 
-        el.setInvalid(el.props.errorMessage || 'Required')
+        if (decorate) el.setInvalid(el.props.errorMessage || 'Required')
         isValid = false
       }
     }

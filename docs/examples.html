@@ -1132,12 +1132,12 @@ assert(form.value === expected)</code></pre>
 </tr>
 </thead>
 <tbody><tr>
-<td align="left"><code>validate()</code></td>
-<td align="left">Reset and run all validation for all components that implement setValid() and setInvalid().</td>
+<td align="left"><code>validate({ decorate })</code></td>
+<td align="left">Reset and run all validation for all components that implement <code>setValid()</code> and <code>setInvalid()</code>. If <code>decorate</code> is set to <code>false</code>, this function only checks for validity.</td>
 </tr>
 <tr>
-<td align="left"><code>isValid()</code></td>
-<td align="left">Attempt to call isValid() on all form elements that implement it.</td>
+<td align="left"><code>setValid()</code></td>
+<td align="left">Attempt to call setValid() on all form elements that implement it.</td>
 </tr>
 </tbody></table>
 <h3>Instance Members</h3>

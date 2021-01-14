@@ -70,18 +70,15 @@ class TonicSelect extends Tonic {
         outline: none;
       }
 
-      tonic-select select[invalid],
-      tonic-select select:invalid {
+      tonic-select[edited] select[invalid],
+      tonic-select[edited] select:invalid,
+      tonic-select[edited] select[invalid]:focus,
+      tonic-select[edited] select:invalid:focus {
         border-color: var(--tonic-error, #f66);
       }
 
-      tonic-select select[invalid]:focus,
-      tonic-select select:invalid:focus {
-        border-color: var(--tonic-error, #f66);
-      }
-
-      tonic-select select[invalid] ~ .tonic--invalid,
-      tonic-select select:invalid ~ .tonic--invalid {
+      tonic-select[edited] select[invalid] ~ .tonic--invalid,
+      tonic-select[edited] select:invalid ~ .tonic--invalid {
         transform: translateY(0);
         visibility: visible;
         opacity: 1;
@@ -179,6 +176,8 @@ class TonicSelect extends Tonic {
     const input = this.querySelector('select')
     if (!input) return
 
+    this.setAttribute('edited', true)
+
     msg = msg || this.props.errorMessage
 
     input.setCustomValidity(msg)
@@ -271,6 +270,17 @@ class TonicSelect extends Tonic {
         backgroundImage: `url('${iconArrow}')`
       }
     }
+  }
+
+  setupEvents () {
+    const input = this.querySelector('select')
+    input.addEventListener('change', _ => {
+      this.setAttribute('edited', true)
+    })
+  }
+
+  updated () {
+    this.setupEvents()
   }
 
   connected () {

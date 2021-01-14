@@ -52,6 +52,9 @@ class TonicInput extends Tonic {
     const input = this.querySelector('input')
     if (!input) return
 
+    this.setAttribute('edited', true)
+    this.state.edited = true
+
     msg = msg || this.props.errorMessage
 
     input.setCustomValidity(msg)
@@ -120,18 +123,15 @@ class TonicInput extends Tonic {
         outline: none;
       }
 
-      tonic-input input[invalid],
-      tonic-input input:invalid {
+      tonic-input[edited] input[invalid]:focus,
+      tonic-input[edited] input:invalid:focus,
+      tonic-input[edited] input[invalid],
+      tonic-input[edited] input:invalid {
         border-color: var(--tonic-error, #f66);
       }
 
-      tonic-input input[invalid]:focus,
-      tonic-input input:invalid:focus {
-        border-color: var(--tonic-error, #f66);
-      }
-
-      tonic-input input[invalid] ~ .tonic--invalid,
-      tonic-input input:invalid ~ .tonic--invalid {
+      tonic-input[edited] input[invalid] ~ .tonic--invalid,
+      tonic-input[edited] input:invalid ~ .tonic--invalid {
         transform: translateY(0);
         visibility: visible;
         opacity: 1;
@@ -240,6 +240,8 @@ class TonicInput extends Tonic {
 
     input.addEventListener('input', e => {
       this._modified = true
+      this.state.edited = true
+      this.setAttribute('edited', true)
       this.state.value = e.target.value
       this.state.pos = e.target.selectionStart
     })
@@ -257,19 +259,16 @@ class TonicInput extends Tonic {
   }
 
   updated () {
-    const input = this.querySelector('input')
+    this.setupEvents()
 
     setTimeout(() => {
       if (this.props.invalid) {
-        input.setCustomValidity(this.props.errorMessage)
-        input.setAttribute('invalid', this.props.errorMessage)
+        this.setInvalid(this.props.errorMessage)
       } else {
-        input.setCustomValidity('')
-        input.removeAttribute('invalid')
+        this.setValid()
       }
     }, 32)
 
-    this.setupEvents()
     this.state.rerendering = false
   }
 
@@ -336,7 +335,7 @@ class TonicInput extends Tonic {
     const value = this.value
 
     const errorMessage = this.props.errorMessage ||
-      this.props.errormessage || 'Invalid'
+      this.props.errorMessage || 'Invalid'
 
     const classes = ['tonic--wrapper']
     if (position) classes.push(`tonic--${position}`)
@@ -365,6 +364,10 @@ class TonicInput extends Tonic {
       title,
       value,
       list
+    }
+
+    if (this.state.edited) {
+      this.setAttribute('edited', true)
     }
 
     let datalist = ''

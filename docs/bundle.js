@@ -1721,10 +1721,6 @@ class TonicForm extends Tonic {
     this.state = data
   }
 
-  relay (name) {
-    this.dispatchEvent(new window.CustomEvent(name, { bubbles: true }))
-  }
-
   input (e) {
     this.change(e)
   }
@@ -1732,8 +1728,6 @@ class TonicForm extends Tonic {
   change (e) {
     const el = Tonic.match(e.target, '[data-key]')
     if (!el) return
-
-    this.relay(e.type)
 
     TonicForm.setPropertyValue(this.state, el.dataset.key, el.value)
   }

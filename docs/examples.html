@@ -1070,24 +1070,26 @@ on the form will be.</p>
 <h2>Code</h2>
 <h4>HTML</h4>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-form</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;form-example&quot;</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">tonic-input</span> <span class="hljs-attr">data-key</span>=<span class="hljs-string">&quot;ka&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;a&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;va&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">tonic-input</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">tonic-input</span> <span class="hljs-attr">data-key</span>=<span class="hljs-string">&quot;ka&quot;</span> <span class="hljs-attr">required</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;a&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-input</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">tonic-select</span>
     <span class="hljs-attr">data-key</span>=<span class="hljs-string">&quot;foo.kb&quot;</span>
     <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;b&quot;</span>
     <span class="hljs-attr">required</span>=<span class="hljs-string">&quot;true&quot;</span>
-    <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;vb&quot;</span>
   &gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;&quot;</span> <span class="hljs-attr">selected</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">disabled</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>Select One<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;a&quot;</span>&gt;</span>a<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;b&quot;</span>&gt;</span>b<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-select</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">tonic-input</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;c&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;vc&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">tonic-input</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">tonic-input</span> <span class="hljs-attr">data-key</span>=<span class="hljs-string">&quot;bar.0.buzz&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;d&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;vd&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">tonic-input</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">tonic-button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;form-submit&quot;</span>&gt;</span>Submit<span class="hljs-tag">&lt;/<span class="hljs-name">tonic-button</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">tonic-input</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;c&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;vc&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-input</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">tonic-input</span> <span class="hljs-attr">required</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">data-key</span>=<span class="hljs-string">&quot;bar.0.buzz&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;d&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;vd&quot;</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-input</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">tonic-button</span> <span class="hljs-attr">disabled</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;form-submit&quot;</span>&gt;</span>Submit<span class="hljs-tag">&lt;/<span class="hljs-name">tonic-button</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-form</span>&gt;</span></code></pre>
 <hr>
 <h4>JS</h4>
-<pre><code class="language-js"><span class="hljs-keyword">const</span> form = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&#x27;f&#x27;</span>)
+<pre><code class="language-js"><span class="hljs-keyword">const</span> form = <span class="hljs-built_in">document</span>.getElementById(<span class="hljs-string">&#x27;form-example&#x27;</span>)
 <span class="hljs-keyword">const</span> expected = {
   <span class="hljs-attr">ka</span>: <span class="hljs-string">&#x27;va&#x27;</span>,
   <span class="hljs-attr">foo</span>: {
@@ -1112,6 +1114,12 @@ assert(form.value === expected)</code></pre>
 <td align="left"><code>id</code></td>
 <td align="left"><em>string</em></td>
 <td align="left">Input with <code>id</code> attribute. <span class="req">required</span></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td align="left"><code>fill</code></td>
+<td align="left"><em>boolean</em></td>
+<td align="left">If specified, upon render, any child-element value that that specifies <code>data-key</code> will be filled with the form&#39;s coresponding state value unless a value is specified as a property.</td>
 <td align="left"></td>
 </tr>
 </tbody></table>

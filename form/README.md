@@ -37,20 +37,22 @@ on the form will be.
 
 ```html
 <tonic-form id="form-example">
-  <tonic-input data-key="ka" id="a" value="va"></tonic-input>
+  <tonic-input data-key="ka" required="true" id="a">
+  </tonic-input>
   <tonic-select
     data-key="foo.kb"
     id="b"
     required="true"
-    value="vb"
   >
     <option value="" selected="true" disabled="true">Select One</option>
     <option value="a">a</option>
     <option value="b">b</option>
   </tonic-select>
-  <tonic-input id="c" value="vc"></tonic-input>
-  <tonic-input data-key="bar.0.buzz" id="d" value="vd"></tonic-input>
-  <tonic-button id="form-submit">Submit</tonic-button>
+  <tonic-input id="c" value="vc">
+  </tonic-input>
+  <tonic-input required="true" data-key="bar.0.buzz" id="d" value="vd">
+  </tonic-input>
+  <tonic-button disabled="true" id="form-submit">Submit</tonic-button>
 </tonic-form>
 ```
 

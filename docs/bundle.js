@@ -1721,6 +1721,14 @@ class TonicForm extends Tonic {
     this.state = data
   }
 
+  isValid () {
+    const elements = this.getElements()
+
+    for (const element of elements) {
+      if (element.isValid) element.isValid()
+    }
+  }
+
   input (e) {
     this.change(e)
   }

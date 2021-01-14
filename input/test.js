@@ -256,7 +256,7 @@ tape('{{input-4}} is required', t => {
   t.equal(input.required, true, 'input is required')
 
   const styles = window.getComputedStyle(input)
-  t.equal(styles.borderColor, 'rgb(255, 102, 102)')
+  t.equal(styles.borderColor, 'rgb(204, 204, 204)')
 
   t.end()
 })

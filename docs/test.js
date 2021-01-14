@@ -6727,15 +6727,17 @@ class TonicButton extends Tonic {
         }
       }
 
-      tonic-button button[disabled] {
-        pointer-events: none;
-        user-select: none;
-      }
-
       tonic-button button:not([disabled]):hover,
       tonic-button button:not(.tonic--loading):hover {
         background-color: var(--tonic-button-background-hover, rgba(54, 57, 61, 1)) !important;
         cursor: pointer;
+      }
+
+      tonic-button[disabled] button,
+      tonic-button button[disabled] {
+        pointer-events: none;
+        user-select: none;
+        background-color: transparent
       }
 
       tonic-button button.tonic--loading {
@@ -8135,7 +8137,7 @@ class TonicForm extends Tonic {
   }
 
   setData (data) {
-    this.value = data
+    this.state = data
   }
 
   getData () {
@@ -8148,13 +8150,12 @@ class TonicForm extends Tonic {
 
   get value () {
     const elements = this.getElements()
-    const data = {}
 
     for (const element of elements) {
-      TonicForm.setPropertyValue(data, element.dataset.key, element.value)
+      TonicForm.setPropertyValue(this.state, element.dataset.key, element.value)
     }
 
-    return data
+    return this.state
   }
 
   set value (data) {
@@ -8167,6 +8168,78 @@ class TonicForm extends Tonic {
       if (!value) continue
 
       element.value = value
+    }
+
+    this.state = data
+  }
+
+  relay (name) {
+    this.dispatchEvent(new window.CustomEvent(name, { bubbles: true }))
+  }
+
+  input (e) {
+    this.change(e)
+  }
+
+  change (e) {
+    const el = Tonic.match(e.target, '[data-key]')
+    if (!el) return
+
+    this.relay(e.type)
+
+    TonicForm.setPropertyValue(this.state, el.dataset.key, el.value)
+  }
+
+  validate () {
+    this.getData()
+    const elements = this.getElements()
+    let isValid = true
+
+    for (const el of elements) {
+      if (!el.setInvalid) continue
+
+      let selector = ''
+
+      if (el.tagName === 'TONIC-INPUT') {
+        selector = 'input'
+      } else if (el.tagName === 'TONIC-TEXTAREA') {
+        selector = 'textarea'
+      } else if (el.tagName === 'TONIC-SELECT') {
+        selector = 'select'
+      } else if (el.tagName === 'TONIC-CHECKBOX') {
+        selector = 'checkbox'
+      } else if (el.tagName === 'TONIC-TOGGLE') {
+        selector = 'checkbox'
+      }
+
+      const input = selector ? el.querySelector(selector) : el
+      if (!input.checkValidity) continue
+
+      input.checkValidity()
+
+      for (const key in input.validity) {
+        if ((key === 'valid') || (key === 'customError') || !input.validity[key]) {
+          el.setValid()
+          continue
+        }
+
+        el.setInvalid(el.props.errorMessage || 'Required')
+        isValid = false
+      }
+    }
+
+    return isValid
+  }
+
+  connected () {
+    if (!this.props.fill) return
+
+    const elements = this.getElements()
+
+    for (const element of elements) {
+      const key = element.dataset.key
+      const value = TonicForm.getPropertyValue(this.state, key)
+      element.value = value || element.value || ''
     }
   }
 
@@ -8532,6 +8605,9 @@ class TonicInput extends Tonic {
     const input = this.querySelector('input')
     if (!input) return
 
+    this.setAttribute('edited', true)
+    this.state.edited = true
+
     msg = msg || this.props.errorMessage
 
     input.setCustomValidity(msg)
@@ -8600,18 +8676,15 @@ class TonicInput extends Tonic {
         outline: none;
       }
 
-      tonic-input input[invalid],
-      tonic-input input:invalid {
+      tonic-input[edited] input[invalid]:focus,
+      tonic-input[edited] input:invalid:focus,
+      tonic-input[edited] input[invalid],
+      tonic-input[edited] input:invalid {
         border-color: var(--tonic-error, #f66);
       }
 
-      tonic-input input[invalid]:focus,
-      tonic-input input:invalid:focus {
-        border-color: var(--tonic-error, #f66);
-      }
-
-      tonic-input input[invalid] ~ .tonic--invalid,
-      tonic-input input:invalid ~ .tonic--invalid {
+      tonic-input[edited] input[invalid] ~ .tonic--invalid,
+      tonic-input[edited] input:invalid ~ .tonic--invalid {
         transform: translateY(0);
         visibility: visible;
         opacity: 1;
@@ -8720,6 +8793,8 @@ class TonicInput extends Tonic {
 
     input.addEventListener('input', e => {
       this._modified = true
+      this.state.edited = true
+      this.setAttribute('edited', true)
       this.state.value = e.target.value
       this.state.pos = e.target.selectionStart
     })
@@ -8737,19 +8812,16 @@ class TonicInput extends Tonic {
   }
 
   updated () {
-    const input = this.querySelector('input')
+    this.setupEvents()
 
     setTimeout(() => {
       if (this.props.invalid) {
-        input.setCustomValidity(this.props.errorMessage)
-        input.setAttribute('invalid', this.props.errorMessage)
+        this.setInvalid(this.props.errorMessage)
       } else {
-        input.setCustomValidity('')
-        input.removeAttribute('invalid')
+        this.setValid()
       }
     }, 32)
 
-    this.setupEvents()
     this.state.rerendering = false
   }
 
@@ -8816,7 +8888,7 @@ class TonicInput extends Tonic {
     const value = this.value
 
     const errorMessage = this.props.errorMessage ||
-      this.props.errormessage || 'Invalid'
+      this.props.errorMessage || 'Invalid'
 
     const classes = ['tonic--wrapper']
     if (position) classes.push(`tonic--${position}`)
@@ -8845,6 +8917,10 @@ class TonicInput extends Tonic {
       title,
       value,
       list
+    }
+
+    if (this.state.edited) {
+      this.setAttribute('edited', true)
     }
 
     let datalist = ''
@@ -9140,7 +9216,7 @@ tape('{{input-4}} is required', t => {
   t.equal(input.required, true, 'input is required')
 
   const styles = window.getComputedStyle(input)
-  t.equal(styles.borderColor, 'rgb(255, 102, 102)')
+  t.equal(styles.borderColor, 'rgb(204, 204, 204)')
 
   t.end()
 })
@@ -35886,18 +35962,15 @@ class TonicSelect extends Tonic {
         outline: none;
       }
 
-      tonic-select select[invalid],
-      tonic-select select:invalid {
+      tonic-select[edited] select[invalid],
+      tonic-select[edited] select:invalid,
+      tonic-select[edited] select[invalid]:focus,
+      tonic-select[edited] select:invalid:focus {
         border-color: var(--tonic-error, #f66);
       }
 
-      tonic-select select[invalid]:focus,
-      tonic-select select:invalid:focus {
-        border-color: var(--tonic-error, #f66);
-      }
-
-      tonic-select select[invalid] ~ .tonic--invalid,
-      tonic-select select:invalid ~ .tonic--invalid {
+      tonic-select[edited] select[invalid] ~ .tonic--invalid,
+      tonic-select[edited] select:invalid ~ .tonic--invalid {
         transform: translateY(0);
         visibility: visible;
         opacity: 1;
@@ -35995,6 +36068,8 @@ class TonicSelect extends Tonic {
     const input = this.querySelector('select')
     if (!input) return
 
+    this.setAttribute('edited', true)
+
     msg = msg || this.props.errorMessage
 
     input.setCustomValidity(msg)
@@ -36087,6 +36162,17 @@ class TonicSelect extends Tonic {
         backgroundImage: `url('${iconArrow}')`
       }
     }
+  }
+
+  setupEvents () {
+    const input = this.querySelector('select')
+    input.addEventListener('change', _ => {
+      this.setAttribute('edited', true)
+    })
+  }
+
+  updated () {
+    this.setupEvents()
   }
 
   connected () {
@@ -37239,18 +37325,15 @@ class TonicTextarea extends Tonic {
         display: block;
       }
 
-      tonic-textarea textarea[invalid],
-      tonic-textarea textarea:invalid {
+      tonic-textarea[edited] textarea[invalid],
+      tonic-textarea[edited] textarea:invalid,
+      tonic-textarea[edited] textarea[invalid]:focus,
+      tonic-textarea[edited] textarea:invalid:focus {
         border-color: var(--tonic-error, #f66);
       }
 
-      tonic-textarea textarea[invalid]:focus,
-      tonic-textarea textarea:invalid:focus {
-        border-color: var(--tonic-error, #f66);
-      }
-
-      tonic-textarea textarea[invalid] ~ .tonic--invalid,
-      tonic-textarea textarea:invalid ~ .tonic--invalid {
+      tonic-textarea[edited] textarea[invalid] ~ .tonic--invalid,
+      tonic-textarea[edited] textarea:invalid ~ .tonic--invalid {
         transform: translateY(0);
         visibility: visible;
         opacity: 1;
@@ -37344,6 +37427,9 @@ class TonicTextarea extends Tonic {
     const input = this.querySelector('textarea')
     if (!input) return
 
+    this.setAttribute('edited', true)
+    this.state.edited = true
+
     input.setCustomValidity(msg)
     input.setAttribute('invalid', msg)
     const span = this.querySelector('.tonic--invalid span')
@@ -37430,6 +37516,10 @@ class TonicTextarea extends Tonic {
     const errorMessage = this.props.errorMessage || 'Invalid'
 
     if (this.props.value === 'undefined') this.props.value = ''
+
+    if (this.state.edited) {
+      this.setAttribute('edited', true)
+    }
 
     return this.html`
       <div class="tonic--wrapper">

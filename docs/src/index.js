@@ -10,6 +10,7 @@ if (window.location.pathname === '/examples.html') {
   require('../../router/readme')
   require('../../panel/readme')
   require('../../dialog/readme')
+  require('../../form/readme')
   require('../../tabs/readme')
   require('../../windowed/readme')
   require('../../tooltip/readme')

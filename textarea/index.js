@@ -62,18 +62,15 @@ class TonicTextarea extends Tonic {
         display: block;
       }
 
-      tonic-textarea textarea[invalid],
-      tonic-textarea textarea:invalid {
+      tonic-textarea[edited] textarea[invalid],
+      tonic-textarea[edited] textarea:invalid,
+      tonic-textarea[edited] textarea[invalid]:focus,
+      tonic-textarea[edited] textarea:invalid:focus {
         border-color: var(--tonic-error, #f66);
       }
 
-      tonic-textarea textarea[invalid]:focus,
-      tonic-textarea textarea:invalid:focus {
-        border-color: var(--tonic-error, #f66);
-      }
-
-      tonic-textarea textarea[invalid] ~ .tonic--invalid,
-      tonic-textarea textarea:invalid ~ .tonic--invalid {
+      tonic-textarea[edited] textarea[invalid] ~ .tonic--invalid,
+      tonic-textarea[edited] textarea:invalid ~ .tonic--invalid {
         transform: translateY(0);
         visibility: visible;
         opacity: 1;
@@ -167,6 +164,9 @@ class TonicTextarea extends Tonic {
     const input = this.querySelector('textarea')
     if (!input) return
 
+    this.setAttribute('edited', true)
+    this.state.edited = true
+
     input.setCustomValidity(msg)
     input.setAttribute('invalid', msg)
     const span = this.querySelector('.tonic--invalid span')
@@ -253,6 +253,10 @@ class TonicTextarea extends Tonic {
     const errorMessage = this.props.errorMessage || 'Invalid'
 
     if (this.props.value === 'undefined') this.props.value = ''
+
+    if (this.state.edited) {
+      this.setAttribute('edited', true)
+    }
 
     return this.html`
       <div class="tonic--wrapper">

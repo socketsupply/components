@@ -108,15 +108,17 @@ class TonicButton extends Tonic {
         }
       }
 
-      tonic-button button[disabled] {
-        pointer-events: none;
-        user-select: none;
-      }
-
       tonic-button button:not([disabled]):hover,
       tonic-button button:not(.tonic--loading):hover {
         background-color: var(--tonic-button-background-hover, rgba(54, 57, 61, 1)) !important;
         cursor: pointer;
+      }
+
+      tonic-button[disabled] button,
+      tonic-button button[disabled] {
+        pointer-events: none;
+        user-select: none;
+        background-color: transparent
       }
 
       tonic-button button.tonic--loading {

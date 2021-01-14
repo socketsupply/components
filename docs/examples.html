@@ -1039,28 +1039,51 @@ link.addEventListener(<span class="hljs-string">&#x27;click&#x27;</span>, <span 
     </div>
   
       <h1 id="form">Form</h1>
-<p>The <code>Form</code> component is a container that can collect the values of its child
-elements. There is no <code>submit</code> or validate functions, listening for an event on
-which to get the value and use it are responsibilies of the parent component.</p>
-<p>Key names use a special <code>dot notation</code> to determine what the value on the form
-will be.</p>
+<p>The <code>form</code> component implements <code>input</code> and <code>change</code> events that collect
+the values of any child component that has the <code>data-key</code> attribute. The values
+colected are stored on the <code>tonic-form</code> state and accessible from the <code>value</code>
+property.</p>
+<p>The value of <code>data-key</code> expects a <code>dot notation</code> to determine what the value
+on the form will be.</p>
 <h2>Demo</h2>
 <div class="example">
-  <tonic-form id="f">
-    <tonic-input data-key="ka" id="a" value="va"></tonic-input>
-    <tonic-input data-key="foo.kb" id="b" value="vb"></tonic-input>
-    <tonic-input id="c" value="vc"></tonic-input>
-    <tonic-input data-key="bar.0.buzz" id="d" value="vd"></tonic-input>
+  <tonic-form id="form-example">
+    <tonic-input data-key="ka" required="true" id="a">
+    </tonic-input>
+    <tonic-select
+      data-key="foo.kb"
+      id="b"
+      required="true"
+    >
+      <option value="" selected="true" disabled="true">Select One</option>
+      <option value="a">a</option>
+      <option value="b">b</option>
+    </tonic-select>
+    <tonic-input id="c" value="vc">
+    </tonic-input>
+    <tonic-input required="true" data-key="bar.0.buzz" id="d" value="vd">
+    </tonic-input>
+    <tonic-button disabled="true" id="form-submit">Submit</tonic-button>
   </tonic-form>
 </div>
 
 <h2>Code</h2>
 <h4>HTML</h4>
-<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-form</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;f&quot;</span>&gt;</span>
+<pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">tonic-form</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;form-example&quot;</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">tonic-input</span> <span class="hljs-attr">data-key</span>=<span class="hljs-string">&quot;ka&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;a&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;va&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">tonic-input</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">tonic-input</span> <span class="hljs-attr">data-key</span>=<span class="hljs-string">&quot;foo.kb&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;b&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;vb&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">tonic-input</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">tonic-select</span>
+    <span class="hljs-attr">data-key</span>=<span class="hljs-string">&quot;foo.kb&quot;</span>
+    <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;b&quot;</span>
+    <span class="hljs-attr">required</span>=<span class="hljs-string">&quot;true&quot;</span>
+    <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;vb&quot;</span>
+  &gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;&quot;</span> <span class="hljs-attr">selected</span>=<span class="hljs-string">&quot;true&quot;</span> <span class="hljs-attr">disabled</span>=<span class="hljs-string">&quot;true&quot;</span>&gt;</span>Select One<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;a&quot;</span>&gt;</span>a<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">option</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;b&quot;</span>&gt;</span>b<span class="hljs-tag">&lt;/<span class="hljs-name">option</span>&gt;</span>
+  <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-select</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">tonic-input</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;c&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;vc&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">tonic-input</span>&gt;</span>
   <span class="hljs-tag">&lt;<span class="hljs-name">tonic-input</span> <span class="hljs-attr">data-key</span>=<span class="hljs-string">&quot;bar.0.buzz&quot;</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;d&quot;</span> <span class="hljs-attr">value</span>=<span class="hljs-string">&quot;vd&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">tonic-input</span>&gt;</span>
+  <span class="hljs-tag">&lt;<span class="hljs-name">tonic-button</span> <span class="hljs-attr">id</span>=<span class="hljs-string">&quot;form-submit&quot;</span>&gt;</span>Submit<span class="hljs-tag">&lt;/<span class="hljs-name">tonic-button</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">tonic-form</span>&gt;</span></code></pre>
 <hr>
 <h4>JS</h4>
@@ -1090,6 +1113,19 @@ assert(form.value === expected)</code></pre>
 <td align="left"><em>string</em></td>
 <td align="left">Input with <code>id</code> attribute. <span class="req">required</span></td>
 <td align="left"></td>
+</tr>
+</tbody></table>
+<h3>Instance Methods</h3>
+<table>
+<thead>
+<tr>
+<th align="left">Method</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><code>validate()</code></td>
+<td align="left">Reset and run all validation for all components that implement setValid() and setInvalid().</td>
 </tr>
 </tbody></table>
 <h3>Instance Members</h3>

@@ -48,7 +48,7 @@ class TonicForm extends Tonic {
   }
 
   getData () {
-    return this.state
+    return this.value
   }
 
   getElements () {
@@ -57,13 +57,12 @@ class TonicForm extends Tonic {
 
   get value () {
     const elements = this.getElements()
-    const data = this.state
 
     for (const element of elements) {
-      TonicForm.setPropertyValue(data, element.dataset.key, element.value)
+      TonicForm.setPropertyValue(this.state, element.dataset.key, element.value)
     }
 
-    return data
+    return this.state
   }
 
   set value (data) {
@@ -81,13 +80,30 @@ class TonicForm extends Tonic {
     this.state = data
   }
 
+  relay (name) {
+    this.dispatchEvent(new window.CustomEvent(name, { bubbles: true }))
+  }
+
+  input (e) {
+    this.change(e)
+  }
+
+  change (e) {
+    const el = Tonic.match(e.target, '[data-key]')
+    if (!el) return
+
+    this.relay(e.type)
+
+    TonicForm.setPropertyValue(this.state, el.dataset.key, el.value)
+  }
+
   validate () {
+    this.getData()
     const elements = this.getElements()
     let isValid = true
 
     for (const el of elements) {
       if (!el.setInvalid) continue
-      if (el.setValid) el.setValid()
 
       let selector = ''
 
@@ -109,11 +125,12 @@ class TonicForm extends Tonic {
       input.checkValidity()
 
       for (const key in input.validity) {
-        if (!input.validity[key] || key === 'valid') continue
+        if ((key === 'valid') || (key === 'customError') || !input.validity[key]) {
+          el.setValid()
+          continue
+        }
 
-        const customMessage = el.props.errorMessage || 'Required'
-        const message = key === 'customError' ? customMessage : key
-        el.setInvalid(message)
+        el.setInvalid(el.props.errorMessage || 'Required')
         isValid = false
       }
     }

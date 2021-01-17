@@ -6705,8 +6705,8 @@ class TonicButton extends Tonic {
         color: var(--tonic-medium, rgba(153, 157, 160, 1));
         background-color: var(--tonic-button-background-disabled, rgba(247, 247, 245, 1));
       }
-      tonic-button button[disabled],
 
+      tonic-button button[disabled],
       tonic-button button:active {
         animation-duration: .2s;
         animation-name: tonic--button--activate;
@@ -6733,6 +6733,7 @@ class TonicButton extends Tonic {
         cursor: pointer;
       }
 
+      tonic-button[disabled],
       tonic-button[disabled] button,
       tonic-button button[disabled] {
         pointer-events: none;
@@ -6817,17 +6818,13 @@ class TonicButton extends Tonic {
       height,
       margin,
       radius,
-      disabled,
-      borderWidth,
-      textColor,
-      textColorDisabled
+      borderWidth
     } = this.props
 
     return {
       button: {
         width,
         height,
-        color: disabled && disabled === 'true' ? textColorDisabled : textColor,
         borderRadius: radius,
         borderWidth: borderWidth
       },

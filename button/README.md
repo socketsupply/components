@@ -28,6 +28,10 @@ A `Button` component with a built-in loading state.
     symbol-id="edit"
     size="22px"
     value="click-me"></tonic-button>
+  <tonic-button
+    class="tonic-button-example"
+    disabled="true"
+    value="click-me">Disabled</tonic-button>
 </div>
 
 ## Code

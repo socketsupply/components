@@ -114,8 +114,8 @@ class TonicButton extends Tonic {
         cursor: pointer;
       }
 
-      tonic-button[disabled],
-      tonic-button[disabled] button,
+      tonic-button[disabled="true"],
+      tonic-button[disabled="true"] button,
       tonic-button button[disabled] {
         pointer-events: none;
         user-select: none;

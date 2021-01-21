@@ -59,8 +59,7 @@ document.body.appendChild(html`
     <span>border-color, border-width, text-color</span>
     <tonic-button
       border-color="rgb(240, 102, 83)"
-      border-width="3px"
-      text-color="rgb(240, 102, 83)">Button</tonic-button>
+      border-width="3px">Button</tonic-button>
   </div>
 
   <div id="button-8" class="test-container">
@@ -200,7 +199,6 @@ tape('{{button-7}} gets border style derived from component attributes', t => {
 
   t.ok(button, 'the component was constructed with a button')
   t.equal(component.getAttribute('border-width'), button.style.borderWidth, 'button contains style "border-width" matching component attribute "border-width"')
-  t.equal(component.getAttribute('text-color'), button.style.color, 'button contains style "color" matching component attribute "text-color"')
 
   t.end()
 })

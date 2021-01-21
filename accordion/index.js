@@ -105,7 +105,7 @@ class TonicAccordion extends Tonic {
     const id = this.state.selected || this.props.selected
     if (!id) return
 
-    setImmediate(() => this.setVisibility(id))
+    setTimeout(() => this.setVisibility(id), 0)
   }
 
   render () {

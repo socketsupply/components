@@ -1,270 +1,4 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-process.prependListener = noop;
-process.prependOnceListener = noop;
-
-process.listeners = function (name) { return [] }
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-},{}],2:[function(require,module,exports){
-(function (setImmediate,clearImmediate){
-var nextTick = require('process/browser.js').nextTick;
-var apply = Function.prototype.apply;
-var slice = Array.prototype.slice;
-var immediateIds = {};
-var nextImmediateId = 0;
-
-// DOM APIs, for completeness
-
-exports.setTimeout = function() {
-  return new Timeout(apply.call(setTimeout, window, arguments), clearTimeout);
-};
-exports.setInterval = function() {
-  return new Timeout(apply.call(setInterval, window, arguments), clearInterval);
-};
-exports.clearTimeout =
-exports.clearInterval = function(timeout) { timeout.close(); };
-
-function Timeout(id, clearFn) {
-  this._id = id;
-  this._clearFn = clearFn;
-}
-Timeout.prototype.unref = Timeout.prototype.ref = function() {};
-Timeout.prototype.close = function() {
-  this._clearFn.call(window, this._id);
-};
-
-// Does not start the time, just sets up the members needed.
-exports.enroll = function(item, msecs) {
-  clearTimeout(item._idleTimeoutId);
-  item._idleTimeout = msecs;
-};
-
-exports.unenroll = function(item) {
-  clearTimeout(item._idleTimeoutId);
-  item._idleTimeout = -1;
-};
-
-exports._unrefActive = exports.active = function(item) {
-  clearTimeout(item._idleTimeoutId);
-
-  var msecs = item._idleTimeout;
-  if (msecs >= 0) {
-    item._idleTimeoutId = setTimeout(function onTimeout() {
-      if (item._onTimeout)
-        item._onTimeout();
-    }, msecs);
-  }
-};
-
-// That's not how node.js implements it but the exposed api is the same.
-exports.setImmediate = typeof setImmediate === "function" ? setImmediate : function(fn) {
-  var id = nextImmediateId++;
-  var args = arguments.length < 2 ? false : slice.call(arguments, 1);
-
-  immediateIds[id] = true;
-
-  nextTick(function onNextTick() {
-    if (immediateIds[id]) {
-      // fn.call() is faster so we optimize for the common use-case
-      // @see http://jsperf.com/call-apply-segu
-      if (args) {
-        fn.apply(null, args);
-      } else {
-        fn.call(null);
-      }
-      // Prevent ids from leaking
-      exports.clearImmediate(id);
-    }
-  });
-
-  return id;
-};
-
-exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate : function(id) {
-  delete immediateIds[id];
-};
-}).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-},{"process/browser.js":1,"timers":2}],3:[function(require,module,exports){
-(function (setImmediate){
 const Tonic = require('@optoolco/tonic')
 
 class TonicAccordion extends Tonic {
@@ -372,7 +106,7 @@ class TonicAccordion extends Tonic {
     const id = this.state.selected || this.props.selected
     if (!id) return
 
-    setImmediate(() => this.setVisibility(id))
+    setTimeout(() => this.setVisibility(id), 0)
   }
 
   render () {
@@ -504,8 +238,7 @@ module.exports = {
   TonicAccordionSection
 }
 
-}).call(this,require("timers").setImmediate)
-},{"@optoolco/tonic":24,"timers":2}],4:[function(require,module,exports){
+},{"@optoolco/tonic":22}],2:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicBadge extends Tonic {
@@ -600,7 +333,7 @@ module.exports = {
   TonicBadge
 }
 
-},{"@optoolco/tonic":24}],5:[function(require,module,exports){
+},{"@optoolco/tonic":22}],3:[function(require,module,exports){
 const add = document.getElementById('add-notification')
 const subtract = document.getElementById('subtract-notification')
 const tonicBadge = document.querySelector('tonic-badge')
@@ -618,7 +351,7 @@ subtract.addEventListener('click', e => {
   tonicBadge.reRender()
 })
 
-},{}],6:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicButton extends Tonic {
@@ -892,7 +625,7 @@ class TonicButton extends Tonic {
 
 module.exports = { TonicButton }
 
-},{"@optoolco/tonic":24}],7:[function(require,module,exports){
+},{"@optoolco/tonic":22}],5:[function(require,module,exports){
 const buttons = [...document.querySelectorAll('.tonic-button-example')]
 
 for (const button of buttons) {
@@ -904,7 +637,7 @@ for (const button of buttons) {
   })
 }
 
-},{}],8:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicChart extends Tonic {
@@ -1014,12 +747,12 @@ class TonicChart extends Tonic {
 
 module.exports = { TonicChart }
 
-},{"@optoolco/tonic":24}],9:[function(require,module,exports){
+},{"@optoolco/tonic":22}],7:[function(require,module,exports){
 const chart = document.querySelector('tonic-chart')
 chart.library = require('chart.js')
 chart.redraw()
 
-},{"chart.js":26}],10:[function(require,module,exports){
+},{"chart.js":24}],8:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicCheckbox extends Tonic {
@@ -1234,9 +967,9 @@ class TonicCheckbox extends Tonic {
 
 module.exports = { TonicCheckbox }
 
-},{"@optoolco/tonic":24}],11:[function(require,module,exports){
+},{"@optoolco/tonic":22}],9:[function(require,module,exports){
 
-},{}],12:[function(require,module,exports){
+},{}],10:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicDialog extends Tonic {
@@ -1487,7 +1220,7 @@ class TonicDialog extends Tonic {
 
 module.exports = { TonicDialog }
 
-},{"@optoolco/tonic":24}],13:[function(require,module,exports){
+},{"@optoolco/tonic":22}],11:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class ShowRandom extends Tonic {
@@ -1523,7 +1256,7 @@ link.addEventListener('click', async e => {
   await dialog.show()
 })
 
-},{"@optoolco/tonic":24}],14:[function(require,module,exports){
+},{"@optoolco/tonic":22}],12:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 const scrollToY = require('scrolltoy')
 const { qs, qsa } = require('qsa-min')
@@ -1631,11 +1364,11 @@ function ready () {
 
 document.addEventListener('DOMContentLoaded', ready)
 
-},{"../..":20,"../../badge/readme":5,"../../button/readme":7,"../../chart/readme":9,"../../checkbox/readme":11,"../../dialog/readme":13,"../../form/readme":17,"../../icon/readme":19,"../../input/readme":22,"../../panel/readme":32,"../../popover/readme":34,"../../profile-image/readme":36,"../../progress-bar/readme":38,"../../range/readme":40,"../../router/readme":43,"../../select/readme":45,"../../tabs/readme":48,"../../textarea/readme":50,"../../toaster-inline/readme":52,"../../toaster/readme":54,"../../toggle/readme":56,"../../tooltip/readme":58,"../../windowed/readme":60,"./nonce":15,"@optoolco/tonic":24,"qsa-min":29,"scrolltoy":30}],15:[function(require,module,exports){
+},{"../..":18,"../../badge/readme":3,"../../button/readme":5,"../../chart/readme":7,"../../checkbox/readme":9,"../../dialog/readme":11,"../../form/readme":15,"../../icon/readme":17,"../../input/readme":20,"../../panel/readme":30,"../../popover/readme":32,"../../profile-image/readme":34,"../../progress-bar/readme":36,"../../range/readme":38,"../../router/readme":41,"../../select/readme":43,"../../tabs/readme":46,"../../textarea/readme":48,"../../toaster-inline/readme":50,"../../toaster/readme":52,"../../toggle/readme":54,"../../tooltip/readme":56,"../../windowed/readme":58,"./nonce":13,"@optoolco/tonic":22,"qsa-min":27,"scrolltoy":28}],13:[function(require,module,exports){
 
     module.exports = 'U29tZSBzdXBlciBzZWNyZXQ='
   
-},{}],16:[function(require,module,exports){
+},{}],14:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicForm extends Tonic {
@@ -1803,7 +1536,7 @@ class TonicForm extends Tonic {
 
 module.exports = { TonicForm }
 
-},{"@optoolco/tonic":24}],17:[function(require,module,exports){
+},{"@optoolco/tonic":22}],15:[function(require,module,exports){
 const form = document.getElementById('form-example')
 const button = document.getElementById('form-submit')
 
@@ -1815,7 +1548,7 @@ form.addEventListener('change', e => {
   button.disabled = !form.validate()
 })
 
-},{}],18:[function(require,module,exports){
+},{}],16:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicIcon extends Tonic {
@@ -1884,9 +1617,9 @@ class TonicIcon extends Tonic {
 
 module.exports = { TonicIcon }
 
-},{"@optoolco/tonic":24}],19:[function(require,module,exports){
-arguments[4][11][0].apply(exports,arguments)
-},{"dup":11}],20:[function(require,module,exports){
+},{"@optoolco/tonic":22}],17:[function(require,module,exports){
+arguments[4][9][0].apply(exports,arguments)
+},{"dup":9}],18:[function(require,module,exports){
 let Tonic
 try {
   Tonic = require('@optoolco/tonic')
@@ -1974,7 +1707,7 @@ function components (Tonic, opts) {
   Tonic.add(TonicToggle)
 }
 
-},{"./accordion":3,"./badge":4,"./button":6,"./chart":8,"./checkbox":10,"./dialog":12,"./form":16,"./icon":18,"./input":21,"./loader":23,"./panel":31,"./popover":33,"./profile-image":35,"./progress-bar":37,"./range":39,"./relative-time":41,"./router":42,"./select":44,"./sprite":46,"./tabs":47,"./textarea":49,"./toaster":53,"./toaster-inline":51,"./toggle":55,"./tooltip":57,"@optoolco/tonic":24}],21:[function(require,module,exports){
+},{"./accordion":1,"./badge":2,"./button":4,"./chart":6,"./checkbox":8,"./dialog":10,"./form":14,"./icon":16,"./input":19,"./loader":21,"./panel":29,"./popover":31,"./profile-image":33,"./progress-bar":35,"./range":37,"./relative-time":39,"./router":40,"./select":42,"./sprite":44,"./tabs":45,"./textarea":47,"./toaster":51,"./toaster-inline":49,"./toggle":53,"./tooltip":55,"@optoolco/tonic":22}],19:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicInput extends Tonic {
@@ -2381,7 +2114,7 @@ class TonicInput extends Tonic {
 
 module.exports = { TonicInput }
 
-},{"@optoolco/tonic":24}],22:[function(require,module,exports){
+},{"@optoolco/tonic":22}],20:[function(require,module,exports){
 const input = document.getElementById('tonic-input-example')
 const span = document.getElementById('tonic-input-state')
 
@@ -2394,7 +2127,7 @@ input.addEventListener('input', listener)
 input.addEventListener('blur', listener)
 input.addEventListener('focus', listener)
 
-},{}],23:[function(require,module,exports){
+},{}],21:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicLoader extends Tonic {
@@ -2450,7 +2183,7 @@ class TonicLoader extends Tonic {
 
 module.exports = { TonicLoader }
 
-},{"@optoolco/tonic":24}],24:[function(require,module,exports){
+},{"@optoolco/tonic":22}],22:[function(require,module,exports){
 class TonicTemplate {
   constructor (rawText, templateStrings, unsafe) {
     this.isTonicTemplate = true
@@ -2846,7 +2579,7 @@ Object.assign(Tonic, {
 
 if (typeof module === 'object') module.exports = Tonic
 
-},{"./package":25}],25:[function(require,module,exports){
+},{"./package":23}],23:[function(require,module,exports){
 module.exports={
   "_from": "@optoolco/tonic@13.1.3",
   "_id": "@optoolco/tonic@13.1.3",
@@ -2866,12 +2599,13 @@ module.exports={
     "fetchSpec": "13.1.3"
   },
   "_requiredBy": [
-    "#DEV:/"
+    "#DEV:/",
+    "#USER"
   ],
   "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-13.1.3.tgz",
   "_shasum": "62e53a736df2fc8b9aeaade8c57b20bfd5206ce9",
   "_spec": "@optoolco/tonic@13.1.3",
-  "_where": "/Users/paolofragomeni/projects/optoolco/components",
+  "_where": "/home/raynos/optoolco/components",
   "author": {
     "name": "optoolco"
   },
@@ -2909,7 +2643,7 @@ module.exports={
   "version": "13.1.3"
 }
 
-},{}],26:[function(require,module,exports){
+},{}],24:[function(require,module,exports){
 /*!
  * Chart.js v2.9.2
  * https://www.chartjs.org
@@ -19062,7 +18796,7 @@ return src;
 
 })));
 
-},{"moment":27}],27:[function(require,module,exports){
+},{"moment":25}],25:[function(require,module,exports){
 //! moment.js
 
 ;(function (global, factory) {
@@ -23666,7 +23400,7 @@ return src;
 
 })));
 
-},{}],28:[function(require,module,exports){
+},{}],26:[function(require,module,exports){
 (function (global){
 "use strict";
 
@@ -23694,13 +23428,13 @@ exports.Headers = global.Headers;
 exports.Request = global.Request;
 exports.Response = global.Response;
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],29:[function(require,module,exports){
+},{}],27:[function(require,module,exports){
 const qs = (s, p) => (p || document).querySelector(s)
 const qsa = (s, p) => [...(p || document).querySelectorAll(s)]
 
 module.exports = { qs, qsa }
 
-},{}],30:[function(require,module,exports){
+},{}],28:[function(require,module,exports){
 var requestFrame = (function () {
   return window.requestAnimationFrame ||
     window.webkitRequestAnimationFrame ||
@@ -23755,7 +23489,7 @@ module.exports = function scrollToY (el, Y, speed) {
   setY()
 }
 
-},{}],31:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 const { TonicDialog } = require('../dialog')
 
 class TonicPanel extends TonicDialog {
@@ -23831,7 +23565,7 @@ class TonicPanel extends TonicDialog {
 
 module.exports = { TonicPanel }
 
-},{"../dialog":12}],32:[function(require,module,exports){
+},{"../dialog":10}],30:[function(require,module,exports){
 const fetch = require('node-fetch')
 const Tonic = require('@optoolco/tonic')
 
@@ -23891,7 +23625,7 @@ const panel = document.getElementById('tonic-panel-example')
 
 panelLink.addEventListener('click', e => panel.show())
 
-},{"@optoolco/tonic":24,"node-fetch":28}],33:[function(require,module,exports){
+},{"@optoolco/tonic":22,"node-fetch":26}],31:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicPopover extends Tonic {
@@ -24091,9 +23825,9 @@ class TonicPopover extends Tonic {
 
 module.exports = { TonicPopover }
 
-},{"@optoolco/tonic":24}],34:[function(require,module,exports){
-arguments[4][11][0].apply(exports,arguments)
-},{"dup":11}],35:[function(require,module,exports){
+},{"@optoolco/tonic":22}],32:[function(require,module,exports){
+arguments[4][9][0].apply(exports,arguments)
+},{"dup":9}],33:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicProfileImage extends Tonic {
@@ -24296,13 +24030,13 @@ TonicProfileImage.svg.default = () => TonicProfileImage.svg.toURL(`
 
 module.exports = { TonicProfileImage }
 
-},{"@optoolco/tonic":24}],36:[function(require,module,exports){
+},{"@optoolco/tonic":22}],34:[function(require,module,exports){
 const profile = document.getElementById('profile-image-example-editable')
 
 profile.addEventListener('change', e => console.log(e.data))
 profile.addEventListener('error', e => console.log(e.message))
 
-},{}],37:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicProgressBar extends Tonic {
@@ -24383,7 +24117,7 @@ class TonicProgressBar extends Tonic {
 
 module.exports = { TonicProgressBar }
 
-},{"@optoolco/tonic":24}],38:[function(require,module,exports){
+},{"@optoolco/tonic":22}],36:[function(require,module,exports){
 let percentage = 0
 let interval = null
 
@@ -24401,7 +24135,7 @@ document.getElementById('stop-progress').addEventListener('click', e => {
   clearInterval(interval)
 })
 
-},{}],39:[function(require,module,exports){
+},{}],37:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicRange extends Tonic {
@@ -24614,9 +24348,9 @@ class TonicRange extends Tonic {
 
 module.exports = { TonicRange }
 
-},{"@optoolco/tonic":24}],40:[function(require,module,exports){
-arguments[4][11][0].apply(exports,arguments)
-},{"dup":11}],41:[function(require,module,exports){
+},{"@optoolco/tonic":22}],38:[function(require,module,exports){
+arguments[4][9][0].apply(exports,arguments)
+},{"dup":9}],39:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const weekdays = [
@@ -25098,7 +24832,7 @@ const timeFormatter = makeFormatter({
 
 module.exports = { TonicRelativeTime, RelativeTime }
 
-},{"@optoolco/tonic":24}],42:[function(require,module,exports){
+},{"@optoolco/tonic":22}],40:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicRouter extends Tonic {
@@ -25389,7 +25123,7 @@ TonicRouter.matcher = (() => {
 
 module.exports = { TonicRouter }
 
-},{"@optoolco/tonic":24}],43:[function(require,module,exports){
+},{"@optoolco/tonic":22}],41:[function(require,module,exports){
 const select = document.getElementById('tonic-router-select')
 const page2 = document.getElementById('page2')
 
@@ -25403,7 +25137,7 @@ page2.addEventListener('match', () => {
   el.textContent = number
 })
 
-},{}],44:[function(require,module,exports){
+},{}],42:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicSelect extends Tonic {
@@ -25755,7 +25489,7 @@ TonicSelect.svg.default = () => TonicSelect.svg.toURL(`
 
 module.exports = { TonicSelect }
 
-},{"@optoolco/tonic":24}],45:[function(require,module,exports){
+},{"@optoolco/tonic":22}],43:[function(require,module,exports){
 const select = document.getElementById('options-example-1')
 const notification = document.getElementsByTagName('tonic-toaster')[0]
 
@@ -25774,7 +25508,7 @@ select.addEventListener('change', ({ target }) => {
   })
 })
 
-},{}],46:[function(require,module,exports){
+},{}],44:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicSprite extends Tonic {
@@ -25841,7 +25575,7 @@ class TonicSprite extends Tonic {
 
 module.exports = { TonicSprite }
 
-},{"@optoolco/tonic":24}],47:[function(require,module,exports){
+},{"@optoolco/tonic":22}],45:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 const CustomEvent = window.CustomEvent
@@ -26109,9 +25843,9 @@ module.exports = {
   TonicTabPanel
 }
 
-},{"@optoolco/tonic":24}],48:[function(require,module,exports){
-arguments[4][11][0].apply(exports,arguments)
-},{"dup":11}],49:[function(require,module,exports){
+},{"@optoolco/tonic":22}],46:[function(require,module,exports){
+arguments[4][9][0].apply(exports,arguments)
+},{"dup":9}],47:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicTextarea extends Tonic {
@@ -26403,9 +26137,9 @@ class TonicTextarea extends Tonic {
 
 module.exports = { TonicTextarea }
 
-},{"@optoolco/tonic":24}],50:[function(require,module,exports){
-arguments[4][11][0].apply(exports,arguments)
-},{"dup":11}],51:[function(require,module,exports){
+},{"@optoolco/tonic":22}],48:[function(require,module,exports){
+arguments[4][9][0].apply(exports,arguments)
+},{"dup":9}],49:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicToasterInline extends Tonic {
@@ -26625,13 +26359,13 @@ class TonicToasterInline extends Tonic {
 
 module.exports = { TonicToasterInline }
 
-},{"@optoolco/tonic":24}],52:[function(require,module,exports){
+},{"@optoolco/tonic":22}],50:[function(require,module,exports){
 const toaster1 = document.getElementById('toaster-1')
 const toasterLink1 = document.getElementById('toaster-link-1')
 
 toasterLink1.addEventListener('click', e => toaster1.show())
 
-},{}],53:[function(require,module,exports){
+},{}],51:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicToaster extends Tonic {
@@ -26912,7 +26646,7 @@ class TonicToaster extends Tonic {
 
 exports.TonicToaster = TonicToaster
 
-},{"@optoolco/tonic":24}],54:[function(require,module,exports){
+},{"@optoolco/tonic":22}],52:[function(require,module,exports){
 const notification = document.querySelector('tonic-toaster')
 
 document
@@ -26923,7 +26657,7 @@ document
     message: 'Hello, World'
   }))
 
-},{}],55:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicToggle extends Tonic {
@@ -27135,9 +26869,9 @@ class TonicToggle extends Tonic {
 
 module.exports = { TonicToggle }
 
-},{"@optoolco/tonic":24}],56:[function(require,module,exports){
-arguments[4][11][0].apply(exports,arguments)
-},{"dup":11}],57:[function(require,module,exports){
+},{"@optoolco/tonic":22}],54:[function(require,module,exports){
+arguments[4][9][0].apply(exports,arguments)
+},{"dup":9}],55:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class TonicTooltip extends Tonic {
@@ -27301,9 +27035,9 @@ class TonicTooltip extends Tonic {
 
 module.exports = { TonicTooltip }
 
-},{"@optoolco/tonic":24}],58:[function(require,module,exports){
-arguments[4][11][0].apply(exports,arguments)
-},{"dup":11}],59:[function(require,module,exports){
+},{"@optoolco/tonic":22}],56:[function(require,module,exports){
+arguments[4][9][0].apply(exports,arguments)
+},{"dup":9}],57:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
 class Windowed extends Tonic {
@@ -27841,7 +27575,7 @@ class Windowed extends Tonic {
 
 module.exports = { Windowed }
 
-},{"@optoolco/tonic":24}],60:[function(require,module,exports){
+},{"@optoolco/tonic":22}],58:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 const { Windowed } = require('./index')
 
@@ -27913,4 +27647,4 @@ overlay.addEventListener('click', e => {
   windowed.load(rows)
 })
 
-},{"./index":59,"@optoolco/tonic":24}]},{},[14]);
+},{"./index":57,"@optoolco/tonic":22}]},{},[12]);

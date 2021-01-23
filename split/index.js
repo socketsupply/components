@@ -134,15 +134,24 @@ class TonicSplit extends Tonic {
       tonic-split .tonic--split-handle:hover {
         background: var(--tonic-accent);
       }
+
+      tonic-split[dragging] tonic-split-right,
+      tonic-split[dragging] tonic-split-left,
+      tonic-split[dragging] tonic-split-top,
+      tonic-split[dragging] tonic-split-bottom {
+        pointer-events: none;
+      }
     `
   }
 
   start () {
     this.dragging = true
+    this.setAttribute('dragging', true)
   }
 
   cancel () {
     this.dragging = false
+    this.removeAttribute('dragging')
   }
 
   willConnect () {

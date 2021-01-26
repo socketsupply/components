@@ -153,19 +153,21 @@
     <section id="getting-started">
       
       <h1 id="getting-started">Getting Started</h1>
-<p>Building a component with Tonic starts by creating a <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes">Javascript Class</a>.
-The class should have at least one method named <em>render</em> which usually returns HTML.</p>
+<p>Building a component with Tonic starts by creating a function or a class.
+The class should have at least one method named <em>render</em> which returns a template literal
+of HTML.</p>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MyGreeting</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
-  <span class="hljs-comment">//</span>
-  <span class="hljs-comment">// The render function can return a template-literal of HTML,</span>
-  <span class="hljs-comment">// it can also include other components.</span>
-  <span class="hljs-comment">//</span>
   render () {
     <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`&lt;div&gt;Hello, World.&lt;/div&gt;`</span>
   }
 }</code></pre>
-<hr>
-<p>The html tag for your component will match its class name.</p>
+<p>or</p>
+<pre><code><span class="hljs-function"><span class="hljs-keyword">function</span> <span class="hljs-title">MyGreeting</span> (<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`
+    &lt;div&gt;Hello, World.&lt;/div&gt;
+  `</span>
+}</code></pre><hr>
+<p>The html tag for your component will match the class or function name.</p>
 <blockquote>
 <p><i><b>Note</b>: Tonic is a thin wrapper around <code>web components</code>. Web
 components require a name with two or more parts. So your class name should
@@ -178,12 +180,10 @@ becomes <code>&lt;my-greeting&gt;&lt;/my-greeting&gt;</code>.</i></p>
 <hr>
 <p>After adding your Javascript to your HTML, you can use your component anywhere.</p>
 <pre><code class="language-html"><span class="hljs-tag">&lt;<span class="hljs-name">html</span>&gt;</span>
-  <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;index.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-  <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
-
   <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
     <span class="hljs-tag">&lt;<span class="hljs-name">my-greeting</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">my-greeting</span>&gt;</span>
+
+    <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">&quot;index.js&quot;</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
 <blockquote>
@@ -204,7 +204,7 @@ function will be inserted into the component tag.</p>
     <span class="hljs-tag">&lt;/<span class="hljs-name">my-greeting</span>&gt;</span>
   <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
 <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span></code></pre>
-<p>The render function can also be <code>async</code> or even an <code>async generator</code>.</p>
+<p>A component (or its render function) be <code>async</code> or an <code>async generator</code>.</p>
 <pre><code class="language-js"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">GithubUrls</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">Tonic</span> </span>{
   <span class="hljs-keyword">async</span> * render () {
     <span class="hljs-keyword">yield</span> <span class="hljs-built_in">this</span>.html<span class="hljs-string">`&lt;p&gt;Loading...&lt;/p&gt;`</span>

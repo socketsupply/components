@@ -1,23 +1,30 @@
 # Getting Started
 
-Building a component with Tonic starts by creating a [Javascript Class][0].
-The class should have at least one method named *render* which usually returns HTML.
+Building a component with Tonic starts by creating a function or a class.
+The class should have at least one method named *render* which returns a template literal
+of HTML.
 
 ```js
 class MyGreeting extends Tonic {
-  //
-  // The render function can return a template-literal of HTML,
-  // it can also include other components.
-  //
   render () {
     return this.html`<div>Hello, World.</div>`
   }
 }
 ```
 
+or
+
+```
+function MyGreeting () {
+  return this.html`
+    <div>Hello, World.</div>
+  `
+}
+```
+
 ---
 
-The html tag for your component will match its class name.
+The html tag for your component will match the class or function name.
 
 > <i><b>Note</b>: Tonic is a thin wrapper around `web components`. Web
 > components require a name with two or more parts. So your class name should
@@ -38,12 +45,10 @@ After adding your Javascript to your HTML, you can use your component anywhere.
 
 ```html
 <html>
-  <head>
-    <script src="index.js"></script>
-  </head>
-
   <body>
     <my-greeting></my-greeting>
+
+    <script src="index.js"></script>
   </body>
 </html>
 ```
@@ -70,7 +75,7 @@ function will be inserted into the component tag.
 </html>
 ```
 
-The render function can also be `async` or even an `async generator`.
+A component (or its render function) be `async` or an `async generator`.
 
 ```js
 class GithubUrls extends Tonic {

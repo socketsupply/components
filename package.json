@@ -2,25 +2,13 @@
   "name": "@optoolco/components",
   "version": "12.2.1",
   "description": "Example components",
-  "directories": {
-    "doc": "docs"
-  },
   "scripts": {
-    "dev": "npm run build && ./bin/server",
-    "dist": "npr browserify -s components index.js > dist/index.js",
-    "prepublish": "npm run build",
-    "watch": "npr chokidar \"src/**/*.js\" -c \"npm run build\"",
-    "build": "npm run build:styl && npm run build:docs && npm run build:test",
-    "build:test": "node test/old/build.js && npr browserify ./test/old/test.js > ./docs/test.js",
-    "build:docs": "./bin/build-docs && npm run build:docs:js",
-    "build:docs:js": "npr browserify ./docs/src/index.js > ./docs/bundle.js",
-    "build:styl": "cp ./theme.css ./docs && npm run build:styl:test && npm run build:styl:docs",
-    "build:styl:test": "npr stylus -u autoprefixer-stylus ./test/old/index.styl -o ./docs/test.css",
-    "build:styl:docs": "npr stylus -u autoprefixer-stylus ./docs/src/index.styl -o ./docs",
-    "test": "npr standard && npm run test:suite && npm run testcafe && npm run test:verify",
-    "test:suite": "npr browserify test/index.js | npr tape-puppet",
-    "test:verify": "bash ./scripts/verify-included.sh",
-    "testcafe": "npr testcafe chrome:headless ./test/testcafe"
+    "dist": "npr browserify -s components index.js > _dist/index.js",
+    "prepublish": "npm run dist && npm run test",
+    "test": "npr standard && npm run test:suite && npm run test:verify",
+    "test:suite": "npr browserify _test/index.js | npr tape-puppet",
+    "test:verify": "bash ./verify-included.sh",
+    "testcafe": "npr testcafe chrome:headless ./_test/testcafe"
   },
   "repository": {
     "type": "git",
@@ -35,18 +23,14 @@
     "ignore": [
       "index.d.ts",
       "_types/**/*.d.ts",
-      "dist/**/*.js",
-      "docs/**/*.js"
+      "_dist/**/*.js"
     ]
   },
   "homepage": "https://github.com/optoolco/components#readme",
   "binDependencies": {
-    "autoprefixer-stylus": "^0.14.0",
     "budo": "11.6.3",
-    "chokidar-cli": "2.1.0",
     "raynos-tape-puppet": "0.1.7-raynos2",
     "standard": "14.3.1",
-    "stylus": "^0.54.5",
     "tape-run": "^4.0.0",
     "testcafe": "1.6.1"
   },
@@ -62,8 +46,6 @@
     "mkdirp": "^0.5.1",
     "node-fetch": "^2.6.1",
     "npm-bin-deps": "1.8.1",
-    "qsa-min": "1.0.2",
-    "scrolltoy": "github:voltraco/scrolltoy"
-  },
-  "dependencies": {}
+    "qsa-min": "1.0.2"
+  }
 }

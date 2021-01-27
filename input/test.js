@@ -1,7 +1,7 @@
 const tape = require('@pre-bundled/tape')
 const { qs } = require('qsa-min')
 
-const { html } = require('../test/util')
+const { html } = require('../_test/util')
 const components = require('..')
 const Tonic = require('@optoolco/tonic')
 components(Tonic)

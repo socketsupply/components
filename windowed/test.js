@@ -1,4 +1,4 @@
-const { html } = require('../test/util')
+const { html } = require('../_test/util')
 
 document.body.appendChild(html`
 <section id="windowed">

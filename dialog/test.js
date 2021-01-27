@@ -1,6 +1,6 @@
 const Tonic = require('@optoolco/tonic')
 
-const { html } = require('../test/util')
+const { html } = require('../_test/util')
 const components = require('..')
 components(require('@optoolco/tonic'))
 

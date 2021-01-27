@@ -1,8 +1,0 @@
-{
-  "labels": ["Foo", "Bar", "Bazz"],
-  "datasets": [{
-    "label": "Quxx",
-    "backgroundColor": ["#c3c3c3", "#f06653", "#8f8f8f"],
-    "data": [278, 367, 134]
-  }]
-}

@@ -4,26 +4,32 @@ class TonicTooltip extends Tonic {
   connected () {
     const target = this.props.for
     const el = document.getElementById(target)
-    let timer = null
 
     const leave = e => {
-      clearTimeout(timer)
-      timer = setTimeout(() => {
-        this.hide()
-      }, 256)
+      clearTimeout(TonicTooltip.timers[target])
+      TonicTooltip.timers[target] = setTimeout(() => this.hide(), 256)
+    }
+
+    const enter = e => {
+      clearTimeout(TonicTooltip.timers[target])
+      this.show(el)
     }
 
     if (!el) {
       console.warn('Broken tooltip for: ' + target)
       return
     }
-    el.addEventListener('mouseenter', e => {
-      this.show(el)
+
+    el.addEventListener('mouseleave', leave)
+
+    el.addEventListener('mousemove', enter)
+    el.addEventListener('mouseenter', enter)
+
+    this.addEventListener('mouseenter', e => {
+      clearTimeout(TonicTooltip.timers[target])
     })
 
-    this.addEventListener('mouseenter', e => clearTimeout(timer))
     this.addEventListener('mouseleave', leave)
-    el.addEventListener('mouseleave', leave)
   }
 
   defaults (props) {
@@ -90,8 +96,9 @@ class TonicTooltip extends Tonic {
   }
 
   show (triggerNode) {
-    clearTimeout(this.timer)
-    this.timer = setTimeout(() => {
+    clearTimeout(TonicTooltip.timers[triggerNode.id])
+
+    TonicTooltip.timers[triggerNode.id] = setTimeout(() => {
       const tooltip = this.querySelector('.tonic--tooltip')
       const arrow = this.querySelector('.tonic--tooltip-arrow')
 
@@ -122,13 +129,11 @@ class TonicTooltip extends Tonic {
       window.addEventListener('mousewheel', e => {
         this.hide()
       }, { once: true })
-    }, 256)
+    }, 64)
   }
 
-  hide () {
-    clearTimeout(this.timer)
-    const tooltip = this.querySelector('.tonic--tooltip')
-    tooltip.classList.remove('tonic--show')
+  hide (target) {
+    this.firstElementChild.classList.remove('tonic--show')
   }
 
   styles () {
@@ -158,5 +163,7 @@ class TonicTooltip extends Tonic {
     `
   }
 }
+
+TonicTooltip.timers = {}
 
 module.exports = { TonicTooltip }

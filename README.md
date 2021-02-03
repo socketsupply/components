@@ -87,7 +87,7 @@ body, *[theme="light"] {
 #### DARK THEME
 
 ```css
-*[theme="dark"]
+*[theme="dark"] {
   --tonic-background: rgba(40, 40, 40, 1);
   --tonic-window: rgba(49, 49, 49, 1);
   --tonic-accent: rgba(56, 185, 255, 1);
@@ -116,4 +116,5 @@ body, *[theme="light"] {
   --tonic-success: rgba(133, 178, 116, 1);
   --tonic-warn: rgba(249, 169, 103, 1);
   --tonic-overlay: rgba(0, 0, 0, 0.40);
+}
 ```

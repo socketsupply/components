@@ -4,9 +4,8 @@ A bundle of example components built with [Tonic](https://github.com/hxoht/tonic
 ![](https://github.com/optoolco/components/workflows/ci/badge.svg)
 
 # USAGE
-To use this repo, install the following dependencies, then require the components
-module once from your bundle. This will attach all the components to Tonic. Then,
-require tonic wherever you want to use it.
+To use this example component library, install the following dependencies,
+Then, either register the components you want to bundle.
 
 ```bash
 npm install @optoolco/tonic
@@ -16,9 +15,9 @@ npm install @optoolco/components
 #### INCLUDE INDIVIDUAL COMPONENTS
 
 ```js
-const Tonic = require('@optoolco/tonic')
-const { TonicInput } = require('@optoolco/components/input')
-const { TonicIcon } = require('@optoolco/components/icon')
+inport Tonic from '@optoolco/tonic'
+import { TonicInput } from '@optoolco/components/input'
+import { TonicIcon } from '@optoolco/components/icon'
 
 Tonic.add(TonicInput)
 Tonic.add(TonicIcon)
@@ -27,23 +26,24 @@ Tonic.add(TonicIcon)
 #### INCLUDE COMPONENT COLLECTION
 
 ```js
-const Tonic = require('@optoolco/tonic')
-const bundle = require('@optoolco/components')
+import Tonic from '@optoolco/tonic'
+import bundle from '@optoolco/components'
 
-bundle(Tonic)
+bundle(Tonic) // attach everything
 ```
 
 ### THEME
 Tonic uses CSS variables (which work in all major browsers) to theme components.
-The following variables are observed but are not required.
+So you can use any css framework you want. The following variables are observed
+but are not required.
 
 #### FONTS
 ```css
 body {
-  --tonic-body: 'Avenir-Light', sans-serif; // Body font
-  --tonic-header: 'Avenir-Light', sans-serif; // Header font
-  --tonic-subheader: 'Avenir-Medium', sans-serif; // Accent font
-  --tonic-monospace: 'IBM Plex Mono', monospace; // Monospace font
+  --tonic-body: 'Inter', sans-serif;
+  --tonic-header: 'Inter Black', sans-serif;
+  --tonic-subheader: 'Inter Medium', sans-serif;
+  --tonic-monospace: 'FiraMono', monospace;
 }
 ```
 
@@ -51,68 +51,69 @@ body {
 
 ```css
 body, *[theme="light"] {
+  --tonic-background: rgba(245, 245, 245, 1);
   --tonic-window: rgba(255, 255, 255, 1);
+  --tonic-accent: rgba(56, 185, 255, 1);
   --tonic-primary: rgba(54, 57, 61, 1);
-  --tonic-disabled: rgba(152, 161, 175, 1);
   --tonic-secondary: rgba(232, 232, 228, 1);
+  --tonic-light: rgba(153, 157, 160, 1);
   --tonic-medium: rgba(153, 157, 160, 1);
-  --tonic-accent: rgba(240, 102, 83, 1);
-  --tonic-button: rgba(54, 57, 61, 1);
-  --tonic-border: rgba(232, 232, 228, 1);
-  --tonic-background: rgba(247, 247, 245, 1);
+  --tonic-shadow: rgba(150, 150, 150, 0.25);
+  --tonic-dark: rgba(54, 57, 61, 1);
+  --tonic-disabled: rgba(152, 161, 175, 1);
+  --tonic-button-text: rgba(54, 57, 61, 1);
+  --tonic-button-shadow: rgba(0, 0, 0, 33%);
+  --tonic-button-background: rgba(245, 245, 245, 1);
+  --tonic-button-background-hover: rgba(230, 230, 230, 1);
+  --tonic-button-background-focus: rgba(237, 237, 237, 1);
+  --tonic-input-text: rgba(54, 57, 61, 1);
+  --tonic-input-text-hover: rgba(228, 228, 228, 1);
+  --tonic-input-border: rgba(201, 201, 201, 1);
+  --tonic-input-border-hover: rgba(54, 57, 61, 1);
+  --tonic-input-background: rgba(248, 248, 248, 1);
+  --tonic-input-background-focus: rgba(238, 238, 238, 1);
+  --tonic-border: rgba(224, 224, 224, 1);
+  --tonic-border-accent: rgba(206, 206, 206, 1);
   --tonic-error: rgba(240, 102, 83, 1);
   --tonic-notification: rgba(240, 102, 83, 1);
   --tonic-danger: rgba(240, 102, 83, 1);
   --tonic-success: rgba(133, 178, 116, 1);
   --tonic-warning: rgba(249, 169, 103, 1);
   --tonic-info: rgba(153, 157, 160, 1);
+  --tonic-overlay: rgba(255, 255, 255, 0.75);
 }
 ```
 
 #### DARK THEME
 
 ```css
-*[theme="dark"] {
-  --tonic-window: rgba(45, 47, 49, 1);
+*[theme="dark"]
+  --tonic-background: rgba(40, 40, 40, 1);
+  --tonic-window: rgba(49, 49, 49, 1);
+  --tonic-accent: rgba(56, 185, 255, 1);
   --tonic-primary: rgba(255, 255, 255, 1);
-  --tonic-disabled: rgba(170, 170, 170, 1);
   --tonic-secondary: rgba(195, 195, 195, 1);
   --tonic-medium: rgba(153, 157, 160, 1);
-  --tonic-accent: rgba(240, 102, 83, 1);
-  --tonic-button: rgba(255, 255, 255, 1);
-  --tonic-border: rgb(107, 107, 107);
-  --tonic-background: rgba(60, 60, 60, 1);
+  --tonic-dark: rgba(41, 41, 41, 1);
+  --tonic-shadow: rgba(0, 0, 0, 0.3);
+  --tonic-disabled: rgba(170, 170, 170, 1);
+  --tonic-button-text: rgba(255, 255, 255, 1);
+  --tonic-button-shadow: rgba(0, 0, 0, 1);
+  --tonic-button-background: rgba(74, 74, 74, 1);
+  --tonic-button-background-hover: rgba(94, 94, 94, 1);
+  --tonic-button-background-focus: rgba(84, 84, 84, 1);
+  --tonic-input-text: rgba(255, 255, 255, 1);
+  --tonic-input-text-hover: rgba(255, 255, 255, 1);
+  --tonic-input-background: rgba(45, 45, 45, 1);
+  --tonic-input-background-focus: rgba(30, 30, 30, 1);
+  --tonic-input-border: rgba(80, 80, 80, 1);
+  --tonic-input-border-hover: rgba(105, 105, 105, 1);
+  --tonic-border: rgba(72, 72, 72, 1);
+  --tonic-border-accent: rgba(90, 90, 90, 1);
   --tonic-error: rgba(240, 102, 83, 1);
   --tonic-notification: rgba(240, 102, 83, 1);
   --tonic-caution: rgba(240, 102, 83, 1);
   --tonic-success: rgba(133, 178, 116, 1);
   --tonic-warn: rgba(249, 169, 103, 1);
-}
-```
-
-# DEVELOPMENT
-
-```bash
-npm install
-npm run dev
-```
-
-Go to:
-
-```
-https://localhost:8080/
-```
-
-
-# TEST
-
-```bash
-npm run build:test
-npm run dev
-```
-
-Go to:
-
-```
-https://localhost:8080/test.html
+  --tonic-overlay: rgba(0, 0, 0, 0.40);
 ```

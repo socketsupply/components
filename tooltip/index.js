@@ -50,7 +50,8 @@ class TonicTooltip extends Tonic {
         opacity: 0;
         border: 1px solid var(--tonic-border, #ccc);
         border-radius: 2px;
-        transition: visibility 0.2s ease-in-out, opacity 0.2s ease-in-out, z-index 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        transition: visibility 0.2s ease, opacity 0.2s ease, z-index 0.2s ease, box-shadow 0.2s ease;
+        willchange: visibility, opacity, box-shadow, z-index;
       }
 
       tonic-tooltip .tonic--tooltip.tonic--show {

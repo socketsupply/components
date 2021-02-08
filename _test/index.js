@@ -1,5 +1,8 @@
+// @ts-check
+'use strict'
+
 const components = require('..')
-components(require('@optoolco/tonic'), { strict: true })
+components(require('@optoolco/tonic'))
 
 require('../accordion/test')
 require('../badge/test')

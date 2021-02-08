@@ -11,3 +11,8 @@ declare global {
     "tonic-toaster": CTonicToaster;
   }
 }
+
+declare function components (Tonic: object): void
+declare namespace components {}
+
+export = components;

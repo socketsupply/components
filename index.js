@@ -50,7 +50,7 @@ module.exports = components
 // For supporting unpkg / dist / jsfiddle.
 components.Tonic = Tonic
 
-function components (Tonic, opts) {
+function components (Tonic) {
   if (once) {
     return
   }

@@ -61,7 +61,7 @@ class TonicTabs extends Tonic {
         panel = panelStore.node
       }
 
-      if (!panel) {
+      if (!panel || !anchor) {
         if (this._setVisibilitySynchronously) {
           return setTimeout(() => this.setVisibility(id, forAttr))
         }

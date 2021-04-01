@@ -220,6 +220,17 @@ class TonicInput extends Tonic {
     `
   }
 
+  setFocus (pos) {
+    const input = this.querySelector('input')
+    input.focus()
+
+    try {
+      input.setSelectionRange(pos, pos)
+    } catch (err) {
+      console.warn(err)
+    }
+  }
+
   setupEvents () {
     const input = this.querySelector('input')
 
@@ -249,13 +260,7 @@ class TonicInput extends Tonic {
     const state = this.state
     if (!state.focus) return
 
-    input.focus()
-
-    try {
-      input.setSelectionRange(state.pos, state.pos)
-    } catch (err) {
-      console.warn(err)
-    }
+    this.setFocus(state.pos)
   }
 
   updated () {

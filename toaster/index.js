@@ -167,7 +167,13 @@ class TonicToaster extends Tonic {
 
     const messageElement = document.createElement('div')
     messageElement.className = 'tonic--message'
-    messageElement.textContent = message || this.props.message
+
+    const messageText = message || this.props.message
+    if (message.isTonicTemplate) {
+      messageElement.innerHTML = messageText
+    } else {
+      messageElement.textContent = messageText
+    }
 
     if (typeof dismiss === 'string') {
       dismiss = dismiss === 'true'

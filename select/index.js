@@ -289,6 +289,11 @@ class TonicSelect extends Tonic {
     if (Array.isArray(value)) {
       this.selectOptions(value)
     } else if (value) {
+      const oldOption = this.querySelector('option[selected]')
+      if (oldOption) {
+        oldOption.removeAttribute('selected')
+      }
+
       const option = this.querySelector(`option[value="${value}"]`)
       if (option) option.setAttribute('selected', true)
     }

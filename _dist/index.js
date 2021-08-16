@@ -4280,6 +4280,11 @@ class TonicSelect extends Tonic {
     if (Array.isArray(value)) {
       this.selectOptions(value)
     } else if (value) {
+      const oldOption = this.querySelector('option[selected]')
+      if (oldOption) {
+        oldOption.removeAttribute('selected')
+      }
+
       const option = this.querySelector(`option[value="${value}"]`)
       if (option) option.setAttribute('selected', true)
     }
@@ -5700,7 +5705,7 @@ class TonicToaster extends Tonic {
 
     const notification = document.createElement('div')
     notification.className = 'tonic--notification'
-    this.style.zIndex = this._getZIndex()
+    this.style.zIndex = this._getZIndex() + 100
 
     const main = document.createElement('div')
     main.className = 'tonic--main'

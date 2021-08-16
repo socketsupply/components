@@ -151,7 +151,7 @@ class TonicToaster extends Tonic {
 
     const notification = document.createElement('div')
     notification.className = 'tonic--notification'
-    
+
     const node = this.querySelector('.tonic--wrapper')
     node.style.zIndex = this._getZIndex() + 100
 

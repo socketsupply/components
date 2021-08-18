@@ -4450,7 +4450,7 @@ class TonicSplit extends Tonic {
 
       tonic-split .tonic--split-handle {
         position: absolute;
-        z-index: 100;
+        z-index: 1;
         user-select: none;
         background-color: transparent;
         transition: background .1s ease;
@@ -5705,7 +5705,7 @@ class TonicToaster extends Tonic {
 
     const notification = document.createElement('div')
     notification.className = 'tonic--notification'
-    
+
     const node = this.querySelector('.tonic--wrapper')
     node.style.zIndex = this._getZIndex() + 100
 

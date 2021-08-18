@@ -102,7 +102,7 @@ class TonicSplit extends Tonic {
 
       tonic-split .tonic--split-handle {
         position: absolute;
-        z-index: 100;
+        z-index: 1;
         user-select: none;
         background-color: transparent;
         transition: background .1s ease;

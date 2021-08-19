@@ -94,7 +94,7 @@ class TonicInput extends Tonic {
       tonic-input[symbol-id] tonic-icon,
       tonic-input[src] tonic-icon {
         position: absolute;
-        bottom: 6px;
+        bottom: 10px;
       }
 
       tonic-input label {
@@ -213,6 +213,8 @@ class TonicInput extends Tonic {
     if (this.props.fill) {
       opts.fill = this.props.fill
     }
+
+    opts.size = '20px'
 
     return this.html`
       <tonic-icon ...${opts}>

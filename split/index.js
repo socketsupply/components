@@ -135,11 +135,9 @@ class TonicSplit extends Tonic {
         background: var(--tonic-accent);
       }
 
-      tonic-split[dragging] tonic-split-right,
-      tonic-split[dragging] tonic-split-left,
-      tonic-split[dragging] tonic-split-top,
-      tonic-split[dragging] tonic-split-bottom {
+      tonic-split[dragging] * {
         pointer-events: none;
+        -webkit-user-select: none;
       }
     `
   }

@@ -46,6 +46,7 @@ class TonicButton extends Tonic {
       tonic-button {
         display: inline-block;
         user-select: none;
+        -webkit-user-select: none;
       }
 
       tonic-button button {
@@ -109,9 +110,13 @@ class TonicButton extends Tonic {
       }
 
       tonic-button button:not([disabled]):hover,
-      tonic-button button:not(.tonic--loading):hover {
+      tonic-button:not(.tonic--loading) button:hover {
         background-color: var(--tonic-button-background-hover, rgba(54, 57, 61, 1)) !important;
         cursor: pointer;
+      }
+
+      tonic-button.tonic--loading {
+        pointer-events: none;
       }
 
       tonic-button[disabled="true"],
@@ -122,18 +127,18 @@ class TonicButton extends Tonic {
         background-color: transparent
       }
 
-      tonic-button button.tonic--loading {
+      tonic-button.tonic--loading button {
         color: transparent !important;
         transition: all 0.3s ease-in;
         pointer-events: none;
       }
 
-      tonic-button button.tonic--loading:hover {
+      tonic-button.tonic--loading button:hover {
         color: transparent !important;
         background: var(--tonic-medium, rgba(153, 157, 160, 1)) !important;
       }
 
-      tonic-button button.tonic--loading:before {
+      tonic-button.tonic--loading button:before {
         margin-top: -8px;
         margin-left: -8px;
         display: inline-block;
@@ -168,9 +173,7 @@ class TonicButton extends Tonic {
   }
 
   loading (state) {
-    const button = this.querySelector('button')
-    const method = state ? 'add' : 'remove'
-    if (button) button.classList[method]('tonic--loading')
+    this.classList[state ? 'add' : 'remove']('tonic--loading')
   }
 
   click (e) {

@@ -105,6 +105,8 @@ class TonicInput extends Tonic {
         letter-spacing: 1px;
         padding-bottom: 10px;
         display: block;
+        user-select: none;
+        -webkit-user-select: none;
       }
 
       tonic-input input {

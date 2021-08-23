@@ -14,6 +14,7 @@ class TonicTabs extends Tonic {
     return `
       tonic-tabs .tonic--tab {
         -webkit-appearance: none;
+        -webkit-user-select: none;
         user-select: none;
       }
 

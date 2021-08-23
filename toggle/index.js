@@ -52,6 +52,7 @@ class TonicToggle extends Tonic {
         padding-top: 6px;
         display: block;
         user-select: none;
+        -webkit-user-select: none;
       }
 
       tonic-toggle .tonic--switch {
@@ -70,6 +71,7 @@ class TonicToggle extends Tonic {
         opacity: 0;
         outline: none;
         user-select: none;
+        -webkit-user-select: none;
         z-index: 1;
       }
 

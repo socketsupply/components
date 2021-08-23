@@ -20,6 +20,7 @@ class TonicToaster extends Tonic {
       }
 
       tonic-toaster .tonic--wrapper {
+        -webkit-user-select: none;
         user-select: none;
         position: fixed;
         top: 10px;

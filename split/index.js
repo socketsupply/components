@@ -104,6 +104,7 @@ class TonicSplit extends Tonic {
         position: absolute;
         z-index: 1;
         user-select: none;
+        -webkit-user-select: none;
         background-color: transparent;
         transition: background .1s ease;
       }
@@ -137,6 +138,7 @@ class TonicSplit extends Tonic {
 
       tonic-split[dragging] * {
         pointer-events: none;
+        user-select: none;
         -webkit-user-select: none;
       }
     `

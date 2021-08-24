@@ -145,10 +145,13 @@ class TonicDialog extends Tonic {
     this.appendChild(this.closeIcon)
     this.removeAttribute('hidden')
 
-    const overlay = document.querySelector('.tonic--dialog--overlay')
-    overlay.classList.add('tonic--show')
+    if (this.props.overlay !== 'false') {
+      const overlay = document.querySelector('.tonic--dialog--overlay')
+      overlay.classList.add('tonic--show')
+      overlay.style.zIndex = z
+    }
+
     this.style.zIndex = z + 100
-    overlay.style.zIndex = z
 
     return new Promise(resolve => {
       if (this.props.widthMobile && document.body.clientWidth < 500) {

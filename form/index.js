@@ -1,18 +1,20 @@
 const Tonic = require('@optoolco/tonic')
 
+const NON_EXISTANT = { type: 'TonicForm_NON_EXISTANT' }
+
 class TonicForm extends Tonic {
   static isNumber (s) {
     return !isNaN(Number(s))
   }
 
   static getPropertyValue (o, path) {
-    if (!path) return null
+    if (!path) return NON_EXISTANT
 
     const parts = path.split('.')
     let value = o
 
     for (const p of parts) {
-      if (!value) return null
+      if (!value) return NON_EXISTANT
       value = value[p]
     }
 
@@ -72,9 +74,9 @@ class TonicForm extends Tonic {
 
     for (const element of elements) {
       const value = TonicForm.getPropertyValue(data, element.dataset.key)
-      if (!value) continue
+      if (value === NON_EXISTANT) continue
 
-      element.value = value
+      element.value = value || ''
     }
 
     this.state = data
@@ -151,7 +153,8 @@ class TonicForm extends Tonic {
 
     for (const element of elements) {
       const key = element.dataset.key
-      const value = TonicForm.getPropertyValue(this.state, key)
+      let value = TonicForm.getPropertyValue(this.state, key)
+      if (value === NON_EXISTANT) value = ''
       element.value = value || element.value || ''
     }
   }

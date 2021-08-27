@@ -165,5 +165,6 @@ class TonicForm extends Tonic {
     `
   }
 }
+TonicForm.NON_EXISTANT = NON_EXISTANT
 
 module.exports = { TonicForm }

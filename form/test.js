@@ -112,12 +112,27 @@ tape('{{form-3}} get and set data', t => {
   t.ok(TonicForm.setPropertyValue(o, path, 'xx'))
   t.equal(TonicForm.getPropertyValue(o, path), 'xx')
 
-  t.equal(TonicForm.getPropertyValue(o, 'a.bbb.c.4.a'), null)
+  t.equal(
+    TonicForm.getPropertyValue(o, 'a.bbb.c.4.a'),
+    TonicForm.NON_EXISTANT
+  )
 
-  t.ok(!TonicForm.getPropertyValue({ a: {} }, path))
-  t.ok(!TonicForm.getPropertyValue(null, path))
-  t.ok(!TonicForm.getPropertyValue(undefined, path))
-  t.ok(!TonicForm.getPropertyValue(undefined, undefined))
+  t.equal(
+    TonicForm.getPropertyValue({ a: {} }, path),
+    TonicForm.NON_EXISTANT
+  )
+  t.equal(
+    TonicForm.getPropertyValue(null, path),
+    TonicForm.NON_EXISTANT
+  )
+  t.equal(
+    TonicForm.getPropertyValue(undefined, path),
+    TonicForm.NON_EXISTANT
+  )
+  t.equal(
+    TonicForm.getPropertyValue(undefined, undefined),
+    TonicForm.NON_EXISTANT
+  )
 
   const oo = { a: 0 }
   t.ok(!TonicForm.setPropertyValue(undefined, undefined))

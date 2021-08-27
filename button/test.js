@@ -213,10 +213,8 @@ tape('{{button-8}} is async, shows loading state when clicked', async t => {
   t.equal(component.getAttribute('async'), 'true', 'the button async attribute is true')
 
   component.addEventListener('click', async e => {
-    const button = component.querySelector('button')
-
     await sleep(128)
-    const isLoading = button.classList.contains('tonic--loading')
+    const isLoading = component.classList.contains('tonic--loading')
     t.ok(isLoading, 'loading class was applied')
     t.end()
   })

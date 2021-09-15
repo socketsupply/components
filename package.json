@@ -1,6 +1,6 @@
 {
   "name": "@optoolco/components",
-  "version": "12.3.18",
+  "version": "12.3.19",
   "description": "Example components",
   "scripts": {
     "dist": "npr browserify -s components index.js -o _dist/index.js",

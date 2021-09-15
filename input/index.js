@@ -160,6 +160,7 @@ class TonicInput extends Tonic {
         transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s ease 1s;
         visibility: hidden;
         opacity: 0;
+        z-index: 1;
       }
 
       tonic-input .tonic--invalid span {

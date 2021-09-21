@@ -382,6 +382,7 @@ class TonicButton extends Tonic {
       tonic-button {
         display: inline-block;
         user-select: none;
+        -webkit-user-select: none;
       }
 
       tonic-button button {
@@ -445,9 +446,13 @@ class TonicButton extends Tonic {
       }
 
       tonic-button button:not([disabled]):hover,
-      tonic-button button:not(.tonic--loading):hover {
+      tonic-button:not(.tonic--loading) button:hover {
         background-color: var(--tonic-button-background-hover, rgba(54, 57, 61, 1)) !important;
         cursor: pointer;
+      }
+
+      tonic-button.tonic--loading {
+        pointer-events: none;
       }
 
       tonic-button[disabled="true"],
@@ -458,18 +463,18 @@ class TonicButton extends Tonic {
         background-color: transparent
       }
 
-      tonic-button button.tonic--loading {
+      tonic-button.tonic--loading button {
         color: transparent !important;
         transition: all 0.3s ease-in;
         pointer-events: none;
       }
 
-      tonic-button button.tonic--loading:hover {
+      tonic-button.tonic--loading button:hover {
         color: transparent !important;
         background: var(--tonic-medium, rgba(153, 157, 160, 1)) !important;
       }
 
-      tonic-button button.tonic--loading:before {
+      tonic-button.tonic--loading button:before {
         margin-top: -8px;
         margin-left: -8px;
         display: inline-block;
@@ -504,9 +509,7 @@ class TonicButton extends Tonic {
   }
 
   loading (state) {
-    const button = this.querySelector('button')
-    const method = state ? 'add' : 'remove'
-    if (button) button.classList[method]('tonic--loading')
+    this.classList[state ? 'add' : 'remove']('tonic--loading')
   }
 
   click (e) {
@@ -1080,10 +1083,13 @@ class TonicDialog extends Tonic {
     this.appendChild(this.closeIcon)
     this.removeAttribute('hidden')
 
-    const overlay = document.querySelector('.tonic--dialog--overlay')
-    overlay.classList.add('tonic--show')
+    if (this.props.overlay !== 'false') {
+      const overlay = document.querySelector('.tonic--dialog--overlay')
+      overlay.classList.add('tonic--show')
+      overlay.style.zIndex = z
+    }
+
     this.style.zIndex = z + 100
-    overlay.style.zIndex = z
 
     return new Promise(resolve => {
       if (this.props.widthMobile && document.body.clientWidth < 500) {
@@ -1186,19 +1192,21 @@ module.exports = { TonicDialog }
 },{"@optoolco/tonic":12}],7:[function(require,module,exports){
 const Tonic = require('@optoolco/tonic')
 
+const NON_EXISTANT = { type: 'TonicForm_NON_EXISTANT' }
+
 class TonicForm extends Tonic {
   static isNumber (s) {
     return !isNaN(Number(s))
   }
 
   static getPropertyValue (o, path) {
-    if (!path) return null
+    if (!path) return NON_EXISTANT
 
     const parts = path.split('.')
     let value = o
 
     for (const p of parts) {
-      if (!value) return null
+      if (!value) return NON_EXISTANT
       value = value[p]
     }
 
@@ -1258,9 +1266,9 @@ class TonicForm extends Tonic {
 
     for (const element of elements) {
       const value = TonicForm.getPropertyValue(data, element.dataset.key)
-      if (!value) continue
+      if (value === NON_EXISTANT) continue
 
-      element.value = value
+      element.value = value || ''
     }
 
     this.state = data
@@ -1337,7 +1345,8 @@ class TonicForm extends Tonic {
 
     for (const element of elements) {
       const key = element.dataset.key
-      const value = TonicForm.getPropertyValue(this.state, key)
+      let value = TonicForm.getPropertyValue(this.state, key)
+      if (value === NON_EXISTANT) value = ''
       element.value = value || element.value || ''
     }
   }
@@ -1348,6 +1357,7 @@ class TonicForm extends Tonic {
     `
   }
 }
+TonicForm.NON_EXISTANT = NON_EXISTANT
 
 module.exports = { TonicForm }
 
@@ -1611,7 +1621,7 @@ class TonicInput extends Tonic {
       tonic-input[symbol-id] tonic-icon,
       tonic-input[src] tonic-icon {
         position: absolute;
-        bottom: 6px;
+        bottom: 10px;
       }
 
       tonic-input label {
@@ -1622,6 +1632,8 @@ class TonicInput extends Tonic {
         letter-spacing: 1px;
         padding-bottom: 10px;
         display: block;
+        user-select: none;
+        -webkit-user-select: none;
       }
 
       tonic-input input {
@@ -1675,6 +1687,7 @@ class TonicInput extends Tonic {
         transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s ease 1s;
         visibility: hidden;
         opacity: 0;
+        z-index: 1;
       }
 
       tonic-input .tonic--invalid span {
@@ -1731,6 +1744,8 @@ class TonicInput extends Tonic {
       opts.fill = this.props.fill
     }
 
+    opts.size = '20px'
+
     return this.html`
       <tonic-icon ...${opts}>
       </tonic-icon>
@@ -1782,6 +1797,7 @@ class TonicInput extends Tonic {
 
   updated () {
     this.setupEvents()
+    clearTimeout(this.timeout)
 
     setTimeout(() => {
       if (this.props.invalid) {
@@ -1789,6 +1805,8 @@ class TonicInput extends Tonic {
       } else {
         this.setValid()
       }
+
+      this.timeout = setTimeout(() => this.reRender(), 256)
     }, 32)
 
     this.state.rerendering = false
@@ -2380,41 +2398,16 @@ if (typeof module === 'object') module.exports = Tonic
 
 },{"./package":13}],13:[function(require,module,exports){
 module.exports={
-  "_from": "@optoolco/tonic@13.1.3",
-  "_id": "@optoolco/tonic@13.1.3",
-  "_inBundle": false,
-  "_integrity": "sha512-GECzc4Od1fXwrHHqpys7BqUib2kZOjNyoDEhikY5TjJcgBpP5SkgYjf4I8E7Y4TLlQ6jGechB+g7Sknwz5yZOA==",
-  "_location": "/@optoolco/tonic",
-  "_phantomChildren": {},
-  "_requested": {
-    "type": "version",
-    "registry": true,
-    "raw": "@optoolco/tonic@13.1.3",
-    "name": "@optoolco/tonic",
-    "escapedName": "@optoolco%2ftonic",
-    "scope": "@optoolco",
-    "rawSpec": "13.1.3",
-    "saveSpec": null,
-    "fetchSpec": "13.1.3"
-  },
-  "_requiredBy": [
-    "#DEV:/",
-    "#USER"
-  ],
-  "_resolved": "https://registry.npmjs.org/@optoolco/tonic/-/tonic-13.1.3.tgz",
-  "_shasum": "62e53a736df2fc8b9aeaade8c57b20bfd5206ce9",
-  "_spec": "@optoolco/tonic@13.1.3",
-  "_where": "/home/raynos/optoolco/components",
-  "author": {
-    "name": "optoolco"
-  },
-  "bugs": {
-    "url": "https://github.com/optoolco/tonic/issues"
-  },
-  "bundleDependencies": false,
-  "dependencies": {},
-  "deprecated": false,
+  "name": "@optoolco/tonic",
+  "version": "13.1.3",
   "description": "A composable component inspired by React.",
+  "scripts": {
+    "test": "npm run minify && browserify test/index.js | tape-puppet",
+    "build:demo": "browserify --bare ./demo > ./docs/bundle.js",
+    "minify": "terser index.js -c unused,dead_code,hoist_vars,loops=false,hoist_props=true,hoist_funs,toplevel,keep_classnames,keep_fargs=false -o dist/tonic.min.js"
+  },
+  "author": "optoolco",
+  "license": "MIT",
   "devDependencies": {
     "benchmark": "^2.1.4",
     "browserify": "^16.2.2",
@@ -2427,19 +2420,15 @@ module.exports={
   "directories": {
     "test": "test"
   },
-  "homepage": "https://github.com/optoolco/tonic#readme",
-  "license": "MIT",
-  "name": "@optoolco/tonic",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/optoolco/tonic.git"
   },
-  "scripts": {
-    "build:demo": "browserify --bare ./demo > ./docs/bundle.js",
-    "minify": "terser index.js -c unused,dead_code,hoist_vars,loops=false,hoist_props=true,hoist_funs,toplevel,keep_classnames,keep_fargs=false -o dist/tonic.min.js",
-    "test": "npm run minify && browserify test/index.js | tape-puppet"
+  "bugs": {
+    "url": "https://github.com/optoolco/tonic/issues"
   },
-  "version": "13.1.3"
+  "homepage": "https://github.com/optoolco/tonic#readme",
+  "dependencies": {}
 }
 
 },{}],14:[function(require,module,exports){
@@ -2950,6 +2939,7 @@ class TonicProgressBar extends Tonic {
       tonic-progress-bar {
         display: inline-block;
         user-select: none;
+        -webkit-user-select: none;
       }
 
       tonic-progress-bar .tonic--wrapper {
@@ -4452,6 +4442,7 @@ class TonicSplit extends Tonic {
         position: absolute;
         z-index: 1;
         user-select: none;
+        -webkit-user-select: none;
         background-color: transparent;
         transition: background .1s ease;
       }
@@ -4483,11 +4474,10 @@ class TonicSplit extends Tonic {
         background: var(--tonic-accent);
       }
 
-      tonic-split[dragging] tonic-split-right,
-      tonic-split[dragging] tonic-split-left,
-      tonic-split[dragging] tonic-split-top,
-      tonic-split[dragging] tonic-split-bottom {
+      tonic-split[dragging] * {
         pointer-events: none;
+        user-select: none;
+        -webkit-user-select: none;
       }
     `
   }
@@ -4788,6 +4778,7 @@ class TonicTabs extends Tonic {
     return `
       tonic-tabs .tonic--tab {
         -webkit-appearance: none;
+        -webkit-user-select: none;
         user-select: none;
       }
 
@@ -5574,6 +5565,7 @@ class TonicToaster extends Tonic {
       }
 
       tonic-toaster .tonic--wrapper {
+        -webkit-user-select: none;
         user-select: none;
         position: fixed;
         top: 10px;
@@ -5895,6 +5887,7 @@ class TonicToggle extends Tonic {
         padding-top: 6px;
         display: block;
         user-select: none;
+        -webkit-user-select: none;
       }
 
       tonic-toggle .tonic--switch {
@@ -5913,6 +5906,7 @@ class TonicToggle extends Tonic {
         opacity: 0;
         outline: none;
         user-select: none;
+        -webkit-user-select: none;
         z-index: 1;
       }
 

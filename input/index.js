@@ -270,7 +270,6 @@ class TonicInput extends Tonic {
 
   updated () {
     this.setupEvents()
-    clearTimeout(this.timeout)
 
     setTimeout(() => {
       if (this.props.invalid) {
@@ -278,8 +277,6 @@ class TonicInput extends Tonic {
       } else {
         this.setValid()
       }
-
-      this.timeout = setTimeout(() => this.reRender(), 256)
     }, 32)
 
     this.state.rerendering = false

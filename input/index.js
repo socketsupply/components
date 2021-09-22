@@ -63,6 +63,8 @@ class TonicInput extends Tonic {
     if (!span) return
 
     span.textContent = msg
+    const wrapper = this.querySelector('.tonic--invalid')
+    wrapper.style.display = 'block'
   }
 
   static stylesheet () {

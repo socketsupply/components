@@ -246,7 +246,11 @@ class TonicSelect extends Tonic {
 
   renderLabel () {
     if (!this.props.label) return ''
-    return this.html`<label>${this.props.label}</label>`
+    return this.html`
+      <label
+        for="tonic--select_${this.props.id}"
+      >${this.props.label}</label>
+    `
   }
 
   styles () {
@@ -331,7 +335,8 @@ class TonicSelect extends Tonic {
           name,
           tabindex,
           required,
-          size
+          size,
+          id: `tonic--select_${this.props.id}`
         }}>
           ${this.childNodes}
         </select>

@@ -256,13 +256,16 @@ class TonicInput extends Tonic {
       relay('blur')
     })
 
-    input.addEventListener('input', e => {
+    const onChange = e => {
       this._modified = true
       this.state.edited = true
       this.setAttribute('edited', true)
       this.state.value = e.target.value
       this.state.pos = e.target.selectionStart
-    })
+    }
+
+    input.addEventListener('input', onChange)
+    input.addEventListener('change', onChange)
 
     const state = this.state
     if (!state.focus) return

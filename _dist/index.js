@@ -1593,6 +1593,9 @@ var require_form = __commonJS({
         this.state = o;
         for (const element of elements) {
           element.value = "";
+          if (element.state.edited) {
+            element.state.edited = false;
+          }
         }
         return this.state;
       }

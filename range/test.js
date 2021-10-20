@@ -1,4 +1,4 @@
-const tape = require('@pre-bundled/tape')
+const tape = require('tapzero').test
 const { qs } = require('qsa-min')
 const { html } = require('../_test/util')
 const components = require('..')
@@ -151,6 +151,4 @@ tape('test a range elem', t => {
   const input2 = qs('input', range2)
   const styles2 = window.getComputedStyle(input2)
   t.equal(styles2.backgroundSize, '90% 100%')
-
-  t.end()
 })

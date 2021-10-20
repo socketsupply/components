@@ -1,4 +1,4 @@
-const tape = require('@pre-bundled/tape')
+const tape = require('tapzero').test
 const { qs } = require('qsa-min')
 const { html } = require('../_test/util')
 const components = require('..')
@@ -207,6 +207,4 @@ tape('test a select', t => {
     select.querySelector('select')
   )
   t.equal(styles.color, 'rgb(51, 51, 51)')
-
-  t.end()
 })

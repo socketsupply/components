@@ -1,5 +1,5 @@
 const Tonic = require('@optoolco/tonic')
-const tape = require('@pre-bundled/tape')
+const tape = require('tapzero').test
 const { qs } = require('qsa-min')
 
 const { html } = require('../_test/util')
@@ -181,6 +181,7 @@ class TestTabTextBox extends Tonic {
     return this.html`<span>${this.props.text}</span>`
   }
 }
+
 Tonic.add(TestTabTextBox)
 
 TestTabTextBox.allocationCounter = 0
@@ -189,7 +190,6 @@ tape('{{tabs-3}} has correct default state', t => {
   const container = qs('component-container')
 
   t.ok(container, 'rendered')
-  t.end()
 })
 
 tape('tabs only render what is visible', async t => {
@@ -315,8 +315,6 @@ tape('tabs only render what is visible', async t => {
     t.equal(textboxs[0].connectedCounter, 2, 'expect 2 connected')
     t.equal(textboxs[0].disconnectedCounter, 2, 'expected 1 disconnected')
   }
-
-  t.end()
 })
 
 function sleep (n) {

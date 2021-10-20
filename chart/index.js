@@ -99,7 +99,7 @@ class TonicChart extends Tonic {
     this.style.height = height
 
     return this.html`
-      <canvas ... ${{ width, height }}>
+      <canvas ...${{ width, height }}>
       </canvas>
     `
   }

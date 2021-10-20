@@ -1,4 +1,4 @@
-const tape = require('@pre-bundled/tape')
+const tape = require('tapzero').test
 const { qs } = require('qsa-min')
 const { html } = require('../_test/util')
 const components = require('..')
@@ -143,6 +143,4 @@ tape('get a progress bar', t => {
 
   t.equal(styles.height, '15px')
   t.equal(styles.backgroundColor, 'rgb(255, 102, 102)')
-
-  t.end()
 })

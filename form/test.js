@@ -1,4 +1,4 @@
-const tape = require('@pre-bundled/tape')
+const tape = require('tapzero').test
 const { qs } = require('qsa-min')
 
 const { html } = require('../_test/util')
@@ -53,8 +53,6 @@ tape('{{form-1}} get data from form', t => {
   const inputB = qs('#b', component)
   const inputD = qs('#d', component)
 
-  t.plan(2)
-
   t.ok(inputA && inputB && inputD, 'the component contains the correct number of inputs')
 
   const expected = {
@@ -66,8 +64,6 @@ tape('{{form-1}} get data from form', t => {
   }
 
   t.deepEqual(expected, component.value)
-
-  t.end()
 })
 
 tape('{{form-2}} populate form data', t => {
@@ -89,8 +85,6 @@ tape('{{form-2}} populate form data', t => {
   t.equal(inputA.value, 'va')
   t.equal(inputB.value, 'vb')
   t.equal(inputD.value, 'vd')
-
-  t.end()
 })
 
 tape('{{form-3}} get and set data', t => {
@@ -147,5 +141,9 @@ tape('{{form-3}} get and set data', t => {
   const actual = JSON.stringify(ooo)
   const expected = '{"a":{"b":[null,null,{"c":"x"}]}}'
   t.ok(expected === actual)
-  t.end()
+})
+
+tape('{{form-4}} reset form data', t => {
+  const component = qs('tonic-form#f2')
+  console.log(component.value)
 })

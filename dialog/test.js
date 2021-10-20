@@ -42,15 +42,13 @@ document.body.appendChild(html`
 //
 // Dialog Tests
 //
-const tape = require('@pre-bundled/tape')
+const tape = require('tapzero').test
 const { qs } = require('qsa-min')
 
 tape('{{dialog-1}} is constructed properly, opens and closes properly', async t => {
   const container = qs('#dialog-1')
   const component = qs('#dialog-default', container)
   const isShowingInitialState = component.classList.contains('tonic--show')
-
-  t.plan(6)
 
   t.equal(isShowingInitialState, false, 'the element has no show class')
   t.ok(component.hasAttribute('id'), 'the component has an id')
@@ -70,6 +68,4 @@ tape('{{dialog-1}} is constructed properly, opens and closes properly', async t 
 
   const isShowing = component.classList.contains('tonic--show')
   t.equal(isShowing, false, 'the element has been closed, has no show class')
-
-  t.end()
 })

@@ -1,4 +1,4 @@
-const tape = require('@pre-bundled/tape')
+const tape = require('tapzero').test
 const { qs } = require('qsa-min')
 const Tonic = require('@optoolco/tonic')
 
@@ -101,6 +101,4 @@ tape('opening a panel', async t => {
   await container.hide()
 
   t.ok(container.hasAttribute('hidden'))
-
-  t.end()
 })

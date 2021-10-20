@@ -72,7 +72,7 @@ class TonicForm extends Tonic {
     this.state = o
 
     for (const element of elements) {
-      element.value = undefined
+      element.value = ''
       element.state = {}
     }
 

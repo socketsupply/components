@@ -4,7 +4,7 @@
   "description": "Example components",
   "scripts": {
     "dist": "esbuild --format=cjs --bundle --keep-names index.js > _dist/index.js",
-    "prepublish": "npm run dist && npm run test",
+    "prepare": "npm run dist && npm run test",
     "ci:test:tape-run": "esbuild --bundle _test/index.js | tape-run",
     "lint": "standard -v",
     "test": "standard && esbuild --bundle _test/index.js | tape-run",

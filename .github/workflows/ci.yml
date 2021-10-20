@@ -5,11 +5,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
 
       - uses: actions/setup-node@v1
         with:
-          node-version: "10.x"
+          node-version: "14.x"
 
       - name: Install
         run: |
@@ -20,4 +20,4 @@ jobs:
       - name: Test
         run: |
           sudo apt-get install xvfb
-          xvfb-run --auto-servernum npm run ci:test:tape-run
+          xvfb-run --auto-servernum npm run test:ci

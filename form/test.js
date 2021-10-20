@@ -145,5 +145,9 @@ tape('{{form-3}} get and set data', t => {
 
 tape('{{form-4}} reset form data', t => {
   const component = qs('tonic-form#f2')
-  console.log(component.value)
+  component.reset()
+  const { value } = qs('tonic-form#f2')
+  t.equal(value.ka, undefined)
+  t.equal(value.foo.kb, undefined)
+  t.equal(value.bar[0].bazz, undefined)
 })

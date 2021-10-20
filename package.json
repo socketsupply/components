@@ -6,9 +6,9 @@
     "dist": "esbuild --format=cjs --bundle --keep-names index.js > _dist/index.js",
     "prepare": "npm run dist && npm run lint",
     "lint": "standard -v",
-    "test": "standard && esbuild --bundle _test/index.js | tape-run",
-    "test:ci": "esbuild --bundle _test/index.js | tape-run",
-    "test:open": "esbuild --bundle _test/index.js | tape-run --browser chrome --keep-open"
+    "test": "standard && npm run dist && esbuild --bundle _test/index.js | tape-run",
+    "test:ci": "npm run dist && esbuild --bundle _test/index.js | tape-run",
+    "test:open": "npm run dist && esbuild --bundle _test/index.js | tape-run --browser chrome --keep-open"
   },
   "repository": {
     "type": "git",

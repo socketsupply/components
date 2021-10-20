@@ -1563,8 +1563,7 @@ var require_form = __commonJS({
         const elements = this.getElements();
         this.state = o;
         for (const element of elements) {
-          element.value = void 0;
-          element.state = {};
+          element.value = "";
         }
         return this.state;
       }

@@ -73,7 +73,6 @@ class TonicForm extends Tonic {
 
     for (const element of elements) {
       element.value = ''
-      element.state = {}
     }
 
     return this.state

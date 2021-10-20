@@ -145,9 +145,19 @@ tape('{{form-3}} get and set data', t => {
 
 tape('{{form-4}} reset form data', t => {
   const component = qs('tonic-form#f2')
+  console.log(component.value)
   component.reset()
+
   const { value } = qs('tonic-form#f2')
-  t.equal(value.ka, '')
-  t.equal(value.foo.kb, '')
-  t.equal(value.bar[0].bazz, '')
+  t.ok(!value.ka)
+  t.ok(!value.foo.kb)
+  t.ok(!value.bar[0].bazz)
+
+  const inputA = qs('#a2', component)
+  const inputB = qs('#b2', component)
+  const inputD = qs('#d2', component)
+
+  t.equal(inputA.value, '')
+  t.equal(inputB.value, '')
+  t.equal(inputD.value, '')
 })

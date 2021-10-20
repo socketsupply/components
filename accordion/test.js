@@ -1,4 +1,4 @@
-const tape = require('@pre-bundled/tape')
+const tape = require('tapzero').test
 const { qs } = require('qsa-min')
 
 const { html } = require('../_test/util')
@@ -63,7 +63,6 @@ tape('{{accordion-1}} has correct default state', t => {
   const component = qs('tonic-accordion', container)
 
   t.ok(component, 'rendered')
-  t.end()
 })
 
 tape('{{accordion-2}} is styled', t => {
@@ -77,5 +76,4 @@ tape('{{accordion-2}} is styled', t => {
   const styles2 = window.getComputedStyle(button)
 
   t.equal(styles2.fontSize, '14px')
-  t.end()
 })

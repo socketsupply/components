@@ -1,8 +1,7 @@
 // @ts-check
 'use strict'
 
-const components = require('..')
-components(require('@optoolco/tonic'))
+require('../_dist/index.js')
 
 require('../accordion/test')
 require('../badge/test')

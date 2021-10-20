@@ -1,4 +1,4 @@
-const tape = require('@pre-bundled/tape')
+const tape = require('tapzero').test
 const { qs } = require('qsa-min')
 const { html } = require('../_test/util')
 const components = require('..')
@@ -61,8 +61,6 @@ tape('opening popover', async t => {
 
   const styles2 = window.getComputedStyle(divs[0])
   t.equal(styles2.visibility, 'visible')
-
-  t.end()
 })
 
 function sleep (ms) {

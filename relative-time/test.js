@@ -1,4 +1,4 @@
-const tape = require('@pre-bundled/tape')
+const tape = require('tapzero').test
 const { qs } = require('qsa-min')
 
 const { html } = require('../_test/util')
@@ -32,17 +32,14 @@ document.body.appendChild(html`
 tape('{{relative-time-1}} default state is constructed', t => {
   const now = qs('#relative-time-now')
   t.equal(now.textContent, 'now')
-  t.end()
 })
 
 tape('{{relative-time-2}} default state is constructed', t => {
   const now = qs('#relative-time-then')
   t.equal(now.textContent, '5 minutes ago')
-  t.end()
 })
 
 tape('{{relative-time-3}} stand-alone ctor', t => {
   const s = new RelativeTime(NOW_MINUS_5)
   t.equal(s.toString(), '5 minutes ago')
-  t.end()
 })

@@ -1,4 +1,4 @@
-const tape = require('@pre-bundled/tape')
+const tape = require('tapzero').test
 const { qs } = require('qsa-min')
 const { html } = require('../_test/util')
 const components = require('..')
@@ -38,6 +38,4 @@ tape('test an icon', t => {
     .querySelector('svg')
     .getBoundingClientRect()
   t.equal(spriteSize.height, 0)
-
-  t.end()
 })

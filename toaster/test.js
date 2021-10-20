@@ -1,4 +1,4 @@
-const tape = require('@pre-bundled/tape')
+const tape = require('tapzero').test
 const { qs } = require('qsa-min')
 
 const { html } = require('../_test/util')
@@ -160,8 +160,6 @@ tape('{{toaster}} is created and destroyed', async t => {
   const dismiss = toaster.classList.contains('tonic--close')
   const closeIcon = qs('.tonic--close', toaster)
 
-  t.plan(6)
-
   t.ok(toaster, 'Toaster was created')
   t.ok(toasterMain, 'Toaster main div was created')
   t.ok(toasterMessage, 'Toaster message div was created')
@@ -175,8 +173,6 @@ tape('{{toaster}} is created and destroyed', async t => {
 
   const toasterB = qs('.tonic--notification', notification)
   t.ok(!toasterB, 'Toaster was destroyed')
-
-  t.end()
 })
 
 tape('{{toaster}} with dismiss false is created without close icon', async t => {
@@ -194,7 +190,6 @@ tape('{{toaster}} with dismiss false is created without close icon', async t => 
   t.equal(!dismiss, !closeIcon, 'Only if toaster has dismiss class, is close icon also created')
 
   notification.destroy(toaster)
-  t.end()
 })
 
 tape('{{toaster}} with type success is created', async t => {
@@ -216,7 +211,6 @@ tape('{{toaster}} with type success is created', async t => {
   t.equal(!alert, !alertIcon, 'If toaster does not have alert class, alert icon is not created')
 
   notification.destroy(toaster)
-  t.end()
 })
 
 tape('{{toaster}} is created and destroyed after duration', async t => {
@@ -234,8 +228,6 @@ tape('{{toaster}} is created and destroyed after duration', async t => {
 
   const toasterB = qs('.tonic--notification', notification)
   t.ok(!toasterB, 'Toaster was destroyed')
-
-  t.end()
 })
 
 tape('{{toaster}} is created on the left', async t => {
@@ -253,8 +245,6 @@ tape('{{toaster}} is created on the left', async t => {
 
   t.ok(wrapper, 'Wrapper was created with the tonic--left class')
   t.ok(toaster, 'Toaster was created')
-
-  t.end()
 })
 
 tape('{{toaster}} is created on the right', async t => {
@@ -272,6 +262,4 @@ tape('{{toaster}} is created on the right', async t => {
 
   t.ok(wrapper, 'Wrapper was created with the tonic--right class')
   t.ok(toaster, 'Toaster was created')
-
-  t.end()
 })

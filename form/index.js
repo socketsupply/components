@@ -67,6 +67,18 @@ class TonicForm extends Tonic {
     return this.state
   }
 
+  reset (o = {}) {
+    const elements = this.getElements()
+    this.state = o
+
+    for (const element of elements) {
+      element.value = undefined
+      element.state = {}
+    }
+
+    return this.state
+  }
+
   set value (data) {
     if (typeof data !== 'object') return
 

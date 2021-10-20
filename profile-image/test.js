@@ -1,4 +1,4 @@
-const tape = require('@pre-bundled/tape')
+const tape = require('tapzero').test
 const { qs } = require('qsa-min')
 const { html } = require('../_test/util')
 const components = require('..')
@@ -132,6 +132,4 @@ tape('test a profile image', t => {
   const styles2 = window.getComputedStyle(overlay)
   t.equal(styles.position, 'absolute')
   t.equal(styles2.position, 'absolute')
-
-  t.end()
 })

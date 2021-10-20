@@ -1,4 +1,4 @@
-const tape = require('@pre-bundled/tape')
+const tape = require('tapzero').test
 const { qs } = require('qsa-min')
 
 const { html } = require('../_test/util')
@@ -38,8 +38,6 @@ tape('{{badge-1}} has correct default state', t => {
 
   t.ok(component.firstElementChild, 'the component was constructed')
   t.equal(component.value, 0, 'the default value is zero')
-
-  t.end()
 })
 
 tape('{{badge-2}} shows a count', t => {
@@ -52,8 +50,6 @@ tape('{{badge-2}} shows a count', t => {
   t.ok(component.hasAttribute('count'), 'the component has a count attribute')
   t.equal(component.value, span.textContent, 'the badge shows the correct value')
   t.ok(notification, 'badge shows new notifications')
-
-  t.end()
 })
 
 tape('badge shows tonic--new style', t => {
@@ -65,6 +61,4 @@ tape('badge shows tonic--new style', t => {
 
   t.equal(styles1.display, 'none')
   t.equal(styles2.display, 'block')
-
-  t.end()
 })

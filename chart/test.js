@@ -1,4 +1,4 @@
-const tape = require('@pre-bundled/tape')
+const tape = require('tapzero').test
 const { qs } = require('qsa-min')
 
 const { html } = require('../_test/util')
@@ -33,8 +33,8 @@ document.body.appendChild(html`
     <span>Default</span>
     <tonic-chart
       type="horizontalBar"
-      width=400px
-      height=400px
+      width="400px"
+      height="400px"
       src="${CHART_DATA}"
       library="${require('chart.js')}"
     ></tonic-chart>
@@ -51,12 +51,10 @@ tape('got a chart', t => {
   t.ok(chart)
   t.ok(canvas)
 
-  t.equal(canvas.width, 400)
-  t.equal(canvas.height, 400)
+  t.ok(canvas.width >= 400)
+  t.ok(canvas.height >= 400)
 
   const styles = window.getComputedStyle(canvas)
   t.equal(styles.display, 'block')
   t.equal(canvas.getAttribute('class'), 'chartjs-render-monitor')
-
-  t.end()
 })

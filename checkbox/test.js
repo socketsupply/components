@@ -1,4 +1,4 @@
-const tape = require('@pre-bundled/tape')
+const tape = require('tapzero').test
 const { qs } = require('qsa-min')
 
 const { html } = require('../_test/util')
@@ -116,8 +116,6 @@ tape('{{checkbox-1}} has correct default state', t => {
   t.ok(input.hasAttribute('id'), 'input was constructed with an id')
   t.ok(icon, 'component constructed with default icon')
   t.ok(input.checked === false, 'the default checkbox is not checked')
-
-  t.end()
 })
 
 tape('{{checkbox-2}} has correct label', t => {
@@ -126,13 +124,9 @@ tape('{{checkbox-2}} has correct label', t => {
   const input = qs('input[type="checkbox"]', component)
   const label = qs('label:not(.tonic--icon)', component)
 
-  t.plan(3)
-
   t.ok(input.hasAttribute('id'), 'input was constructed with an id')
   t.ok(label, 'component was constructed with a label')
   t.equal(component.getAttribute('label'), label.textContent, 'the label attribute matches the label text')
-
-  t.end()
 })
 
 tape('{{checkbox-3}} is checked', t => {
@@ -140,13 +134,9 @@ tape('{{checkbox-3}} is checked', t => {
   const component = qs('tonic-checkbox', container)
   const input = qs('input[type="checkbox"]', component)
 
-  t.plan(3)
-
   t.ok(input, 'component was constructed with an input')
   t.ok(input.hasAttribute('id'), 'input was constructed with an id')
   t.ok(input.checked, 'the input is checked')
-
-  t.end()
 })
 
 tape('{{checkbox-4}} is disabled', t => {
@@ -154,13 +144,9 @@ tape('{{checkbox-4}} is disabled', t => {
   const component = qs('tonic-checkbox', container)
   const input = qs('input[type="checkbox"]', component)
 
-  t.plan(3)
-
   t.ok(input, 'component was constructed with an input')
   t.ok(input.hasAttribute('id'), 'input was constructed with an id')
   t.ok(input.hasAttribute('disabled'), 'the input is disabled')
-
-  t.end()
 })
 
 tape('{{checkbox-5}} has size attributes', t => {
@@ -170,15 +156,11 @@ tape('{{checkbox-5}} has size attributes', t => {
   const input = qs('input[type="checkbox"]', component)
   const size = component.getAttribute('size')
 
-  t.plan(5)
-
   t.ok(input, 'component was constructed with an input')
   t.ok(input.hasAttribute('id'), 'input was constructed with an id')
   t.ok(component.hasAttribute('size'), 'the component has a size attribute')
   t.ok(icon.style.width === size, 'the width equals the size attribute')
   t.ok(icon.style.height === size, 'the height equals the size attribute')
-
-  t.end()
 })
 
 tape('{{checkbox-6}} has Tabindex', t => {
@@ -186,14 +168,10 @@ tape('{{checkbox-6}} has Tabindex', t => {
   const component = qs('tonic-checkbox', container)
   const input = qs('input[type="checkbox"]', component)
 
-  t.plan(4)
-
   t.ok(input, 'component was constructed with an input')
   t.ok(input.hasAttribute('id'), 'input was constructed with an id')
   t.equal(component.hasAttribute('tabindex'), false, 'component does not have a tabindex')
   t.equal(input.hasAttribute('tabindex'), true, 'input has a tabindex')
-
-  t.end()
 })
 
 tape('{{checkbox-6-5}} has title', t => {
@@ -201,13 +179,9 @@ tape('{{checkbox-6-5}} has title', t => {
   const component = qs('tonic-checkbox', container)
   const input = qs('input[type="checkbox"]', component)
 
-  t.plan(5)
-
   t.ok(input, 'component was constructed with an input')
   t.ok(input.hasAttribute('id'), 'input was constructed with an id')
   t.equal(component.hasAttribute('title'), true, 'component has title')
   t.equal(input.hasAttribute('title'), true, 'input has title')
   t.equal(input.getAttribute('title'), 'foo')
-
-  t.end()
 })

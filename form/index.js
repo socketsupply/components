@@ -76,6 +76,7 @@ class TonicForm extends Tonic {
 
       if (element.state.edited) {
         element.state.edited = false
+        element.removeAttribute('edited')
       }
     }
 

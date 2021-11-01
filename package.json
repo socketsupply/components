@@ -1,6 +1,6 @@
 {
   "name": "@optoolco/components",
-  "version": "12.3.27",
+  "version": "12.3.28",
   "description": "Example components",
   "scripts": {
     "dist": "esbuild --format=cjs --bundle --keep-names index.js > _dist/index.js",

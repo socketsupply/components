@@ -8,41 +8,16 @@ var __commonJS = (cb, mod) => function __require() {
 var require_package = __commonJS({
   "node_modules/@optoolco/tonic/package.json"(exports2, module2) {
     module2.exports = {
-      _from: "@optoolco/tonic@13.1.3",
-      _id: "@optoolco/tonic@13.1.3",
-      _inBundle: false,
-      _integrity: "sha512-GECzc4Od1fXwrHHqpys7BqUib2kZOjNyoDEhikY5TjJcgBpP5SkgYjf4I8E7Y4TLlQ6jGechB+g7Sknwz5yZOA==",
-      _location: "/@optoolco/tonic",
-      _phantomChildren: {},
-      _requested: {
-        type: "version",
-        registry: true,
-        raw: "@optoolco/tonic@13.1.3",
-        name: "@optoolco/tonic",
-        escapedName: "@optoolco%2ftonic",
-        scope: "@optoolco",
-        rawSpec: "13.1.3",
-        saveSpec: null,
-        fetchSpec: "13.1.3"
-      },
-      _requiredBy: [
-        "#DEV:/",
-        "#USER"
-      ],
-      _resolved: "https://registry.npmjs.org/@optoolco/tonic/-/tonic-13.1.3.tgz",
-      _shasum: "62e53a736df2fc8b9aeaade8c57b20bfd5206ce9",
-      _spec: "@optoolco/tonic@13.1.3",
-      _where: "/home/raynos/optoolco/components",
-      author: {
-        name: "optoolco"
-      },
-      bugs: {
-        url: "https://github.com/optoolco/tonic/issues"
-      },
-      bundleDependencies: false,
-      dependencies: {},
-      deprecated: false,
+      name: "@optoolco/tonic",
+      version: "13.1.3",
       description: "A composable component inspired by React.",
+      scripts: {
+        test: "npm run minify && browserify test/index.js | tape-puppet",
+        "build:demo": "browserify --bare ./demo > ./docs/bundle.js",
+        minify: "terser index.js -c unused,dead_code,hoist_vars,loops=false,hoist_props=true,hoist_funs,toplevel,keep_classnames,keep_fargs=false -o dist/tonic.min.js"
+      },
+      author: "optoolco",
+      license: "MIT",
       devDependencies: {
         benchmark: "^2.1.4",
         browserify: "^16.2.2",
@@ -55,19 +30,15 @@ var require_package = __commonJS({
       directories: {
         test: "test"
       },
-      homepage: "https://github.com/optoolco/tonic#readme",
-      license: "MIT",
-      name: "@optoolco/tonic",
       repository: {
         type: "git",
         url: "git+https://github.com/optoolco/tonic.git"
       },
-      scripts: {
-        "build:demo": "browserify --bare ./demo > ./docs/bundle.js",
-        minify: "terser index.js -c unused,dead_code,hoist_vars,loops=false,hoist_props=true,hoist_funs,toplevel,keep_classnames,keep_fargs=false -o dist/tonic.min.js",
-        test: "npm run minify && browserify test/index.js | tape-puppet"
+      bugs: {
+        url: "https://github.com/optoolco/tonic/issues"
       },
-      version: "13.1.3"
+      homepage: "https://github.com/optoolco/tonic#readme",
+      dependencies: {}
     };
   }
 });
@@ -5325,6 +5296,10 @@ var require_toaster = __commonJS({
         return Array.from(document.querySelectorAll("body *")).map((elt) => parseFloat(window.getComputedStyle(elt).zIndex)).reduce((z, highest = Number.MIN_SAFE_INTEGER) => isNaN(z) || z < highest ? highest : z);
       }
       create(options) {
+        const sig = JSON.stringify(options);
+        if (this.lastToaster === sig)
+          return;
+        this.lastToaster = sig;
         options = options || {};
         const { message, title, duration, type } = options;
         let dismiss = options.dismiss;

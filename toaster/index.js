@@ -146,6 +146,11 @@ class TonicToaster extends Tonic {
    * }} options
    */
   create (options) {
+    const sig = JSON.stringify(options)
+    if (this.lastToaster === sig) return
+
+    this.lastToaster = sig
+
     options = options || {}
     const { message, title, duration, type } = options
     let dismiss = options.dismiss

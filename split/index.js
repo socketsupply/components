@@ -132,8 +132,16 @@ class TonicSplit extends Tonic {
         cursor: ns-resize;
       }
 
+      tonic-split[dragging] > .tonic--split-handle,
       tonic-split .tonic--split-handle:hover {
         background: var(--tonic-accent);
+      }
+
+      tonic-split[dragging],
+      tonic-split[dragging] * {
+        cursor: -webkit-grabbing;
+        cursor: -moz-grabbing;
+        cursor: grabbing;
       }
 
       tonic-split[dragging] * {
@@ -250,9 +258,6 @@ class TonicSplit extends Tonic {
     const w = this.offsetWidth
     const h = this.offsetHeight
 
-    const dirLeft = e.clientX >= this.lastX
-    const dirDown = e.clientY >= this.lastY
-
     this.lastX = e.clientX + 1
     this.lastY = e.clientY - 1
 
@@ -260,18 +265,14 @@ class TonicSplit extends Tonic {
     const min = parseInt(this.props.min, 10) || 25
 
     if (this.props.type === 'vertical') {
-      if (dirLeft && this.right.offsetWidth <= max) {
-        return this.cancel()
-      }
-
-      if (!dirLeft && this.left.offsetWidth <= min) {
-        return this.cancel()
-      }
-
       this.left = this.elements[0]
       this.right = this.elements[1]
 
-      const t = e.clientX - x + 3
+      let t = e.clientX - x
+
+      if (t <= max) t = max
+      if (t <= min) t = min
+
       const p = (t / w) * 100
 
       this.left.style.width = p + '%'
@@ -281,18 +282,14 @@ class TonicSplit extends Tonic {
       return
     }
 
-    if (!dirDown && this.top.offsetHeight <= min) {
-      return this.cancel()
-    }
-
-    if (dirDown && this.bottom.offsetHeight <= max) {
-      return this.cancel()
-    }
-
     this.top = this.elements[0]
     this.bottom = this.elements[1]
 
-    const t = e.clientY - y
+    let t = e.clientY - y
+
+    if (t <= max) t = max
+    if (t <= min) t = min
+
     const p = (t / h) * 100
 
     if (p <= 100 - 5) {
@@ -304,11 +301,15 @@ class TonicSplit extends Tonic {
   }
 
   mouseenter (e) {
-    this.cancel()
+    if (e.buttons === 0) {
+      this.cancel()
+    }
   }
 
   mouseleave (e) {
-    this.cancel()
+    if (e.buttons === 0) {
+      this.cancel()
+    }
   }
 
   mousedown (e) {

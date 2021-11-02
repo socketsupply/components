@@ -4135,8 +4135,16 @@ var require_split = __commonJS({
         cursor: ns-resize;
       }
 
+      tonic-split[dragging] > .tonic--split-handle,
       tonic-split .tonic--split-handle:hover {
         background: var(--tonic-accent);
+      }
+
+      tonic-split[dragging],
+      tonic-split[dragging] * {
+        cursor: -webkit-grabbing;
+        cursor: -moz-grabbing;
+        cursor: grabbing;
       }
 
       tonic-split[dragging] * {
@@ -4223,22 +4231,18 @@ var require_split = __commonJS({
         const { x, y } = this.getBoundingClientRect();
         const w = this.offsetWidth;
         const h = this.offsetHeight;
-        const dirLeft = e.clientX >= this.lastX;
-        const dirDown = e.clientY >= this.lastY;
         this.lastX = e.clientX + 1;
         this.lastY = e.clientY - 1;
         const max = parseInt(this.props.max, 10) || 25;
         const min = parseInt(this.props.min, 10) || 25;
         if (this.props.type === "vertical") {
-          if (dirLeft && this.right.offsetWidth <= max) {
-            return this.cancel();
-          }
-          if (!dirLeft && this.left.offsetWidth <= min) {
-            return this.cancel();
-          }
           this.left = this.elements[0];
           this.right = this.elements[1];
-          const t2 = e.clientX - x;
+          let t2 = e.clientX - x;
+          if (t2 <= max)
+            t2 = max;
+          if (t2 <= min)
+            t2 = min;
           const p2 = t2 / w * 100;
           this.left.style.width = p2 + "%";
           this.handle.style.left = p2 + "%";
@@ -4246,15 +4250,13 @@ var require_split = __commonJS({
           this.afterResize();
           return;
         }
-        if (!dirDown && this.top.offsetHeight <= min) {
-          return this.cancel();
-        }
-        if (dirDown && this.bottom.offsetHeight <= max) {
-          return this.cancel();
-        }
         this.top = this.elements[0];
         this.bottom = this.elements[1];
-        const t = e.clientY - y;
+        let t = e.clientY - y;
+        if (t <= max)
+          t = max;
+        if (t <= min)
+          t = min;
         const p = t / h * 100;
         if (p <= 100 - 5) {
           this.top.style.height = p + "%";
@@ -4264,10 +4266,14 @@ var require_split = __commonJS({
         }
       }
       mouseenter(e) {
-        this.cancel();
+        if (e.buttons === 0) {
+          this.cancel();
+        }
       }
       mouseleave(e) {
-        this.cancel();
+        if (e.buttons === 0) {
+          this.cancel();
+        }
       }
       mousedown(e) {
         const handle = Tonic2.match(e.target, ".tonic--split-handle");

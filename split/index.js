@@ -271,7 +271,7 @@ class TonicSplit extends Tonic {
       this.left = this.elements[0]
       this.right = this.elements[1]
 
-      const t = e.clientX - x
+      const t = e.clientX - x + 3
       const p = (t / w) * 100
 
       this.left.style.width = p + '%'

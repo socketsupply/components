@@ -1566,6 +1566,7 @@ var require_form = __commonJS({
           element.value = "";
           if (element.state.edited) {
             element.state.edited = false;
+            element.removeAttribute("edited");
           }
         }
         return this.state;

@@ -1015,6 +1015,9 @@ var require_chart = __commonJS({
       }
     `;
       }
+      get library() {
+        return this.Chart;
+      }
       set library(Chart) {
         this.Chart = Chart;
       }
@@ -4353,6 +4356,9 @@ var require_tabs = __commonJS({
         if (tab) {
           this.setVisibility(tab.id, tab.getAttribute("for"));
         }
+      }
+      get selected() {
+        return this.value;
       }
       willConnect() {
         this.panels = this.panels || {};

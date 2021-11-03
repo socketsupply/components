@@ -27,10 +27,12 @@ class TonicInput extends Tonic {
   get value () {
     if (this._modified) {
       return typeof this.state.value === 'string'
-        ? this.state.value : this.props.value
+        ? this.state.value
+        : this.props.value
     } else {
       return typeof this.props.value === 'string'
-        ? this.props.value : this.state.value
+        ? this.props.value
+        : this.state.value
     }
   }
 

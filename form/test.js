@@ -88,7 +88,7 @@ tape('{{form-2}} populate form data', t => {
 })
 
 tape('{{form-3}} get and set data', t => {
-  var o = {
+  const o = {
     a: {
       bbb: {
         c: [

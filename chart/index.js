@@ -15,6 +15,10 @@ class TonicChart extends Tonic {
     `
   }
 
+  get library () {
+    return this.Chart
+  }
+
   set library (Chart) {
     this.Chart = Chart
   }

@@ -38,6 +38,10 @@ class TonicTabs extends Tonic {
     }
   }
 
+  get selected () {
+    return this.value
+  }
+
   willConnect () {
     this.panels = this.panels || {}
   }

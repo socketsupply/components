@@ -5,8 +5,8 @@
   "scripts": {
     "dist": "esbuild --format=cjs --bundle --keep-names index.js > _dist/index.js",
     "prepare": "npm run dist && npm run lint",
-    "lint": "standard -v",
-    "test": "standard && npm run dist && esbuild --bundle _test/index.js | tape-run",
+    "lint": "npr standard -v",
+    "test": "npr standard && npm run dist && esbuild --bundle _test/index.js | tape-run",
     "test:ci": "npm run dist && esbuild --bundle _test/index.js | tape-run",
     "test:open": "npm run dist && esbuild --bundle _test/index.js | tape-run --browser chrome --keep-open"
   },
@@ -37,9 +37,12 @@
     "highlight.js": "^10.1.0",
     "marked": "^0.7.0",
     "node-fetch": "^2.6.1",
+    "npm-bin-deps": "1.10.2",
     "qsa-min": "1.0.2",
-    "standard": "14.3.1",
     "tape-run": "^9.0.0",
     "tapzero": "^0.6.0"
+  },
+  "binDependencies": {
+    "standard": "16.0.4"
   }
 }

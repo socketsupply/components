@@ -4,48 +4,60 @@ var __commonJS = (cb, mod) => function __require() {
   return mod || (0, cb[Object.keys(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
 };
 
-// node_modules/@optoolco/tonic/package.json
+// node_modules/@operatortc/tonic/package.json
 var require_package = __commonJS({
-  "node_modules/@optoolco/tonic/package.json"(exports2, module2) {
+  "node_modules/@operatortc/tonic/package.json"(exports2, module2) {
     module2.exports = {
-      name: "@optoolco/tonic",
-      version: "13.1.3",
-      description: "A composable component inspired by React.",
+      name: "@operatortc/tonic",
+      version: "14.0.0",
+      description: "A component framework.",
       scripts: {
-        test: "npm run minify && browserify test/index.js | tape-puppet",
-        "build:demo": "browserify --bare ./demo > ./docs/bundle.js",
-        minify: "terser index.js -c unused,dead_code,hoist_vars,loops=false,hoist_props=true,hoist_funs,toplevel,keep_classnames,keep_fargs=false -o dist/tonic.min.js"
+        "ci:test:tape-run": "esbuild --bundle test/index.js | tape-run",
+        lint: "standard -v",
+        test: "npm run build && standard && esbuild --bundle test/index.js | tape-run",
+        "test:open": "npm run build && esbuild --bundle test/index.js | tape-run --browser chrome --keep-open",
+        prepare: "./scripts/build.js",
+        build: "./scripts/build.js && npm run minify:esm && npm run minify:cjs",
+        "minify:esm": "esbuild index.esm.js --keep-names --minify --outfile=dist/tonic.min.esm.js",
+        "minify:cjs": "esbuild index.js --keep-names --minify --outfile=dist/tonic.min.js"
       },
-      author: "optoolco",
+      main: "index.js",
+      author: "operatortc",
       license: "MIT",
       devDependencies: {
         benchmark: "^2.1.4",
-        browserify: "^16.2.2",
-        "raynos-tape-puppet": "0.1.7-raynos2",
+        esbuild: "^0.8.36",
         standard: "14.3.1",
-        tape: "^4.11.0",
-        terser: "^4.0.2",
+        "tape-run": "^8.0.0",
+        tapzero: "0.2.2",
         uuid: "3.3.3"
+      },
+      standard: {
+        ignore: [
+          "dist/*",
+          "test/fixtures/*"
+        ]
       },
       directories: {
         test: "test"
       },
       repository: {
         type: "git",
-        url: "git+https://github.com/optoolco/tonic.git"
+        url: "git+https://github.com/operatortc/tonic.git"
       },
       bugs: {
-        url: "https://github.com/optoolco/tonic/issues"
+        url: "https://github.com/operatortc/tonic/issues"
       },
-      homepage: "https://github.com/optoolco/tonic#readme",
+      homepage: "https://tonic.technology",
       dependencies: {}
     };
   }
 });
 
-// node_modules/@optoolco/tonic/index.js
+// node_modules/@operatortc/tonic/index.js
 var require_tonic = __commonJS({
-  "node_modules/@optoolco/tonic/index.js"(exports2, module2) {
+  "node_modules/@operatortc/tonic/index.js"(exports2, module2) {
+    "use strict";
     var TonicTemplate = class {
       constructor(rawText, templateStrings, unsafe) {
         this.isTonicTemplate = true;
@@ -79,7 +91,7 @@ var require_tonic = __commonJS({
         return `tonic${Tonic2._index++}`;
       }
       static _splitName(s) {
-        return s.match(/[A-Z][a-z]*/g).join("-");
+        return s.match(/[A-Z][a-z0-9]*/g).join("-");
       }
       static _normalizeAttrs(o, x = {}) {
         [...o].forEach((o2) => x[o2.name] = o2.value);
@@ -98,12 +110,6 @@ var require_tonic = __commonJS({
       }
       set state(newState) {
         this._state = (this._checkId(), newState);
-      }
-      get id() {
-        return this._checkId();
-      }
-      set id(newId) {
-        super.id = newId;
       }
       _events() {
         const hp = Object.getOwnPropertyNames(window.HTMLElement.prototype);
@@ -147,10 +153,10 @@ var require_tonic = __commonJS({
         }
         if (!htmlName)
           htmlName = Tonic2._splitName(c.name).toLowerCase();
-        if (window.customElements.get(htmlName)) {
+        if (!Tonic2.ssr && window.customElements.get(htmlName)) {
           throw new Error(`Cannot Tonic.add(${c.name}, '${htmlName}') twice`);
         }
-        if (!c.prototype.isTonicComponent) {
+        if (!c.prototype || !c.prototype.isTonicComponent) {
           const tmp = { [c.name]: class extends Tonic2 {
           } }[c.name];
           tmp.prototype.render = c;
@@ -160,9 +166,10 @@ var require_tonic = __commonJS({
         Tonic2._reg[htmlName] = c;
         Tonic2._tags = Object.keys(Tonic2._reg).join();
         window.customElements.define(htmlName, c);
-        if (c.stylesheet) {
+        if (typeof c.stylesheet === "function") {
           Tonic2.registerStyles(c.stylesheet);
         }
+        return c;
       }
       static registerStyles(stylesheetFn) {
         if (Tonic2._stylesheetRegistry.includes(stylesheetFn))
@@ -243,7 +250,7 @@ var require_tonic = __commonJS({
       scheduleReRender(oldProps) {
         if (this.pendingReRender)
           return this.pendingReRender;
-        this.pendingReRender = new Promise((resolve) => window.setTimeout(() => {
+        this.pendingReRender = new Promise((resolve) => setTimeout(() => {
           if (!this.isInDocument(this.shadowRoot || this))
             return;
           const p = this._set(this.shadowRoot || this, this.render);
@@ -285,13 +292,13 @@ var require_tonic = __commonJS({
           Tonic2._states[id] = node.state;
         }
         if (render instanceof Tonic2.AsyncFunction) {
-          return render.call(this).then((content2) => this._apply(target, content2));
+          return render.call(this, this.html, this.props).then((content2) => this._apply(target, content2));
         } else if (render instanceof Tonic2.AsyncFunctionGenerator) {
           return this._drainIterator(target, render.call(this));
         } else if (render === null) {
           this._apply(target, content);
         } else if (render instanceof Function) {
-          this._apply(target, render.call(this) || "");
+          this._apply(target, render.call(this, this.html, this.props) || "");
         }
       }
       _apply(target, content) {
@@ -5636,13 +5643,13 @@ var Tonic;
 try {
   Tonic = require_tonic();
 } catch (err) {
-  console.error("Missing dependency. Try `npm install @optoolco/tonic`.");
+  console.error("Missing dependency. Try `npm install @operatortc/tonic`.");
   throw err;
 }
 var version = Tonic.version;
 var major = version ? version.split(".")[0] : "0";
 if (parseInt(major, 10) < 12) {
-  console.error("Out of date dependency. Try `npm install @optoolco/tonic@12`.");
+  console.error("Out of date dependency. Try `npm install @operatortc/tonic@12`.");
   throw new Error("Invalid Tonic version. requires at least v12");
 }
 var { TonicAccordion, TonicAccordionSection } = require_accordion();

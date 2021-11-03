@@ -1,10 +1,10 @@
 const tape = require('tapzero').test
 const { qs } = require('qsa-min')
-const Tonic = require('@optoolco/tonic')
+const Tonic = require('@operatortc/tonic')
 
 const { html } = require('../_test/util')
 const components = require('..')
-components(require('@optoolco/tonic'))
+components(require('@operatortc/tonic'))
 
 class PanelInner extends Tonic {
   async click (e) {

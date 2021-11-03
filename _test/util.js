@@ -1,6 +1,6 @@
 'use strict'
 
-const Tonic = require('@optoolco/tonic')
+const Tonic = require('@operatortc/tonic')
 
 class MainComp extends Tonic {
   constructor (str, strings, values) {

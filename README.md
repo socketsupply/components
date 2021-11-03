@@ -1,23 +1,23 @@
 # SYNOPSIS
 A bundle of example components built with [Tonic](https://github.com/hxoht/tonic).
 
-![](https://github.com/optoolco/components/workflows/ci/badge.svg)
+![](https://github.com/operatortc/components/workflows/ci/badge.svg)
 
 # USAGE
 To use this example component library, install the following dependencies,
 Then, either register the components you want to bundle.
 
 ```bash
-npm install @optoolco/tonic
-npm install @optoolco/components
+npm install @operatortc/tonic
+npm install @operatortc/components
 ```
 
 #### INCLUDE INDIVIDUAL COMPONENTS
 
 ```js
-inport Tonic from '@optoolco/tonic'
-import { TonicInput } from '@optoolco/components/input'
-import { TonicIcon } from '@optoolco/components/icon'
+inport Tonic from '@operatortc/tonic'
+import { TonicInput } from '@operatortc/components/input'
+import { TonicIcon } from '@operatortc/components/icon'
 
 Tonic.add(TonicInput)
 Tonic.add(TonicIcon)
@@ -26,8 +26,8 @@ Tonic.add(TonicIcon)
 #### INCLUDE COMPONENT COLLECTION
 
 ```js
-import Tonic from '@optoolco/tonic'
-import bundle from '@optoolco/components'
+import Tonic from '@operatortc/tonic'
+import bundle from '@operatortc/components'
 
 bundle(Tonic) // attach everything
 ```

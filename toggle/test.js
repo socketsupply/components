@@ -3,7 +3,7 @@ const { qs } = require('qsa-min')
 
 const { html } = require('../_test/util')
 const components = require('..')
-components(require('@optoolco/tonic'))
+components(require('@operatortc/tonic'))
 
 document.body.appendChild(html`
 <section id="toggle">

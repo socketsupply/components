@@ -48,7 +48,7 @@ const index = `
       <meta property="og:url", content="https://optoolco.github.io/components">
       <meta property="og:image", content="https://optoolco.github.io/components/tonic_preview.png">
       <meta name="twitter:card", content="summary">
-      <meta name="twitter:site", content="@optoolco">
+      <meta name="twitter:site", content="@operatortc">
       <meta name="twitter:image", content="https://optoolco.github.io/components/tonic_preview.png">
       <meta
         http-equiv="Content-Security-Policy"

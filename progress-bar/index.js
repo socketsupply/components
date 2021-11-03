@@ -1,4 +1,4 @@
-const Tonic = require('@optoolco/tonic')
+const Tonic = require('@operatortc/tonic')
 
 class TonicProgressBar extends Tonic {
   set value (value) {

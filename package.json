@@ -1,5 +1,5 @@
 {
-  "name": "@optoolco/components",
+  "name": "@operatortc/components",
   "version": "12.3.31",
   "description": "Example components",
   "scripts": {
@@ -12,12 +12,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/optoolco/components.git"
+    "url": "git+ssh://git@github.com/operatortc/components.git"
   },
-  "author": "optoolco",
+  "author": "operatortc",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/optoolco/components/issues"
+    "url": "https://github.com/operatortc/components/issues"
   },
   "standard": {
     "ignore": [
@@ -26,9 +26,9 @@
       "_dist/**/*.js"
     ]
   },
-  "homepage": "https://github.com/optoolco/components#readme",
+  "homepage": "https://github.com/operatortc/components#readme",
   "devDependencies": {
-    "@optoolco/tonic": "13.1.3",
+    "@operatortc/tonic": "14.0.0",
     "@pre-bundled/send": "0.16.2-patch-1",
     "@pre-bundled/tape": "4.11.0",
     "chart.js": "^2.9.2",

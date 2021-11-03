@@ -1,10 +1,10 @@
-const Tonic = require('@optoolco/tonic')
+const Tonic = require('@operatortc/tonic')
 const tape = require('tapzero').test
 const { qs } = require('qsa-min')
 
 const { html } = require('../_test/util')
 const components = require('..')
-components(require('@optoolco/tonic'))
+components(require('@operatortc/tonic'))
 
 document.body.appendChild(html`
 <section id="tabs">

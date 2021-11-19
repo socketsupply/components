@@ -168,7 +168,9 @@ class TonicTextarea extends Tonic {
     this.state.edited = true
 
     input.setCustomValidity(msg)
-    input.setAttribute('invalid', msg)
+    window.requestAnimationFrame(() => {
+      input.setAttribute('invalid', msg)
+    })
     const span = this.querySelector('.tonic--invalid span')
     if (!span) return
 

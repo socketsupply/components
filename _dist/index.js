@@ -1792,7 +1792,9 @@ var require_input = __commonJS({
         this.state.edited = true;
         msg = msg || this.props.errorMessage;
         input.setCustomValidity(msg);
-        input.setAttribute("invalid", msg);
+        window.requestAnimationFrame(() => {
+          input.setAttribute("invalid", msg);
+        });
         const span = this.querySelector(".tonic--invalid span");
         if (!span)
           return;
@@ -3774,7 +3776,9 @@ var require_select = __commonJS({
         this.setAttribute("edited", true);
         msg = msg || this.props.errorMessage;
         input.setCustomValidity(msg);
-        input.setAttribute("invalid", msg);
+        window.requestAnimationFrame(() => {
+          input.setAttribute("invalid", msg);
+        });
         const span = this.querySelector(".tonic--invalid span");
         if (!span)
           return;
@@ -4711,7 +4715,9 @@ var require_textarea = __commonJS({
         this.setAttribute("edited", true);
         this.state.edited = true;
         input.setCustomValidity(msg);
-        input.setAttribute("invalid", msg);
+        window.requestAnimationFrame(() => {
+          input.setAttribute("invalid", msg);
+        });
         const span = this.querySelector(".tonic--invalid span");
         if (!span)
           return;

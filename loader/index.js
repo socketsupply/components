@@ -4,6 +4,7 @@ class TonicLoader extends Tonic {
   constructor () {
     super()
     this.attachShadow({ mode: 'open' })
+    this.setAttribute('id', Math.random().toString(16).slice(2, -8))
   }
 
   stylesheet () {
@@ -26,6 +27,12 @@ class TonicLoader extends Tonic {
   }
 
   render () {
+    let timeout = this.props.timeout || '128'
+
+    if (timeout === '-1') {
+      timeout = 'indefinite'
+    }
+
     return this.html`
       <div class="outer">
         <div class="inner">
@@ -42,7 +49,7 @@ class TonicLoader extends Tonic {
               from="0 20 20"
               to="360 20 20"
               dur="0.8s"
-              repeatCount="indefinite"/>
+              repeatCount="${timeout}"/>
             </path>
           </svg>
         </div>

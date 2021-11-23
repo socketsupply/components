@@ -57,7 +57,7 @@ class TonicDialog extends Tonic {
         background: var(--tonic-window);
         border: 1px solid var(--tonic-border);
         border-radius: 6px;
-        position: fixed;
+        position: absolute;
         overflow: hidden;
         top: 50%;
         left: 50%;
@@ -65,7 +65,6 @@ class TonicDialog extends Tonic {
         opacity: 0;
         transition: z-index .25s;
         transform: translate(-50%, -50%) scale(0.88);
-        will-change: transform;
       }
 
       .tonic--dialog.tonic--show {
@@ -123,7 +122,7 @@ class TonicDialog extends Tonic {
       }
 
       .tonic--dialog--overlay {
-        position: fixed;
+        position: absolute;
         top: 0;
         left: 0;
         right: 0;

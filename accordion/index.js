@@ -52,7 +52,13 @@ class TonicAccordion extends Tonic {
 
     trigger.setAttribute('aria-expanded', 'true')
     const currentPanel = document.getElementById(panelId)
-    this.state.selected = id
+
+    if (this.state.selected === id) {
+      this.state.selected = null
+    } else {
+      this.state.selected = id
+    }
+
     if (currentPanel) currentPanel.removeAttribute('hidden')
   }
 

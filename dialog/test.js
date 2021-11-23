@@ -54,7 +54,7 @@ tape('{{dialog-1}} is constructed properly, opens and closes properly', async t 
   t.ok(component.hasAttribute('id'), 'the component has an id')
 
   const styles = window.getComputedStyle(component)
-  t.equal(styles.position, 'fixed')
+  t.equal(styles.position, 'absolute')
 
   await component.show()
 

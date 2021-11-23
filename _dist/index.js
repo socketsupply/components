@@ -468,7 +468,11 @@ var require_accordion = __commonJS({
         }
         trigger.setAttribute("aria-expanded", "true");
         const currentPanel = document.getElementById(panelId);
-        this.state.selected = id;
+        if (this.state.selected === id) {
+          this.state.selected = null;
+        } else {
+          this.state.selected = id;
+        }
         if (currentPanel)
           currentPanel.removeAttribute("hidden");
       }
@@ -1338,7 +1342,7 @@ var require_dialog = __commonJS({
         background: var(--tonic-window);
         border: 1px solid var(--tonic-border);
         border-radius: 6px;
-        position: fixed;
+        position: absolute;
         overflow: hidden;
         top: 50%;
         left: 50%;
@@ -1346,7 +1350,6 @@ var require_dialog = __commonJS({
         opacity: 0;
         transition: z-index .25s;
         transform: translate(-50%, -50%) scale(0.88);
-        will-change: transform;
       }
 
       .tonic--dialog.tonic--show {
@@ -1404,7 +1407,7 @@ var require_dialog = __commonJS({
       }
 
       .tonic--dialog--overlay {
-        position: fixed;
+        position: absolute;
         top: 0;
         left: 0;
         right: 0;
@@ -2133,6 +2136,7 @@ var require_loader = __commonJS({
       constructor() {
         super();
         this.attachShadow({ mode: "open" });
+        this.setAttribute("id", Math.random().toString(16).slice(2, -8));
       }
       stylesheet() {
         return `
@@ -2153,6 +2157,10 @@ var require_loader = __commonJS({
     `;
       }
       render() {
+        let timeout = this.props.timeout || "128";
+        if (timeout === "-1") {
+          timeout = "indefinite";
+        }
         return this.html`
       <div class="outer">
         <div class="inner">
@@ -2169,7 +2177,7 @@ var require_loader = __commonJS({
               from="0 20 20"
               to="360 20 20"
               dur="0.8s"
-              repeatCount="indefinite"/>
+              repeatCount="${timeout}"/>
             </path>
           </svg>
         </div>
@@ -4072,7 +4080,6 @@ var require_split = __commonJS({
       tonic-split > tonic-split-right {
         position: absolute;
         overflow: hidden;
-        will-change: width;
       }
 
       tonic-split > tonic-split-left,

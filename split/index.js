@@ -55,7 +55,6 @@ class TonicSplit extends Tonic {
       tonic-split > tonic-split-right {
         position: absolute;
         overflow: hidden;
-        will-change: width;
       }
 
       tonic-split > tonic-split-left,

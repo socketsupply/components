@@ -26,6 +26,11 @@ class TonicTextarea extends Tonic {
 
   static stylesheet () {
     return `
+      tonic-textarea {
+        display: block;
+        position: relative;
+      }
+
       tonic-textarea textarea {
         color: var(--tonic-primary, #333);
         width: 100%;

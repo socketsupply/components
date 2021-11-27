@@ -170,6 +170,12 @@ class TonicSplit extends Tonic {
       meta
     } = this.state
 
+    if (typeof state === 'boolean' && state === this.state.lastState) {
+      return
+    }
+
+    this.state.lastState = state
+
     const previous = meta[panel]
     let opposite = ''
     let property = ''

@@ -1,6 +1,6 @@
 {
   "name": "@operatortc/components",
-  "version": "13.0.5",
+  "version": "13.0.6",
   "description": "Example components",
   "scripts": {
     "dist": "esbuild --format=cjs --bundle --keep-names index.js > _dist/index.js",

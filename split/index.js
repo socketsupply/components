@@ -165,16 +165,24 @@ class TonicSplit extends Tonic {
     this.updated()
   }
 
+  hide (panel) {
+    if (this[panel].hidden) return
+    this.toggle(panel, false)
+  }
+
+  show (panel) {
+    if (!this[panel].hidden) return
+    this.toggle(panel, true)
+  }
+
   toggle (panel, state) {
     const {
       meta
     } = this.state
 
-    if (typeof state === 'boolean' && state === this.state.lastState) {
-      return
+    if (typeof state === 'boolean' && state === false) {
+      delete meta[panel]
     }
-
-    this.state.lastState = state
 
     const previous = meta[panel]
     let opposite = ''
@@ -275,7 +283,7 @@ class TonicSplit extends Tonic {
 
       let t = e.clientX - x
 
-      if (t <= max) t = max
+      if (t >= w - max) t = w - max
       if (t <= min) t = min
 
       const p = (t / w) * 100
@@ -292,7 +300,7 @@ class TonicSplit extends Tonic {
 
     let t = e.clientY - y
 
-    if (t <= max) t = max
+    if (t >= h - max) t = h - max
     if (t <= min) t = min
 
     const p = (t / h) * 100

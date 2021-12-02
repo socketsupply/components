@@ -171,7 +171,7 @@ class TonicInput extends Tonic {
 
       tonic-input .tonic--invalid span {
         color: white;
-        padding: 2px 6px;
+        padding: 10px;
         background-color: var(--tonic-error, #f66);
         border-radius: 2px;
         position: relative;

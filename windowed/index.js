@@ -50,7 +50,11 @@ class Windowed extends Tonic {
       bottom: {
         position: 'relative'
       },
-
+      headers: {
+        position: 'sticky',
+        zIndex: 1,
+        top: 0
+      },
       outer: {
         width: '100%',
         height: 'inherit',
@@ -522,6 +526,8 @@ class Windowed extends Tonic {
 
     return this.html`
       <div class="tonic--windowed--outer" styles="outer">
+        <div class="tonic--windowed--headers" styles="headers">
+        </div>
         <div class="tonic--windowed--top" styles="top">
         </div>
         <div class="tonic--windowed--inner" styles="inner">

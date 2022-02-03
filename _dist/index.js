@@ -1905,7 +1905,7 @@ var require_input = __commonJS({
 
       tonic-input .tonic--invalid span {
         color: white;
-        padding: 2px 6px;
+        padding: 10px;
         background-color: var(--tonic-error, #f66);
         border-radius: 2px;
         position: relative;
@@ -3712,7 +3712,7 @@ var require_select = __commonJS({
 
       tonic-select .tonic--invalid span {
         color: white;
-        padding: 2px 6px;
+        padding: 10px;
         background-color: var(--tonic-error, #f66);
         border-radius: 2px;
         position: relative;
@@ -4186,14 +4186,23 @@ var require_split = __commonJS({
       willConnect() {
         this.updated();
       }
+      hide(panel) {
+        if (this[panel].hidden)
+          return;
+        this.toggle(panel, false);
+      }
+      show(panel) {
+        if (!this[panel].hidden)
+          return;
+        this.toggle(panel, true);
+      }
       toggle(panel, state) {
         const {
           meta
         } = this.state;
-        if (typeof state === "boolean" && state === this.state.lastState) {
-          return;
+        if (typeof state === "boolean" && state === false) {
+          delete meta[panel];
         }
-        this.state.lastState = state;
         const previous = meta[panel];
         let opposite = "";
         let property = "";
@@ -4264,8 +4273,8 @@ var require_split = __commonJS({
           this.left = this.elements[0];
           this.right = this.elements[1];
           let t2 = e.clientX - x;
-          if (t2 <= max)
-            t2 = max;
+          if (t2 >= w - max)
+            t2 = w - max;
           if (t2 <= min)
             t2 = min;
           const p2 = t2 / w * 100;
@@ -4278,8 +4287,8 @@ var require_split = __commonJS({
         this.top = this.elements[0];
         this.bottom = this.elements[1];
         let t = e.clientY - y;
-        if (t <= max)
-          t = max;
+        if (t >= h - max)
+          t = h - max;
         if (t <= min)
           t = min;
         const p = t / h * 100;

@@ -464,15 +464,12 @@ var require_accordion = __commonJS({
           const currentPanel2 = document.getElementById(panelId);
           if (currentPanel2)
             currentPanel2.setAttribute("hidden", "");
+          this.state.selected = null;
           return;
         }
         trigger.setAttribute("aria-expanded", "true");
         const currentPanel = document.getElementById(panelId);
-        if (this.state.selected === id) {
-          this.state.selected = null;
-        } else {
-          this.state.selected = id;
-        }
+        this.state.selected = id;
         if (currentPanel)
           currentPanel.removeAttribute("hidden");
       }
@@ -5215,7 +5212,7 @@ var require_toaster_inline = __commonJS({
 
 // toaster/index.js
 var require_toaster = __commonJS({
-  "toaster/index.js"(exports2) {
+  "toaster/index.js"(exports2, module2) {
     var Tonic2 = require_tonic();
     var TonicToaster2 = class extends Tonic2 {
       defaults() {
@@ -5468,7 +5465,7 @@ var require_toaster = __commonJS({
       }
     };
     __name(TonicToaster2, "TonicToaster");
-    exports2.TonicToaster = TonicToaster2;
+    module2.exports = { TonicToaster: TonicToaster2 };
   }
 });
 

@@ -2,14 +2,14 @@
 
 There was a breaking change in dialog.
 
-You now have to `const { TonicDialog } = require('@operatortc/components/dialog')`
+You now have to `const { TonicDialog } = require('@socketsupply/components/dialog')`
 The class was renamed from `Dialog` => `TonicDialog`.
 
 The dialog class was also rewritten.
 
 # Migration from v10 to v11
 
-`@operatortc/components` now depends on `@operatortc/tonic@13`
+`@socketsupply/components` now depends on `@socketsupply/tonic@13`
 
 There's a breaking change in `tonic-input`. It used to support
 HTML in the `label=...` attribute. Now it only supports text
@@ -41,12 +41,12 @@ If you do not use `tonic-chart` then the upgrade is safe.
 
 # Migration from v8 to v9
 
-`@operatortc/components` now depends on `@operatortc/tonic@12`
+`@socketsupply/components` now depends on `@socketsupply/tonic@12`
 
 You need to upgrade tonic to use v9 of components
 
 # Migration from v7 to v8
 
-`@operatortc/components` now depends on `@operatortc/tonic@11`
+`@socketsupply/components` now depends on `@socketsupply/tonic@11`
 
 You need to upgrade tonic to use v8 of components

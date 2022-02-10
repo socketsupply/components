@@ -1,8 +1,8 @@
 let Tonic
 try {
-  Tonic = require('@operatortc/tonic')
+  Tonic = require('@socketsupply/tonic')
 } catch (err) {
-  console.error('Missing dependency. Try `npm install @operatortc/tonic`.')
+  console.error('Missing dependency. Try `npm install @socketsupply/tonic`.')
   throw err
 }
 
@@ -10,7 +10,7 @@ const version = Tonic.version
 const major = version ? version.split('.')[0] : '0'
 
 if (parseInt(major, 10) < 12) {
-  console.error('Out of date dependency. Try `npm install @operatortc/tonic@12`.')
+  console.error('Out of date dependency. Try `npm install @socketsupply/tonic@12`.')
   throw new Error('Invalid Tonic version. requires at least v12')
 }
 

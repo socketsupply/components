@@ -1,4 +1,4 @@
-const Tonic = require('@operatortc/tonic')
+const Tonic = require('@socketsupply/tonic')
 
 const NON_EXISTANT = { type: 'TonicForm_NON_EXISTANT' }
 

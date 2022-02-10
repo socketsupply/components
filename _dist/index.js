@@ -4,12 +4,12 @@ var __commonJS = (cb, mod) => function __require() {
   return mod || (0, cb[Object.keys(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
 };
 
-// node_modules/@operatortc/tonic/package.json
+// node_modules/@socketsupply/tonic/package.json
 var require_package = __commonJS({
-  "node_modules/@operatortc/tonic/package.json"(exports2, module2) {
+  "node_modules/@socketsupply/tonic/package.json"(exports2, module2) {
     module2.exports = {
-      name: "@operatortc/tonic",
-      version: "14.0.0",
+      name: "@socketsupply/tonic",
+      version: "14.1.0",
       description: "A component framework.",
       scripts: {
         "ci:test:tape-run": "esbuild --bundle test/index.js | tape-run",
@@ -22,7 +22,7 @@ var require_package = __commonJS({
         "minify:cjs": "esbuild index.js --keep-names --minify --outfile=dist/tonic.min.js"
       },
       main: "index.js",
-      author: "operatortc",
+      author: "socketsupply",
       license: "MIT",
       devDependencies: {
         benchmark: "^2.1.4",
@@ -43,10 +43,10 @@ var require_package = __commonJS({
       },
       repository: {
         type: "git",
-        url: "git+https://github.com/operatortc/tonic.git"
+        url: "git+https://github.com/socketsupply/tonic.git"
       },
       bugs: {
-        url: "https://github.com/operatortc/tonic/issues"
+        url: "https://github.com/socketsupply/tonic/issues"
       },
       homepage: "https://tonic.technology",
       dependencies: {}
@@ -54,9 +54,9 @@ var require_package = __commonJS({
   }
 });
 
-// node_modules/@operatortc/tonic/index.js
+// node_modules/@socketsupply/tonic/index.js
 var require_tonic = __commonJS({
-  "node_modules/@operatortc/tonic/index.js"(exports2, module2) {
+  "node_modules/@socketsupply/tonic/index.js"(exports2, module2) {
     "use strict";
     var TonicTemplate = class {
       constructor(rawText, templateStrings, unsafe) {
@@ -5677,13 +5677,13 @@ var Tonic;
 try {
   Tonic = require_tonic();
 } catch (err) {
-  console.error("Missing dependency. Try `npm install @operatortc/tonic`.");
+  console.error("Missing dependency. Try `npm install @socketsupply/tonic`.");
   throw err;
 }
 var version = Tonic.version;
 var major = version ? version.split(".")[0] : "0";
 if (parseInt(major, 10) < 12) {
-  console.error("Out of date dependency. Try `npm install @operatortc/tonic@12`.");
+  console.error("Out of date dependency. Try `npm install @socketsupply/tonic@12`.");
   throw new Error("Invalid Tonic version. requires at least v12");
 }
 var { TonicAccordion, TonicAccordionSection } = require_accordion();

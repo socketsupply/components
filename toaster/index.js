@@ -1,4 +1,4 @@
-const Tonic = require('@operatortc/tonic')
+const Tonic = require('@socketsupply/tonic')
 
 class TonicToaster extends Tonic {
   defaults () {

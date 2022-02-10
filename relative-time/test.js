@@ -3,7 +3,7 @@ const { qs } = require('qsa-min')
 
 const { html } = require('../_test/util')
 const components = require('..')
-components(require('@operatortc/tonic'))
+components(require('@socketsupply/tonic'))
 const { RelativeTime } = require('.')
 
 const NOW_MINUS_5 = new Date()

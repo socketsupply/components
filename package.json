@@ -1,5 +1,5 @@
 {
-  "name": "@operatortc/components",
+  "name": "@socketsupply/components",
   "version": "13.0.10",
   "description": "Example components",
   "scripts": {
@@ -14,12 +14,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/operatortc/components.git"
+    "url": "git+ssh://git@github.com/socketsupply/components.git"
   },
-  "author": "operatortc",
+  "author": "socketsupply",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/operatortc/components/issues"
+    "url": "https://github.com/socketsupply/components/issues"
   },
   "standard": {
     "ignore": [
@@ -28,9 +28,9 @@
       "_dist/**/*.js"
     ]
   },
-  "homepage": "https://github.com/operatortc/components#readme",
+  "homepage": "https://github.com/socketsupply/components#readme",
   "devDependencies": {
-    "@operatortc/tonic": "14.0.0",
+    "@socketsupply/tonic": "14.1.0",
     "@pre-bundled/send": "0.16.2-patch-1",
     "@pre-bundled/tape": "4.11.0",
     "chart.js": "^2.9.2",

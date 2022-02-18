@@ -387,7 +387,8 @@ class Windowed extends Tonic {
       currentScrollTop / this.rowHeight
     )
 
-    const totalHeight = this.rows.length * this.props.rowHeight
+    const rowsLength = this.rows ? this.rows.length : 0
+    const totalHeight = rowsLength * this.props.rowHeight
     if (
       viewEnd === totalHeight &&
       this.prefetchBottom &&
@@ -399,7 +400,7 @@ class Windowed extends Tonic {
     }
 
     if (
-      this.rows.length === this.props.maxRowsLength &&
+      rowsLength === this.props.maxRowsLength &&
       viewStart === 0 &&
       this.prefetchTop &&
       this.renderLoadingTop &&
@@ -411,7 +412,7 @@ class Windowed extends Tonic {
 
     // TODO: Sometimes prefetchTop() does not get called.
     if (!popHappened && (
-      this.rows.length === this.props.maxRowsLength &&
+      rowsLength === this.props.maxRowsLength &&
       start <= this.props.prefetchThreshold
     )) {
       if (!this.noMoreTopRows && this.prefetchTop) {
@@ -458,7 +459,9 @@ class Windowed extends Tonic {
   updatePage (i) {
     const page = this.pages[i]
     const start = i * parseInt(this.props.rowsPerPage, 10)
-    const limit = Math.min((i + 1) * this.props.rowsPerPage, this.rows.length)
+
+    const rowsLength = this.rows ? this.rows.length : 0
+    const limit = Math.min((i + 1) * this.props.rowsPerPage, rowsLength)
 
     const inner = this.querySelector('.tonic--windowed--inner')
 

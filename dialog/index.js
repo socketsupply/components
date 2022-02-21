@@ -1,5 +1,20 @@
 const Tonic = require('@socketsupply/tonic')
 
+const FOCUS_CHANGE_TIMEOUT = 100
+
+let focused = true
+let focusedTimeout = null
+
+window.addEventListener('blur', () => {
+  clearTimeout(focusedTimeout)
+  focused = false
+})
+
+window.addEventListener('focus', () => {
+  clearTimeout(focusedTimeout)
+  focusedTimeout = setTimeout(() => { focused = true }, FOCUS_CHANGE_TIMEOUT)
+})
+
 class TonicDialog extends Tonic {
   constructor () {
     super()
@@ -172,7 +187,7 @@ class TonicDialog extends Tonic {
       this.classList.add('tonic--show')
 
       this._escapeHandler = e => {
-        if (e.keyCode === 27) this.hide()
+        if (focused && e.keyCode === 27) this.hide()
       }
 
       document.addEventListener('keyup', this._escapeHandler)

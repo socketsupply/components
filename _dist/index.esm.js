@@ -1303,6 +1303,19 @@ var require_checkbox = __commonJS({
 var require_dialog = __commonJS({
   "dialog/index.js"(exports, module) {
     var Tonic = require_tonic();
+    var FOCUS_CHANGE_TIMEOUT = 100;
+    var focused = true;
+    var focusedTimeout = null;
+    window.addEventListener("blur", () => {
+      clearTimeout(focusedTimeout);
+      focused = false;
+    });
+    window.addEventListener("focus", () => {
+      clearTimeout(focusedTimeout);
+      focusedTimeout = setTimeout(() => {
+        focused = true;
+      }, FOCUS_CHANGE_TIMEOUT);
+    });
     var TonicDialog = class extends Tonic {
       constructor() {
         super();
@@ -1452,7 +1465,7 @@ var require_dialog = __commonJS({
           this.classList.remove("tonic--hide");
           this.classList.add("tonic--show");
           this._escapeHandler = (e) => {
-            if (e.keyCode === 27)
+            if (focused && e.keyCode === 27)
               this.hide();
           };
           document.addEventListener("keyup", this._escapeHandler);

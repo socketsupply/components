@@ -1863,6 +1863,7 @@ var require_input = __commonJS({
         color: var(--tonic-primary, #333);
         font: 14px var(--tonic-monospace, 'Andale Mono', monospace);
         padding: 8px;
+        margin: 0;
         background-color: var(--tonic-input-background, var(--tonic-background, transparent));
         border: 1px solid var(--tonic-border, #ccc);
         -webkit-appearance: none;
@@ -3623,7 +3624,6 @@ var require_select = __commonJS({
         return {
           disabled: false,
           invalid: false,
-          iconArrow: TonicSelect2.svg.default(),
           width: "250px",
           radius: "2px"
         };
@@ -3653,6 +3653,13 @@ var require_select = __commonJS({
         border-color: var(--tonic-border, #ccc);
       }
 
+      tonic-select .tonic--select {
+        position: relative;
+        border: 1px solid var(--tonic-border, #ccc);
+        border-radius: 2px;
+        background-color: var(--tonic-input-background, var(--tonic-background, #f66));
+      }
+
       tonic-select.tonic--loading .tonic--wrapper:before {
         margin-top: -8px;
         margin-left: -8px;
@@ -3669,22 +3676,50 @@ var require_select = __commonJS({
         transition: opacity 0.3s ease;
       }
 
+      tonic-select .tonic--arrow {
+        display: block;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 38px;
+        z-index: 1;
+      }
+
+      tonic-select .tonic--arrow:before {
+        content: "";
+        width: 6px;
+        height: 6px;
+        position: absolute;
+        top: 46%;
+        left: 50%;
+        -webkit-transform: translateY(-50%) translateX(-50%) rotate(135deg);
+        -moz-transform: translateY(-50%) translateX(-50%) rotate(135deg);
+        transform: translateY(-50%) translateX(-50%) rotate(135deg);
+        border-top: 1px solid var(--tonic-primary, #333);
+        border-right: 1px solid var(--tonic-primary, #333);
+      }
+
       tonic-select select {
         color: var(--tonic-primary, #333);
         font: 14px var(--tonic-monospace, 'Andale Mono', monospace);
-        background-color: var(--tonic-input-background, var(--tonic-background, #f66));
-        background-repeat: no-repeat;
-        background-position: center right;
-        border: 1px solid var(--tonic-border, #ccc);
+        background-color: transparent;
+        border: none;
+        width: 100%;
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
         position: relative;
+        z-index: 2;
+        margin: 0;
+        outline: none;
       }
 
-      tonic-select select:focus {
+      tonic-select select:focus ~ .tonic--background {
+        content: " ";
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
         background-color: var(--tonic-input-background-focus, rgba(241, 241, 241, 0.75));
-        outline: none;
       }
 
       tonic-select[edited] select[invalid],
@@ -3856,22 +3891,16 @@ var require_select = __commonJS({
       }
       styles() {
         const {
-          height,
-          width,
           padding,
-          radius,
-          iconArrow
+          radius
         } = this.props;
         return {
           wrapper: {
-            width
+            width: "100%"
           },
           select: {
-            width,
-            height,
             borderRadius: radius,
-            padding,
-            backgroundImage: `url('${iconArrow}')`
+            padding
           }
         };
       }
@@ -3924,8 +3953,11 @@ var require_select = __commonJS({
         return this.html`
       <div class="tonic--wrapper" styles="wrapper">
         ${this.renderLabel()}
-        <select ... ${{
+        <div class="tonic--select">
+          <select ... ${{
           styles: "select",
+          width: "100%",
+          height: "100%",
           disabled: disabled === "true",
           multiple: multiple === "true",
           name,
@@ -3934,8 +3966,11 @@ var require_select = __commonJS({
           size,
           id: `tonic--select_${this.props.id}`
         }}>
-          ${this.childNodes}
-        </select>
+            ${this.childNodes}
+          </select>
+          <div class="tonic--arrow"></div>
+          <div class="tonic--background"></div>
+        </div>
 
         <div class="tonic--invalid">
           <span id="tonic--error-${this.props.id}">${errorMessage}</span>
@@ -3945,13 +3980,6 @@ var require_select = __commonJS({
       }
     };
     __name(TonicSelect2, "TonicSelect");
-    TonicSelect2.svg = {};
-    TonicSelect2.svg.toURL = (s) => `data:image/svg+xml;base64,${window.btoa(s)}`;
-    TonicSelect2.svg.default = () => TonicSelect2.svg.toURL(`
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path fill="#D7DBDD" d="M61.4,45.8l-11,13.4c-0.2,0.3-0.5,0.3-0.7,0l-11-13.4c-0.3-0.3-0.1-0.8,0.4-0.8h22C61.4,45,61.7,45.5,61.4,45.8z"/>
-  </svg>
-`);
     module2.exports = { TonicSelect: TonicSelect2 };
   }
 });

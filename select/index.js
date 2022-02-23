@@ -294,7 +294,7 @@ class TonicSelect extends Tonic {
   styles () {
     const {
       padding,
-      radius,
+      radius
     } = this.props
 
     return {

@@ -119,6 +119,7 @@ class TonicInput extends Tonic {
         color: var(--tonic-primary, #333);
         font: 14px var(--tonic-monospace, 'Andale Mono', monospace);
         padding: 8px;
+        margin: 0;
         background-color: var(--tonic-input-background, var(--tonic-background, transparent));
         border: 1px solid var(--tonic-border, #ccc);
         -webkit-appearance: none;

@@ -1804,28 +1804,28 @@ var require_input = __commonJS({
         input.setCustomValidity("");
         input.removeAttribute("invalid");
       }
-      setInvalid(msg2) {
+      setInvalid(msg) {
         const input = this.querySelector("input");
         if (!input)
           return;
         this.setAttribute("edited", true);
         this.state.edited = true;
-        msg2 = msg2 || this.props.errorMessage;
-        input.setCustomValidity(msg2);
+        msg = msg || this.props.errorMessage;
+        input.setCustomValidity(msg);
         window.requestAnimationFrame(() => {
-          input.setAttribute("invalid", msg2);
+          input.setAttribute("invalid", msg);
         });
         const span = this.querySelector(".tonic--invalid span");
         if (!span)
           return;
-        span.textContent = msg2;
+        span.textContent = msg;
         const wrapper = this.querySelector(".tonic--invalid");
         wrapper.style.display = "block";
       }
       input(e) {
         this.setValid();
         if (!e.target.checkValidity()) {
-          this.setInvalid(msg);
+          this.setInvalid(this.props.errorMessage);
         }
       }
       static stylesheet() {
@@ -3835,20 +3835,20 @@ var require_select = __commonJS({
         input.setCustomValidity("");
         input.removeAttribute("invalid");
       }
-      setInvalid(msg2) {
+      setInvalid(msg) {
         const input = this.querySelector("select");
         if (!input)
           return;
         this.setAttribute("edited", true);
-        msg2 = msg2 || this.props.errorMessage;
-        input.setCustomValidity(msg2);
+        msg = msg || this.props.errorMessage;
+        input.setCustomValidity(msg);
         window.requestAnimationFrame(() => {
-          input.setAttribute("invalid", msg2);
+          input.setAttribute("invalid", msg);
         });
         const span = this.querySelector(".tonic--invalid span");
         if (!span)
           return;
-        span.textContent = msg2;
+        span.textContent = msg;
       }
       get value() {
         const el = this.querySelector("select");
@@ -4784,20 +4784,20 @@ var require_textarea = __commonJS({
         input.setCustomValidity("");
         input.removeAttribute("invalid");
       }
-      setInvalid(msg2) {
+      setInvalid(msg) {
         const input = this.querySelector("textarea");
         if (!input)
           return;
         this.setAttribute("edited", true);
         this.state.edited = true;
-        input.setCustomValidity(msg2);
+        input.setCustomValidity(msg);
         window.requestAnimationFrame(() => {
-          input.setAttribute("invalid", msg2);
+          input.setAttribute("invalid", msg);
         });
         const span = this.querySelector(".tonic--invalid span");
         if (!span)
           return;
-        span.textContent = msg2;
+        span.textContent = msg;
       }
       renderLabel() {
         if (typeof this.props.label === "undefined")

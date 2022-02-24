@@ -75,7 +75,7 @@ class TonicInput extends Tonic {
     this.setValid()
 
     if (!e.target.checkValidity()) {
-      this.setInvalid(msg)
+      this.setInvalid(this.props.errorMessage)
     }
   }
 

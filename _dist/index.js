@@ -1815,6 +1815,12 @@ var require_input = __commonJS({
         const wrapper = this.querySelector(".tonic--invalid");
         wrapper.style.display = "block";
       }
+      input(e) {
+        this.setValid();
+        if (!e.target.checkValidity()) {
+          this.setInvalid(e.target.validationMessage);
+        }
+      }
       static stylesheet() {
         return `
       tonic-input .tonic--wrapper {

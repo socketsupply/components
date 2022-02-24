@@ -1818,7 +1818,7 @@ var require_input = __commonJS({
       input(e) {
         this.setValid();
         if (!e.target.checkValidity()) {
-          this.setInvalid(e.target.validationMessage);
+          this.setInvalid(this.props.validationMessage);
         }
       }
       static stylesheet() {

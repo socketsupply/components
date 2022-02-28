@@ -157,6 +157,7 @@ class TonicToaster extends Tonic {
 
     const notification = document.createElement('div')
     notification.className = 'tonic--notification'
+    notification.dataset.sig = sig
 
     const node = this.querySelector('.tonic--wrapper')
     node.style.zIndex = this._getZIndex() + 100
@@ -250,6 +251,10 @@ class TonicToaster extends Tonic {
     el.addEventListener('transitionend', e => {
       if (el && el.parentNode) {
         el.parentNode.removeChild(el)
+      }
+
+      if (this.lastToaster === el.dataset.sig) {
+        this.lastToaster = null
       }
     })
   }

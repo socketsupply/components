@@ -1850,7 +1850,7 @@ var require_input = __commonJS({
       tonic-input[symbol-id] tonic-icon,
       tonic-input[src] tonic-icon {
         position: absolute;
-        bottom: 10px;
+        bottom: 8px;
       }
 
       tonic-input label {

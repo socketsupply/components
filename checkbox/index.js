@@ -62,12 +62,25 @@ class TonicCheckbox extends Tonic {
         display: none;
       }
 
+      tonic-checkbox input:checked + label:after {
+        content: '';
+        display: block;
+        position: absolute;
+        top: 2px;
+        left: 6px;
+        width: 3px;
+        height: 8px;
+        border: solid var(--tonic-primary);
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+      }
+
       tonic-checkbox input[type="checkbox"][disabled] + label {
         opacity: 0.35;
       }
 
       tonic-checkbox label {
-        color: var(--tonic-primary, #333);
+        color: var(--tonic-medium, #333);
         font: 12px var(--tonic-subheader, 'Arial', sans-serif);
         font-weight: 500;
         text-transform: uppercase;
@@ -82,12 +95,9 @@ class TonicCheckbox extends Tonic {
         width: 100%;
         height: 100%;
         background-size: contain;
+        border: 1px solid var(--tonic-border, #fff);
+        border-radius: 2px;
         margin: 4px;
-      }
-
-      tonic-checkbox .tonic--icon svg {
-        width: inherit;
-        height: inherit;
       }
 
       tonic-checkbox label:nth-of-type(2) {
@@ -126,23 +136,6 @@ class TonicCheckbox extends Tonic {
         height: this.props.size
       }
     }
-  }
-
-  renderIcon () {
-    const checked = this.value
-    const iconState = checked ? 'checked' : 'unchecked'
-
-    return this.html`
-      <svg>
-        <use ... ${{
-          href: `#${iconState}`,
-          'xlink:href': `#${iconState}`,
-          color: 'var(--tonic-primary, #333)',
-          fill: 'var(--tonic-primary, #333)'
-        }}>
-        </use>
-      </svg>
-    `
   }
 
   renderLabel () {
@@ -202,7 +195,6 @@ class TonicCheckbox extends Tonic {
           styles="icon"
           class="tonic--icon"
         >
-          ${this.renderIcon()}
         </label>
         ${this.renderLabel()}
       </div>

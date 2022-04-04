@@ -1193,10 +1193,15 @@ var require_checkbox = __commonJS({
         display: inline-block;
         width: 100%;
         height: 100%;
-        background-size: contain;
         border: 1px solid var(--tonic-border, #fff);
+        background-size: contain;
+        background-color: var(--tonic-input-background);
         border-radius: 2px;
         margin: 4px;
+      }
+
+      tonic-checkbox input[type="checkbox"][disabled] + .tonic--icon {
+        background-color: transparent;
       }
 
       tonic-checkbox label:nth-of-type(2) {

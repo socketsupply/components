@@ -3833,6 +3833,14 @@ var require_select = __commonJS({
           return;
         input.setCustomValidity("");
         input.removeAttribute("invalid");
+        const wrapper = this.querySelector(".tonic--invalid");
+        if (!wrapper)
+          return;
+        Object.assign(wrapper.style, {
+          visibility: "",
+          display: "",
+          opacity: ""
+        });
       }
       setInvalid(msg) {
         const input = this.querySelector("select");
@@ -3848,6 +3856,14 @@ var require_select = __commonJS({
         if (!span)
           return;
         span.textContent = msg;
+        const wrapper = this.querySelector(".tonic--invalid");
+        if (!wrapper)
+          return;
+        Object.assign(wrapper.style, {
+          visibility: "visible",
+          display: "block",
+          opacity: 1
+        });
       }
       get value() {
         const el = this.querySelector("select");

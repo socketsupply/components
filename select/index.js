@@ -204,6 +204,14 @@ class TonicSelect extends Tonic {
 
     input.setCustomValidity('')
     input.removeAttribute('invalid')
+
+    const wrapper = this.querySelector('.tonic--invalid')
+    if (!wrapper) return
+    Object.assign(wrapper.style, {
+      visibility: '',
+      display: '',
+      opacity: ''
+    })
   }
 
   setInvalid (msg) {
@@ -224,6 +232,13 @@ class TonicSelect extends Tonic {
     if (!span) return
 
     span.textContent = msg
+    const wrapper = this.querySelector('.tonic--invalid')
+    if (!wrapper) return
+    Object.assign(wrapper.style, {
+      visibility: 'visible',
+      display: 'block',
+      opacity: 1
+    })
   }
 
   get value () {

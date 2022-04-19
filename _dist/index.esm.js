@@ -863,7 +863,6 @@ var require_button = __commonJS({
       tonic-button[disabled="true"],
       tonic-button[disabled="true"] button,
       tonic-button button[disabled] {
-        pointer-events: none;
         user-select: none;
         background-color: transparent
       }
@@ -929,6 +928,10 @@ var require_button = __commonJS({
           } else {
             window.open(href, "_self");
           }
+        }
+        if (disabled) {
+          e.preventDefault();
+          e.stopPropagation();
         }
       }
       styles() {

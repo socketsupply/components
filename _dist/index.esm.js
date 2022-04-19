@@ -4282,17 +4282,23 @@ var require_split = __commonJS({
         if (!previous && !state) {
           meta[panel] = {
             [panel]: this[panel].style[property],
+            [panel + "visibility"]: this[panel].style.visibility,
             [opposite]: this[opposite].style[property],
+            [opposite + "visibility"]: this[opposite].style.visibility,
             handle: this.handle.style.display
           };
           this[panel].style[property] = 0;
+          this[panel].style.visibility = "hidden";
           this[opposite].style[property] = "100%";
+          this[opposite].style.visibility = "inherit";
           this.handle.style.display = "none";
           return;
         }
         if (previous) {
           this[panel].style[property] = previous[panel];
+          this[panel].style.visibility = previous[panel + "visibility"];
           this[opposite].style[property] = previous[opposite];
+          this[opposite].style.visibility = previous[opposite + "visibility"];
           this.handle.style.display = previous.handle;
           delete meta[panel];
         }

@@ -122,7 +122,6 @@ class TonicButton extends Tonic {
       tonic-button[disabled="true"],
       tonic-button[disabled="true"] button,
       tonic-button button[disabled] {
-        pointer-events: none;
         user-select: none;
         background-color: transparent
       }
@@ -193,6 +192,11 @@ class TonicButton extends Tonic {
       } else {
         window.open(href, '_self')
       }
+    }
+
+    if (disabled) {
+      e.preventDefault()
+      e.stopPropagation()
     }
   }
 

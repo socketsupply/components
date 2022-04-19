@@ -356,7 +356,7 @@ tape('input wrapper component interactions', async t => {
     const input2 = comp.querySelector('input')
     t.equal(input2.value, 'someText')
     resolve()
-  }, 20))
+  }, 50))
 
   await p
 })

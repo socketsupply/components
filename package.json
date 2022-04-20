@@ -32,14 +32,9 @@
   "homepage": "https://github.com/socketsupply/components#readme",
   "devDependencies": {
     "@socketsupply/tonic": "14.1.0",
-    "@pre-bundled/send": "0.16.2-patch-1",
-    "@pre-bundled/tape": "4.11.0",
     "chart.js": "^2.9.2",
     "esbuild": "0.13.8",
     "git-hooks": "1.1.10",
-    "highlight.js": "^10.1.0",
-    "marked": "^0.7.0",
-    "node-fetch": "^2.6.1",
     "npm-bin-deps": "1.10.2",
     "qsa-min": "1.0.2",
     "tapzero": "^0.6.0"

@@ -1,6 +1,6 @@
 {
   "name": "@socketsupply/components",
-  "version": "13.2.16",
+  "version": "13.2.17",
   "description": "Example components",
   "scripts": {
     "dist": "esbuild --format=cjs --bundle --keep-names index.js > _dist/index.js",

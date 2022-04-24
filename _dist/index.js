@@ -5757,7 +5757,7 @@ try {
 }
 var version = Tonic.version;
 var major = version ? version.split(".")[0] : "0";
-if (parseInt(major, 10) < 12) {
+if (version && parseInt(major, 10) < 12) {
   console.error("Out of date dependency. Try `npm install @socketsupply/tonic@12`.");
   throw new Error("Invalid Tonic version. requires at least v12");
 }

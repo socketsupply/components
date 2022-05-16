@@ -1893,7 +1893,7 @@ var require_input = __commonJS({
 
       tonic-input[edited] input[invalid] ~ .tonic--invalid,
       tonic-input[edited] input:invalid ~ .tonic--invalid {
-        transform: translateY(0);
+        transform: translate(-50%, 0);
         visibility: visible;
         opacity: 1;
         transition: opacity 0.2s ease, transform 0.2s ease, visibility 1s ease 0s;
@@ -1913,8 +1913,8 @@ var require_input = __commonJS({
         margin-bottom: 13px;
         position: absolute;
         bottom: 100%;
-        left: 0;
-        right: 0;
+        left: 50%;
+        width: fit-content;
         transform: translateY(-10px);
         transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s ease 1s;
         visibility: hidden;
@@ -3739,7 +3739,7 @@ var require_select = __commonJS({
 
       tonic-select[edited] select[invalid] ~ .tonic--invalid,
       tonic-select[edited] select:invalid ~ .tonic--invalid {
-        transform: translateY(0);
+        transform: translate(-50%, 0);
         visibility: visible;
         opacity: 1;
         transition: opacity 0.2s ease, transform 0.2s ease, visibility 1s ease 0s;
@@ -3755,8 +3755,8 @@ var require_select = __commonJS({
         margin-bottom: 13px;
         position: absolute;
         bottom: 100%;
-        left: 0;
-        right: 0;
+        left: 50%;
+        width: fit-content;
         transform: translateY(-10px);
         transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s ease 1s;
         visibility: hidden;
@@ -4718,7 +4718,7 @@ var require_textarea = __commonJS({
 
       tonic-textarea[edited] textarea[invalid] ~ .tonic--invalid,
       tonic-textarea[edited] textarea:invalid ~ .tonic--invalid {
-        transform: translateY(0);
+        transform: translate(-50%, 0);
         visibility: visible;
         opacity: 1;
         transition: opacity 0.2s ease, transform 0.2s ease, visibility 1s ease 0s;
@@ -4738,8 +4738,8 @@ var require_textarea = __commonJS({
         margin-bottom: 13px;
         position: absolute;
         bottom: 100%;
-        left: 0;
-        right: 0;
+        left: 50%;
+        width: fit-content;
         transform: translateY(-10px);
         transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s ease 1s;
         visibility: hidden;

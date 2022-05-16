@@ -149,7 +149,7 @@ class TonicInput extends Tonic {
 
       tonic-input[edited] input[invalid] ~ .tonic--invalid,
       tonic-input[edited] input:invalid ~ .tonic--invalid {
-        transform: translateY(0);
+        transform: translate(-50%, 0);
         visibility: visible;
         opacity: 1;
         transition: opacity 0.2s ease, transform 0.2s ease, visibility 1s ease 0s;
@@ -169,8 +169,8 @@ class TonicInput extends Tonic {
         margin-bottom: 13px;
         position: absolute;
         bottom: 100%;
-        left: 0;
-        right: 0;
+        left: 50%;
+        width: fit-content;
         transform: translateY(-10px);
         transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s ease 1s;
         visibility: hidden;

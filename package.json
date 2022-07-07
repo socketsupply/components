@@ -7,10 +7,10 @@
     "dist-esm": "esbuild --format=esm --bundle --keep-names index.js > _dist/index.esm.js",
     "dist-min-esm": "esbuild --format=esm --minify --bundle --keep-names index.js > _dist/index.min.esm.js",
     "prepare": "npm run dist && npm run dist-esm && npm run lint",
-    "lint": "npr standard -v",
-    "test": "npr standard && npm run dist && esbuild --bundle _test/index.js | npr tape-run",
-    "test:ci": "npm run dist && esbuild --bundle _test/index.js | npr tape-run",
-    "test:open": "npm run dist && esbuild --bundle _test/index.js | npr tape-run --browser chrome --keep-open",
+    "lint": "standard -v",
+    "test": "standard && npm run dist && esbuild --bundle _test/index.js | tape-run",
+    "test:ci": "npm run dist && esbuild --bundle _test/index.js | tape-run",
+    "test:open": "npm run dist && esbuild --bundle _test/index.js | tape-run --browser chrome --keep-open",
     "pub": "npm pub && npm publish --registry https://npm.pkg.github.com"
   },
   "repository": {
@@ -32,15 +32,11 @@
   "homepage": "https://github.com/socketsupply/components#readme",
   "devDependencies": {
     "@socketsupply/tonic": "14.1.0",
+    "standard": "16.0.4",
+    "tape-run": "9.0.0",
     "chart.js": "^2.9.2",
     "esbuild": "0.13.8",
-    "git-hooks": "1.1.10",
-    "npm-bin-deps": "1.10.2",
     "qsa-min": "1.0.2",
     "tapzero": "^0.6.0"
-  },
-  "binDependencies": {
-    "standard": "16.0.4",
-    "tape-run": "9.0.0"
   }
 }

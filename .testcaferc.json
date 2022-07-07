@@ -1,4 +1,4 @@
 {
   "browsers": "chrome",
-  "appCommand": "npr budo ./test/fixtures/testcafe.js -p 8030"
+  "appCommand": "budo ./test/fixtures/testcafe.js -p 8030"
 }

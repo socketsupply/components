@@ -3356,6 +3356,7 @@ var require_relative_time = __commonJS({
           date = new Date();
         }
         if (this.props.refresh) {
+          clearInterval(this.interval);
           this.interval = setInterval(() => {
             this.reRender((props) => ({
               ...props,

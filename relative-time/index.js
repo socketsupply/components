@@ -459,6 +459,7 @@ class TonicRelativeTime extends Tonic {
     }
 
     if (this.props.refresh) {
+      clearInterval(this.interval)
       this.interval = setInterval(() => {
         this.reRender(props => ({
           ...props,

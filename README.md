@@ -15,7 +15,7 @@ npm install @socketsupply/components
 #### INCLUDE INDIVIDUAL COMPONENTS
 
 ```js
-inport Tonic from '@socketsupply/tonic'
+import Tonic from '@socketsupply/tonic'
 import { TonicInput } from '@socketsupply/components/input'
 import { TonicIcon } from '@socketsupply/components/icon'
 

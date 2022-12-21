@@ -1,9 +1,11 @@
-const tape = require('tapzero').test
-const { qs } = require('qsa-min')
+import { test } from 'tapzero'
+import { qs } from 'qsa-min'
 
-const { html } = require('../_test/util')
-const components = require('..')
-components(require('@socketsupply/tonic').Tonic)
+import { html } from '../_test/util'
+import { Tonic } from '@socketsupply/tonic'
+import { Components } from '..'
+
+Components(Tonic)
 
 document.body.appendChild(html`
 <section id="checkbox">
@@ -98,7 +100,7 @@ document.body.appendChild(html`
 </section>
 `)
 
-tape('{{checkbox-1}} has correct default state', t => {
+test('{{checkbox-1}} has correct default state', t => {
   const container = qs('#checkbox-1')
   const component = qs('tonic-checkbox', container)
   const wrapper = qs('.tonic--checkbox--wrapper', component)
@@ -118,7 +120,7 @@ tape('{{checkbox-1}} has correct default state', t => {
   t.ok(input.checked === false, 'the default checkbox is not checked')
 })
 
-tape('{{checkbox-2}} has correct label', t => {
+test('{{checkbox-2}} has correct label', t => {
   const container = qs('#checkbox-2')
   const component = qs('tonic-checkbox', container)
   const input = qs('input[type="checkbox"]', component)
@@ -129,7 +131,7 @@ tape('{{checkbox-2}} has correct label', t => {
   t.equal(component.getAttribute('label'), label.textContent, 'the label attribute matches the label text')
 })
 
-tape('{{checkbox-3}} is checked', t => {
+test('{{checkbox-3}} is checked', t => {
   const container = qs('#checkbox-3')
   const component = qs('tonic-checkbox', container)
   const input = qs('input[type="checkbox"]', component)
@@ -139,7 +141,7 @@ tape('{{checkbox-3}} is checked', t => {
   t.ok(input.checked, 'the input is checked')
 })
 
-tape('{{checkbox-4}} is disabled', t => {
+test('{{checkbox-4}} is disabled', t => {
   const container = qs('#checkbox-4')
   const component = qs('tonic-checkbox', container)
   const input = qs('input[type="checkbox"]', component)
@@ -149,7 +151,7 @@ tape('{{checkbox-4}} is disabled', t => {
   t.ok(input.hasAttribute('disabled'), 'the input is disabled')
 })
 
-tape('{{checkbox-5}} has size attributes', t => {
+test('{{checkbox-5}} has size attributes', t => {
   const container = qs('#checkbox-5')
   const component = qs('tonic-checkbox', container)
   const icon = qs('label.tonic--icon', component)
@@ -163,7 +165,7 @@ tape('{{checkbox-5}} has size attributes', t => {
   t.ok(icon.style.height === size, 'the height equals the size attribute')
 })
 
-tape('{{checkbox-6}} has Tabindex', t => {
+test('{{checkbox-6}} has Tabindex', t => {
   const container = qs('#checkbox-6')
   const component = qs('tonic-checkbox', container)
   const input = qs('input[type="checkbox"]', component)
@@ -174,7 +176,7 @@ tape('{{checkbox-6}} has Tabindex', t => {
   t.equal(input.hasAttribute('tabindex'), true, 'input has a tabindex')
 })
 
-tape('{{checkbox-6-5}} has title', t => {
+test('{{checkbox-6-5}} has title', t => {
   const container = qs('#checkbox-6-5')
   const component = qs('tonic-checkbox', container)
   const input = qs('input[type="checkbox"]', component)

@@ -2,15 +2,13 @@
   "name": "@socketsupply/components",
   "version": "13.2.22",
   "description": "Example components",
+  "type": "module",
   "scripts": {
-    "dist": "esbuild --format=cjs --bundle --keep-names index.js > _dist/index.js",
-    "dist-esm": "esbuild --format=esm --bundle --keep-names index.js > _dist/index.esm.js",
-    "dist-min-esm": "esbuild --format=esm --minify --bundle --keep-names index.js > _dist/index.min.esm.js",
-    "prepare": "npm run dist && npm run dist-esm && npm run lint",
+    "prepare": "npm run lint",
     "lint": "standard -v",
-    "test": "standard && npm run dist && esbuild --bundle _test/index.js | tape-run",
-    "test:ci": "npm run dist && esbuild --bundle _test/index.js | tape-run",
-    "test:open": "npm run dist && esbuild --bundle _test/index.js | tape-run --browser chrome --keep-open",
+    "test": "standard && esbuild --format=esm --bundle _test/index.js | tape-run",
+    "test:ci": "esbuild --format=esm --bundle _test/index.js | tape-run",
+    "test:open": "esbuild --format=esm --bundle _test/index.js | tape-run --browser chrome --keep-open",
     "pub": "npm pub && npm publish --registry https://npm.pkg.github.com"
   },
   "repository": {

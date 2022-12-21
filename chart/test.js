@@ -1,9 +1,12 @@
-const tape = require('tapzero').test
-const { qs } = require('qsa-min')
+import { test } from 'tapzero'
+import { qs } from 'qsa-min'
 
-const { html } = require('../_test/util')
-const components = require('..')
-components(require('@socketsupply/tonic').Tonic)
+import { html } from '../_test/util'
+import { Tonic } from '@socketsupply/tonic'
+import chart from 'chart.js'
+import { Components } from '..'
+
+Components(Tonic)
 
 // const CHART_OPTS = {
 //   tooltips: {
@@ -36,13 +39,13 @@ document.body.appendChild(html`
       width="400px"
       height="400px"
       src="${CHART_DATA}"
-      library="${require('chart.js')}"
+      library="${chart}"
     ></tonic-chart>
   </div>
 </section>
 `)
 
-tape('got a chart', t => {
+test('got a chart', t => {
   const container = qs('#chart-1')
   const chart = qs('#chart-1 tonic-chart')
   const canvas = qs('#chart-1 canvas')

@@ -1,9 +1,11 @@
-const tape = require('tapzero').test
-const { qs } = require('qsa-min')
+import { test } from 'tapzero'
+import { qs } from 'qsa-min'
 
-const { html } = require('../_test/util')
-const components = require('..')
-components(require('@socketsupply/tonic').Tonic)
+import { html } from '../_test/util'
+import { Tonic } from '@socketsupply/tonic'
+import { Components } from '..'
+
+Components(Tonic)
 
 document.body.appendChild(html`
 <section id="toggle">
@@ -87,7 +89,7 @@ document.body.appendChild(html`
 </section>
 `)
 
-tape('{{toggle-1}} default state renders properly', t => {
+test('{{toggle-1}} default state renders properly', t => {
   const container = qs('#toggle-1')
   const component = qs('tonic-toggle', container)
   const toggleWrapper = qs('.tonic--switch', component)
@@ -100,7 +102,7 @@ tape('{{toggle-1}} default state renders properly', t => {
   t.equal(input.getAttribute('id'), label.getAttribute('for'), 'the input id matches the label')
 })
 
-tape('{{toggle-2}} has tabindex attribute', t => {
+test('{{toggle-2}} has tabindex attribute', t => {
   const container = qs('#toggle-2')
   const component = qs('tonic-toggle', container)
   const toggleWrapper = qs('.tonic--switch', component)

@@ -1,8 +1,8 @@
-const { Tonic } = require('@socketsupply/tonic')
+import { Tonic } from '@socketsupply/tonic'
 
 const CustomEvent = window.CustomEvent
 
-class TonicTabs extends Tonic {
+export class TonicTabs extends Tonic {
   constructor (o) {
     super(o)
 
@@ -190,7 +190,7 @@ class TonicTabs extends Tonic {
   }
 }
 
-class TonicTabPanel extends Tonic {
+export class TonicTabPanel extends Tonic {
   static stylesheet () {
     return `
       tonic-tab-panel {
@@ -244,7 +244,7 @@ class TonicTabPanel extends Tonic {
   }
 }
 
-class TonicTab extends Tonic {
+export class TonicTab extends Tonic {
   render () {
     const ariaControls = this.props.for
 
@@ -262,10 +262,4 @@ class TonicTab extends Tonic {
       </a>
     `
   }
-}
-
-module.exports = {
-  TonicTabs,
-  TonicTab,
-  TonicTabPanel
 }

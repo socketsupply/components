@@ -1,10 +1,11 @@
-const tape = require('tapzero').test
-const { qs } = require('qsa-min')
+import { test } from 'tapzero'
+import { qs } from 'qsa-min'
 
-const { html } = require('../_test/util')
-const components = require('..')
-components(require('@socketsupply/tonic').Tonic)
-const { RelativeTime } = require('.')
+import { html } from '../_test/util'
+import { Components } from '..'
+import { RelativeTime } from '.'
+import { Tonic } from '@socketsupply/tonic'
+Components(Tonic)
 
 const NOW_MINUS_5 = new Date()
 NOW_MINUS_5.setMinutes(NOW_MINUS_5.getMinutes() - 5)
@@ -29,17 +30,17 @@ document.body.appendChild(html`
   </section>
 `)
 
-tape('{{relative-time-1}} default state is constructed', t => {
+test('{{relative-time-1}} default state is constructed', t => {
   const now = qs('#relative-time-now')
   t.equal(now.textContent, 'now')
 })
 
-tape('{{relative-time-2}} default state is constructed', t => {
+test('{{relative-time-2}} default state is constructed', t => {
   const now = qs('#relative-time-then')
   t.equal(now.textContent, '5 minutes ago')
 })
 
-tape('{{relative-time-3}} stand-alone ctor', t => {
+test('{{relative-time-3}} stand-alone ctor', t => {
   const s = new RelativeTime(NOW_MINUS_5)
   t.equal(s.toString(), '5 minutes ago')
 })

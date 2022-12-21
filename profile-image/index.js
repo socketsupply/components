@@ -1,6 +1,6 @@
-const { Tonic } = require('@socketsupply/tonic')
+import { Tonic } from '@socketsupply/tonic'
 
-class TonicProfileImage extends Tonic {
+export class TonicProfileImage extends Tonic {
   get value () {
     const state = this.state
     return state.data || this.props.src
@@ -197,5 +197,3 @@ TonicProfileImage.svg.default = () => TonicProfileImage.svg.toURL(`
     <path fill="#D6D6D6" d="M48.6,69.5c-18.1,0-33.1,13.2-36,30.5h72C81.8,82.7,66.7,69.5,48.6,69.5z"></path>
   </svg>
 `)
-
-module.exports = { TonicProfileImage }

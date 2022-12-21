@@ -1,9 +1,11 @@
-const tape = require('tapzero').test
-const { qs } = require('qsa-min')
+import { test } from 'tapzero'
+import { qs } from 'qsa-min'
 
-const { html } = require('../_test/util')
-const components = require('..')
-components(require('@socketsupply/tonic').Tonic)
+import { html } from '../_test/util'
+import { Tonic } from '@socketsupply/tonic'
+import { Components } from '..'
+
+Components(Tonic)
 
 document.body.appendChild(html`
 <section id="badge">
@@ -32,7 +34,7 @@ document.body.appendChild(html`
 </section>
 `)
 
-tape('{{badge-1}} has correct default state', t => {
+test('{{badge-1}} has correct default state', t => {
   const container = qs('#badge-1')
   const component = qs('tonic-badge', container)
 
@@ -40,7 +42,7 @@ tape('{{badge-1}} has correct default state', t => {
   t.equal(component.value, 0, 'the default value is zero')
 })
 
-tape('{{badge-2}} shows a count', t => {
+test('{{badge-2}} shows a count', t => {
   const container = qs('#badge-2')
   const component = qs('tonic-badge', container)
   const span = qs('span', component)
@@ -52,7 +54,7 @@ tape('{{badge-2}} shows a count', t => {
   t.ok(notification, 'badge shows new notifications')
 })
 
-tape('badge shows tonic--new style', t => {
+test('badge shows tonic--new style', t => {
   const span1 = qs('#badge-1 tonic-badge span')
   const span2 = qs('#badge-2 tonic-badge span')
 

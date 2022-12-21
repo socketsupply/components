@@ -1,10 +1,11 @@
-const tape = require('tapzero').test
-const { qs } = require('qsa-min')
-const { Tonic } = require('@socketsupply/tonic')
+import { test } from 'tapzero'
+import { qs } from 'qsa-min'
 
-const { html } = require('../_test/util')
-const components = require('..')
-components(require('@socketsupply/tonic').Tonic)
+import { html } from '../_test/util'
+import { Tonic } from '@socketsupply/tonic'
+import { Components } from '..'
+
+Components(Tonic)
 
 class PanelInner extends Tonic {
   async click (e) {
@@ -79,7 +80,7 @@ const panelPosition = document.getElementById('example-panel-position')
 
 panelPositionButton.addEventListener('click', e => panelPosition.show())
 
-tape('opening a panel', async t => {
+test('opening a panel', async t => {
   const container = qs('#example-panel-default')
   const overlay = qs('.tonic--overlay')
   const main = qs('main', container)

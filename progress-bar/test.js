@@ -1,8 +1,10 @@
-const tape = require('tapzero').test
-const { qs } = require('qsa-min')
-const { html } = require('../_test/util')
-const components = require('..')
-components(require('@socketsupply/tonic').Tonic)
+import { test } from 'tapzero'
+import { qs } from 'qsa-min'
+import { html } from '../_test/util'
+import { Tonic } from '@socketsupply/tonic'
+import { Components } from '..'
+
+Components(Tonic)
 
 document.body.appendChild(html`
 <section id="progress-bar">
@@ -124,7 +126,7 @@ interval = setInterval(() => {
 }, 128)
 
 // TODO: convert to tape tests.
-tape('get a progress bar', t => {
+test('get a progress bar', t => {
   const bar = qs('#progress-bar-30')
   const wrapper = qs('.tonic--wrapper', bar)
   const progress = qs('.tonic--progress', wrapper)

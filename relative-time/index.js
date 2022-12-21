@@ -1,4 +1,4 @@
-const { Tonic } = require('@socketsupply/tonic')
+import { Tonic } from '@socketsupply/tonic'
 
 const weekdays = [
   'Sunday',
@@ -203,7 +203,7 @@ function localeFromElement (el) {
   return 'default'
 }
 
-class RelativeTime {
+export class RelativeTime {
   constructor (date, locale) {
     this.date = date
     this.locale = locale
@@ -445,7 +445,7 @@ function formatEnRelativeTime (value, unit) {
   throw new RangeError(`Invalid unit argument for format() '${unit}'`)
 }
 
-class TonicRelativeTime extends Tonic {
+export class TonicRelativeTime extends Tonic {
   render () {
     let date = this.props.date || ''
     const locale = this.props.locale || localeFromElement(this)
@@ -477,5 +477,3 @@ const timeFormatter = makeFormatter({
   hour: 'numeric',
   minute: '2-digit'
 })
-
-module.exports = { TonicRelativeTime, RelativeTime }

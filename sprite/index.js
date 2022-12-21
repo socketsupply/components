@@ -1,6 +1,6 @@
-const { Tonic } = require('@socketsupply/tonic')
+import { Tonic } from '@socketsupply/tonic'
 
-class TonicSprite extends Tonic {
+export class TonicSprite extends Tonic {
   static stylesheet () {
     return `
       tonic-sprite svg {
@@ -68,5 +68,3 @@ class TonicSprite extends Tonic {
     `
   }
 }
-
-module.exports = { TonicSprite }

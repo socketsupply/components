@@ -1,5 +1,3 @@
-'use strict'
-
 /* global fixture, test, window */
 import { Selector } from 'testcafe'
 

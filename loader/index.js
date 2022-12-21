@@ -1,6 +1,6 @@
-const { Tonic } = require('@socketsupply/tonic')
+import { Tonic } from '@socketsupply/tonic'
 
-class TonicLoader extends Tonic {
+export class TonicLoader extends Tonic {
   constructor () {
     super()
     this.attachShadow({ mode: 'open' })
@@ -57,5 +57,3 @@ class TonicLoader extends Tonic {
     `
   }
 }
-
-module.exports = { TonicLoader }

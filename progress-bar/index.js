@@ -1,6 +1,6 @@
-const { Tonic } = require('@socketsupply/tonic')
+import { Tonic } from '@socketsupply/tonic'
 
-class TonicProgressBar extends Tonic {
+export class TonicProgressBar extends Tonic {
   set value (value) {
     this.setProgress(value)
   }
@@ -76,5 +76,3 @@ class TonicProgressBar extends Tonic {
     `
   }
 }
-
-module.exports = { TonicProgressBar }

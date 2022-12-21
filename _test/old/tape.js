@@ -1,4 +1,4 @@
-const tape = require('@pre-bundled/tape')
+import tape from '@pre-bundled/tape'
 const stream = tape.createStream({ objectMode: true })
 
 const inc = id => {
@@ -64,4 +64,4 @@ stream.on('data', data => {
   }
 })
 
-module.exports = tape
+export { tape }

@@ -1,4 +1,8 @@
-'use strict'
+import Tonic from '@socketsupply/tonic'
+import { Components } from '../../'
+import { html } from '../util'
+
+import './test-form'
 
 window.promiseCounter = 0
 const OldPromise = window.Promise
@@ -8,14 +12,7 @@ window.Promise = function () {
   return new OldPromise(...arguments)
 }
 
-const { Tonic } = require('@socketsupply/tonic')
-
-const components = require('../../')
-const { html } = require('../util')
-
-require('./test-form')
-
-components(Tonic)
+Components(Tonic)
 
 document.body.appendChild(html`
   <div>

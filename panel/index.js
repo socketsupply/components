@@ -1,6 +1,6 @@
-const { TonicDialog } = require('../dialog')
+import { TonicDialog } from '../dialog'
 
-class TonicPanel extends TonicDialog {
+export class TonicPanel extends TonicDialog {
   constructor () {
     super()
 
@@ -70,5 +70,3 @@ class TonicPanel extends TonicDialog {
     `
   }
 }
-
-module.exports = { TonicPanel }

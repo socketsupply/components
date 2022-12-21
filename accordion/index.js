@@ -1,6 +1,6 @@
-const { Tonic } = require('@socketsupply/tonic')
+import { Tonic } from '@socketsupply/tonic'
 
-class TonicAccordion extends Tonic {
+export class TonicAccordion extends Tonic {
   defaults () {
     return {
       multiple: false
@@ -125,7 +125,7 @@ class TonicAccordion extends Tonic {
   }
 }
 
-class TonicAccordionSection extends Tonic {
+export class TonicAccordionSection extends Tonic {
   static stylesheet () {
     return `
       tonic-accordion-section {
@@ -234,9 +234,4 @@ class TonicAccordionSection extends Tonic {
       </div>
     `
   }
-}
-
-module.exports = {
-  TonicAccordion,
-  TonicAccordionSection
 }

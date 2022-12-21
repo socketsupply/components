@@ -1,8 +1,10 @@
-const tape = require('tapzero').test
-const { qs } = require('qsa-min')
-const { html } = require('../_test/util')
-const components = require('..')
-components(require('@socketsupply/tonic').Tonic)
+import { test } from 'tapzero'
+import { qs } from 'qsa-min'
+import { html } from '../_test/util'
+import { Tonic } from '@socketsupply/tonic'
+import { Components } from '..'
+
+Components(Tonic)
 
 document.body.appendChild(html`
 <section id="popover">
@@ -39,7 +41,7 @@ popover.addEventListener('show', event => {
 })
 
 // TODO: write tests for popover.
-tape('opening popover', async t => {
+test('opening popover', async t => {
   const container = qs('#popover')
   const popover = qs('#tonic-popover-default', container)
   const button = qs('#tonic-popover-default-button', container)

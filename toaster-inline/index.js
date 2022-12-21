@@ -1,6 +1,6 @@
-const { Tonic } = require('@socketsupply/tonic')
+import { Tonic } from '@socketsupply/tonic'
 
-class TonicToasterInline extends Tonic {
+export class TonicToasterInline extends Tonic {
   defaults () {
     return {
       display: 'true'
@@ -214,5 +214,3 @@ class TonicToasterInline extends Tonic {
     `
   }
 }
-
-module.exports = { TonicToasterInline }

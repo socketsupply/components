@@ -1,9 +1,11 @@
-const tape = require('tapzero').test
-const { qs } = require('qsa-min')
+import { test } from 'tapzero'
+import { qs } from 'qsa-min'
 
-const { html } = require('../_test/util')
-const components = require('..')
-components(require('@socketsupply/tonic').Tonic)
+import { html } from '../_test/util'
+import { Tonic } from '@socketsupply/tonic'
+import { Components } from '..'
+
+Components(Tonic)
 
 const sleep = n => new Promise(resolve => setTimeout(resolve, n))
 
@@ -87,7 +89,7 @@ document.body.appendChild(html`
 </section>
 `)
 
-tape('{{button-1}} has correct default state', t => {
+test('{{button-1}} has correct default state', t => {
   const container = qs('#button-1')
   const component = qs('tonic-button', container)
   const wrapper = qs('.tonic--button--wrapper', component)
@@ -102,7 +104,7 @@ tape('{{button-1}} has correct default state', t => {
   t.equal(isLoading, false, 'loading class is not applied')
 })
 
-tape('has styles', t => {
+test('has styles', t => {
   const container = qs('#button-1 tonic-button')
   const button = qs('button', container)
 
@@ -110,7 +112,7 @@ tape('has styles', t => {
   t.equal(styles.color, 'rgb(54, 57, 61)')
 })
 
-tape('{{button-2}} has textContent', t => {
+test('{{button-2}} has textContent', t => {
   const container = qs('#button-2')
   const component = qs('tonic-button', container)
   const button = qs('button', component)
@@ -120,7 +122,7 @@ tape('{{button-2}} has textContent', t => {
   t.ok(button.textContent, 'the button has text content')
 })
 
-tape('{{button-2-5}} has value', t => {
+test('{{button-2-5}} has value', t => {
   const container = qs('#button-2-5')
   const component = qs('tonic-button', container)
   const button = qs('button', component)
@@ -131,7 +133,7 @@ tape('{{button-2-5}} has value', t => {
   t.equal(button.getAttribute('value'), 'v', 'button has Correct value')
 })
 
-tape('{{button-3}} is disabled', t => {
+test('{{button-3}} is disabled', t => {
   const container = qs('#button-3')
   const component = qs('tonic-button', container)
   const button = qs('button', component)
@@ -140,7 +142,7 @@ tape('{{button-3}} is disabled', t => {
   t.ok(button.hasAttribute('disabled'), 'the button has the disabled attribute')
 })
 
-tape('{{button-4}} is not disabled when disabled="false"', t => {
+test('{{button-4}} is not disabled when disabled="false"', t => {
   const container = qs('#button-4')
   const component = qs('tonic-button', container)
   const button = qs('button', component)
@@ -150,7 +152,7 @@ tape('{{button-4}} is not disabled when disabled="false"', t => {
   t.ok(!button.hasAttribute('disabled'), 'button does not have disabled class')
 })
 
-tape('{{button-5}} has correct attributes', t => {
+test('{{button-5}} has correct attributes', t => {
   const container = qs('#button-5')
   const component = qs('tonic-button', container)
   const buttonWrapper = qs('.tonic--button--wrapper', component)
@@ -166,7 +168,7 @@ tape('{{button-5}} has correct attributes', t => {
   t.equal(button.getAttribute('tabindex'), '1', 'tabindex is 1')
 })
 
-tape('{{button-7}} gets border style derived from component attributes', t => {
+test('{{button-7}} gets border style derived from component attributes', t => {
   const container = qs('#button-7')
   const component = qs('tonic-button', container)
   const button = qs('button', component)
@@ -175,7 +177,7 @@ tape('{{button-7}} gets border style derived from component attributes', t => {
   t.equal(component.getAttribute('border-width'), button.style.borderWidth, 'button contains style "border-width" matching component attribute "border-width"')
 })
 
-tape('{{button-8}} is async, shows loading state when clicked', async t => {
+test('{{button-8}} is async, shows loading state when clicked', async t => {
   const container = qs('#button-8')
   const component = qs('tonic-button', container)
 
@@ -196,7 +198,7 @@ tape('{{button-8}} is async, shows loading state when clicked', async t => {
   await p
 })
 
-tape('{{button-9}} is not async, does not show loading when clicked', async t => {
+test('{{button-9}} is not async, does not show loading when clicked', async t => {
   const container = qs('#button-9')
   const component = qs('tonic-button', container)
 
@@ -219,7 +221,7 @@ tape('{{button-9}} is not async, does not show loading when clicked', async t =>
   await p
 })
 
-tape('{{button-10}} has tabindex attribute', t => {
+test('{{button-10}} has tabindex attribute', t => {
   const container = qs('#button-10')
   const component = qs('tonic-button', container)
   const button = qs('button', component)

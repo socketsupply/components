@@ -1,6 +1,6 @@
-const { Tonic } = require('@socketsupply/tonic')
+import { Tonic } from '@socketsupply/tonic'
 
-class TonicButton extends Tonic {
+export class TonicButton extends Tonic {
   get value () {
     return this.props.value
   }
@@ -275,5 +275,3 @@ class TonicButton extends Tonic {
     `
   }
 }
-
-module.exports = { TonicButton }

@@ -1,6 +1,6 @@
-const { Tonic } = require('@socketsupply/tonic')
+import { Tonic } from '@socketsupply/tonic'
 
-class TonicRouter extends Tonic {
+export class TonicRouter extends Tonic {
   constructor () {
     super()
 
@@ -285,5 +285,3 @@ TonicRouter.matcher = (() => {
 
   return pathToRegexp
 })()
-
-module.exports = { TonicRouter }

@@ -1,6 +1,6 @@
-const { Tonic } = require('@socketsupply/tonic')
+import { Tonic } from '@socketsupply/tonic'
 
-class TonicBadge extends Tonic {
+export class TonicBadge extends Tonic {
   defaults () {
     return {
       count: 0
@@ -86,8 +86,4 @@ class TonicBadge extends Tonic {
       </div>
     `
   }
-}
-
-module.exports = {
-  TonicBadge
 }

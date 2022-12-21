@@ -1,32 +1,32 @@
-const { Tonic } = require('@socketsupply/tonic')
-const components = require('../..')
+import { Tonic } from '@socketsupply/tonic'
+import { Components } from '../..'
 
-require('./tape.js')
+import 'tape.js'
 
-components(Tonic)
+Components(Tonic)
 
-function ready () {
-  require('../../router/test')
-  require('../../panel/test')
-  require('../../dialog/test')
-  require('../../tabs/test')
-  require('../../windowed/test')
-  require('../../tooltip/test')
-  require('../../popover/test')
-  require('../../badge/test')
-  require('../../button/test')
-  require('../../chart/test')
-  require('../../checkbox/test')
-  require('../../icon/test')
-  require('../../input/test')
-  require('../../progress-bar/test')
-  require('../../profile-image/test')
-  require('../../range/test')
-  require('../../select/test')
-  require('../../textarea/test')
-  require('../../toaster/test')
-  require('../../toaster-inline/test')
-  require('../../toggle/test')
+async function ready () {
+  await import('../../router/test')
+  await import('../../panel/test')
+  await import('../../dialog/test')
+  await import('../../tabs/test')
+  await import('../../windowed/test')
+  await import('../../tooltip/test')
+  await import('../../popover/test')
+  await import('../../badge/test')
+  await import('../../button/test')
+  await import('../../chart/test')
+  await import('../../checkbox/test')
+  await import('../../icon/test')
+  await import('../../input/test')
+  await import('../../progress-bar/test')
+  await import('../../profile-image/test')
+  await import('../../range/test')
+  await import('../../select/test')
+  await import('../../textarea/test')
+  await import('../../toaster/test')
+  await import('../../toaster-inline/test')
+  await import('../../toggle/test')
 
   document.addEventListener('keydown', e => {
     if (e.keyCode === 9) {

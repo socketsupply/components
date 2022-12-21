@@ -1,6 +1,6 @@
-const Tonic = require('@socketsupply/tonic')
+import { Tonic } from '@socketsupply/tonic'
 
-class TonicSplitLeft extends Tonic {
+export class TonicSplitLeft extends Tonic {
   render () {
     if (this.props.width) {
       this.style.width = this.props.width
@@ -12,7 +12,7 @@ class TonicSplitLeft extends Tonic {
   }
 }
 
-class TonicSplitTop extends Tonic {
+export class TonicSplitTop extends Tonic {
   render () {
     if (this.props.height) {
       this.style.height = this.props.height
@@ -24,10 +24,10 @@ class TonicSplitTop extends Tonic {
   }
 }
 
-class TonicSplitRight extends TonicSplitLeft {}
-class TonicSplitBottom extends TonicSplitTop {}
+export class TonicSplitRight extends TonicSplitLeft {}
+export class TonicSplitBottom extends TonicSplitTop {}
 
-class TonicSplit extends Tonic {
+export class TonicSplit extends Tonic {
   constructor () {
     super()
     this.left = null
@@ -359,12 +359,4 @@ class TonicSplit extends Tonic {
       ${this.elements[1]}
     `
   }
-}
-
-module.exports = {
-  TonicSplit,
-  TonicSplitLeft,
-  TonicSplitRight,
-  TonicSplitTop,
-  TonicSplitBottom
 }

@@ -1,6 +1,6 @@
-const Tonic = require('@socketsupply/tonic')
+import { Tonic } from '@socketsupply/tonic'
 
-class TonicToaster extends Tonic {
+export class TonicToaster extends Tonic {
   defaults () {
     return {
       position: 'center'
@@ -294,5 +294,3 @@ class TonicToaster extends Tonic {
     `
   }
 }
-
-module.exports = { TonicToaster }

@@ -1,9 +1,11 @@
-const tape = require('tapzero').test
-const { qs } = require('qsa-min')
+import { test } from 'tapzero'
+import { qs } from 'qsa-min'
 
-const { html } = require('../_test/util')
-const components = require('..')
-components(require('@socketsupply/tonic'))
+import { html } from '../_test/util'
+import { Tonic } from '@socketsupply/tonic'
+import { Components } from '..'
+
+Components(Tonic)
 
 document.body.appendChild(html`
 <section id="toaster">
@@ -146,7 +148,7 @@ document.body.appendChild(html`
 const notification = qs('tonic-toaster[position="center"]')
 const sleep = n => new Promise(resolve => setTimeout(resolve, n))
 
-tape('{{toaster}} is created and destroyed', async t => {
+test('{{toaster}} is created and destroyed', async t => {
   notification.create({
     message: 'You have been notified.'
   })
@@ -175,7 +177,7 @@ tape('{{toaster}} is created and destroyed', async t => {
   t.ok(!toasterB, 'Toaster was destroyed')
 })
 
-tape('{{toaster}} with dismiss false is created without close icon', async t => {
+test('{{toaster}} with dismiss false is created without close icon', async t => {
   notification.create({
     message: 'I will stay open',
     dismiss: 'false'
@@ -192,7 +194,7 @@ tape('{{toaster}} with dismiss false is created without close icon', async t => 
   notification.destroy(toaster)
 })
 
-tape('{{toaster}} with type success is created', async t => {
+test('{{toaster}} with type success is created', async t => {
   notification.create({
     type: 'success',
     message: 'Success!'
@@ -213,7 +215,7 @@ tape('{{toaster}} with type success is created', async t => {
   notification.destroy(toaster)
 })
 
-tape('{{toaster}} is created and destroyed after duration', async t => {
+test('{{toaster}} is created and destroyed after duration', async t => {
   notification.create({
     message: 'Short and sweet',
     duration: 512
@@ -230,7 +232,7 @@ tape('{{toaster}} is created and destroyed after duration', async t => {
   t.ok(!toasterB, 'Toaster was destroyed')
 })
 
-tape('{{toaster}} is created on the left', async t => {
+test('{{toaster}} is created on the left', async t => {
   const notificationLeft = qs('tonic-toaster[position="left"]')
   const wrapper = qs('.tonic--left', notificationLeft)
 
@@ -247,7 +249,7 @@ tape('{{toaster}} is created on the left', async t => {
   t.ok(toaster, 'Toaster was created')
 })
 
-tape('{{toaster}} is created on the right', async t => {
+test('{{toaster}} is created on the right', async t => {
   const notificationRight = qs('tonic-toaster[position="right"]')
   const wrapper = qs('.tonic--right', notificationRight)
 

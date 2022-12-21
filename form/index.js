@@ -1,8 +1,8 @@
-const Tonic = require('@socketsupply/tonic')
+import { Tonic } from '@socketsupply/tonic'
 
 const NON_EXISTANT = { type: 'TonicForm_NON_EXISTANT' }
 
-class TonicForm extends Tonic {
+export class TonicForm extends Tonic {
   static isNumber (s) {
     return !isNaN(Number(s))
   }
@@ -182,5 +182,3 @@ class TonicForm extends Tonic {
   }
 }
 TonicForm.NON_EXISTANT = NON_EXISTANT
-
-module.exports = { TonicForm }

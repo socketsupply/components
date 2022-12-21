@@ -1,6 +1,6 @@
-const Tonic = require('@socketsupply/tonic')
+import { Tonic } from '@socketsupply/tonic'
 
-class TonicTooltip extends Tonic {
+export class TonicTooltip extends Tonic {
   connected () {
     const target = this.props.for
     const el = document.getElementById(target)
@@ -166,5 +166,3 @@ class TonicTooltip extends Tonic {
 }
 
 TonicTooltip.timers = {}
-
-module.exports = { TonicTooltip }

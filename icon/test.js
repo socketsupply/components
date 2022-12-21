@@ -1,9 +1,11 @@
-const tape = require('tapzero').test
-const { qs } = require('qsa-min')
+import { test } from 'tapzero'
+import { qs } from 'qsa-min'
 
-const { html } = require('../_test/util')
-const components = require('..')
-components(require('@socketsupply/tonic'))
+import { html } from '../_test/util'
+import { Tonic } from '@socketsupply/tonic'
+import { Components } from '..'
+
+Components(Tonic)
 
 document.body.appendChild(html`
 <section id="icon">
@@ -56,7 +58,7 @@ document.body.appendChild(html`
 </section>
 `)
 
-tape('{{icon-1}} is constructed properly', t => {
+test('{{icon-1}} is constructed properly', t => {
   const container = qs('#icon-1')
   const component = qs('tonic-icon', container)
 
@@ -65,7 +67,7 @@ tape('{{icon-1}} is constructed properly', t => {
   t.ok(component.hasAttribute('symbol-id'), 'the component has a symbol id')
 })
 
-tape('{{icon-2}} has size attribute', t => {
+test('{{icon-2}} has size attribute', t => {
   const container = qs('#icon-2')
   const component = qs('tonic-icon', container)
   const svg = qs('svg', component)
@@ -80,7 +82,7 @@ tape('{{icon-2}} has size attribute', t => {
   t.equal(use.getAttribute('height'), component.getAttribute('size'))
 })
 
-tape('{{icon-3}} has color attribute', t => {
+test('{{icon-3}} has color attribute', t => {
   const container = qs('#icon-3')
   const component = qs('tonic-icon', container)
   const use = qs('use', component)
@@ -90,7 +92,7 @@ tape('{{icon-3}} has color attribute', t => {
   t.equal(use.getAttribute('fill'), use.getAttribute('color'), 'use has matching fill and color attributes')
 })
 
-tape('{{icon-4}} uses custom symbol', t => {
+test('{{icon-4}} uses custom symbol', t => {
   const container = qs('#icon-4')
   const component = qs('tonic-icon', container)
   const svg = qs('svg', component)
@@ -106,7 +108,7 @@ tape('{{icon-4}} uses custom symbol', t => {
   t.equal(use.getAttribute('xlink:href'), url)
 })
 
-tape('{{icon-5}} has tabindex attribute', t => {
+test('{{icon-5}} has tabindex attribute', t => {
   const container = qs('#icon-5')
   const component = qs('tonic-icon', container)
   const id = component.getAttribute('symbol-id')

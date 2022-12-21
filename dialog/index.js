@@ -1,4 +1,4 @@
-const Tonic = require('@socketsupply/tonic')
+import { Tonic } from '@socketsupply/tonic'
 
 const FOCUS_CHANGE_TIMEOUT = 100
 
@@ -15,7 +15,7 @@ window.addEventListener('focus', () => {
   focusedTimeout = setTimeout(() => { focused = true }, FOCUS_CHANGE_TIMEOUT)
 })
 
-class TonicDialog extends Tonic {
+export class TonicDialog extends Tonic {
   constructor () {
     super()
 
@@ -262,5 +262,3 @@ class TonicDialog extends Tonic {
     `
   }
 }
-
-module.exports = { TonicDialog }

@@ -1,10 +1,11 @@
-const tape = require('tapzero').test
-const { qs } = require('qsa-min')
+import { test } from 'tapzero'
+import { qs } from 'qsa-min'
 
-const { html } = require('../_test/util')
-const components = require('..')
-const Tonic = require('@socketsupply/tonic')
-components(Tonic)
+import { html } from '../_test/util'
+import { Tonic } from '@socketsupply/tonic'
+import { Components } from '..'
+
+Components(Tonic)
 
 class InputWrapper extends Tonic {
   constructor (o) {
@@ -203,7 +204,7 @@ document.body.appendChild(html`
 </section>
 `)
 
-tape('{{input-1}} default state is constructed', t => {
+test('{{input-1}} default state is constructed', t => {
   const component = qs('tonic-input#input-1')
   const wrapper = qs('.tonic--wrapper', component)
   const input = qs('input', wrapper)
@@ -215,7 +216,7 @@ tape('{{input-1}} default state is constructed', t => {
   t.ok(!input.hasAttribute('disabled'), 'the input is not disabled by default')
 })
 
-tape('{{input-2}} contains a default value', t => {
+test('{{input-2}} contains a default value', t => {
   const component = qs('tonic-input#input-2')
   const input = qs('input', component)
   const value = component.getAttribute('value')
@@ -224,7 +225,7 @@ tape('{{input-2}} contains a default value', t => {
   t.equal(value, input.value, 'component value attribute matches input value')
 })
 
-tape('{{input-3}} contains a type', t => {
+test('{{input-3}} contains a type', t => {
   const component = qs('tonic-input#input-3')
   const input = qs('input', component)
 
@@ -233,7 +234,7 @@ tape('{{input-3}} contains a type', t => {
   t.equal(component.getAttribute('type'), input.type, 'component type matches input type')
 })
 
-tape('{{input-4}} is required', t => {
+test('{{input-4}} is required', t => {
   const component = qs('tonic-input#input-4')
   const input = qs('input', component)
 
@@ -245,7 +246,7 @@ tape('{{input-4}} is required', t => {
   t.equal(styles.borderColor, 'rgb(204, 204, 204)')
 })
 
-tape('{{input-5}} is disabled', t => {
+test('{{input-5}} is disabled', t => {
   const component = qs('tonic-input#input-5')
   const input = qs('input', component)
 
@@ -254,7 +255,7 @@ tape('{{input-5}} is disabled', t => {
   t.ok(input.hasAttribute('disabled'), 'input has disabled attribute')
 })
 
-tape('{{input-6}} has spellcheck attribute', t => {
+test('{{input-6}} has spellcheck attribute', t => {
   const component = qs('tonic-input#input-6')
   const input = qs('input', component)
 
@@ -263,7 +264,7 @@ tape('{{input-6}} has spellcheck attribute', t => {
   t.equal(component.getAttribute('spellcheck'), input.getAttribute('spellcheck'), 'component spellcheck attr matches input')
 })
 
-tape('{{input-7}} shows error message', t => {
+test('{{input-7}} shows error message', t => {
   const component = qs('tonic-input#input-7')
   const input = qs('input', component)
   const error = qs('.tonic--invalid', component)
@@ -275,7 +276,7 @@ tape('{{input-7}} shows error message', t => {
   t.ok(qs('input:invalid', component), 'input is invalid, error is showing')
 })
 
-tape('{{input-8}} has placeholder', t => {
+test('{{input-8}} has placeholder', t => {
   const component = qs('tonic-input#input-8')
   const input = qs('input', component)
 
@@ -283,7 +284,7 @@ tape('{{input-8}} has placeholder', t => {
   t.equal(component.getAttribute('placeholder'), input.getAttribute('placeholder'), 'component and input placeholder attributes match')
 })
 
-tape('{{input-9}} has label', t => {
+test('{{input-9}} has label', t => {
   const component = qs('tonic-input#input-9')
   const input = qs('input', component)
   const label = qs('label:not(.tonic--icon)', component)
@@ -293,7 +294,7 @@ tape('{{input-9}} has label', t => {
   t.equal(component.getAttribute('label'), label.textContent, 'component label attribute matches text of label')
 })
 
-tape('{{input-10}} has tabindex', t => {
+test('{{input-10}} has tabindex', t => {
   const component = qs('tonic-input#input-10')
   const input = qs('input', component)
 
@@ -302,7 +303,7 @@ tape('{{input-10}} has tabindex', t => {
   t.equal(input.hasAttribute('tabindex'), true, 'input has a tabindex')
 })
 
-tape('{{input-11}} has readonly attribute', t => {
+test('{{input-11}} has readonly attribute', t => {
   const component = qs('tonic-input#input-11')
   const input = qs('input', component)
 
@@ -311,7 +312,7 @@ tape('{{input-11}} has readonly attribute', t => {
   t.ok(input.hasAttribute('readonly'), 'input has a readonly attribute')
 })
 
-tape('{{input-1}} event handlers', t => {
+test('{{input-1}} event handlers', t => {
   const component = qs('tonic-input#input-1')
   const input = qs('input', component)
 
@@ -328,7 +329,7 @@ tape('{{input-1}} event handlers', t => {
   }))
 })
 
-tape('input wrapper component interactions', async t => {
+test('input wrapper component interactions', async t => {
   const comp = qs('input-test-wrapper-comp')
 
   let display = comp.querySelector('span.display')

@@ -1,6 +1,6 @@
-const Tonic = require('@socketsupply/tonic')
+import { Tonic } from '@socketsupply/tonic'
 
-class TonicSelect extends Tonic {
+export class TonicSelect extends Tonic {
   defaults () {
     return {
       disabled: false,
@@ -401,5 +401,3 @@ class TonicSelect extends Tonic {
     `
   }
 }
-
-module.exports = { TonicSelect }

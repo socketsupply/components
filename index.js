@@ -1,10 +1,31 @@
-let Tonic
-try {
-  Tonic = require('@socketsupply/tonic')
-} catch (err) {
-  console.error('Missing dependency. Try `npm install @socketsupply/tonic`.')
-  throw err
-}
+import Tonic from '@socketsupply/tonic'
+
+import { TonicAccordion, TonicAccordionSection } from './accordion'
+import { TonicBadge } from './badge'
+import { TonicButton } from './button'
+import { TonicChart } from './chart'
+import { TonicCheckbox } from './checkbox'
+import { TonicDialog } from './dialog'
+import { TonicForm } from './form'
+import { TonicIcon } from './icon'
+import { TonicInput } from './input'
+import { TonicLoader } from './loader'
+import { TonicPanel } from './panel'
+import { TonicPopover } from './popover'
+import { TonicProfileImage } from './profile-image'
+import { TonicProgressBar } from './progress-bar'
+import { TonicRange } from './range'
+import { TonicRelativeTime } from './relative-time'
+import { TonicRouter } from './router'
+import { TonicSelect } from './select'
+import { TonicSprite } from './sprite'
+import { TonicSplit, TonicSplitLeft, TonicSplitRight, TonicSplitTop, TonicSplitBottom } from './split'
+import { TonicTabs, TonicTab, TonicTabPanel } from './tabs'
+import { TonicTextarea } from './textarea'
+import { TonicTooltip } from './tooltip'
+import { TonicToasterInline } from './toaster-inline'
+import { TonicToaster } from './toaster'
+import { TonicToggle } from './toggle'
 
 const version = Tonic.version
 const major = version ? version.split('.')[0] : '0'
@@ -14,43 +35,14 @@ if (version && parseInt(major, 10) < 12) {
   throw new Error('Invalid Tonic version. requires at least v12')
 }
 
-const { TonicAccordion, TonicAccordionSection } = require('./accordion')
-const { TonicBadge } = require('./badge')
-const { TonicButton } = require('./button')
-const { TonicChart } = require('./chart')
-const { TonicCheckbox } = require('./checkbox')
-const { TonicDialog } = require('./dialog')
-const { TonicForm } = require('./form')
-const { TonicIcon } = require('./icon')
-const { TonicInput } = require('./input')
-const { TonicLoader } = require('./loader')
-const { TonicPanel } = require('./panel')
-const { TonicPopover } = require('./popover')
-const { TonicProfileImage } = require('./profile-image')
-const { TonicProgressBar } = require('./progress-bar')
-const { TonicRange } = require('./range')
-const { TonicRelativeTime } = require('./relative-time')
-const { TonicRouter } = require('./router')
-const { TonicSelect } = require('./select')
-const { TonicSprite } = require('./sprite')
-const { TonicSplit, TonicSplitLeft, TonicSplitRight, TonicSplitTop, TonicSplitBottom } = require('./split')
-const { TonicTabs, TonicTab, TonicTabPanel } = require('./tabs')
-const { TonicTextarea } = require('./textarea')
-const { TonicTooltip } = require('./tooltip')
-const { TonicToasterInline } = require('./toaster-inline')
-const { TonicToaster } = require('./toaster')
-const { TonicToggle } = require('./toggle')
-
 let once = false
+// For supporting unpkg / dist / jsfiddle.
+Components.Tonic = Tonic
 
 //
 // An example collection of components.
 //
-module.exports = components
-// For supporting unpkg / dist / jsfiddle.
-components.Tonic = Tonic
-
-function components (Tonic) {
+export function Components (Tonic) {
   if (once) {
     return
   }

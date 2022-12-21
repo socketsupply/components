@@ -1,10 +1,11 @@
-const Tonic = require('@socketsupply/tonic')
-const tape = require('tapzero').test
-const { qs } = require('qsa-min')
+import { test } from 'tapzero'
+import { qs } from 'qsa-min'
 
-const { html } = require('../_test/util')
-const components = require('..')
-components(require('@socketsupply/tonic'))
+import { html } from '../_test/util'
+import { Tonic } from '@socketsupply/tonic'
+import { Components } from '..'
+
+Components(Tonic)
 
 document.body.appendChild(html`
 <section id="tabs">
@@ -186,13 +187,13 @@ Tonic.add(TestTabTextBox)
 
 TestTabTextBox.allocationCounter = 0
 
-tape('{{tabs-3}} has correct default state', t => {
+test('{{tabs-3}} has correct default state', t => {
   const container = qs('component-container')
 
   t.ok(container, 'rendered')
 })
 
-tape('tabs only render what is visible', async t => {
+test('tabs only render what is visible', async t => {
   document.body.appendChild(html`
     <div id="tabs-4" class="test-container">
       <tonic-tabs id="tc-tabs-4" selected="tc4-tab1" detatch-on-hide="true">

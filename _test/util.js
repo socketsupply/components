@@ -1,6 +1,6 @@
 'use strict'
 
-const Tonic = require('@socketsupply/tonic')
+import { Tonic } from '@socketsupply/tonic'
 
 class MainComp extends Tonic {
   constructor (str, strings, values) {
@@ -19,9 +19,7 @@ class MainComp extends Tonic {
 }
 Tonic.add(MainComp, 'test-main-comp')
 
-exports.html = html
-
-function html ([str, ...strings], ...values) {
+export function html ([str, ...strings], ...values) {
   const comp = new MainComp(str, strings, values)
   return comp
 }

@@ -1,8 +1,10 @@
-const tape = require('tapzero').test
-const { qs } = require('qsa-min')
-const { html } = require('../_test/util')
-const components = require('..')
-components(require('@socketsupply/tonic'))
+import { test } from 'tapzero'
+import { qs } from 'qsa-min'
+import { html } from '../_test/util'
+import { Tonic } from '@socketsupply/tonic'
+import { Components } from '..'
+
+Components(Tonic)
 
 document.body.appendChild(html`
 <section id="profile-image">
@@ -117,7 +119,7 @@ document.body.appendChild(html`
 `)
 
 // TODO: write tests for profile-image
-tape('test a profile image', t => {
+test('test a profile image', t => {
   const img = qs('#profile-image-default')
   const imgDiv = qs('.tonic--image', img)
   const input = qs('input', img)

@@ -1,6 +1,6 @@
-const Tonic = require('@socketsupply/tonic')
+import { Tonic } from '@socketsupply/tonic'
 
-class Windowed extends Tonic {
+export class Windowed extends Tonic {
   constructor (o) {
     super(o)
 
@@ -541,5 +541,3 @@ class Windowed extends Tonic {
     `
   }
 }
-
-module.exports = { Windowed }

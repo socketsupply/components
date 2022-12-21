@@ -1,6 +1,6 @@
-const Tonic = require('@socketsupply/tonic')
+import { Tonic } from '@socketsupply/tonic'
 
-class TonicTextarea extends Tonic {
+export class TonicTextarea extends Tonic {
   mutate (e) {
     const { width, height } = e.target.style
 
@@ -293,5 +293,3 @@ class TonicTextarea extends Tonic {
     `
   }
 }
-
-module.exports = { TonicTextarea }

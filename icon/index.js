@@ -1,6 +1,6 @@
-const Tonic = require('@socketsupply/tonic')
+import { Tonic } from '@socketsupply/tonic'
 
-class TonicIcon extends Tonic {
+export class TonicIcon extends Tonic {
   defaults () {
     return {
       size: '25px',
@@ -63,5 +63,3 @@ class TonicIcon extends Tonic {
     `
   }
 }
-
-module.exports = { TonicIcon }

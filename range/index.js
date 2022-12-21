@@ -1,6 +1,6 @@
-const Tonic = require('@socketsupply/tonic')
+import { Tonic } from '@socketsupply/tonic'
 
-class TonicRange extends Tonic {
+export class TonicRange extends Tonic {
   defaults () {
     return {
       width: '250px',
@@ -207,5 +207,3 @@ class TonicRange extends Tonic {
     `
   }
 }
-
-module.exports = { TonicRange }

@@ -1,9 +1,10 @@
-const tape = require('tapzero').test
-const { qs } = require('qsa-min')
+import { test } from 'tapzero'
+import { qs } from 'qsa-min'
 
-const { html } = require('../_test/util')
-const components = require('..')
-components(require('@socketsupply/tonic'))
+import { html } from '../_test/util'
+import { Tonic } from '@socketsupply/tonic'
+import { Components } from '..'
+Components(Tonic)
 
 document.body.appendChild(html`
 <section id="accordion">
@@ -58,14 +59,14 @@ document.body.appendChild(html`
   </div>
 </section>`)
 
-tape('{{accordion-1}} has correct default state', t => {
+test('{{accordion-1}} has correct default state', t => {
   const container = qs('#accordion-1')
   const component = qs('tonic-accordion', container)
 
   t.ok(component, 'rendered')
 })
 
-tape('{{accordion-2}} is styled', t => {
+test('{{accordion-2}} is styled', async t => {
   const container = qs('#accordion-2')
   const comp = qs('tonic-accordion', container)
 

@@ -1,8 +1,11 @@
-const Tonic = require('@socketsupply/tonic')
+import { test } from 'tapzero'
+import { qs } from 'qsa-min'
+import { html } from '../_test/util'
 
-const { html } = require('../_test/util')
-const components = require('..')
-components(require('@socketsupply/tonic'))
+import { Tonic } from '@socketsupply/tonic'
+import { Components } from '..'
+
+Components(Tonic)
 
 class DialogInner extends Tonic {
   async click (e) {
@@ -42,10 +45,8 @@ document.body.appendChild(html`
 //
 // Dialog Tests
 //
-const tape = require('tapzero').test
-const { qs } = require('qsa-min')
 
-tape('{{dialog-1}} is constructed properly, opens and closes properly', async t => {
+test('{{dialog-1}} is constructed properly, opens and closes properly', async t => {
   const container = qs('#dialog-1')
   const component = qs('#dialog-default', container)
   const isShowingInitialState = component.classList.contains('tonic--show')

@@ -1,31 +1,28 @@
 // @ts-check
 'use strict'
 
-require('../_dist/index.js')
-
-require('../accordion/test')
-require('../badge/test')
-require('../button/test')
-require('../chart/test')
-require('../chart/test')
-require('../checkbox/test')
-require('../dialog/test')
-require('../form/test')
-require('../icon/test')
-require('../input/test')
-require('../panel/test')
-require('../popover/test')
-require('../profile-image/test')
-require('../progress-bar/test')
-require('../range/test')
-require('../relative-time/test')
-require('../router/test')
-require('../select/test')
-require('../sprite/test')
-require('../tabs/test')
-require('../textarea/test')
-require('../toaster-inline/test')
-require('../toaster/test')
-require('../toggle/test')
-require('../tooltip/test')
-require('../windowed/test')
+import '../accordion/test'
+import '../badge/test'
+import '../button/test'
+import '../chart/test'
+import '../checkbox/test'
+import '../dialog/test'
+import '../form/test'
+import '../icon/test'
+import '../input/test'
+import '../panel/test'
+import '../popover/test'
+import '../profile-image/test'
+import '../progress-bar/test'
+import '../range/test'
+import '../relative-time/test'
+import '../router/test'
+import '../select/test'
+import '../sprite/test'
+import '../tabs/test'
+import '../textarea/test'
+import '../toaster-inline/test'
+import '../toaster/test'
+import '../toggle/test'
+import '../tooltip/test'
+import '../windowed/test'

@@ -1,10 +1,12 @@
-const tape = require('tapzero').test
-const { qs } = require('qsa-min')
+import { test } from 'tapzero'
+import { qs } from 'qsa-min'
 
-const { html } = require('../_test/util')
-const components = require('..')
-components(require('@socketsupply/tonic'))
-const { TonicForm } = require('.')
+import { html } from '../_test/util'
+import { Tonic } from '@socketsupply/tonic'
+import { TonicForm } from '.'
+import { Components } from '..'
+
+Components(Tonic)
 
 document.body.appendChild(html`
 <section id="form">
@@ -47,13 +49,15 @@ document.body.appendChild(html`
 </section>
 `)
 
-tape('{{form-1}} get data from form', t => {
+test('{{form-1}} get data from form', t => {
   const component = qs('tonic-form#f1')
   const inputA = qs('#a', component)
   const inputB = qs('#b', component)
   const inputD = qs('#d', component)
 
   t.ok(inputA && inputB && inputD, 'the component contains the correct number of inputs')
+
+  console.log('component', component.name)
 
   const expected = {
     ka: 'va',
@@ -66,7 +70,7 @@ tape('{{form-1}} get data from form', t => {
   t.deepEqual(expected, component.value)
 })
 
-tape('{{form-2}} populate form data', t => {
+test('{{form-2}} populate form data', t => {
   const component = qs('tonic-form#f2')
   const inputA = qs('#a2', component)
   const inputB = qs('#b2', component)
@@ -87,7 +91,7 @@ tape('{{form-2}} populate form data', t => {
   t.equal(inputD.value, 'vd')
 })
 
-tape('{{form-3}} get and set data', t => {
+test('{{form-3}} get and set data', t => {
   const o = {
     a: {
       bbb: {
@@ -143,7 +147,7 @@ tape('{{form-3}} get and set data', t => {
   t.ok(expected === actual)
 })
 
-tape('{{form-4}} reset form data', t => {
+test('{{form-4}} reset form data', t => {
   const component = qs('tonic-form#f2')
   console.log(component.value)
   component.reset()

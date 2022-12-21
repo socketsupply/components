@@ -1,4 +1,4 @@
-const Tonic = require('@socketsupply/tonic')
+const { Tonic } = require('@socketsupply/tonic')
 
 const FOCUS_CHANGE_TIMEOUT = 100
 

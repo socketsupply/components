@@ -3,7 +3,7 @@ const { qs } = require('qsa-min')
 
 const { html } = require('../_test/util')
 const components = require('..')
-const Tonic = require('@socketsupply/tonic')
+const { Tonic } = require('@socketsupply/tonic')
 components(Tonic)
 
 class InputWrapper extends Tonic {

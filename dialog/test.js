@@ -1,8 +1,8 @@
-const Tonic = require('@socketsupply/tonic')
+const { Tonic } = require('@socketsupply/tonic')
 
 const { html } = require('../_test/util')
 const components = require('..')
-components(require('@socketsupply/tonic'))
+components(require('@socketsupply/tonic').Tonic)
 
 class DialogInner extends Tonic {
   async click (e) {

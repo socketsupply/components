@@ -1,6 +1,6 @@
 'use strict'
 
-const Tonic = require('@socketsupply/tonic')
+const { Tonic } = require('@socketsupply/tonic')
 
 class MainComp extends Tonic {
   constructor (str, strings, values) {

@@ -1,6 +1,6 @@
 const { html } = require('../_test/util')
 const components = require('..')
-components(require('@socketsupply/tonic'))
+components(require('@socketsupply/tonic').Tonic)
 
 document.body.appendChild(html`
 <section id="router">

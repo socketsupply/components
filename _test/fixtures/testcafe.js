@@ -8,7 +8,7 @@ window.Promise = function () {
   return new OldPromise(...arguments)
 }
 
-const Tonic = require('@socketsupply/tonic')
+const { Tonic } = require('@socketsupply/tonic')
 
 const components = require('../../')
 const { html } = require('../util')

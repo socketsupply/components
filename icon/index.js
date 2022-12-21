@@ -1,4 +1,4 @@
-const Tonic = require('@socketsupply/tonic')
+const { Tonic } = require('@socketsupply/tonic')
 
 class TonicIcon extends Tonic {
   defaults () {

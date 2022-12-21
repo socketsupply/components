@@ -1,4 +1,4 @@
-const Tonic = require('@socketsupply/tonic')
+const { Tonic } = require('@socketsupply/tonic')
 
 class TonicTooltip extends Tonic {
   connected () {

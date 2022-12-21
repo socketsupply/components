@@ -1,64 +1,33 @@
 var __defProp = Object.defineProperty;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __markAsModule = (target) => __defProp(target, "__esModule", { value: true });
 var __name = (target, value) => __defProp(target, "name", { value, configurable: true });
+var __esm = (fn, res) => function __init() {
+  return fn && (res = (0, fn[Object.keys(fn)[0]])(fn = 0)), res;
+};
 var __commonJS = (cb, mod) => function __require() {
   return mod || (0, cb[Object.keys(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
 };
-
-// node_modules/@socketsupply/tonic/package.json
-var require_package = __commonJS({
-  "node_modules/@socketsupply/tonic/package.json"(exports2, module2) {
-    module2.exports = {
-      name: "@socketsupply/tonic",
-      version: "14.1.0",
-      description: "A component framework.",
-      scripts: {
-        "ci:test:tape-run": "esbuild --bundle test/index.js | tape-run",
-        lint: "standard -v",
-        test: "npm run build && standard && esbuild --bundle test/index.js | tape-run",
-        "test:open": "npm run build && esbuild --bundle test/index.js | tape-run --browser chrome --keep-open",
-        prepare: "./scripts/build.js",
-        build: "./scripts/build.js && npm run minify:esm && npm run minify:cjs",
-        "minify:esm": "esbuild index.esm.js --keep-names --minify --outfile=dist/tonic.min.esm.js",
-        "minify:cjs": "esbuild index.js --keep-names --minify --outfile=dist/tonic.min.js"
-      },
-      main: "index.js",
-      author: "socketsupply",
-      license: "MIT",
-      devDependencies: {
-        benchmark: "^2.1.4",
-        esbuild: "^0.8.36",
-        standard: "14.3.1",
-        "tape-run": "^8.0.0",
-        tapzero: "0.2.2",
-        uuid: "3.3.3"
-      },
-      standard: {
-        ignore: [
-          "dist/*",
-          "test/fixtures/*"
-        ]
-      },
-      directories: {
-        test: "test"
-      },
-      repository: {
-        type: "git",
-        url: "git+https://github.com/socketsupply/tonic.git"
-      },
-      bugs: {
-        url: "https://github.com/socketsupply/tonic/issues"
-      },
-      homepage: "https://tonic.technology",
-      dependencies: {}
-    };
-  }
-});
+var __export = (target, all) => {
+  __markAsModule(target);
+  for (var name in all)
+    __defProp(target, name, { get: all[name], enumerable: true });
+};
+var __publicField = (obj, key, value) => {
+  __defNormalProp(obj, typeof key !== "symbol" ? key + "" : key, value);
+  return value;
+};
 
 // node_modules/@socketsupply/tonic/index.js
-var require_tonic = __commonJS({
-  "node_modules/@socketsupply/tonic/index.js"(exports2, module2) {
-    "use strict";
-    var TonicTemplate = class {
+var tonic_exports = {};
+__export(tonic_exports, {
+  Tonic: () => Tonic,
+  default: () => tonic_default
+});
+var TonicTemplate, _Tonic, Tonic, tonic_default;
+var init_tonic = __esm({
+  "node_modules/@socketsupply/tonic/index.js"() {
+    TonicTemplate = class {
       constructor(rawText, templateStrings, unsafe) {
         this.isTonicTemplate = true;
         this.unsafe = unsafe;
@@ -73,11 +42,31 @@ var require_tonic = __commonJS({
       }
     };
     __name(TonicTemplate, "TonicTemplate");
-    var Tonic2 = class extends window.HTMLElement {
+    _Tonic = class extends window.HTMLElement {
+      static get version() {
+        return "14.3.0";
+      }
+      static get SPREAD() {
+        return /\.\.\.\s?(__\w+__\w+__)/g;
+      }
+      static get ESC() {
+        return /["&'<>`/]/g;
+      }
+      static get AsyncFunctionGenerator() {
+        return async function* () {
+        }.constructor;
+      }
+      static get AsyncFunction() {
+        return async function() {
+        }.constructor;
+      }
+      static get MAP() {
+        return { '"': "&quot;", "&": "&amp;", "'": "&#x27;", "<": "&lt;", ">": "&gt;", "`": "&#x60;", "/": "&#x2F;" };
+      }
       constructor() {
         super();
-        const state = Tonic2._states[super.id];
-        delete Tonic2._states[super.id];
+        const state = _Tonic._states[super.id];
+        delete _Tonic._states[super.id];
         this._state = state || {};
         this.preventRenderOnReconnect = false;
         this.props = {};
@@ -87,11 +76,11 @@ var require_tonic = __commonJS({
         this.nodes.__children__ = true;
         this._events();
       }
-      static _createId() {
-        return `tonic${Tonic2._index++}`;
+      get isTonicComponent() {
+        return true;
       }
-      static _splitName(s) {
-        return s.match(/[A-Z][a-z0-9]*/g).join("-");
+      static _createId() {
+        return `tonic${_Tonic._index++}`;
       }
       static _normalizeAttrs(o, x = {}) {
         [...o].forEach((o2) => x[o2.name] = o2.value);
@@ -121,16 +110,16 @@ var require_tonic = __commonJS({
       }
       _prop(o) {
         const id = this._id;
-        const p = `__${id}__${Tonic2._createId()}__`;
-        Tonic2._data[id] = Tonic2._data[id] || {};
-        Tonic2._data[id][p] = o;
+        const p = `__${id}__${_Tonic._createId()}__`;
+        _Tonic._data[id] = _Tonic._data[id] || {};
+        _Tonic._data[id][p] = o;
         return p;
       }
       _placehold(r) {
         const id = this._id;
-        const ref = `placehold:${id}:${Tonic2._createId()}__`;
-        Tonic2._children[id] = Tonic2._children[id] || {};
-        Tonic2._children[id][ref] = r;
+        const ref = `placehold:${id}:${_Tonic._createId()}__`;
+        _Tonic._children[id] = _Tonic._children[id] || {};
+        _Tonic._children[id][ref] = r;
         return ref;
       }
       static match(el, s) {
@@ -138,9 +127,12 @@ var require_tonic = __commonJS({
           el = el.parentElement;
         return el.matches(s) ? el : el.closest(s);
       }
+      static getTagName(camelName) {
+        return camelName.match(/[A-Z][a-z0-9]*/g).join("-").toLowerCase();
+      }
       static getPropertyNames(proto) {
         const props = [];
-        while (proto && proto !== Tonic2.prototype) {
+        while (proto && proto !== _Tonic.prototype) {
           props.push(...Object.getOwnPropertyNames(proto));
           proto = Object.getPrototypeOf(proto);
         }
@@ -152,38 +144,38 @@ var require_tonic = __commonJS({
           throw Error("Mangling. https://bit.ly/2TkJ6zP");
         }
         if (!htmlName)
-          htmlName = Tonic2._splitName(c.name).toLowerCase();
-        if (!Tonic2.ssr && window.customElements.get(htmlName)) {
+          htmlName = _Tonic.getTagName(c.name);
+        if (!_Tonic.ssr && window.customElements.get(htmlName)) {
           throw new Error(`Cannot Tonic.add(${c.name}, '${htmlName}') twice`);
         }
         if (!c.prototype || !c.prototype.isTonicComponent) {
-          const tmp = { [c.name]: class extends Tonic2 {
+          const tmp = { [c.name]: class extends _Tonic {
           } }[c.name];
           tmp.prototype.render = c;
           c = tmp;
         }
-        c.prototype._props = Tonic2.getPropertyNames(c.prototype);
-        Tonic2._reg[htmlName] = c;
-        Tonic2._tags = Object.keys(Tonic2._reg).join();
+        c.prototype._props = _Tonic.getPropertyNames(c.prototype);
+        _Tonic._reg[htmlName] = c;
+        _Tonic._tags = Object.keys(_Tonic._reg).join();
         window.customElements.define(htmlName, c);
         if (typeof c.stylesheet === "function") {
-          Tonic2.registerStyles(c.stylesheet);
+          _Tonic.registerStyles(c.stylesheet);
         }
         return c;
       }
       static registerStyles(stylesheetFn) {
-        if (Tonic2._stylesheetRegistry.includes(stylesheetFn))
+        if (_Tonic._stylesheetRegistry.includes(stylesheetFn))
           return;
-        Tonic2._stylesheetRegistry.push(stylesheetFn);
+        _Tonic._stylesheetRegistry.push(stylesheetFn);
         const styleNode = document.createElement("style");
-        if (Tonic2.nonce)
-          styleNode.setAttribute("nonce", Tonic2.nonce);
+        if (_Tonic.nonce)
+          styleNode.setAttribute("nonce", _Tonic.nonce);
         styleNode.appendChild(document.createTextNode(stylesheetFn()));
         if (document.head)
           document.head.appendChild(styleNode);
       }
       static escape(s) {
-        return s.replace(Tonic2.ESC, (c) => Tonic2.MAP[c]);
+        return s.replace(_Tonic.ESC, (c) => _Tonic.MAP[c]);
       }
       static unsafeRawString(s, templateStrings) {
         return new TonicTemplate(s, templateStrings, true);
@@ -202,20 +194,21 @@ var require_tonic = __commonJS({
             case "[object HTMLCollection]":
             case "[object NodeList]":
               return this._placehold([...o]);
-            case "[object Array]":
+            case "[object Array]": {
               if (o.every((x) => x.isTonicTemplate && !x.unsafe)) {
                 return new TonicTemplate(o.join("\n"), null, false);
               }
               return this._prop(o);
+            }
             case "[object Object]":
             case "[object Function]":
               return this._prop(o);
             case "[object NamedNodeMap]":
-              return this._prop(Tonic2._normalizeAttrs(o));
+              return this._prop(_Tonic._normalizeAttrs(o));
             case "[object Number]":
               return `${o}__float`;
             case "[object String]":
-              return Tonic2.escape(o);
+              return _Tonic.escape(o);
             case "[object Boolean]":
               return `${o}__boolean`;
             case "[object Null]":
@@ -233,14 +226,14 @@ var require_tonic = __commonJS({
           out.push(strings[i], refs(values[i]));
         }
         out.push(strings[strings.length - 1]);
-        const htmlStr = out.join("").replace(Tonic2.SPREAD, (_, p) => {
-          const o = Tonic2._data[p.split("__")[1]][p];
+        const htmlStr = out.join("").replace(_Tonic.SPREAD, (_, p) => {
+          const o = _Tonic._data[p.split("__")[1]][p];
           return Object.entries(o).map(([key, value]) => {
             const k = key.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
             if (value === true)
               return k;
             else if (value)
-              return `${k}="${Tonic2.escape(String(value))}"`;
+              return `${k}="${_Tonic.escape(String(value))}"`;
             else
               return "";
           }).filter(Boolean).join(" ");
@@ -258,11 +251,11 @@ var require_tonic = __commonJS({
           if (p && p.then) {
             return p.then(() => {
               this.updated && this.updated(oldProps);
-              resolve();
+              resolve(this);
             });
           }
           this.updated && this.updated(oldProps);
-          resolve();
+          resolve(this);
         }, 0));
         return this.pendingReRender;
       }
@@ -283,17 +276,18 @@ var require_tonic = __commonJS({
         });
       }
       _set(target, render, content = "") {
-        for (const node of target.querySelectorAll(Tonic2._tags)) {
+        this.willRender && this.willRender();
+        for (const node of target.querySelectorAll(_Tonic._tags)) {
           if (!node.isTonicComponent)
             continue;
           const id = node.getAttribute("id");
-          if (!id || !Tonic2._refIds.includes(id))
+          if (!id || !_Tonic._refIds.includes(id))
             continue;
-          Tonic2._states[id] = node.state;
+          _Tonic._states[id] = node.state;
         }
-        if (render instanceof Tonic2.AsyncFunction) {
+        if (render instanceof _Tonic.AsyncFunction) {
           return render.call(this, this.html, this.props).then((content2) => this._apply(target, content2));
-        } else if (render instanceof Tonic2.AsyncFunctionGenerator) {
+        } else if (render instanceof _Tonic.AsyncFunctionGenerator) {
           return this._drainIterator(target, render.call(this));
         } else if (render === null) {
           this._apply(target, content);
@@ -305,11 +299,11 @@ var require_tonic = __commonJS({
         if (content && content.isTonicTemplate) {
           content = content.rawText;
         } else if (typeof content === "string") {
-          content = Tonic2.escape(content);
+          content = _Tonic.escape(content);
         }
         if (typeof content === "string") {
           if (this.stylesheet) {
-            content = `<style nonce=${Tonic2.nonce || ""}>${this.stylesheet()}</style>${content}`;
+            content = `<style nonce=${_Tonic.nonce || ""}>${this.stylesheet()}</style>${content}`;
           }
           target.innerHTML = content;
           if (this.styles) {
@@ -320,7 +314,7 @@ var require_tonic = __commonJS({
               }
             }
           }
-          const children = Tonic2._children[this._id] || {};
+          const children = _Tonic._children[this._id] || {};
           const walk = /* @__PURE__ */ __name((node, fn) => {
             if (node.nodeType === 3) {
               const id = node.textContent.trim();
@@ -338,7 +332,7 @@ var require_tonic = __commonJS({
             for (const child of children2) {
               node.parentNode.insertBefore(child, node);
             }
-            delete Tonic2._children[this._id][id];
+            delete _Tonic._children[this._id][id];
             node.parentNode.removeChild(node);
           });
         } else {
@@ -348,8 +342,8 @@ var require_tonic = __commonJS({
       }
       connectedCallback() {
         this.root = this.shadowRoot || this;
-        if (super.id && !Tonic2._refIds.includes(super.id)) {
-          Tonic2._refIds.push(super.id);
+        if (super.id && !_Tonic._refIds.includes(super.id)) {
+          _Tonic._refIds.push(super.id);
         }
         const cc = /* @__PURE__ */ __name((s) => s.replace(/-(.)/g, (_, m) => m.toUpperCase()), "cc");
         for (const { name: _name, value } of this.attributes) {
@@ -357,7 +351,7 @@ var require_tonic = __commonJS({
           const p = this.props[name] = value;
           if (/__\w+__\w+__/.test(p)) {
             const { 1: root } = p.split("__");
-            this.props[name] = Tonic2._data[root][p];
+            this.props[name] = _Tonic._data[root][p];
           } else if (/\d+__float/.test(p)) {
             this.props[name] = parseFloat(p, 10);
           } else if (p === "null__null") {
@@ -366,11 +360,11 @@ var require_tonic = __commonJS({
             this.props[name] = p.includes("true");
           } else if (/placehold:\w+:\w+__/.test(p)) {
             const { 1: root } = p.split(":");
-            this.props[name] = Tonic2._children[root][p][0];
+            this.props[name] = _Tonic._children[root][p][0];
           }
         }
         this.props = Object.assign(this.defaults ? this.defaults() : {}, this.props);
-        this._id = this._id || Tonic2._createId();
+        this._id = this._id || _Tonic._createId();
         this.willConnect && this.willConnect();
         if (!this.isInDocument(this.root))
           return;
@@ -392,40 +386,29 @@ var require_tonic = __commonJS({
       }
       disconnectedCallback() {
         this.disconnected && this.disconnected();
-        delete Tonic2._data[this._id];
-        delete Tonic2._children[this._id];
+        delete _Tonic._data[this._id];
+        delete _Tonic._children[this._id];
       }
     };
-    __name(Tonic2, "Tonic");
-    Tonic2.prototype.isTonicComponent = true;
-    Object.assign(Tonic2, {
-      _tags: "",
-      _refIds: [],
-      _data: {},
-      _states: {},
-      _children: {},
-      _reg: {},
-      _stylesheetRegistry: [],
-      _index: 0,
-      version: typeof require !== "undefined" ? require_package().version : null,
-      SPREAD: /\.\.\.\s?(__\w+__\w+__)/g,
-      ESC: /["&'<>`/]/g,
-      AsyncFunctionGenerator: async function* () {
-      }.constructor,
-      AsyncFunction: async function() {
-      }.constructor,
-      MAP: { '"': "&quot;", "&": "&amp;", "'": "&#x27;", "<": "&lt;", ">": "&gt;", "`": "&#x60;", "/": "&#x2F;" }
-    });
-    if (typeof module2 === "object")
-      module2.exports = Tonic2;
+    Tonic = _Tonic;
+    __name(Tonic, "Tonic");
+    __publicField(Tonic, "_tags", "");
+    __publicField(Tonic, "_refIds", []);
+    __publicField(Tonic, "_data", {});
+    __publicField(Tonic, "_states", {});
+    __publicField(Tonic, "_children", {});
+    __publicField(Tonic, "_reg", {});
+    __publicField(Tonic, "_stylesheetRegistry", []);
+    __publicField(Tonic, "_index", 0);
+    tonic_default = Tonic;
   }
 });
 
 // accordion/index.js
 var require_accordion = __commonJS({
   "accordion/index.js"(exports2, module2) {
-    var Tonic2 = require_tonic();
-    var TonicAccordion2 = class extends Tonic2 {
+    var { Tonic: Tonic3 } = (init_tonic(), tonic_exports);
+    var TonicAccordion2 = class extends Tonic3 {
       defaults() {
         return {
           multiple: false
@@ -474,13 +457,13 @@ var require_accordion = __commonJS({
           currentPanel.removeAttribute("hidden");
       }
       click(e) {
-        const trigger = Tonic2.match(e.target, "button");
+        const trigger = Tonic3.match(e.target, "button");
         if (!trigger)
           return;
         this.setVisibility(trigger.id);
       }
       keydown(e) {
-        const trigger = Tonic2.match(e.target, "button.tonic--title");
+        const trigger = Tonic3.match(e.target, "button.tonic--title");
         if (!trigger)
           return;
         const CTRL = e.ctrlKey;
@@ -530,7 +513,7 @@ var require_accordion = __commonJS({
       }
     };
     __name(TonicAccordion2, "TonicAccordion");
-    var TonicAccordionSection2 = class extends Tonic2 {
+    var TonicAccordionSection2 = class extends Tonic3 {
       static stylesheet() {
         return `
       tonic-accordion-section {
@@ -649,8 +632,8 @@ var require_accordion = __commonJS({
 // badge/index.js
 var require_badge = __commonJS({
   "badge/index.js"(exports2, module2) {
-    var Tonic2 = require_tonic();
-    var TonicBadge2 = class extends Tonic2 {
+    var { Tonic: Tonic3 } = (init_tonic(), tonic_exports);
+    var TonicBadge2 = class extends Tonic3 {
       defaults() {
         return {
           count: 0
@@ -739,8 +722,8 @@ var require_badge = __commonJS({
 // button/index.js
 var require_button = __commonJS({
   "button/index.js"(exports2, module2) {
-    var Tonic2 = require_tonic();
-    var TonicButton2 = class extends Tonic2 {
+    var { Tonic: Tonic3 } = (init_tonic(), tonic_exports);
+    var TonicButton2 = class extends Tonic3 {
       get value() {
         return this.props.value;
       }
@@ -1004,8 +987,8 @@ var require_button = __commonJS({
 // chart/index.js
 var require_chart = __commonJS({
   "chart/index.js"(exports2, module2) {
-    var Tonic2 = require_tonic();
-    var TonicChart2 = class extends Tonic2 {
+    var { Tonic: Tonic3 } = (init_tonic(), tonic_exports);
+    var TonicChart2 = class extends Tonic3 {
       static stylesheet() {
         return `
       tonic-chart {
@@ -1103,8 +1086,8 @@ var require_chart = __commonJS({
 // checkbox/index.js
 var require_checkbox = __commonJS({
   "checkbox/index.js"(exports2, module2) {
-    var Tonic2 = require_tonic();
-    var TonicCheckbox2 = class extends Tonic2 {
+    var { Tonic: Tonic3 } = (init_tonic(), tonic_exports);
+    var TonicCheckbox2 = class extends Tonic3 {
       constructor() {
         super();
         this._modified = false;
@@ -1297,7 +1280,7 @@ var require_checkbox = __commonJS({
 // dialog/index.js
 var require_dialog = __commonJS({
   "dialog/index.js"(exports2, module2) {
-    var Tonic2 = require_tonic();
+    var { Tonic: Tonic3 } = (init_tonic(), tonic_exports);
     var FOCUS_CHANGE_TIMEOUT = 100;
     var focused = true;
     var focusedTimeout = null;
@@ -1311,7 +1294,7 @@ var require_dialog = __commonJS({
         focused = true;
       }, FOCUS_CHANGE_TIMEOUT);
     });
-    var TonicDialog2 = class extends Tonic2 {
+    var TonicDialog2 = class extends Tonic3 {
       constructor() {
         super();
         this.classList.add("tonic--dialog");
@@ -1493,8 +1476,8 @@ var require_dialog = __commonJS({
                 resolve({});
             }, "resolver");
             const listener = /* @__PURE__ */ __name((event) => {
-              const close = Tonic2.match(event.target, ".tonic--dialog--close");
-              const value = Tonic2.match(event.target, "[value]");
+              const close = Tonic3.match(event.target, ".tonic--dialog--close");
+              const value = Tonic3.match(event.target, "[value]");
               if (close || value) {
                 that.removeEventListener(eventName, listener);
                 document.removeEventListener("keyup", resolver);
@@ -1510,7 +1493,7 @@ var require_dialog = __commonJS({
         };
       }
       click(e) {
-        if (Tonic2.match(e.target, ".tonic--dialog--close")) {
+        if (Tonic3.match(e.target, ".tonic--dialog--close")) {
           this.hide();
         }
       }
@@ -1531,9 +1514,9 @@ var require_dialog = __commonJS({
 // form/index.js
 var require_form = __commonJS({
   "form/index.js"(exports2, module2) {
-    var Tonic2 = require_tonic();
+    var { Tonic: Tonic3 } = (init_tonic(), tonic_exports);
     var NON_EXISTANT = { type: "TonicForm_NON_EXISTANT" };
-    var TonicForm2 = class extends Tonic2 {
+    var TonicForm2 = class extends Tonic3 {
       static isNumber(s) {
         return !isNaN(Number(s));
       }
@@ -1622,7 +1605,7 @@ var require_form = __commonJS({
         this.change(e);
       }
       change(e) {
-        const el = Tonic2.match(e.target, "[data-key]");
+        const el = Tonic3.match(e.target, "[data-key]");
         if (!el)
           return;
         TonicForm2.setPropertyValue(this.state, el.dataset.key, el.value);
@@ -1690,8 +1673,8 @@ var require_form = __commonJS({
 // icon/index.js
 var require_icon = __commonJS({
   "icon/index.js"(exports2, module2) {
-    var Tonic2 = require_tonic();
-    var TonicIcon2 = class extends Tonic2 {
+    var { Tonic: Tonic3 } = (init_tonic(), tonic_exports);
+    var TonicIcon2 = class extends Tonic3 {
       defaults() {
         return {
           size: "25px",
@@ -1758,8 +1741,8 @@ var require_icon = __commonJS({
 // input/index.js
 var require_input = __commonJS({
   "input/index.js"(exports2, module2) {
-    var Tonic2 = require_tonic();
-    var TonicInput2 = class extends Tonic2 {
+    var { Tonic: Tonic3 } = (init_tonic(), tonic_exports);
+    var TonicInput2 = class extends Tonic3 {
       constructor() {
         super();
         this._modified = false;
@@ -2150,8 +2133,8 @@ var require_input = __commonJS({
 // loader/index.js
 var require_loader = __commonJS({
   "loader/index.js"(exports2, module2) {
-    var Tonic2 = require_tonic();
-    var TonicLoader2 = class extends Tonic2 {
+    var { Tonic: Tonic3 } = (init_tonic(), tonic_exports);
+    var TonicLoader2 = class extends Tonic3 {
       constructor() {
         super();
         this.attachShadow({ mode: "open" });
@@ -2285,8 +2268,8 @@ var require_panel = __commonJS({
 // popover/index.js
 var require_popover = __commonJS({
   "popover/index.js"(exports2, module2) {
-    var Tonic2 = require_tonic();
-    var TonicPopover2 = class extends Tonic2 {
+    var { Tonic: Tonic3 } = (init_tonic(), tonic_exports);
+    var TonicPopover2 = class extends Tonic3 {
       constructor() {
         super();
         const target = this.getAttribute("for");
@@ -2449,7 +2432,7 @@ var require_popover = __commonJS({
         this.show(document.getElementById(target));
       }
       click(e) {
-        if (Tonic2.match(e.target, ".tonic--overlay")) {
+        if (Tonic3.match(e.target, ".tonic--overlay")) {
           return this.hide();
         }
       }
@@ -2475,8 +2458,8 @@ var require_popover = __commonJS({
 // profile-image/index.js
 var require_profile_image = __commonJS({
   "profile-image/index.js"(exports2, module2) {
-    var Tonic2 = require_tonic();
-    var TonicProfileImage2 = class extends Tonic2 {
+    var { Tonic: Tonic3 } = (init_tonic(), tonic_exports);
+    var TonicProfileImage2 = class extends Tonic3 {
       get value() {
         const state = this.state;
         return state.data || this.props.src;
@@ -2668,8 +2651,8 @@ var require_profile_image = __commonJS({
 // progress-bar/index.js
 var require_progress_bar = __commonJS({
   "progress-bar/index.js"(exports2, module2) {
-    var Tonic2 = require_tonic();
-    var TonicProgressBar2 = class extends Tonic2 {
+    var { Tonic: Tonic3 } = (init_tonic(), tonic_exports);
+    var TonicProgressBar2 = class extends Tonic3 {
       set value(value) {
         this.setProgress(value);
       }
@@ -2744,8 +2727,8 @@ var require_progress_bar = __commonJS({
 // range/index.js
 var require_range = __commonJS({
   "range/index.js"(exports2, module2) {
-    var Tonic2 = require_tonic();
-    var TonicRange2 = class extends Tonic2 {
+    var { Tonic: Tonic3 } = (init_tonic(), tonic_exports);
+    var TonicRange2 = class extends Tonic3 {
       defaults() {
         return {
           width: "250px",
@@ -2948,7 +2931,7 @@ var require_range = __commonJS({
 // relative-time/index.js
 var require_relative_time = __commonJS({
   "relative-time/index.js"(exports2, module2) {
-    var Tonic2 = require_tonic();
+    var { Tonic: Tonic3 } = (init_tonic(), tonic_exports);
     var weekdays = [
       "Sunday",
       "Monday",
@@ -3345,7 +3328,7 @@ var require_relative_time = __commonJS({
       throw new RangeError(`Invalid unit argument for format() '${unit}'`);
     }
     __name(formatEnRelativeTime, "formatEnRelativeTime");
-    var TonicRelativeTime2 = class extends Tonic2 {
+    var TonicRelativeTime2 = class extends Tonic3 {
       render() {
         let date = this.props.date || "";
         const locale = this.props.locale || localeFromElement(this);
@@ -3380,8 +3363,8 @@ var require_relative_time = __commonJS({
 // router/index.js
 var require_router = __commonJS({
   "router/index.js"(exports2, module2) {
-    var Tonic2 = require_tonic();
-    var TonicRouter2 = class extends Tonic2 {
+    var { Tonic: Tonic3 } = (init_tonic(), tonic_exports);
+    var TonicRouter2 = class extends Tonic3 {
       constructor() {
         super();
         if (TonicRouter2.patched)
@@ -3627,8 +3610,8 @@ var require_router = __commonJS({
 // select/index.js
 var require_select = __commonJS({
   "select/index.js"(exports2, module2) {
-    var Tonic2 = require_tonic();
-    var TonicSelect2 = class extends Tonic2 {
+    var { Tonic: Tonic3 } = (init_tonic(), tonic_exports);
+    var TonicSelect2 = class extends Tonic3 {
       defaults() {
         return {
           disabled: false,
@@ -4012,8 +3995,8 @@ var require_select = __commonJS({
 // sprite/index.js
 var require_sprite = __commonJS({
   "sprite/index.js"(exports2, module2) {
-    var Tonic2 = require_tonic();
-    var TonicSprite2 = class extends Tonic2 {
+    var { Tonic: Tonic3 } = (init_tonic(), tonic_exports);
+    var TonicSprite2 = class extends Tonic3 {
       static stylesheet() {
         return `
       tonic-sprite svg {
@@ -4088,8 +4071,8 @@ var require_sprite = __commonJS({
 // split/index.js
 var require_split = __commonJS({
   "split/index.js"(exports2, module2) {
-    var Tonic2 = require_tonic();
-    var TonicSplitLeft2 = class extends Tonic2 {
+    var { Tonic: Tonic3 } = (init_tonic(), tonic_exports);
+    var TonicSplitLeft2 = class extends Tonic3 {
       render() {
         if (this.props.width) {
           this.style.width = this.props.width;
@@ -4100,7 +4083,7 @@ var require_split = __commonJS({
       }
     };
     __name(TonicSplitLeft2, "TonicSplitLeft");
-    var TonicSplitTop2 = class extends Tonic2 {
+    var TonicSplitTop2 = class extends Tonic3 {
       render() {
         if (this.props.height) {
           this.style.height = this.props.height;
@@ -4117,7 +4100,7 @@ var require_split = __commonJS({
     var TonicSplitBottom2 = class extends TonicSplitTop2 {
     };
     __name(TonicSplitBottom2, "TonicSplitBottom");
-    var TonicSplit2 = class extends Tonic2 {
+    var TonicSplit2 = class extends Tonic3 {
       constructor() {
         super();
         this.left = null;
@@ -4379,7 +4362,7 @@ var require_split = __commonJS({
         }
       }
       mousedown(e) {
-        const handle = Tonic2.match(e.target, ".tonic--split-handle");
+        const handle = Tonic3.match(e.target, ".tonic--split-handle");
         if (handle && handle.parentElement === this) {
           this.handle = handle;
           this.start();
@@ -4417,9 +4400,9 @@ var require_split = __commonJS({
 // tabs/index.js
 var require_tabs = __commonJS({
   "tabs/index.js"(exports2, module2) {
-    var Tonic2 = require_tonic();
+    var { Tonic: Tonic3 } = (init_tonic(), tonic_exports);
     var CustomEvent = window.CustomEvent;
-    var TonicTabs2 = class extends Tonic2 {
+    var TonicTabs2 = class extends Tonic3 {
       constructor(o) {
         super(o);
         this._setVisibilitySynchronously = false;
@@ -4525,7 +4508,7 @@ var require_tabs = __commonJS({
         }
       }
       click(e) {
-        const tab = Tonic2.match(e.target, ".tonic--tab");
+        const tab = Tonic3.match(e.target, ".tonic--tab");
         if (!tab)
           return;
         e.preventDefault();
@@ -4545,7 +4528,7 @@ var require_tabs = __commonJS({
             break;
           }
           case "Space": {
-            const isActive = Tonic2.match(e.target, ".tonic--tab:focus");
+            const isActive = Tonic3.match(e.target, ".tonic--tab:focus");
             if (!isActive)
               return;
             e.preventDefault();
@@ -4570,7 +4553,7 @@ var require_tabs = __commonJS({
       }
     };
     __name(TonicTabs2, "TonicTabs");
-    var TonicTabPanel2 = class extends Tonic2 {
+    var TonicTabPanel2 = class extends Tonic3 {
       static stylesheet() {
         return `
       tonic-tab-panel {
@@ -4615,7 +4598,7 @@ var require_tabs = __commonJS({
       }
     };
     __name(TonicTabPanel2, "TonicTabPanel");
-    var TonicTab2 = class extends Tonic2 {
+    var TonicTab2 = class extends Tonic3 {
       render() {
         const ariaControls = this.props.for;
         return this.html`
@@ -4645,8 +4628,8 @@ var require_tabs = __commonJS({
 // textarea/index.js
 var require_textarea = __commonJS({
   "textarea/index.js"(exports2, module2) {
-    var Tonic2 = require_tonic();
-    var TonicTextarea2 = class extends Tonic2 {
+    var { Tonic: Tonic3 } = (init_tonic(), tonic_exports);
+    var TonicTextarea2 = class extends Tonic3 {
       mutate(e) {
         const { width, height } = e.target.style;
         this.state = {
@@ -4930,8 +4913,8 @@ var require_textarea = __commonJS({
 // tooltip/index.js
 var require_tooltip = __commonJS({
   "tooltip/index.js"(exports2, module2) {
-    var Tonic2 = require_tonic();
-    var TonicTooltip2 = class extends Tonic2 {
+    var { Tonic: Tonic3 } = (init_tonic(), tonic_exports);
+    var TonicTooltip2 = class extends Tonic3 {
       connected() {
         const target = this.props.for;
         const el = document.getElementById(target);
@@ -5081,8 +5064,8 @@ var require_tooltip = __commonJS({
 // toaster-inline/index.js
 var require_toaster_inline = __commonJS({
   "toaster-inline/index.js"(exports2, module2) {
-    var Tonic2 = require_tonic();
-    var TonicToasterInline2 = class extends Tonic2 {
+    var { Tonic: Tonic3 } = (init_tonic(), tonic_exports);
+    var TonicToasterInline2 = class extends Tonic3 {
       defaults() {
         return {
           display: "true"
@@ -5182,7 +5165,7 @@ var require_toaster_inline = __commonJS({
         node.classList.remove("tonic--show");
       }
       click(e) {
-        const el = Tonic2.match(e.target, ".tonic--close");
+        const el = Tonic3.match(e.target, ".tonic--close");
         if (!el)
           return;
         this.hide();
@@ -5285,8 +5268,8 @@ var require_toaster_inline = __commonJS({
 // toaster/index.js
 var require_toaster = __commonJS({
   "toaster/index.js"(exports2, module2) {
-    var Tonic2 = require_tonic();
-    var TonicToaster2 = class extends Tonic2 {
+    var { Tonic: Tonic3 } = (init_tonic(), tonic_exports);
+    var TonicToaster2 = class extends Tonic3 {
       defaults() {
         return {
           position: "center"
@@ -5517,7 +5500,7 @@ var require_toaster = __commonJS({
         node.classList.remove("tonic--show");
       }
       click(e) {
-        const el = Tonic2.match(e.target, ".tonic--close");
+        const el = Tonic3.match(e.target, ".tonic--close");
         if (!el)
           return;
         const notification = el.closest(".tonic--notification");
@@ -5548,8 +5531,8 @@ var require_toaster = __commonJS({
 // toggle/index.js
 var require_toggle = __commonJS({
   "toggle/index.js"(exports2, module2) {
-    var Tonic2 = require_tonic();
-    var TonicToggle2 = class extends Tonic2 {
+    var { Tonic: Tonic3 } = (init_tonic(), tonic_exports);
+    var TonicToggle2 = class extends Tonic3 {
       constructor() {
         super();
         this._modified = false;
@@ -5749,14 +5732,14 @@ var require_toggle = __commonJS({
 });
 
 // index.js
-var Tonic;
+var Tonic2;
 try {
-  Tonic = require_tonic();
+  Tonic2 = (init_tonic(), tonic_exports);
 } catch (err) {
   console.error("Missing dependency. Try `npm install @socketsupply/tonic`.");
   throw err;
 }
-var version = Tonic.version;
+var version = Tonic2.version;
 var major = version ? version.split(".")[0] : "0";
 if (version && parseInt(major, 10) < 12) {
   console.error("Out of date dependency. Try `npm install @socketsupply/tonic@12`.");
@@ -5790,44 +5773,44 @@ var { TonicToaster } = require_toaster();
 var { TonicToggle } = require_toggle();
 var once = false;
 module.exports = components;
-components.Tonic = Tonic;
-function components(Tonic2) {
+components.Tonic = Tonic2;
+function components(Tonic3) {
   if (once) {
     return;
   }
   once = true;
-  Tonic2.add(TonicAccordion);
-  Tonic2.add(TonicAccordionSection);
-  Tonic2.add(TonicBadge);
-  Tonic2.add(TonicButton);
-  Tonic2.add(TonicChart);
-  Tonic2.add(TonicCheckbox);
-  Tonic2.add(TonicDialog);
-  Tonic2.add(TonicForm);
-  Tonic2.add(TonicInput);
-  Tonic2.add(TonicIcon);
-  Tonic2.add(TonicLoader);
-  Tonic2.add(TonicPanel);
-  Tonic2.add(TonicPopover);
-  Tonic2.add(TonicProfileImage);
-  Tonic2.add(TonicProgressBar);
-  Tonic2.add(TonicRange);
-  Tonic2.add(TonicRelativeTime);
-  Tonic2.add(TonicRouter);
-  Tonic2.add(TonicSelect);
-  Tonic2.add(TonicSprite);
-  Tonic2.add(TonicSplit);
-  Tonic2.add(TonicSplitLeft);
-  Tonic2.add(TonicSplitRight);
-  Tonic2.add(TonicSplitTop);
-  Tonic2.add(TonicSplitBottom);
-  Tonic2.add(TonicTabPanel);
-  Tonic2.add(TonicTab);
-  Tonic2.add(TonicTabs);
-  Tonic2.add(TonicTextarea);
-  Tonic2.add(TonicTooltip);
-  Tonic2.add(TonicToasterInline);
-  Tonic2.add(TonicToaster);
-  Tonic2.add(TonicToggle);
+  Tonic3.add(TonicAccordion);
+  Tonic3.add(TonicAccordionSection);
+  Tonic3.add(TonicBadge);
+  Tonic3.add(TonicButton);
+  Tonic3.add(TonicChart);
+  Tonic3.add(TonicCheckbox);
+  Tonic3.add(TonicDialog);
+  Tonic3.add(TonicForm);
+  Tonic3.add(TonicInput);
+  Tonic3.add(TonicIcon);
+  Tonic3.add(TonicLoader);
+  Tonic3.add(TonicPanel);
+  Tonic3.add(TonicPopover);
+  Tonic3.add(TonicProfileImage);
+  Tonic3.add(TonicProgressBar);
+  Tonic3.add(TonicRange);
+  Tonic3.add(TonicRelativeTime);
+  Tonic3.add(TonicRouter);
+  Tonic3.add(TonicSelect);
+  Tonic3.add(TonicSprite);
+  Tonic3.add(TonicSplit);
+  Tonic3.add(TonicSplitLeft);
+  Tonic3.add(TonicSplitRight);
+  Tonic3.add(TonicSplitTop);
+  Tonic3.add(TonicSplitBottom);
+  Tonic3.add(TonicTabPanel);
+  Tonic3.add(TonicTab);
+  Tonic3.add(TonicTabs);
+  Tonic3.add(TonicTextarea);
+  Tonic3.add(TonicTooltip);
+  Tonic3.add(TonicToasterInline);
+  Tonic3.add(TonicToaster);
+  Tonic3.add(TonicToggle);
 }
 __name(components, "components");

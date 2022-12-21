@@ -2,7 +2,7 @@ const tape = require('tapzero').test
 const { qs } = require('qsa-min')
 const { html } = require('../_test/util')
 const components = require('..')
-components(require('@socketsupply/tonic'))
+components(require('@socketsupply/tonic').Tonic)
 
 document.body.appendChild(html`
 <section id="select">

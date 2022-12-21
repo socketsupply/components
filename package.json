@@ -1,6 +1,6 @@
 {
   "name": "@socketsupply/components",
-  "version": "13.2.22",
+  "version": "14.0.0",
   "description": "Example components",
   "type": "module",
   "scripts": {

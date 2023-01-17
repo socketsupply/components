@@ -25,7 +25,7 @@ class DialogInner extends Tonic {
   }
 }
 
-Tonic.add(DialogInner)
+Tonic.add(DialogInner, 'dialog-inner')
 
 document.body.appendChild(html`
 <section id="dialog">

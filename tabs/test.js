@@ -149,7 +149,7 @@ class ComponentContainer extends Tonic {
   }
 }
 
-Tonic.add(ComponentContainer)
+Tonic.add(ComponentContainer, 'component-container')
 
 class TestTabTextBox extends Tonic {
   constructor (o) {

@@ -29,7 +29,7 @@ class PanelInner extends Tonic {
   }
 }
 
-Tonic.add(PanelInner)
+Tonic.add(PanelInner, 'panel-inner')
 
 document.body.appendChild(html`
 <section id="panel">

@@ -46,7 +46,7 @@ class TestForm extends Tonic {
   }
 }
 
-Tonic.add(TestForm)
+Tonic.add(TestForm, 'test-form')
 
 class CustomEventTest extends Tonic {
   render () {
@@ -61,7 +61,7 @@ class CustomEventTest extends Tonic {
     `
   }
 }
-Tonic.add(CustomEventTest)
+Tonic.add(CustomEventTest, 'custom-event-test')
 
 class CustomEventParent extends Tonic {
   constructor () {
@@ -89,4 +89,4 @@ class CustomEventParent extends Tonic {
     `
   }
 }
-Tonic.add(CustomEventParent)
+Tonic.add(CustomEventParent, 'custom-event-parent')

@@ -19,8 +19,8 @@ import Tonic from '@socketsupply/tonic'
 import { TonicInput } from '@socketsupply/components/input'
 import { TonicIcon } from '@socketsupply/components/icon'
 
-Tonic.add(TonicInput)
-Tonic.add(TonicIcon)
+Tonic.add(TonicInput, 'tonic-input')
+Tonic.add(TonicIcon, 'tonic-icon')
 ```
 
 #### INCLUDE COMPONENT COLLECTION

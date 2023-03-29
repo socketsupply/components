@@ -82,3 +82,5 @@ export function Components (Tonic) {
   Tonic.add(TonicToaster, 'tonic-toaster')
   Tonic.add(TonicToggle, 'tonic-toggle')
 }
+
+export default Components

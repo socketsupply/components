@@ -451,7 +451,7 @@ export class TonicRelativeTime extends Tonic {
     const locale = this.props.locale || localeFromElement(this)
 
     if (typeof date === 'string') {
-      date = this.props.date = new Date(this.props.date)
+      date = this.props.date = new Date(+this.props.date)
     }
 
     if (date.toString() === 'Invalid Date') {

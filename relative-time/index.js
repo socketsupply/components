@@ -447,11 +447,15 @@ function formatEnRelativeTime (value, unit) {
 
 export class TonicRelativeTime extends Tonic {
   render () {
-    let date = this.props.date || ''
+    let date = this.props.date || Date.now()
     const locale = this.props.locale || localeFromElement(this)
 
     if (typeof date === 'string') {
       date = this.props.date = new Date(+this.props.date)
+    }
+
+    if (typeof date === 'number') {
+      date = new Date(date)
     }
 
     if (date.toString() === 'Invalid Date') {

@@ -204,9 +204,10 @@ function localeFromElement (el) {
 }
 
 export class RelativeTime {
-  constructor (date, locale) {
+  constructor (date, locale, shortUnits) {
     this.date = date
     this.locale = locale
+    this.shortUnits = shortUnits
   }
 
   toString () {
@@ -270,29 +271,29 @@ export class RelativeTime {
     const year = Math.round(month / 12)
 
     if (ms < 0) {
-      return formatRelativeTime(locale, 0, 'second')
+      return formatRelativeTime(locale, 0, 'second', this.shortUnits)
     } else if (sec < 10) {
-      return formatRelativeTime(locale, 0, 'second')
+      return formatRelativeTime(locale, 0, 'second', this.shortUnits)
     } else if (sec < 45) {
-      return formatRelativeTime(locale, -sec, 'second')
+      return formatRelativeTime(locale, -sec, 'second', this.shortUnits)
     } else if (sec < 90) {
-      return formatRelativeTime(locale, -min, 'minute')
+      return formatRelativeTime(locale, -min, 'minute', this.shortUnits)
     } else if (min < 45) {
-      return formatRelativeTime(locale, -min, 'minute')
+      return formatRelativeTime(locale, -min, 'minute', this.shortUnits)
     } else if (min < 90) {
-      return formatRelativeTime(locale, -hr, 'hour')
+      return formatRelativeTime(locale, -hr, 'hour', this.shortUnits)
     } else if (hr < 24) {
-      return formatRelativeTime(locale, -hr, 'hour')
+      return formatRelativeTime(locale, -hr, 'hour', this.shortUnits)
     } else if (hr < 36) {
-      return formatRelativeTime(locale, -day, 'day')
+      return formatRelativeTime(locale, -day, 'day', this.shortUnits)
     } else if (day < 30) {
-      return formatRelativeTime(locale, -day, 'day')
+      return formatRelativeTime(locale, -day, 'day', this.shortUnits)
     } else if (month < 12) {
-      return formatRelativeTime(locale, -month, 'month')
+      return formatRelativeTime(locale, -month, 'month', this.shortUnits)
     } else if (month < 18) {
-      return formatRelativeTime(locale, -year, 'year')
+      return formatRelativeTime(locale, -year, 'year', this.shortUnits)
     } else {
-      return formatRelativeTime(locale, -year, 'year')
+      return formatRelativeTime(locale, -year, 'year', this.shortUnits)
     }
   }
 
@@ -310,29 +311,29 @@ export class RelativeTime {
     const year = Math.round(month / 12)
 
     if (month >= 18) {
-      return formatRelativeTime(locale, year, 'year')
+      return formatRelativeTime(locale, year, 'year', this.shortUnits)
     } else if (month >= 12) {
-      return formatRelativeTime(locale, year, 'year')
+      return formatRelativeTime(locale, year, 'year', this.shortUnits)
     } else if (day >= 45) {
-      return formatRelativeTime(locale, month, 'month')
+      return formatRelativeTime(locale, month, 'month', this.shortUnits)
     } else if (day >= 30) {
-      return formatRelativeTime(locale, month, 'month')
+      return formatRelativeTime(locale, month, 'month', this.shortUnits)
     } else if (hr >= 36) {
-      return formatRelativeTime(locale, day, 'day')
+      return formatRelativeTime(locale, day, 'day', this.shortUnits)
     } else if (hr >= 24) {
-      return formatRelativeTime(locale, day, 'day')
+      return formatRelativeTime(locale, day, 'day', this.shortUnits)
     } else if (min >= 90) {
-      return formatRelativeTime(locale, hr, 'hour')
+      return formatRelativeTime(locale, hr, 'hour', this.shortUnits)
     } else if (min >= 45) {
-      return formatRelativeTime(locale, hr, 'hour')
+      return formatRelativeTime(locale, hr, 'hour', this.shortUnits)
     } else if (sec >= 90) {
-      return formatRelativeTime(locale, min, 'minute')
+      return formatRelativeTime(locale, min, 'minute', this.shortUnits)
     } else if (sec >= 45) {
-      return formatRelativeTime(locale, min, 'minute')
+      return formatRelativeTime(locale, min, 'minute', this.shortUnits)
     } else if (sec >= 10) {
-      return formatRelativeTime(locale, sec, 'second')
+      return formatRelativeTime(locale, sec, 'second', this.shortUnits)
     } else {
-      return formatRelativeTime(locale, 0, 'second')
+      return formatRelativeTime(locale, 0, 'second', this.shortUnits)
     }
   }
 
@@ -357,13 +358,13 @@ export class RelativeTime {
   }
 }
 
-function formatRelativeTime (locale, value, unit) {
+function formatRelativeTime (locale, value, unit, isShort) {
   const formatter = makeRelativeFormat(locale, { numeric: 'auto' })
 
   if (formatter) {
     return formatter.format(value, unit)
   } else {
-    return formatEnRelativeTime(value, unit)
+    return formatEnRelativeTime(value, unit, isShort)
   }
 }
 
@@ -372,19 +373,19 @@ function formatRelativeTime (locale, value, unit) {
 // Values should roughly match
 //   new Intl.RelativeTimeFormat('en', {numeric: 'auto'}).format(value, unit)
 //
-function formatEnRelativeTime (value, unit) {
+function formatEnRelativeTime (value, unit, isShort) {
   if (value === 0) {
     switch (unit) {
       case 'year':
       case 'quarter':
       case 'month':
       case 'week':
-        return `this ${unit}`
+        return `this ${isShort ? unit[0] : unit}`
       case 'day':
         return 'today'
       case 'hour':
       case 'minute':
-        return `in 0 ${unit}s`
+        return `in 0 ${isShort ? unit[0] : unit + 's'}`
       case 'second':
         return 'now'
     }
@@ -394,13 +395,13 @@ function formatEnRelativeTime (value, unit) {
       case 'quarter':
       case 'month':
       case 'week':
-        return `next ${unit}`
+        return `next ${isShort ? unit[0] : unit}`
       case 'day':
         return 'tomorrow'
       case 'hour':
       case 'minute':
       case 'second':
-        return `in 1 ${unit}`
+        return `in 1 ${isShort ? unit[0] : unit}`
     }
   } else if (value === -1) {
     switch (unit) {
@@ -408,13 +409,13 @@ function formatEnRelativeTime (value, unit) {
       case 'quarter':
       case 'month':
       case 'week':
-        return `last ${unit}`
+        return `last ${isShort ? unit[0] : unit}`
       case 'day':
         return 'yesterday'
       case 'hour':
       case 'minute':
       case 'second':
-        return `1 ${unit} ago`
+        return `1 ${isShort ? unit[0] : unit} ago`
     }
   } else if (value > 1) {
     switch (unit) {
@@ -426,7 +427,7 @@ function formatEnRelativeTime (value, unit) {
       case 'hour':
       case 'minute':
       case 'second':
-        return `in ${value} ${unit}s`
+        return `in ${value} ${isShort ? unit[0] : unit + 's'}`
     }
   } else if (value < -1) {
     switch (unit) {
@@ -438,7 +439,7 @@ function formatEnRelativeTime (value, unit) {
       case 'hour':
       case 'minute':
       case 'second':
-        return `${-value} ${unit}s ago`
+        return `${-value} ${isShort ? unit[0] : unit + 's'} ago`
     }
   }
 
@@ -476,7 +477,7 @@ export class TonicRelativeTime extends Tonic {
       }, +this.props.refresh)
     }
 
-    const t = new RelativeTime(date, locale)
+    const t = new RelativeTime(date, locale, this.props.shortUnits)
     return t.toString()
   }
 }

@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "prepare": "npm run lint",
+    "prepublishOnly": "git push --follow-tags",
     "lint": "standard -v",
     "test": "standard && esbuild --format=esm --bundle _test/index.js | tape-run",
     "test:ci": "esbuild --format=esm --bundle _test/index.js | tape-run",

@@ -217,6 +217,8 @@ export class TonicTextarea extends Tonic {
 
     if (this.props.required && !value) {
       return this.setInvalid('Value Required')
+    } else if (this.props.required) {
+      this.setValid()
     }
 
     if (!this.props.pattern) {

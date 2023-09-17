@@ -44,7 +44,7 @@ export class TonicTextarea extends Tonic {
         appearance: none;
       }
 
-      tonic-textarea textarea:invalid {
+      tonic-textarea[edited] textarea:invalid {
         border-color: var(--tonic-danger, #f66);
       }
 
@@ -87,7 +87,7 @@ export class TonicTextarea extends Tonic {
       }
 
       tonic-textarea[label] .tonic--invalid {
-        margin-bottom: 13px;
+        margin-bottom: 0px;
       }
 
       tonic-textarea .tonic--invalid {
@@ -98,7 +98,7 @@ export class TonicTextarea extends Tonic {
         bottom: 100%;
         left: 50%;
         width: fit-content;
-        transform: translateY(-10px);
+        transform: translate(-50%, -10px);
         transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s ease 1s;
         visibility: hidden;
         opacity: 0;
@@ -127,7 +127,6 @@ export class TonicTextarea extends Tonic {
         border-right: 6px solid transparent;
         border-top: 6px solid var(--tonic-error, #f66);
       }
-
     `
   }
 
@@ -214,6 +213,12 @@ export class TonicTextarea extends Tonic {
   }
 
   keyup (e) {
+    const value = e.target.value.trim()
+
+    if (this.props.required && !value) {
+      return this.setInvalid('Value Required')
+    }
+
     if (!this.props.pattern) {
       return
     }
@@ -221,8 +226,6 @@ export class TonicTextarea extends Tonic {
     if (!this.regex) {
       this.regex = new RegExp(this.props.pattern)
     }
-
-    const value = e.target.value.trim()
 
     value.match(this.regex)
       ? this.setValid()

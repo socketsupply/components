@@ -171,7 +171,7 @@ export class TonicInput extends Tonic {
         bottom: 100%;
         left: 50%;
         width: fit-content;
-        transform: translateY(-10px);
+        transform: translate(-50%, -10px);
         transition: opacity 0.2s ease, transform 0.2s ease, visibility 0s ease 1s;
         visibility: hidden;
         opacity: 0;

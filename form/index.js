@@ -74,7 +74,7 @@ export class TonicForm extends Tonic {
     for (const element of elements) {
       element.value = ''
 
-      if (element.state.edited) {
+      if (element?.state.edited) {
         element.state.edited = false
         element.removeAttribute('edited')
       }
